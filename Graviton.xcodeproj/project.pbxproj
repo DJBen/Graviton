@@ -7,14 +7,17 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EFA7FEB61D8A1CB00043E8CC /* SolarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */; };
+		EFA7FEB81D8A762C0043E8CC /* OrbitalMechanicsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */; };
+		EFA7FEBA1D8A77950043E8CC /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB91D8A77950043E8CC /* Orbit.swift */; };
+		EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */; };
+		EFA7FEBF1D8A8D2D0043E8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
 		EFC2C69C1D88D02F0031AA9C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* GameViewController.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
-		EFC2C6AF1D88D02F0031AA9C /* GravitonTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6AE1D88D02F0031AA9C /* GravitonTests.swift */; };
-		EFC2C6BE1D8912910031AA9C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6BD1D8912910031AA9C /* Constants.swift */; };
 		EFC2C6C01D89E8020031AA9C /* PlanetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6BF1D89E8020031AA9C /* PlanetView.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +32,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystem.swift; sourceTree = "<group>"; };
+		EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMechanicsTest.swift; sourceTree = "<group>"; };
+		EFA7FEB91D8A77950043E8CC /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbit.swift; sourceTree = "<group>"; };
+		EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Util.swift"; sourceTree = "<group>"; };
+		EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC2C6991D88D02F0031AA9C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -38,9 +46,7 @@
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFC2C6AE1D88D02F0031AA9C /* GravitonTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitonTests.swift; sourceTree = "<group>"; };
 		EFC2C6B01D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EFC2C6BD1D8912910031AA9C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EFC2C6BF1D89E8020031AA9C /* PlanetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,6 +68,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		EFA7FEBB1D8A802F0043E8CC /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */,
+				EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */,
+			);
+			path = Util;
+			sourceTree = "<group>";
+		};
 		EFC2C68B1D88D02F0031AA9C = {
 			isa = PBXGroup;
 			children = (
@@ -86,7 +101,9 @@
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
 				EFC2C69B1D88D02F0031AA9C /* GameViewController.swift */,
 				EFC2C6BF1D89E8020031AA9C /* PlanetView.swift */,
-				EFC2C6BD1D8912910031AA9C /* Constants.swift */,
+				EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */,
+				EFA7FEB91D8A77950043E8CC /* Orbit.swift */,
+				EFA7FEBB1D8A802F0043E8CC /* Util */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
 				EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */,
 				EFC2C6991D88D02F0031AA9C /* art.scnassets */,
@@ -99,8 +116,8 @@
 		EFC2C6AD1D88D02F0031AA9C /* GravitonTests */ = {
 			isa = PBXGroup;
 			children = (
-				EFC2C6AE1D88D02F0031AA9C /* GravitonTests.swift */,
 				EFC2C6B01D88D02F0031AA9C /* Info.plist */,
+				EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */,
 			);
 			path = GravitonTests;
 			sourceTree = "<group>";
@@ -161,6 +178,7 @@
 					EFC2C6A91D88D02F0031AA9C = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
@@ -211,10 +229,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFA7FEB61D8A1CB00043E8CC /* SolarSystem.swift in Sources */,
 				EFC2C69C1D88D02F0031AA9C /* GameViewController.swift in Sources */,
+				EFA7FEBA1D8A77950043E8CC /* Orbit.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
+				EFA7FEBF1D8A8D2D0043E8CC /* Constants.swift in Sources */,
 				EFC2C6C01D89E8020031AA9C /* PlanetView.swift in Sources */,
-				EFC2C6BE1D8912910031AA9C /* Constants.swift in Sources */,
+				EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -222,7 +243,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFC2C6AF1D88D02F0031AA9C /* GravitonTests.swift in Sources */,
+				EFA7FEB81D8A762C0043E8CC /* OrbitalMechanicsTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,11 +401,13 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
 				INFOPLIST_FILE = GravitonTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.GravitonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
@@ -395,6 +418,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
 				INFOPLIST_FILE = GravitonTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
