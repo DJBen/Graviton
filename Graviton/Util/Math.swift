@@ -22,7 +22,7 @@ func calculateMeanAnomaly(fromTime time: Float, gravParam: Float, semimajorAxis:
     return wrapAngle(time * sqrt(gravParam / pow(semimajorAxis, 3)))
 }
 
-func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 6) -> Float {
+func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 7) -> Float {
     let pi: Float = Float(M_PI)
     let maxIter = 30
     var i = 0
@@ -39,7 +39,7 @@ func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, dec
     f = e - ec * sin(m) - m
     
     while (abs(f) > delta) && (i < maxIter) {
-        e = e - f/(1.0 - ec * cos(e))
+        e = e - f / (1.0 - ec * cos(e))
         f = e - ec * sin(e) - m
         i = i + 1
     }

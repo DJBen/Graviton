@@ -70,8 +70,30 @@ struct Orbit {
 }
 
 struct OrbitalMotion {
-    let gravParam: Float
+    let centralBody: CelestialBody
     let orbit: Orbit
+    
+    struct Info {
+        let altitude: Float
+        let speed: Float
+        let periapsisAltitude: Float
+        let apoapsisAltitude: Float
+        let timeToPeriapsis: Float
+    }
+    
+    var info: Info {
+        return Info(
+            altitude: distance - centralBody.radius,
+            speed: velocity.length(),
+            periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
+            apoapsisAltitude: orbit.shape.apoapsis - centralBody.radius,
+            timeToPeriapsis: (1 - wrapAngle(meanAnomaly) / Float(M_PI * 2)) * orbitalPeriod
+        )
+    }
+    
+    var gravParam: Float {
+        return centralBody.gravParam
+    }
     
     var timeElapsed: Float = 0 {
         didSet {
@@ -149,15 +171,15 @@ struct OrbitalMotion {
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
-    init(centralBody: Body, orbit: Orbit, timeElapsed: Float = 0) {
+    init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float = 0) {
         self.init(centralBody: centralBody, orbit: orbit, meanAnomaly: calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, semimajorAxis: orbit.shape.semimajorAxis))
     }
     
-    init(centralBody: Body, orbit: Orbit, meanAnomaly: Float = 0) {
+    init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
         if orbit.shape.eccentricity >= 1 {
             fatalError("must be circular or elliptical orbit")
         }
-        self.gravParam = centralBody.gravParam
+        self.centralBody = centralBody
         self.orbit = orbit
         self.meanAnomaly = meanAnomaly
     }

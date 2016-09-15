@@ -11,9 +11,11 @@ import XCTest
 
 class OrbitalMechanicsTest: XCTestCase {
     
-    let circularEquatorialLowEarthOrbit = Orbit(
+    lazy var earth: CelestialBody = CelestialBody(knownBody: .earth)
+    
+    lazy var circularEquatorialLowEarthOrbit: Orbit = Orbit(
         shape: Orbit.Shape(
-            semimajorAxis: 378000,
+            semimajorAxis: 378000 + self.earth.radius,
             eccentricity: 0
         ),
         orientation: Orbit.Orientation(
@@ -23,10 +25,10 @@ class OrbitalMechanicsTest: XCTestCase {
         )
     )
     
-    let ISSOrbit = Orbit(
+    lazy var ISSOrbit: Orbit = Orbit(
         shape: Orbit.Shape(
-            apoapsis: 435000,
-            periapsis: 330000
+            apoapsis: 435000 + self.earth.radius,
+            periapsis: 330000 + self.earth.radius
         ),
         orientation: Orbit.Orientation(
             inclination: 0,
@@ -46,26 +48,33 @@ class OrbitalMechanicsTest: XCTestCase {
     }
     
     func testOrbitalShapeCalculation() {
-        let ap: Float = 500
-        let pe: Float = 250
-        let shape = Orbit.Shape(semimajorAxis: (500 + 250) / 2, eccentricity: (ap - pe) / (ap + pe))
-        XCTAssertEqualWithAccuracy(ap, shape.apoapsis, accuracy: 0.01)
-        XCTAssertEqualWithAccuracy(pe, shape.periapsis, accuracy: 0.01)
+        let ap: Float = 500000 + earth.radius
+        let pe: Float = 250000 + earth.radius
+        let shape = Orbit.Shape(semimajorAxis: (ap + pe) / 2, eccentricity: (ap - pe) / (ap + pe))
+        XCTAssertEqualWithAccuracy(ap, shape.apoapsis, accuracy: 1)
+        XCTAssertEqualWithAccuracy(pe, shape.periapsis, accuracy: 1)
         let shape2 = Orbit.Shape(apoapsis: ap, periapsis: pe)
-        XCTAssertEqualWithAccuracy(shape.semimajorAxis, shape2.semimajorAxis, accuracy: 0.01)
-        XCTAssertEqualWithAccuracy(shape.eccentricity, shape2.eccentricity, accuracy: 0.01)
-        XCTAssertEqualWithAccuracy(shape.semimajorAxis * (1 - shape.eccentricity), shape2.periapsis, accuracy: 0.01)
+        XCTAssertEqualWithAccuracy(shape.semimajorAxis, shape2.semimajorAxis, accuracy: 1)
+        XCTAssertEqualWithAccuracy(shape.eccentricity, shape2.eccentricity, accuracy: 1)
+        XCTAssertEqualWithAccuracy(shape.semimajorAxis * (1 - shape.eccentricity), shape2.periapsis, accuracy: 1)
     }
     
     func testCircularEquatorialOrbit() {
-        let motion = OrbitalMotion(centralBody: Body(knownBody: .earth), orbit: circularEquatorialLowEarthOrbit, meanAnomaly: Float(M_PI))
-        XCTAssertEqualWithAccuracy(motion.distance, circularEquatorialLowEarthOrbit.shape.semimajorAxis, accuracy: 0.001)
+        var motion = OrbitalMotion(centralBody: earth, orbit: circularEquatorialLowEarthOrbit, meanAnomaly: Float(M_PI))
+        XCTAssertEqualWithAccuracy(motion.distance, circularEquatorialLowEarthOrbit.shape.semimajorAxis, accuracy: 1)
+        motion.meanAnomaly = Float(M_PI)
+        XCTAssertEqualWithAccuracy(motion.distance, circularEquatorialLowEarthOrbit.shape.semimajorAxis, accuracy: 1)
+        // should attain orbital velocity
+        XCTAssertEqualWithAccuracy(motion.info.speed, 7800, accuracy: 500)
     }
     
     func testEllipticalEquatorialOrbit() {
-        var motion = OrbitalMotion(centralBody: Body(knownBody: .earth), orbit: ISSOrbit, meanAnomaly: 0)
+        var motion = OrbitalMotion(centralBody: earth, orbit: ISSOrbit, meanAnomaly: 0)
         XCTAssertEqualWithAccuracy(motion.distance, ISSOrbit.shape.periapsis, accuracy: 0.001)
+        motion.meanAnomaly = Float(M_PI_2)
         motion.meanAnomaly = Float(M_PI)
         XCTAssertEqualWithAccuracy(motion.distance, ISSOrbit.shape.apoapsis, accuracy: 0.001)
+        motion.meanAnomaly = Float(3 * M_PI_2)
+        motion.meanAnomaly = Float(2 * M_PI)
     }
 }

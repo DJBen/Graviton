@@ -29,18 +29,11 @@ struct SolarSystem: Searchable {
 }
 
 class Body {
-    let gravParam: Float
     let name: String
     weak var centralBody: CelestialBody?
     
-    init(name: String, mass: Float) {
+    init(name: String) {
         self.name = name
-        self.gravParam = gravConstant * mass
-    }
-    
-    init(knownBody: KnownBody) {
-        self.name = knownBody.name
-        self.gravParam = knownBody.gravParam
     }
 }
 
@@ -50,9 +43,23 @@ class SpaceVehicle: Body {
 }
 
 class CelestialBody: Body, BoundedByGravity {
+    let radius: Float
+    let gravParam: Float
     var orbiterDict = [String: Body]()
     var satellites: [Body] {
         return Array(orbiterDict.values)
+    }
+    
+    init(name: String, mass: Float, radius: Float) {
+        self.gravParam = mass * gravConstant
+        self.radius = radius
+        super.init(name: name)
+    }
+    
+    init(knownBody: KnownBody) {
+        self.gravParam = knownBody.gravParam
+        self.radius = knownBody.radius
+        super.init(name: knownBody.name)
     }
     
     func addSatellite(satellite: Body, orbit: Orbit) {

@@ -39,14 +39,25 @@ enum KnownBody {
             return 1.3271244e20
         }
     }
+    
+    var radius: Float {
+        switch self {
+        case .earth:
+            return 6378137
+        case .moon:
+            return 1736482
+        case .sun:
+            return 695700000
+        }
+    }
 }
 
-// km
-let earthEquatorialRadius: Float = 6378.137
-let moonRadius: Float = 1736.482
-let LEOAltitude: Float = 400
-let geoSyncAltitude: Float = 35786
-let moonAltitude: Float = 384472.282
+// m
+let earthEquatorialRadius: Float = 6378137
+let moonRadius: Float = 1736482
+let LEOAltitude: Float = 400000
+let geoSyncAltitude: Float = 35786000
+let moonAltitude: Float = 384472282
 
 // m
 let lightSecondDist: Float = speedOfLight * 1
