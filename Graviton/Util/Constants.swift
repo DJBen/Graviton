@@ -52,6 +52,9 @@ enum KnownBody {
     }
 }
 
+// s
+let siderealDay: Float = 23 * 3600 + 56 * 60 + 4
+
 // m
 let earthEquatorialRadius: Float = 6378137
 let moonRadius: Float = 1736482

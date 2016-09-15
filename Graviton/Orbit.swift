@@ -9,37 +9,76 @@
 import SceneKit
 
 // http://www.braeunig.us/space/orbmech.htm
+// http://www.bogan.ca/orbits/kepler/orbteqtn.html
 struct Orbit {
-    struct Shape {
-        var semimajorAxis: Float
-        var eccentricity: Float
+    enum ConicSection {
+        case circle(r: Float)
+        case ellipse(a: Float, e: Float)
+        case parabola(pe: Float)
+        case hyperbola(a: Float, e: Float)
+        
+        var semimajorAxis: Float? {
+            switch self {
+            case .circle(let r): return r
+            case .ellipse(let a, _): return a
+            case .parabola(_): return nil
+            case .hyperbola(let a, _): return a
+            }
+        }
+        
         // https://en.wikipedia.org/wiki/Orbital_eccentricity
-        var apoapsis: Float {
-            get {
-                return semimajorAxis * (1 + eccentricity)
-            }
-            set {
-                semimajorAxis = (periapsis + newValue) / 2
-                eccentricity = 1 - 2 / ((newValue / periapsis) + 1)
+        var eccentricity: Float {
+            switch self {
+            case .circle(_): return 0
+            case .ellipse(_, let e): return e
+            case .parabola(_): return 1
+            case .hyperbola(_, let e): return e
             }
         }
+        
+        var apoapsis: Float? {
+            switch self {
+            case .circle(let r): return r
+            case .ellipse(let a, let e): return a * (1 + e)
+            case .parabola(_): return nil
+            case .hyperbola(let a, let e): return a * (1 + e)
+            }
+        }
+        
         var periapsis: Float {
-            get {
-                return semimajorAxis * (1 - eccentricity)
-            }
-            set {
-                semimajorAxis = (apoapsis + newValue) / 2
-                eccentricity = 1 - 2 / ((apoapsis / newValue) + 1)
+            switch self {
+            case .circle(let r): return r
+            case .ellipse(let a, let e): return a * (1 - e)
+            case .parabola(let pe): return pe
+            case .hyperbola(let a, let e): return a * (1 - e)
             }
         }
         
-        init(semimajorAxis a: Float, eccentricity e: Float) {
-            self.semimajorAxis = a
-            self.eccentricity = e
+        var semilatusRectum: Float {
+            switch self {
+            case .circle(let r): return r
+            case .ellipse(let a, let e): return a * (1 - pow(e, 2))
+            case .parabola(let pe): return 2 * pe
+            case .hyperbola(let a, let e): return a * (1 - pow(e, 2))
+            }
         }
         
-        init(apoapsis ap: Float, periapsis pe: Float) {
-            self.init(semimajorAxis: (ap + pe) / 2, eccentricity: 1 - 2 / ((ap / pe) + 1))
+        static func from(semimajorAxis a: Float, eccentricity e: Float) -> ConicSection {
+            if a == Float.infinity || e == 1 {
+                fatalError("cannot initialize a parabola using this method")
+            }
+            switch e {
+            case 0: return ConicSection.circle(r: a)
+            case 0..<1: return ConicSection.ellipse(a: a, e: e)
+            default: return ConicSection.hyperbola(a: a, e: e)
+            }
+        }
+        
+        static func from(apoapsis ap: Float, periapsis pe: Float) -> ConicSection {
+            if ap == Float.infinity {
+                fatalError("cannot initialize a parabola using this method")
+            }
+            return from(semimajorAxis: (ap + pe) / 2, eccentricity: 1 - 2 / ((ap / pe) + 1))
         }
     }
     
@@ -49,10 +88,10 @@ struct Orbit {
         var argumentOfPeriapsis: Float?
     }
 
-    var shape: Shape
+    var shape: ConicSection
     var orientation: Orientation
 
-    init(shape: Shape, orientation: Orientation) {
+    init(shape: ConicSection, orientation: Orientation) {
         self.shape = shape
         self.orientation = orientation
         if orientation.inclination != 0 && orientation.longitudeOfAscendingNode == nil {
@@ -64,21 +103,21 @@ struct Orbit {
     }
     
     init(semimajorAxis: Float, eccentricity: Float, inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
-        self.init(shape: Shape(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
+        self.init(shape: ConicSection.from(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
 }
 
 struct OrbitalMotion {
     let centralBody: CelestialBody
-    let orbit: Orbit
+    var orbit: Orbit!
     
     struct Info {
         let altitude: Float
         let speed: Float
         let periapsisAltitude: Float
-        let apoapsisAltitude: Float
-        let timeToPeriapsis: Float
+        let apoapsisAltitude: Float?
+        let timeFromPeriapsis: Float
     }
     
     var info: Info {
@@ -86,8 +125,9 @@ struct OrbitalMotion {
             altitude: distance - centralBody.radius,
             speed: velocity.length(),
             periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
-            apoapsisAltitude: orbit.shape.apoapsis - centralBody.radius,
-            timeToPeriapsis: (1 - wrapAngle(meanAnomaly) / Float(M_PI * 2)) * orbitalPeriod
+            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil,
+            // FIXME: will crash for parabola and not right for hyperbola
+            timeFromPeriapsis: orbitalPeriod != nil ? fmodf(timeElapsed, orbitalPeriod!) : timeElapsed
         )
     }
     
@@ -98,7 +138,7 @@ struct OrbitalMotion {
     var timeElapsed: Float = 0 {
         didSet {
             // time consuming, we only recalculate when mean anomaly is changed
-            eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+            eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly!)
             // r(t) = Rz(−Ω)Rx(−i)Rz(−ω)o(t)
             // r ̇(t) = Rz(−Ω)Rx(−i)Rz(−ω)o ̇(t)
             var transform = SCNMatrix4Identity
@@ -122,16 +162,21 @@ struct OrbitalMotion {
         }
     }
     
-    var orbitalPeriod: Float {
-        return Float(M_PI) * 2 * sqrt(pow(orbit.shape.semimajorAxis, 3) / gravParam)
+    var orbitalPeriod: Float? {
+        guard let a = orbit.shape.semimajorAxis else {
+            return nil
+        }
+        return Float(M_PI) * 2 * sqrt(pow(a, 3) / gravParam)
     }
     
-    var meanAnomaly: Float {
+    // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
+    var meanAnomaly: Float? {
         get {
-            return calculateMeanAnomaly(fromTime: timeElapsed, gravParam: gravParam, semimajorAxis: orbit.shape.semimajorAxis)
+            // FIXME: crash when parabola
+            return calculateMeanAnomaly(fromTime: timeElapsed, gravParam: gravParam, shape: orbit.shape)
         }
         set {
-            timeElapsed = wrapAngle(newValue) / Float(M_PI * 2) * orbitalPeriod
+            timeElapsed = wrapAngle(newValue!) / Float(M_PI * 2) * orbitalPeriod!
         }
     }
     
@@ -142,7 +187,8 @@ struct OrbitalMotion {
     }
     
     var distance: Float {
-        return orbit.shape.semimajorAxis * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
+        // FIXME: crash when parabola
+        return orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
     }
     
     private var positionInOrbitalFrame: SCNVector3 {
@@ -150,7 +196,7 @@ struct OrbitalMotion {
     }
 
     private var velocityInOrbitalFrame: SCNVector3 {
-        let coefficient = sqrt(gravParam * orbit.shape.semimajorAxis) / distance
+        let coefficient = sqrt(gravParam * orbit.shape.semimajorAxis!) / distance
         return SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
     }
     
@@ -165,14 +211,14 @@ struct OrbitalMotion {
         return velocity.dot(velocity) / 2 - gravParam / position.length()
     }
     
-    // e⃗ = ((v^2 − μ/r)r⃗ − (r⃗ ⋅ v⃗ )v⃗) / μ
     var eccentricityVector: SCNVector3 {
-        return (position * (velocity.dot(velocity) - gravParam / position.length()) - velocity * position.dot(velocity)) / gravParam
+        return velocity.cross(angularMomentum) / gravParam - position.normalized()
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
     init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float = 0) {
-        self.init(centralBody: centralBody, orbit: orbit, meanAnomaly: calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, semimajorAxis: orbit.shape.semimajorAxis))
+        // FIXME: crash when parabola
+        self.init(centralBody: centralBody, orbit: orbit, meanAnomaly: calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!)
     }
     
     init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
@@ -184,9 +230,17 @@ struct OrbitalMotion {
         self.meanAnomaly = meanAnomaly
     }
     
+    // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
     // https://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto?newreg=70344ca3afc847acb4f105c7194ff719
-//    init(centralBody: Body, position: SCNVector3, velocity: SCNVector3) {
-//        
+//    init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
+//        self.centralBody = centralBody
+//        self.position = position
+//        self.velocity = velocity
+//        if eccentricityVector.length() != 1 {
+//            
+//        } else {
+//            let semimajorAxis = Float.infinity
+//        }
 //    }
     
 }
