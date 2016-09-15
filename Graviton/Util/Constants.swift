@@ -10,10 +10,36 @@ import SceneKit
 
 let earthAxialTilt: Double = 23.4 / 180 * M_PI
 
+let gravConstant: Float = 6.67408e-11
 
-// m^3s^-2
-let earthGM: Float = 3.9860044e14
-let moonGM: Float = 4.902794e12
+// the value is GM, m^3s^-2
+enum KnownBody {
+    case earth
+    case moon
+    case sun
+    
+    var name: String {
+        switch self {
+        case .earth:
+            return "earth"
+        case .moon:
+            return "moon"
+        case .sun:
+            return "sol"
+        }
+    }
+    
+    var gravParam: Float {
+        switch self {
+        case .earth:
+            return 3.9860044e14
+        case .moon:
+            return 4.902794e12
+        case .sun:
+            return 1.3271244e20
+        }
+    }
+}
 
 // km
 let earthEquatorialRadius: Float = 6378.137

@@ -29,13 +29,18 @@ struct SolarSystem: Searchable {
 }
 
 class Body {
-    let mass: Float
+    let gravParam: Float
     let name: String
     weak var centralBody: CelestialBody?
     
     init(name: String, mass: Float) {
         self.name = name
-        self.mass = mass
+        self.gravParam = gravConstant * mass
+    }
+    
+    init(knownBody: KnownBody) {
+        self.name = knownBody.name
+        self.gravParam = knownBody.gravParam
     }
 }
 
