@@ -110,7 +110,6 @@ struct Orbit {
 
 struct OrbitalMotion {
     let centralBody: CelestialBody
-    var orbit: Orbit!
     
     struct Info {
         let altitude: Float
@@ -131,116 +130,125 @@ struct OrbitalMotion {
         )
     }
     
-    var gravParam: Float {
-        return centralBody.gravParam
-    }
-    
-    var timeElapsed: Float = 0 {
-        didSet {
-            // time consuming, we only recalculate when mean anomaly is changed
-            eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly!)
-            // r(t) = Rz(−Ω)Rx(−i)Rz(−ω)o(t)
-            // r ̇(t) = Rz(−Ω)Rx(−i)Rz(−ω)o ̇(t)
-            var transform = SCNMatrix4Identity
-            if let Ω = orbit.orientation.longitudeOfAscendingNode {
-                transform = SCNMatrix4MakeRotation(-Ω, 0, 0, 1)
-            }
-            transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-orbit.orientation.inclination, 1, 0, 0))
-            if let ω = orbit.orientation.argumentOfPeriapsis {
-                transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-ω, 0, 0, 1))
-            }
-            let p = positionInOrbitalFrame
-            let v = velocityInOrbitalFrame
-            
-            let pIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(p.x, p.y, p.z, 1))
-            let vIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(v.x, v.y, v.z, 1))
-            let finalTransform = SCNMatrix4ToMat4(transform)
-            let p4 = matrix_multiply(finalTransform, pIOP_f4)
-            let v4 = matrix_multiply(finalTransform, vIOP_f4)
-            position = SCNVector3(x: p4.x, y: p4.y, z: p4.z)
-            velocity = SCNVector3(x: v4.x, y: v4.y, z: v4.z)
-        }
-    }
-    
     var orbitalPeriod: Float? {
         guard let a = orbit.shape.semimajorAxis else {
             return nil
         }
-        return Float(M_PI) * 2 * sqrt(pow(a, 3) / gravParam)
+        return calculatePeriod(semimajorAxis: a, gravParam: centralBody.gravParam)
+    }
+    
+    let orbit: Orbit
+    private(set) var timeElapsed: Float
+    
+    mutating func setTime(_ time: Float) {
+        timeElapsed = time
+        meanAnomaly = calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!
+        propagateStateVectors()
     }
     
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
-    var meanAnomaly: Float? {
-        get {
-            // FIXME: crash when parabola
-            return calculateMeanAnomaly(fromTime: timeElapsed, gravParam: gravParam, shape: orbit.shape)
-        }
-        set {
-            timeElapsed = wrapAngle(newValue!) / Float(M_PI * 2) * orbitalPeriod!
-        }
+    private(set) var meanAnomaly: Float
+    
+    mutating func setMeanAnomaly(_ m: Float) {
+        meanAnomaly = m
+        timeElapsed = wrapAngle(meanAnomaly) * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
+        propagateStateVectors()
     }
     
-    private(set) var eccentricAnomaly: Float = 0
-    
-    var trueAnomaly: Float {
-        return calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
+    var position: SCNVector3!
+    var velocity: SCNVector3!
+
+    var specificMechanicalEnergy: Float {
+        return velocity.dot(velocity) / 2 - centralBody.gravParam / position.length()
     }
     
     var distance: Float {
-        // FIXME: crash when parabola
-        return orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
-    }
-    
-    private var positionInOrbitalFrame: SCNVector3 {
-        return SCNVector3(x: sin(trueAnomaly), y: cos(trueAnomaly), z: 0) * distance
-    }
-
-    private var velocityInOrbitalFrame: SCNVector3 {
-        let coefficient = sqrt(gravParam * orbit.shape.semimajorAxis!) / distance
-        return SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
-    }
-    
-    var position: SCNVector3 = SCNVector3Zero
-    var velocity: SCNVector3 = SCNVector3Zero
-    
-    var angularMomentum: SCNVector3 {
-        return position.cross(velocity)
-    }
-    
-    var specificMechanicalEnergy: Float {
-        return velocity.dot(velocity) / 2 - gravParam / position.length()
-    }
-    
-    var eccentricityVector: SCNVector3 {
-        return velocity.cross(angularMomentum) / gravParam - position.normalized()
+        return position.length()
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
     init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float = 0) {
+        self.centralBody = centralBody
+        self.orbit = orbit
+        self.timeElapsed = timeElapsed
         // FIXME: crash when parabola
-        self.init(centralBody: centralBody, orbit: orbit, meanAnomaly: calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!)
+        meanAnomaly = calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!
+        propagateStateVectors()
     }
     
     init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
-        if orbit.shape.eccentricity >= 1 {
-            fatalError("must be circular or elliptical orbit")
-        }
-        self.centralBody = centralBody
-        self.orbit = orbit
-        self.meanAnomaly = meanAnomaly
+        // FIXME: crash when parabola
+        self.init(centralBody: centralBody, orbit: orbit, timeElapsed: wrapAngle(meanAnomaly) * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam))
     }
     
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
     // https://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto?newreg=70344ca3afc847acb4f105c7194ff719
-//    init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
-//        self.centralBody = centralBody
-//        self.position = position
-//        self.velocity = velocity
-//        if eccentricityVector.length() != 1 {
-//            
-//        } else {
-//            let semimajorAxis = Float.infinity
-//        }
-//    }
+    init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
+        self.centralBody = centralBody
+        self.position = position
+        self.velocity = velocity
+        let angularMomentum = position.cross(velocity)
+        let eccentricityVector = velocity.cross(angularMomentum) / centralBody.gravParam - position.normalized()
+        let n = SCNVector3(0, 0, 1).cross(angularMomentum)
+        let trueAnomaly: Float = {
+            if position.dot(velocity) >= 0 {
+                return acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
+            } else {
+                return Float(2 * M_PI) - acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
+            }
+        }()
+        let inclination = acos(angularMomentum.z / angularMomentum.length())
+        let eccentricity = eccentricityVector.length()
+        let eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
+        let longitudeOfAscendingNode: Float = {
+            if n.y >= 0 {
+                return acos(n.x / n.length())
+            } else {
+                return Float(M_PI * 2) - acos(n.x / n.length())
+            }
+        }()
+        let argumentOfPeriapsis: Float = {
+            if eccentricityVector.z >= 0 {
+                return acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
+            } else {
+                return Float(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
+            }
+        }()
+        // won't trigger the didSet observer
+        meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
+        let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
+        orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
+        // won't trigger the didSet observer
+        timeElapsed = wrapAngle(meanAnomaly) * sqrt(pow(semimajorAxis, 3) / centralBody.gravParam)
+    }
+    
+    private mutating func propagateStateVectors() {
+        let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+        let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
+        let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
+        
+        // time consuming, we only recalculate when mean anomaly is changed
+        // r(t) = Rz(−Ω)Rx(−i)Rz(−ω)o(t)
+        // r ̇(t) = Rz(−Ω)Rx(−i)Rz(−ω)o ̇(t)
+        var transform = SCNMatrix4Identity
+        if let Ω = orbit.orientation.longitudeOfAscendingNode {
+            transform = SCNMatrix4MakeRotation(-Ω, 0, 0, 1)
+        }
+        transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-orbit.orientation.inclination, 1, 0, 0))
+        if let ω = orbit.orientation.argumentOfPeriapsis {
+            transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-ω, 0, 0, 1))
+        }
+        let p = SCNVector3(x: cos(trueAnomaly), y: sin(trueAnomaly), z: 0) * distance
+        let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
+        let v = SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
+        
+        let pIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(p.x, p.y, p.z, 1))
+        let vIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(v.x, v.y, v.z, 1))
+        let finalTransform = SCNMatrix4ToMat4(transform)
+        let p4 = matrix_multiply(finalTransform, pIOP_f4)
+        let v4 = matrix_multiply(finalTransform, vIOP_f4)
+        position = SCNVector3(x: p4.x, y: p4.y, z: p4.z)
+        velocity = SCNVector3(x: v4.x, y: v4.y, z: v4.z)
+    }
     
 }

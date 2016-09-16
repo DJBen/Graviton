@@ -18,6 +18,10 @@ func wrapAngle(_ angle: Float) -> Float {
     return wrapped
 }
 
+func calculatePeriod(semimajorAxis a: Float, gravParam: Float) -> Float {
+    return Float(M_PI) * 2 * sqrt(pow(a, 3) / gravParam)
+}
+
 func calculateMeanAnomaly(fromTime time: Float, gravParam: Float, shape: Orbit.ConicSection) -> Float? {
     switch shape {
     case .circle(let a), .ellipse(let a, _), .hyperbola(let a, _):
@@ -53,5 +57,5 @@ func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, dec
 }
 
 func calculateTrueAnomaly(eccentricity: Float, eccentricAnomaly: Float) -> Float {
-    return 2 * atan2f(sqrt(1 + eccentricity) * sin(eccentricAnomaly) / 2, sqrt(1 - eccentricity) * cos(eccentricAnomaly) / 2)
+    return 2 * atan2f(sqrt(1 + eccentricity) * sin(eccentricAnomaly / 2), sqrt(1 - eccentricity) * cos(eccentricAnomaly / 2))
 }
