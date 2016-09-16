@@ -13,8 +13,9 @@ protocol Searchable {
 }
 
 protocol BoundedByGravity: Searchable {
+    var sphereOfInfluence: Float? { get }
     var satellites: [Body] { get }
-    func addSatellite(satellite: Body, orbit: Orbit)
+    func addSatellite(satellite: Body, motion: OrbitalMotion)
 }
 
 struct SolarSystem: Searchable {
@@ -31,13 +32,14 @@ struct SolarSystem: Searchable {
 class Body {
     let name: String
     weak var centralBody: CelestialBody?
+    var motion: OrbitalMotion?
     
     init(name: String) {
         self.name = name
     }
 }
 
-// space vehicles' gravity field is too weak to be considered computatively useful
+// space vehicles' gravity field is too weak to be considered computatively significant
 class SpaceVehicle: Body {
     
 }
@@ -46,8 +48,16 @@ class CelestialBody: Body, BoundedByGravity {
     let radius: Float
     let gravParam: Float
     var orbiterDict = [String: Body]()
+    
     var satellites: [Body] {
         return Array(orbiterDict.values)
+    }
+    
+    var sphereOfInfluence: Float? {
+        guard let primary = centralBody, let distance = motion?.distance else {
+            return nil
+        }
+        return distance * (radius / primary.radius)
     }
     
     init(name: String, mass: Float, radius: Float) {
@@ -62,9 +72,10 @@ class CelestialBody: Body, BoundedByGravity {
         super.init(name: knownBody.name)
     }
     
-    func addSatellite(satellite: Body, orbit: Orbit) {
+    func addSatellite(satellite: Body, motion: OrbitalMotion) {
         orbiterDict[satellite.name] = satellite
         satellite.centralBody = self
+        satellite.motion = motion
     }
     
     subscript(name: String) -> Body? {

@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		EF3585471D8A92820029FBF5 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3585461D8A92820029FBF5 /* Math.swift */; };
 		EFA7FEB61D8A1CB00043E8CC /* SolarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */; };
-		EFA7FEB81D8A762C0043E8CC /* OrbitalMechanicsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */; };
+		EFA7FEB81D8A762C0043E8CC /* OrbitalElementsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */; };
 		EFA7FEBA1D8A77950043E8CC /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB91D8A77950043E8CC /* Orbit.swift */; };
 		EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */; };
 		EFA7FEBF1D8A8D2D0043E8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */; };
@@ -35,7 +35,7 @@
 /* Begin PBXFileReference section */
 		EF3585461D8A92820029FBF5 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystem.swift; sourceTree = "<group>"; };
-		EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMechanicsTest.swift; sourceTree = "<group>"; };
+		EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalElementsTest.swift; sourceTree = "<group>"; };
 		EFA7FEB91D8A77950043E8CC /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbit.swift; sourceTree = "<group>"; };
 		EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Util.swift"; sourceTree = "<group>"; };
 		EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -120,7 +120,7 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6B01D88D02F0031AA9C /* Info.plist */,
-				EFA7FEB71D8A762C0043E8CC /* OrbitalMechanicsTest.swift */,
+				EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */,
 			);
 			path = GravitonTests;
 			sourceTree = "<group>";
@@ -247,7 +247,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFA7FEB81D8A762C0043E8CC /* OrbitalMechanicsTest.swift in Sources */,
+				EFA7FEB81D8A762C0043E8CC /* OrbitalElementsTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,7 +7,6 @@
 //
 
 import SceneKit
-import simd
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
@@ -138,7 +137,11 @@ struct OrbitalMotion {
         return calculatePeriod(semimajorAxis: a, gravParam: centralBody.gravParam)
     }
     
-    let orbit: Orbit
+    var orbit: Orbit {
+        didSet {
+            propagateStateVectors()
+        }
+    }
     private(set) var timeElapsed: Float
     
     mutating func setTime(_ time: Float) {
@@ -151,8 +154,8 @@ struct OrbitalMotion {
     private(set) var meanAnomaly: Float
     
     mutating func setMeanAnomaly(_ m: Float) {
-        meanAnomaly = m
-        timeElapsed = wrapAngle(meanAnomaly) * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
+        meanAnomaly = wrapAngle(m)
+        timeElapsed = meanAnomaly * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
         propagateStateVectors()
     }
     
@@ -215,11 +218,10 @@ struct OrbitalMotion {
                 return Float(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
             }
         }()
-        // won't trigger the didSet observer
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
         let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
-        orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         // won't trigger the didSet observer
+        orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         timeElapsed = wrapAngle(meanAnomaly) * sqrt(pow(semimajorAxis, 3) / centralBody.gravParam)
     }
     
