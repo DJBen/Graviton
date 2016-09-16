@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import simd
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
@@ -226,29 +227,24 @@ struct OrbitalMotion {
         let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
-        
-        // time consuming, we only recalculate when mean anomaly is changed
-        // r(t) = Rz(−Ω)Rx(−i)Rz(−ω)o(t)
-        // r ̇(t) = Rz(−Ω)Rx(−i)Rz(−ω)o ̇(t)
-        var transform = SCNMatrix4Identity
-        if let Ω = orbit.orientation.longitudeOfAscendingNode {
-            transform = SCNMatrix4MakeRotation(-Ω, 0, 0, 1)
-        }
-        transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-orbit.orientation.inclination, 1, 0, 0))
-        if let ω = orbit.orientation.argumentOfPeriapsis {
-            transform = SCNMatrix4Mult(transform, SCNMatrix4MakeRotation(-ω, 0, 0, 1))
-        }
+
         let p = SCNVector3(x: cos(trueAnomaly), y: sin(trueAnomaly), z: 0) * distance
         let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
         let v = SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
+        let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
+        let i = orbit.orientation.inclination
+        let ω = orbit.orientation.argumentOfPeriapsis ?? 0
+        position = SCNVector3(
+            x: p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
+            y: p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
+            z: p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
+        )
+        velocity = SCNVector3(
+            x: v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
+            y: v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
+            z: v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
+        )
         
-        let pIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(p.x, p.y, p.z, 1))
-        let vIOP_f4 = SCNVector4ToFloat4(SCNQuaternion(v.x, v.y, v.z, 1))
-        let finalTransform = SCNMatrix4ToMat4(transform)
-        let p4 = matrix_multiply(finalTransform, pIOP_f4)
-        let v4 = matrix_multiply(finalTransform, vIOP_f4)
-        position = SCNVector3(x: p4.x, y: p4.y, z: p4.z)
-        velocity = SCNVector3(x: v4.x, y: v4.y, z: v4.z)
     }
     
 }

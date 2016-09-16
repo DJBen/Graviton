@@ -7,51 +7,76 @@
 //
 
 import XCTest
+import SceneKit
 @testable import Graviton
 
 class OrbitalMechanicsTest: XCTestCase {
     
     lazy var earth: CelestialBody = CelestialBody(knownBody: .earth)
     
-    lazy var circularEquatorialLEO: Orbit = Orbit(
-        shape: Orbit.ConicSection.from(
-            semimajorAxis: 378000 + self.earth.radius,
-            eccentricity: 0
-        ),
-        orientation: Orbit.Orientation(
-            inclination: 0,
-            longitudeOfAscendingNode: nil,
-            argumentOfPeriapsis: nil
-        )
-    )
+    var circularEquatorialLEO: Orbit!
+    var ellipticalEquatorialLEO: Orbit!
+    var geoSyncOrbit: Orbit!
+    var polarOrbit: Orbit!
+    var incliningOrbit: Orbit!
     
-    lazy var ellipticalEquatorialLEO: Orbit = Orbit(
-        shape: Orbit.ConicSection.from(
-            apoapsis: 435000 + self.earth.radius,
-            periapsis: 330000 + self.earth.radius
-        ),
-        orientation: Orbit.Orientation(
-            inclination: 0,
-            longitudeOfAscendingNode: nil,
-            argumentOfPeriapsis: 0
-        )
-    )
-    
-    lazy var geoSyncOrbit: Orbit = Orbit(
-        shape: Orbit.ConicSection.from(
-            apoapsis: 35786_000 + self.earth.radius,
-            periapsis: 35785_000 + self.earth.radius
-        ),
-        orientation: Orbit.Orientation(
-            inclination: 0,
-            longitudeOfAscendingNode: nil,
-            argumentOfPeriapsis: 0
-        )
-    )
-
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+        circularEquatorialLEO = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 378_000 + self.earth.radius,
+                eccentricity: 0
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 0,
+                longitudeOfAscendingNode: nil,
+                argumentOfPeriapsis: nil
+            )
+        )
+        ellipticalEquatorialLEO = Orbit(
+            shape: Orbit.ConicSection.from(
+                apoapsis: 435_000 + self.earth.radius,
+                periapsis: 330_000 + self.earth.radius
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 0,
+                longitudeOfAscendingNode: nil,
+                argumentOfPeriapsis: 0
+            )
+        )
+        geoSyncOrbit = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 35786_000 + self.earth.radius,
+                eccentricity: 0
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 0,
+                longitudeOfAscendingNode: nil,
+                argumentOfPeriapsis: 0
+            )
+        )
+        polarOrbit = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 8000_000,
+                eccentricity: 0
+            ),
+            orientation: Orbit.Orientation(
+                inclination: Float(M_PI_2),
+                longitudeOfAscendingNode: 0,
+                argumentOfPeriapsis: 0
+            )
+        )
+        incliningOrbit = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 8000_000,
+                eccentricity: 0
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 15 / 180 * Float(M_PI),
+                longitudeOfAscendingNode: 0,
+                argumentOfPeriapsis: 0
+            )
+        )
     }
     
     override func tearDown() {
@@ -115,6 +140,40 @@ class OrbitalMechanicsTest: XCTestCase {
     func testGeosynchrounousOrbit() {
         let motion = OrbitalMotion(centralBody: earth, orbit: geoSyncOrbit, meanAnomaly: 0)
         XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, siderealDay, accuracy: 5)
+    }
+    
+    func testPolarOrbit() {
+        let rotationMatrix = SCNMatrix4ToMat4(SCNMatrix4MakeRotation(Float(-M_PI_2), 1, 0, 0))
+        let coord = float4(0, 10, 0, 1)
+        let result = matrix_multiply(rotationMatrix, coord)
+        XCTAssertEqualWithAccuracy(result.z, -10, accuracy: 1e-5)
+        var motion = OrbitalMotion(centralBody: earth, orbit: polarOrbit, meanAnomaly: 0)
+        XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, 7121.0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.position.x, 8000_000, accuracy: 100)
+        XCTAssertEqualWithAccuracy(motion.position.y, 0, accuracy: 100)
+        XCTAssertEqualWithAccuracy(motion.position.z, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.x, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 7059, accuracy: 1)
+        motion.setMeanAnomaly(Float(M_PI_2))
+        XCTAssertEqualWithAccuracy(motion.velocity.x, -7059, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 0, accuracy: 1)
+        motion.setMeanAnomaly(Float(M_PI))
+        XCTAssertEqualWithAccuracy(motion.velocity.x, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, -7059, accuracy: 1)
+        motion.setMeanAnomaly(Float(3 * M_PI_2))
+        XCTAssertEqualWithAccuracy(motion.velocity.x, 7059, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 0, accuracy: 1)
+    }
+    
+    func testIncliningOrbit() {
+        let motion = OrbitalMotion(centralBody: earth, orbit: incliningOrbit, meanAnomaly: 0)
+        XCTAssertEqualWithAccuracy(motion.velocity.x, 0, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, 6818.22, accuracy: 1)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 1826.9, accuracy: 1)
     }
     
 }
