@@ -11,8 +11,8 @@ import SceneKit
 @testable import Graviton
 
 class OrbitalMechanicsTest: XCTestCase {
-    
-    lazy var earth: CelestialBody = CelestialBody(knownBody: .earth)
+    let sun = CelestialBody(knownBody: .sun)
+    let earth: CelestialBody = CelestialBody(knownBody: .earth)
     
     var circularEquatorialLEO: Orbit!
     var ellipticalEquatorialLEO: Orbit!
@@ -21,6 +21,7 @@ class OrbitalMechanicsTest: XCTestCase {
     var incliningOrbit: Orbit!
     var nonZeroLoANIncliningOrbit: Orbit!
     var fullFledgedOrbit: Orbit!
+    var earthOrbit: Orbit!
     
     override func setUp() {
         super.setUp()
@@ -32,7 +33,7 @@ class OrbitalMechanicsTest: XCTestCase {
             orientation: Orbit.Orientation(
                 inclination: 0,
                 longitudeOfAscendingNode: nil,
-                argumentOfPeriapsis: nil
+                argumentOfPeriapsis: 0
             )
         )
         ellipticalEquatorialLEO = Orbit(
@@ -99,6 +100,17 @@ class OrbitalMechanicsTest: XCTestCase {
                 inclination: 184 / 180 * Float(M_PI),
                 longitudeOfAscendingNode: 11 / 180 * Float(M_PI),
                 argumentOfPeriapsis: 32 / 180 * Float(M_PI)
+            )
+        )
+        earthOrbit = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 149_598_000_000,
+                eccentricity: 0.0167086
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 0.02755333837,
+                longitudeOfAscendingNode: 174.9 / 180 * Float(M_PI),
+                argumentOfPeriapsis: 288.1 / 180 * Float(M_PI)
             )
         )
     }
@@ -254,4 +266,22 @@ class OrbitalMechanicsTest: XCTestCase {
         motion.setMeanAnomaly(23 / 180 * Float(M_PI))
     }
     
+    func testEarthOrbit() {
+        var motion = OrbitalMotion(centralBody: sun, orbit: earthOrbit, meanAnomaly: 0)
+        XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, 31557995.894672215, accuracy: 1e3)
+        XCTAssertEqualWithAccuracy(motion.position.x, -33094663934.4392, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(motion.position.y, 143275442683.98468, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(motion.position.z, -3852002938.4423165, accuracy: 1000)
+        XCTAssertEqualWithAccuracy(motion.velocity.x, -29510.23235850027, accuracy: 5)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, -6809.489885013334, accuracy: 5)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 259.22742540323713, accuracy: 5)
+        XCTAssertLessThan(motion.specificMechanicalEnergy, 0)
+        motion.setMeanAnomaly(23 / 180 * Float(M_PI))
+        XCTAssertEqualWithAccuracy(motion.position.x, -88165364687.77095, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(motion.position.y, 117966526597.76492, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(motion.position.z, -3022322007.0290756, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(motion.velocity.x, -24348.935884637474, accuracy: 5)
+        XCTAssertEqualWithAccuracy(motion.velocity.y, -17933.232592161017, accuracy: 5)
+        XCTAssertEqualWithAccuracy(motion.velocity.z, 551.9426101828388, accuracy: 5)
+    }
 }

@@ -85,7 +85,9 @@ struct Orbit {
     struct Orientation {
         var inclination: Float
         var longitudeOfAscendingNode: Float?
-        var argumentOfPeriapsis: Float?
+        // https://en.wikipedia.org/wiki/Argument_of_periapsis
+        // calculate as if Ω == 0 if orbit is circular
+        var argumentOfPeriapsis: Float
     }
 
     var shape: ConicSection
@@ -94,11 +96,9 @@ struct Orbit {
     init(shape: ConicSection, orientation: Orientation) {
         self.shape = shape
         self.orientation = orientation
-        if orientation.inclination != 0 && orientation.longitudeOfAscendingNode == nil {
+        let loanMakesSense = abs(fmodf(orientation.inclination, Float(M_PI))) > 1e-6 && abs(fmodf(orientation.inclination, Float(M_PI)) - Float(M_PI)) > 1e-6
+        if loanMakesSense && orientation.longitudeOfAscendingNode == nil {
             fatalError("orbits with inclination should supply longitude of ascending node")
-        }
-        if shape.eccentricity != 0 && orientation.argumentOfPeriapsis == nil {
-            fatalError("non-circular orbit should supply argument of periapsis")
         }
     }
     
@@ -159,6 +159,8 @@ struct OrbitalMotion {
         propagateStateVectors()
     }
     
+    var trueAnomaly: Float!
+    
     var position: SCNVector3!
     var velocity: SCNVector3!
 
@@ -171,7 +173,7 @@ struct OrbitalMotion {
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
-    init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float = 0) {
+    init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float) {
         self.centralBody = centralBody
         self.orbit = orbit
         self.timeElapsed = timeElapsed
@@ -191,33 +193,40 @@ struct OrbitalMotion {
         self.centralBody = centralBody
         self.position = position
         self.velocity = velocity
-        let angularMomentum = position.cross(velocity)
-        let eccentricityVector = velocity.cross(angularMomentum) / centralBody.gravParam - position.normalized()
-        let n = SCNVector3(0, 0, 1).cross(angularMomentum)
-        let trueAnomaly: Float = {
+        let momentum = position.cross(velocity)
+        let eccentricityVector = velocity.cross(momentum) / centralBody.gravParam - position.normalized()
+        let n = SCNVector3(0, 0, 1).cross(momentum)
+        trueAnomaly = {
             if position.dot(velocity) >= 0 {
                 return acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
             } else {
                 return Float(2 * M_PI) - acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
             }
         }()
-        let inclination = acos(angularMomentum.z / angularMomentum.length())
+        trueAnomaly = trueAnomaly.isNaN ? 0 : trueAnomaly
+        let inclination = acos(momentum.z / momentum.length())
         let eccentricity = eccentricityVector.length()
         let eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
-        let longitudeOfAscendingNode: Float = {
+        var longitudeOfAscendingNode: Float? = {
             if n.y >= 0 {
                 return acos(n.x / n.length())
             } else {
                 return Float(M_PI * 2) - acos(n.x / n.length())
             }
         }()
-        let argumentOfPeriapsis: Float = {
+        if longitudeOfAscendingNode!.isNaN {
+            longitudeOfAscendingNode = nil
+        }
+        var argumentOfPeriapsis: Float = {
             if eccentricityVector.z >= 0 {
                 return acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
             } else {
                 return Float(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
             }
         }()
+        if argumentOfPeriapsis.isNaN {
+            argumentOfPeriapsis = atan2(eccentricityVector.y, eccentricityVector.x)
+        }
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
         let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
         // won't trigger the didSet observer
@@ -227,7 +236,7 @@ struct OrbitalMotion {
     
     private mutating func propagateStateVectors() {
         let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
-        let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
+        trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
 
         let p = SCNVector3(x: cos(trueAnomaly), y: sin(trueAnomaly), z: 0) * distance
@@ -235,7 +244,7 @@ struct OrbitalMotion {
         let v = SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
         let i = orbit.orientation.inclination
-        let ω = orbit.orientation.argumentOfPeriapsis ?? 0
+        let ω = orbit.orientation.argumentOfPeriapsis 
         position = SCNVector3(
             x: p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
             y: p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),

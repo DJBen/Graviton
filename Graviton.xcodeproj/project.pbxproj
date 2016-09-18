@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF3585471D8A92820029FBF5 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3585461D8A92820029FBF5 /* Math.swift */; };
+		EF53925D1D8CA64900795B00 /* StateVectorTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF53925C1D8CA64900795B00 /* StateVectorTest.swift */; };
 		EFA7FEB61D8A1CB00043E8CC /* SolarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */; };
 		EFA7FEB81D8A762C0043E8CC /* OrbitalElementsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */; };
 		EFA7FEBA1D8A77950043E8CC /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEB91D8A77950043E8CC /* Orbit.swift */; };
@@ -34,6 +35,7 @@
 
 /* Begin PBXFileReference section */
 		EF3585461D8A92820029FBF5 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
+		EF53925C1D8CA64900795B00 /* StateVectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVectorTest.swift; sourceTree = "<group>"; };
 		EFA7FEB51D8A1CB00043E8CC /* SolarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystem.swift; sourceTree = "<group>"; };
 		EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalElementsTest.swift; sourceTree = "<group>"; };
 		EFA7FEB91D8A77950043E8CC /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbit.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 			children = (
 				EFC2C6B01D88D02F0031AA9C /* Info.plist */,
 				EFA7FEB71D8A762C0043E8CC /* OrbitalElementsTest.swift */,
+				EF53925C1D8CA64900795B00 /* StateVectorTest.swift */,
 			);
 			path = GravitonTests;
 			sourceTree = "<group>";
@@ -247,6 +250,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF53925D1D8CA64900795B00 /* StateVectorTest.swift in Sources */,
 				EFA7FEB81D8A762C0043E8CC /* OrbitalElementsTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
