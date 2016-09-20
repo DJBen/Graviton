@@ -38,7 +38,7 @@ func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, dec
     let delta: Float = pow(10, -Float(dp))
     var e: Float
     var f: Float
-    
+
     if ec < 0.8 {
         e = m
     } else {

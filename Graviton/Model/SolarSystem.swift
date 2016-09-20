@@ -7,12 +7,18 @@
 //
 
 import UIKit
+import SceneKit
+
+protocol AstrodynamicsSupport {
+    var body: Body { get }
+}
 
 protocol Searchable {
     subscript(name: String) -> Body? { get }
 }
 
 protocol BoundedByGravity: Searchable {
+    var gravParam: Float { get }
     var sphereOfInfluence: Float? { get }
     var satellites: [Body] { get }
     func addSatellite(satellite: Body, motion: OrbitalMotion)
@@ -20,6 +26,16 @@ protocol BoundedByGravity: Searchable {
 
 struct SolarSystem: Searchable {
     let star: Sun
+    var time: Float = 0 {
+        didSet {
+            star.time = time
+            star.satellites.forEach { $0.time = self.time }
+        }
+    }
+    
+    init(star: Sun) {
+        self.star = star
+    }
     
     subscript(name: String) -> Body? {
         if star.name == name {
@@ -33,6 +49,24 @@ class Body {
     let name: String
     weak var centralBody: CelestialBody?
     var motion: OrbitalMotion?
+    var time: Float = 0 {
+        didSet {
+            motion?.setTime(time)
+            if let primary = self as? CelestialBody {
+                primary.satellites.forEach { $0.time = time }
+            }
+        }
+    }
+    var heliocentricPosition: SCNVector3 {
+        let position = motion?.position ?? SCNVector3()
+        if centralBody as? Sun != nil {
+            return position
+        } else if let primary = centralBody {
+            return primary.heliocentricPosition + position
+        } else {
+            return position
+        }
+    }
     
     init(name: String) {
         self.name = name
@@ -46,8 +80,10 @@ class SpaceVehicle: Body {
 
 class CelestialBody: Body, BoundedByGravity {
     let radius: Float
+    let rotationPeriod: Float
+    let axialTilt: Float
     let gravParam: Float
-    var orbiterDict = [String: Body]()
+    private var orbiterDict = [String: Body]()
     
     var satellites: [Body] {
         return Array(orbiterDict.values)
@@ -60,15 +96,19 @@ class CelestialBody: Body, BoundedByGravity {
         return distance * (radius / primary.radius)
     }
     
-    init(name: String, mass: Float, radius: Float) {
+    init(name: String, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
         self.gravParam = mass * gravConstant
         self.radius = radius
+        self.rotationPeriod = rotationPeriod
+        self.axialTilt = axialTilt
         super.init(name: name)
     }
     
     init(knownBody: KnownBody) {
         self.gravParam = knownBody.gravParam
         self.radius = knownBody.radius
+        self.rotationPeriod = knownBody.rotationPeriod
+        self.axialTilt = knownBody.axialTilt
         super.init(name: knownBody.name)
     }
     
@@ -95,7 +135,9 @@ class CelestialBody: Body, BoundedByGravity {
 }
 
 class Sun: CelestialBody {
-
+    override var heliocentricPosition: SCNVector3 {
+        return SCNVector3()
+    }
 }
 
 class NonEmittingBody: CelestialBody {

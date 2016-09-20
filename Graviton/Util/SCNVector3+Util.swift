@@ -26,19 +26,19 @@ import SceneKit
 extension SCNVector3
 {
     /**
-     * Negates the vector described by SCNVector3 and returns
-     * the result as a new SCNVector3.
+     * Negates the vector described by SCNVector3
      */
-    func negate() -> SCNVector3 {
-        return self * -1
+    mutating func negate() -> SCNVector3 {
+        self = negated()
+        return self
     }
     
     /**
-     * Negates the vector described by SCNVector3
+     * Negates the vector described by SCNVector3 and returns
+     * the result as a new SCNVector3.
      */
-    mutating func negated() -> SCNVector3 {
-        self = negate()
-        return self
+    func negated() -> SCNVector3 {
+        return self * -1
     }
     
     /**
@@ -83,6 +83,19 @@ extension SCNVector3
      */
     func cross(_ vector: SCNVector3) -> SCNVector3 {
         return SCNVector3Make(y * vector.z - z * vector.y, z * vector.x - x * vector.z, x * vector.y - y * vector.x)
+    }
+    
+    /**
+     * Converted SceneKit coordinate from Astrodynamics coordinate.
+     */
+    var astroToScene: SCNVector3 {
+        let rotation = matrix_float3x3(columns: (vector_float3(1, 0, 0), vector_float3(0, 0, 1), vector_float3(0, -1, 0)))
+        return SCNVector3FromFloat3(matrix_multiply(rotation, SCNVector3ToFloat3(self)))
+    }
+    
+    var sceneToAstro: SCNVector3 {
+        let rotation = matrix_float3x3(columns: (vector_float3(1, 0, 0), vector_float3(0, 0, -1), vector_float3(0, 1, 0)))
+        return SCNVector3FromFloat3(matrix_multiply(rotation, SCNVector3ToFloat3(self)))
     }
 }
 

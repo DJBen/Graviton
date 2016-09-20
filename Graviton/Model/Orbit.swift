@@ -106,6 +106,13 @@ struct Orbit {
         self.init(shape: ConicSection.from(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
+    func orbitalPeriod(centralBody: BoundedByGravity) -> Float? {
+        guard let a = shape.semimajorAxis else {
+            return nil
+        }
+        return calculatePeriod(semimajorAxis: a, gravParam: centralBody.gravParam)
+    }
+    
 }
 
 struct OrbitalMotion {
@@ -126,15 +133,12 @@ struct OrbitalMotion {
             periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
             apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil,
             // FIXME: will crash for parabola and not right for hyperbola
-            timeFromPeriapsis: orbitalPeriod != nil ? fmodf(timeElapsed, orbitalPeriod!) : timeElapsed
+            timeFromPeriapsis: orbitalPeriod != nil ? fmodf(time, orbitalPeriod!) : time
         )
     }
     
     var orbitalPeriod: Float? {
-        guard let a = orbit.shape.semimajorAxis else {
-            return nil
-        }
-        return calculatePeriod(semimajorAxis: a, gravParam: centralBody.gravParam)
+        return orbit.orbitalPeriod(centralBody: centralBody)
     }
     
     var orbit: Orbit {
@@ -142,20 +146,22 @@ struct OrbitalMotion {
             propagateStateVectors()
         }
     }
-    private(set) var timeElapsed: Float
+    private(set) var time: Float
     
     mutating func setTime(_ time: Float) {
-        timeElapsed = time
-        meanAnomaly = calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!
+        self.time = time
+        meanAnomaly = calculateMeanAnomaly(fromTime: time, gravParam: centralBody.gravParam, shape: orbit.shape)! + meanAnomalyAtEpoch
         propagateStateVectors()
     }
     
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
     private(set) var meanAnomaly: Float
     
+    let meanAnomalyAtEpoch: Float
+    
     mutating func setMeanAnomaly(_ m: Float) {
         meanAnomaly = wrapAngle(m)
-        timeElapsed = meanAnomaly * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
+        time = meanAnomaly * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
         propagateStateVectors()
     }
     
@@ -173,10 +179,11 @@ struct OrbitalMotion {
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
-    init(centralBody: CelestialBody, orbit: Orbit, timeElapsed: Float) {
+    init(centralBody: CelestialBody, orbit: Orbit, meanAnomalyAtEpoch: Float = 0, timeElapsed: Float) {
         self.centralBody = centralBody
         self.orbit = orbit
-        self.timeElapsed = timeElapsed
+        self.time = timeElapsed
+        self.meanAnomalyAtEpoch = meanAnomalyAtEpoch
         // FIXME: crash when parabola
         meanAnomaly = calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!
         propagateStateVectors()
@@ -231,7 +238,8 @@ struct OrbitalMotion {
         let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
         // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
-        timeElapsed = wrapAngle(meanAnomaly) * sqrt(pow(semimajorAxis, 3) / centralBody.gravParam)
+        time = wrapAngle(meanAnomaly) * sqrt(pow(semimajorAxis, 3) / centralBody.gravParam)
+        meanAnomalyAtEpoch = 0
     }
     
     private mutating func propagateStateVectors() {
@@ -255,7 +263,6 @@ struct OrbitalMotion {
             y: v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
             z: v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
         )
-        
     }
     
 }

@@ -21,7 +21,8 @@ class OrbitalMechanicsTest: XCTestCase {
     var incliningOrbit: Orbit!
     var nonZeroLoANIncliningOrbit: Orbit!
     var fullFledgedOrbit: Orbit!
-    var earthOrbit: Orbit!
+    var earthOrbitRelativeToInvariantPlane: Orbit!
+    var earthOrbitRelativeToEcliptic: Orbit!
     
     override func setUp() {
         super.setUp()
@@ -102,13 +103,24 @@ class OrbitalMechanicsTest: XCTestCase {
                 argumentOfPeriapsis: 32 / 180 * Float(M_PI)
             )
         )
-        earthOrbit = Orbit(
+        earthOrbitRelativeToInvariantPlane = Orbit(
             shape: Orbit.ConicSection.from(
                 semimajorAxis: 149_598_000_000,
                 eccentricity: 0.0167086
             ),
             orientation: Orbit.Orientation(
                 inclination: 0.02755333837,
+                longitudeOfAscendingNode: 174.9 / 180 * Float(M_PI),
+                argumentOfPeriapsis: 288.1 / 180 * Float(M_PI)
+            )
+        )
+        earthOrbitRelativeToEcliptic = Orbit(
+            shape: Orbit.ConicSection.from(
+                semimajorAxis: 149_598_000_000,
+                eccentricity: 0.0167086
+            ),
+            orientation: Orbit.Orientation(
+                inclination: 23.446 / 180 * Float(M_PI),
                 longitudeOfAscendingNode: 174.9 / 180 * Float(M_PI),
                 argumentOfPeriapsis: 288.1 / 180 * Float(M_PI)
             )
@@ -267,7 +279,7 @@ class OrbitalMechanicsTest: XCTestCase {
     }
     
     func testEarthOrbit() {
-        var motion = OrbitalMotion(centralBody: sun, orbit: earthOrbit, meanAnomaly: 0)
+        var motion = OrbitalMotion(centralBody: sun, orbit: earthOrbitRelativeToInvariantPlane, meanAnomaly: 0)
         XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, 31557995.894672215, accuracy: 1e3)
         XCTAssertEqualWithAccuracy(motion.position.x, -33094663934.4392, accuracy: 1e4)
         XCTAssertEqualWithAccuracy(motion.position.y, 143275442683.98468, accuracy: 1e4)
@@ -283,5 +295,22 @@ class OrbitalMechanicsTest: XCTestCase {
         XCTAssertEqualWithAccuracy(motion.velocity.x, -24348.935884637474, accuracy: 5)
         XCTAssertEqualWithAccuracy(motion.velocity.y, -17933.232592161017, accuracy: 5)
         XCTAssertEqualWithAccuracy(motion.velocity.z, 551.9426101828388, accuracy: 5)
+        
+        // no inclination
+        var m2 = OrbitalMotion(centralBody: sun, orbit: earthOrbitRelativeToEcliptic)
+        XCTAssertEqualWithAccuracy(m2.orbitalPeriod!, 31557995.894672215, accuracy: 1e3)
+        XCTAssertEqualWithAccuracy(m2.position.x, -34116152572.08163, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(m2.position.y, 131829886930.60522, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(m2.position.z, -55631971288.14792, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(m2.velocity.x, -29441.489454134317, accuracy: 5)
+        XCTAssertEqualWithAccuracy(m2.velocity.y, -6039.240745105468, accuracy: 5)
+        XCTAssertEqualWithAccuracy(m2.velocity.z, 3743.8529818373216, accuracy: 5)
+        m2.setMeanAnomaly(Float(M_PI_2))
+        XCTAssertEqualWithAccuracy(m2.position.x, -144222775250.07266, accuracy: 1e5)
+        XCTAssertEqualWithAccuracy(m2.position.y, -34301604751.735603, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(m2.position.z, 20377629035.8853, accuracy: 1e4)
+        XCTAssertEqualWithAccuracy(m2.velocity.x, 7388.525658101777, accuracy: 5)
+        XCTAssertEqualWithAccuracy(m2.velocity.y, -26582.941501553762, accuracy: 5)
+        XCTAssertEqualWithAccuracy(m2.velocity.z, 11198.323688787713, accuracy: 5)
     }
 }

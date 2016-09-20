@@ -12,39 +12,56 @@ import SceneKit
 
 class GameViewController: UIViewController {
 
+    var system = solarSystem
+    var earth: CelestialBody {
+        return system["earth"] as! CelestialBody
+    }
+  
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // create a new scene
         let scene = SCNScene(named: "art.scnassets/earth.scn")!
+        // retrieve the ship node
+        let earthNode = scene.rootNode.childNode(withName: "earth", recursively: true)!
+        earthNode.eulerAngles = SCNVector3(Float(M_PI_2), -earthAxialTilt, 0)
+        let earthSphere = earthNode.geometry as! SCNSphere
+        earthSphere.radius = 1
+        earthNode.position = SCNVector3()
         
         // create and add a camera to the scene
         let cameraNode = SCNNode()
         cameraNode.camera = SCNCamera()
         scene.rootNode.addChildNode(cameraNode)
-        
-        // place the camera
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: geoSyncAltitude / earthEquatorialRadius + 1)
+//        let lookAt = SCNLookAtConstraint(target: earthNode)
+//        lookAt.isGimbalLockEnabled = false
+//        cameraNode.constraints = [lookAt]
+        cameraNode.position = SCNVector3(x: 0, y: 0, z: geoSyncAltitude / earthEquatorialRadius + 1) + earthNode.position
         
         // create and add a light to the scene
         let lightNode = SCNNode()
         lightNode.light = SCNLight()
         lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: astronomicalUnitDist / earthEquatorialRadius + 1, y: 0, z: 0)
+        lightNode.position = SCNVector3(x: 144598667960.65134, y: 38513399986.32562, z: 0) / earthEquatorialRadius
+
         scene.rootNode.addChildNode(lightNode)
         
-        // retrieve the ship node
-        let earth = scene.rootNode.childNode(withName: "earth", recursively: true)!
-        earth.eulerAngles = SCNVector3(0, 0, -earthAxialTilt)
-        earth.position = SCNVector3()
-        let earthSphere = earth.geometry as! SCNSphere
-        earthSphere.radius = 1
-        
         // animate the 3d object
-        earth.runAction(SCNAction.repeatForever(SCNAction.rotateBy(x: 0, y: 0.2, z: 0, duration: 1)))
+        let duration: CGFloat = 1200
+        earthNode.runAction(SCNAction.repeatForever(SCNAction.customAction(duration: TimeInterval(duration)) { (node, elapsedTime) in
+            let percentage = Float(elapsedTime / duration)
+            self.system.time = earthYear * percentage
+            lightNode.position = self.earth.heliocentricPosition.negated() / earthEquatorialRadius
+            cameraNode.position = SCNVector3(x: 0, y: 0, z: geoSyncAltitude / earthEquatorialRadius + 1) + node.position
+            print("\(elapsedTime / duration), \(self.earth.motion!.distance)")
+        }))
+        let rotationAxis = SCNVector3(x: sin(-earthAxialTilt), y: 0, z: cos(-earthAxialTilt))
+        earthNode.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(M_PI * 2), around: rotationAxis, duration: Double(duration / 365.0))))
         
         // retrieve the SCNView
         let scnView = self.view as! SCNView
+        
+        
         
         // set the scene to the view
         scnView.scene = scene
