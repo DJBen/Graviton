@@ -23,11 +23,10 @@ class GameViewController: UIViewController {
         // create a new scene
         let scene = SCNScene(named: "art.scnassets/earth.scn")!
         // retrieve the ship node
-        let earthNode = scene.rootNode.childNode(withName: "earth", recursively: true)!
-        earthNode.eulerAngles = SCNVector3(Float(M_PI_2), -earthAxialTilt, 0)
-        let earthSphere = earthNode.geometry as! SCNSphere
-        earthSphere.radius = 1
-        earthNode.position = SCNVector3()
+        let eNode = scene.rootNode.childNode(withName: "earth", recursively: true)!
+        eNode.removeFromParentNode()
+        let earthNode = CelestialNode(body: CelestialBody(knownBody: .earth), geometry: eNode.geometry)
+        scene.rootNode.addChildNode(earthNode)
         
         // create and add a camera to the scene
         let cameraNode = SCNNode()
@@ -55,7 +54,7 @@ class GameViewController: UIViewController {
             cameraNode.position = SCNVector3(x: 0, y: 0, z: geoSyncAltitude / earthEquatorialRadius + 1) + node.position
             print("\(elapsedTime / duration), \(self.earth.motion!.distance)")
         }))
-        let rotationAxis = SCNVector3(x: sin(-earthAxialTilt), y: 0, z: cos(-earthAxialTilt))
+        let rotationAxis = earthNode.rotationAxis
         earthNode.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(M_PI * 2), around: rotationAxis, duration: Double(duration / 365.0))))
         
         // retrieve the SCNView

@@ -12,16 +12,19 @@ import SceneKit
 class CelestialNode: SCNNode {
     let body: CelestialBody
     
-    var materialRotation = matrix_float3x3(columns: (vector_float3(1, 0, 0), vector_float3(0, 0, 1), vector_float3(0, -1, 0)))
+    var offsetAngles = SCNVector3(x: Float(M_PI_2), y: 0, z: 0)
+    var tilt: SCNVector3 {
+        return SCNVector3(x: 0, y: -body.axialTilt, z: 0)
+    }
     
     var originalEulerAngles: SCNVector3 = SCNVector3Zero
     
     override var eulerAngles: SCNVector3 {
         get {
-            return SCNVector3FromFloat3(matrix_multiply(materialRotation, SCNVector3ToFloat3(originalEulerAngles)))
+            return originalEulerAngles + offsetAngles + tilt
         }
         set {
-            originalEulerAngles = SCNVector3FromFloat3(matrix_multiply(matrix_invert(materialRotation), SCNVector3ToFloat3(newValue)))
+            originalEulerAngles = newValue - offsetAngles - tilt
             super.eulerAngles = newValue
         }
     }
@@ -36,6 +39,7 @@ class CelestialNode: SCNNode {
         self.body = body
         super.init()
         self.geometry = geometry
+        self.eulerAngles = originalEulerAngles + offsetAngles + tilt
     }
     
     convenience init(body: CelestialBody, sphereMaterial: SCNMaterial) {
