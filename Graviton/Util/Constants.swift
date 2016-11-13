@@ -50,6 +50,42 @@ let mercuryOrbit = Orbit(
     )
 )
 
+let venusOrbit = Orbit(
+    shape: Orbit.ConicSection.from(
+        semimajorAxis: 108209548790.4671,
+        eccentricity: 0.006810339650842032
+    ),
+    orientation: Orbit.Orientation(
+        inclination: 0.03397633556 / 180 * Float(M_PI),
+        longitudeOfAscendingNode: 7.981603378781639 / 180 * Float(M_PI),
+        argumentOfPeriapsis: 123.7121294282329 / 180 * Float(M_PI)
+    )
+)
+
+let marsOrbit = Orbit(
+    shape: Orbit.ConicSection.from(
+        semimajorAxis: 227949699961.9763,
+        eccentricity: 0.09326110278323557
+    ),
+    orientation: Orbit.Orientation(
+        inclination: 1.8497 / 180 * Float(M_PI),
+        longitudeOfAscendingNode: 49.5581 / 180 * Float(M_PI),
+        argumentOfPeriapsis: 336.0602 / 180 * Float(M_PI)
+    )
+)
+
+let jupiterOrbit = Orbit(
+    shape: Orbit.ConicSection.from(
+        semimajorAxis: 778188938659.7554,
+        eccentricity: 0.04872660654702194
+    ),
+    orientation: Orbit.Orientation(
+        inclination: -0.1868669305 / 180 * Float(M_PI),
+        longitudeOfAscendingNode: 3.262077289923354 / 180 * Float(M_PI),
+        argumentOfPeriapsis: 10.75642751202877 / 180 * Float(M_PI)
+    )
+)
+
 var solarSystem: SolarSystem = {
     let earth = CelestialBody(knownBody: .earth)
     let sun = Sun(knownBody: .sun)
@@ -63,6 +99,7 @@ enum KnownBody {
     case mercury
     case venus
     case earth
+    case mars
     case moon
     case sun
     
@@ -74,6 +111,8 @@ enum KnownBody {
             return "venus"
         case .earth:
             return "earth"
+        case .mars:
+            return "mars"
         case .moon:
             return "moon"
         case .sun:
@@ -91,6 +130,8 @@ enum KnownBody {
             return 3.9860044e14
         case .moon:
             return 4.902794e12
+        case .mars:
+            return 4.282837e13
         case .sun:
             return 1.3271244e20
         }
@@ -106,6 +147,8 @@ enum KnownBody {
             return 6378137
         case .moon:
             return 1736482
+        case .mars:
+            return 3380100
         case .sun:
             return 695700000
         }
@@ -119,6 +162,8 @@ enum KnownBody {
             return 20996798.4
         case .earth:
             return 86164.098903691
+        case .mars:
+            return 88642.6848
         case .moon:
             // moon is tidally locked to the earth
             return 2360584.68479999
@@ -136,6 +181,25 @@ enum KnownBody {
             return 177.36 / 180 * Float(M_PI)
         case .earth:
             return 23.44 / 180 * Float(M_PI)
+        case .moon:
+            return 1.5424 / 180 * Float(M_PI)
+        case .mars:
+            return 25.19 / 180 * Float(M_PI)
+        case .sun:
+            return 0
+        }
+    }
+    
+    var meanAnomalyAtEpoch: Float {
+        switch self {
+        case .mercury:
+            return 0 / 180 * Float(M_PI)
+        case .venus:
+            return 0 / 180 * Float(M_PI)
+        case .earth:
+            return 357.51716 / 180 * Float(M_PI)
+        case .mars:
+            return 19.3870 / 180 * Float(M_PI)
         case .moon:
             return 1.5424 / 180 * Float(M_PI)
         case .sun:

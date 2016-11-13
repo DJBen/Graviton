@@ -146,6 +146,7 @@ struct OrbitalMotion {
             propagateStateVectors()
         }
     }
+    
     private(set) var time: Float
     
     mutating func setTime(_ time: Float) {
@@ -165,6 +166,7 @@ struct OrbitalMotion {
         propagateStateVectors()
     }
     
+    var eccentricAnomaly: Float!
     var trueAnomaly: Float!
     
     var position: SCNVector3!
@@ -179,6 +181,15 @@ struct OrbitalMotion {
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
+    
+    /// Initialize keplarian orbit from orbital elements
+    ///
+    /// - parameter centralBody:        The primary that is orbiting
+    /// - parameter orbit:              Orbital elements
+    /// - parameter meanAnomalyAtEpoch: Mean anomaly at epoch
+    /// - parameter timeElapsed:        Time since epoch
+    ///
+    /// - returns: An orbit motion object
     init(centralBody: CelestialBody, orbit: Orbit, meanAnomalyAtEpoch: Float = 0, timeElapsed: Float) {
         self.centralBody = centralBody
         self.orbit = orbit
@@ -196,6 +207,14 @@ struct OrbitalMotion {
     
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
     // https://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto?newreg=70344ca3afc847acb4f105c7194ff719
+    
+    /// Initialize keplarian orbit from state vectors.
+    ///
+    /// - parameter centralBody: The primary that is orbiting
+    /// - parameter position:    Position vector
+    /// - parameter velocity:    Velocity vector
+    ///
+    /// - returns: An orbit motion object
     init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
         self.centralBody = centralBody
         self.position = position
@@ -213,7 +232,7 @@ struct OrbitalMotion {
         trueAnomaly = trueAnomaly.isNaN ? 0 : trueAnomaly
         let inclination = acos(momentum.z / momentum.length())
         let eccentricity = eccentricityVector.length()
-        let eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
+        eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
         var longitudeOfAscendingNode: Float? = {
             if n.y >= 0 {
                 return acos(n.x / n.length())
@@ -242,27 +261,59 @@ struct OrbitalMotion {
         meanAnomalyAtEpoch = 0
     }
     
-    private mutating func propagateStateVectors() {
-        let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
-        trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
-        let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cos(eccentricAnomaly))
-
+    
+    /// Calculate state vectors based on true anomaly.
+    /// If eccentric anomaly is not supplied, it will calculated from true anomaly
+    /// - parameter trueAnomaly: True anomaly
+    ///
+    /// - returns: state vector tuple (position, velocity)
+    
+    func stateVectors(fromTrueAnomaly trueAnomaly: Float, eccentricAnomaly: Float? = nil) -> (SCNVector3, SCNVector3) {
+        let sinE: Float
+        let cosE: Float
+        if let ecc = eccentricAnomaly {
+            sinE = sin(ecc)
+            cosE = cos(ecc)
+        } else {
+            // https://en.wikipedia.org/wiki/Eccentric_anomaly
+            let e = orbit.shape.eccentricity
+            cosE = (e + cos(trueAnomaly)) / (1 + e * cos(trueAnomaly))
+            sinE = sqrt(1 - pow(e, 2)) * sin(trueAnomaly) / (1 + e * cos(trueAnomaly))
+        }
+        
+        let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cosE)
+        
         let p = SCNVector3(x: cos(trueAnomaly), y: sin(trueAnomaly), z: 0) * distance
         let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
-        let v = SCNVector3(x: -sin(eccentricAnomaly), y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cos(eccentricAnomaly), z: 0) * coefficient
+        let v = SCNVector3(x: -sinE, y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, z: 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
         let i = orbit.orientation.inclination
-        let ω = orbit.orientation.argumentOfPeriapsis 
-        position = SCNVector3(
+        let ω = orbit.orientation.argumentOfPeriapsis
+        let position = SCNVector3(
             x: p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
             y: p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
             z: p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
         )
-        velocity = SCNVector3(
+        let velocity = SCNVector3(
             x: v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
             y: v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
             z: v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
         )
+        return (position, velocity)
+    }
+    
+    func stateVectors(fromMeanAnomaly meanAnomaly: Float) -> (SCNVector3, SCNVector3) {
+        let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+        let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
+        return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
+    }
+    
+    private mutating func propagateStateVectors() {
+        eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+        trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
+        let (p, v) = stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
+        position = p
+        velocity = v
     }
     
 }

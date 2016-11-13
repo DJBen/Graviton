@@ -7,12 +7,21 @@
 //
 
 import UIKit
-import QuartzCore
 import SceneKit
 
 class GameViewController: UIViewController {
 
     var system = solarSystem
+    lazy var solScene: SolScene = {
+        let scene = SolScene()
+        scene.addOrbit(orbit: mercuryOrbit, color: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), identifier: "mercury")
+        scene.addOrbit(orbit: venusOrbit, color: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1), identifier: "venus")
+        scene.addOrbit(orbit: earthOrbit, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), identifier: "earth")
+        scene.addOrbit(orbit: marsOrbit, color: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), identifier: "mars")
+        scene.addOrbit(orbit: jupiterOrbit, color: #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1), identifier: "jupiter")
+        return scene
+    }()
+    
     var earth: CelestialBody {
         return system["earth"] as! CelestialBody
     }
@@ -60,10 +69,13 @@ class GameViewController: UIViewController {
         // retrieve the SCNView
         let scnView = self.view as! SCNView
         
-        
-        
         // set the scene to the view
-        scnView.scene = scene
+        scnView.scene = solScene
+        self.solScene.timeElapsed = 0
+        
+        solScene.rootNode.runAction(SCNAction.customAction(duration: 1000, action: { (node, time) in
+            self.solScene.timeElapsed = Float(time * 24 * 3600 * 30)
+        }))
         
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
@@ -136,5 +148,4 @@ class GameViewController: UIViewController {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
     }
-
 }

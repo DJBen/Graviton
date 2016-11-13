@@ -31,7 +31,7 @@ func calculateMeanAnomaly(fromTime time: Float, gravParam: Float, shape: Orbit.C
     }
 }
 
-func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 8) -> Float {
+func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 6) -> Float {
     let pi: Float = Float(M_PI)
     let maxIter = 30
     var i = 0
