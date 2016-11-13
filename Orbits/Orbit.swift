@@ -1,6 +1,6 @@
 //
 //  Orbit.swift
-//  Graviton
+//  Orbits
 //
 //  Created by Ben Lu on 9/14/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
@@ -10,14 +10,14 @@ import SceneKit
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
-struct Orbit {
-    enum ConicSection {
+public struct Orbit {
+    public enum ConicSection {
         case circle(r: Float)
         case ellipse(a: Float, e: Float)
         case parabola(pe: Float)
         case hyperbola(a: Float, e: Float)
         
-        var semimajorAxis: Float? {
+        public var semimajorAxis: Float? {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, _): return a
@@ -27,7 +27,7 @@ struct Orbit {
         }
         
         // https://en.wikipedia.org/wiki/Orbital_eccentricity
-        var eccentricity: Float {
+        public var eccentricity: Float {
             switch self {
             case .circle(_): return 0
             case .ellipse(_, let e): return e
@@ -36,7 +36,7 @@ struct Orbit {
             }
         }
         
-        var apoapsis: Float? {
+        public var apoapsis: Float? {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 + e)
@@ -45,7 +45,7 @@ struct Orbit {
             }
         }
         
-        var periapsis: Float {
+        public var periapsis: Float {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 - e)
@@ -54,7 +54,7 @@ struct Orbit {
             }
         }
         
-        var semilatusRectum: Float {
+        public var semilatusRectum: Float {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 - pow(e, 2))
@@ -63,7 +63,7 @@ struct Orbit {
             }
         }
         
-        static func from(semimajorAxis a: Float, eccentricity e: Float) -> ConicSection {
+        public static func from(semimajorAxis a: Float, eccentricity e: Float) -> ConicSection {
             if a == Float.infinity || e == 1 {
                 fatalError("cannot initialize a parabola using this method")
             }
@@ -74,7 +74,7 @@ struct Orbit {
             }
         }
         
-        static func from(apoapsis ap: Float, periapsis pe: Float) -> ConicSection {
+        public static func from(apoapsis ap: Float, periapsis pe: Float) -> ConicSection {
             if ap == Float.infinity {
                 fatalError("cannot initialize a parabola using this method")
             }
@@ -82,31 +82,37 @@ struct Orbit {
         }
     }
     
-    struct Orientation {
-        var inclination: Float
-        var longitudeOfAscendingNode: Float?
+    public struct Orientation {
+        public var inclination: Float
+        public var longitudeOfAscendingNode: Float?
         // https://en.wikipedia.org/wiki/Argument_of_periapsis
-        // calculate as if Ω == 0 if orbit is circular
-        var argumentOfPeriapsis: Float
+        // calculate as if Ω == 0 when orbit is circular
+        public var argumentOfPeriapsis: Float
+        
+        public init(inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
+            self.inclination = inclination
+            self.longitudeOfAscendingNode = longitudeOfAscendingNode
+            self.argumentOfPeriapsis = argumentOfPeriapsis
+        }
     }
 
-    var shape: ConicSection
-    var orientation: Orientation
+    public var shape: ConicSection
+    public var orientation: Orientation
 
-    init(shape: ConicSection, orientation: Orientation) {
+    public init(shape: ConicSection, orientation: Orientation) {
         self.shape = shape
         self.orientation = orientation
-        let loanMakesSense = abs(fmodf(orientation.inclination, Float(M_PI))) > 1e-6 && abs(fmodf(orientation.inclination, Float(M_PI)) - Float(M_PI)) > 1e-6
+        let loanMakesSense = abs(fmod(orientation.inclination, Float(M_PI))) > 1e-6 && abs(fmod(orientation.inclination, Float(M_PI)) - Float(M_PI)) > 1e-6
         if loanMakesSense && orientation.longitudeOfAscendingNode == nil {
             fatalError("orbits with inclination should supply longitude of ascending node")
         }
     }
     
-    init(semimajorAxis: Float, eccentricity: Float, inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
+    public init(semimajorAxis: Float, eccentricity: Float, inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
         self.init(shape: ConicSection.from(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
-    func orbitalPeriod(centralBody: BoundedByGravity) -> Float? {
+    public func orbitalPeriod(centralBody: BoundedByGravity) -> Float? {
         guard let a = shape.semimajorAxis else {
             return nil
         }
@@ -115,68 +121,68 @@ struct Orbit {
     
 }
 
-struct OrbitalMotion {
-    let centralBody: CelestialBody
+public struct OrbitalMotion {
+    public let centralBody: CelestialBody
     
-    struct Info {
-        let altitude: Float
-        let speed: Float
-        let periapsisAltitude: Float
-        let apoapsisAltitude: Float?
-        let timeFromPeriapsis: Float
+    public struct Info {
+        public let altitude: Float
+        public let speed: Float
+        public let periapsisAltitude: Float
+        public let apoapsisAltitude: Float?
+        public let timeFromPeriapsis: Float
     }
     
-    var info: Info {
+    public var info: Info {
         return Info(
             altitude: distance - centralBody.radius,
             speed: velocity.length(),
             periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
             apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil,
             // FIXME: will crash for parabola and not right for hyperbola
-            timeFromPeriapsis: orbitalPeriod != nil ? fmodf(time, orbitalPeriod!) : time
+            timeFromPeriapsis: orbitalPeriod != nil ? fmod(time, orbitalPeriod!) : time
         )
     }
     
-    var orbitalPeriod: Float? {
+    public var orbitalPeriod: Float? {
         return orbit.orbitalPeriod(centralBody: centralBody)
     }
     
-    var orbit: Orbit {
+    public var orbit: Orbit {
         didSet {
             propagateStateVectors()
         }
     }
     
-    private(set) var time: Float
+    public private(set) var time: Float
     
-    mutating func setTime(_ time: Float) {
+    public mutating func setTime(_ time: Float) {
         self.time = time
         meanAnomaly = calculateMeanAnomaly(fromTime: time, gravParam: centralBody.gravParam, shape: orbit.shape)! + meanAnomalyAtEpoch
         propagateStateVectors()
     }
     
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
-    private(set) var meanAnomaly: Float
+    public private(set) var meanAnomaly: Float
     
-    let meanAnomalyAtEpoch: Float
+    public let meanAnomalyAtEpoch: Float
     
-    mutating func setMeanAnomaly(_ m: Float) {
+    public mutating func setMeanAnomaly(_ m: Float) {
         meanAnomaly = wrapAngle(m)
         time = meanAnomaly * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
         propagateStateVectors()
     }
     
-    var eccentricAnomaly: Float!
-    var trueAnomaly: Float!
+    public private(set) var eccentricAnomaly: Float!
+    public private(set) var trueAnomaly: Float!
     
-    var position: SCNVector3!
-    var velocity: SCNVector3!
+    public var position: SCNVector3!
+    public var velocity: SCNVector3!
 
-    var specificMechanicalEnergy: Float {
+    public var specificMechanicalEnergy: Float {
         return velocity.dot(velocity) / 2 - centralBody.gravParam / position.length()
     }
     
-    var distance: Float {
+    public var distance: Float {
         return position.length()
     }
     
@@ -190,7 +196,7 @@ struct OrbitalMotion {
     /// - parameter timeElapsed:        Time since epoch
     ///
     /// - returns: An orbit motion object
-    init(centralBody: CelestialBody, orbit: Orbit, meanAnomalyAtEpoch: Float = 0, timeElapsed: Float) {
+    public init(centralBody: CelestialBody, orbit: Orbit, meanAnomalyAtEpoch: Float = 0, timeElapsed: Float) {
         self.centralBody = centralBody
         self.orbit = orbit
         self.time = timeElapsed
@@ -200,7 +206,7 @@ struct OrbitalMotion {
         propagateStateVectors()
     }
     
-    init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
+    public init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
         // FIXME: crash when parabola
         self.init(centralBody: centralBody, orbit: orbit, timeElapsed: wrapAngle(meanAnomaly) * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam))
     }
@@ -215,13 +221,13 @@ struct OrbitalMotion {
     /// - parameter velocity:    Velocity vector
     ///
     /// - returns: An orbit motion object
-    init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
+    public init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
         self.centralBody = centralBody
         self.position = position
         self.velocity = velocity
         let momentum = position.cross(velocity)
         let eccentricityVector = velocity.cross(momentum) / centralBody.gravParam - position.normalized()
-        let n = SCNVector3(0, 0, 1).cross(momentum)
+        let n = SCNVector3Make(0, 0, 1).cross(momentum)
         trueAnomaly = {
             if position.dot(velocity) >= 0 {
                 return acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
@@ -268,7 +274,7 @@ struct OrbitalMotion {
     ///
     /// - returns: state vector tuple (position, velocity)
     
-    func stateVectors(fromTrueAnomaly trueAnomaly: Float, eccentricAnomaly: Float? = nil) -> (SCNVector3, SCNVector3) {
+    public func stateVectors(fromTrueAnomaly trueAnomaly: Float, eccentricAnomaly: Float? = nil) -> (SCNVector3, SCNVector3) {
         let sinE: Float
         let cosE: Float
         if let ecc = eccentricAnomaly {
@@ -283,26 +289,26 @@ struct OrbitalMotion {
         
         let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cosE)
         
-        let p = SCNVector3(x: cos(trueAnomaly), y: sin(trueAnomaly), z: 0) * distance
+        let p = SCNVector3Make(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
         let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
-        let v = SCNVector3(x: -sinE, y: sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, z: 0) * coefficient
+        let v = SCNVector3Make(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
         let i = orbit.orientation.inclination
         let ω = orbit.orientation.argumentOfPeriapsis
-        let position = SCNVector3(
-            x: p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
-            y: p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
-            z: p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
+        let position = SCNVector3Make(
+            p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
+            p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
+            p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
         )
-        let velocity = SCNVector3(
-            x: v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
-            y: v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
-            z: v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
+        let velocity = SCNVector3Make(
+            v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
+            v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
+            v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
         )
         return (position, velocity)
     }
     
-    func stateVectors(fromMeanAnomaly meanAnomaly: Float) -> (SCNVector3, SCNVector3) {
+    public func stateVectors(fromMeanAnomaly meanAnomaly: Float) -> (SCNVector3, SCNVector3) {
         let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)

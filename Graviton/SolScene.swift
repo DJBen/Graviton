@@ -8,6 +8,7 @@
 
 import UIKit
 import SceneKit
+import Orbits
 
 class SolScene: SCNScene {
     var timeElapsed: Float = 0 {
@@ -26,23 +27,23 @@ class SolScene: SCNScene {
     override init() {
         super.init()
         let cameraNode = SCNNode()
-        let ball = SCNSphere(radius: 0.9)
-        rootNode.addChildNode(SCNNode(geometry: ball))
+        let sun = SCNNode(geometry: SCNSphere(radius: 0.9))
+        sun.geometry!.firstMaterial = {
+            let mat = SCNMaterial()
+            mat.emission.contents = UIColor.white
+            return mat
+        }()
+        sun.light = SCNLight()
+        sun.light!.type = .omni
+        rootNode.addChildNode(sun)
         cameraNode.camera = SCNCamera()
         cameraNode.camera?.zFar = 200
         rootNode.addChildNode(cameraNode)
         cameraNode.position = SCNVector3(x: 0, y: 0, z: 50)
-        let lightNode = SCNNode()
-        lightNode.light = SCNLight()
-        lightNode.light!.type = .omni
-        lightNode.position = SCNVector3(x: 2, y: 10, z: 8)
-        rootNode.addChildNode(lightNode)
         let ambient = SCNNode()
         ambient.light = SCNLight()
         ambient.light!.type = .ambient
-        lightNode.position = SCNVector3(x: 2, y: 10, z: 8)
-        ambient.light?.intensity = 500
-        rootNode.addChildNode(lightNode)
+        ambient.light?.intensity = 200
         rootNode.addChildNode(ambient)
         rootNode.addChildNode(lineSegments)
         rootNode.addChildNode(spheres)
@@ -58,7 +59,7 @@ class SolScene: SCNScene {
     }
     
     private func drawOrbit(orbit: Orbit, color: UIColor, identifier: String) {
-        var motion = OrbitalMotion(centralBody: CelestialBody(knownBody: .sun), orbit: orbit)
+        var motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit)
         let numberOfVertices: Int = 200
         let sphere = SCNSphere(radius: 0.5)
         sphere.firstMaterial = {

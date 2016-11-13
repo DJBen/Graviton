@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Graviton
+@testable import Orbits
 import SceneKit
 
 class StateVectorTest: XCTestCase {

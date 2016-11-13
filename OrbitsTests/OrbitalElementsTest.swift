@@ -8,7 +8,7 @@
 
 import XCTest
 import SceneKit
-@testable import Graviton
+@testable import Orbits
 
 class OrbitalMechanicsTest: XCTestCase {
     let sun = CelestialBody(knownBody: .sun)

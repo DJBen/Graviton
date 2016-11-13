@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import Orbits
 
 let earthAxialTilt: Float = 23.44 / 180 * Float(M_PI)
 
@@ -86,13 +87,13 @@ let jupiterOrbit = Orbit(
     )
 )
 
-var solarSystem: SolarSystem = {
-    let earth = CelestialBody(knownBody: .earth)
-    let sun = Sun(knownBody: .sun)
-    let motion = OrbitalMotion(centralBody: sun, orbit: earthOrbit)
-    sun.addSatellite(satellite: earth, motion: motion)
-    return SolarSystem(star: sun)
-}()
+//var solarSystem: SolarSystem = {
+//    let earth = CelestialBody(knownBody: .earth)
+//    let sun = Sun(knownBody: .sun)
+//    let motion = OrbitalMotion(centralBody: sun, orbit: earthOrbit)
+//    sun.addSatellite(satellite: earth, motion: motion)
+//    return SolarSystem(star: sun)
+//}()
 
 // the value is GM, m^3s^-2
 enum KnownBody {

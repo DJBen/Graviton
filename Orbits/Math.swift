@@ -1,13 +1,12 @@
 //
 //  swift
-//  Graviton
+//  Orbits
 //
 //  Created by Ben Lu on 9/15/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
 import SceneKit
-import Orbits
 
 // wrap angle from 0 to 2π
 func wrapAngle(_ angle: Float) -> Float {
@@ -32,7 +31,7 @@ func calculateMeanAnomaly(fromTime time: Float, gravParam: Float, shape: Orbit.C
     }
 }
 
-func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 6) -> Float {
+func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, decimalPoints dp: Int = 8) -> Float {
     let pi: Float = Float(M_PI)
     let maxIter = 30
     var i = 0
@@ -58,5 +57,5 @@ func calculateEccentricAnomaly(eccentricity ec: Float, meanAnomaly m: Float, dec
 }
 
 func calculateTrueAnomaly(eccentricity: Float, eccentricAnomaly: Float) -> Float {
-    return 2 * atan2f(sqrt(1 + eccentricity) * sin(eccentricAnomaly / 2), sqrt(1 - eccentricity) * cos(eccentricAnomaly / 2))
+    return 2 * atan2(sqrt(1 + eccentricity) * sin(eccentricAnomaly / 2), sqrt(1 - eccentricity) * cos(eccentricAnomaly / 2))
 }
