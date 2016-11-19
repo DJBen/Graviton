@@ -19,6 +19,7 @@
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
+		EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFE8BF3C1DD868EF000F0A79 /* SynchronousTCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF281DD868EE000F0A79 /* SynchronousTCPServer.swift */; };
 		EFE8BF3D1DD868EF000F0A79 /* SynchronousUDPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF291DD868EE000F0A79 /* SynchronousUDPServer.swift */; };
 		EFE8BF3E1DD868EF000F0A79 /* TCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2A1DD868EE000F0A79 /* TCPClient.swift */; };
@@ -115,6 +116,7 @@
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6B01D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFE8BF281DD868EE000F0A79 /* SynchronousTCPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousTCPServer.swift; sourceTree = "<group>"; };
 		EFE8BF291DD868EE000F0A79 /* SynchronousUDPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousUDPServer.swift; sourceTree = "<group>"; };
 		EFE8BF2A1DD868EE000F0A79 /* TCPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPClient.swift; sourceTree = "<group>"; };
@@ -300,6 +302,7 @@
 				EFE8BF741DD86B38000F0A79 /* Constants.swift */,
 				EFE8BF751DD86B38000F0A79 /* SCNVector3+Util.swift */,
 				EFE8BF761DD86B38000F0A79 /* Math.swift */,
+				EFC6C94F1DE07AB500877A29 /* Kepler.swift */,
 				EFE8BF771DD86B38000F0A79 /* Orbit.swift */,
 				EFE8BF581DD86B2B000F0A79 /* Info.plist */,
 			);
@@ -549,6 +552,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
 				EFE8BF781DD86B38000F0A79 /* Body.swift in Sources */,
 				EFE8BF791DD86B38000F0A79 /* Constants.swift in Sources */,
 				EFE8BF7A1DD86B38000F0A79 /* SCNVector3+Util.swift in Sources */,

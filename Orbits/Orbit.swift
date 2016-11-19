@@ -309,13 +309,13 @@ public struct OrbitalMotion {
     }
     
     public func stateVectors(fromMeanAnomaly meanAnomaly: Float) -> (SCNVector3, SCNVector3) {
-        let eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+        let eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
     }
     
     private mutating func propagateStateVectors() {
-        eccentricAnomaly = calculateEccentricAnomaly(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
+        eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         let (p, v) = stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
         position = p
