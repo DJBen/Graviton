@@ -12,7 +12,7 @@ public struct JulianDate {
     public let J1950: Double = 2433282.4235
     public let J2000: Double = 2451545.0
     
-    let value: Double
+    public let value: Double
     
     init(value: Double) {
         self.value = value
@@ -21,7 +21,7 @@ public struct JulianDate {
     init(date: Date) {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute], from: date)
+        let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let year = components.year!
         let month = components.month!
         let day = components.day!
@@ -35,6 +35,39 @@ public struct JulianDate {
         JDN += floor((153 * m + 2) / 5)
         JDN += floor(y / 4) - floor(y / 100) + floor(y / 400)
         value = JDN + Double(hour - 12) / 24 + Double(minute) / 1440 + Double(second) / 86400
+    }
+    
+    public var date: Date {
+        let (y, j, m, n, r, p) = (4716, 1401, 2, 12, 4, 1461)
+        let (v, u, s, w, B, C) = (3, 5, 153, 2, 274277, -38)
+        let J = value
+        var f: Int = Int(J) + j + C
+        f += (((4 * Int(J) + B) / 146097) * 3) / 4
+        let e = r * f + v
+        let g = (e % p) / r
+        let h = u * g + w
+        let day = (h % s) / u + 1
+        let month = (h / s + m) % n + 1
+        let year = e / p - y + (n + m - month) / n
+        var frac = (modf(J).1 > 0.5 ? modf(J).1 - 0.5 : modf(J).1 + 0.5) * 86400
+        let hour = Int(frac / 3600)
+        frac -= Double(hour * 3600)
+        let minute = Int(frac / 60)
+        frac -= Double(minute * 60)
+        let second = Int(frac)
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+        let dateComponents = DateComponents(
+            calendar: calendar,
+            timeZone: TimeZone(secondsFromGMT: 0)!,
+            year: year,
+            month: month,
+            day: day,
+            hour: hour,
+            minute: minute,
+            second: second
+        )
+        return dateComponents.date!
     }
     
 }

@@ -18,7 +18,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     var ephemeris: Ephemeris!
     
-    var refTime: TimeInterval?
+    var lastRenderTime: TimeInterval!
+    var timeElapsed: TimeInterval = 0
     
     lazy var referenceDate: Date = {
         var components = DateComponents()
@@ -34,7 +35,7 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        formatter.timeStyle = .none
+        formatter.timeStyle = .short
         return formatter
     }()
     
@@ -57,9 +58,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         return label
     }()
     
-//    var earth: CelestialBody {
-//        return system["earth"] as! CelestialBody
-//    }
+    lazy var warpControl: WarpControl = {
+        let control = WarpControl()
+        control.translatesAutoresizingMaskIntoConstraints = false
+        return control
+    }()
   
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -107,13 +110,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         scnView.delegate = self
         scnView.scene = solScene
         scnView.isPlaying = true
-        scnView.addSubview(timeLabel)
-        scnView.addConstraints(
-            [
-                timeLabel.bottomAnchor.constraint(equalTo: scnView.bottomAnchor, constant: -50),
-                timeLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor)
-            ]
-        )
+        timeElapsed = (JulianDate(date: Date()).value - 2457660.5) * 86400
+        setupViewElements()
         
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
@@ -187,19 +185,36 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         // Release any cached data, images, etc that aren't in use.
     }
     
+    private func setupViewElements() {
+        let scnView = self.view as! SCNView
+        scnView.addSubview(timeLabel)
+        scnView.addConstraints(
+            [
+                timeLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 14),
+                timeLabel.rightAnchor.constraint(equalTo: scnView.rightAnchor, constant: -16)
+            ]
+        )
+        scnView.addSubview(warpControl)
+        scnView.addConstraints(
+            [
+                warpControl.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 8),
+                warpControl.leftAnchor.constraint(equalTo: scnView.leftAnchor, constant: 16)
+            ]
+        )
+    }
+    
     // MARK: - Scene Renderer Delegate
     
     func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
-        print(time)
-        var t: TimeInterval = 0
-        if refTime == nil {
-            refTime = time
-        } else {
-            t = time - refTime!
+        if lastRenderTime == nil {
+            lastRenderTime = time
         }
-        let warpedTime = t * 8 * 3600 * 30
-        self.solScene.timeElapsed = Float(warpedTime)
-        let actualTime = self.referenceDate.addingTimeInterval(TimeInterval(warpedTime))
+        let dt: TimeInterval = time - lastRenderTime
+        lastRenderTime = time
+        let warpedDeltaTime = dt * warpControl.speed.multiplier
+        timeElapsed += warpedDeltaTime
+        self.solScene.timeElapsed = Float(timeElapsed)
+        let actualTime = self.referenceDate.addingTimeInterval(TimeInterval(timeElapsed))
         DispatchQueue.main.async {
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)
         }

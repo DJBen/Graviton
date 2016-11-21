@@ -28,6 +28,8 @@
  they had e = 1+/- epsilon,  with epsilon _very_ small.)  So 'near_parabolic'
  is only called if we've gone seven iterations without converging. */
 
+import Foundation
+
 fileprivate let PI: Double = 3.1415926535897932384626433832795028841971693993751058209749445923
 fileprivate let MIN_THRESH: Double = 1.0e-15
 fileprivate let THRESH: Double = 1.0e-12
