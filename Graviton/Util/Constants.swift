@@ -11,10 +11,6 @@ import Orbits
 
 let earthAxialTilt: Float = 23.44 / 180 * Float(M_PI)
 
-let gravConstant: Float = 6.67408e-11
-
-let earthYear: Float = 365.256363004 * 3600 * 24
-
 let earthOrbit = Orbit(
     shape: Orbit.ConicSection.from(
         semimajorAxis: 149494366257.0978,

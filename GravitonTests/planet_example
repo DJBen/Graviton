@@ -1,0 +1,101 @@
+*******************************************************************************
+
+Revised: Sep 28, 2012                 Mars                             499 / 4
+
+
+
+GEOPHYSICAL DATA (updated 2009-May-26):
+
+Mean radius (km)      = 3389.9(2+-4)    Density (g cm^-3)     =  3.933(5+-4)
+
+Mass (10^23 kg )      =    6.4185       Flattening, f         =  1/154.409
+
+Volume (x10^10 km^3)  =   16.318        Semi-major axis       =  3397+-4
+
+Sidereal rot. period  =   24.622962 hr  Rot. Rate (x10^5 s)   =  7.088218
+
+Mean solar day        =    1.0274907 d  Polar gravity ms^-2   =  3.758
+
+Mom. of Inertia       =    0.366        Equ. gravity  ms^-2   =  3.71
+
+Core radius (km)      =  ~1700          Potential Love # k2   =  0.153 +-.017
+
+
+
+Grav spectral fact u  =   14 (x10^5)    Topo. spectral fact t = 96 (x10^5)
+
+Fig. offset (Rcf-Rcm) = 2.50+-0.07 km   Offset (lat./long.)   = 62d / 88d
+
+GM (km^3 s^-2)        = 42828.3         Equatorial Radius, Re = 3394.0 km
+
+GM 1-sigma (km^3 s^-2)= +- 0.1          Mass ratio (Sun/Mars) = 3098708+-9
+
+
+
+Atmos. pressure (bar) =    0.0056       Max. angular diam.    =  17.9"
+
+Mean Temperature (K)  =  210            Visual mag. V(1,0)    =  -1.52
+
+Geometric albedo      =    0.150        Obliquity to orbit    =  25.19 deg
+
+Mean sidereal orb per =    1.88081578 y Orbit vel.  km/s      =  24.1309
+
+Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027
+
+Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4
+
+*******************************************************************************
+
+*******************************************************************************
+
+Revised: Jun 17, 2016                Saturn                                699
+
+
+
+PHYSICAL DATA (updated 2009-May-26):
+
+Mass (10^26 kg)       = 5.68319         Density (g/cm^3)       =  0.687+-.001
+
+Equat. radius (1 bar) = 60268+-4 km     Polar radius (km)      = 54364+-10
+
+Volumetric mean radius= 58232+-6 km     Flattening             =  0.09796
+
+
+
+Rotation period       = 10h 39m 22.4s   Rot. rate(10^-4 rad/s) =  1.63785
+
+m = w^2a^3/GM         =  0.15481        Hydrostatic flat., fh  =  0.09829
+
+Inferred rot. period  = 10.61+-0.02 hr  ks = 3*J2/m            =  0.317
+
+Mom. of inert. I/MRo^2=  0.210          I/MRo^2 (upper bound)  =  0.231
+
+Rocky core mass (Mc/M)=  0.1027         Y factor (He/H ratio)  =
+
+
+
+GM (km^3/s^2)         = 37931207.8      GM 1-sigma (km^3/s^2)  = +- 98
+
+Equ. grav, ge (m/s^2) = 10.44           Pol. grav, gp (m/s^2)  = 12.14+-0.01
+
+
+
+Geometric albedo      =  0.47           Visual magnitude V(1,0)= -8.88
+
+Vis. mag. (opposition)= +0.67           Obliquity to orbit     = 26.73 deg
+
+Sidereal orbit period = 29.447498 yr    Sidereal orbit period  = 10755.698 d
+
+Mean daily motion     = 0.0334979 deg/d Mean orbit velocity    =  9.6624 km/s
+
+
+
+Atmos. temp. (1 bar)  = 134+-4 K        Heat flow/mass (x10^7) = 15 erg/gm*s
+
+Planetary Solar Const =  15.04 W/m^2    Dipole tilt/offset     = 0.0deg/0.0Rp
+
+Escape velocity (km/s)=  35.5           Mag.dip.mom(gauss-Rp^3)= 0.21
+
+Aroche(ice)/Rp        =  2.71           Hill's sphere rad. Rp  = 1100
+
+*******************************************************************************
