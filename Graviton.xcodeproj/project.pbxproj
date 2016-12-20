@@ -7,12 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF03D67A1E0A0B4C00C31AE3 /* HorizonsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF03D6791E0A0B4C00C31AE3 /* HorizonsTest.swift */; };
 		EF2496B81DC6D88800B9EE9D /* SolScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolScene.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
 		EF5CD6CD1DEB614E00038079 /* planet_example in Resources */ = {isa = PBXBuildFile; fileRef = EF5CD6CC1DEB614E00038079 /* planet_example */; };
-		EF5CD6CF1DEB624400038079 /* Telneter.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CD6CE1DEB624400038079 /* Telneter.swift */; };
 		EF5CD6D11DEB62DB00038079 /* PlanetDataExtractionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */; };
-		EF6832A81D8E7FD30063E645 /* SolarSystemTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6832A71D8E7FD30063E645 /* SolarSystemTest.swift */; };
 		EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */; };
 		EFA7FEBF1D8A8D2D0043E8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
@@ -22,24 +21,6 @@
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
 		EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
-		EFE8BF3C1DD868EF000F0A79 /* SynchronousTCPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF281DD868EE000F0A79 /* SynchronousTCPServer.swift */; };
-		EFE8BF3D1DD868EF000F0A79 /* SynchronousUDPServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF291DD868EE000F0A79 /* SynchronousUDPServer.swift */; };
-		EFE8BF3E1DD868EF000F0A79 /* TCPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2A1DD868EE000F0A79 /* TCPClient.swift */; };
-		EFE8BF3F1DD868EF000F0A79 /* UDPClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2B1DD868EE000F0A79 /* UDPClient.swift */; };
-		EFE8BF401DD868EF000F0A79 /* Address+C.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2D1DD868EE000F0A79 /* Address+C.swift */; };
-		EFE8BF411DD868EF000F0A79 /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2E1DD868EE000F0A79 /* Address.swift */; };
-		EFE8BF421DD868EF000F0A79 /* Bytes.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF2F1DD868EE000F0A79 /* Bytes.swift */; };
-		EFE8BF431DD868EF000F0A79 /* Conversions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF301DD868EE000F0A79 /* Conversions.swift */; };
-		EFE8BF441DD868EF000F0A79 /* Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF311DD868EE000F0A79 /* Error.swift */; };
-		EFE8BF451DD868EF000F0A79 /* FDSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF321DD868EE000F0A79 /* FDSet.swift */; };
-		EFE8BF461DD868EF000F0A79 /* InternetSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF331DD868EE000F0A79 /* InternetSocket.swift */; };
-		EFE8BF471DD868EF000F0A79 /* Pipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF341DD868EE000F0A79 /* Pipe.swift */; };
-		EFE8BF481DD868EF000F0A79 /* Select.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF351DD868EE000F0A79 /* Select.swift */; };
-		EFE8BF491DD868EF000F0A79 /* Socket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF361DD868EE000F0A79 /* Socket.swift */; };
-		EFE8BF4A1DD868EF000F0A79 /* SocketOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF371DD868EE000F0A79 /* SocketOptions.swift */; };
-		EFE8BF4B1DD868EF000F0A79 /* TCPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF381DD868EE000F0A79 /* TCPSocket.swift */; };
-		EFE8BF4C1DD868EF000F0A79 /* Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF391DD868EE000F0A79 /* Types.swift */; };
-		EFE8BF4D1DD868EF000F0A79 /* UDPSocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF3A1DD868EF000F0A79 /* UDPSocket.swift */; };
 		EFE8BF4F1DD86A75000F0A79 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF4E1DD86A75000F0A79 /* Parser.swift */; };
 		EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -61,7 +42,7 @@
 		EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
-		EFF9FCF71DE7CBAB00B83C09 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF9FCF61DE7CBAB00B83C09 /* Horizons.swift */; };
+		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -110,12 +91,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF03D6791E0A0B4C00C31AE3 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsTest.swift; sourceTree = "<group>"; };
 		EF2496B71DC6D88800B9EE9D /* SolScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolScene.swift; sourceTree = "<group>"; };
 		EF4851891D91EB8D00737CE4 /* CelestialNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNode.swift; sourceTree = "<group>"; };
 		EF5CD6CC1DEB614E00038079 /* planet_example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_example; sourceTree = "<group>"; };
-		EF5CD6CE1DEB624400038079 /* Telneter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Telneter.swift; sourceTree = "<group>"; };
 		EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetDataExtractionTest.swift; sourceTree = "<group>"; };
-		EF6832A71D8E7FD30063E645 /* SolarSystemTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemTest.swift; sourceTree = "<group>"; };
 		EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Util.swift"; sourceTree = "<group>"; };
 		EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -129,24 +109,6 @@
 		EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6B01D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
-		EFE8BF281DD868EE000F0A79 /* SynchronousTCPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousTCPServer.swift; sourceTree = "<group>"; };
-		EFE8BF291DD868EE000F0A79 /* SynchronousUDPServer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SynchronousUDPServer.swift; sourceTree = "<group>"; };
-		EFE8BF2A1DD868EE000F0A79 /* TCPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPClient.swift; sourceTree = "<group>"; };
-		EFE8BF2B1DD868EE000F0A79 /* UDPClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPClient.swift; sourceTree = "<group>"; };
-		EFE8BF2D1DD868EE000F0A79 /* Address+C.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Address+C.swift"; sourceTree = "<group>"; };
-		EFE8BF2E1DD868EE000F0A79 /* Address.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
-		EFE8BF2F1DD868EE000F0A79 /* Bytes.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bytes.swift; sourceTree = "<group>"; };
-		EFE8BF301DD868EE000F0A79 /* Conversions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Conversions.swift; sourceTree = "<group>"; };
-		EFE8BF311DD868EE000F0A79 /* Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Error.swift; sourceTree = "<group>"; };
-		EFE8BF321DD868EE000F0A79 /* FDSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FDSet.swift; sourceTree = "<group>"; };
-		EFE8BF331DD868EE000F0A79 /* InternetSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InternetSocket.swift; sourceTree = "<group>"; };
-		EFE8BF341DD868EE000F0A79 /* Pipe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pipe.swift; sourceTree = "<group>"; };
-		EFE8BF351DD868EE000F0A79 /* Select.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Select.swift; sourceTree = "<group>"; };
-		EFE8BF361DD868EE000F0A79 /* Socket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Socket.swift; sourceTree = "<group>"; };
-		EFE8BF371DD868EE000F0A79 /* SocketOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SocketOptions.swift; sourceTree = "<group>"; };
-		EFE8BF381DD868EE000F0A79 /* TCPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TCPSocket.swift; sourceTree = "<group>"; };
-		EFE8BF391DD868EE000F0A79 /* Types.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Types.swift; sourceTree = "<group>"; };
-		EFE8BF3A1DD868EF000F0A79 /* UDPSocket.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UDPSocket.swift; sourceTree = "<group>"; };
 		EFE8BF4E1DD86A75000F0A79 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF571DD86B2B000F0A79 /* Orbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orbits.h; sourceTree = "<group>"; };
@@ -166,7 +128,7 @@
 		EFE8BF851DD88425000F0A79 /* StateVectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVectorTest.swift; sourceTree = "<group>"; };
 		EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
 		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
-		EFF9FCF61DE7CBAB00B83C09 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
+		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -216,14 +178,11 @@
 			isa = PBXGroup;
 			children = (
 				EFA7FEBE1D8A8D2D0043E8CC /* Constants.swift */,
-				EFF9FCF61DE7CBAB00B83C09 /* Horizons.swift */,
-				EF5CD6CE1DEB624400038079 /* Telneter.swift */,
+				FCDADE4C1E0942DE009C2607 /* Horizons.swift */,
 				EFE8BF4E1DD86A75000F0A79 /* Parser.swift */,
 				EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */,
 				EFE8BF7F1DD879D8000F0A79 /* JulianDate.swift */,
 				EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */,
-				EFE8BF261DD868EE000F0A79 /* Socks */,
-				EFE8BF2C1DD868EE000F0A79 /* SocksCore */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -272,44 +231,12 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6B01D88D02F0031AA9C /* Info.plist */,
-				EF6832A71D8E7FD30063E645 /* SolarSystemTest.swift */,
 				EFE8BF811DD882E6000F0A79 /* JulianDateTest.swift */,
 				EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */,
+				EF03D6791E0A0B4C00C31AE3 /* HorizonsTest.swift */,
 				EF5CD6CC1DEB614E00038079 /* planet_example */,
 			);
 			path = GravitonTests;
-			sourceTree = "<group>";
-		};
-		EFE8BF261DD868EE000F0A79 /* Socks */ = {
-			isa = PBXGroup;
-			children = (
-				EFE8BF281DD868EE000F0A79 /* SynchronousTCPServer.swift */,
-				EFE8BF291DD868EE000F0A79 /* SynchronousUDPServer.swift */,
-				EFE8BF2A1DD868EE000F0A79 /* TCPClient.swift */,
-				EFE8BF2B1DD868EE000F0A79 /* UDPClient.swift */,
-			);
-			path = Socks;
-			sourceTree = "<group>";
-		};
-		EFE8BF2C1DD868EE000F0A79 /* SocksCore */ = {
-			isa = PBXGroup;
-			children = (
-				EFE8BF2D1DD868EE000F0A79 /* Address+C.swift */,
-				EFE8BF2E1DD868EE000F0A79 /* Address.swift */,
-				EFE8BF2F1DD868EE000F0A79 /* Bytes.swift */,
-				EFE8BF301DD868EE000F0A79 /* Conversions.swift */,
-				EFE8BF311DD868EE000F0A79 /* Error.swift */,
-				EFE8BF321DD868EE000F0A79 /* FDSet.swift */,
-				EFE8BF331DD868EE000F0A79 /* InternetSocket.swift */,
-				EFE8BF341DD868EE000F0A79 /* Pipe.swift */,
-				EFE8BF351DD868EE000F0A79 /* Select.swift */,
-				EFE8BF361DD868EE000F0A79 /* Socket.swift */,
-				EFE8BF371DD868EE000F0A79 /* SocketOptions.swift */,
-				EFE8BF381DD868EE000F0A79 /* TCPSocket.swift */,
-				EFE8BF391DD868EE000F0A79 /* Types.swift */,
-				EFE8BF3A1DD868EF000F0A79 /* UDPSocket.swift */,
-			);
-			path = SocksCore;
 			sourceTree = "<group>";
 		};
 		EFE8BF561DD86B2B000F0A79 /* Orbits */ = {
@@ -527,16 +454,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFC2C69C1D88D02F0031AA9C /* GameViewController.swift in Sources */,
-				EF5CD6CF1DEB624400038079 /* Telneter.swift in Sources */,
-				EFE8BF3E1DD868EF000F0A79 /* TCPClient.swift in Sources */,
-				EFE8BF4B1DD868EF000F0A79 /* TCPSocket.swift in Sources */,
-				EFE8BF3F1DD868EF000F0A79 /* UDPClient.swift in Sources */,
-				EFE8BF401DD868EF000F0A79 /* Address+C.swift in Sources */,
-				EFE8BF461DD868EF000F0A79 /* InternetSocket.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
-				EFE8BF491DD868EF000F0A79 /* Socket.swift in Sources */,
-				EFE8BF421DD868EF000F0A79 /* Bytes.swift in Sources */,
-				EFE8BF451DD868EF000F0A79 /* FDSet.swift in Sources */,
 				EF2496B81DC6D88800B9EE9D /* SolScene.swift in Sources */,
 				EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */,
 				EFA7FEBF1D8A8D2D0043E8CC /* Constants.swift in Sources */,
@@ -545,17 +463,7 @@
 				EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */,
 				EFE8BF4F1DD86A75000F0A79 /* Parser.swift in Sources */,
 				EFE8BF8A1DD88B5C000F0A79 /* Ephemeris.swift in Sources */,
-				EFE8BF3D1DD868EF000F0A79 /* SynchronousUDPServer.swift in Sources */,
-				EFE8BF4A1DD868EF000F0A79 /* SocketOptions.swift in Sources */,
-				EFE8BF4D1DD868EF000F0A79 /* UDPSocket.swift in Sources */,
-				EFE8BF431DD868EF000F0A79 /* Conversions.swift in Sources */,
-				EFE8BF411DD868EF000F0A79 /* Address.swift in Sources */,
-				EFE8BF481DD868EF000F0A79 /* Select.swift in Sources */,
-				EFE8BF3C1DD868EF000F0A79 /* SynchronousTCPServer.swift in Sources */,
-				EFE8BF4C1DD868EF000F0A79 /* Types.swift in Sources */,
-				EFE8BF441DD868EF000F0A79 /* Error.swift in Sources */,
-				EFF9FCF71DE7CBAB00B83C09 /* Horizons.swift in Sources */,
-				EFE8BF471DD868EF000F0A79 /* Pipe.swift in Sources */,
+				FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */,
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -565,7 +473,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF5CD6D11DEB62DB00038079 /* PlanetDataExtractionTest.swift in Sources */,
-				EF6832A81D8E7FD30063E645 /* SolarSystemTest.swift in Sources */,
+				EF03D67A1E0A0B4C00C31AE3 /* HorizonsTest.swift in Sources */,
 				EFE8BF821DD882E6000F0A79 /* JulianDateTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -58,6 +58,12 @@ class SolScene: SCNScene {
         drawOrbit(orbit: orbit, color: color, identifier: identifier)
     }
     
+    func clear() {
+        spheres.childNodes.forEach { $0.removeFromParentNode() }
+        lineSegments.childNodes.forEach { $0.removeFromParentNode() }
+        orbits.removeAll()
+    }
+    
     private func drawOrbit(orbit: Orbit, color: UIColor, identifier: String) {
         var motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit)
         let numberOfVertices: Int = 200

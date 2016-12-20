@@ -1,5 +1,5 @@
 //
-//  Parser.swift
+//  EphemerisParser.swift
 //  Horizons
 //
 //  Created by Ben Lu on 10/4/16.
@@ -9,8 +9,39 @@
 import Foundation
 import Orbits
 
-public struct Parser {
+public struct ResponseValidator {
+    public enum Result {
+        case ok(String)
+        case busy
+    }
     
+    public static func parse(content: String) -> Result {
+        if content.contains("Blocked Concurrent Request") {
+            return .busy
+        } else {
+            return .ok(content)
+        }
+    }
+}
+
+public struct ResponseParser {
+    public static func parse(content: String) -> EphemerisResult? {
+        let ephemerisRegex = "\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE"
+        let regex = try! NSRegularExpression(pattern: ephemerisRegex)
+        let results = regex.matches(in: content, range: NSRange(location: 0, length: (content as NSString).length))
+        guard results.count > 0 else {
+            return nil
+        }
+        let range = results[0].rangeAt(1)
+        let matched = (content as NSString).substring(with: range)
+        return EphemerisParser.parse(csv: matched)
+    }
+}
+
+public typealias EphemerisResult = (motion: OrbitalMotion, julianDate: Double)
+
+public struct EphemerisParser {
+
     // The csv is ordered as follows:
     // JDTDB, Calendar Date (TDB), EC, QR, IN, OM, W, Tp, N, MA, TA, A, AD, PR
     //
@@ -55,7 +86,7 @@ public struct Parser {
     public static func parse(list: [String: String]) -> Ephemeris? {
         var jd: Double?
         let bodies = list.flatMap { (naifId, csv) -> CelestialBody? in
-            guard let parsed = Parser.parse(csv: csv) else {
+            guard let parsed = EphemerisParser.parse(csv: csv) else {
                 return nil
             }
             // hack
@@ -76,24 +107,14 @@ public struct Parser {
             return nil
         }
         
-//        let dateString = components[1].substring(from: components[1].index(components[1].startIndex, offsetBy: 5))
-        if /*let date = Parser.dateFormatter.date(from: dateString),*/
-            let JDN = Double(components[0]),
-            let ec = Float(components[2]),
-            let semimajorAxis = Float(components[11]),
-            let inclinationDeg = Float(components[4]),
-            let loanDeg = Float(components[5]),
-            let aopDeg = Float(components[6]),
-            let meanAnomalyDeg = Float(components[9]) {
+        if let JDN = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
             let inclination = radians(from: inclinationDeg)
-            let meanAnomaly = radians(from: meanAnomalyDeg)
             let loan = radians(from: loanDeg)
             let aop = radians(from: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit, meanAnomalyAtEpoch: meanAnomaly, timeElapsed: 0)
+            let motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit, timeOfPeriapsisPassage: tp, JDN: Float(JDN))
             return (motion: motion, julianDate: JDN)
         }
-        // because of perturbations, we use the curreent JDTDB as epoch
         
         return nil
     }
@@ -101,5 +122,19 @@ public struct Parser {
 
 fileprivate func radians(from degrees: Float) -> Float {
     return degrees / 180 * Float(M_PI)
+}
+
+fileprivate extension String {
+    func matches(for regex: String) -> [String] {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let nsString = self as NSString
+            let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
+            return results.map { nsString.substring(with: $0.range) }
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return []
+        }
+    }
 }
 

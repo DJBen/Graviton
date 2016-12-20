@@ -1,64 +1,236 @@
 //
 //  Horizons.swift
-//  Horizons
+//  Graviton
 //
-//  Created by Ben Lu on 9/28/16.
-//
+//  Created by Sihao Lu on 12/20/16.
+//  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
 import Foundation
 
-public class Horizons {
-    static let serviceAddress = InternetAddress(hostname: "horizons.jpl.nasa.gov", port: 6775)
+// Example request
+// http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2000-10-01'&STOP_TIME='2000-12-31'&STEP_SIZE='15%20d'%20%20%20%20&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
+
+class Horizons {
+    static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
+    static let trialCountLimit = 3
+    // back off time should be the following value * pow(CONSTANT, numberOfTrials)
+    // usually CONSTANT = 2
+    static let trialBackoffTimeInterval: TimeInterval = 0.5
+    static let timeIntervalBetweenJobs: TimeInterval = 0.1
     
-    public let queryObjects: [String]
+    var tasksTrialCount: [URL: Int] = [:]
+    var rawEphemeris: [String: String] = [:]
     
-    init(queryObjects: [String]) {
-        self.queryObjects = queryObjects
+    func fetchPlanets(complete: (([String: EphemerisResult?]) -> Void)? = nil) {
+        let group = DispatchGroup()
+        func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
+            defer {
+                group.leave()
+            }
+            
+            // exponential back off retry
+            func retry(url: URL) {
+                let trialCount = self.tasksTrialCount[url] ?? 0
+                guard trialCount < Horizons.trialCountLimit else {
+                    return
+                }
+                let timeInterval: TimeInterval = Horizons.trialBackoffTimeInterval * (pow(2.0, Double(trialCount)))
+                tasksTrialCount[url] = trialCount + 1
+                group.enter()
+                DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) {
+                    let retryUrl = url
+                    let retryTask = URLSession.shared.dataTask(with: retryUrl, completionHandler: taskComplete)
+                    retryTask.resume()
+                }
+            }
+            if let e = error as? NSError {
+                retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL)
+            } else if let d = data {
+                let httpResponse = response as! HTTPURLResponse
+                let url = httpResponse.url!
+                let utf8String = String(data: d, encoding: .utf8)!
+                self.rawEphemeris[url.naifId!] = utf8String
+                switch ResponseValidator.parse(content: utf8String) {
+                case .busy:
+                    print("busy: \(url), retrying")
+                    retry(url: url)
+                default:
+                    print("complete: \(url) - \(d)")
+                }
+            } else {
+                print("reponse has no data: \(response)")
+            }
+        }
+        let tasks = HorizonsQuery.planetQueryItems.map { (query) -> URLSessionTask in
+            return URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
+        }
+        tasks.enumerated().forEach { (index: Int, task: URLSessionTask) in
+            group.enter()
+            let timeInterval: TimeInterval = Horizons.timeIntervalBetweenJobs * Double(index)
+            DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) {
+                task.resume()
+            }
+        }
+        group.notify(queue: .main) {
+            print("complete: fetching planets")
+            self.tasksTrialCount.removeAll()
+            var parsed: [String: EphemerisResult] = [:]
+            Array(self.rawEphemeris).forEach { (naif, content) in
+                parsed[naif] = ResponseParser.parse(content: content)
+            }
+            complete?(parsed)
+        }
+    }
+}
+
+enum NaifBody {
+    enum MajorBody: String {
+        case sun = "10"
+        case mercury = "199"
+        case venus = "299"
+        case earth = "399"
+        case mars = "499"
+        case jupiter = "599"
+        case saturn = "699"
+        case uranus = "799"
+        case neptune = "899"
     }
     
-    public func query(itemCompletion: ((String, String) -> Void)?, completion: @escaping ([String: String]?) -> Void) {
-        DispatchQueue.global().async {
-            var targets = self.queryObjects
-            var rawEphemeris = [String: String]()
-            Horizons.serviceAddress.open()
-                .printOnReceive()
-                .stop(when: { _ in targets.isEmpty })
-                .replyOnce(to: "Horizons>", reply: { _ in "Sun" })
-                .returnOnce(on: "[E]phemeris")
-                .reply(to: "Horizons>", reply: { _ in targets.first! })
-                .reply(to: "[E]phemeris", reply: { _ in "E" })
-                .reply(to: "Observe, Elements, Vectors", reply: { _ in "e" })
-                .reply(to: "Coordinate system center", reply: { _ in "Sun" })
-                .reply(to: "Reference plane [eclip, frame, body ]", reply: { _ in "eclip" })
-                .reply(to: "Starting TDB", reply: { _ in "2016-Sep-29 {00:00}" })
-                .reply(to: "Ending   TDB", reply: { _ in "2016-Sep-29 {00:01}" })
-                .reply(to: "Output interval", reply: { _ in "1d" })
-                // configure once
-                .replyOnce(to: "Accept default output", reply: { _ in "n" })
-                // after first config, no need to do subsequent ones
-                .reply(to: "Accept default output", reply: { _ in "y" })
-                .replyOnce(to: "Output reference frame [J2000, B1950]", reply: { _ in "J2000" })
-                .replyOnce(to: "Output units [1=KM-S, 2=AU-D, 3=KM-D]", reply: { _ in "1" })
-                .replyOnce(to: "Spreadsheet CSV format", reply: { _ in "YES" })
-                .returnOnce(on: "Output delta-T (TDB-UT)   [ YES, NO ]")
-                .replyOnce(to: "Type of periapsis time", reply: { _ in "ABS" })
-                .reply(to: "Select... [A]gain, [N]ew-case,", reply: { _ in "N" })
-                .onMatch("\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE") { (fullText, matches) in
-                    let target = targets.removeFirst()
-                    if matches.count > 1 {
-                        fatalError()
-                    }
-                    let dataText = (fullText as NSString).substring(with: matches[0].rangeAt(1))
-                    rawEphemeris[target] = dataText
-                    itemCompletion?(target, dataText)
-                }.timedOut { (_, _) in
-                    print("timeout triggered")
-                    completion(nil)
-                }.succeeded { (_, _) in
-                    print(rawEphemeris)
-                    completion(rawEphemeris)
-                }.start()
+    case majorBody(MajorBody)
+    
+    static let planets: [NaifBody] = {
+        let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune]
+        return planets.map { .majorBody($0) }
+    }()
+    
+    var rawValue: String {
+        switch self {
+        case let .majorBody(mb):
+            return mb.rawValue
         }
+    }
+}
+
+// CENTER = 'SUN'
+// COMMAND = '399'
+// MAKE_EPHEM = 'YES'
+// TABLE_TYPE = 'elements'
+// START_TIME = '2000-10-01'
+// STOP_TIME = '2000-12-31'
+// STEP_SIZE = '15d'
+// CSV_FORMAT = 'YES'
+
+struct HorizonsQuery: Hashable {
+    enum TableType: String {
+        case elements
+        case observers
+        case vectors
+        case approach
+    }
+    
+    enum StepSize: Equatable {
+        case day(Int)
+        case hour(Int)
+        case minute(Int)
+        case step(Int)
+        
+        var rawValue: String {
+            switch self {
+            case let .day(d):
+                return "\(d) days"
+            case let .hour(h):
+                return "\(h) hours"
+            case let .minute(m):
+                return "\(m) min"
+            case let .step(s):
+                return "\(s)"
+            }
+        }
+        
+        public static func ==(lhs: StepSize, rhs: StepSize) -> Bool {
+            return lhs.rawValue == rhs.rawValue
+        }
+    }
+    
+    static let formatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MMM-dd HH:mm"
+        return formatter
+    }()
+    
+    var hashValue: Int {
+        return command.hashValue ^ startTime.hashValue ^ stopTime.hashValue ^ stepSize.rawValue.hashValue
+    }
+    
+    var center: String?
+    var command: String
+    var shouldMakeEphemeris: Bool = true
+    var tableType: TableType
+    var startTime: Date
+    var stopTime: Date
+    var useCsvFormat: Bool = true
+    var stepSize: StepSize = .step(1)
+    
+    var queryItems: [URLQueryItem] {
+        var mappings: [String: String] = [
+            "batch": "1",
+            "MAKE_EPHEM": shouldMakeEphemeris.yesNo,
+            "TABLE_TYPE": tableType.rawValue.capitalized,
+            "COMMAND": command,
+            "START_TIME": HorizonsQuery.formatter.string(from: startTime),
+            "STOP_TIME": HorizonsQuery.formatter.string(from: stopTime),
+            "CSV_FORMAT": useCsvFormat.yesNo,
+            "STEP_SIZE": stepSize.rawValue
+        ]
+        if let c = center {
+            mappings["CENTER"] = c
+        }
+        return mappings.map { (key, value) -> URLQueryItem in
+            return URLQueryItem(name: key, value: value.quoteWrapped)
+        }
+    }
+    
+    var url: URL {
+        let urlComponent = NSURLComponents(string: Horizons.batchUrl)!
+        urlComponent.queryItems = queryItems
+        return urlComponent.url!
+    }
+    
+    static let planetQueryItems: [HorizonsQuery] = {
+        return NaifBody.planets.map { (planet) -> HorizonsQuery in
+            return HorizonsQuery(center: NaifBody.MajorBody.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: Date(), stopTime: Date(timeIntervalSinceNow: 3600), useCsvFormat: true, stepSize: StepSize.step(1))
+        }
+    }()
+    
+    public static func ==(lhs: HorizonsQuery, rhs: HorizonsQuery) -> Bool {
+        return lhs.command == rhs.command && lhs.startTime == rhs.startTime && lhs.stopTime == rhs.stopTime && lhs.useCsvFormat == rhs.useCsvFormat && lhs.center == rhs.center && lhs.shouldMakeEphemeris == rhs.shouldMakeEphemeris && lhs.stepSize == rhs.stepSize && lhs.tableType == rhs.tableType
+    }
+}
+
+fileprivate extension URL {
+    var naifId: String? {
+        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
+            if let items = components.queryItems {
+                let filtered = items.filter { $0.name == "COMMAND" }
+                guard filtered.isEmpty == false else {
+                    return nil
+                }
+                return filtered[0].value
+            }
+        }
+        return nil
+    }
+}
+
+fileprivate extension Bool {
+    var yesNo: String {
+        return self ? "YES" : "NO"
+    }
+}
+
+fileprivate extension String {
+    var quoteWrapped: String {
+        return "'\(self)'"
     }
 }
