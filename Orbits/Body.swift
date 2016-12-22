@@ -24,11 +24,11 @@ open class Body {
     public let name: String
     public weak var centralBody: CelestialBody?
     public var motion: OrbitalMotion?
-    public var time: Float = 0 {
+    public var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
-            motion?.setTime(time)
+            motion?.julianDate = julianDate
             if let primary = self as? CelestialBody {
-                primary.satellites.forEach { $0.time = time }
+                primary.satellites.forEach { $0.julianDate = julianDate }
             }
         }
     }

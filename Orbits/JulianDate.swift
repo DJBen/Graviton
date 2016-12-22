@@ -1,6 +1,6 @@
 //
 //  JulianDate.swift
-//  Graviton
+//  Orbits
 //
 //  Created by Ben Lu on 11/13/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
@@ -9,16 +9,16 @@
 import Foundation
 
 public struct JulianDate {
-    public let J1950: Double = 2433282.4235
-    public let J2000: Double = 2451545.0
+    public static let J1950: Double = 2433282.4235
+    public static let J2000: Double = 2451545.0
     
     public let value: Double
     
-    init(value: Double) {
+    public init(value: Double) {
         self.value = value
     }
     
-    init(date: Date) {
+    public init(date: Date) {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
@@ -69,5 +69,10 @@ public struct JulianDate {
         )
         return dateComponents.date!
     }
-    
+}
+
+extension Date {
+    public var julianDate: Double {
+        return JulianDate(date: self).value
+    }
 }

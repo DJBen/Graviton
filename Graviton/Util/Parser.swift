@@ -25,7 +25,7 @@ public struct ResponseValidator {
 }
 
 public struct ResponseParser {
-    public static func parse(content: String) -> EphemerisResult? {
+    public static func parse(content: String) -> OrbitalMotion? {
         let ephemerisRegex = "\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE"
         let regex = try! NSRegularExpression(pattern: ephemerisRegex)
         let results = regex.matches(in: content, range: NSRange(location: 0, length: (content as NSString).length))
@@ -37,8 +37,6 @@ public struct ResponseParser {
         return EphemerisParser.parse(csv: matched)
     }
 }
-
-public typealias EphemerisResult = (motion: OrbitalMotion, julianDate: Double)
 
 public struct EphemerisParser {
 
@@ -84,36 +82,31 @@ public struct EphemerisParser {
     
     // FIXME: mass and radius are 0
     public static func parse(list: [String: String]) -> Ephemeris? {
-        var jd: Double?
         let bodies = list.flatMap { (naifId, csv) -> CelestialBody? in
-            guard let parsed = EphemerisParser.parse(csv: csv) else {
+            guard let motion = EphemerisParser.parse(csv: csv) else {
                 return nil
             }
             // hack
             let body = CelestialBody(name: naifId, mass: 0, radius: 0)
-            body.motion = parsed.motion
-            jd = parsed.julianDate
+            body.motion = motion
             return body
         }
-        if jd == nil {
-            return nil
-        }
-        return Ephemeris(julianDate: JulianDate(value: jd!), celestialBodies: bodies)
+        return Ephemeris(celestialBodies: bodies)
     }
     
-    public static func parse(csv: String) -> (motion: OrbitalMotion, julianDate: Double)? {
+    public static func parse(csv: String) -> OrbitalMotion? {
         let components = csv.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { $0.isEmpty == false }
-        guard components.count == 14 else {
+        guard components.count == 14 || components.count == 28 else {
             return nil
         }
         
-        if let JDN = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
+        if let jd = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
             let inclination = radians(from: inclinationDeg)
             let loan = radians(from: loanDeg)
             let aop = radians(from: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit, timeOfPeriapsisPassage: tp, JDN: Float(JDN))
-            return (motion: motion, julianDate: JDN)
+            let motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit, julianDayTime: Float(jd), referenceJulianDayTime: tp)
+            return motion
         }
         
         return nil

@@ -8,6 +8,7 @@
 
 import SceneKit
 
+// N*m^2s/kg^2
 let gravConstant: Float = 6.67408e-11
 
 let earthYear: Float = 365.256363004 * 3600 * 24

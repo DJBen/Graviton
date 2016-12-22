@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Orbits
 
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2000-10-01'&STOP_TIME='2000-12-31'&STEP_SIZE='15%20d'%20%20%20%20&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
@@ -22,7 +23,7 @@ class Horizons {
     var tasksTrialCount: [URL: Int] = [:]
     var rawEphemeris: [String: String] = [:]
     
-    func fetchPlanets(complete: (([String: EphemerisResult?]) -> Void)? = nil) {
+    func fetchPlanets(complete: ((Ephemeris?) -> Void)? = nil) {
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
             defer {
@@ -30,10 +31,10 @@ class Horizons {
             }
             
             // exponential back off retry
-            func retry(url: URL) {
+            func retry(url: URL) -> Bool {
                 let trialCount = self.tasksTrialCount[url] ?? 0
                 guard trialCount < Horizons.trialCountLimit else {
-                    return
+                    return false
                 }
                 let timeInterval: TimeInterval = Horizons.trialBackoffTimeInterval * (pow(2.0, Double(trialCount)))
                 tasksTrialCount[url] = trialCount + 1
@@ -43,9 +44,10 @@ class Horizons {
                     let retryTask = URLSession.shared.dataTask(with: retryUrl, completionHandler: taskComplete)
                     retryTask.resume()
                 }
+                return true
             }
             if let e = error as? NSError {
-                retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL)
+                _ = retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL)
             } else if let d = data {
                 let httpResponse = response as! HTTPURLResponse
                 let url = httpResponse.url!
@@ -54,7 +56,7 @@ class Horizons {
                 switch ResponseValidator.parse(content: utf8String) {
                 case .busy:
                     print("busy: \(url), retrying")
-                    retry(url: url)
+                    _ = retry(url: url)
                 default:
                     print("complete: \(url) - \(d)")
                 }
@@ -75,11 +77,14 @@ class Horizons {
         group.notify(queue: .main) {
             print("complete: fetching planets")
             self.tasksTrialCount.removeAll()
-            var parsed: [String: EphemerisResult] = [:]
-            Array(self.rawEphemeris).forEach { (naif, content) in
-                parsed[naif] = ResponseParser.parse(content: content)
+            let bodies = Array(self.rawEphemeris).map { (naif, content) -> CelestialBody in
+                let motion = ResponseParser.parse(content: content)
+                let body = CelestialBody(name: naif, mass: 0, radius: 0)
+                body.motion = motion
+                return body
             }
-            complete?(parsed)
+            let ephemeris = Ephemeris(celestialBodies: bodies)
+            complete?(ephemeris)
         }
     }
 }
@@ -216,7 +221,12 @@ fileprivate extension URL {
                 guard filtered.isEmpty == false else {
                     return nil
                 }
-                return filtered[0].value
+                guard let str = filtered[0].value else {
+                    return nil
+                }
+                let start = str.index(str.startIndex, offsetBy: 1)
+                let end = str.index(str.endIndex, offsetBy: -1)
+                return str.substring(with: start..<end)
             }
         }
         return nil

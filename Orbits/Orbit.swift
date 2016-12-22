@@ -121,25 +121,23 @@ public struct Orbit {
     
 }
 
-public struct OrbitalMotion {
-    public let centralBody: CelestialBody
+public class OrbitalMotion {
     
     public struct Info {
         public let altitude: Float
         public let speed: Float
         public let periapsisAltitude: Float
         public let apoapsisAltitude: Float?
-        public let timeFromPeriapsis: Float
     }
     
+    public let centralBody: CelestialBody
+
     public var info: Info {
         return Info(
             altitude: distance - centralBody.radius,
             speed: velocity.length(),
             periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
-            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil,
-            // FIXME: will crash for parabola and not right for hyperbola
-            timeFromPeriapsis: orbitalPeriod != nil ? fmod(time, orbitalPeriod!) : time
+            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil
         )
     }
     
@@ -153,24 +151,87 @@ public struct OrbitalMotion {
         }
     }
     
-    public private(set) var time: Float
+    /// Phase
+    ///
+    /// - meanAnomaly: Mean anomaly in radians
+    /// - timeSincePeriapsis: Time of periapsis passage in seconds
+    /// - julianDate: Current Julian day time. This option requires `referenceJulianDayTime` to be set
+    public enum Phase {
+        case meanAnomaly(Float)
+        case timeSincePeriapsis(Float)
+        case julianDate(Float)
+    }
     
-    public mutating func setTime(_ time: Float) {
-        self.time = time
-        meanAnomaly = calculateMeanAnomaly(fromTime: time, gravParam: centralBody.gravParam, shape: orbit.shape)! + meanAnomalyAtEpoch
-        propagateStateVectors()
+    public var phase: Phase {
+        didSet {
+            switch phase {
+            case .meanAnomaly(let ma):
+                meanAnomaly = ma
+            case .timeSincePeriapsis(let tp):
+                meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: centralBody.gravParam, shape: orbit.shape)!
+            case .julianDate(let jd):
+                meanAnomaly = calculateMeanAnomaly(Δt: (jd - safeReferenceJulianDayTime()) * 86400, gravParam: centralBody.gravParam, shape: orbit.shape)!
+            }
+            propagateStateVectors()
+        }
+    }
+    
+    public func setMeanAnomaly(_ ma: Float) {
+        guard case .meanAnomaly(_) = phase else {
+            fatalError("phase is not in mean anomaly mode")
+        }
+        phase = .meanAnomaly(ma)
+    }
+    
+    public var julianDate: Float? {
+        get {
+            guard case let .julianDate(jd) = phase else {
+                return nil
+            }
+            return jd
+        }
+        set {
+            guard case .julianDate(_) = phase else {
+                fatalError("phase is not in julian date mode")
+            }
+            guard let newJd = newValue else {
+                fatalError("Julian date cannot be nil")
+            }
+            self.phase = .julianDate(newJd)
+        }
+    }
+    
+    public var timeOfPeriapsisPassage: Float? {
+        get {
+            guard case let .timeSincePeriapsis(tp) = phase else {
+                return nil
+            }
+            return tp
+        }
+        set {
+            guard case .timeSincePeriapsis(_) = phase else {
+                fatalError("phase is not in Tp mode")
+            }
+            guard let newTp = newValue else {
+                fatalError("Tp cannot be nil")
+            }
+            self.phase = .timeSincePeriapsis(newTp)
+        }
+    }
+    
+    /// The julian day time when the body is at periapsis
+    public var referenceJulianDayTime: Float?
+    
+    private func safeReferenceJulianDayTime() -> Float {
+        if let r = referenceJulianDayTime {
+            return r
+        } else {
+            fatalError("referenceJulianDayTime must be set when using PhaseDescriptor.julianDayTime")
+        }
     }
     
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
-    public private(set) var meanAnomaly: Float
-    
-    public let meanAnomalyAtEpoch: Float
-    
-    public mutating func setMeanAnomaly(_ m: Float) {
-        meanAnomaly = wrapAngle(m)
-        time = meanAnomaly * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam)
-        propagateStateVectors()
-    }
+    public private(set) var meanAnomaly: Float!
     
     public private(set) var eccentricAnomaly: Float!
     public private(set) var trueAnomaly: Float!
@@ -188,27 +249,31 @@ public struct OrbitalMotion {
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
     
+    
     /// Initialize keplarian orbit from orbital elements
     ///
-    /// - parameter centralBody:        The primary that is orbiting
-    /// - parameter orbit:              Orbital elements
-    /// - parameter meanAnomalyAtEpoch: Mean anomaly at epoch
-    /// - parameter timeElapsed:        Time since epoch
-    ///
-    /// - returns: An orbit motion object
-    public init(centralBody: CelestialBody, orbit: Orbit, meanAnomalyAtEpoch: Float = 0, timeElapsed: Float) {
+    /// - Parameters:
+    ///   - centralBody: The primary that is orbiting
+    ///   - orbit: Orbital elements
+    ///   - phase: Phase descriptor
+    public init(centralBody: CelestialBody, orbit: Orbit, phase: Phase) {
         self.centralBody = centralBody
         self.orbit = orbit
-        self.time = timeElapsed
-        self.meanAnomalyAtEpoch = meanAnomalyAtEpoch
-        // FIXME: crash when parabola
-        meanAnomaly = calculateMeanAnomaly(fromTime: timeElapsed, gravParam: centralBody.gravParam, shape: orbit.shape)!
-        propagateStateVectors()
+        self.phase = phase
+    }
+
+    // Convenient constructors
+    public convenience init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float) {
+        self.init(centralBody: centralBody, orbit: orbit, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float = 0) {
-        // FIXME: crash when parabola
-        self.init(centralBody: centralBody, orbit: orbit, timeElapsed: wrapAngle(meanAnomaly) * sqrt(pow(orbit.shape.semimajorAxis!, 3) / centralBody.gravParam))
+    public convenience init(centralBody: CelestialBody, orbit: Orbit, timeOfPeriapsisPassage: Float = 0) {
+        self.init(centralBody: centralBody, orbit: orbit, phase: .timeSincePeriapsis(timeOfPeriapsisPassage))
+    }
+    
+    public convenience init(centralBody: CelestialBody, orbit: Orbit, julianDayTime: Float, referenceJulianDayTime: Float) {
+        self.init(centralBody: centralBody, orbit: orbit, phase: .julianDate(julianDayTime))
+        self.referenceJulianDayTime = referenceJulianDayTime
     }
     
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
@@ -263,8 +328,7 @@ public struct OrbitalMotion {
         let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
         // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
-        time = wrapAngle(meanAnomaly) * sqrt(pow(semimajorAxis, 3) / centralBody.gravParam)
-        meanAnomalyAtEpoch = 0
+        phase = .meanAnomaly(0)
     }
     
     
@@ -314,7 +378,7 @@ public struct OrbitalMotion {
         return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
     }
     
-    private mutating func propagateStateVectors() {
+    private func propagateStateVectors() {
         eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         let (p, v) = stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)

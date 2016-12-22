@@ -10,19 +10,21 @@ import UIKit
 import Orbits
 
 public struct Ephemeris {
-    public let julianDate: JulianDate
     // TODO: use hash map
     public let celestialBodies: [CelestialBody]
     
-    public init(julianDate: JulianDate, celestialBodies: [CelestialBody]) {
-        self.julianDate = julianDate
+    public init(celestialBodies: [CelestialBody]) {
         self.celestialBodies = celestialBodies
     }
     
-    public func orbit(of naifId: String) -> Orbit? {
+    public func motion(of naifId: String) -> OrbitalMotion? {
         return celestialBodies.filter { (body) -> Bool in
             return body.name == naifId
-        }.first?.motion?.orbit
+        }.first?.motion
+    }
+    
+    public func orbit(of naifId: String) -> Orbit? {
+        return motion(of: naifId)?.orbit
     }
 }
  

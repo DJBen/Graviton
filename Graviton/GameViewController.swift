@@ -16,21 +16,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
 
 //    var system = solarSystem
     
-    var ephemeris: Ephemeris!
+    lazy var ephemeris = EphemerisParser.parse(list: rawEphermeris)!
     
     var lastRenderTime: TimeInterval!
     var timeElapsed: TimeInterval = 0
-    
-    lazy var referenceDate: Date = {
-        var components = DateComponents()
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-        components.calendar = calendar
-        components.year = 2016
-        components.month = 9
-        components.day = 29
-        return calendar.date(from: components)!
-    }()
+    var refTime: Date!
     
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -41,14 +31,18 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     
     lazy var solScene: SolScene = {
         let scene = SolScene()
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "199")!, color: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), identifier: "mercury")
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "299")!, color: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1), identifier: "venus")
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "399")!, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), identifier: "earth")
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "499")!, color: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), identifier: "mars")
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "599")!, color: #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1), identifier: "jupiter")
-        scene.addOrbit(orbit: self.ephemeris.orbit(of: "2000001")!, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), identifier: "ceres")
+        self.fillSolScene(scene)
         return scene
     }()
+    
+    private func fillSolScene(_ scene: SolScene) {
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "199")!, color: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), identifier: "mercury")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "299")!, color: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1), identifier: "venus")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "399")!, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), identifier: "earth")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "499")!, color: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), identifier: "mars")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "599")!, color: #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1), identifier: "jupiter")
+//        scene.addOrbit(orbit: self.ephemeris.orbit(of: "2000001")!, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), identifier: "ceres")
+    }
     
     lazy var timeLabel: UILabel = {
         let label = UILabel()
@@ -67,7 +61,10 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        ephemeris = Parser.parse(list: rawEphermeris)!
+        Horizons().fetchPlanets { (ephemeris) in
+            self.ephemeris = ephemeris!
+            self.fillSolScene(self.solScene)
+        }
         
 //        // create a new scene
 //        let scene = SCNScene(named: "art.scnassets/earth.scn")!
@@ -110,8 +107,8 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         scnView.delegate = self
         scnView.scene = solScene
         scnView.isPlaying = true
-        timeElapsed = (JulianDate(date: Date()).value - 2457660.5) * 86400
         setupViewElements()
+        refTime = Date()
         
         // allows the user to manipulate the camera
         scnView.allowsCameraControl = true
@@ -213,8 +210,9 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
         lastRenderTime = time
         let warpedDeltaTime = dt * warpControl.speed.multiplier
         timeElapsed += warpedDeltaTime
-        self.solScene.timeElapsed = Float(timeElapsed)
-        let actualTime = self.referenceDate.addingTimeInterval(TimeInterval(timeElapsed))
+        let warpedJd = Date(timeInterval: timeElapsed, since: refTime).julianDate
+        self.solScene.julianDate = Float(warpedJd)
+        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
         DispatchQueue.main.async {
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)
         }

@@ -10,17 +10,19 @@ import UIKit
 import SceneKit
 import Orbits
 
+fileprivate let astronomicalUnitDist: Float = 1.4960e11
+
 class SolScene: SCNScene {
-    var timeElapsed: Float = 0 {
+    var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
             lineSegments.childNodes.forEach { $0.removeFromParentNode() }
-            orbits.forEach { (orbit, color, identifier) in
-                self.drawOrbit(orbit: orbit, color: color, identifier: identifier)
+            orbitalMotions.forEach { (motion, color, identifier) in
+                self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
             }
         }
     }
     
-    var orbits = [(Orbit, UIColor, String)]()
+    var orbitalMotions = [(OrbitalMotion, UIColor, String)]()
     var lineSegments = SCNNode()
     var spheres = SCNNode()
     
@@ -53,19 +55,18 @@ class SolScene: SCNScene {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addOrbit(orbit: Orbit, color: UIColor, identifier: String) {
-        orbits.append((orbit, color, identifier))
-        drawOrbit(orbit: orbit, color: color, identifier: identifier)
+    func addOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
+        orbitalMotions.append((motion, color, identifier))
+        drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
     }
     
     func clear() {
         spheres.childNodes.forEach { $0.removeFromParentNode() }
         lineSegments.childNodes.forEach { $0.removeFromParentNode() }
-        orbits.removeAll()
+        orbitalMotions.removeAll()
     }
     
-    private func drawOrbit(orbit: Orbit, color: UIColor, identifier: String) {
-        var motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit)
+    private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
         let numberOfVertices: Int = 200
         let sphere = SCNSphere(radius: 0.5)
         sphere.firstMaterial = {
@@ -73,7 +74,7 @@ class SolScene: SCNScene {
             mat.diffuse.contents = color
             return mat
         }()
-        motion.setTime(timeElapsed)
+        motion.julianDate = julianDate
         if let planetNode = spheres.childNode(withName: identifier, recursively: false) {
             planetNode.position = transform(position: motion.position)
         } else {

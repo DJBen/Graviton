@@ -16,10 +16,10 @@ protocol AstrodynamicsSupport {
 
 struct SolarSystem: Searchable {
     let star: Sun
-    var time: Float = 0 {
+    var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
-            star.time = time
-            star.satellites.forEach { $0.time = self.time }
+            star.julianDate = julianDate
+            star.satellites.forEach { $0.julianDate = self.julianDate }
         }
     }
     
