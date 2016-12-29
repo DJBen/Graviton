@@ -24,110 +24,156 @@ public struct ResponseValidator {
     }
 }
 
+// Range 1
+//        Revised: Sep 28, 2012                 Mars                             499 / 4
+//
+//        GEOPHYSICAL DATA (updated 2009-May-26):
+//        Mean radius (km)      = 3389.9(2+-4)    Density (g cm^-3)     =  3.933(5+-4)
+//        Mass (10^23 kg )      =    6.4185       Flattening, f         =  1/154.409
+//        Volume (x10^10 km^3)  =   16.318        Semi-major axis       =  3397+-4
+//        Sidereal rot. period  =   24.622962 hr  Rot. Rate (x10^5 s)   =  7.088218
+//        Mean solar day        =    1.0274907 d  Polar gravity ms^-2   =  3.758
+//        Mom. of Inertia       =    0.366        Equ. gravity  ms^-2   =  3.71
+//        Core radius (km)      =  ~1700          Potential Love # k2   =  0.153 +-.017
+//
+//        Grav spectral fact u  =   14 (x10^5)    Topo. spectral fact t = 96 (x10^5)
+//        Fig. offset (Rcf-Rcm) = 2.50+-0.07 km   Offset (lat./long.)   = 62d / 88d
+//        GM (km^3 s^-2)        = 42828.3         Equatorial Radius, Re = 3394.0 km
+//        GM 1-sigma (km^3 s^-2)= +- 0.1          Mass ratio (Sun/Mars) = 3098708+-9
+//
+//        Atmos. pressure (bar) =    0.0056       Max. angular diam.    =  17.9"
+//        Mean Temperature (K)  =  210            Visual mag. V(1,0)    =  -1.52
+//        Geometric albedo      =    0.150        Obliquity to orbit    =  25.19 deg
+//        Mean sidereal orb per =    1.88081578 y Orbit vel.  km/s      =  24.1309
+//        Mean sidereal orb per =  686.98 d       Escape vel. km/s      =   5.027
+//        Hill's sphere rad. Rp =  319.8          Mag. mom (gauss Rp^3) = < 1x10^-4
+// Range 2
+//        Target body name: Mars (499)                      {source: mar097}
+//        Center body name: Sun (10)                        {source: mar097}
+//        Center-site name: BODY CENTER
+// Range 3
+//        Start time      : A.D. 2016-Dec-21 11:22:00.0000 TDB
+//        Stop  time      : A.D. 2016-Dec-21 12:22:00.0000 TDB
+//        Step-size       : 1 steps
+// Range 4
+//        Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+//        Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+//        Center radii    : 696000.0 x 696000.0 x 696000.0 k{Equator, meridian, pole}
+//        System GM       : 1.3271248287031293E+11 km^3/s^2
+//        Output units    : KM-S, deg, Julian Day Number (Tp)
+//        Output type     : GEOMETRIC osculating elements
+//        Output format   : 10
+//        Reference frame : ICRF/J2000.0
+//        Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+
 public struct ResponseParser {
-    public static func parse(content: String) -> OrbitalMotion? {
-        let ephemerisRegex = "\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE"
-        let regex = try! NSRegularExpression(pattern: ephemerisRegex)
-        let results = regex.matches(in: content, range: NSRange(location: 0, length: (content as NSString).length))
-        guard results.count > 0 else {
+    // parse range 1
+    static func parseBodyInfo(_ content: String) -> [(String, String)] {
+//        let commentRegex = "^\\s*(.*):$"
+        let physicalDataRegex = "\\*+([^\\*]+)\\*+\\s*\\*+\\s*Ephemeris[^\\*]+\\*+([^\\*]+)\\*+([^\\*]+)\\*+([^\\*]+)\\*+"
+        let planetDataMatched = content.matches(for: physicalDataRegex)[0]
+        let info = planetDataMatched[1]
+        return info.components(separatedBy: "\n").flatMap { (line) -> [(String, String)]? in
+            guard let result = parseDoubleColumn(line) else {
+                return nil
+            }
+            if let col2 = result.1 {
+                return [result.0, col2]
+            } else {
+                return [result.0]
+            }
+        }.reduce([], +)
+        
+    }
+    
+    // parse range 1 - subroutine
+    private static func parseDoubleColumn(_ line: String) -> ((String, String), (String, String)?)? {
+        let lineRegex = "^\\s*(.{40})(.+)$"
+        let propertyRegex = "(.+)\\s*=\\s*(.{5,24})"
+        let matched = line.matches(for: lineRegex)
+        guard matched.count == 1 else {
+            let singleProp = line.matches(for: propertyRegex)
+            guard singleProp.isEmpty == false else {
+                return nil
+            }
+            return ((singleProp[0][1], singleProp[0][2]), nil)
+        }
+        let m = matched[0]
+        guard m.count == 3 else { return nil }
+        
+        func parseProperty(_ propLine: String) -> (String, String)? {
+            let props = propLine.matches(for: propertyRegex)
+            guard props.isEmpty == false else {
+                return nil
+            }
+            let p = props[0]
+            return (p[1].trimmed(), p[2].trimmed())
+        }
+        if let firstProperty = parseProperty(m[1]) {
+            return (firstProperty, parseProperty(m[2]))
+        } else {
             return nil
         }
-        let range = results[0].rangeAt(1)
-        let matched = (content as NSString).substring(with: range)
+    }
+    
+    // parse range 2, 3 and 4
+    static func parseLineBasedContent(_ content: String) -> [(String, String, String?)] {
+        let physicalDataRegex = "\\*+([^\\*]+)\\*+\\s*\\*+\\s*Ephemeris[^\\*]+\\*+([^\\*]+)\\*+([^\\*]+)\\*+([^\\*]+)\\*+"
+        let planetDataMatched = content.matches(for: physicalDataRegex)[0]
+        let info = (2...4).map { planetDataMatched[$0] }.joined(separator: "\n").components(separatedBy: "\n")
+        let regex = "^([^:]+):\\s([^\\{]+)(\\{[^\\}]+\\})?$"
+        return info.map { (i) -> [(String, String, String?)] in
+            return i.matches(for: regex).flatMap { (matches) -> (String, String, String?)? in
+                guard matches.count == 4 else {
+                    return nil
+                }
+                let m = matches.map { $0.trimmed() }
+                return (m[1], m[2], m[3].isEmpty ? nil : m[3])
+            }
+        }.reduce([], +)
+    }
+    
+    public static func parseEphemeris(content: String) -> OrbitalMotion? {
+        let ephemerisRegex = "\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE"
+        let matched = content.matches(for: ephemerisRegex)[0][1]
         return EphemerisParser.parse(csv: matched)
     }
 }
 
-public struct EphemerisParser {
-
-    // The csv is ordered as follows:
-    // JDTDB, Calendar Date (TDB), EC, QR, IN, OM, W, Tp, N, MA, TA, A, AD, PR
-    //
-    // Ecliptic and Mean Equinox of Reference Epoch
-    // Reference epoch: J2000.0
-    // XY-plane: plane of the Earth's orbit at the reference epoch
-    // Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
-    // X-axis  : out along ascending node of instantaneous plane of the Earth's
-    // orbit and the Earth's mean equator at the reference epoch
-    // Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
-    // of Earth's north pole at the reference epoch.
-    //
-    // Symbol meaning:
-    //
-    // JDTDB  Julian Day Number, Barycentric Dynamical Time
-    // EC     Eccentricity, e
-    // QR     Periapsis distance, q (km)
-    // IN     Inclination w.r.t XY-plane, i (degrees)
-    // OM     Longitude of Ascending Node, OMEGA, (degrees)
-    // W      Argument of Perifocus, w (degrees)
-    // Tp     Time of periapsis (Julian Day Number)
-    // N      Mean motion, n (degrees/sec)
-    // MA     Mean anomaly, M (degrees)
-    // TA     True anomaly, nu (degrees)
-    // A      Semi-major axis, a (km)
-    // AD     Apoapsis distance (km)
-    // PR     Sidereal orbit period (sec)
-    
-    /// parse orbital elements in csv format from JPL Horizons telnet server
-    /// - parameter csv: the string contains csv
-    
-    private static var dateFormatter: DateFormatter {
-        let formatter = DateFormatter()
-        // julian date guarantees AD
-        formatter.dateFormat = "yyyy-MMM-dd HH:mm:ss.SSSS"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)
-        formatter.locale = Locale(identifier: "en-US")
-        return formatter
-    }
-    
-    // FIXME: mass and radius are 0
-    public static func parse(list: [String: String]) -> Ephemeris? {
-        let bodies = list.flatMap { (naifId, csv) -> CelestialBody? in
-            guard let motion = EphemerisParser.parse(csv: csv) else {
-                return nil
-            }
-            // hack
-            let body = CelestialBody(name: naifId, mass: 0, radius: 0)
-            body.motion = motion
-            return body
-        }
-        return Ephemeris(celestialBodies: bodies)
-    }
-    
-    public static func parse(csv: String) -> OrbitalMotion? {
-        let components = csv.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { $0.isEmpty == false }
-        guard components.count == 14 || components.count == 28 else {
-            return nil
-        }
-        
-        if let jd = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
-            let inclination = radians(from: inclinationDeg)
-            let loan = radians(from: loanDeg)
-            let aop = radians(from: aopDeg)
-            let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotion(centralBody: CelestialBody.sun, orbit: orbit, julianDayTime: Float(jd), referenceJulianDayTime: tp)
-            return motion
-        }
-        
-        return nil
-    }
+func dict<T: Hashable>(_ tuple: [(T, T)]) -> [T: T] {
+    var map: [T: T] = [:]
+    tuple.forEach { map[$0.0] = $0.1 }
+    return map
 }
 
-fileprivate func radians(from degrees: Float) -> Float {
-    return degrees / 180 * Float(M_PI)
+func dropLast<T>(_ tuple: (T, T, T?)) -> (T, T) {
+    return (tuple.0, tuple.1)
 }
 
 fileprivate extension String {
-    func matches(for regex: String) -> [String] {
+    func matches(for regex: String) -> [[String]] {
         do {
             let regex = try NSRegularExpression(pattern: regex)
             let nsString = self as NSString
             let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
-            return results.map { nsString.substring(with: $0.range) }
+            guard results.count > 0 else {
+                return []
+            }
+            return results.map { (result) -> [String] in
+                return (0..<result.numberOfRanges).map { (index) -> String in
+                    guard result.rangeAt(index).length > 0 else {
+                        return String()
+                    }
+                    return (self as NSString).substring(with: result.rangeAt(index))
+                }
+            }
         } catch let error {
             print("invalid regex: \(error.localizedDescription)")
             return []
         }
     }
+    
+    func trimmed() -> String {
+        return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    }
 }
-

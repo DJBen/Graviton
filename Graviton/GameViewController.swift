@@ -61,7 +61,11 @@ class GameViewController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        Horizons().fetchPlanets { (ephemeris) in
+        Horizons().fetchPlanets { (ephemeris, errors) in
+            guard errors == nil else {
+                print(errors!)
+                return
+            }
             self.ephemeris = ephemeris!
             self.fillSolScene(self.solScene)
         }

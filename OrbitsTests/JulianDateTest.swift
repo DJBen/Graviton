@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Graviton
+@testable import Orbits
 
 class JulianDateTest: XCTestCase {
     
@@ -27,7 +27,7 @@ class JulianDateTest: XCTestCase {
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(secondsFromGMT: 0), year: 2000, month: 1, day: 1, hour: 12)
         let date = calendar.date(from: components)!
         let JD = JulianDate(date: date)
-        XCTAssertEqualWithAccuracy(JD.value, JD.J2000, accuracy: 1e-6)
+        XCTAssertEqualWithAccuracy(JD.value, JulianDate.J2000, accuracy: 1e-6)
     }
     
     func testJulianDateToDate() {

@@ -41,6 +41,9 @@
 		EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
+		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
+		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
+		FC905EE01E13BD3A005E5FAF /* JulianDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF7F1DD879D8000F0A79 /* JulianDate.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
 
@@ -126,6 +129,8 @@
 		EFE8BF851DD88425000F0A79 /* StateVectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVectorTest.swift; sourceTree = "<group>"; };
 		EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
 		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
+		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
+		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -135,6 +140,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
+				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -177,6 +183,7 @@
 			children = (
 				FCDADE4C1E0942DE009C2607 /* Horizons.swift */,
 				EFE8BF4E1DD86A75000F0A79 /* Parser.swift */,
+				FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */,
 				EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */,
 				EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */,
 			);
@@ -191,6 +198,7 @@
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				EFC2C6951D88D02F0031AA9C /* Products */,
+				FC2435351E14C78C002AC626 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -262,6 +270,14 @@
 			path = OrbitsTests;
 			sourceTree = "<group>";
 		};
+		FC2435351E14C78C002AC626 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FC2435391E14C81A002AC626 /* SQLite.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -284,6 +300,7 @@
 				EFC2C6911D88D02F0031AA9C /* Frameworks */,
 				EFC2C6921D88D02F0031AA9C /* Resources */,
 				EFE8BF6F1DD86B2B000F0A79 /* Embed Frameworks */,
+				FC2435381E14C7A9002AC626 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -445,6 +462,23 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		FC2435381E14C7A9002AC626 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		EFC2C6901D88D02F0031AA9C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -460,6 +494,7 @@
 				EFE8BF8A1DD88B5C000F0A79 /* Ephemeris.swift in Sources */,
 				FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */,
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
+				FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +529,7 @@
 				EFF8BE6D1DE0935800F75444 /* SCNVector3+Util.swift in Sources */,
 				EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */,
 				EF5A5EEB1E0C0CE50080BCF4 /* JulianDateTest.swift in Sources */,
+				FC905EE01E13BD3A005E5FAF /* JulianDate.swift in Sources */,
 				EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */,
 				EFF8BE6C1DE0935600F75444 /* Constants.swift in Sources */,
 				EFF8BE6E1DE0935A00F75444 /* Math.swift in Sources */,
@@ -648,6 +684,10 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Graviton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
@@ -665,6 +705,10 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Graviton/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;

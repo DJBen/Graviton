@@ -67,7 +67,7 @@ class SolScene: SCNScene {
     }
     
     private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
-        let numberOfVertices: Int = 200
+        let numberOfVertices: Int = 50
         let sphere = SCNSphere(radius: 0.5)
         sphere.firstMaterial = {
             let mat = SCNMaterial()

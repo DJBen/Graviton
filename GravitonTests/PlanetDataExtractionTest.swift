@@ -7,27 +7,34 @@
 //
 
 import XCTest
+@testable import Graviton
 
 class PlanetDataExtractionTest: XCTestCase {
     
-    func testPlanetDataExtraction() {
+    static var mockData: String!
+    
+    override class func setUp() {
+        super.setUp()
         let path = Bundle.init(for: PlanetDataExtractionTest.self).path(forResource: "planet_example", ofType: nil)!
-        let mockData = try! String(contentsOfFile: path, encoding: .utf8)
-        print(mockData)
+        mockData = try! String(contentsOfFile: path, encoding: .utf8)
     }
     
-}
-
-fileprivate extension String {
-    func matches(for regex: String) -> [String] {
-        do {
-            let regex = try NSRegularExpression(pattern: regex)
-            let nsString = self as NSString
-            let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
-            return results.map { nsString.substring(with: $0.range)}
-        } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
-            return []
+    func testBodyInfo() {
+        let expectedResult = [("Mean radius (km)", "3389.9(2+-4)"), ("Density (g cm^-3)", "3.933(5+-4)"), ("Mass (10^23 kg )", "6.4185"), ("Flattening, f", "1/154.409"), ("Volume (x10^10 km^3)", "16.318"), ("Semi-major axis", "3397+-4"), ("Sidereal rot. period", "24.622962 hr"), ("Rot. Rate (x10^5 s)", "7.088218"), ("Mean solar day", "1.0274907 d"), ("Polar gravity ms^-2", "3.758"), ("Mom. of Inertia", "0.366"), ("Equ. gravity  ms^-2", "3.71"), ("Core radius (km)", "~1700"), ("Potential Love # k2", "0.153 +-.017"), ("Grav spectral fact u", "14 (x10^5)"), ("Topo. spectral fact t", "96 (x10^5)"), ("Fig. offset (Rcf-Rcm)", "2.50+-0.07 km"), ("Offset (lat./long.)", "62d / 88d"), ("GM (km^3 s^-2)", "42828.3"), ("Equatorial Radius, Re", "3394.0 km"), ("GM 1-sigma (km^3 s^-2)", "+- 0.1"), ("Mass ratio (Sun/Mars)", "3098708+-9"), ("Atmos. pressure (bar)", "0.0056"), ("Max. angular diam.", "17.9\""), ("Mean Temperature (K)", "210"), ("Visual mag. V(1,0)", "-1.52"), ("Geometric albedo", "0.150"), ("Obliquity to orbit", "25.19 deg"), ("Mean sidereal orb per", "1.88081578 y"), ("Orbit vel.  km/s", "24.1309"), ("Mean sidereal orb per", "686.98 d"), ("Escape vel. km/s", "5.027"), ("Hill\'s sphere rad. Rp", "319.8"), ("Mag. mom (gauss Rp^3)", "< 1x10^-4")]
+        let result = ResponseParser.parseBodyInfo(PlanetDataExtractionTest.mockData)
+        zip(result, expectedResult).forEach { (r, e) in
+            XCTAssertEqual(r.0, e.0, "\(r.0) is not equal to \(e.0)")
+            XCTAssertEqual(r.1, e.1, "\(r.1) is not equal to \(e.1)")
         }
     }
+    
+    func testOtherInfo() {
+        let expectedResult = [("Target body name", "Mars (499)", Optional("{source: mar097}")), ("Center body name", "Sun (10)", Optional("{source: mar097}")), ("Center-site name", "BODY CENTER", nil), ("Start time", "A.D. 2016-Dec-21 11:22:00.0000 TDB", nil), ("Stop  time", "A.D. 2016-Dec-21 12:22:00.0000 TDB", nil), ("Step-size", "1 steps", nil), ("Center geodetic", "0.00000000,0.00000000,0.0000000", Optional("{E-lon(deg),Lat(deg),Alt(km)}")), ("Center cylindric", "0.00000000,0.00000000,0.0000000", Optional("{E-lon(deg),Dxy(km),Dz(km)}")), ("Center radii", "696000.0 x 696000.0 x 696000.0 k", Optional("{Equator, meridian, pole}")), ("System GM", "1.3271248287031293E+11 km^3/s^2", nil), ("Output units", "KM-S, deg, Julian Day Number (Tp)", nil), ("Output type", "GEOMETRIC osculating elements", nil), ("Output format", "10", nil), ("Reference frame", "ICRF/J2000.0", nil), ("Coordinate systm", "Ecliptic and Mean Equinox of Reference Epoch", nil)]
+        let result = ResponseParser.parseLineBasedContent(PlanetDataExtractionTest.mockData)
+        zip(result, expectedResult).forEach { (r, e) in
+            XCTAssertEqual(r.0, e.0, "\(r.0) is not equal to \(e.0)")
+            XCTAssertEqual(r.1, e.1, "\(r.1) is not equal to \(e.1)")
+        }
+    }
+    
 }

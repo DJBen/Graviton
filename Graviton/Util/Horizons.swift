@@ -18,12 +18,13 @@ class Horizons {
     // back off time should be the following value * pow(CONSTANT, numberOfTrials)
     // usually CONSTANT = 2
     static let trialBackoffTimeInterval: TimeInterval = 0.5
-    static let timeIntervalBetweenJobs: TimeInterval = 0.1
+    static let timeIntervalBetweenJobs: TimeInterval = 0.2
     
-    var tasksTrialCount: [URL: Int] = [:]
-    var rawEphemeris: [String: String] = [:]
+    private var tasksTrialCount: [URL: Int] = [:]
+    private var rawEphemeris: [String: String] = [:]
+    private var errors: [Error] = []
     
-    func fetchPlanets(complete: ((Ephemeris?) -> Void)? = nil) {
+    func fetchPlanets(complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
             defer {
@@ -47,7 +48,9 @@ class Horizons {
                 return true
             }
             if let e = error as? NSError {
-                _ = retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL)
+                if !retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL) {
+                    self.errors.append(e)
+                }
             } else if let d = data {
                 let httpResponse = response as! HTTPURLResponse
                 let url = httpResponse.url!
@@ -75,16 +78,25 @@ class Horizons {
             }
         }
         group.notify(queue: .main) {
+            defer {
+                self.tasksTrialCount.removeAll()
+                self.errors.removeAll()
+                self.rawEphemeris.removeAll()
+            }
+            guard self.errors.isEmpty else {
+                print("complete with failure: fetching planets")
+                complete?(nil, self.errors)
+                return
+            }
             print("complete: fetching planets")
-            self.tasksTrialCount.removeAll()
             let bodies = Array(self.rawEphemeris).map { (naif, content) -> CelestialBody in
-                let motion = ResponseParser.parse(content: content)
+                let motion = ResponseParser.parseEphemeris(content: content)
                 let body = CelestialBody(name: naif, mass: 0, radius: 0)
                 body.motion = motion
                 return body
             }
             let ephemeris = Ephemeris(celestialBodies: bodies)
-            complete?(ephemeris)
+            complete?(ephemeris, nil)
         }
     }
 }
