@@ -9,7 +9,7 @@
 import Foundation
 
 public struct JulianDate {
-    public static let J1950: Double = 2433282.4235
+    public static let B1950: Double = 2433282.4235
     public static let J2000: Double = 2451545.0
     
     public let value: Double
@@ -71,7 +71,7 @@ public struct JulianDate {
     }
 }
 
-extension Date {
+public extension Date {
     public var julianDate: Double {
         return JulianDate(date: self).value
     }

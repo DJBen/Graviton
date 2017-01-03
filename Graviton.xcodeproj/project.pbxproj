@@ -42,6 +42,18 @@
 		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
+		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
+		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
+		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
+		FC2435421E19B625002AC626 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435411E19B625002AC626 /* DBHelper.swift */; };
+		FC2435441E1BA9AE002AC626 /* SphericalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435431E1BA9AE002AC626 /* SphericalCoordinate.swift */; };
+		FC2435461E1BABB1002AC626 /* CylindricalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435451E1BABB1002AC626 /* CylindricalCoordinate.swift */; };
+		FC2435481E1BBA9B002AC626 /* SiderealTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435471E1BBA9B002AC626 /* SiderealTime.swift */; };
+		FC24354A1E1BBCC3002AC626 /* SiderealTimeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435491E1BBCC3002AC626 /* SiderealTimeTest.swift */; };
+		FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
+		FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
+		FC24354D1E1BBDFF002AC626 /* SiderealTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435471E1BBA9B002AC626 /* SiderealTime.swift */; };
+		FC24354E1E1BBE21002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
 		FC905EE01E13BD3A005E5FAF /* JulianDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF7F1DD879D8000F0A79 /* JulianDate.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
@@ -130,6 +142,13 @@
 		EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
 		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
+		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotion.swift; sourceTree = "<group>"; };
+		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
+		FC2435411E19B625002AC626 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		FC2435431E1BA9AE002AC626 /* SphericalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalCoordinate.swift; sourceTree = "<group>"; };
+		FC2435451E1BABB1002AC626 /* CylindricalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CylindricalCoordinate.swift; sourceTree = "<group>"; };
+		FC2435471E1BBA9B002AC626 /* SiderealTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiderealTime.swift; sourceTree = "<group>"; };
+		FC2435491E1BBCC3002AC626 /* SiderealTimeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiderealTimeTest.swift; sourceTree = "<group>"; };
 		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -155,6 +174,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -163,6 +183,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
+				FC24354E1E1BBE21002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -250,9 +271,15 @@
 				EFE8BF741DD86B38000F0A79 /* Constants.swift */,
 				EFE8BF751DD86B38000F0A79 /* SCNVector3+Util.swift */,
 				EFE8BF761DD86B38000F0A79 /* Math.swift */,
+				FC2435431E1BA9AE002AC626 /* SphericalCoordinate.swift */,
+				FC2435451E1BABB1002AC626 /* CylindricalCoordinate.swift */,
 				EFC6C94F1DE07AB500877A29 /* Kepler.swift */,
 				EFE8BF771DD86B38000F0A79 /* Orbit.swift */,
+				FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */,
+				FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */,
+				FC2435411E19B625002AC626 /* DBHelper.swift */,
 				EFE8BF7F1DD879D8000F0A79 /* JulianDate.swift */,
+				FC2435471E1BBA9B002AC626 /* SiderealTime.swift */,
 				EFE8BF581DD86B2B000F0A79 /* Info.plist */,
 			);
 			path = Orbits;
@@ -263,6 +290,7 @@
 			children = (
 				EFE8BF661DD86B2B000F0A79 /* Info.plist */,
 				EFE8BF811DD882E6000F0A79 /* JulianDateTest.swift */,
+				FC2435491E1BBCC3002AC626 /* SiderealTimeTest.swift */,
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				EFE8BF841DD88425000F0A79 /* OrbitalElementsTest.swift */,
 				EFE8BF851DD88425000F0A79 /* StateVectorTest.swift */,
@@ -511,12 +539,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC2435461E1BABB1002AC626 /* CylindricalCoordinate.swift in Sources */,
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
+				FC2435441E1BA9AE002AC626 /* SphericalCoordinate.swift in Sources */,
 				EFE8BF781DD86B38000F0A79 /* Body.swift in Sources */,
+				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				EFE8BF791DD86B38000F0A79 /* Constants.swift in Sources */,
 				EFE8BF7A1DD86B38000F0A79 /* SCNVector3+Util.swift in Sources */,
 				EFE8BF7B1DD86B38000F0A79 /* Math.swift in Sources */,
+				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
+				FC2435421E19B625002AC626 /* DBHelper.swift in Sources */,
 				EF5A5EEA1E0C03040080BCF4 /* JulianDate.swift in Sources */,
+				FC2435481E1BBA9B002AC626 /* SiderealTime.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -526,10 +560,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFF8BE6B1DE0935400F75444 /* Body.swift in Sources */,
+				FC24354D1E1BBDFF002AC626 /* SiderealTime.swift in Sources */,
+				FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */,
 				EFF8BE6D1DE0935800F75444 /* SCNVector3+Util.swift in Sources */,
 				EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */,
+				FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */,
 				EF5A5EEB1E0C0CE50080BCF4 /* JulianDateTest.swift in Sources */,
 				FC905EE01E13BD3A005E5FAF /* JulianDate.swift in Sources */,
+				FC24354A1E1BBCC3002AC626 /* SiderealTimeTest.swift in Sources */,
 				EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */,
 				EFF8BE6C1DE0935600F75444 /* Constants.swift in Sources */,
 				EFF8BE6E1DE0935A00F75444 /* Math.swift in Sources */,
@@ -762,6 +800,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Orbits/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -787,6 +829,10 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = Orbits/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
@@ -806,6 +852,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = OrbitsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -823,6 +873,10 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
 				INFOPLIST_FILE = OrbitsTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";

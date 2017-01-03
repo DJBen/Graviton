@@ -22,7 +22,6 @@ func calculatePeriod(semimajorAxis a: Float, gravParam: Float) -> Float {
     return Float(M_PI) * 2 * sqrt(pow(a, 3) / gravParam)
 }
 
-
 /// Calculate mean anomaly from time
 ///
 /// - Parameters:
@@ -30,6 +29,7 @@ func calculatePeriod(semimajorAxis a: Float, gravParam: Float) -> Float {
 ///   - gravParam: gravity parameter
 ///   - shape: shape of orbit
 /// - Returns: mean anomaly of current orbit motion
+
 func calculateMeanAnomaly(Δt time: Float, gravParam: Float, shape: Orbit.ConicSection) -> Float? {
     switch shape {
     case .circle(let a), .ellipse(let a, _), .hyperbola(let a, _):

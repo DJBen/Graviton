@@ -47,6 +47,7 @@ class Horizons {
                 }
                 return true
             }
+            
             if let e = error as? NSError {
                 if !retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL) {
                     self.errors.append(e)
@@ -55,12 +56,16 @@ class Horizons {
                 let httpResponse = response as! HTTPURLResponse
                 let url = httpResponse.url!
                 let utf8String = String(data: d, encoding: .utf8)!
-                self.rawEphemeris[url.naifId!] = utf8String
                 switch ResponseValidator.parse(content: utf8String) {
                 case .busy:
                     print("busy: \(url), retrying")
-                    _ = retry(url: url)
+                    let retried = retry(url: url)
+                    if retried == false {
+                        // retries run out
+                        print("stop retrying: \(url)")
+                    }
                 default:
+                    self.rawEphemeris[url.naifId!] = utf8String
                     print("complete: \(url) - \(d)")
                 }
             } else {
