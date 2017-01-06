@@ -70,9 +70,3 @@ public struct JulianDate {
         return dateComponents.date!
     }
 }
-
-public extension Date {
-    public var julianDate: Double {
-        return JulianDate(date: self).value
-    }
-}

@@ -7,6 +7,7 @@
 //
 
 import SceneKit
+import SpaceTime
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
@@ -116,7 +117,28 @@ public struct Orbit {
         guard let a = shape.semimajorAxis else {
             return nil
         }
-        return calculatePeriod(semimajorAxis: a, gravParam: centralBody.gravParam)
+        return Float(M_PI) * 2 * sqrt(pow(a, 3) / centralBody.gravParam)
     }
-    
 }
+
+/// Calculate mean anomaly from time
+///
+/// - Parameters:
+///   - time: time since JD2000 in seconds
+///   - gravParam: gravity parameter
+///   - shape: shape of orbit
+/// - Returns: mean anomaly of current orbit motion
+
+func calculateMeanAnomaly(Δt time: Float, gravParam: Float, shape: Orbit.ConicSection) -> Float? {
+    switch shape {
+    case .circle(let a), .ellipse(let a, _), .hyperbola(let a, _):
+        return wrapAngle(time * sqrt(gravParam / pow(a, 3)))
+    case .parabola(_):
+        return nil
+    }
+}
+
+func calculateTrueAnomaly(eccentricity: Float, eccentricAnomaly: Float) -> Float {
+    return 2 * atan2(sqrt(1 + eccentricity) * sin(eccentricAnomaly / 2), sqrt(1 - eccentricity) * cos(eccentricAnomaly / 2))
+}
+

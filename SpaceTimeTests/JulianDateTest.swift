@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Orbits
+@testable import SpaceTime
 
 class JulianDateTest: XCTestCase {
     

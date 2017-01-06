@@ -7,6 +7,7 @@
 //
 
 import Orbits
+import SpaceTime
 
 public struct EphemerisParser {
     
@@ -72,9 +73,9 @@ public struct EphemerisParser {
         }
         
         if let jd = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
-            let inclination = radians(from: inclinationDeg)
-            let loan = radians(from: loanDeg)
-            let aop = radians(from: aopDeg)
+            let inclination = radians(degrees: inclinationDeg)
+            let loan = radians(degrees: loanDeg)
+            let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
             let motion = OrbitalMotionMoment(centralBody: CelestialBody.sun, orbit: orbit, julianDate: Float(jd), timeOfPeriapsisPassage: tp)
             return motion
@@ -82,10 +83,6 @@ public struct EphemerisParser {
         
         return nil
     }
-}
-
-fileprivate func radians(from degrees: Float) -> Float {
-    return degrees / 180 * Float(M_PI)
 }
 
 fileprivate extension String {

@@ -8,6 +8,7 @@
 
 import Foundation
 import SceneKit
+import Time
 
 public protocol Searchable {
     subscript(name: String) -> Body? { get }
