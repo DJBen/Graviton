@@ -44,10 +44,13 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         switch sender.state {
         case .began:
             previousScale = cameraController?.scale
+            sender.scale = CGFloat((cameraController?.scale ?? 1) / (previousScale ?? 1))
         case .changed:
             cameraController?.scale = previousScale! * Double(sender.scale)
+            sender.scale = CGFloat((cameraController?.scale ?? 1) / (previousScale ?? 1))
         case .ended:
             cameraController?.scale = previousScale! * Double(sender.scale)
+            sender.scale = CGFloat((cameraController?.scale ?? 1) / (previousScale ?? 1))
             previousScale = nil
         default:
             break

@@ -38,11 +38,14 @@ class SolarSystemViewController: SceneControlViewController {
     
     private func fillSolScene(_ scene: SolScene) {
         scene.clear()
-        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "199")!, color: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), identifier: "mercury")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "199")!, color: #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1), identifier: "mercury")
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "299")!, color: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1), identifier: "venus")
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "399")!, color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), identifier: "earth")
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "499")!, color: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1), identifier: "mars")
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "599")!, color: #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1), identifier: "jupiter")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "699")!, color: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1), identifier: "saturn")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "799")!, color: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1), identifier: "uranus")
+        scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "899")!, color: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1), identifier: "neptune")
 //        scene.addOrbit(orbit: self.ephemeris.orbit(of: "2000001")!, color: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1), identifier: "ceres")
     }
     

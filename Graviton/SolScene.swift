@@ -23,7 +23,7 @@ class SolScene: SCNScene, CameraControlling {
     
     private static let baseOrthographicScale: Double = 15
     private static let maxScale: Double = 5
-    private static let minScale: Double = 0.1
+    private static let minScale: Double = 0.02
     
     private var orbitalMotions = [(OrbitalMotion, UIColor, String)]()
     private var lineSegments = SCNNode()
@@ -31,7 +31,6 @@ class SolScene: SCNScene, CameraControlling {
     
     var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
-            lineSegments.childNodes.forEach { $0.removeFromParentNode() }
             orbitalMotions.forEach { (motion, color, identifier) in
                 self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
             }
@@ -40,7 +39,24 @@ class SolScene: SCNScene, CameraControlling {
     
     var scale: Double = 1 {
         didSet {
-            self.camera.orthographicScale = SolScene.baseOrthographicScale / min(max(scale, SolScene.minScale), SolScene.maxScale)
+            let cappedScale = min(max(scale, SolScene.minScale), SolScene.maxScale)
+            self.scale = cappedScale
+            self.camera.orthographicScale = SolScene.baseOrthographicScale / cappedScale
+            // keep the spheres the same size
+            (spheres.childNodes + [sunNode]).forEach { (sphere) in
+                // radius default is 1
+                let s = 1.0 / cappedScale
+                sphere.scale = SCNVector3(s, s, s)
+            }
+            
+            spheres.childNodes.forEach { (sphere) in
+                let apparentDist = (sphere.position * Float(cappedScale)).distance(sunNode.position * Float(cappedScale))
+                let f = CGFloat(max(min(3, apparentDist), 1.5) - 1.5) / (3 - 1.5)
+                sphere.opacity = f
+                if let orbit = lineSegments.childNode(withName: sphere.name!, recursively: false) {
+                    orbit.opacity = f
+                }
+            }
         }
     }
     
@@ -150,6 +166,7 @@ class SolScene: SCNScene, CameraControlling {
             let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
             let line = SCNGeometry(sources: [vertexSources], elements: [elements])
             let lineNode = SCNNode(geometry: line)
+            lineNode.name = identifier
             let justColor = SCNMaterial()
             justColor.diffuse.contents = color
             line.firstMaterial = justColor
