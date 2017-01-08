@@ -25,6 +25,11 @@ public struct SphericalCoordinate {
         self.declination = declination
         self.distance = distance
     }
+    
+    func rotated(northPoleRA ra: Float, northPoleDE de: Float) -> SphericalCoordinate {
+        // TODO: used for martian celestial pole
+        return self
+    }
 }
 
 public extension SCNVector3 {

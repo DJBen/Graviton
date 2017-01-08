@@ -9,11 +9,26 @@
 import UIKit
 import SceneKit
 import Orbits
-import Time
+import SpaceTime
 
 fileprivate let astronomicalUnitDist: Float = 1.4960e11
 
-class SolScene: SCNScene {
+protocol CameraControlling {
+    var cameraNode: SCNNode { get }
+    var scale: Double { get set }
+    func resetCamera()
+}
+
+class SolScene: SCNScene, CameraControlling {
+    
+    private static let baseOrthographicScale: Double = 15
+    private static let maxScale: Double = 5
+    private static let minScale: Double = 0.1
+    
+    private var orbitalMotions = [(OrbitalMotion, UIColor, String)]()
+    private var lineSegments = SCNNode()
+    private var spheres = SCNNode()
+    
     var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
             lineSegments.childNodes.forEach { $0.removeFromParentNode() }
@@ -23,13 +38,21 @@ class SolScene: SCNScene {
         }
     }
     
-    var orbitalMotions = [(OrbitalMotion, UIColor, String)]()
-    var lineSegments = SCNNode()
-    var spheres = SCNNode()
+    var scale: Double = 1 {
+        didSet {
+            self.camera.orthographicScale = SolScene.baseOrthographicScale / min(max(scale, SolScene.minScale), SolScene.maxScale)
+        }
+    }
     
-    override init() {
-        super.init()
-        let cameraNode = SCNNode()
+    private lazy var camera: SCNCamera = {
+        let c = SCNCamera()
+        c.usesOrthographicProjection = true
+        c.automaticallyAdjustsZRange = true
+        c.orthographicScale = SolScene.baseOrthographicScale * self.scale
+        return c
+    }()
+    
+    private lazy var sunNode: SCNNode = {
         let sun = SCNNode(geometry: SCNSphere(radius: 0.9))
         sun.geometry!.firstMaterial = {
             let mat = SCNMaterial()
@@ -38,15 +61,24 @@ class SolScene: SCNScene {
         }()
         sun.light = SCNLight()
         sun.light!.type = .omni
-        rootNode.addChildNode(sun)
-        cameraNode.camera = SCNCamera()
-        cameraNode.camera?.zFar = 200
+        return sun
+    }()
+    
+    lazy private(set) var cameraNode: SCNNode = {
+        let node = SCNNode()
+        node.camera = self.camera
+        self.applyCameraNodeDefaultSettings(cameraNode: node)
+        return node
+    }()
+    
+    override init() {
+        super.init()
+        rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
-        cameraNode.position = SCNVector3(x: 0, y: 0, z: 50)
         let ambient = SCNNode()
         ambient.light = SCNLight()
         ambient.light!.type = .ambient
-        ambient.light?.intensity = 200
+        ambient.light?.intensity = 500
         rootNode.addChildNode(ambient)
         rootNode.addChildNode(lineSegments)
         rootNode.addChildNode(spheres)
@@ -59,6 +91,18 @@ class SolScene: SCNScene {
     func addOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
         orbitalMotions.append((motion, color, identifier))
         drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
+    }
+    
+    private func applyCameraNodeDefaultSettings(cameraNode: SCNNode) {
+        cameraNode.position = SCNVector3()
+        cameraNode.pivot = SCNMatrix4MakeTranslation(0, 0, -100000)
+        cameraNode.rotation = SCNVector4()
+        scale = 1
+    }
+    
+    func resetCamera() {
+        camera.orthographicScale = 20
+        applyCameraNodeDefaultSettings(cameraNode: cameraNode)
     }
     
     func clear() {

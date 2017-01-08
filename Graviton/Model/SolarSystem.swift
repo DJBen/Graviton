@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 import Orbits
-import Time
+import SpaceTime
 
 protocol AstrodynamicsSupport {
     var body: Body { get }

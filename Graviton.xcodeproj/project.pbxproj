@@ -15,7 +15,7 @@
 		EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
-		EFC2C69C1D88D02F0031AA9C /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* GameViewController.swift */; };
+		EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
@@ -37,6 +37,8 @@
 		EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
+		FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC1B76561E223F3C00F45343 /* stars.scnassets */; };
+		FC1B76591E224ABF00F45343 /* SceneControlViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -64,6 +66,7 @@
 		FC2435B91E1F8A4F002AC626 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF761DD86B38000F0A79 /* Math.swift */; };
 		FC2435BA1E1F8A4F002AC626 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF761DD86B38000F0A79 /* Math.swift */; };
 		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
+		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
 		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
@@ -152,7 +155,7 @@
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC2C6991D88D02F0031AA9C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
-		EFC2C69B1D88D02F0031AA9C /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemViewController.swift; sourceTree = "<group>"; };
 		EFC2C69E1D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -177,6 +180,8 @@
 		EFE8BF851DD88425000F0A79 /* StateVectorTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StateVectorTest.swift; sourceTree = "<group>"; };
 		EFE8BF891DD88B5C000F0A79 /* Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
 		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
+		FC1B76561E223F3C00F45343 /* stars.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = stars.scnassets; sourceTree = "<group>"; };
+		FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneControlViewController.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotion.swift; sourceTree = "<group>"; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
@@ -194,6 +199,7 @@
 		FC2435B11E1F88B4002AC626 /* CylindricalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CylindricalCoordinate.swift; sourceTree = "<group>"; };
 		FC2435B21E1F88B4002AC626 /* SphericalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalCoordinate.swift; sourceTree = "<group>"; };
 		FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTest.swift; sourceTree = "<group>"; };
+		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -303,13 +309,16 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
-				EFC2C69B1D88D02F0031AA9C /* GameViewController.swift */,
-				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
+				FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */,
+				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
 				EF2496B71DC6D88800B9EE9D /* SolScene.swift */,
+				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
+				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
 				EF4851881D91E6C800737CE4 /* Model */,
 				EFA7FEBB1D8A802F0043E8CC /* Util */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
 				EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */,
+				FC1B76561E223F3C00F45343 /* stars.scnassets */,
 				EFC2C6991D88D02F0031AA9C /* art.scnassets */,
 				EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */,
 				EFC2C6A51D88D02F0031AA9C /* Info.plist */,
@@ -604,6 +613,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */,
 				EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
@@ -671,17 +681,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFC2C69C1D88D02F0031AA9C /* GameViewController.swift in Sources */,
+				EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
 				EF2496B81DC6D88800B9EE9D /* SolScene.swift in Sources */,
 				EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */,
 				EFE8BF4F1DD86A75000F0A79 /* Parser.swift in Sources */,
+				FC1B76591E224ABF00F45343 /* SceneControlViewController.swift in Sources */,
 				EFE8BF8A1DD88B5C000F0A79 /* Ephemeris.swift in Sources */,
 				FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */,
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 				FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */,
+				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1219,6 +1231,7 @@
 				FC24359A1E1F87F0002AC626 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		FC24359B1E1F87F0002AC626 /* Build configuration list for PBXNativeTarget "SpaceTimeTests" */ = {
 			isa = XCConfigurationList;
@@ -1227,6 +1240,7 @@
 				FC24359D1E1F87F0002AC626 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
