@@ -68,6 +68,7 @@
 		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
 		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
 		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
+		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
 
@@ -201,6 +202,7 @@
 		FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTest.swift; sourceTree = "<group>"; };
 		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
+		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -312,6 +314,7 @@
 				FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */,
 				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
 				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
+				FCA930611E2358A700100706 /* PlanetScene.swift */,
 				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
 				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
 				EF4851881D91E6C800737CE4 /* Model */,
@@ -688,6 +691,7 @@
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */,
 				EFE8BF4F1DD86A75000F0A79 /* Parser.swift in Sources */,
+				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				FC1B76591E224ABF00F45343 /* SceneControlViewController.swift in Sources */,
 				EFE8BF8A1DD88B5C000F0A79 /* Ephemeris.swift in Sources */,
 				FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */,

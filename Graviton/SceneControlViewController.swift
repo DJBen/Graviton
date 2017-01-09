@@ -23,13 +23,14 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
     
     lazy var zoom: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(zoom(sender:)))
     
-    lazy var rotation: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
+    lazy var rotationGR: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addGestureRecognizer(doubleTap)
         view.addGestureRecognizer(pan)
         view.addGestureRecognizer(zoom)
+        view.addGestureRecognizer(rotationGR)
     }
     
     func recenter(sender: UIGestureRecognizer) {
@@ -69,35 +70,36 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         slidingStopTimestamp = nil
     }
     
+    private var previousRotation: SCNVector4?
     func rotate(sender: UIRotationGestureRecognizer) {
-        
+        switch sender.state {
+        case .began:
+            previousRotation = cameraController?.cameraNode.rotation
+        case .ended:
+            previousRotation = nil
+        default:
+            break
+        }
     }
     
     var viewSlideDivisor: CGFloat = 5000
     var viewSlideVelocityCap: CGFloat = 800
     var viewSlideInertiaDuration: TimeInterval = 1
     
-    private func handleCameraSpin(atTime time: TimeInterval) {
+    // http://stackoverflow.com/questions/25654772/rotate-scncamera-node-looking-at-an-object-around-an-imaginary-sphere
+    private func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraController?.cameraNode else {
             return
         }
+        let oldRot: SCNQuaternion = cameraNode.rotation
+        var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
+        let rotX: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.x / viewSlideDivisor), 0, 1, 0)
+        let rotY: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.y / viewSlideDivisor), 1, 0, 0)
+        let netRot: GLKQuaternion = GLKQuaternionMultiply(rotX, rotY)
+        rot = GLKQuaternionMultiply(rot, netRot)
         
-        // spin the camera according the the user's swipes
-        let oldRot: SCNQuaternion = cameraNode.rotation  //get the current rotation of the camera as a quaternion
-        var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)  //make a GLKQuaternion from the SCNQuaternion
-        
-        // the next function calls take these parameters: rotationAngle, xVector, yVector, zVector
-        // the angle is the size of the rotation (radians) and the vectors define the axis of rotation
-        let rotX: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.x / viewSlideDivisor), 0, 1, 0) //For rotation when swiping with X we want to rotate *around* y axis, so if our vector is 0,1,0 that will be the y axis
-        let rotY: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.y / viewSlideDivisor), 1, 0, 0) //For rotation by swiping with Y we want to rotate *around* the x axis.  By the same logic, we use 1,0,0
-        let netRot: GLKQuaternion = GLKQuaternionMultiply(rotX, rotY) //To combine rotations, you multiply the quaternions.  Here we are combining the x and y rotations
-        rot = GLKQuaternionMultiply(rot, netRot) //finally, we take the current rotation of the camera and rotate it by the new modified rotation.
-        
-        // then we have to separate the GLKQuaternion into components we can feed back into SceneKit
         let axis = GLKQuaternionAxis(rot)
         let angle = GLKQuaternionAngle(rot)
-        
-        //finally we replace the current rotation of the camera with the updated rotation
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
 
         // dampen velocity
@@ -110,8 +112,22 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         }
     }
     
+    private func handleCameraRotation(atTime time: TimeInterval) {
+        guard let cameraNode = cameraController?.cameraNode, let oldRot = previousRotation else {
+            return
+        }
+        var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
+        let rotZ: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotationGR.rotation), 0, 0, 1)
+        rot = GLKQuaternionMultiply(rot, rotZ)
+        
+        let axis = GLKQuaternionAxis(rot)
+        let angle = GLKQuaternionAngle(rot)
+        cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
+    }
+    
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        handleCameraSpin(atTime: time)
+        handleCameraPan(atTime: time)
+        handleCameraRotation(atTime: time)
     }
 }
 
