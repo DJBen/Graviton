@@ -69,6 +69,7 @@
 		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
 		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
+		FCA930641E236FB500100706 /* CameraControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930631E236FB500100706 /* CameraControlling.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
 
@@ -203,6 +204,7 @@
 		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
 		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
+		FCA930631E236FB500100706 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlling.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -311,11 +313,8 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
-				FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */,
-				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
-				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
-				FCA930611E2358A700100706 /* PlanetScene.swift */,
-				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
+				FCA930661E23704C00100706 /* ViewControllers */,
+				FCA930651E23700800100706 /* Scenes */,
 				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
 				EF4851881D91E6C800737CE4 /* Model */,
 				EFA7FEBB1D8A802F0043E8CC /* Util */,
@@ -400,6 +399,26 @@
 				FC2435921E1F87F0002AC626 /* Info.plist */,
 			);
 			path = SpaceTimeTests;
+			sourceTree = "<group>";
+		};
+		FCA930651E23700800100706 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				FCA930631E236FB500100706 /* CameraControlling.swift */,
+				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
+				FCA930611E2358A700100706 /* PlanetScene.swift */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		FCA930661E23704C00100706 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */,
+				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
+				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -698,6 +717,7 @@
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 				FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
+				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

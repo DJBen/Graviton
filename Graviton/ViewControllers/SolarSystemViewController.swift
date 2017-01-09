@@ -69,6 +69,9 @@ class SolarSystemViewController: SceneControlViewController {
         setupViewElements()
         refTime = Date()
         cameraController = solarSystemScene
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        tapGR.require(toFail: doubleTap)
+        self.view.addGestureRecognizer(tapGR)
 //        Horizons().fetchPlanets { (ephemeris, errors) in
 //            guard errors == nil else {
 //                print(errors!)
@@ -98,6 +101,17 @@ class SolarSystemViewController: SceneControlViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Release any cached data, images, etc that aren't in use.
+    }
+    
+    func handleTap(sender: UITapGestureRecognizer) {
+        let scnView = self.view as! SCNView
+        let p = sender.location(in: scnView)
+        let hitResults = scnView.hitTest(p, options: [:])
+        let objectHit = hitResults.map { $0.node }.filter { $0.name != nil && $0.name!.contains("orbit") == false }
+        if objectHit.count > 0 {
+            let node = objectHit[0]
+            
+        }
     }
     
     private func setupViewElements() {

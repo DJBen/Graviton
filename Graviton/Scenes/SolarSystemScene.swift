@@ -13,12 +13,6 @@ import SpaceTime
 
 fileprivate let astronomicalUnitDist: Float = 1.4960e11
 
-protocol CameraControlling {
-    var cameraNode: SCNNode { get }
-    var scale: Double { get set }
-    func resetCamera()
-}
-
 class SolarSystemScene: SCNScene, CameraControlling {
     
     private static let baseOrthographicScale: Double = 15
@@ -53,7 +47,7 @@ class SolarSystemScene: SCNScene, CameraControlling {
                 let apparentDist = (sphere.position * Float(cappedScale)).distance(sunNode.position * Float(cappedScale))
                 let f = CGFloat(max(min(3, apparentDist), 1.5) - 1.5) / (3 - 1.5)
                 sphere.opacity = f
-                if let orbit = lineSegments.childNode(withName: sphere.name!, recursively: false) {
+                if let orbit = lineSegments.childNode(withName: orbitIdentifier(sphere.name!), recursively: false) {
                     orbit.opacity = f
                 }
             }
@@ -70,6 +64,7 @@ class SolarSystemScene: SCNScene, CameraControlling {
     
     private lazy var sunNode: SCNNode = {
         let sun = SCNNode(geometry: SCNSphere(radius: 0.9))
+        sun.name = "sun"
         sun.geometry!.firstMaterial = {
             let mat = SCNMaterial()
             mat.emission.contents = UIColor.white
@@ -119,6 +114,10 @@ class SolarSystemScene: SCNScene, CameraControlling {
     func resetCamera() {
         camera.orthographicScale = 20
         applyCameraNodeDefaultSettings(cameraNode: cameraNode)
+    }
+    
+    func focus(atNode node: SCNNode) {
+        
     }
     
     func clear() {
@@ -173,14 +172,18 @@ class SolarSystemScene: SCNScene, CameraControlling {
             lineSegments.addChildNode(lineNode)
         }
         
-        guard lineSegments.childNode(withName: identifier, recursively: false) == nil else {
+        guard lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) == nil else {
             return
         }
-        addNode(totalIndex: numberOfVertices, identifier: identifier)
+        addNode(totalIndex: numberOfVertices, identifier: orbitIdentifier(identifier))
     }
     
     private func transform(position: SCNVector3) -> SCNVector3 {
         return position / astronomicalUnitDist * 10
     }
-
 }
+
+fileprivate func orbitIdentifier(_ identifier: String) -> String {
+    return identifier + "_orbit"
+}
+
