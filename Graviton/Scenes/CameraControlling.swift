@@ -12,5 +12,4 @@ protocol CameraControlling {
     var cameraNode: SCNNode { get }
     var scale: Double { get set }
     func resetCamera()
-    func focus(atNode node: SCNNode)
 }

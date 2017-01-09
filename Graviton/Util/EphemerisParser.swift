@@ -58,7 +58,7 @@ public struct EphemerisParser {
                 return nil
             }
             // hack
-            let body = CelestialBody(name: naifId, mass: 0, radius: 0)
+            let body = CelestialBody(naifId: Int(naifId)!, mass: 0, radius: 0)
             body.motion = motion
             return body
         }
@@ -77,7 +77,7 @@ public struct EphemerisParser {
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(centralBody: CelestialBody.sun, orbit: orbit, julianDate: Float(jd), timeOfPeriapsisPassage: tp)
+            let motion = OrbitalMotionMoment(centralBody: Sun.sol, orbit: orbit, julianDate: Float(jd), timeOfPeriapsisPassage: tp)
             return motion
         }
         

@@ -9,6 +9,7 @@
 import Foundation
 import SceneKit
 import SpaceTime
+import StarCatalog
 
 public protocol Searchable {
     subscript(name: String) -> Body? { get }
@@ -50,6 +51,7 @@ open class Body {
 }
 
 open class CelestialBody: Body, BoundedByGravity {
+    public let naifId: Int
     public let radius: Float
     public let rotationPeriod: Float
     public let axialTilt: Float
@@ -67,7 +69,8 @@ open class CelestialBody: Body, BoundedByGravity {
         return distance * (radius / primary.radius)
     }
     
-    public init(name: String, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
+    public init(naifId: Int, name: String, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
+        self.naifId = naifId
         self.gravParam = mass * gravConstant
         self.radius = radius
         self.rotationPeriod = rotationPeriod
@@ -75,8 +78,9 @@ open class CelestialBody: Body, BoundedByGravity {
         super.init(name: name)
     }
     
-    public static var sun: Sun {
-        return Sun(name: "Sun", mass: 1.988544e30, radius: 6.955e5)
+    public convenience init(naifId: Int, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
+        let name = NaifCatalog.name(forNaif: naifId)!
+        self.init(naifId: naifId, name: name, mass: mass, radius: radius, rotationPeriod: rotationPeriod, axialTilt: axialTilt)
     }
     
     public func addSatellite(satellite: Body, motion: OrbitalMotion) {
@@ -102,6 +106,10 @@ open class CelestialBody: Body, BoundedByGravity {
 }
 
 open class Sun: CelestialBody {
+    public static var sol: Sun {
+        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
+    }
+    
     public override var heliocentricPosition: SCNVector3 {
         return SCNVector3()
     }

@@ -17,14 +17,18 @@ public struct Ephemeris {
         self.celestialBodies = celestialBodies
     }
     
-    public func motion(of naifId: String) -> OrbitalMotion? {
-        return celestialBodies.filter { (body) -> Bool in
-            return body.name == naifId
-        }.first?.motion
+    public func motion(of naifId: Int) -> OrbitalMotion? {
+        return self[naifId]?.motion
     }
     
-    public func orbit(of naifId: String) -> Orbit? {
+    public func orbit(of naifId: Int) -> Orbit? {
         return motion(of: naifId)?.orbit
+    }
+    
+    subscript(naifId: Int) -> CelestialBody? {
+        return celestialBodies.filter { (body) -> Bool in
+            return body.naifId == naifId
+        }.first
     }
 }
  

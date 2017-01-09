@@ -21,7 +21,7 @@ class Horizons {
     static let timeIntervalBetweenJobs: TimeInterval = 0.2
     
     private var tasksTrialCount: [URL: Int] = [:]
-    private var rawEphemeris: [String: String] = [:]
+    private var rawEphemeris: [Int: String] = [:]
     private var errors: [Error] = []
     
     func fetchPlanets(complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
@@ -96,7 +96,7 @@ class Horizons {
             print("complete: fetching planets")
             let bodies = Array(self.rawEphemeris).map { (naif, content) -> CelestialBody in
                 let motion = ResponseParser.parseEphemeris(content: content)
-                let body = CelestialBody(name: naif, mass: 0, radius: 0)
+                let body = CelestialBody(naifId: naif, mass: 0, radius: 0)
                 body.motion = motion
                 return body
             }
@@ -231,7 +231,7 @@ struct HorizonsQuery: Hashable {
 }
 
 fileprivate extension URL {
-    var naifId: String? {
+    var naifId: Int? {
         if let components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
             if let items = components.queryItems {
                 let filtered = items.filter { $0.name == "COMMAND" }
@@ -243,7 +243,7 @@ fileprivate extension URL {
                 }
                 let start = str.index(str.startIndex, offsetBy: 1)
                 let end = str.index(str.endIndex, offsetBy: -1)
-                return str.substring(with: start..<end)
+                return Int(str.substring(with: start..<end))
             }
         }
         return nil

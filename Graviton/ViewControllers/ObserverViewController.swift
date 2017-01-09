@@ -16,7 +16,7 @@ class ObserverViewController: SceneControlViewController {
         let scnView = self.view as! SCNView
         scnView.delegate = self
         scnView.isPlaying = true
-        
+        scnView.backgroundColor = UIColor.black
     }
 
     override var prefersStatusBarHidden: Bool {

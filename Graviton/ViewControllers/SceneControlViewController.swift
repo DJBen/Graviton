@@ -11,7 +11,7 @@ import SceneKit
 
 class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
 
-    var cameraController: CameraControlling?
+    var cameraController: CameraControlling & FocusingSupport?
     
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
     

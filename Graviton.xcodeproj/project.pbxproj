@@ -70,6 +70,14 @@
 		FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930641E236FB500100706 /* CameraControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930631E236FB500100706 /* CameraControlling.swift */; };
+		FCA930681E23780300100706 /* FocusingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930671E23780300100706 /* FocusingSupport.swift */; };
+		FCA930721E23A05F00100706 /* StarCatalog.h in Headers */ = {isa = PBXBuildFile; fileRef = FCA930701E23A05F00100706 /* StarCatalog.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FCA930751E23A05F00100706 /* StarCatalog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCA9306E1E23A05F00100706 /* StarCatalog.framework */; };
+		FCA930761E23A05F00100706 /* StarCatalog.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCA9306E1E23A05F00100706 /* StarCatalog.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FCA9307B1E23A0AE00100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA9307A1E23A0AE00100706 /* NaifCatalog.swift */; };
+		FCA9307C1E23A0CF00100706 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
+		FCA9307F1E23A38C00100706 /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCA9307E1E23A38C00100706 /* naif.sqlite3 */; };
+		FCA930811E23AD3C00100706 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930801E23AD3C00100706 /* Formatters.swift */; };
 		FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCDADE4C1E0942DE009C2607 /* Horizons.swift */; };
 /* End PBXBuildFile section */
 
@@ -130,6 +138,13 @@
 			remoteGlobalIDString = FC2435801E1F87F0002AC626;
 			remoteInfo = SpaceTime;
 		};
+		FCA930731E23A05F00100706 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FCA9306D1E23A05F00100706;
+			remoteInfo = StarCatalog;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -139,6 +154,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FCA930761E23A05F00100706 /* StarCatalog.framework in Embed Frameworks */,
 				EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */,
 				FC2435971E1F87F0002AC626 /* SpaceTime.framework in Embed Frameworks */,
 			);
@@ -205,6 +221,13 @@
 		FC905EDE1E0D43D5005E5FAF /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
 		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCA930631E236FB500100706 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlling.swift; sourceTree = "<group>"; };
+		FCA930671E23780300100706 /* FocusingSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusingSupport.swift; sourceTree = "<group>"; };
+		FCA9306E1E23A05F00100706 /* StarCatalog.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarCatalog.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCA930701E23A05F00100706 /* StarCatalog.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarCatalog.h; sourceTree = "<group>"; };
+		FCA930711E23A05F00100706 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCA9307A1E23A0AE00100706 /* NaifCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifCatalog.swift; sourceTree = "<group>"; };
+		FCA9307E1E23A38C00100706 /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
+		FCA930801E23AD3C00100706 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FCDADE4C1E0942DE009C2607 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -215,6 +238,7 @@
 			files = (
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */,
+				FCA930751E23A05F00100706 /* StarCatalog.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -258,6 +282,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCA9306A1E23A05F00100706 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCA9307C1E23A0CF00100706 /* SQLite.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -291,6 +323,7 @@
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				FC2435821E1F87F0002AC626 /* SpaceTime */,
 				FC24358F1E1F87F0002AC626 /* SpaceTimeTests */,
+				FCA9306F1E23A05F00100706 /* StarCatalog */,
 				EFC2C6951D88D02F0031AA9C /* Products */,
 				FC2435351E14C78C002AC626 /* Frameworks */,
 			);
@@ -305,6 +338,7 @@
 				EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */,
 				FC2435811E1F87F0002AC626 /* SpaceTime.framework */,
 				FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */,
+				FCA9306E1E23A05F00100706 /* StarCatalog.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -351,6 +385,7 @@
 				FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */,
 				FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */,
 				FC2435411E19B625002AC626 /* DBHelper.swift */,
+				FCA930801E23AD3C00100706 /* Formatters.swift */,
 				EFE8BF581DD86B2B000F0A79 /* Info.plist */,
 			);
 			path = Orbits;
@@ -405,6 +440,7 @@
 			isa = PBXGroup;
 			children = (
 				FCA930631E236FB500100706 /* CameraControlling.swift */,
+				FCA930671E23780300100706 /* FocusingSupport.swift */,
 				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
 			);
@@ -419,6 +455,17 @@
 				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
 			);
 			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FCA9306F1E23A05F00100706 /* StarCatalog */ = {
+			isa = PBXGroup;
+			children = (
+				FCA930701E23A05F00100706 /* StarCatalog.h */,
+				FCA930711E23A05F00100706 /* Info.plist */,
+				FCA9307A1E23A0AE00100706 /* NaifCatalog.swift */,
+				FCA9307E1E23A38C00100706 /* naif.sqlite3 */,
+			);
+			path = StarCatalog;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -440,6 +487,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCA9306B1E23A05F00100706 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCA930721E23A05F00100706 /* StarCatalog.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -458,6 +513,7 @@
 			dependencies = (
 				EFE8BF691DD86B2B000F0A79 /* PBXTargetDependency */,
 				FC2435951E1F87F0002AC626 /* PBXTargetDependency */,
+				FCA930741E23A05F00100706 /* PBXTargetDependency */,
 			);
 			name = Graviton;
 			productName = Graviton;
@@ -557,6 +613,24 @@
 			productReference = FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FCA9306D1E23A05F00100706 /* StarCatalog */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCA930771E23A05F00100706 /* Build configuration list for PBXNativeTarget "StarCatalog" */;
+			buildPhases = (
+				FCA930691E23A05F00100706 /* Sources */,
+				FCA9306A1E23A05F00100706 /* Frameworks */,
+				FCA9306B1E23A05F00100706 /* Headers */,
+				FCA9306C1E23A05F00100706 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = StarCatalog;
+			productName = StarCatalog;
+			productReference = FCA9306E1E23A05F00100706 /* StarCatalog.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -605,6 +679,12 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
+					FCA9306D1E23A05F00100706 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
 				};
 			};
 			buildConfigurationList = EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */;
@@ -626,6 +706,7 @@
 				EFE8BF5C1DD86B2B000F0A79 /* OrbitsTests */,
 				FC2435801E1F87F0002AC626 /* SpaceTime */,
 				FC2435881E1F87F0002AC626 /* SpaceTimeTests */,
+				FCA9306D1E23A05F00100706 /* StarCatalog */,
 			);
 		};
 /* End PBXProject section */
@@ -679,6 +760,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCA9306C1E23A05F00100706 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCA9307F1E23A38C00100706 /* naif.sqlite3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -714,6 +803,7 @@
 				FC1B76591E224ABF00F45343 /* SceneControlViewController.swift in Sources */,
 				EFE8BF8A1DD88B5C000F0A79 /* Ephemeris.swift in Sources */,
 				FCDADE4D1E0942DE009C2607 /* Horizons.swift in Sources */,
+				FCA930681E23780300100706 /* FocusingSupport.swift in Sources */,
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 				FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
@@ -737,6 +827,7 @@
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
 				EFE8BF781DD86B38000F0A79 /* Body.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
+				FCA930811E23AD3C00100706 /* Formatters.swift in Sources */,
 				EFE8BF791DD86B38000F0A79 /* Constants.swift in Sources */,
 				EFE8BF7A1DD86B38000F0A79 /* SCNVector3+Util.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
@@ -788,6 +879,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FCA930691E23A05F00100706 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCA9307B1E23A0AE00100706 /* NaifCatalog.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -830,6 +929,11 @@
 			isa = PBXTargetDependency;
 			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
 			targetProxy = FC2435B71E1F88C8002AC626 /* PBXContainerItemProxy */;
+		};
+		FCA930741E23A05F00100706 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FCA9306D1E23A05F00100706 /* StarCatalog */;
+			targetProxy = FCA930731E23A05F00100706 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1200,6 +1304,63 @@
 			};
 			name = Release;
 		};
+		FCA930781E23A05F00100706 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = StarCatalog/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.StarCatalog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FCA930791E23A05F00100706 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = StarCatalog/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.StarCatalog;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1265,6 +1426,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		FCA930771E23A05F00100706 /* Build configuration list for PBXNativeTarget "StarCatalog" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCA930781E23A05F00100706 /* Debug */,
+				FCA930791E23A05F00100706 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

@@ -14,6 +14,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        let tabBar = UITabBar.appearance()
+        tabBar.barTintColor = UIColor.clear
+        tabBar.tintColor = UIColor.white
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
         return true
     }
 

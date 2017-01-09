@@ -10,18 +10,30 @@ import UIKit
 import SceneKit
 import Orbits
 import SpaceTime
+import StarCatalog
 
 fileprivate let astronomicalUnitDist: Float = 1.4960e11
 
-class SolarSystemScene: SCNScene, CameraControlling {
+class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
     private static let baseOrthographicScale: Double = 15
     private static let maxScale: Double = 5
     private static let minScale: Double = 0.02
+    private static let diminishStartDistance: Float = 3.3
+    private static let diminishEndDistance: Float = 1.8
     
-    private var orbitalMotions = [(OrbitalMotion, UIColor, String)]()
+    private var orbitalMotions = [(OrbitalMotion, UIColor, Int)]()
     private var lineSegments = SCNNode()
     private var spheres = SCNNode()
+    var celestialBodies: [CelestialBody] = []
+    
+    var focusedNode: SCNNode?
+    var focusedBody: CelestialBody? {
+        guard let n = focusedNode else {
+            return nil
+        }
+        return celestialBodies.filter { $0.naifId == Int(n.name!)! }.first
+    }
     
     var julianDate: Float = Float(JulianDate.J2000) {
         didSet {
@@ -45,7 +57,9 @@ class SolarSystemScene: SCNScene, CameraControlling {
             
             spheres.childNodes.forEach { (sphere) in
                 let apparentDist = (sphere.position * Float(cappedScale)).distance(sunNode.position * Float(cappedScale))
-                let f = CGFloat(max(min(3, apparentDist), 1.5) - 1.5) / (3 - 1.5)
+                let ds = SolarSystemScene.diminishStartDistance
+                let de = SolarSystemScene.diminishEndDistance
+                let f = CGFloat((max(min(ds, apparentDist), de) - de) / (ds - de))
                 sphere.opacity = f
                 if let orbit = lineSegments.childNode(withName: orbitIdentifier(sphere.name!), recursively: false) {
                     orbit.opacity = f
@@ -63,8 +77,8 @@ class SolarSystemScene: SCNScene, CameraControlling {
     }()
     
     private lazy var sunNode: SCNNode = {
-        let sun = SCNNode(geometry: SCNSphere(radius: 0.9))
-        sun.name = "sun"
+        let sun = SCNNode(geometry: SCNSphere(radius: 1.6))
+        sun.name = "10"
         sun.geometry!.firstMaterial = {
             let mat = SCNMaterial()
             mat.emission.contents = UIColor.white
@@ -84,6 +98,7 @@ class SolarSystemScene: SCNScene, CameraControlling {
     
     override init() {
         super.init()
+        focusedNode = sunNode
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
         let ambient = SCNNode()
@@ -93,15 +108,17 @@ class SolarSystemScene: SCNScene, CameraControlling {
         rootNode.addChildNode(ambient)
         rootNode.addChildNode(lineSegments)
         rootNode.addChildNode(spheres)
+        celestialBodies.append(Sun.sol)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func addOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
-        orbitalMotions.append((motion, color, identifier))
-        drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
+    func add(body: CelestialBody, color: UIColor) {
+        celestialBodies.append(body)
+        orbitalMotions.append((body.motion!, color, body.naifId))
+        drawOrbitalMotion(motion: body.motion!, color: color, identifier: body.naifId)
     }
     
     private func applyCameraNodeDefaultSettings(cameraNode: SCNNode) {
@@ -112,12 +129,12 @@ class SolarSystemScene: SCNScene, CameraControlling {
     }
     
     func resetCamera() {
-        camera.orthographicScale = 20
+        camera.orthographicScale = 40
         applyCameraNodeDefaultSettings(cameraNode: cameraNode)
     }
     
     func focus(atNode node: SCNNode) {
-        
+        focusedNode = node
     }
     
     func clear() {
@@ -126,20 +143,20 @@ class SolarSystemScene: SCNScene, CameraControlling {
         orbitalMotions.removeAll()
     }
     
-    private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: String) {
+    private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: Int) {
         let numberOfVertices: Int = 50
-        let sphere = SCNSphere(radius: 0.5)
+        let sphere = SCNSphere(radius: 0.85)
         sphere.firstMaterial = {
             let mat = SCNMaterial()
             mat.diffuse.contents = color
             return mat
         }()
         motion.julianDate = julianDate
-        if let planetNode = spheres.childNode(withName: identifier, recursively: false) {
+        if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
             planetNode.position = transform(position: motion.position)
         } else {
             let planetNode = SCNNode(geometry: sphere)
-            planetNode.name = identifier
+            planetNode.name = String(identifier)
             planetNode.position = transform(position: motion.position)
             spheres.addChildNode(planetNode)
         }
@@ -170,6 +187,7 @@ class SolarSystemScene: SCNScene, CameraControlling {
             justColor.diffuse.contents = color
             line.firstMaterial = justColor
             lineSegments.addChildNode(lineNode)
+            print("create \(identifier)")
         }
         
         guard lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) == nil else {
@@ -183,7 +201,10 @@ class SolarSystemScene: SCNScene, CameraControlling {
     }
 }
 
-fileprivate func orbitIdentifier(_ identifier: String) -> String {
-    return identifier + "_orbit"
+fileprivate func orbitIdentifier(_ identifier: Int) -> String {
+    return "\(identifier)_orbit"
 }
 
+fileprivate func orbitIdentifier(_ identifier: String) -> String {
+    return "\(identifier)_orbit"
+}
