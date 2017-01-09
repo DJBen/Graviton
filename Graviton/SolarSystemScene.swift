@@ -1,5 +1,5 @@
 //
-//  SolScene.swift
+//  SolarSystemScene.swift
 //  Graviton
 //
 //  Created by Ben Lu on 10/30/16.
@@ -19,7 +19,7 @@ protocol CameraControlling {
     func resetCamera()
 }
 
-class SolScene: SCNScene, CameraControlling {
+class SolarSystemScene: SCNScene, CameraControlling {
     
     private static let baseOrthographicScale: Double = 15
     private static let maxScale: Double = 5
@@ -39,9 +39,9 @@ class SolScene: SCNScene, CameraControlling {
     
     var scale: Double = 1 {
         didSet {
-            let cappedScale = min(max(scale, SolScene.minScale), SolScene.maxScale)
+            let cappedScale = min(max(scale, SolarSystemScene.minScale), SolarSystemScene.maxScale)
             self.scale = cappedScale
-            self.camera.orthographicScale = SolScene.baseOrthographicScale / cappedScale
+            self.camera.orthographicScale = SolarSystemScene.baseOrthographicScale / cappedScale
             // keep the spheres the same size
             (spheres.childNodes + [sunNode]).forEach { (sphere) in
                 // radius default is 1
@@ -64,7 +64,7 @@ class SolScene: SCNScene, CameraControlling {
         let c = SCNCamera()
         c.usesOrthographicProjection = true
         c.automaticallyAdjustsZRange = true
-        c.orthographicScale = SolScene.baseOrthographicScale * self.scale
+        c.orthographicScale = SolarSystemScene.baseOrthographicScale * self.scale
         return c
     }()
     

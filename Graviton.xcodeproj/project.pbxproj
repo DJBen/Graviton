@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF03D67A1E0A0B4C00C31AE3 /* HorizonsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF03D6791E0A0B4C00C31AE3 /* HorizonsTest.swift */; };
-		EF2496B81DC6D88800B9EE9D /* SolScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolScene.swift */; };
+		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
 		EF5CD6CD1DEB614E00038079 /* planet_example in Resources */ = {isa = PBXBuildFile; fileRef = EF5CD6CC1DEB614E00038079 /* planet_example */; };
 		EF5CD6D11DEB62DB00038079 /* PlanetDataExtractionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */; };
@@ -147,7 +147,7 @@
 
 /* Begin PBXFileReference section */
 		EF03D6791E0A0B4C00C31AE3 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsTest.swift; sourceTree = "<group>"; };
-		EF2496B71DC6D88800B9EE9D /* SolScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolScene.swift; sourceTree = "<group>"; };
+		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
 		EF4851891D91EB8D00737CE4 /* CelestialNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNode.swift; sourceTree = "<group>"; };
 		EF5CD6CC1DEB614E00038079 /* planet_example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_example; sourceTree = "<group>"; };
 		EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetDataExtractionTest.swift; sourceTree = "<group>"; };
@@ -311,7 +311,7 @@
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
 				FC1B76581E224ABF00F45343 /* SceneControlViewController.swift */,
 				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
-				EF2496B71DC6D88800B9EE9D /* SolScene.swift */,
+				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
 				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
 				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
 				EF4851881D91E6C800737CE4 /* Model */,
@@ -683,7 +683,7 @@
 			files = (
 				EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
-				EF2496B81DC6D88800B9EE9D /* SolScene.swift in Sources */,
+				EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */,
 				EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */,

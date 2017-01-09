@@ -30,13 +30,13 @@ class SolarSystemViewController: SceneControlViewController {
         return formatter
     }()
     
-    lazy var solScene: SolScene = {
-        let scene = SolScene()
-        self.fillSolScene(scene)
+    lazy var solarSystemScene: SolarSystemScene = {
+        let scene = SolarSystemScene()
+        self.fillSolarSystemScene(scene)
         return scene
     }()
     
-    private func fillSolScene(_ scene: SolScene) {
+    private func fillSolarSystemScene(_ scene: SolarSystemScene) {
         scene.clear()
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "199")!, color: #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1), identifier: "mercury")
         scene.addOrbitalMotion(motion: self.ephemeris.motion(of: "299")!, color: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1), identifier: "venus")
@@ -68,14 +68,14 @@ class SolarSystemViewController: SceneControlViewController {
         super.viewDidLoad()
         setupViewElements()
         refTime = Date()
-        cameraController = solScene
+        cameraController = solarSystemScene
 //        Horizons().fetchPlanets { (ephemeris, errors) in
 //            guard errors == nil else {
 //                print(errors!)
 //                return
 //            }
 //            self.ephemeris = ephemeris!
-//            self.fillSolScene(self.solScene)
+//            self.fillSolarSystemScene(self.SolarSystemScene)
 //        }
     }
     
@@ -117,7 +117,7 @@ class SolarSystemViewController: SceneControlViewController {
             ]
         )
         scnView.delegate = self
-        scnView.scene = solScene
+        scnView.scene = solarSystemScene
         scnView.isPlaying = true
         scnView.backgroundColor = UIColor.black
     }
@@ -134,7 +134,7 @@ class SolarSystemViewController: SceneControlViewController {
         timeElapsed += warpedDeltaTime
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
         let warpedJd = JulianDate(date: warpedDate).value
-        self.solScene.julianDate = Float(warpedJd)
+        self.solarSystemScene.julianDate = Float(warpedJd)
         let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
         DispatchQueue.main.async {
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)

@@ -23,6 +23,8 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
     
     lazy var zoom: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(zoom(sender:)))
     
+    lazy var rotation: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.addGestureRecognizer(doubleTap)
@@ -65,6 +67,10 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         slideVelocity = sender.velocity(in: view).cap(to: viewSlideVelocityCap)
         referenceSlideVelocity = slideVelocity
         slidingStopTimestamp = nil
+    }
+    
+    func rotate(sender: UIRotationGestureRecognizer) {
+        
     }
     
     var viewSlideDivisor: CGFloat = 5000
