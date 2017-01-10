@@ -12,6 +12,7 @@
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
 		EF5CD6CD1DEB614E00038079 /* planet_example in Resources */ = {isa = PBXBuildFile; fileRef = EF5CD6CC1DEB614E00038079 /* planet_example */; };
 		EF5CD6D11DEB62DB00038079 /* PlanetDataExtractionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */; };
+		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
 		EFA7FEBD1D8A80710043E8CC /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
@@ -169,6 +170,7 @@
 		EF4851891D91EB8D00737CE4 /* CelestialNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNode.swift; sourceTree = "<group>"; };
 		EF5CD6CC1DEB614E00038079 /* planet_example */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = planet_example; sourceTree = "<group>"; };
 		EF5CD6D01DEB62DB00038079 /* PlanetDataExtractionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetDataExtractionTest.swift; sourceTree = "<group>"; };
+		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
 		EFA7FEBC1D8A80710043E8CC /* SCNVector3+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Util.swift"; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -442,6 +444,7 @@
 				FCA930631E236FB500100706 /* CameraControlling.swift */,
 				FCA930671E23780300100706 /* FocusingSupport.swift */,
 				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
+				EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */,
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
 			);
 			path = Scenes;
@@ -807,6 +810,7 @@
 				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 				FC905EDF1E0D43D5005E5FAF /* EphemerisParser.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
+				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1434,6 +1438,7 @@
 				FCA930791E23A05F00100706 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

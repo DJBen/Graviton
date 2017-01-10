@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SpriteKit
 import SceneKit
 import Orbits
 import SpaceTime
@@ -176,6 +177,7 @@ class SolarSystemViewController: SceneControlViewController {
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
+        scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
     }
     
