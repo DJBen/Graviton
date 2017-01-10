@@ -6,19 +6,18 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import SceneKit
 import SpaceTime
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
 public struct Orbit {
     public enum ConicSection {
-        case circle(r: Float)
-        case ellipse(a: Float, e: Float)
-        case parabola(pe: Float)
-        case hyperbola(a: Float, e: Float)
+        case circle(r: Double)
+        case ellipse(a: Double, e: Double)
+        case parabola(pe: Double)
+        case hyperbola(a: Double, e: Double)
         
-        public var semimajorAxis: Float? {
+        public var semimajorAxis: Double? {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, _): return a
@@ -28,7 +27,7 @@ public struct Orbit {
         }
         
         // https://en.wikipedia.org/wiki/Orbital_eccentricity
-        public var eccentricity: Float {
+        public var eccentricity: Double {
             switch self {
             case .circle(_): return 0
             case .ellipse(_, let e): return e
@@ -37,7 +36,7 @@ public struct Orbit {
             }
         }
         
-        public var apoapsis: Float? {
+        public var apoapsis: Double? {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 + e)
@@ -46,7 +45,7 @@ public struct Orbit {
             }
         }
         
-        public var periapsis: Float {
+        public var periapsis: Double {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 - e)
@@ -55,7 +54,7 @@ public struct Orbit {
             }
         }
         
-        public var semilatusRectum: Float {
+        public var semilatusRectum: Double {
             switch self {
             case .circle(let r): return r
             case .ellipse(let a, let e): return a * (1 - pow(e, 2))
@@ -64,8 +63,8 @@ public struct Orbit {
             }
         }
         
-        public static func from(semimajorAxis a: Float, eccentricity e: Float) -> ConicSection {
-            if a == Float.infinity || e == 1 {
+        public static func from(semimajorAxis a: Double, eccentricity e: Double) -> ConicSection {
+            if a == Double.infinity || e == 1 {
                 fatalError("cannot initialize a parabola using this method")
             }
             switch e {
@@ -75,8 +74,8 @@ public struct Orbit {
             }
         }
         
-        public static func from(apoapsis ap: Float, periapsis pe: Float) -> ConicSection {
-            if ap == Float.infinity {
+        public static func from(apoapsis ap: Double, periapsis pe: Double) -> ConicSection {
+            if ap == Double.infinity {
                 fatalError("cannot initialize a parabola using this method")
             }
             return from(semimajorAxis: (ap + pe) / 2, eccentricity: 1 - 2 / ((ap / pe) + 1))
@@ -84,13 +83,13 @@ public struct Orbit {
     }
     
     public struct Orientation {
-        public var inclination: Float
-        public var longitudeOfAscendingNode: Float?
+        public var inclination: Double
+        public var longitudeOfAscendingNode: Double?
         // https://en.wikipedia.org/wiki/Argument_of_periapsis
         // calculate as if Ω == 0 when orbit is circular
-        public var argumentOfPeriapsis: Float
+        public var argumentOfPeriapsis: Double
         
-        public init(inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
+        public init(inclination: Double, longitudeOfAscendingNode: Double?, argumentOfPeriapsis: Double) {
             self.inclination = inclination
             self.longitudeOfAscendingNode = longitudeOfAscendingNode
             self.argumentOfPeriapsis = argumentOfPeriapsis
@@ -103,21 +102,21 @@ public struct Orbit {
     public init(shape: ConicSection, orientation: Orientation) {
         self.shape = shape
         self.orientation = orientation
-        let loanMakesSense = abs(fmod(orientation.inclination, Float(M_PI))) > 1e-6 && abs(fmod(orientation.inclination, Float(M_PI)) - Float(M_PI)) > 1e-6
+        let loanMakesSense = abs(fmod(orientation.inclination, Double(M_PI))) > 1e-6 && abs(fmod(orientation.inclination, Double(M_PI)) - Double(M_PI)) > 1e-6
         if loanMakesSense && orientation.longitudeOfAscendingNode == nil {
             fatalError("orbits with inclination should supply longitude of ascending node")
         }
     }
     
-    public init(semimajorAxis: Float, eccentricity: Float, inclination: Float, longitudeOfAscendingNode: Float?, argumentOfPeriapsis: Float) {
+    public init(semimajorAxis: Double, eccentricity: Double, inclination: Double, longitudeOfAscendingNode: Double?, argumentOfPeriapsis: Double) {
         self.init(shape: ConicSection.from(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
-    public func orbitalPeriod(centralBody: BoundedByGravity) -> Float? {
+    public func orbitalPeriod(centralBody: BoundedByGravity) -> Double? {
         guard let a = shape.semimajorAxis else {
             return nil
         }
-        return Float(M_PI) * 2 * sqrt(pow(a, 3) / centralBody.gravParam)
+        return Double(M_PI) * 2 * sqrt(pow(a, 3) / centralBody.gravParam)
     }
 }
 
@@ -129,7 +128,7 @@ public struct Orbit {
 ///   - shape: shape of orbit
 /// - Returns: mean anomaly of current orbit motion
 
-func calculateMeanAnomaly(Δt time: Float, gravParam: Float, shape: Orbit.ConicSection) -> Float? {
+func calculateMeanAnomaly(Δt time: Double, gravParam: Double, shape: Orbit.ConicSection) -> Double? {
     switch shape {
     case .circle(let a), .ellipse(let a, _), .hyperbola(let a, _):
         return wrapAngle(time * sqrt(gravParam / pow(a, 3)))
@@ -138,7 +137,7 @@ func calculateMeanAnomaly(Δt time: Float, gravParam: Float, shape: Orbit.ConicS
     }
 }
 
-func calculateTrueAnomaly(eccentricity: Float, eccentricAnomaly: Float) -> Float {
+func calculateTrueAnomaly(eccentricity: Double, eccentricAnomaly: Double) -> Double {
     return 2 * atan2(sqrt(1 + eccentricity) * sin(eccentricAnomaly / 2), sqrt(1 - eccentricity) * cos(eccentricAnomaly / 2))
 }
 

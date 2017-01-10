@@ -9,12 +9,12 @@
 import CoreLocation
 
 public struct CylindricalCoordinate {
-    let altitude: Float
-    let azimuth: Float
+    let altitude: Double
+    let azimuth: Double
     
     public init(sphericalCoordinate s: SphericalCoordinate, observerInfo o: ObserverInfo) {
         // sin(ALT) = sin(DEC)*sin(LAT)+cos(DEC)*cos(LAT)*cos(HA)
-        let radianLat = radians(degrees: Float(o.location.latitude))
+        let radianLat = radians(degrees: Double(o.location.latitude))
         let hourAngle = o.localSiderealTimeAngle - s.rightAscension
         let sinAlt = sin(s.declination) * sin(radianLat) + cos(s.declination) * cos(radianLat) * cos(hourAngle)
         altitude = asin(sinAlt)
@@ -23,6 +23,6 @@ public struct CylindricalCoordinate {
         //                cos(ALT)*cos(LAT)
         let cosAzimuth = (sin(s.declination) - sinAlt * sin(radianLat)) / (cos(altitude) * cos(radianLat))
         let a = acos(cosAzimuth)
-        azimuth = sin(hourAngle) < 0 ? a : Float(2 * M_PI) - a
+        azimuth = sin(hourAngle) < 0 ? a : Double(2 * M_PI) - a
     }
 }

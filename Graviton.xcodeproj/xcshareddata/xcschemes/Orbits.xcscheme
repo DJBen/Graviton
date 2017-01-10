@@ -28,7 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "EFE8BF5C1DD86B2B000F0A79"
+               BuildableName = "OrbitsTests.xctest"
+               BlueprintName = "OrbitsTests"
+               ReferencedContainer = "container:Graviton.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "EFE8BF541DD86B2B000F0A79"
+            BuildableName = "Orbits.framework"
+            BlueprintName = "Orbits"
+            ReferencedContainer = "container:Graviton.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>

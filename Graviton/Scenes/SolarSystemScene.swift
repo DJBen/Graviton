@@ -12,8 +12,6 @@ import Orbits
 import SpaceTime
 import StarCatalog
 
-fileprivate let astronomicalUnitDist: Float = 1.4960e11
-
 class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
     private static let baseOrthographicScale: Double = 15
@@ -35,7 +33,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         return celestialBodies.filter { $0.naifId == Int(n.name!)! }.first
     }
     
-    var julianDate: Float = Float(JulianDate.J2000) {
+    var julianDate: Double = JulianDate.J2000 {
         didSet {
             orbitalMotions.forEach { (motion, color, identifier) in
                 self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
@@ -144,17 +142,16 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: Int) {
-        let numberOfVertices: Int = 50
-        let sphere = SCNSphere(radius: 0.85)
-        sphere.firstMaterial = {
-            let mat = SCNMaterial()
-            mat.diffuse.contents = color
-            return mat
-        }()
         motion.julianDate = julianDate
         if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
             planetNode.position = transform(position: motion.position)
         } else {
+            let sphere = SCNSphere(radius: 0.85)
+            sphere.firstMaterial = {
+                let mat = SCNMaterial()
+                mat.diffuse.contents = color
+                return mat
+            }()
             let planetNode = SCNNode(geometry: sphere)
             planetNode.name = String(identifier)
             planetNode.position = transform(position: motion.position)
@@ -162,14 +159,15 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         }
 
         func vertex(forIndex index: Int, totalIndex: Int) -> SCNVector3 {
-            let offset = Float(index) / Float(totalIndex) * Float(M_PI * 2)
+            let offset = Double(index) / Double(totalIndex) * M_PI * 2
             let (position, _) = motion.stateVectors(fromTrueAnomaly: offset)
             return transform(position: position)
         }
         
-        func addNode(totalIndex: Int, identifier: String) {
+        func addNode(identifier: String) {
+            let numberOfVertices: Int = 50
             let vertices = Array(0..<numberOfVertices).map { index in
-                return vertex(forIndex: index, totalIndex: totalIndex)
+                return vertex(forIndex: index, totalIndex: numberOfVertices)
             }
             var indices = [CInt]()
             for i in 0..<(numberOfVertices - 1) {
@@ -193,11 +191,11 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         guard lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) == nil else {
             return
         }
-        addNode(totalIndex: numberOfVertices, identifier: orbitIdentifier(identifier))
+        addNode(identifier: orbitIdentifier(identifier))
     }
     
-    private func transform(position: SCNVector3) -> SCNVector3 {
-        return position / astronomicalUnitDist * 10
+    private func transform(position: Vector3) -> SCNVector3 {
+        return SCNVector3(position / astronomicalUnitDist * 10)
     }
 }
 

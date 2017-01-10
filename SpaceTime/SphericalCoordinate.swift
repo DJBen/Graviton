@@ -9,24 +9,24 @@
 import SceneKit
 
 public struct SphericalCoordinate {
-    public let distance: Float
-    public let rightAscension: Float
-    public let declination: Float
+    public let distance: Double
+    public let rightAscension: Double
+    public let declination: Double
     
     // http://www.geom.uiuc.edu/docs/reference/CRC-formulas/node42.html
     public init(cartesian v: SCNVector3) {
-        distance = sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
-        rightAscension = acos(v.z / distance)
-        declination = atan2(v.y, v.x)
+        distance = sqrt(Double(v.x * v.x + v.y * v.y + v.z * v.z))
+        rightAscension = acos(Double(v.z) / distance)
+        declination = atan2(Double(v.y), Double(v.x))
     }
     
-    public init(rightAscension: Float, declination: Float, distance: Float) {
+    public init(rightAscension: Double, declination: Double, distance: Double) {
         self.rightAscension = rightAscension
         self.declination = declination
         self.distance = distance
     }
     
-    func rotated(northPoleRA ra: Float, northPoleDE de: Float) -> SphericalCoordinate {
+    func rotated(northPoleRA ra: Double, northPoleDE de: Double) -> SphericalCoordinate {
         // TODO: used for martian celestial pole
         return self
     }

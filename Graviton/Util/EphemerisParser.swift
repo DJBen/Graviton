@@ -72,12 +72,12 @@ public struct EphemerisParser {
             return nil
         }
         
-        if let jd = Double(components[0]), let ec = Float(components[2]), let semimajorAxis = Float(components[11]), let inclinationDeg = Float(components[4]), let loanDeg = Float(components[5]), let aopDeg = Float(components[6]), let tp = Float(components[7]) {
+        if let jd = Double(components[0]), let ec = Double(components[2]), let semimajorAxis = Double(components[11]), let inclinationDeg = Double(components[4]), let loanDeg = Double(components[5]), let aopDeg = Double(components[6]), let tp = Double(components[7]) {
             let inclination = radians(degrees: inclinationDeg)
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(centralBody: Sun.sol, orbit: orbit, julianDate: Float(jd), timeOfPeriapsisPassage: tp)
+            let motion = OrbitalMotionMoment(centralBody: Sun.sol, orbit: orbit, julianDate: jd, timeOfPeriapsisPassage: tp)
             return motion
         }
         

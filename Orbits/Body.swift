@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SceneKit
 import SpaceTime
 import StarCatalog
 
@@ -16,8 +15,8 @@ public protocol Searchable {
 }
 
 public protocol BoundedByGravity: Searchable {
-    var gravParam: Float { get }
-    var sphereOfInfluence: Float? { get }
+    var gravParam: Double { get }
+    var sphereOfInfluence: Double? { get }
     var satellites: [Body] { get }
     func addSatellite(satellite: Body, motion: OrbitalMotion)
 }
@@ -26,7 +25,7 @@ open class Body {
     public let name: String
     public weak var centralBody: CelestialBody?
     public var motion: OrbitalMotion?
-    public var julianDate: Float = Float(JulianDate.J2000) {
+    public var julianDate: Double = JulianDate.J2000 {
         didSet {
             motion?.julianDate = julianDate
             if let primary = self as? CelestialBody {
@@ -34,8 +33,8 @@ open class Body {
             }
         }
     }
-    public var heliocentricPosition: SCNVector3 {
-        let position = motion?.position ?? SCNVector3()
+    public var heliocentricPosition: Vector3 {
+        let position = motion?.position ?? Vector3.zero
         if centralBody as? Sun != nil {
             return position
         } else if let primary = centralBody {
@@ -52,24 +51,24 @@ open class Body {
 
 open class CelestialBody: Body, BoundedByGravity {
     public let naifId: Int
-    public let radius: Float
-    public let rotationPeriod: Float
-    public let axialTilt: Float
-    public let gravParam: Float
+    public let radius: Double
+    public let rotationPeriod: Double
+    public let axialTilt: Double
+    public let gravParam: Double
     private var orbiterDict = [String: Body]()
     
     public var satellites: [Body] {
         return Array(orbiterDict.values)
     }
     
-    public var sphereOfInfluence: Float? {
+    public var sphereOfInfluence: Double? {
         guard let primary = centralBody, let distance = motion?.distance else {
             return nil
         }
         return distance * (radius / primary.radius)
     }
     
-    public init(naifId: Int, name: String, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
+    public init(naifId: Int, name: String, mass: Double, radius: Double, rotationPeriod: Double = 0, axialTilt: Double = 0) {
         self.naifId = naifId
         self.gravParam = mass * gravConstant
         self.radius = radius
@@ -78,7 +77,7 @@ open class CelestialBody: Body, BoundedByGravity {
         super.init(name: name)
     }
     
-    public convenience init(naifId: Int, mass: Float, radius: Float, rotationPeriod: Float = 0, axialTilt: Float = 0) {
+    public convenience init(naifId: Int, mass: Double, radius: Double, rotationPeriod: Double = 0, axialTilt: Double = 0) {
         let name = NaifCatalog.name(forNaif: naifId)!
         self.init(naifId: naifId, name: name, mass: mass, radius: radius, rotationPeriod: rotationPeriod, axialTilt: axialTilt)
     }
@@ -110,7 +109,7 @@ open class Sun: CelestialBody {
         return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
     }
     
-    public override var heliocentricPosition: SCNVector3 {
-        return SCNVector3()
+    public override var heliocentricPosition: Vector3 {
+        return Vector3.zero
     }
 }

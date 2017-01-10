@@ -6,16 +6,15 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import SceneKit
 import SQLite
 
 public class OrbitalMotion {
     
     public struct Info {
-        public let altitude: Float
-        public let speed: Float
-        public let periapsisAltitude: Float
-        public let apoapsisAltitude: Float?
+        public let altitude: Double
+        public let speed: Double
+        public let periapsisAltitude: Double
+        public let apoapsisAltitude: Double?
     }
     
     public let centralBody: CelestialBody
@@ -23,13 +22,13 @@ public class OrbitalMotion {
     public var info: Info {
         return Info(
             altitude: distance - centralBody.radius,
-            speed: velocity.length(),
+            speed: velocity.length,
             periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
             apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil
         )
     }
     
-    public var orbitalPeriod: Float? {
+    public var orbitalPeriod: Double? {
         return orbit.orbitalPeriod(centralBody: centralBody)
     }
     
@@ -45,9 +44,9 @@ public class OrbitalMotion {
     /// - timeSincePeriapsis: Time of periapsis passage in seconds
     /// - julianDate: Current Julian day time. This option requires `referenceJulianDayTime` to be set
     public enum Phase {
-        case meanAnomaly(Float)
-        case timeSincePeriapsis(Float)
-        case julianDate(Float)
+        case meanAnomaly(Double)
+        case timeSincePeriapsis(Double)
+        case julianDate(Double)
     }
     
     public var phase: Phase {
@@ -64,14 +63,14 @@ public class OrbitalMotion {
         }
     }
     
-    public func setMeanAnomaly(_ ma: Float) {
+    public func setMeanAnomaly(_ ma: Double) {
         guard case .meanAnomaly(_) = phase else {
             fatalError("phase is not in mean anomaly mode")
         }
         phase = .meanAnomaly(ma)
     }
     
-    public var julianDate: Float? {
+    public var julianDate: Double? {
         get {
             guard case let .julianDate(jd) = phase else {
                 return nil
@@ -89,7 +88,7 @@ public class OrbitalMotion {
         }
     }
     
-    public var timeSincePeriapsis: Float? {
+    public var timeSincePeriapsis: Double? {
         get {
             guard case let .timeSincePeriapsis(tp) = phase else {
                 return nil
@@ -107,9 +106,9 @@ public class OrbitalMotion {
         }
     }
     
-    public var timeOfPeriapsisPassage: Float?
+    public var timeOfPeriapsisPassage: Double?
     
-    private func safeTimeOfPeriapsisPassage() -> Float {
+    private func safeTimeOfPeriapsisPassage() -> Double {
         if let r = timeOfPeriapsisPassage {
             return r
         } else {
@@ -118,20 +117,20 @@ public class OrbitalMotion {
     }
     
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
-    public private(set) var meanAnomaly: Float!
+    public private(set) var meanAnomaly: Double!
     
-    public private(set) var eccentricAnomaly: Float!
-    public private(set) var trueAnomaly: Float!
+    public private(set) var eccentricAnomaly: Double!
+    public private(set) var trueAnomaly: Double!
     
-    public var position: SCNVector3!
-    public var velocity: SCNVector3!
+    public var position: Vector3!
+    public var velocity: Vector3!
     
-    public var specificMechanicalEnergy: Float {
-        return velocity.dot(velocity) / 2 - centralBody.gravParam / position.length()
+    public var specificMechanicalEnergy: Double {
+        return velocity.dot(velocity) / 2 - centralBody.gravParam / position.length
     }
     
-    public var distance: Float {
-        return position.length()
+    public var distance: Double {
+        return position.length
     }
     
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
@@ -150,11 +149,11 @@ public class OrbitalMotion {
     }
     
     // Convenient constructors
-    public convenience init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Float) {
+    public convenience init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Double) {
         self.init(centralBody: centralBody, orbit: orbit, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public convenience init(centralBody: CelestialBody, orbit: Orbit, timeSincePeriapsis: Float = 0) {
+    public convenience init(centralBody: CelestialBody, orbit: Orbit, timeSincePeriapsis: Double = 0) {
         self.init(centralBody: centralBody, orbit: orbit, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
     
@@ -168,46 +167,46 @@ public class OrbitalMotion {
     /// - parameter velocity:    Velocity vector
     ///
     /// - returns: An orbit motion object
-    public init(centralBody: CelestialBody, position: SCNVector3, velocity: SCNVector3) {
+    public init(centralBody: CelestialBody, position: Vector3, velocity: Vector3) {
         self.centralBody = centralBody
         self.position = position
         self.velocity = velocity
         let momentum = position.cross(velocity)
         let eccentricityVector = velocity.cross(momentum) / centralBody.gravParam - position.normalized()
-        let n = SCNVector3Make(0, 0, 1).cross(momentum)
+        let n = Vector3(0, 0, 1).cross(momentum)
         trueAnomaly = {
             if position.dot(velocity) >= 0 {
-                return acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
+                return acos(eccentricityVector.dot(position) / (eccentricityVector.length * position.length))
             } else {
-                return Float(2 * M_PI) - acos(eccentricityVector.dot(position) / (eccentricityVector.length() * position.length()))
+                return Double(2 * M_PI) - acos(eccentricityVector.dot(position) / (eccentricityVector.length * position.length))
             }
         }()
         trueAnomaly = trueAnomaly.isNaN ? 0 : trueAnomaly
-        let inclination = acos(momentum.z / momentum.length())
-        let eccentricity = eccentricityVector.length()
+        let inclination = acos(Double(momentum.z) / momentum.length)
+        let eccentricity = eccentricityVector.length
         eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
-        var longitudeOfAscendingNode: Float? = {
+        var longitudeOfAscendingNode: Double? = {
             if n.y >= 0 {
-                return acos(n.x / n.length())
+                return acos(Double(n.x) / n.length)
             } else {
-                return Float(M_PI * 2) - acos(n.x / n.length())
+                return Double(M_PI * 2) - acos(Double(n.x) / n.length)
             }
         }()
         if longitudeOfAscendingNode!.isNaN {
             longitudeOfAscendingNode = nil
         }
-        var argumentOfPeriapsis: Float = {
+        var argumentOfPeriapsis: Double = {
             if eccentricityVector.z >= 0 {
-                return acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
+                return acos(n.dot(eccentricityVector) / (n.length * eccentricityVector.length))
             } else {
-                return Float(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length() * eccentricityVector.length()))
+                return Double(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length * eccentricityVector.length))
             }
         }()
         if argumentOfPeriapsis.isNaN {
-            argumentOfPeriapsis = atan2(eccentricityVector.y, eccentricityVector.x)
+            argumentOfPeriapsis = atan2(Double(eccentricityVector.y), Double(eccentricityVector.x))
         }
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
-        let semimajorAxis = 1 / (2 / position.length() - pow(velocity.length(), 2) / centralBody.gravParam)
+        let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / centralBody.gravParam)
         // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         phase = .meanAnomaly(0)
@@ -220,9 +219,9 @@ public class OrbitalMotion {
     ///
     /// - returns: state vector tuple (position, velocity)
     
-    public func stateVectors(fromTrueAnomaly trueAnomaly: Float, eccentricAnomaly: Float? = nil) -> (SCNVector3, SCNVector3) {
-        let sinE: Float
-        let cosE: Float
+    public func stateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
+        let sinE: Double
+        let cosE: Double
         if let ecc = eccentricAnomaly {
             sinE = sin(ecc)
             cosE = cos(ecc)
@@ -235,18 +234,18 @@ public class OrbitalMotion {
         
         let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cosE)
         
-        let p = SCNVector3Make(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
+        let p = Vector3(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
         let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
-        let v = SCNVector3Make(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
+        let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
         let i = orbit.orientation.inclination
         let ω = orbit.orientation.argumentOfPeriapsis
-        let position = SCNVector3Make(
+        let position = Vector3(
             p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
             p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
             p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
         )
-        let velocity = SCNVector3Make(
+        let velocity = Vector3(
             v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
             v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
             v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
@@ -254,7 +253,7 @@ public class OrbitalMotion {
         return (position, velocity)
     }
     
-    public func stateVectors(fromMeanAnomaly meanAnomaly: Float) -> (SCNVector3, SCNVector3) {
+    public func stateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
         let eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)

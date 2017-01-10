@@ -9,9 +9,9 @@
 import UIKit
 
 public class OrbitalMotionMoment: OrbitalMotion {
-    public let ephemerisJulianDate: Float
+    public let ephemerisJulianDate: Double
     
-    public init(centralBody: CelestialBody, orbit: Orbit, julianDate: Float, timeOfPeriapsisPassage: Float) {
+    public init(centralBody: CelestialBody, orbit: Orbit, julianDate: Double, timeOfPeriapsisPassage: Double) {
         self.ephemerisJulianDate = julianDate
         super.init(centralBody: centralBody, orbit: orbit, phase: .julianDate(julianDate))
         self.timeOfPeriapsisPassage = timeOfPeriapsisPassage

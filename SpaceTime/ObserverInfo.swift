@@ -19,10 +19,10 @@ public struct ObserverInfo {
     }
     
     /// local sidereal time in radians
-    public var localSiderealTimeAngle: Float {
+    public var localSiderealTimeAngle: Double {
         let hours = location.longitude / 15
         let siderealTime = time.greenwichMeanSiderealTime + hours
-        return wrapAngle(Float((siderealTime / 12 * M_PI)))
+        return wrapAngle(Double((siderealTime / 12 * M_PI)))
     }
     
 }

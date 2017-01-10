@@ -58,6 +58,14 @@ class SolarSystemViewController: SceneControlViewController {
         }
     }
     
+    private var scnView: SCNView {
+        return self.view as! SCNView
+    }
+    
+    private var sol2dScene: SolarSystemOverlayScene {
+        return self.scnView.overlaySKScene as! SolarSystemOverlayScene
+    }
+    
     lazy var timeLabel: UILabel = {
         return self.defaultLabel()
     }()
@@ -74,12 +82,9 @@ class SolarSystemViewController: SceneControlViewController {
         return label
     }()
     
-    lazy var velocityLabel: UILabel = {
-        let label = self.defaultLabel()
-        label.font = UIFont.monospacedDigitSystemFont(ofSize: 10, weight: UIFontWeightRegular)
-        label.contentMode = .redraw
-        return label
-    }()
+    var velocityLabel: SKLabelNode {
+        return self.sol2dScene.velocityLabel
+    }
     
     private func defaultLabel() -> UILabel {
         let label = UILabel()
@@ -173,7 +178,6 @@ class SolarSystemViewController: SceneControlViewController {
                 focusedObjectLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor)
             ]
         )
-        scnView.addSubview(velocityLabel)
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
@@ -181,9 +185,17 @@ class SolarSystemViewController: SceneControlViewController {
         scnView.backgroundColor = UIColor.black
     }
     
+    private func project3dNode(_ node: SCNNode) -> CGPoint {
+        let vp = scnView.projectPoint(node.position)
+        let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
+        // small coordinate conversion hack
+        return CGPoint(x: viewPosition.x, y: view.frame.size.height - viewPosition.y)
+    }
+    
     // MARK: - Scene Renderer Delegate
-    private var prevCenter = CGPoint()
-    func renderer(_ renderer: SCNSceneRenderer, updateAtTime time: TimeInterval) {
+    
+    override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+        super.renderer(renderer, didRenderScene: scene, atTime: time)
         if lastRenderTime == nil {
             lastRenderTime = time
         }
@@ -193,27 +205,34 @@ class SolarSystemViewController: SceneControlViewController {
         timeElapsed += warpedDeltaTime
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
         let warpedJd = JulianDate(date: warpedDate).value
-        self.solarSystemScene.julianDate = Float(warpedJd)
-        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
-        DispatchQueue.main.async {
-            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
-        }
+        self.solarSystemScene.julianDate = warpedJd
+        //        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
+        //        DispatchQueue.main.async {
+        //            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
+        //        }
         guard let focusedNode = self.cameraController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
-        DispatchQueue.main.async {
-            self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-            self.velocityLabel.text = focusedBody.velocityString
-            let scnView = self.view as! SCNView
-            let onScreenPosition = scnView.projectPoint(focusedNode.position)
-            print(onScreenPosition)
-            let newCenter = CGPoint(x: CGFloat(onScreenPosition.x), y: CGFloat(onScreenPosition.y + 20))
-            if abs(newCenter.x - self.prevCenter.x) > 0.5 || abs(newCenter.y - self.prevCenter.y) > 0.5 {
-                self.velocityLabel.center = newCenter
-                self.prevCenter = newCenter
-            }
-        }
+        self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
+        self.velocityLabel.text = focusedBody.velocityString
+        let overlayPosition = project3dNode(focusedNode)
+        let newCenter = overlayPosition + CGVector(dx: 0, dy: -(velocityLabel.frame.size.height / 2))
+        self.velocityLabel.position = newCenter
     }
 }
 
+fileprivate func +(p: CGPoint, v: CGVector) -> CGPoint {
+    return CGPoint(x: p.x + v.dx, y: p.y + v.dy)
+}
 
+fileprivate func -(p: CGPoint, v: CGVector) -> CGPoint {
+    return p + (-v)
+}
+
+fileprivate prefix func -(p: CGPoint) -> CGPoint {
+    return CGPoint(x: -p.x, y: -p.y)
+}
+
+fileprivate prefix func -(v: CGVector) -> CGVector {
+    return CGVector(dx: -v.dx, dy: -v.dy)
+}

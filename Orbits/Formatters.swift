@@ -26,7 +26,7 @@ public struct Formatters {
 
 extension Body {
     public var velocityString: String? {
-        guard let velocity = motion?.velocity.length() else {
+        guard let velocity = motion?.velocity.length else {
             return nil
         }
         return Formatters.velocityFormatter.string(from: NSNumber(value: velocity))

@@ -34,10 +34,10 @@ class StateVectorTest: XCTestCase {
         XCTAssertEqualWithAccuracy(motion.orbit.shape.semimajorAxis!, 1, accuracy: 1e-4)
         XCTAssertEqualWithAccuracy(motion.orbit.shape.eccentricity, 0, accuracy: 1e-4)
         XCTAssertEqualWithAccuracy(motion.orbit.orientation.inclination, 0, accuracy: 1e-4)
-        XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, Float(2 * M_PI) * sqrt(1), accuracy: 1e-4)
+        XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, Double(2 * M_PI) * sqrt(1), accuracy: 1e-4)
         // circular orbit not being able to calculate mean anomaly
         XCTAssertEqualWithAccuracy(motion.meanAnomaly, 0, accuracy: 1e-4)
-        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, Float(M_PI_2), accuracy: 1e-4)
+        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, Double(M_PI_2), accuracy: 1e-4)
         XCTAssertNil(motion.orbit.orientation.longitudeOfAscendingNode)
     }
     
@@ -51,7 +51,7 @@ class StateVectorTest: XCTestCase {
         XCTAssertEqualWithAccuracy(motion.orbit.orientation.inclination, 0, accuracy: 1e-4)
         XCTAssertEqualWithAccuracy(motion.orbitalPeriod!, 11.5353, accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(motion.meanAnomaly, 0, accuracy: 1e-4)
-        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, Float(M_PI_2), accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, Double(M_PI_2), accuracy: 1e-3)
         XCTAssertNil(motion.orbit.orientation.longitudeOfAscendingNode)
         let p2 = SCNVector3(x: 0, y: 2, z: 0)
         let v2 = SCNVector3(x: 0.577286, y: 0, z: 0)
@@ -59,10 +59,10 @@ class StateVectorTest: XCTestCase {
         XCTAssertLessThan(m2.specificMechanicalEnergy, 0)
         XCTAssertEqualWithAccuracy(m2.orbit.shape.semimajorAxis!, 1.5, accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(m2.orbit.shape.eccentricity, 1/3.0, accuracy: 1e-3)
-        XCTAssertEqualWithAccuracy(m2.orbit.orientation.inclination, Float(M_PI), accuracy: 1e-4)
+        XCTAssertEqualWithAccuracy(m2.orbit.orientation.inclination, Double(M_PI), accuracy: 1e-4)
         XCTAssertEqualWithAccuracy(m2.orbitalPeriod!, 11.5353, accuracy: 1e-2)
-        XCTAssertEqualWithAccuracy(m2.meanAnomaly, Float(M_PI), accuracy: 1e-2)
-        XCTAssertEqualWithAccuracy(m2.orbit.orientation.argumentOfPeriapsis, Float(-M_PI_2), accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(m2.meanAnomaly, Double(M_PI), accuracy: 1e-2)
+        XCTAssertEqualWithAccuracy(m2.orbit.orientation.argumentOfPeriapsis, Double(-M_PI_2), accuracy: 1e-3)
         XCTAssertNil(m2.orbit.orientation.longitudeOfAscendingNode)
     }
     
@@ -83,8 +83,8 @@ class StateVectorTest: XCTestCase {
         XCTAssertEqualWithAccuracy(motion.orbit.shape.semimajorAxis!, 149_598_000_000, accuracy: 149_598_000_000 / 1e3)
         XCTAssertEqualWithAccuracy(motion.orbit.shape.eccentricity, 0.0167086, accuracy: 1e-4)
         XCTAssertEqualWithAccuracy(motion.orbit.orientation.inclination, 0.02755333837, accuracy: 1e-5)
-        XCTAssertEqualWithAccuracy(motion.orbit.orientation.longitudeOfAscendingNode!, 174.9 / 180 * Float(M_PI), accuracy: 1e-5)
-        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, 288.1 / 180 * Float(M_PI), accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(motion.orbit.orientation.longitudeOfAscendingNode!, 174.9 / 180 * Double(M_PI), accuracy: 1e-5)
+        XCTAssertEqualWithAccuracy(motion.orbit.orientation.argumentOfPeriapsis, 288.1 / 180 * Double(M_PI), accuracy: 1e-3)
     }
     
 }
