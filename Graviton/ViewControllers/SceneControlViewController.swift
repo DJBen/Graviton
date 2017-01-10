@@ -103,12 +103,12 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
 
         // dampen velocity
-        if slidingStopTimestamp == nil {
-            slidingStopTimestamp = time
-        } else {
-            let p = min((time - slidingStopTimestamp!) / viewSlideInertiaDuration, 1) - 1
+        if let ts = slidingStopTimestamp {
+            let p = min((time - ts) / viewSlideInertiaDuration, 1) - 1
             let factor: CGFloat = CGFloat(-p * p * p)
             slideVelocity = CGPoint(x: referenceSlideVelocity.x * factor, y: referenceSlideVelocity.y * factor)
+        } else {
+            slidingStopTimestamp = time
         }
     }
     

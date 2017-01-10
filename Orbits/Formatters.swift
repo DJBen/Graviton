@@ -15,11 +15,24 @@ public struct Formatters {
     static var velocityFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
-        formatter.usesSignificantDigits = true
-        formatter.minimumSignificantDigits = 7
-        formatter.maximumSignificantDigits = 7
+        formatter.maximumFractionDigits = 2
+        formatter.minimumFractionDigits = 2
         formatter.positiveSuffix = " m/s"
         formatter.negativeSuffix = " m/s"
+        formatter.positivePrefix = "Vel: "
+        formatter.negativePrefix = "Vel: "
+        return formatter
+    }()
+    
+    // format distance to km
+    static var distanceFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 0
+        formatter.positiveSuffix = " km"
+        formatter.negativeSuffix = " km"
+        formatter.positivePrefix = "Alt: "
+        formatter.negativePrefix = "Alt: "
         return formatter
     }()
 }
@@ -30,5 +43,12 @@ extension Body {
             return nil
         }
         return Formatters.velocityFormatter.string(from: NSNumber(value: velocity))
+    }
+    
+    public var distanceString: String? {
+        guard let distance = motion?.distance else {
+            return nil
+        }
+        return Formatters.distanceFormatter.string(from: NSNumber(value: distance / 1000))
     }
 }

@@ -86,6 +86,10 @@ class SolarSystemViewController: SceneControlViewController {
         return self.sol2dScene.velocityLabel
     }
     
+    var distanceLabel: SKLabelNode {
+        return self.sol2dScene.distanceLabel
+    }
+    
     private func defaultLabel() -> UILabel {
         let label = UILabel()
         label.textColor = UIColor.white
@@ -192,6 +196,12 @@ class SolarSystemViewController: SceneControlViewController {
         return CGPoint(x: viewPosition.x, y: view.frame.size.height - viewPosition.y)
     }
     
+    private func projectedSize(of node: SCNNode) -> CGSize {
+        let min = scnView.projectPoint(node.boundingBox.min)
+        let max = scnView.projectPoint(node.boundingBox.max)
+        return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
+    }
+    
     // MARK: - Scene Renderer Delegate
     
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
@@ -206,18 +216,22 @@ class SolarSystemViewController: SceneControlViewController {
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
         let warpedJd = JulianDate(date: warpedDate).value
         self.solarSystemScene.julianDate = warpedJd
-        //        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
-        //        DispatchQueue.main.async {
-        //            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
-        //        }
+        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
+        DispatchQueue.main.async {
+            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
+        }
         guard let focusedNode = self.cameraController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
         self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
         self.velocityLabel.text = focusedBody.velocityString
         let overlayPosition = project3dNode(focusedNode)
-        let newCenter = overlayPosition + CGVector(dx: 0, dy: -(velocityLabel.frame.size.height / 2))
-        self.velocityLabel.position = newCenter
+        let nodeHeight = projectedSize(of: focusedNode).height
+        let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
+        self.distanceLabel.position = newCenter
+        self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
+        self.distanceLabel.text = focusedBody.distanceString
+        self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
     }
 }
 
