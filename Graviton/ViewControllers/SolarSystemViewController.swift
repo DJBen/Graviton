@@ -189,17 +189,21 @@ class SolarSystemViewController: SceneControlViewController {
         scnView.backgroundColor = UIColor.black
     }
     
-    private func project3dNode(_ node: SCNNode) -> CGPoint {
-        let vp = scnView.projectPoint(node.position)
-        let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
-        // small coordinate conversion hack
-        return CGPoint(x: viewPosition.x, y: view.frame.size.height - viewPosition.y)
-    }
-    
-    private func projectedSize(of node: SCNNode) -> CGSize {
-        let min = scnView.projectPoint(node.boundingBox.min)
-        let max = scnView.projectPoint(node.boundingBox.max)
-        return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
+    private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {
+        self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
+        self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
+        self.velocityLabel.text = focusedBody.velocityString
+        self.distanceLabel.text = focusedBody.distanceString
+        self.velocityLabel.alpha = focusedNode.opacity
+        self.distanceLabel.alpha = focusedNode.opacity
+        
+        let overlayPosition = project3dNode(focusedNode)
+        let nodeSize = projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
+        let nodeHeight = nodeSize.height
+        let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
+        
+        self.distanceLabel.position = newCenter
+        self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
     }
     
     // MARK: - Scene Renderer Delegate
@@ -223,16 +227,27 @@ class SolarSystemViewController: SceneControlViewController {
         guard let focusedNode = self.cameraController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
-        self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.velocityLabel.text = focusedBody.velocityString
-        let overlayPosition = project3dNode(focusedNode)
-        let nodeHeight = projectedSize(of: focusedNode).height
-        let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
-        self.distanceLabel.position = newCenter
-        self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.distanceLabel.text = focusedBody.distanceString
-        self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
+        updateForFocusedNode(focusedNode, representingBody: focusedBody)
     }
+    
+    // MARK: - View Projections
+    
+    private func project3dNode(_ node: SCNNode) -> CGPoint {
+        let vp = scnView.projectPoint(node.position)
+        let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
+        // small coordinate conversion hack
+        return CGPoint(x: viewPosition.x, y: view.frame.size.height - viewPosition.y)
+    }
+    
+    private func projectedSize(of node: SCNNode) -> CGSize {
+        let min = scnView.projectPoint(node.boundingBox.min)
+        let max = scnView.projectPoint(node.boundingBox.max)
+        return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
+    }
+}
+
+fileprivate func *(p: CGSize, s: CGFloat) -> CGSize {
+    return CGSize(width: p.width * s, height: p.height * s)
 }
 
 fileprivate func +(p: CGPoint, v: CGVector) -> CGPoint {
