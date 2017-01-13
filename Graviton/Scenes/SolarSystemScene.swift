@@ -132,6 +132,9 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     func focus(atNode node: SCNNode) {
+        if node != focusedNode {
+            cameraNode.position = node.position
+        }
         focusedNode = node
     }
     
@@ -165,7 +168,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         }
         
         func addNode(identifier: String) {
-            let numberOfVertices: Int = 50
+            let numberOfVertices: Int = 100
             let vertices = Array(0..<numberOfVertices).map { index in
                 return vertex(forIndex: index, totalIndex: numberOfVertices)
             }

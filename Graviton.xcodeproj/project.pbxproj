@@ -41,7 +41,6 @@
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
-		FC2435421E19B625002AC626 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435411E19B625002AC626 /* DBHelper.swift */; };
 		FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
 		FC24354E1E1BBE21002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -840,7 +839,6 @@
 				EFE8BF791DD86B38000F0A79 /* Constants.swift in Sources */,
 				FCA930891E24F63600100706 /* SCNVector3+Util.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
-				FC2435421E19B625002AC626 /* DBHelper.swift in Sources */,
 				FCA930841E24F42700100706 /* VectorMath.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
 			);

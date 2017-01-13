@@ -154,7 +154,10 @@ class SolarSystemViewController: SceneControlViewController {
         let objectHit = hitResults.map { $0.node }.filter { $0.name != nil && $0.name!.contains("orbit") == false }
         if objectHit.count > 0 {
             let node = objectHit[0]
+            SCNTransaction.begin()
+            SCNTransaction.animationDuration = 0.25
             cameraController?.focus(atNode: node)
+            SCNTransaction.commit()
             updateFocusedNodeLabel()
         }
     }
