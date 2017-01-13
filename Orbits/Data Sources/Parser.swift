@@ -1,13 +1,13 @@
 //
 //  EphemerisParser.swift
-//  Horizons
+//  StarCatalog
 //
 //  Created by Ben Lu on 10/4/16.
 //
 //
 
 import Foundation
-import Orbits
+import SpaceTime
 
 public struct ResponseValidator {
     public enum Result {
@@ -68,22 +68,20 @@ public struct ResponseValidator {
 
 public struct ResponseParser {
     // parse range 1
-    static func parseBodyInfo(_ content: String) -> [(String, String)] {
-//        let commentRegex = "^\\s*(.*):$"
+    static func parseBodyInfo(_ content: String) -> [String: String] {
         let physicalDataRegex = "\\*+([^\\*]+)\\*+\\s*\\*+\\s*Ephemeris[^\\*]+\\*+([^\\*]+)\\*+([^\\*]+)\\*+([^\\*]+)\\*+"
         let planetDataMatched = content.matches(for: physicalDataRegex)[0]
         let info = planetDataMatched[1]
-        return info.components(separatedBy: "\n").flatMap { (line) -> [(String, String)]? in
-            guard let result = parseDoubleColumn(line) else {
-                return nil
-            }
+        var results = [String: String]()
+        info.components(separatedBy: "\n").flatMap { (line) -> [(String, String)]? in
+            guard let result = parseDoubleColumn(line) else { return nil }
             if let col2 = result.1 {
                 return [result.0, col2]
             } else {
                 return [result.0]
             }
-        }.reduce([], +)
-        
+        }.reduce([], +).forEach { results[$0] = $1 }
+        return results
     }
     
     // parse range 1 - subroutine
@@ -93,9 +91,7 @@ public struct ResponseParser {
         let matched = line.matches(for: lineRegex)
         guard matched.count == 1 else {
             let singleProp = line.matches(for: propertyRegex)
-            guard singleProp.isEmpty == false else {
-                return nil
-            }
+            guard singleProp.isEmpty == false else { return nil }
             return ((singleProp[0][1], singleProp[0][2]), nil)
         }
         let m = matched[0]
@@ -103,40 +99,107 @@ public struct ResponseParser {
         
         func parseProperty(_ propLine: String) -> (String, String)? {
             let props = propLine.matches(for: propertyRegex)
-            guard props.isEmpty == false else {
-                return nil
-            }
+            guard props.isEmpty == false else { return nil }
             let p = props[0]
             return (p[1].trimmed(), p[2].trimmed())
         }
         if let firstProperty = parseProperty(m[1]) {
             return (firstProperty, parseProperty(m[2]))
-        } else {
-            return nil
-        }
+        } else { return nil }
     }
     
     // parse range 2, 3 and 4
-    static func parseLineBasedContent(_ content: String) -> [(String, String, String?)] {
+    static func parseLineBasedContent(_ content: String) -> [String: (String, String?)] {
         let physicalDataRegex = "\\*+([^\\*]+)\\*+\\s*\\*+\\s*Ephemeris[^\\*]+\\*+([^\\*]+)\\*+([^\\*]+)\\*+([^\\*]+)\\*+"
         let planetDataMatched = content.matches(for: physicalDataRegex)[0]
         let info = (2...4).map { planetDataMatched[$0] }.joined(separator: "\n").components(separatedBy: "\n")
         let regex = "^([^:]+):\\s([^\\{]+)(\\{[^\\}]+\\})?$"
-        return info.map { (i) -> [(String, String, String?)] in
+        var results = [String: (String, String?)]()
+        info.map { (i) -> [(String, String, String?)] in
             return i.matches(for: regex).flatMap { (matches) -> (String, String, String?)? in
-                guard matches.count == 4 else {
-                    return nil
-                }
+                guard matches.count == 4 else { return nil }
                 let m = matches.map { $0.trimmed() }
                 return (m[1], m[2], m[3].isEmpty ? nil : m[3])
             }
-        }.reduce([], +)
+        }.reduce([], +).forEach { results[$0] = ($1, $2) }
+        return results
     }
     
     public static func parseEphemeris(content: String) -> OrbitalMotion? {
         let ephemerisRegex = "\\$\\$SOE\\s*(([^,]*,\\s*)*)\\s*\\$\\$EOE"
         let matched = content.matches(for: ephemerisRegex)[0][1]
         return EphemerisParser.parse(csv: matched)
+    }
+    
+    public static func parse(content: String) -> CelestialBody? {
+        func kmToM(_ km: String?) -> Double? {
+            if km == nil { return nil }
+            if let matches = km?.matches(for: "([-\\d.]+)\\s*km") {
+                guard matches.count > 0 else { return nil }
+                guard matches[0].count > 1 else { return nil }
+                return Double(matches[0][1])! * 1000
+            }
+            return nil
+        }
+        func degToRadian(_ deg: String?) -> Double? {
+            if deg == nil { return nil }
+            if let matches = deg?.matches(for: "([-\\d.]+)\\s*deg") {
+                guard matches.count > 0 else { return nil }
+                guard matches[0].count > 1 else { return nil }
+                return radians(degrees: Double(matches[0][1])!)
+            }
+            return nil
+        }
+        func nameId(_ nameId: (String, String?)?) -> (String, Int)? {
+            guard let ni = nameId else { return nil }
+            let matches = ni.0.matches(for: "(\\w+)\\s*\\((\\d+)\\)")
+            guard matches.count > 0 else { return nil }
+            guard matches[0].count > 2 else { return nil }
+            return (matches[0][1], Int(matches[0][2])!)
+        }
+        func rotPeriod(_ str: String?) -> Double? {
+            if str == nil { return nil }
+            if let matches = str?.matches(for: "([-\\d.]+)\\s*(hr|d)") {
+                guard matches.count > 0 else { return nil }
+                guard matches[0].count > 2 else { return nil }
+                guard let result = Double(matches[0][1]) else { return nil }
+                if matches[0][2] == "hr" {
+                    return result * 3600
+                } else if matches[0][2] == "d" {
+                    return result * 24 * 3600
+                } else {
+                    return nil
+                }
+            }
+            return nil
+        }
+        func getGm(_ dict: [String: String]) -> Double? {
+            let regex = "GM \\((10\\^(\\d+))?\\s*(km\\^3 s\\^-2|km\\^3\\/s\\^2)\\)"
+            // match 2 - exponent or nil (1)
+            var exponent: Double = 0
+            let gmKeys = dict.keys.filter { (key) -> Bool in
+                let matches = key.matches(for: regex)
+                return matches.isEmpty == false
+            }
+            guard let gmKey = gmKeys.first else { return nil }
+            let matches = gmKey.matches(for: regex)
+            if matches[0][2].lengthOfBytes(using: .utf8) > 0 {
+                exponent = Double(matches[0][2])!
+            }
+            if let str = dict[gmKey], let result = Double(str) {
+                return result * pow(10, exponent)
+            } else {
+                return nil
+            }
+        }
+        let bodyInfo = parseBodyInfo(content)
+        let systemInfo = parseLineBasedContent(content)
+        if let motion = parseEphemeris(content: content), let radius = kmToM(bodyInfo["Equatorial Radius, Re"]), let obliquity = degToRadian(bodyInfo["Obliquity to orbit"]), let hillSphereRpStr = bodyInfo["Hill's sphere rad. Rp"], let hsRp = Double(hillSphereRpStr), let naifId = nameId(systemInfo["Target body name"])?.1, let centerId = nameId(systemInfo["Center body name"])?.1, let rotRate = rotPeriod(bodyInfo["Sidereal rot. period"]), let gm = getGm(bodyInfo) {
+            let body = CelestialBody(naifId: naifId, gravParam: gm, radius: radius, rotationPeriod: rotRate, obliquity: obliquity, centralBody: .naifId(centerId), hillSphereRadRp: hsRp)
+            body.motion = motion
+            return body
+        }
+        return nil
     }
 }
 

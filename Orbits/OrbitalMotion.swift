@@ -72,9 +72,7 @@ public class OrbitalMotion {
     
     public var julianDate: Double? {
         get {
-            guard case let .julianDate(jd) = phase else {
-                return nil
-            }
+            guard case let .julianDate(jd) = phase else { return nil }
             return jd
         }
         set {
@@ -90,9 +88,7 @@ public class OrbitalMotion {
     
     public var timeSincePeriapsis: Double? {
         get {
-            guard case let .timeSincePeriapsis(tp) = phase else {
-                return nil
-            }
+            guard case let .timeSincePeriapsis(tp) = phase else { return nil }
             return tp
         }
         set {

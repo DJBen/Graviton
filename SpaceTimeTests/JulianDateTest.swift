@@ -1,6 +1,6 @@
 //
 //  JulianDateTest.swift
-//  Graviton
+//  SpaceTime
 //
 //  Created by Ben Lu on 11/13/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.

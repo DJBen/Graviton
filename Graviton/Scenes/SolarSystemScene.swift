@@ -10,12 +10,11 @@ import UIKit
 import SceneKit
 import Orbits
 import SpaceTime
-import StarCatalog
 
 class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
     private static let baseOrthographicScale: Double = 15
-    private static let maxScale: Double = 5
+    private static let maxScale: Double = 100
     private static let minScale: Double = 0.02
     private static let diminishStartDistance: Float = 3.3
     private static let diminishEndDistance: Float = 1.8
@@ -27,9 +26,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
     var focusedNode: SCNNode?
     var focusedBody: CelestialBody? {
-        guard let n = focusedNode else {
-            return nil
-        }
+        guard let n = focusedNode else { return nil }
         return celestialBodies.filter { $0.naifId == Int(n.name!)! }.first
     }
     

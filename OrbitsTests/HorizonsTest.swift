@@ -1,14 +1,13 @@
 //
 //  HorizonsTest.swift
-//  Graviton
+//  StarCatalog
 //
 //  Created by Ben Lu on 12/20/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import Foundation
 import XCTest
-@testable import Graviton
+@testable import Orbits
 
 class HorizonsTest: XCTestCase {
     

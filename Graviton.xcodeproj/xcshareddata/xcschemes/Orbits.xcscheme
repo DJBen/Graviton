@@ -38,6 +38,16 @@
                ReferencedContainer = "container:Graviton.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FCA9309C1E2B87C700100706"
+               BuildableName = "StarCatalogTests.xctest"
+               BlueprintName = "StarCatalogTests"
+               ReferencedContainer = "container:Graviton.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

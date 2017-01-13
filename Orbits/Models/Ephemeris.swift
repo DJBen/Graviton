@@ -1,13 +1,12 @@
 //
 //  Ephemeris.swift
-//  Graviton
+//  StarCatalog
 //
 //  Created by Ben Lu on 11/13/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
 import UIKit
-import Orbits
 
 public struct Ephemeris {
     // TODO: use hash map

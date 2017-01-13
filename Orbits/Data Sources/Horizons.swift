@@ -1,13 +1,12 @@
 //
 //  Horizons.swift
-//  Graviton
+//  StarCatalog
 //
 //  Created by Sihao Lu on 12/20/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
 import Foundation
-import Orbits
 
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2000-10-01'&STOP_TIME='2000-12-31'&STEP_SIZE='15%20d'%20%20%20%20&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
@@ -22,6 +21,7 @@ class Horizons {
     
     private var tasksTrialCount: [URL: Int] = [:]
     private var rawEphemeris: [Int: String] = [:]
+    
     private var errors: [Error] = []
     
     func fetchPlanets(complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
@@ -235,12 +235,8 @@ fileprivate extension URL {
         if let components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
             if let items = components.queryItems {
                 let filtered = items.filter { $0.name == "COMMAND" }
-                guard filtered.isEmpty == false else {
-                    return nil
-                }
-                guard let str = filtered[0].value else {
-                    return nil
-                }
+                guard filtered.isEmpty == false else { return nil }
+                guard let str = filtered[0].value else { return nil }
                 let start = str.index(str.startIndex, offsetBy: 1)
                 let end = str.index(str.endIndex, offsetBy: -1)
                 return Int(str.substring(with: start..<end))

@@ -1,12 +1,11 @@
 //
 //  EphemerisParser.swift
-//  Graviton
+//  StarCatalog
 //
 //  Created by Sihao Lu on 12/23/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import Orbits
 import SpaceTime
 
 public struct EphemerisParser {
@@ -51,26 +50,22 @@ public struct EphemerisParser {
         return formatter
     }
     
-    // FIXME: mass and radius are 0
-    public static func parse(list: [String: String]) -> Ephemeris? {
-        let bodies = list.flatMap { (naifId, csv) -> CelestialBody? in
-            guard let motion = EphemerisParser.parse(csv: csv) else {
-                return nil
-            }
-            // hack
-            let body = CelestialBody(naifId: Int(naifId)!, mass: 0, radius: 0)
-            body.motion = motion
-            return body
+    public static func parse(list: [String: String]) -> [String: OrbitalMotion] {
+        let motions = list.flatMap { (naifId, csv) -> (String, OrbitalMotion)? in
+            guard let motion = EphemerisParser.parse(csv: csv) else { return nil }
+//            let body = CelestialBody(naifId: Int(naifId)!, mass: 0, radius: 0)
+//            body.motion = motion
+            return (naifId, motion)
         }
-        return Ephemeris(celestialBodies: bodies)
+        var result = [String: OrbitalMotion]()
+        motions.forEach { result[$0.0] = $0.1 }
+        return result
     }
     
     public static func parse(csv: String) -> OrbitalMotion? {
         let components = csv.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { $0.isEmpty == false }
         
-        guard components.count == 14 || components.count == 28 else {
-            return nil
-        }
+        guard components.count == 14 || components.count == 28 else { return nil }
         
         if let jd = Double(components[0]), let ec = Double(components[2]), let semimajorAxis = Double(components[11]), let inclinationDeg = Double(components[4]), let loanDeg = Double(components[5]), let aopDeg = Double(components[6]), let tp = Double(components[7]) {
             let inclination = radians(degrees: inclinationDeg)

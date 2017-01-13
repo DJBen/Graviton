@@ -39,16 +39,12 @@ public struct Formatters {
 
 extension Body {
     public var velocityString: String? {
-        guard let velocity = motion?.velocity.length else {
-            return nil
-        }
+        guard let velocity = motion?.velocity.length else { return nil }
         return Formatters.velocityFormatter.string(from: NSNumber(value: velocity))
     }
     
     public var distanceString: String? {
-        guard let distance = motion?.distance else {
-            return nil
-        }
+        guard let distance = motion?.distance else { return nil }
         return Formatters.distanceFormatter.string(from: NSNumber(value: distance / 1000))
     }
 }

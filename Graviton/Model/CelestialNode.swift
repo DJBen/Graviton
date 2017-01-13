@@ -15,7 +15,7 @@ class CelestialNode: SCNNode {
     
     var offsetAngles = SCNVector3(x: Float(M_PI_2), y: 0, z: 0)
     var tilt: SCNVector3 {
-        return SCNVector3(x: 0, y: -Float(body.axialTilt), z: 0)
+        return SCNVector3(x: 0, y: -Float(body.obliquity), z: 0)
     }
     
     var originalEulerAngles: SCNVector3 = SCNVector3Zero
@@ -32,7 +32,7 @@ class CelestialNode: SCNNode {
     
     var rotationAxis: SCNVector3 {
         // rotation around y axis
-        let θ = Float(-body.axialTilt)
+        let θ = Float(-body.obliquity)
         return SCNVector3(x: sin(θ), y: 0, z: cos(θ))
     }
     

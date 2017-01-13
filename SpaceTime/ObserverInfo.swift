@@ -1,6 +1,6 @@
 //
 //  ObserverInfo.swift
-//  Graviton
+//  SpaceTime
 //
 //  Created by Sihao Lu on 1/5/17.
 //  Copyright © 2017 Ben Lu. All rights reserved.

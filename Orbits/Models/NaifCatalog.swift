@@ -1,6 +1,6 @@
 //
 //  NaifCatalog.swift
-//  Graviton
+//  StarCatalog
 //
 //  Created by Sihao Lu on 1/9/17.
 //  Copyright © 2017 Ben Lu. All rights reserved.
@@ -20,9 +20,7 @@ public class NaifCatalog {
         let id = Expression<Int64>("naif_id")
         let name = Expression<String>("body_name")
         let query = table.select(name).filter(id == Int64(naif)).limit(1)
-        guard let row = try! db.pluck(query) else {
-            return nil
-        }
+        guard let row = try! db.pluck(query) else { return nil }
         return row[name]
     }
 }

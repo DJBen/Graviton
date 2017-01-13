@@ -113,9 +113,7 @@ public struct Orbit {
     }
     
     public func orbitalPeriod(centralBody: BoundedByGravity) -> Double? {
-        guard let a = shape.semimajorAxis else {
-            return nil
-        }
+        guard let a = shape.semimajorAxis else { return nil }
         return Double(M_PI) * 2 * sqrt(pow(a, 3) / centralBody.gravParam)
     }
 }
