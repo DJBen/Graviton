@@ -72,25 +72,27 @@ class DBHelper: NSObject {
         
         let celestialBody = Table("celestial_body")
         let obliquity = Expression<Double>("obliquity")
-        let mass = Expression<Double>("mass")
+        let gm = Expression<Double>("gm")
         let hillSphere = Expression<Double>("hiilSphere")
         let radius = Expression<Double>("radius")
-        
+        let rotationPeriod = Expression<Double>("rotationPeriod")
+
         try database.run(celestialBody.create(ifNotExists: true) { t in
             t.column(obliquity)
-            t.column(mass)
+            t.column(gm)
             t.column(hillSphere)
             t.column(radius)
+            t.column(rotationPeriod)
         })
     
-        //        Horizons().fetchPlanets { (ephemeris, errors) in
-        //            guard errors == nil else {
-        //                print(errors!)
-        //                return
-        //            }
-        //            self.ephemeris = ephemeris!
-        //            self.fillSolarSystemScene(self.SolarSystemScene)
-        //        }
+//        Horizons().fetchPlanets { (ephemeris, errors) in
+//            guard errors == nil else {
+//                print(errors!)
+//                return
+//            }
+//            self.ephemeris = ephemeris!
+//            self.fillSolarSystemScene(self.SolarSystemScene)
+//        }
 //        let result = ResponseParser.parseBodyInfo(PlanetDataExtractionTest.mockData)
         
     }

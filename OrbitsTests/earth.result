@@ -1,0 +1,114 @@
+*******************************************************************************
+Revised: Jul 31, 2013                  Earth                                399
+
+PHYSICAL PROPERTIES (revised Sep 18, 2013):
+Mean radius, km          = 6371.01+-0.01   Mass, 10^24 kg = 5.97219+-0.0006
+Equ. radius, km          = 6378.14+-0.01   Mass layers:
+Polar axis, km           = 6356.752          Atmos          = 5.1   x 10^18 kg
+Flattening               = 1/298.257         oceans         = 1.4   x 10^21 kg
+Density, gm cm^-3        = 5.515             crust          = 2.6   x 10^22 kg
+J2  (GEM T2, 1990)       = 0.0010826265      mantle         = 4.043 x 10^24 kg
+gp, m s^-2 (polar)       = 9.8321863685      outer core     = 1.835 x 10^24 kg
+ge, m s^-2 (equatorial)  = 9.7803267715      inner core     = 9.675 x 10^22 kg
+go, m s^-2               = 9.82022         Fluid core rad   = 3480 km
+GM, km^3 s^-2            = 398600.440      Inner core rad   = 1215 km
+Mean rot. rate, rad s^-1 = 7.292115*10^-5  Surface Area:
+Sidereal period, hr      = 23.93419          land           = 1.48 x 10^8 km
+Mean solar day, days     = 1.002738          sea            = 3.62 x 10^8 km
+Moment of inertia        = 0.3308          Love no., k2     = 0.299
+Mean Temperature, K      = 270             Atm. pressure    = 1.0 bar
+Solar constant, W/m^2    = 1367.6          Vis. mag. V(1,0) = -3.86
+Volume, 10^10 km^3       = 108.321         Geometric albedo = 0.367
+
+DYNAMICAL CHARACTERISTICS:
+Obliquity to orbit, deg  = 23.45           Sidereal period  = 1.0000174  yrs
+Orbit velocity, km s^-1  = 29.7859         Sidereal period  = 365.25636  days
+Mean daily motion, n     = 0.9856474 deg/d Escape velocity  = 11.186 km s^-1
+Hill's sphere radius     = 234.9           Magnetic moment  = 0.61 gauss Rp^3
+*******************************************************************************
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Sun Jan 15 04:49:06 2017 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Earth (399)                     {source: DE431mx}
+Center body name: Sun (10)                        {source: DE431mx}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2000-Oct-01 00:00:00.0000 TDB
+Stop  time      : A.D. 2000-Dec-31 00:00:00.0000 TDB
+Step-size       : 21600 minutes
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : 696000.0 x 696000.0 x 696000.0 k{Equator, meridian, pole}
+System GM       : 1.3271283864237474E+11 km^3/s^2
+Output units    : KM-S, deg, Julian Day Number (Tp)
+Output type     : GEOMETRIC osculating elements
+Output format   : 10
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB,            Calendar Date (TDB),                     EC,                     QR,                     IN,                     OM,                      W,                     Tp,                      N,                     MA,                     TA,                      A,                     AD,                     PR,
+**************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+$$SOE
+2451818.500000000, A.D. 2000-Oct-01 00:00:00.0000,  1.692011271512826E-02,  1.471722748561254E+08,  7.255635213575876E-04,  2.436701801552918E+01,  7.619875973931086E+01,  2.451910431379202E+06,  1.139523573468670E-05,  2.694891106866714E+02,  2.675510208898037E+02,  1.497053054992251E+08,  1.522383361423247E+08,  3.159215029700284E+07,
+2451833.500000000, A.D. 2000-Oct-16 00:00:00.0000,  1.639185445286227E-02,  1.470337988240130E+08,  1.430050021236608E-03,  2.041673227728876E+02,  2.611376930230125E+02,  2.451915101710781E+06,  1.142053659121518E-05,  2.794807880168055E+02,  2.776221296194188E+02,  1.494841207747671E+08,  1.519344427255211E+08,  3.152216160113847E+07,
+2451848.500000000, A.D. 2000-Oct-31 00:00:00.0000,  1.723011003818860E-02,  1.471209686529633E+08,  1.685981349263759E-03,  4.440324484096472E+01,  5.692645677316555E+01,  2.451911170699656E+06,  1.139580479562536E-05,  2.982945836427016E+02,  2.965384098107407E+02,  1.497003216680561E+08,  1.522796746831489E+08,  3.159057271130140E+07,
+2451863.500000000, A.D. 2000-Nov-15 00:00:00.0000,  1.609483668873197E-02,  1.470884005859536E+08,  2.224289269111057E-03,  2.302857495989987E+02,  2.338004244701484E+02,  2.451913912232725E+06,  1.141934838761301E-05,  3.102616930912114E+02,  3.088358987550580E+02,  1.494944899881786E+08,  1.519005793904036E+08,  3.152544153837231E+07,
+2451878.500000000, A.D. 2000-Nov-30 00:00:00.0000,  1.736441982974607E-02,  1.470959294008729E+08,  1.996080613068768E-03,  7.165794946971107E+01,  3.077383235699426E+01,  2.451912257946229E+06,  1.139637805778527E-05,  3.267603373524674E+02,  3.256495531091042E+02,  1.496953014619995E+08,  1.522946735231261E+08,  3.158898363801394E+07,
+2451893.500000000, A.D. 2000-Dec-15 00:00:00.0000,  1.606174677047476E-02,  1.471050919031486E+08,  2.049252754566788E-03,  2.571044320992075E+02,  2.054240878976979E+02,  2.451912373193284E+06,  1.141798087028459E-05,  3.413813391469136E+02,  3.407823362217595E+02,  1.495064262623328E+08,  1.519077606215170E+08,  3.152921730118709E+07,
+2451908.500000000, A.D. 2000-Dec-30 00:00:00.0000,  1.730236675682066E-02,  1.470988666310863E+08,  1.612270200362278E-03,  9.958288230149361E+01,  3.996156052319042E+00,  2.451913393470801E+06,  1.139711622010573E-05,  3.551813462499694E+02,  3.550111295977159E+02,  1.496888378021412E+08,  1.522788089731961E+08,  3.158693769963681E+07,
+$$EOE
+**************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+Coordinate system description:
+
+Ecliptic and Mean Equinox of Reference Epoch
+
+Reference epoch: J2000.0
+XY-plane: plane of the Earth's orbit at the reference epoch
+Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+X-axis  : out along ascending node of instantaneous plane of the Earth's
+orbit and the Earth's mean equator at the reference epoch
+Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+of Earth's north pole at the reference epoch.
+
+Symbol meaning:
+
+JDTDB    Julian Day Number, Barycentric Dynamical Time
+EC     Eccentricity, e
+QR     Periapsis distance, q (km)
+IN     Inclination w.r.t XY-plane, i (degrees)
+OM     Longitude of Ascending Node, OMEGA, (degrees)
+W      Argument of Perifocus, w (degrees)
+Tp     Time of periapsis (Julian Day Number)
+N      Mean motion, n (degrees/sec)
+MA     Mean anomaly, M (degrees)
+TA     True anomaly, nu (degrees)
+A      Semi-major axis, a (km)
+AD     Apoapsis distance (km)
+PR     Sidereal orbit period (sec)
+
+Geometric states/elements have no aberrations applied.
+
+Computations by ...
+Solar System Dynamics Group, Horizons On-Line Ephemeris System
+4800 Oak Grove Drive, Jet Propulsion Laboratory
+Pasadena, CA  91109   USA
+Information: http://ssd.jpl.nasa.gov/
+Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+http://ssd.jpl.nasa.gov/?horizons
+telnet ssd.jpl.nasa.gov 6775    (via command-line)
+Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+CENTER = 'SUN'
+COMMAND = '399'
+MAKE_EPHEM = 'YES'
+TABLE_TYPE = 'elements'
+START_TIME = '2000-10-01'
+STOP_TIME = '2000-12-31'
+STEP_SIZE = '15 d'
+QUANTITIES = '1,9,20,23,24'
+CSV_FORMAT = 'YES'

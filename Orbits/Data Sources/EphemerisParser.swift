@@ -65,7 +65,8 @@ public struct EphemerisParser {
     public static func parse(csv: String) -> OrbitalMotion? {
         let components = csv.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { $0.isEmpty == false }
         
-        guard components.count == 14 || components.count == 28 else { return nil }
+        // can have multiple results, just taking the first one
+        guard components.count % 14 == 0 else { return nil }
         
         if let jd = Double(components[0]), let ec = Double(components[2]), let semimajorAxis = Double(components[11]), let inclinationDeg = Double(components[4]), let loanDeg = Double(components[5]), let aopDeg = Double(components[6]), let tp = Double(components[7]) {
             let inclination = radians(degrees: inclinationDeg)
