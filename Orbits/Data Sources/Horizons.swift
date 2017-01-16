@@ -27,7 +27,7 @@ public class Horizons {
     
     private var errors: [Error] = []
     
-    public func fetchPlanets(complete: (([Int: OrbitalMotion]?, [Error]?) -> Void)? = nil) {
+    public func fetchPlanets(complete: (([CelestialBody]?, [Error]?) -> Void)? = nil) {
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
             defer {
@@ -97,12 +97,14 @@ public class Horizons {
                 return
             }
             print("complete: fetching planets")
-            var dict = [Int: OrbitalMotion]()
-            self.rawData.forEach { (naif, content) in
-                let body = ResponseParser.parse(content: content)!
-                dict[naif] = body.motion!
+            let bodies = self.rawData.flatMap { (naif, content) -> CelestialBody? in
+                if let body = ResponseParser.parse(content: content) {
+                    body.save()
+                    return body
+                }
+                return nil
             }
-            complete?(dict, nil)
+            complete?(bodies, nil)
         }
     }
 }

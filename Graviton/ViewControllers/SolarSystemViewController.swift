@@ -16,7 +16,7 @@ let rawEphermeris = ["499": "2457660.500000000, A.D. 2016-Sep-29 00:00:00.0000, 
 
 class SolarSystemViewController: SceneControlViewController {
     
-    lazy var ephemeris: [Int: OrbitalMotion] = EphemerisParser.parse(list: rawEphermeris)
+//    lazy var ephemeris: [CelestialBody] = EphemerisParser.parse(list: rawEphermeris)
     
     var lastRenderTime: TimeInterval!
     var timeElapsed: TimeInterval = 0
@@ -48,7 +48,7 @@ class SolarSystemViewController: SceneControlViewController {
 //            899: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),
 //            999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
 //        ]
-//        ephemeris.celestialBodies.forEach { (body) in
+//        ephemeris.forEach { (body) in
 //            if let color = colors[body.naifId] {
 //                scene.add(body: body, color: color)
 //            }
@@ -128,8 +128,8 @@ class SolarSystemViewController: SceneControlViewController {
                 print(errors!)
                 return
             }
-            self.ephemeris = ephemeris!
-            self.fillSolarSystemScene(self.solarSystemScene)
+//            self.ephemeris = ephemeris!
+//            self.fillSolarSystemScene(self.solarSystemScene)
         }
     }
     
