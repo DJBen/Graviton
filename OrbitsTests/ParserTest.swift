@@ -69,7 +69,7 @@ class ParserTest: XCTestCase {
         }
     }
     
-    func testCompleteParse() {
+    func testParsingMars() {
         let body = ResponseParser.parse(content: ParserTest.mockData)
         XCTAssertNotNil(body)
         XCTAssertNotNil(body!.motion)
@@ -94,5 +94,19 @@ class ParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 23.93419 * 3600, accuracy: 1e-3)
         XCTAssertEqual(body!.centralBody?.entity.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 398600.440, accuracy: 1e-4)
+    }
+    
+    func testParsingNeptune() {
+        let path = Bundle.init(for: ParserTest.self).path(forResource: "neptune", ofType: "result")!
+        let earthData = try! String(contentsOfFile: path, encoding: .utf8)
+        let body = ResponseParser.parse(content: earthData)
+        XCTAssertNotNil(body)
+        XCTAssertNotNil(body!.motion)
+        XCTAssertEqualWithAccuracy(body!.radius, 24624e3, accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 29.56), accuracy: 1e-3)
+        XCTAssertEqual(body!.naifId, 899)
+        XCTAssertEqualWithAccuracy(body!.rotationPeriod, 16.7 * 3600, accuracy: 1e-3)
+        XCTAssertEqual(body!.centralBody?.entity.naifId, Sun.sol.naifId)
+        XCTAssertEqualWithAccuracy(body!.gravParam, 6835107, accuracy: 1e-4)
     }
 }

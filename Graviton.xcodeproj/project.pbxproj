@@ -58,6 +58,7 @@
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DAE1E2B996B00E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DAF1E2BAD8A00E0BFFF /* earth.result */; };
+		FC998DB21E2C749200E0BFFF /* neptune.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB11E2C749200E0BFFF /* neptune.result */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930641E236FB500100706 /* CameraControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930631E236FB500100706 /* CameraControlling.swift */; };
 		FCA930681E23780300100706 /* FocusingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930671E23780300100706 /* FocusingSupport.swift */; };
@@ -204,6 +205,7 @@
 		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC998DAF1E2BAD8A00E0BFFF /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
+		FC998DB11E2C749200E0BFFF /* neptune.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = neptune.result; sourceTree = "<group>"; };
 		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCA930631E236FB500100706 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlling.swift; sourceTree = "<group>"; };
 		FCA930671E23780300100706 /* FocusingSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusingSupport.swift; sourceTree = "<group>"; };
@@ -371,6 +373,7 @@
 				EFE8BF661DD86B2B000F0A79 /* Info.plist */,
 				FC998DAF1E2BAD8A00E0BFFF /* earth.result */,
 				FCA930DE1E2B8F4C00100706 /* mars.result */,
+				FC998DB11E2C749200E0BFFF /* neptune.result */,
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				FCA930E21E2B8F5400100706 /* ParserTest.swift */,
@@ -710,6 +713,7 @@
 			files = (
 				FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */,
 				FCA930CA1E2B8ED900100706 /* naif.sqlite3 in Resources */,
+				FC998DB21E2C749200E0BFFF /* neptune.result in Resources */,
 				FCA930E01E2B8F4C00100706 /* mars.result in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

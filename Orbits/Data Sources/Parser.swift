@@ -166,13 +166,13 @@ public struct ResponseParser {
         }
         func rotPeriod(_ str: String?) -> Double? {
             if str == nil { return nil }
-            if let matches = str?.matches(for: "([-\\d.]+)\\s*(hr|d)?") {
+            if let matches = str?.matches(for: "([-\\d.]+)(\\+-[-\\d.]+)?\\s*(hr|d)?") {
                 guard matches.count > 0 else { return nil }
-                guard matches[0].count > 2 else { return nil }
+                guard matches[0].count > 3 else { return nil }
                 guard let result = Double(matches[0][1]) else { return nil }
-                if matches[0][2] == "hr" || matches[0][2].isEmpty {
+                if matches[0][3] == "hr" || matches[0][3].isEmpty {
                     return result * 3600
-                } else if matches[0][2] == "d" {
+                } else if matches[0][3] == "d" {
                     return result * 24 * 3600
                 } else {
                     return nil
@@ -193,7 +193,7 @@ public struct ResponseParser {
             if matches[0][2].lengthOfBytes(using: .utf8) > 0 {
                 exponent = Double(matches[0][2])!
             }
-            if let str = dict[gmKey], let result = Double(str) {
+            if let str = dict[gmKey], let result = Double(str.replacingOccurrences(of: ",", with: "")) {
                 return result * pow(10, exponent)
             } else {
                 return nil
@@ -203,13 +203,13 @@ public struct ResponseParser {
         func info(_ i: BodyInfo) -> String? {
             switch i {
             case .hillSphere:
-                return bodyInfo["Hill's sphere rad. Rp"] ?? bodyInfo["Hill's sphere radius"]
+                return bodyInfo["Hill's sphere rad. Rp"] ?? bodyInfo["Hill's sphere radius"] ?? bodyInfo["Hill's sphere rad., Rp"]
             case .rotationPeriod:
-                return bodyInfo["Sidereal rot. period"] ?? bodyInfo["Sidereal period, hr"]
+                return bodyInfo["Sidereal rot. period"] ?? bodyInfo["Sidereal period, hr"] ?? bodyInfo["Inferred rot. period"]
             case .obliquity:
                 return bodyInfo["Obliquity to orbit"] ?? bodyInfo["Obliquity to orbit, deg"]
             case .radius:
-                return bodyInfo["Mean radius (km)"] ?? bodyInfo["Mean radius, km"]
+                return bodyInfo["Mean radius (km)"] ?? bodyInfo["Mean radius, km"] ?? bodyInfo["Volumetric mean radius"]
             default:
                 return nil
             }
