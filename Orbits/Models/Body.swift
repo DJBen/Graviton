@@ -21,21 +21,12 @@ public protocol BoundedByGravity: Searchable {
 }
 
 open class Body {
-    public enum CentralBody {
-        case naifId(Int)
-        case custom(CelestialBody)
-        
-        public var entity: CelestialBody {
-            switch self {
-            case .naifId(let id):
-                return CelestialBody.from(naifId: id)!
-            case .custom(let b):
-                return b
-            }
-        }
-    }
     public let name: String
-    public var centralBody: CentralBody?
+    private var centerBodyNaifId: Int?
+    public var centerBody: CelestialBody? {
+        guard let id = centerBodyNaifId else { return nil }
+        return CelestialBody.from(naifId: id)
+    }
     public var motion: OrbitalMotion?
     public var julianDate: Double = JulianDate.J2000 {
         didSet {
@@ -47,21 +38,24 @@ open class Body {
     }
     public var heliocentricPosition: Vector3 {
         let position = motion?.position ?? Vector3.zero
-        if let b = centralBody, case let CentralBody.naifId(id) = b, id == Sun.sol.naifId {
+        if let b = centerBody, b.naifId == Sun.sol.naifId {
             return position
-        } else if let primary = centralBody {
-            return primary.entity.heliocentricPosition + position
+        } else if let primary = centerBody {
+            return primary.heliocentricPosition + position
         } else {
             return position
         }
     }
-    
-    public init(name: String) {
+    public init(name: String, centerBodyNaifId: Int? = nil) {
         self.name = name
+        self.centerBodyNaifId = centerBodyNaifId
+    }
+    public func setCenter(naifId: Int?) {
+        centerBodyNaifId = naifId
     }
 }
 
-open class CelestialBody: Body, BoundedByGravity {
+open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Equatable {
     public let naifId: Int
     public let radius: Double
     public let rotationPeriod: Double
@@ -71,8 +65,8 @@ open class CelestialBody: Body, BoundedByGravity {
         if let radRp = overridenHillSphereRadiusRp {
             return radRp * radius
         }
-        guard let primary = centralBody, let distance = motion?.distance else { return nil }
-        return distance * (radius / primary.entity.radius)
+        guard let primary = centerBody, let distance = motion?.distance else { return nil }
+        return distance * (radius / primary.radius)
     }
     
     /// mass in kg
@@ -83,47 +77,40 @@ open class CelestialBody: Body, BoundedByGravity {
         return Array(orbiterDict.values)
     }
     
-    private var orbiterDict = [String: Body]()
-    private var overridenHillSphereRadiusRp: Double?
-
-    public class func from(naifId: Int) -> CelestialBody? {
-        if naifId == Sun.sol.naifId {
-            return Sun.sol
-        }
-        return nil
+    public var description: String {
+        return "CelestialBody: { naif: \(naifId), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(hillSphere)}"
     }
     
-    public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centralBody: CentralBody? = nil, hillSphereRadRp: Double? = nil) {
+    private var orbiterDict = [String: Body]()
+    private var overridenHillSphereRadiusRp: Double?
+    
+    public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         self.naifId = naifId
         self.gravParam = gravParam
         self.radius = radius
         self.rotationPeriod = rotationPeriod
         self.obliquity = obliquity
         self.overridenHillSphereRadiusRp = hillSphereRadRp
-        super.init(name: name)
-        self.centralBody = centralBody
+        super.init(name: name, centerBodyNaifId: centerBodyNaifId)
     }
     
-    public convenience init(naifId: Int, name: String, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centralBody: CentralBody? = nil, hillSphereRadRp: Double? = nil) {
-        self.init(naifId: naifId, name: name, gravParam: mass * gravConstant, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, hillSphereRadRp: hillSphereRadRp)
-        self.centralBody = centralBody
+    public convenience init(naifId: Int, name: String, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
+        self.init(naifId: naifId, name: name, gravParam: mass * gravConstant, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }
     
-    public convenience init(naifId: Int, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centralBody: CentralBody? = nil, hillSphereRadRp: Double? = nil) {
+    public convenience init(naifId: Int, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         let name = NaifCatalog.name(forNaif: naifId)!
-        self.init(naifId: naifId, name: name, mass: mass, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, hillSphereRadRp: hillSphereRadRp)
-        self.centralBody = centralBody
+        self.init(naifId: naifId, name: name, mass: mass, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }
     
-    public convenience init(naifId: Int, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centralBody: CentralBody? = nil, hillSphereRadRp: Double? = nil) {
+    public convenience init(naifId: Int, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         let name = NaifCatalog.name(forNaif: naifId)!
-        self.init(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, hillSphereRadRp: hillSphereRadRp)
-        self.centralBody = centralBody
+        self.init(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }
     
     public func addSatellite(satellite: Body, motion: OrbitalMotion) {
         orbiterDict[satellite.name] = satellite
-        satellite.centralBody = .naifId(self.naifId)
+        satellite.setCenter(naifId: naifId)
         satellite.motion = motion
     }
     
@@ -141,7 +128,12 @@ open class CelestialBody: Body, BoundedByGravity {
         }
         return nil
     }
+    
+    public static func ==(lhs: CelestialBody, rhs: CelestialBody) -> Bool {
+        return lhs.naifId == rhs.naifId
+    }
 }
+
 
 open class Sun: CelestialBody {
     public static var sol: Sun {

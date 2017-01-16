@@ -9,9 +9,12 @@
 import Foundation
 
 // Example request
-// http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2000-10-01'&STOP_TIME='2000-12-31'&STEP_SIZE='15%20d'%20%20%20%20&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
+// http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2017-01-01'&STOP_TIME='2017-01-02'&STEP_SIZE='1'&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
 
-class Horizons {
+public class Horizons {
+    public static let shared: Horizons = {
+        return Horizons()
+    }()
     static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
     static let trialCountLimit = 3
     // back off time should be the following value * pow(CONSTANT, numberOfTrials)
@@ -20,11 +23,11 @@ class Horizons {
     static let timeIntervalBetweenJobs: TimeInterval = 0.2
     
     private var tasksTrialCount: [URL: Int] = [:]
-    private var rawEphemeris: [Int: String] = [:]
+    private var rawData: [Int: String] = [:]
     
     private var errors: [Error] = []
     
-    func fetchPlanets(complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchPlanets(complete: (([Int: OrbitalMotion]?, [Error]?) -> Void)? = nil) {
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
             defer {
@@ -65,7 +68,7 @@ class Horizons {
                         print("stop retrying: \(url)")
                     }
                 default:
-                    self.rawEphemeris[url.naifId!] = utf8String
+                    self.rawData[url.naifId!] = utf8String
                     print("complete: \(url) - \(d)")
                 }
             } else {
@@ -86,7 +89,7 @@ class Horizons {
             defer {
                 self.tasksTrialCount.removeAll()
                 self.errors.removeAll()
-                self.rawEphemeris.removeAll()
+                self.rawData.removeAll()
             }
             guard self.errors.isEmpty else {
                 print("complete with failure: fetching planets")
@@ -94,14 +97,12 @@ class Horizons {
                 return
             }
             print("complete: fetching planets")
-            let bodies = Array(self.rawEphemeris).map { (naif, content) -> CelestialBody in
-                let motion = ResponseParser.parseEphemeris(content: content)
-                let body = CelestialBody(naifId: naif, mass: 0, radius: 0)
-                body.motion = motion
-                return body
+            var dict = [Int: OrbitalMotion]()
+            self.rawData.forEach { (naif, content) in
+                let body = ResponseParser.parse(content: content)!
+                dict[naif] = body.motion!
             }
-            let ephemeris = Ephemeris(celestialBodies: bodies)
-            complete?(ephemeris, nil)
+            complete?(dict, nil)
         }
     }
 }

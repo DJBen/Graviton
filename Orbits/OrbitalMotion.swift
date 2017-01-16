@@ -17,19 +17,19 @@ public class OrbitalMotion {
         public let apoapsisAltitude: Double?
     }
     
-    public let centralBody: CelestialBody
+    public let centerBody: CelestialBody
     
     public var info: Info {
         return Info(
-            altitude: distance - centralBody.radius,
+            altitude: distance - centerBody.radius,
             speed: velocity.length,
-            periapsisAltitude: orbit.shape.periapsis - centralBody.radius,
-            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centralBody.radius) : nil
+            periapsisAltitude: orbit.shape.periapsis - centerBody.radius,
+            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centerBody.radius) : nil
         )
     }
     
     public var orbitalPeriod: Double? {
-        return orbit.orbitalPeriod(centralBody: centralBody)
+        return orbit.orbitalPeriod(centerBody: centerBody)
     }
     
     public var orbit: Orbit {
@@ -55,9 +55,9 @@ public class OrbitalMotion {
             case .meanAnomaly(let ma):
                 meanAnomaly = ma
             case .timeSincePeriapsis(let tp):
-                meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: centralBody.gravParam, shape: orbit.shape)!
+                meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: centerBody.gravParam, shape: orbit.shape)!
             case .julianDate(let jd):
-                meanAnomaly = calculateMeanAnomaly(Δt: (jd - safeTimeOfPeriapsisPassage()) * 86400, gravParam: centralBody.gravParam, shape: orbit.shape)!
+                meanAnomaly = calculateMeanAnomaly(Δt: (jd - safeTimeOfPeriapsisPassage()) * 86400, gravParam: centerBody.gravParam, shape: orbit.shape)!
             }
             propagateStateVectors()
         }
@@ -122,7 +122,7 @@ public class OrbitalMotion {
     public var velocity: Vector3!
     
     public var specificMechanicalEnergy: Double {
-        return velocity.dot(velocity) / 2 - centralBody.gravParam / position.length
+        return velocity.dot(velocity) / 2 - centerBody.gravParam / position.length
     }
     
     public var distance: Double {
@@ -135,22 +135,22 @@ public class OrbitalMotion {
     /// Initialize keplarian orbit from orbital elements
     ///
     /// - Parameters:
-    ///   - centralBody: The primary that is orbiting
+    ///   - centerBody: The primary that is orbiting
     ///   - orbit: Orbital elements
     ///   - phase: Phase descriptor
-    init(centralBody: CelestialBody, orbit: Orbit, phase: Phase) {
-        self.centralBody = centralBody
+    init(centerBody: CelestialBody, orbit: Orbit, phase: Phase) {
+        self.centerBody = centerBody
         self.orbit = orbit
         self.phase = phase
     }
     
     // Convenient constructors
-    public convenience init(centralBody: CelestialBody, orbit: Orbit, meanAnomaly: Double) {
-        self.init(centralBody: centralBody, orbit: orbit, phase: .meanAnomaly(meanAnomaly))
+    public convenience init(centerBody: CelestialBody, orbit: Orbit, meanAnomaly: Double) {
+        self.init(centerBody: centerBody, orbit: orbit, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public convenience init(centralBody: CelestialBody, orbit: Orbit, timeSincePeriapsis: Double = 0) {
-        self.init(centralBody: centralBody, orbit: orbit, phase: .timeSincePeriapsis(timeSincePeriapsis))
+    public convenience init(centerBody: CelestialBody, orbit: Orbit, timeSincePeriapsis: Double = 0) {
+        self.init(centerBody: centerBody, orbit: orbit, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
     
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
@@ -158,17 +158,17 @@ public class OrbitalMotion {
     
     /// Initialize keplarian orbit from state vectors.
     ///
-    /// - parameter centralBody: The primary that is orbiting
+    /// - parameter centerBody: The primary that is orbiting
     /// - parameter position:    Position vector
     /// - parameter velocity:    Velocity vector
     ///
     /// - returns: An orbit motion object
-    public init(centralBody: CelestialBody, position: Vector3, velocity: Vector3) {
-        self.centralBody = centralBody
+    public init(centerBody: CelestialBody, position: Vector3, velocity: Vector3) {
+        self.centerBody = centerBody
         self.position = position
         self.velocity = velocity
         let momentum = position.cross(velocity)
-        let eccentricityVector = velocity.cross(momentum) / centralBody.gravParam - position.normalized()
+        let eccentricityVector = velocity.cross(momentum) / centerBody.gravParam - position.normalized()
         let n = Vector3(0, 0, 1).cross(momentum)
         trueAnomaly = {
             if position.dot(velocity) >= 0 {
@@ -202,7 +202,7 @@ public class OrbitalMotion {
             argumentOfPeriapsis = atan2(Double(eccentricityVector.y), Double(eccentricityVector.x))
         }
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
-        let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / centralBody.gravParam)
+        let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / centerBody.gravParam)
         // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         phase = .meanAnomaly(0)
@@ -231,7 +231,7 @@ public class OrbitalMotion {
         let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cosE)
         
         let p = Vector3(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
-        let coefficient = sqrt(centralBody.gravParam * orbit.shape.semimajorAxis!) / distance
+        let coefficient = sqrt(centerBody.gravParam * orbit.shape.semimajorAxis!) / distance
         let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
         let i = orbit.orientation.inclination

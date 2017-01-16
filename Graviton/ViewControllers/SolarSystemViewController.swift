@@ -16,7 +16,7 @@ let rawEphermeris = ["499": "2457660.500000000, A.D. 2016-Sep-29 00:00:00.0000, 
 
 class SolarSystemViewController: SceneControlViewController {
     
-//    lazy var ephemeris = EphemerisParser.parse(list: rawEphermeris)!
+    lazy var ephemeris: [Int: OrbitalMotion] = EphemerisParser.parse(list: rawEphermeris)
     
     var lastRenderTime: TimeInterval!
     var timeElapsed: TimeInterval = 0
@@ -56,7 +56,7 @@ class SolarSystemViewController: SceneControlViewController {
         
 //        let orbit = Orbit(semimajorAxis: astronomicalUnitDist, eccentricity: 0, inclination: M_PI / 4, longitudeOfAscendingNode: 0, argumentOfPeriapsis: 0)
 //        let now = JulianDate(date: Date()).value
-//        let motion = OrbitalMotionMoment(centralBody: Sun.sol, orbit: orbit, julianDate: now, timeOfPeriapsisPassage: now)
+//        let motion = OrbitalMotionMoment(centerBody: Sun.sol, orbit: orbit, julianDate: now, timeOfPeriapsisPassage: now)
 //        let artificialBody = CelestialBody(naifId: 99999, name: "Artificial", mass: 0, radius: 0)
 //        artificialBody.motion = motion
 //        scene.add(body: artificialBody, color: #colorLiteral(red: 0.3647058904, green: 0.06666667014, blue: 0.9686274529, alpha: 1))
@@ -123,14 +123,14 @@ class SolarSystemViewController: SceneControlViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         self.view.addGestureRecognizer(tapGR)
-//        Horizons().fetchPlanets { (ephemeris, errors) in
-//            guard errors == nil else {
-//                print(errors!)
-//                return
-//            }
-//            self.ephemeris = ephemeris!
-//            self.fillSolarSystemScene(self.SolarSystemScene)
-//        }
+        Horizons.shared.fetchPlanets { (ephemeris, errors) in
+            guard errors == nil else {
+                print(errors!)
+                return
+            }
+            self.ephemeris = ephemeris!
+            self.fillSolarSystemScene(self.solarSystemScene)
+        }
     }
     
     override var shouldAutorotate: Bool {

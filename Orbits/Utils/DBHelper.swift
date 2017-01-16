@@ -8,9 +8,18 @@
 
 import SQLite
 
+fileprivate let celestialBody = Table("celestial_body")
+fileprivate let id = Expression<Int64>("naifId")
+fileprivate let obliquityExpr = Expression<Double>("obliquity")
+fileprivate let gmExpr = Expression<Double>("gm")
+fileprivate let hillSphereExpr = Expression<Double?>("hiilSphere")
+fileprivate let radiusExpr = Expression<Double>("radius")
+fileprivate let rotationPeriodExpr = Expression<Double>("rotationPeriod")
+fileprivate let centerBodyId = Expression<Int64?>("centerBodyNaifId")
+
 class DBHelper: NSObject {
     
-    static var database: Connection!
+    static var celestialBodies: Connection!
     
     override class func initialize() {
         guard self == DBHelper.self else {
@@ -22,7 +31,7 @@ class DBHelper: NSObject {
         
         print(path)
         
-        database = try! Connection("\(path)/db.sqlite3")
+        celestialBodies = try! Connection("\(path)/celestialBodies.sqlite3")
         try! prepareTables()
     }
     
@@ -69,20 +78,15 @@ class DBHelper: NSObject {
 //            t.column(orbit_id, references: orbitalMotion, id)
 //            t.foreignKey(orbit_id, references: orbitalMotion, id, update: .cascade, delete: .cascade)
 //        })
-        
-        let celestialBody = Table("celestial_body")
-        let obliquity = Expression<Double>("obliquity")
-        let gm = Expression<Double>("gm")
-        let hillSphere = Expression<Double>("hiilSphere")
-        let radius = Expression<Double>("radius")
-        let rotationPeriod = Expression<Double>("rotationPeriod")
 
-        try database.run(celestialBody.create(ifNotExists: true) { t in
-            t.column(obliquity)
-            t.column(gm)
-            t.column(hillSphere)
-            t.column(radius)
-            t.column(rotationPeriod)
+        try celestialBodies.run(celestialBody.create(ifNotExists: true) { t in
+            t.primaryKey(id)
+            t.column(obliquityExpr)
+            t.column(gmExpr)
+            t.column(hillSphereExpr)
+            t.column(radiusExpr)
+            t.column(centerBodyId)
+            t.column(rotationPeriodExpr)
         })
     
 //        Horizons().fetchPlanets { (ephemeris, errors) in
@@ -97,4 +101,28 @@ class DBHelper: NSObject {
         
     }
 
+}
+
+extension CelestialBody {
+    
+    /// Save physical properties of the celestial body
+    public func save() {
+        try! DBHelper.celestialBodies.run(celestialBody.insert(or: .replace, id <- Int64(self.naifId), gmExpr <- self.gravParam, obliquityExpr <- self.obliquity, radiusExpr <- self.radius, hillSphereExpr <- self.hillSphere, rotationPeriodExpr <- self.rotationPeriod))
+    }
+    
+    public class func from(naifId: Int) -> CelestialBody? {
+        if naifId == Sun.sol.naifId {
+            return Sun.sol
+        }
+        let query = celestialBody.filter(id == Int64(naifId))
+        if let result = try! DBHelper.celestialBodies.pluck(query) {
+            func unwrapInt64(_ v: Int64?) -> Int? {
+                if v == nil { return nil }
+                return Int(v!)
+            }
+            return CelestialBody(naifId: Int(result.get(id)), gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+        } else {
+            return nil
+        }
+    }
 }

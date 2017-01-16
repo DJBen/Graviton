@@ -85,9 +85,9 @@ public struct ResponseParser {
     }
     
     // parse range 1 - subroutine
-    private static func parseDoubleColumn(_ line: String) -> ((String, String), (String, String)?)? {
-        let lineRegex = "^\\s*(.{40})(.+)$"
-        let propertyRegex = "(.+)\\s*=\\s*(.{5,24})"
+    static func parseDoubleColumn(_ line: String) -> ((String, String), (String, String)?)? {
+        let lineRegex = "^\\s*(?:(?:(.{38})\\s+)|(?:(.{38}\\S+)\\s+))(.+)$"
+        let propertyRegex = "(.+)\\s*=\\s*(.{5,24}|\\d+)"
         let matched = line.matches(for: lineRegex)
         guard matched.count == 1 else {
             let singleProp = line.matches(for: propertyRegex)
@@ -95,7 +95,7 @@ public struct ResponseParser {
             return ((singleProp[0][1], singleProp[0][2]), nil)
         }
         let m = matched[0]
-        guard m.count == 3 else { return nil }
+        guard m.count == 4 else { return nil }
         
         func parseProperty(_ propLine: String) -> (String, String)? {
             let props = propLine.matches(for: propertyRegex)
@@ -103,8 +103,13 @@ public struct ResponseParser {
             let p = props[0]
             return (p[1].trimmed(), p[2].trimmed())
         }
-        if let firstProperty = parseProperty(m[1]) {
-            return (firstProperty, parseProperty(m[2]))
+        func twoProps() -> (String, String) {
+            let first = m[1].isEmpty ? m[2] : m[1]
+            return (first, m[3])
+        }
+        let tp = twoProps()
+        if let firstProperty = parseProperty(tp.0) {
+            return (firstProperty, parseProperty(tp.1))
         } else { return nil }
     }
     
@@ -215,8 +220,10 @@ public struct ResponseParser {
             }
         }
         let systemInfo = parseLineBasedContent(content)
-        if let motion = parseEphemeris(content: content), let radius = kmToM(info(.radius)), let obliquity = degToRadian(info(.obliquity)), let hillSphereRpStr = info(.hillSphere), let hsRp = Double(hillSphereRpStr), let naifId = nameId(systemInfo["Target body name"])?.1, let centerId = nameId(systemInfo["Center body name"])?.1, let rotRate = rotPeriod(info(.rotationPeriod)), let gm = getGm(bodyInfo) {
-            let body = CelestialBody(naifId: naifId, gravParam: gm, radius: radius, rotationPeriod: rotRate, obliquity: obliquity, centralBody: .naifId(centerId), hillSphereRadRp: hsRp)
+        if let motion = parseEphemeris(content: content), let radius = kmToM(info(.radius)), let hillSphereRpStr = info(.hillSphere), let hsRp = Double(hillSphereRpStr), let naifId = nameId(systemInfo["Target body name"])?.1, let centerId = nameId(systemInfo["Center body name"])?.1, let gm = getGm(bodyInfo), let rotRate = rotPeriod(info(.rotationPeriod)) {
+            // TODO: parse mercury obliquity
+            let obliquity = degToRadian(info(.obliquity)) ?? 0
+            let body = CelestialBody(naifId: naifId, gravParam: gm, radius: radius, rotationPeriod: rotRate, obliquity: obliquity, centerBodyNaifId: centerId, hillSphereRadRp: hsRp)
             body.motion = motion
             return body
         }

@@ -59,10 +59,13 @@
 		FC998DAE1E2B996B00E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DAF1E2BAD8A00E0BFFF /* earth.result */; };
 		FC998DB21E2C749200E0BFFF /* neptune.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB11E2C749200E0BFFF /* neptune.result */; };
+		FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
+		FC998DB61E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
+		FC998DB81E2CF32C00E0BFFF /* venus.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB71E2CF32C00E0BFFF /* venus.result */; };
+		FC998DB91E2CF32C00E0BFFF /* venus.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB71E2CF32C00E0BFFF /* venus.result */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930641E236FB500100706 /* CameraControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930631E236FB500100706 /* CameraControlling.swift */; };
 		FCA930681E23780300100706 /* FocusingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930671E23780300100706 /* FocusingSupport.swift */; };
-		FCA9308C1E29C5EA00100706 /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435411E19B625002AC626 /* DBHelper.swift */; };
 		FCA930B91E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
 		FCA930BA1E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
@@ -188,7 +191,6 @@
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
-		FC2435411E19B625002AC626 /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
 		FC2435811E1F87F0002AC626 /* SpaceTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpaceTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC2435831E1F87F0002AC626 /* SpaceTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpaceTime.h; sourceTree = "<group>"; };
 		FC2435841E1F87F0002AC626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -206,12 +208,14 @@
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC998DAF1E2BAD8A00E0BFFF /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
 		FC998DB11E2C749200E0BFFF /* neptune.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = neptune.result; sourceTree = "<group>"; };
+		FC998DB41E2CE87700E0BFFF /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelper.swift; sourceTree = "<group>"; };
+		FC998DB71E2CF32C00E0BFFF /* venus.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = venus.result; sourceTree = "<group>"; };
 		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCA930631E236FB500100706 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlling.swift; sourceTree = "<group>"; };
 		FCA930671E23780300100706 /* FocusingSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusingSupport.swift; sourceTree = "<group>"; };
-		FCA930B81E2B8E6600100706 /* Body.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Body.swift; sourceTree = "<group>"; };
+		FCA930B81E2B8E6600100706 /* Body.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Body.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifCatalog.swift; sourceTree = "<group>"; };
-		FCA930BF1E2B8EAE00100706 /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisParser.swift; sourceTree = "<group>"; };
+		FCA930BF1E2B8EAE00100706 /* EphemerisParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = EphemerisParser.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930C01E2B8EAE00100706 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 		FCA930C11E2B8EAE00100706 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FCA930C81E2B8ED900100706 /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
@@ -291,7 +295,6 @@
 		EFA7FEBB1D8A802F0043E8CC /* Util */ = {
 			isa = PBXGroup;
 			children = (
-				FC2435411E19B625002AC626 /* DBHelper.swift */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 			children = (
 				EFE8BF661DD86B2B000F0A79 /* Info.plist */,
 				FC998DAF1E2BAD8A00E0BFFF /* earth.result */,
+				FC998DB71E2CF32C00E0BFFF /* venus.result */,
 				FCA930DE1E2B8F4C00100706 /* mars.result */,
 				FC998DB11E2C749200E0BFFF /* neptune.result */,
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
@@ -466,6 +470,7 @@
 				FCA930CD1E2B8EF600100706 /* VectorMath+SceneKit.swift */,
 				FCA930CE1E2B8EF600100706 /* VectorMath.swift */,
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
+				FC998DB41E2CE87700E0BFFF /* DBHelper.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -702,6 +707,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC998DB81E2CF32C00E0BFFF /* venus.result in Resources */,
 				FCA930C91E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FCA930DF1E2B8F4C00100706 /* mars.result in Resources */,
 			);
@@ -712,6 +718,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */,
+				FC998DB91E2CF32C00E0BFFF /* venus.result in Resources */,
 				FCA930CA1E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FC998DB21E2C749200E0BFFF /* neptune.result in Resources */,
 				FCA930E01E2B8F4C00100706 /* mars.result in Resources */,
@@ -782,12 +789,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */,
 				FCA930B91E2B8E6600100706 /* Body.swift in Sources */,
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCA930C61E2B8EAE00100706 /* Parser.swift in Sources */,
 				FCA930CF1E2B8EF600100706 /* SCNVector3+Util.swift in Sources */,
-				FCA9308C1E29C5EA00100706 /* DBHelper.swift in Sources */,
 				FCA930D11E2B8EF600100706 /* VectorMath+SceneKit.swift in Sources */,
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
@@ -818,6 +825,7 @@
 				FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */,
 				FCA930BD1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */,
+				FC998DB61E2CE87700E0BFFF /* DBHelper.swift in Sources */,
 				FCA930C51E2B8EAE00100706 /* Horizons.swift in Sources */,
 				FCA930D81E2B8F1200100706 /* Constants.swift in Sources */,
 				FCA930C31E2B8EAE00100706 /* EphemerisParser.swift in Sources */,

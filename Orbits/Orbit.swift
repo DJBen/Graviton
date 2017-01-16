@@ -112,9 +112,9 @@ public struct Orbit {
         self.init(shape: ConicSection.from(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
-    public func orbitalPeriod(centralBody: BoundedByGravity) -> Double? {
+    public func orbitalPeriod(centerBody: BoundedByGravity) -> Double? {
         guard let a = shape.semimajorAxis else { return nil }
-        return Double(M_PI) * 2 * sqrt(pow(a, 3) / centralBody.gravParam)
+        return Double(M_PI) * 2 * sqrt(pow(a, 3) / centerBody.gravParam)
     }
 }
 

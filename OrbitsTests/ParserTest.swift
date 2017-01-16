@@ -20,6 +20,14 @@ class ParserTest: XCTestCase {
         mockData = try! String(contentsOfFile: path, encoding: .utf8)
     }
     
+    func testParseDoubleColumn() {
+        let result = ResponseParser.parseDoubleColumn("Sidereal rot. period  =   24.622962 hr  Rot. Rate (x10^5 s)   =  7.088218")
+        XCTAssertEqual(result?.0.0, "Sidereal rot. period")
+        XCTAssertEqual(result?.0.1, "24.622962 hr")
+        XCTAssertEqual(result?.1?.0, "Rot. Rate (x10^5 s)")
+        XCTAssertEqual(result?.1?.1, "7.088218")
+    }
+    
     func testBodyInfo() {
         let expectedResult = [
             "Mean radius (km)": "3389.9(2+-4)",
@@ -77,7 +85,7 @@ class ParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 25.19), accuracy: 1e-3)
         XCTAssertEqual(body!.naifId, 499)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 88642.6632, accuracy: 1e-3)
-        XCTAssertEqual(body!.centralBody?.entity.naifId, Sun.sol.naifId)
+        XCTAssertEqual(body!.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 42828.3, accuracy: 1e-6)
 //        print(Double(bodyInfo["Hill's sphere rad. Rp"]!))
     }
@@ -87,13 +95,27 @@ class ParserTest: XCTestCase {
         let earthData = try! String(contentsOfFile: path, encoding: .utf8)
         let body = ResponseParser.parse(content: earthData)
         XCTAssertNotNil(body)
-        XCTAssertNotNil(body!.motion)
+        XCTAssertNotNil(body?.motion)
         XCTAssertEqualWithAccuracy(body!.radius, 6371.01e3, accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 23.45), accuracy: 1e-3)
-        XCTAssertEqual(body!.naifId, 399)
+        XCTAssertEqual(body?.naifId, 399)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 23.93419 * 3600, accuracy: 1e-3)
-        XCTAssertEqual(body!.centralBody?.entity.naifId, Sun.sol.naifId)
+        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 398600.440, accuracy: 1e-4)
+    }
+    
+    func testParsingVenus() {
+        let path = Bundle.init(for: ParserTest.self).path(forResource: "venus", ofType: "result")!
+        let earthData = try! String(contentsOfFile: path, encoding: .utf8)
+        let body = ResponseParser.parse(content: earthData)
+        XCTAssertNotNil(body)
+        XCTAssertNotNil(body?.motion)
+        XCTAssertEqualWithAccuracy(body!.radius, 6051.8e3, accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 177.3), accuracy: 1e-3)
+        XCTAssertEqual(body?.naifId, 299)
+        XCTAssertEqualWithAccuracy(body!.rotationPeriod, -243.0185 * 3600 * 24, accuracy: 1e-3)
+        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
+        XCTAssertEqualWithAccuracy(body!.gravParam, 324858.63, accuracy: 1e-4)
     }
     
     func testParsingNeptune() {
@@ -101,12 +123,12 @@ class ParserTest: XCTestCase {
         let earthData = try! String(contentsOfFile: path, encoding: .utf8)
         let body = ResponseParser.parse(content: earthData)
         XCTAssertNotNil(body)
-        XCTAssertNotNil(body!.motion)
+        XCTAssertNotNil(body?.motion)
         XCTAssertEqualWithAccuracy(body!.radius, 24624e3, accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 29.56), accuracy: 1e-3)
-        XCTAssertEqual(body!.naifId, 899)
+        XCTAssertEqual(body?.naifId, 899)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 16.7 * 3600, accuracy: 1e-3)
-        XCTAssertEqual(body!.centralBody?.entity.naifId, Sun.sol.naifId)
+        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 6835107, accuracy: 1e-4)
     }
 }
