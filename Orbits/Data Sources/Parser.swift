@@ -87,7 +87,7 @@ public struct ResponseParser {
     // parse range 1 - subroutine
     static func parseDoubleColumn(_ line: String) -> ((String, String), (String, String)?)? {
         let lineRegex = "^\\s*(?:(?:(.{38})\\s+)|(?:(.{38}\\S+)\\s+))(.+)$"
-        let propertyRegex = "(.+)\\s*=\\s*(.{5,24}|\\d+)"
+        let propertyRegex = "(.+)\\s*=\\s*(.{5,24}|[\\d.-]+)"
         let matched = line.matches(for: lineRegex)
         guard matched.count == 1 else {
             let singleProp = line.matches(for: propertyRegex)

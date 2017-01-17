@@ -65,7 +65,23 @@ class ParserTest: XCTestCase {
             "Mag. mom (gauss Rp^3)": "< 1x10^-4"
         ]
         let result = ResponseParser.parseBodyInfo(ParserTest.mockData)
-        XCTAssertEqual(expectedResult, result)
+        detailAssertEqual(result, expectedResult)
+    }
+    
+    private func detailAssertEqual(_ result: [String: String], _ expected: [String: String]) {
+        for k in result.keys {
+            if expected[k] == nil {
+                XCTFail("Extra key \(k) in result")
+            }
+        }
+        for k in expected.keys {
+            if let r = result[k] {
+                let e = expected[k]
+                XCTAssertEqual(r, e)
+            } else {
+                XCTFail("Missing key \(k) expected")
+            }
+        }
     }
     
     func testOtherInfo() {
