@@ -7,6 +7,7 @@
 //
 
 import SQLite
+import MathUtil
 
 public class OrbitalMotion {
     

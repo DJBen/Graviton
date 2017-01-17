@@ -9,6 +9,7 @@
 import UIKit
 import SceneKit
 import Orbits
+import MathUtil
 
 class CelestialNode: SCNNode {
     let body: CelestialBody

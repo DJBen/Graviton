@@ -6,7 +6,7 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import SceneKit
+import MathUtil
 
 public struct SphericalCoordinate {
     public let distance: Double
@@ -14,10 +14,10 @@ public struct SphericalCoordinate {
     public let declination: Double
     
     // http://www.geom.uiuc.edu/docs/reference/CRC-formulas/node42.html
-    public init(cartesian v: SCNVector3) {
-        distance = sqrt(Double(v.x * v.x + v.y * v.y + v.z * v.z))
-        rightAscension = acos(Double(v.z) / distance)
-        declination = atan2(Double(v.y), Double(v.x))
+    public init(cartesian v: Vector3) {
+        distance = sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
+        rightAscension = acos(v.z / distance)
+        declination = atan2(v.y, v.x)
     }
     
     public init(rightAscension: Double, declination: Double, distance: Double) {
@@ -32,7 +32,7 @@ public struct SphericalCoordinate {
     }
 }
 
-public extension SCNVector3 {
+public extension Vector3 {
     public init(sphericalCoordinate s: SphericalCoordinate) {
         self.init(
             s.distance * sin(s.rightAscension) * cos(s.declination),

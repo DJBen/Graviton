@@ -9,6 +9,7 @@
 import XCTest
 @testable import SpaceTime
 import CoreLocation
+import MathUtil
 
 class CoordinateTest: XCTestCase {
     

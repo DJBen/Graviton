@@ -7,6 +7,7 @@
 //
 
 import CoreLocation
+import MathUtil
 
 public struct CylindricalCoordinate {
     let altitude: Double

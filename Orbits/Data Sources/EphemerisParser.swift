@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import SpaceTime
+import MathUtil
 
 public struct EphemerisParser {
     

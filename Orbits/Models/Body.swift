@@ -8,6 +8,7 @@
 
 import Foundation
 import SpaceTime
+import MathUtil
 
 public protocol Searchable {
     subscript(name: String) -> Body? { get }

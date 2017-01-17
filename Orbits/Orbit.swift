@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import SpaceTime
+import MathUtil
 
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html

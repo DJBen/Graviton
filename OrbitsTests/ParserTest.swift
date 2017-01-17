@@ -7,7 +7,7 @@
 //
 
 import XCTest
-import SpaceTime
+import MathUtil
 @testable import Orbits
 
 class ParserTest: XCTestCase {

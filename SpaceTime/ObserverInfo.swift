@@ -8,6 +8,7 @@
 
 import CoreLocation
 import Foundation
+import MathUtil
 
 public struct ObserverInfo {
     public let location: CLLocationCoordinate2D
