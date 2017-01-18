@@ -15,7 +15,7 @@ public class OrbitalMotion {
         public let altitude: Double
         public let speed: Double
         public let periapsisAltitude: Double
-        public let apoapsisAltitude: Double?
+        public let apoapsisAltitude: Double
     }
     
     public let centerBody: CelestialBody
@@ -25,7 +25,7 @@ public class OrbitalMotion {
             altitude: distance - centerBody.radius,
             speed: velocity.length,
             periapsisAltitude: orbit.shape.periapsis - centerBody.radius,
-            apoapsisAltitude: orbit.shape.apoapsis != nil ? (orbit.shape.apoapsis! - centerBody.radius) : nil
+            apoapsisAltitude: orbit.shape.apoapsis - centerBody.radius
         )
     }
     
@@ -182,15 +182,15 @@ public class OrbitalMotion {
         let inclination = acos(Double(momentum.z) / momentum.length)
         let eccentricity = eccentricityVector.length
         eccentricAnomaly = 2 * atan(tan(trueAnomaly / 2) / sqrt((1 + eccentricity) / (1 - eccentricity)))
-        var longitudeOfAscendingNode: Double? = {
+        var longitudeOfAscendingNode: Double = {
             if n.y >= 0 {
                 return acos(Double(n.x) / n.length)
             } else {
                 return Double(M_PI * 2) - acos(Double(n.x) / n.length)
             }
         }()
-        if longitudeOfAscendingNode!.isNaN {
-            longitudeOfAscendingNode = nil
+        if longitudeOfAscendingNode.isNaN {
+            longitudeOfAscendingNode = 0
         }
         var argumentOfPeriapsis: Double = {
             if eccentricityVector.z >= 0 {
@@ -229,12 +229,12 @@ public class OrbitalMotion {
             sinE = sqrt(1 - pow(e, 2)) * sin(trueAnomaly) / (1 + e * cos(trueAnomaly))
         }
         
-        let distance = orbit.shape.semimajorAxis! * (1 - orbit.shape.eccentricity * cosE)
+        let distance = orbit.shape.semimajorAxis * (1 - orbit.shape.eccentricity * cosE)
         
         let p = Vector3(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
-        let coefficient = sqrt(centerBody.gravParam * orbit.shape.semimajorAxis!) / distance
+        let coefficient = sqrt(centerBody.gravParam * orbit.shape.semimajorAxis) / distance
         let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
-        let Ω = orbit.orientation.longitudeOfAscendingNode ?? 0
+        let Ω = orbit.orientation.longitudeOfAscendingNode
         let i = orbit.orientation.inclination
         let ω = orbit.orientation.argumentOfPeriapsis
         let position = Vector3(

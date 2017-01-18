@@ -79,7 +79,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Equat
     }
     
     public var description: String {
-        return "CelestialBody: { naif: \(naifId), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(hillSphere)}"
+        return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(hillSphere)}"
     }
     
     private var orbiterDict = [String: Body]()

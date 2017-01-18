@@ -93,6 +93,8 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
+		FCC0BDC31E2F8A56003939B1 /* TransientDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */; };
+		FCC0BDC71E2F8BEC003939B1 /* DBHelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -255,6 +257,8 @@
 		FCC0BDB71E2D9805003939B1 /* VectorMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorMath.swift; sourceTree = "<group>"; };
 		FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+SceneKit.swift"; sourceTree = "<group>"; };
 		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
+		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
+		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -419,6 +423,8 @@
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				FCA930E21E2B8F5400100706 /* ParserTest.swift */,
+				FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */,
+				FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */,
 			);
 			path = OrbitsTests;
 			sourceTree = "<group>";
@@ -904,6 +910,8 @@
 				FCA930BA1E2B8E6600100706 /* Body.swift in Sources */,
 				FCA930C71E2B8EAE00100706 /* Parser.swift in Sources */,
 				FCA930DD1E2B8F3700100706 /* Ephemeris.swift in Sources */,
+				FCC0BDC31E2F8A56003939B1 /* TransientDBHelper.swift in Sources */,
+				FCC0BDC71E2F8BEC003939B1 /* DBHelperTest.swift in Sources */,
 				FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */,
 				FCA930E61E2B8F5400100706 /* ParserTest.swift in Sources */,
 				EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */,
