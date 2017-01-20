@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public struct Ephemeris {
     // TODO: use hash map

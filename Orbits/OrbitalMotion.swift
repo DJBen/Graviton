@@ -11,26 +11,10 @@ import MathUtil
 
 public class OrbitalMotion {
     
-    public struct Info {
-        public let altitude: Double
-        public let speed: Double
-        public let periapsisAltitude: Double
-        public let apoapsisAltitude: Double
-    }
-    
-    public let centerBody: CelestialBody
-    
-    public var info: Info {
-        return Info(
-            altitude: distance - centerBody.radius,
-            speed: velocity.length,
-            periapsisAltitude: orbit.shape.periapsis - centerBody.radius,
-            apoapsisAltitude: orbit.shape.apoapsis - centerBody.radius
-        )
-    }
+    public let gm: Double
     
     public var orbitalPeriod: Double? {
-        return orbit.orbitalPeriod(centerBody: centerBody)
+        return orbit.orbitalPeriod(gm: gm)
     }
     
     public var orbit: Orbit {
@@ -56,9 +40,9 @@ public class OrbitalMotion {
             case .meanAnomaly(let ma):
                 meanAnomaly = ma
             case .timeSincePeriapsis(let tp):
-                meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: centerBody.gravParam, shape: orbit.shape)!
+                meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: gm, shape: orbit.shape)!
             case .julianDate(let jd):
-                meanAnomaly = calculateMeanAnomaly(Δt: (jd - safeTimeOfPeriapsisPassage()) * 86400, gravParam: centerBody.gravParam, shape: orbit.shape)!
+                meanAnomaly = calculateMeanAnomaly(Δt: (jd - unwrappedTimeOfPeriapsisPassage) * 86400, gravParam: gm, shape: orbit.shape)!
             }
             propagateStateVectors()
         }
@@ -71,6 +55,7 @@ public class OrbitalMotion {
         phase = .meanAnomaly(ma)
     }
     
+    /// the julian date of orbital motion (moment)
     public var julianDate: Double? {
         get {
             guard case let .julianDate(jd) = phase else { return nil }
@@ -105,9 +90,9 @@ public class OrbitalMotion {
     
     public var timeOfPeriapsisPassage: Double?
     
-    private func safeTimeOfPeriapsisPassage() -> Double {
-        if let r = timeOfPeriapsisPassage {
-            return r
+    private var unwrappedTimeOfPeriapsisPassage: Double {
+        if let t = timeOfPeriapsisPassage {
+            return t
         } else {
             fatalError("timeOfPeriapsisPassage must be set when using Phase.julianDate")
         }
@@ -123,7 +108,7 @@ public class OrbitalMotion {
     public var velocity: Vector3!
     
     public var specificMechanicalEnergy: Double {
-        return velocity.dot(velocity) / 2 - centerBody.gravParam / position.length
+        return velocity.dot(velocity) / 2 - gm / position.length
     }
     
     public var distance: Double {
@@ -136,22 +121,21 @@ public class OrbitalMotion {
     /// Initialize keplarian orbit from orbital elements
     ///
     /// - Parameters:
-    ///   - centerBody: The primary that is orbiting
+    ///   - gm: The system gm
     ///   - orbit: Orbital elements
     ///   - phase: Phase descriptor
-    init(centerBody: CelestialBody, orbit: Orbit, phase: Phase) {
-        self.centerBody = centerBody
+    init(orbit: Orbit, gm: Double = Sun.sol.gravParam, phase: Phase) {
+        self.gm = gm
         self.orbit = orbit
         self.phase = phase
     }
     
-    // Convenient constructors
-    public convenience init(centerBody: CelestialBody, orbit: Orbit, meanAnomaly: Double) {
-        self.init(centerBody: centerBody, orbit: orbit, phase: .meanAnomaly(meanAnomaly))
+    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, meanAnomaly: Double) {
+        self.init(orbit: orbit, gm: gm, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public convenience init(centerBody: CelestialBody, orbit: Orbit, timeSincePeriapsis: Double = 0) {
-        self.init(centerBody: centerBody, orbit: orbit, phase: .timeSincePeriapsis(timeSincePeriapsis))
+    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, timeSincePeriapsis: Double = 0) {
+        self.init(orbit: orbit, gm: gm, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
     
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
@@ -164,12 +148,12 @@ public class OrbitalMotion {
     /// - parameter velocity:    Velocity vector
     ///
     /// - returns: An orbit motion object
-    public init(centerBody: CelestialBody, position: Vector3, velocity: Vector3) {
-        self.centerBody = centerBody
+    public init(gm: Double, position: Vector3, velocity: Vector3) {
+        self.gm = gm
         self.position = position
         self.velocity = velocity
         let momentum = position.cross(velocity)
-        let eccentricityVector = velocity.cross(momentum) / centerBody.gravParam - position.normalized()
+        let eccentricityVector = velocity.cross(momentum) / gm - position.normalized()
         let n = Vector3(0, 0, 1).cross(momentum)
         trueAnomaly = {
             if position.dot(velocity) >= 0 {
@@ -203,7 +187,7 @@ public class OrbitalMotion {
             argumentOfPeriapsis = atan2(Double(eccentricityVector.y), Double(eccentricityVector.x))
         }
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
-        let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / centerBody.gravParam)
+        let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / gm)
         // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         phase = .meanAnomaly(0)
@@ -232,7 +216,7 @@ public class OrbitalMotion {
         let distance = orbit.shape.semimajorAxis * (1 - orbit.shape.eccentricity * cosE)
         
         let p = Vector3(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
-        let coefficient = sqrt(centerBody.gravParam * orbit.shape.semimajorAxis) / distance
+        let coefficient = sqrt(gm * orbit.shape.semimajorAxis) / distance
         let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
         let Ω = orbit.orientation.longitudeOfAscendingNode
         let i = orbit.orientation.inclination

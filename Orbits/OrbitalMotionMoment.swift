@@ -6,14 +6,16 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public class OrbitalMotionMoment: OrbitalMotion {
+    
+    /// A referential julian date when the ephemeris is recorded
     public let ephemerisJulianDate: Double
     
-    public init(centerBody: CelestialBody, orbit: Orbit, julianDate: Double, timeOfPeriapsisPassage: Double) {
+    public init(orbit: Orbit, gm: Double, julianDate: Double, timeOfPeriapsisPassage: Double) {
         self.ephemerisJulianDate = julianDate
-        super.init(centerBody: centerBody, orbit: orbit, phase: .julianDate(julianDate))
+        super.init(orbit: orbit, gm: gm, phase: .julianDate(julianDate))
         self.timeOfPeriapsisPassage = timeOfPeriapsisPassage
     }
 }

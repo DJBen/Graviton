@@ -1509,6 +1509,7 @@
 				FCC0BDB41E2D97DC003939B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

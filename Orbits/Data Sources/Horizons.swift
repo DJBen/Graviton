@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SwiftDate
 
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2017-01-01'&STOP_TIME='2017-01-02'&STEP_SIZE='1'&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
@@ -223,8 +224,13 @@ struct HorizonsQuery: Hashable {
     }
     
     static let planetQueryItems: [HorizonsQuery] = {
+        // update yearly for planets
+        let calendar = Calendar(identifier: .gregorian)
+        let components = calendar.dateComponents([.era, .year, .month], from: Date())
+        let thisYear = calendar.date(from: components)!
+        let thisYearLittleBitLater = thisYear.addingTimeInterval(1800)
         return NaifBody.planets.map { (planet) -> HorizonsQuery in
-            return HorizonsQuery(center: NaifBody.MajorBody.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: Date(), stopTime: Date(timeIntervalSinceNow: 3600), useCsvFormat: true, stepSize: StepSize.step(1))
+            return HorizonsQuery(center: NaifBody.MajorBody.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
         }
     }()
     

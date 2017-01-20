@@ -26,7 +26,7 @@ open class Body {
     private var centerBodyNaifId: Int?
     public var centerBody: CelestialBody? {
         guard let id = centerBodyNaifId else { return nil }
-        return CelestialBody.from(naifId: id)
+        return CelestialBody.load(naifId: id)
     }
     public var motion: OrbitalMotion?
     public var julianDate: Double = JulianDate.J2000 {

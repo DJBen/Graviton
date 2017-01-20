@@ -6,7 +6,7 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
 
 //! Project version number for Orbits.
 FOUNDATION_EXPORT double OrbitsVersionNumber;

@@ -7,9 +7,10 @@
 //
 
 import SQLite
+import SpaceTime
 
 fileprivate let celestialBody = Table("celestial_body")
-fileprivate let id = Expression<Int64>("naifId")
+fileprivate let cbId = Expression<Int64>("naifId")
 fileprivate let cusName = Expression<String?>("customName")
 fileprivate let obliquityExpr = Expression<Double>("obliquity")
 fileprivate let gmExpr = Expression<Double>("gm")
@@ -19,19 +20,14 @@ fileprivate let rotationPeriodExpr = Expression<Double>("rotationPeriod")
 fileprivate let centerBodyId = Expression<Int64?>("centerBodyNaifId")
 
 fileprivate let orbitalMotion = Table("orbital_motion")
-fileprivate let obId = Expression<Int64>("id")
+fileprivate let obId = Expression<Int64>("ob_id")
 fileprivate let bodyId = Expression<Int64>("body_id")
-fileprivate let mode = Expression<Int64>("mode")
+fileprivate let systemGm = Expression<Double?>("system_gm")
 fileprivate let a = Expression<Double>("a")
 fileprivate let ec = Expression<Double>("ec")
 fileprivate let i = Expression<Double>("i")
 fileprivate let om = Expression<Double>("om")
 fileprivate let w = Expression<Double>("w")
-fileprivate let m = Expression<Double?>("m") // mean anomaly, only when mode = 0
-fileprivate let tsp = Expression<Double?>("tsp") // time since periapsis, only when mode = 1
-
-fileprivate let moment = Table("orbital_motion_moment")
-fileprivate let momentId = Expression<Int64?>("moment_id")
 fileprivate let tp = Expression<Double>("tp") // time of periapsis passage, only when mode = 2
 fileprivate let refJd = Expression<Double>("ref_jd") // reference jd, only when mode = 2
 
@@ -56,12 +52,14 @@ class DBHelper {
         self.celestialBodies = celestialBodies
         self.orbitalMotions = orbitalMotions
         self.backupCb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "celestialBodies", ofType: "sqlite3")!)
+        self.backupOb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "orbitalMotions", ofType: "sqlite3")!)
     }
     
     let celestialBodies: Connection
     let orbitalMotions: Connection
     let backupCb: Connection
-    
+    let backupOb: Connection
+
     // EC     Eccentricity, e
     // IN     Inclination w.r.t XY-plane, i (degrees)
     // OM     Longitude of Ascending Node, OMEGA, (degrees)
@@ -72,28 +70,21 @@ class DBHelper {
     
     func prepareTables() {
         try! orbitalMotions.run(orbitalMotion.create(ifNotExists: true) { t in
-            t.column(id, primaryKey: .autoincrement)
+            t.column(obId, primaryKey: .autoincrement)
             t.column(bodyId)
-            t.column(mode)
+            t.column(systemGm)
             t.column(a)
             t.column(ec)
             t.column(i)
             t.column(om)
             t.column(w)
-            t.column(m)
-            t.column(tsp)
-            t.column(momentId, references: orbitalMotion, id)
-            t.foreignKey(momentId, references: orbitalMotion, id, update: .cascade, delete: .cascade)
-        })
-        
-        try! orbitalMotions.run(moment.create(ifNotExists: true) { t in
-            t.column(id, primaryKey: .autoincrement)
             t.column(tp)
             t.column(refJd)
+            t.unique(bodyId, refJd)
         })
 
         try! celestialBodies.run(celestialBody.create(ifNotExists: true) { t in
-            t.column(id, primaryKey: true)
+            t.column(cbId, primaryKey: true)
             t.column(cusName)
             t.column(obliquityExpr)
             t.column(gmExpr)
@@ -105,28 +96,32 @@ class DBHelper {
     }
     
     func saveCelestialBody(_ body: CelestialBody, shouldSaveMotion: Bool) {
-        let setters: [Setter] = [id <- Int64(body.naifId), gmExpr <- body.gravParam, obliquityExpr <- body.obliquity, radiusExpr <- body.radius, hillSphereExpr <- body.hillSphere, rotationPeriodExpr <- body.rotationPeriod, centerBodyId <- wrapInt(body.centerBody?.naifId)]
+        let setters: [Setter] = [cbId <- Int64(body.naifId), gmExpr <- body.gravParam, obliquityExpr <- body.obliquity, radiusExpr <- body.radius, hillSphereExpr <- body.hillSphere, rotationPeriodExpr <- body.rotationPeriod, centerBodyId <- wrapInt(body.centerBody?.naifId)]
         var nameSetter: [Setter] = []
         if NaifCatalog.name(forNaif: body.naifId) == nil {
             nameSetter = [cusName <- body.name]
         }
         try! celestialBodies.run(celestialBody.insert(or: .replace, setters + nameSetter))
-        if shouldSaveMotion {
-            body.motion?.save(forBodyId: body.naifId)
+        if let obm = body.motion as? OrbitalMotionMoment, shouldSaveMotion {
+            obm.save(forBodyId: body.naifId)
         }
     }
     
-    func loadCelestialBody(withNaifId naifId: Int) -> CelestialBody? {
+    func loadCelestialBody(withNaifId naifId: Int, shouldLoadMotion: Bool = true) -> CelestialBody? {
         if naifId == Sun.sol.naifId {
             return Sun.sol
         }
         func constructResult(_ result: Row) -> CelestialBody {
             if let customName = result.get(cusName) {
-                return CelestialBody(naifId: Int(result.get(id)), name: customName, gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+                return CelestialBody(naifId: Int(result.get(cbId)), name: customName, gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
             }
-            return CelestialBody(naifId: Int(result.get(id)), gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+            let cb = CelestialBody(naifId: Int(result.get(cbId)), gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+            if shouldLoadMotion {
+                cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDate: JulianDate(date: Date()).value)
+            }
+            return cb
         }
-        let query = celestialBody.filter(id == Int64(naifId))
+        let query = celestialBody.filter(cbId == Int64(naifId))
         if let result = try! celestialBodies.pluck(query) {
             return constructResult(result)
         } else if let result = try! backupCb.pluck(query) {
@@ -134,6 +129,31 @@ class DBHelper {
         } else {
             return nil
         }
+    }
+    
+    func saveOrbitalMotionMoment(_ moment: OrbitalMotionMoment, forBodyId bid: Int) {
+        let db: Connection = self.orbitalMotions
+        let identitySetter: [Setter] = [bodyId <- Int64(bid), systemGm <- moment.gm, tp <- moment.timeOfPeriapsisPassage!, refJd <- moment.ephemerisJulianDate]
+        try! db.run(orbitalMotion.insert(or: .replace, identitySetter + moment.orbit.sqlSaveSetters))
+    }
+    
+    func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: Double = JulianDate(date: Date()).value) -> OrbitalMotionMoment? {
+        let db: Connection = self.orbitalMotions
+        let query = orbitalMotion.filter(bodyId == Int64(theBodyId))
+        let rows = Array(try! db.prepare(query)) + Array(try! backupOb.prepare(query))
+        if rows.isEmpty { return nil }
+        var closestRefJdRow: Row!
+        for row in rows {
+            let referenceJulianDate = row.get(refJd)
+            if closestRefJdRow == nil || abs(referenceJulianDate - julianDate) < abs(closestRefJdRow.get(refJd) - julianDate) {
+                closestRefJdRow = row
+            }
+        }
+        let (va, vi, vec, vom, vw, vgm) = (closestRefJdRow.get(a), closestRefJdRow.get(i), closestRefJdRow!.get(ec), closestRefJdRow.get(om), closestRefJdRow.get(w), closestRefJdRow.get(systemGm) ?? Sun.sol.gravParam)
+        let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
+        let bestRefJd = closestRefJdRow.get(refJd)
+        let vtp = closestRefJdRow.get(tp)
+        return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDate: bestRefJd, timeOfPeriapsisPassage: vtp)
     }
 }
 
@@ -154,35 +174,30 @@ extension CelestialBody {
         DBHelper.shared.saveCelestialBody(self, shouldSaveMotion: shouldSaveMotion)
     }
     
-    public class func from(naifId: Int) -> CelestialBody? {
+    public class func load(naifId: Int) -> CelestialBody? {
         return DBHelper.shared.loadCelestialBody(withNaifId: naifId)
     }
 }
 
-extension OrbitalMotion {
+extension OrbitalMotionMoment {
     public func save(forBodyId theBodyId: Int) {
-        let db: Connection = DBHelper.shared.orbitalMotions
-        let phaseSetters: [Setter]
-        var identitySetter: [Setter] = [bodyId <- Int64(theBodyId)]
-        if let obm = self as? OrbitalMotionMoment {
-            phaseSetters = [mode <- 2]
-            identitySetter = [momentId <- try! db.run(moment.insert(or: .replace, tp <- obm.timeOfPeriapsisPassage!, refJd <- obm.ephemerisJulianDate))]
-        } else {
-            switch phase {
-            case .meanAnomaly(let ma):
-                phaseSetters = [mode <- 0, m <- ma]
-            case .timeSincePeriapsis(let tspRaw):
-                phaseSetters = [mode <- 1, tsp <- tspRaw]
-            default:
-                fatalError()
-            }
-        }
-        try! db.run(orbitalMotion.insert(or: .replace, identitySetter + phaseSetters + orbit.sqlSaveSetters()))
+        DBHelper.shared.saveOrbitalMotionMoment(self, forBodyId: theBodyId)
+    }
+    
+    public class func load(bodyId: Int) -> OrbitalMotionMoment? {
+        return DBHelper.shared.loadOrbitalMotionMoment(bodyId: bodyId)
     }
 }
 
 fileprivate extension Orbit {
-    func sqlSaveSetters() -> [Setter] {
+    var sqlSaveSetters: [Setter] {
         return [a <- shape.semimajorAxis, ec <- shape.eccentricity, w <- orientation.argumentOfPeriapsis, i <- orientation.inclination, om <- orientation.longitudeOfAscendingNode]
+    }
+}
+
+extension Connection {
+    public var userVersion: Int32 {
+        get { return Int32(try! scalar("PRAGMA user_version") as! Int64)}
+        set { try! run("PRAGMA user_version = \(newValue)") }
     }
 }

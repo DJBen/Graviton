@@ -12,7 +12,7 @@ import MathUtil
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
 
 public struct Orbit {
-    public struct ConicSection {
+    public struct ConicSection: Equatable {
         public enum `Type` {
             case circle
             case ellipse
@@ -64,9 +64,13 @@ public struct Orbit {
             }
             self.init(semimajorAxis: (ap + pe) / 2, eccentricity: 1 - 2 / ((ap / pe) + 1))
         }
+        
+        public static func ==(lhs: ConicSection, rhs: ConicSection) -> Bool {
+            return lhs.semimajorAxis == rhs.semimajorAxis && lhs.eccentricity == rhs.eccentricity
+        }
     }
     
-    public struct Orientation {
+    public struct Orientation: Equatable {
         public var inclination: Double
         public var longitudeOfAscendingNode: Double
         // https://en.wikipedia.org/wiki/Argument_of_periapsis
@@ -77,6 +81,10 @@ public struct Orbit {
             self.inclination = inclination
             self.longitudeOfAscendingNode = longitudeOfAscendingNode
             self.argumentOfPeriapsis = argumentOfPeriapsis
+        }
+        
+        public static func ==(lhs: Orientation, rhs: Orientation) -> Bool {
+            return lhs.argumentOfPeriapsis == rhs.argumentOfPeriapsis && lhs.inclination == rhs.inclination && lhs.longitudeOfAscendingNode == rhs.longitudeOfAscendingNode
         }
     }
 
@@ -92,9 +100,9 @@ public struct Orbit {
         self.init(shape: ConicSection(semimajorAxis: semimajorAxis, eccentricity: eccentricity), orientation: Orientation(inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis))
     }
     
-    public func orbitalPeriod(centerBody: BoundedByGravity) -> Double? {
+    public func orbitalPeriod(gm: Double) -> Double? {
         let a = shape.semimajorAxis
-        return Double(M_PI) * 2 * sqrt(pow(a, 3) / centerBody.gravParam)
+        return Double(M_PI) * 2 * sqrt(pow(a, 3) / gm)
     }
 }
 
