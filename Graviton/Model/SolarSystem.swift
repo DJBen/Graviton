@@ -16,7 +16,7 @@ protocol AstrodynamicsSupport {
 }
 
 struct SolarSystem: Searchable {
-    let star: Sun
+    let star: Star
     var julianDate: Double = JulianDate.J2000 {
         didSet {
             star.julianDate = julianDate
@@ -24,15 +24,15 @@ struct SolarSystem: Searchable {
         }
     }
     
-    init(star: Sun) {
+    init(star: Star) {
         self.star = star
     }
     
-    subscript(name: String) -> Body? {
-        if star.name == name {
+    subscript(subId: Int) -> Body? {
+        if star.naifId == subId {
             return star
         }
-        return star[name]
+        return star[subId]
     }
 }
 

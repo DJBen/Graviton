@@ -7,7 +7,7 @@
 //
 
 import Foundation
-import SwiftDate
+import SpaceTime
 
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2017-01-01'&STOP_TIME='2017-01-02'&STEP_SIZE='1'&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
@@ -17,18 +17,56 @@ public class Horizons {
         return Horizons()
     }()
     static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
-    static let trialCountLimit = 3
+    static let trialCountLimit = 4
     // back off time should be the following value * pow(CONSTANT, numberOfTrials)
     // usually CONSTANT = 2
     static let trialBackoffTimeInterval: TimeInterval = 0.5
-    static let timeIntervalBetweenJobs: TimeInterval = 0.2
+    static let timeIntervalBetweenJobs: TimeInterval = 0.4
     
     private var tasksTrialCount: [URL: Int] = [:]
     private var rawData: [Int: String] = [:]
     
     private var errors: [Error] = []
     
-    public func fetchPlanets(complete: (([CelestialBody]?, [Error]?) -> Void)? = nil) {
+    func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
+        var result = b1
+        let jd = JulianDate(date: refTime).value
+        for body2 in b2 {
+            if let index = b1.index(of: body2) {
+                let body = b1[index]
+                if let mm1 = body.motion as? OrbitalMotionMoment, let mm2 = body2.motion as? OrbitalMotionMoment {
+                    if abs(mm1.ephemerisJulianDate - jd) > abs(mm2.ephemerisJulianDate - jd) {
+                        result.insert(body2)
+                    }
+                } else {
+                    if body.motion is OrbitalMotionMoment {
+                        result.insert(body2)
+                    }
+                }
+            } else {
+                result.insert(body2)
+            }
+        }
+        return result
+    }
+    
+    /// Fetch ephemeris of major bodies and moons
+    ///
+    /// - Parameters:
+    ///   - preferredDate: The preferred date of ephemeris
+    ///   - update: Called when planet data is ready; may never be called or be called multiple times
+    ///   - complete: Block to execute upon completion
+    public func fetchEphemeris(preferredDate: Date = Date(), update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+        // load local data
+        var cachedBodies = Set<CelestialBody>(Naif.planets.flatMap {
+            CelestialBody.load(naifId: $0.rawValue)
+        })
+        if cachedBodies.isEmpty == false {
+            cachedBodies.insert(Star.sun)
+            update?(Ephemeris(solarSystemBodies: cachedBodies))
+        }
+        
+        // load online data
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
             defer {
@@ -76,7 +114,7 @@ public class Horizons {
                 print("reponse has no data: \(response)")
             }
         }
-        let tasks = HorizonsQuery.planetQueryItems.map { (query) -> URLSessionTask in
+        let tasks = HorizonsQuery.planetQuery(date: preferredDate).map { (query) -> URLSessionTask in
             return URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
         }
         tasks.enumerated().forEach { (index: Int, task: URLSessionTask) in
@@ -98,144 +136,21 @@ public class Horizons {
                 return
             }
             print("complete: fetching planets")
-            let bodies = self.rawData.flatMap { (naif, content) -> CelestialBody? in
+            let bodies = Set<CelestialBody>(self.rawData.flatMap { (naif, content) -> CelestialBody? in
                 if let body = ResponseParser.parse(content: content) {
                     body.save()
                     return body
                 }
                 return nil
+            })
+            var merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate)
+            if merged.contains(Star.sun) == false {
+                merged.insert(Star.sun)
             }
-            complete?(bodies, nil)
+            let eph = Ephemeris(solarSystemBodies: merged)
+            update?(eph)
+            complete?(eph, nil)
         }
-    }
-}
-
-enum NaifBody {
-    enum MajorBody: String {
-        case sun = "10"
-        case mercury = "199"
-        case venus = "299"
-        case earth = "399"
-        case mars = "499"
-        case jupiter = "599"
-        case saturn = "699"
-        case uranus = "799"
-        case neptune = "899"
-    }
-    
-    case majorBody(MajorBody)
-    
-    static let planets: [NaifBody] = {
-        let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune]
-        return planets.map { .majorBody($0) }
-    }()
-    
-    var rawValue: String {
-        switch self {
-        case let .majorBody(mb):
-            return mb.rawValue
-        }
-    }
-}
-
-// CENTER = 'SUN'
-// COMMAND = '399'
-// MAKE_EPHEM = 'YES'
-// TABLE_TYPE = 'elements'
-// START_TIME = '2000-10-01'
-// STOP_TIME = '2000-12-31'
-// STEP_SIZE = '15d'
-// CSV_FORMAT = 'YES'
-
-struct HorizonsQuery: Hashable {
-    enum TableType: String {
-        case elements
-        case observers
-        case vectors
-        case approach
-    }
-    
-    enum StepSize: Equatable {
-        case day(Int)
-        case hour(Int)
-        case minute(Int)
-        case step(Int)
-        
-        var rawValue: String {
-            switch self {
-            case let .day(d):
-                return "\(d) days"
-            case let .hour(h):
-                return "\(h) hours"
-            case let .minute(m):
-                return "\(m) min"
-            case let .step(s):
-                return "\(s)"
-            }
-        }
-        
-        public static func ==(lhs: StepSize, rhs: StepSize) -> Bool {
-            return lhs.rawValue == rhs.rawValue
-        }
-    }
-    
-    static let formatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MMM-dd HH:mm"
-        return formatter
-    }()
-    
-    var hashValue: Int {
-        return command.hashValue ^ startTime.hashValue ^ stopTime.hashValue ^ stepSize.rawValue.hashValue
-    }
-    
-    var center: String?
-    var command: String
-    var shouldMakeEphemeris: Bool = true
-    var tableType: TableType
-    var startTime: Date
-    var stopTime: Date
-    var useCsvFormat: Bool = true
-    var stepSize: StepSize = .step(1)
-    
-    var queryItems: [URLQueryItem] {
-        var mappings: [String: String] = [
-            "batch": "1",
-            "MAKE_EPHEM": shouldMakeEphemeris.yesNo,
-            "TABLE_TYPE": tableType.rawValue.capitalized,
-            "COMMAND": command,
-            "START_TIME": HorizonsQuery.formatter.string(from: startTime),
-            "STOP_TIME": HorizonsQuery.formatter.string(from: stopTime),
-            "CSV_FORMAT": useCsvFormat.yesNo,
-            "STEP_SIZE": stepSize.rawValue
-        ]
-        if let c = center {
-            mappings["CENTER"] = c
-        }
-        return mappings.map { (key, value) -> URLQueryItem in
-            return URLQueryItem(name: key, value: value.quoteWrapped)
-        }
-    }
-    
-    var url: URL {
-        let urlComponent = NSURLComponents(string: Horizons.batchUrl)!
-        urlComponent.queryItems = queryItems
-        return urlComponent.url!
-    }
-    
-    static let planetQueryItems: [HorizonsQuery] = {
-        // update yearly for planets
-        let calendar = Calendar(identifier: .gregorian)
-        let components = calendar.dateComponents([.era, .year, .month], from: Date())
-        let thisYear = calendar.date(from: components)!
-        let thisYearLittleBitLater = thisYear.addingTimeInterval(1800)
-        return NaifBody.planets.map { (planet) -> HorizonsQuery in
-            return HorizonsQuery(center: NaifBody.MajorBody.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
-        }
-    }()
-    
-    public static func ==(lhs: HorizonsQuery, rhs: HorizonsQuery) -> Bool {
-        return lhs.command == rhs.command && lhs.startTime == rhs.startTime && lhs.stopTime == rhs.stopTime && lhs.useCsvFormat == rhs.useCsvFormat && lhs.center == rhs.center && lhs.shouldMakeEphemeris == rhs.shouldMakeEphemeris && lhs.stepSize == rhs.stepSize && lhs.tableType == rhs.tableType
     }
 }
 
@@ -252,17 +167,5 @@ fileprivate extension URL {
             }
         }
         return nil
-    }
-}
-
-fileprivate extension Bool {
-    var yesNo: String {
-        return self ? "YES" : "NO"
-    }
-}
-
-fileprivate extension String {
-    var quoteWrapped: String {
-        return "'\(self)'"
     }
 }

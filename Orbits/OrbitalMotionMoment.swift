@@ -12,7 +12,7 @@ public class OrbitalMotionMoment: OrbitalMotion {
     
     /// A referential julian date when the ephemeris is recorded
     public let ephemerisJulianDate: Double
-    
+        
     public init(orbit: Orbit, gm: Double, julianDate: Double, timeOfPeriapsisPassage: Double) {
         self.ephemerisJulianDate = julianDate
         super.init(orbit: orbit, gm: gm, phase: .julianDate(julianDate))

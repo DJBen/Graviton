@@ -124,17 +124,17 @@ public class OrbitalMotion {
     ///   - gm: The system gm
     ///   - orbit: Orbital elements
     ///   - phase: Phase descriptor
-    init(orbit: Orbit, gm: Double = Sun.sol.gravParam, phase: Phase) {
+    init(orbit: Orbit, gm: Double = Star.sun.gravParam, phase: Phase) {
         self.gm = gm
         self.orbit = orbit
         self.phase = phase
     }
     
-    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, meanAnomaly: Double) {
+    public convenience init(orbit: Orbit, gm: Double = Star.sun.gravParam, meanAnomaly: Double) {
         self.init(orbit: orbit, gm: gm, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, timeSincePeriapsis: Double = 0) {
+    public convenience init(orbit: Orbit, gm: Double = Star.sun.gravParam, timeSincePeriapsis: Double = 0) {
         self.init(orbit: orbit, gm: gm, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
     

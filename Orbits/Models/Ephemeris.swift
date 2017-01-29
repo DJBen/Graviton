@@ -8,26 +8,51 @@
 
 import Foundation
 
-public struct Ephemeris {
-    // TODO: use hash map
-    public let celestialBodies: [CelestialBody]
+/// Ephemeris is a tree structure with celestial bodies ordered in a way that satellites are always children of their respective primaries.
+public struct Ephemeris: Sequence {
+    let root: CelestialBody
     
-    public init(celestialBodies: [CelestialBody]) {
-        self.celestialBodies = celestialBodies
+    init(solarSystemBodies: Set<CelestialBody>) {
+        let sortedBodies = solarSystemBodies.sorted()
+        guard let first = sortedBodies.first else {
+            fatalError("cannot initalize ephemeris from empty celestial bodies")
+        }
+        root = first
+        var parents = [CelestialBody]()
+        parents.append(first)
+        let remaining = sortedBodies.dropFirst()
+        remaining.forEach { (current) in
+            repeat {
+                if parents.isEmpty {
+                    fatalError("solar system bodies missing")
+                }
+                let parent = parents.last!
+                if current.naif.isSatellite(of: parent.naif) {
+                    parent.addSatellite(satellite: current)
+                    parents.append(current)
+                    break
+                } else {
+                    parents.removeLast()
+                }
+            } while true
+        }
     }
     
-    public func motion(of naifId: Int) -> OrbitalMotion? {
-        return self[naifId]?.motion
-    }
-    
-    public func orbit(of naifId: Int) -> Orbit? {
-        return motion(of: naifId)?.orbit
-    }
-    
-    subscript(naifId: Int) -> CelestialBody? {
-        return celestialBodies.filter { (body) -> Bool in
-            return body.naifId == naifId
-        }.first
+    public func makeIterator() -> AnyIterator<CelestialBody> {
+        var result = [CelestialBody]()
+        var queue = [root]
+        while queue.isEmpty == false {
+            let current = queue.removeFirst()
+            result.append(current)
+            let sats = current.satellites as! [CelestialBody]
+            queue.append(contentsOf: sats)
+        }
+        return AnyIterator {
+            guard let first = result.first else {
+                return nil
+            }
+            result.removeFirst()
+            return first
+        }
     }
 }
- 

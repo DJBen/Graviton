@@ -108,8 +108,8 @@ class DBHelper {
     }
     
     func loadCelestialBody(withNaifId naifId: Int, shouldLoadMotion: Bool = true) -> CelestialBody? {
-        if naifId == Sun.sol.naifId {
-            return Sun.sol
+        if naifId == Star.sun.naifId {
+            return Star.sun
         }
         func constructResult(_ result: Row) -> CelestialBody {
             if let customName = result.get(cusName) {
@@ -149,7 +149,7 @@ class DBHelper {
                 closestRefJdRow = row
             }
         }
-        let (va, vi, vec, vom, vw, vgm) = (closestRefJdRow.get(a), closestRefJdRow.get(i), closestRefJdRow!.get(ec), closestRefJdRow.get(om), closestRefJdRow.get(w), closestRefJdRow.get(systemGm) ?? Sun.sol.gravParam)
+        let (va, vi, vec, vom, vw, vgm) = (closestRefJdRow.get(a), closestRefJdRow.get(i), closestRefJdRow!.get(ec), closestRefJdRow.get(om), closestRefJdRow.get(w), closestRefJdRow.get(systemGm) ?? Star.sun.gravParam)
         let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
         let bestRefJd = closestRefJdRow.get(refJd)
         let vtp = closestRefJdRow.get(tp)
