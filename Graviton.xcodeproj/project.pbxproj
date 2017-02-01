@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
+		EF2CC3811E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
+		EF2CC3821E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
 		EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F04E1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
@@ -200,6 +202,7 @@
 
 /* Begin PBXFileReference section */
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
+		EF2CC3801E42239E00A375F4 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
@@ -421,6 +424,7 @@
 				FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */,
 				EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */,
 				EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */,
+				EF2CC3801E42239E00A375F4 /* stars.sqlite3 */,
 				FCA930B71E2B8E6600100706 /* Models */,
 				FCA930BE1E2B8EAE00100706 /* Data Sources */,
 				FCA930CB1E2B8EF600100706 /* Utils */,
@@ -825,6 +829,7 @@
 				EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */,
 				EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */,
 				FC998DB81E2CF32C00E0BFFF /* venus.result in Resources */,
+				EF2CC3811E42239E00A375F4 /* stars.sqlite3 in Resources */,
 				FCA930C91E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FC998DBB1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */,
 				FCA930DF1E2B8F4C00100706 /* mars.result in Resources */,
@@ -837,6 +842,7 @@
 			files = (
 				FC998DBC1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */,
 				FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */,
+				EF2CC3821E42239E00A375F4 /* stars.sqlite3 in Resources */,
 				FC998DB91E2CF32C00E0BFFF /* venus.result in Resources */,
 				FCA930CA1E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FC998DB21E2C749200E0BFFF /* neptune.result in Resources */,
