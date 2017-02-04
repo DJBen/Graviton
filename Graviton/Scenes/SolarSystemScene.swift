@@ -73,7 +73,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     }()
     
     private lazy var sunNode: SCNNode = {
-        let sun = SCNNode(geometry: SCNSphere(radius: 1.6))
+        let sun = SCNNode(geometry: SCNSphere(radius: 1.2))
         sun.name = "10"
         sun.geometry!.firstMaterial = {
             let mat = SCNMaterial()

@@ -10,13 +10,12 @@ import UIKit
 import SceneKit
 
 class ObserverViewController: SceneControlViewController {
+    
+    lazy var obsScene = ObserverScene()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let scnView = self.view as! SCNView
-        scnView.delegate = self
-        scnView.isPlaying = true
-        scnView.backgroundColor = UIColor.black
+        setupViewElements()
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -29,5 +28,15 @@ class ObserverViewController: SceneControlViewController {
         } else {
             return .all
         }
+    }
+    
+    private func setupViewElements() {
+        let scnView = self.view as! SCNView
+        scnView.delegate = self
+        scnView.scene = obsScene
+        scnView.isPlaying = true
+        scnView.overlaySKScene = StarScene(size: scnView.frame.size)
+        scnView.backgroundColor = UIColor.black
+        scnView.allowsCameraControl = true
     }
 }

@@ -36,6 +36,8 @@
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFDC5C351E3E23F700A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFDC5C371E3E3E0400A08EB2 /* EphemerisTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */; };
+		EFE0EC091E462B7D005A71DC /* StarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* StarScene.swift */; };
+		EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */; };
 		EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
@@ -116,13 +118,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EFC2C6AB1D88D02F0031AA9C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
-			remoteInfo = Graviton;
-		};
 		EFE8BF5F1DD86B2B000F0A79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
@@ -225,11 +220,11 @@
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		EFC2C6B01D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
+		EFE0EC081E462B7D005A71DC /* StarScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarScene.swift; sourceTree = "<group>"; };
+		EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverScene.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF571DD86B2B000F0A79 /* Orbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orbits.h; sourceTree = "<group>"; };
 		EFE8BF581DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -301,13 +296,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EFC2C6A71D88D02F0031AA9C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		EFE8BF511DD86B2B000F0A79 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -369,7 +357,6 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
-				EFC2C6AD1D88D02F0031AA9C /* GravitonTests */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				FC2435821E1F87F0002AC626 /* SpaceTime */,
@@ -384,7 +371,6 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6941D88D02F0031AA9C /* Graviton.app */,
-				EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */,
 				EFE8BF551DD86B2B000F0A79 /* Orbits.framework */,
 				EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */,
 				FC2435811E1F87F0002AC626 /* SpaceTime.framework */,
@@ -411,14 +397,6 @@
 				EFC2C6A51D88D02F0031AA9C /* Info.plist */,
 			);
 			path = Graviton;
-			sourceTree = "<group>";
-		};
-		EFC2C6AD1D88D02F0031AA9C /* GravitonTests */ = {
-			isa = PBXGroup;
-			children = (
-				EFC2C6B01D88D02F0031AA9C /* Info.plist */,
-			);
-			path = GravitonTests;
 			sourceTree = "<group>";
 		};
 		EFE8BF561DD86B2B000F0A79 /* Orbits */ = {
@@ -504,6 +482,8 @@
 				EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */,
 				EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */,
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
+				EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */,
+				EFE0EC081E462B7D005A71DC /* StarScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -618,24 +598,6 @@
 			productReference = EFC2C6941D88D02F0031AA9C /* Graviton.app */;
 			productType = "com.apple.product-type.application";
 		};
-		EFC2C6A91D88D02F0031AA9C /* GravitonTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EFC2C6B61D88D02F0031AA9C /* Build configuration list for PBXNativeTarget "GravitonTests" */;
-			buildPhases = (
-				EFC2C6A61D88D02F0031AA9C /* Sources */,
-				EFC2C6A71D88D02F0031AA9C /* Frameworks */,
-				EFC2C6A81D88D02F0031AA9C /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EFC2C6AC1D88D02F0031AA9C /* PBXTargetDependency */,
-			);
-			name = GravitonTests;
-			productName = GravitonTests;
-			productReference = EFC2C6AA1D88D02F0031AA9C /* GravitonTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		EFE8BF541DD86B2B000F0A79 /* Orbits */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFE8BF6C1DD86B2B000F0A79 /* Build configuration list for PBXNativeTarget "Orbits" */;
@@ -746,13 +708,6 @@
 						LastSwiftMigration = 0800;
 						ProvisioningStyle = Automatic;
 					};
-					EFC2C6A91D88D02F0031AA9C = {
-						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0800;
-						ProvisioningStyle = Automatic;
-						TestTargetID = EFC2C6931D88D02F0031AA9C;
-					};
 					EFE8BF541DD86B2B000F0A79 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 52RD2GH5DP;
@@ -800,7 +755,6 @@
 			projectRoot = "";
 			targets = (
 				EFC2C6931D88D02F0031AA9C /* Graviton */,
-				EFC2C6A91D88D02F0031AA9C /* GravitonTests */,
 				EFE8BF541DD86B2B000F0A79 /* Orbits */,
 				EFE8BF5C1DD86B2B000F0A79 /* OrbitsTests */,
 				FC2435801E1F87F0002AC626 /* SpaceTime */,
@@ -820,13 +774,6 @@
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EFC2C6A81D88D02F0031AA9C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -915,14 +862,9 @@
 				FCA930681E23780300100706 /* FocusingSupport.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
+				EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */,
+				EFE0EC091E462B7D005A71DC /* StarScene.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EFC2C6A61D88D02F0031AA9C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1024,11 +966,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EFC2C6AC1D88D02F0031AA9C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
-			targetProxy = EFC2C6AB1D88D02F0031AA9C /* PBXContainerItemProxy */;
-		};
 		EFE8BF601DD86B2B000F0A79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EFE8BF541DD86B2B000F0A79 /* Orbits */;
@@ -1230,39 +1167,6 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		EFC2C6B71D88D02F0031AA9C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				INFOPLIST_FILE = GravitonTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.GravitonTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
-			};
-			name = Debug;
-		};
-		EFC2C6B81D88D02F0031AA9C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				INFOPLIST_FILE = GravitonTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.GravitonTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
 			name = Release;
 		};
@@ -1509,15 +1413,6 @@
 			buildConfigurations = (
 				EFC2C6B41D88D02F0031AA9C /* Debug */,
 				EFC2C6B51D88D02F0031AA9C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EFC2C6B61D88D02F0031AA9C /* Build configuration list for PBXNativeTarget "GravitonTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EFC2C6B71D88D02F0031AA9C /* Debug */,
-				EFC2C6B81D88D02F0031AA9C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

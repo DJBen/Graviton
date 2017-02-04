@@ -56,7 +56,7 @@ public class Horizons {
     ///   - preferredDate: The preferred date of ephemeris
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: Date = Date(), offline: Bool = false, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
         var cachedBodies = Set<CelestialBody>(Naif.planets.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -64,7 +64,12 @@ public class Horizons {
         if cachedBodies.isEmpty == false {
             cachedBodies.insert(Star.sun)
             update?(Ephemeris(solarSystemBodies: cachedBodies))
+            if offline {
+                complete?(Ephemeris(solarSystemBodies: cachedBodies), nil)
+                return
+            }
         }
+        
         
         // load online data
         let group = DispatchGroup()

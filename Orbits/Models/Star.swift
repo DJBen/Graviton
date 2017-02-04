@@ -26,7 +26,7 @@ fileprivate let stars = Table("stars_7")
 // The sun has id 0. Using id > 0 to filter out the sun.
 fileprivate let dbInternalId = Expression<Int>("id")
 fileprivate let dbBFDesignation = Expression<String?>("bf")
-fileprivate let dbHip = Expression<Int>("hip")
+fileprivate let dbHip = Expression<Int?>("hip")
 fileprivate let dbHr = Expression<Int?>("hr")
 fileprivate let dbHd = Expression<Int?>("hd")
 fileprivate let dbProperName = Expression<String?>("proper")
@@ -43,10 +43,11 @@ fileprivate let dbMag = Expression<Double>("mag")
 public struct DistantStar {
     
     public struct Identity: Hashable, Equatable {
+        public let id: Int
         /// The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog. This is a combination of the two designations. The Flamsteed number, if present, is given first; then a three-letter abbreviation for the Bayer Greek letter; the Bayer superscript number, if present; and finally, the three-letter constellation abbreviation. Thus Alpha Andromedae has the field value "21Alp And", and Kappa1 Sculptoris (no Flamsteed number) has "Kap1Scl".
         public let bayerFlamsteedDesignation: String?
         /// The star's ID in the Hipparcos catalog, if known.
-        public let hipId: Int
+        public let hipId: Int?
         /// The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.
         public let hrId: Int?
         /// The star's ID in the Henry Draper catalog, if known.
@@ -57,10 +58,11 @@ public struct DistantStar {
         public let constellation: Constellation
         
         public var hashValue: Int {
-            return hipId.hashValue
+            return id.hashValue
         }
         
-        init(hipId: Int, hrId: Int?, hdId: Int?, bfDesig: String?, proper: String?, constellationIAU: String) {
+        init(id: Int, hipId: Int?, hrId: Int?, hdId: Int?, bfDesig: String?, proper: String?, constellationIAU: String) {
+            self.id = id
             self.hipId = hipId
             self.hrId = hrId
             self.hdId = hdId
@@ -70,7 +72,7 @@ public struct DistantStar {
         }
         
         public static func ==(lhs: Identity, rhs: Identity) -> Bool {
-            return lhs.hipId == rhs.hipId
+            return lhs.id == rhs.id
         }
     }
     
@@ -101,7 +103,7 @@ public struct DistantStar {
     }
     
     private init(row: Row) {
-        let identity = DistantStar.Identity(hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
+        let identity = DistantStar.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
         let coord = Vector3(row.get(dbX), row.get(dbY), row.get(dbZ))
         let vel = Vector3(row.get(dbVx), row.get(dbVy), row.get(dbVz))
         let phys = DistantStar.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)

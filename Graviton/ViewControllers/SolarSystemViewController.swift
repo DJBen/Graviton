@@ -114,7 +114,7 @@ class SolarSystemViewController: SceneControlViewController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         self.view.addGestureRecognizer(tapGR)
-        Horizons.shared.fetchEphemeris(update: { (ephemeris) in
+        Horizons.shared.fetchEphemeris(offline: true, update: { (ephemeris) in
             self.ephemeris = ephemeris
             self.fillSolarSystemScene(self.solarSystemScene)
         }) { (_, error) in
