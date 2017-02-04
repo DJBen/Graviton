@@ -41,7 +41,6 @@
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
-		EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF7D1DD86D35000F0A79 /* SolarSystem.swift */; };
 		EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
@@ -237,7 +236,6 @@
 		EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		EFE8BF7D1DD86D35000F0A79 /* SolarSystem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystem.swift; sourceTree = "<group>"; };
 		EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNodeTest.swift; sourceTree = "<group>"; };
 		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FC1B76561E223F3C00F45343 /* stars.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = stars.scnassets; sourceTree = "<group>"; };
@@ -356,7 +354,6 @@
 			isa = PBXGroup;
 			children = (
 				EF4851891D91EB8D00737CE4 /* CelestialNode.swift */,
-				EFE8BF7D1DD86D35000F0A79 /* SolarSystem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -916,7 +913,6 @@
 				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				FC1B76591E224ABF00F45343 /* SceneControlViewController.swift in Sources */,
 				FCA930681E23780300100706 /* FocusingSupport.swift in Sources */,
-				EFE8BF7E1DD86D35000F0A79 /* SolarSystem.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
