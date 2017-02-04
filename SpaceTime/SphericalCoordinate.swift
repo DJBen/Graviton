@@ -10,7 +10,11 @@ import MathUtil
 
 public struct SphericalCoordinate {
     public let distance: Double
+    
+    /// Right ascension in radians
     public let rightAscension: Double
+    
+    /// Declination in radians
     public let declination: Double
     
     // http://www.geom.uiuc.edu/docs/reference/CRC-formulas/node42.html
@@ -24,11 +28,6 @@ public struct SphericalCoordinate {
         self.rightAscension = rightAscension
         self.declination = declination
         self.distance = distance
-    }
-    
-    func rotated(northPoleRA ra: Double, northPoleDE de: Double) -> SphericalCoordinate {
-        // TODO: used for martian celestial pole
-        return self
     }
 }
 

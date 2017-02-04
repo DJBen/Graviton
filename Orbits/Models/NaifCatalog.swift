@@ -9,6 +9,7 @@
 import Foundation
 import SQLite
 
+/// NaifCatalog provides mappings between names and naif codes.
 public class NaifCatalog {
     private static let databasePath = Bundle(for: NaifCatalog.self).path(forResource: "naif", ofType: "sqlite3")!
     private static var db: Connection = {

@@ -60,13 +60,3 @@ open class Body {
         centerBodyNaifId = naifId
     }
 }
-
-open class Star: CelestialBody {
-    public static var sun: Star {
-        return Star(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
-    }
-    
-    public override var heliocentricPosition: Vector3 {
-        return Vector3.zero
-    }
-}

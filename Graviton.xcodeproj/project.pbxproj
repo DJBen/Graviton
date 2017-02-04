@@ -10,6 +10,8 @@
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
 		EF2CC3811E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
 		EF2CC3821E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
+		EF2CC3841E4236FD00A375F4 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CC3831E4236FD00A375F4 /* Star.swift */; };
+		EF2CC3851E4236FD00A375F4 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CC3831E4236FD00A375F4 /* Star.swift */; };
 		EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F04E1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
@@ -21,6 +23,9 @@
 		EF32F05C1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
 		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
+		EF7FA4911E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
+		EF7FA4921E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
+		EF7FA4941E461518000D5AEB /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4931E461518000D5AEB /* StarTest.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
 		EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */; };
@@ -203,6 +208,7 @@
 /* Begin PBXFileReference section */
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
 		EF2CC3801E42239E00A375F4 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
+		EF2CC3831E4236FD00A375F4 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
@@ -210,6 +216,8 @@
 		EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 		EF4851891D91EB8D00737CE4 /* CelestialNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNode.swift; sourceTree = "<group>"; };
 		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
+		EF7FA4901E43A8F5000D5AEB /* Constellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constellation.swift; sourceTree = "<group>"; };
+		EF7FA4931E461518000D5AEB /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC2C6991D88D02F0031AA9C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
@@ -448,6 +456,7 @@
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
+				EF7FA4931E461518000D5AEB /* StarTest.swift */,
 				EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */,
 				FCA930E21E2B8F5400100706 /* ParserTest.swift */,
 				FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */,
@@ -520,6 +529,8 @@
 				EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */,
 				FCA930B81E2B8E6600100706 /* Body.swift */,
 				EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */,
+				EF7FA4901E43A8F5000D5AEB /* Constellation.swift */,
+				EF2CC3831E4236FD00A375F4 /* Star.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -928,6 +939,8 @@
 				EF32F0561E3B83F100AD8778 /* HorizonsQuery.swift in Sources */,
 				EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */,
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
+				EF7FA4911E43A8F5000D5AEB /* Constellation.swift in Sources */,
+				EF2CC3841E4236FD00A375F4 /* Star.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCA930C61E2B8EAE00100706 /* Parser.swift in Sources */,
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
@@ -947,9 +960,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFDC5C371E3E3E0400A08EB2 /* EphemerisTest.swift in Sources */,
+				EF2CC3851E4236FD00A375F4 /* Star.swift in Sources */,
 				FCA930BA1E2B8E6600100706 /* Body.swift in Sources */,
 				FCA930C71E2B8EAE00100706 /* Parser.swift in Sources */,
 				EF32F05C1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
+				EF7FA4921E43A8F5000D5AEB /* Constellation.swift in Sources */,
 				FCA930DD1E2B8F3700100706 /* Ephemeris.swift in Sources */,
 				FCC0BDC31E2F8A56003939B1 /* TransientDBHelper.swift in Sources */,
 				FCC0BDC71E2F8BEC003939B1 /* DBHelperTest.swift in Sources */,
@@ -967,6 +982,7 @@
 				FCA930D81E2B8F1200100706 /* Constants.swift in Sources */,
 				FCA930C31E2B8EAE00100706 /* EphemerisParser.swift in Sources */,
 				EF32F0591E3B988800AD8778 /* NaifTest.swift in Sources */,
+				EF7FA4941E461518000D5AEB /* StarTest.swift in Sources */,
 				FC998DAE1E2B996B00E0BFFF /* Formatters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
