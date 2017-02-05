@@ -202,8 +202,8 @@ class SolarSystemViewController: SceneController {
         self.velocityLabel.alpha = focusedNode.opacity
         self.distanceLabel.alpha = focusedNode.opacity
         
-        let overlayPosition = project3dNode(focusedNode)
-        let nodeSize = projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
+        let overlayPosition = scnView.project3dTo2d(focusedNode.position)
+        let nodeSize = scnView.projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
         let nodeHeight = nodeSize.height
         let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
         
@@ -233,20 +233,5 @@ class SolarSystemViewController: SceneController {
             return
         }
         updateForFocusedNode(focusedNode, representingBody: focusedBody)
-    }
-    
-    // MARK: - View Projections
-    
-    private func project3dNode(_ node: SCNNode) -> CGPoint {
-        let vp = scnView.projectPoint(node.position)
-        let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
-        // small coordinate conversion hack
-        return CGPoint(x: viewPosition.x, y: view.frame.size.height - viewPosition.y)
-    }
-    
-    private func projectedSize(of node: SCNNode) -> CGSize {
-        let min = scnView.projectPoint(node.boundingBox.min)
-        let max = scnView.projectPoint(node.boundingBox.max)
-        return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
     }
 }

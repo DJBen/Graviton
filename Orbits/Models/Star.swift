@@ -123,4 +123,12 @@ public struct DistantStar {
         }
         return nil
     }
+    
+    public static func id(_ id: Int) -> DistantStar? {
+        let query = stars.filter(dbInternalId == id)
+        if let row = try! db.pluck(query) {
+            return DistantStar(row: row)
+        }
+        return nil
+    }
 }

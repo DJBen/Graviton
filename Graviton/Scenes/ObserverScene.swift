@@ -13,7 +13,7 @@ import SpaceTime
 import MathUtil
 import GLKit
 
-class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
+class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRendererDelegate {
     
     lazy var stars = DistantStar.magitudeLessThan(5)
     
@@ -67,6 +67,17 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     override init() {
         super.init()
         resetCamera()
+        let scene = SCNScene(named: "stars.scnassets/celestial_sphere.scn")!
+        let milkyWayNode = scene.rootNode.childNode(withName: "milky_way", recursively: true)!
+        milkyWayNode.transform = SCNMatrix4Identity
+        milkyWayNode.removeFromParentNode()
+        let sphere = milkyWayNode.geometry as! SCNSphere
+        sphere.firstMaterial!.cullMode = .front
+        sphere.radius = 12
+        let mtx = SCNMatrix4MakeRotation(Float(-M_PI_2), 1, 0, 0)
+        milkyWayNode.pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
+        milkyWayNode.opacity = 0.5
+        rootNode.addChildNode(milkyWayNode)
         let light: SCNNode = {
             let node = SCNNode()
             node.light = {
@@ -79,11 +90,13 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(light)
         rootNode.addChildNode(cameraNode)
         for star in stars {
+//            let starNode = SCNNode()
             let starNode = SCNNode(geometry: SCNSphere(radius: radiusForMagnitude(star.physicalInfo.magnitude)))
             let coord = star.physicalInfo.coordinate.normalized() * 10
-            print(coord)
             starNode.position = SCNVector3(coord)
             starNode.geometry!.firstMaterial!.diffuse.contents = UIColor.white
+            starNode.name = String(star.identity.id)
+//            starNode.rendererDelegate = self
             rootNode.addChildNode(starNode)
         }
         let southNode = SCNNode(geometry: SCNSphere(radius: 0.1))
@@ -97,8 +110,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     func resetCamera() {
-        // camera points to north by default
-        cameraNode.pivot = SCNMatrix4MakeRotation(Float(M_PI), 0, 1, 0)
         cameraNode.transform = SCNMatrix4Identity
         (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
         scale = 1
@@ -109,19 +120,19 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = 0, blendOutEnd: Double = 5) -> CGFloat {
-        let maxSize: CGFloat = 0.15
-        let minSize: CGFloat = 0.02
-        if mag < blendOutStart {
-            return maxSize
-        }
-        if mag > blendOutEnd {
-            return minSize
-        }
-        return maxSize - (maxSize - minSize) * CGFloat((mag - blendOutStart) / (blendOutEnd - blendOutStart))
+        let maxSize: Double = 0.15
+        let minSize: Double = 0.02
+        let linearEasing = Easing(startValue: maxSize, endValue: minSize)
+        let progress = mag / (blendOutEnd - blendOutStart)
+        return CGFloat(linearEasing.value(at: progress))
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
+    // MARK: - SCNNode Renderer Delegate
+    func renderNode(_ node: SCNNode, renderer: SCNRenderer, arguments: [String : Any]) {
+        print(node)
+    }
 }
