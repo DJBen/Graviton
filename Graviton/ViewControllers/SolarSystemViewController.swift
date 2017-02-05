@@ -11,9 +11,11 @@ import SpriteKit
 import SceneKit
 import Orbits
 import SpaceTime
+import MathUtil
 
 class SolarSystemViewController: SceneControlViewController {
     
+    var focusController: FocusingSupport?
     var ephemeris: Ephemeris?
     
     var lastRenderTime: TimeInterval!
@@ -94,7 +96,7 @@ class SolarSystemViewController: SceneControlViewController {
     }
     
     private func updateFocusedNodeLabel() {
-        if let naifId = cameraController?.focusedNode?.name {
+        if let naifId = focusController?.focusedNode?.name {
             if let name = NaifCatalog.name(forNaif: Int(naifId)!) {
                 focusedObjectLabel.text = name
             } else {
@@ -110,6 +112,7 @@ class SolarSystemViewController: SceneControlViewController {
         setupViewElements()
         refTime = Date()
         cameraController = solarSystemScene
+        focusController = solarSystemScene
         updateFocusedNodeLabel()
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
@@ -155,7 +158,7 @@ class SolarSystemViewController: SceneControlViewController {
             let node = objectHit[0]
             SCNTransaction.begin()
             SCNTransaction.animationDuration = 0.25
-            cameraController?.focus(atNode: node)
+            focusController?.focus(atNode: node)
             SCNTransaction.commit()
             updateFocusedNodeLabel()
         }
@@ -226,7 +229,7 @@ class SolarSystemViewController: SceneControlViewController {
         DispatchQueue.main.async {
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)
         }
-        guard let focusedNode = self.cameraController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
+        guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
         updateForFocusedNode(focusedNode, representingBody: focusedBody)
@@ -246,24 +249,4 @@ class SolarSystemViewController: SceneControlViewController {
         let max = scnView.projectPoint(node.boundingBox.max)
         return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
     }
-}
-
-fileprivate func *(p: CGSize, s: CGFloat) -> CGSize {
-    return CGSize(width: p.width * s, height: p.height * s)
-}
-
-fileprivate func +(p: CGPoint, v: CGVector) -> CGPoint {
-    return CGPoint(x: p.x + v.dx, y: p.y + v.dy)
-}
-
-fileprivate func -(p: CGPoint, v: CGVector) -> CGPoint {
-    return p + (-v)
-}
-
-fileprivate prefix func -(p: CGPoint) -> CGPoint {
-    return CGPoint(x: -p.x, y: -p.y)
-}
-
-fileprivate prefix func -(v: CGVector) -> CGVector {
-    return CGVector(dx: -v.dx, dy: -v.dy)
 }

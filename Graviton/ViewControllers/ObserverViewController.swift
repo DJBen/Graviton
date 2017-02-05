@@ -34,6 +34,7 @@ class ObserverViewController: SceneControlViewController {
         let scnView = self.view as! SCNView
         scnView.delegate = self
         scnView.scene = obsScene
+        cameraController = obsScene
         scnView.isPlaying = true
         scnView.overlaySKScene = StarScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black

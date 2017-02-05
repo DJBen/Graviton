@@ -12,7 +12,7 @@ import Orbits
 import SpaceTime
 import MathUtil
 
-class ObserverScene: SCNScene, CameraControlling {
+class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     lazy var stars = DistantStar.magitudeLessThan(4)
     
@@ -34,6 +34,8 @@ class ObserverScene: SCNScene, CameraControlling {
     }()
     
     var scale: Double = 1
+    
+    var focusedNode: SCNNode?
     
     override init() {
         super.init()
@@ -70,6 +72,10 @@ class ObserverScene: SCNScene, CameraControlling {
         cameraNode.position = SCNVector3Zero
         cameraNode.pivot = SCNMatrix4Identity
         scale = 1
+    }
+    
+    func focus(atNode node: SCNNode) {
+        
     }
     
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = 0, blendOutEnd: Double = 4) -> CGFloat {

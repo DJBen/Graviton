@@ -11,7 +11,7 @@ import SceneKit
 
 class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
 
-    var cameraController: CameraControlling & FocusingSupport?
+    var cameraController: CameraControlling?
     
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
     
@@ -132,6 +132,10 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
 }
 
 extension CGPoint {
+    /// Cap the value not to exceed an absolute magnitude
+    ///
+    /// - Parameter p: The value cap.
+    /// - Returns: The capped value.
     func cap(to p: CGFloat) -> CGPoint {
         return CGPoint(x: x > 0 ? min(x, p) : max(x, -p), y: y > 0 ? min(y, p) : max(y, -p))
     }

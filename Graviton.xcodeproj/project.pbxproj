@@ -32,6 +32,7 @@
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
+		EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */; };
 		EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFDC5C351E3E23F700A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
@@ -220,6 +221,7 @@
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreGraphics.swift"; sourceTree = "<group>"; };
 		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
@@ -542,6 +544,7 @@
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
 				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
 				FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */,
+				EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */,
 			);
 			path = MathUtil;
 			sourceTree = "<group>";
@@ -958,6 +961,7 @@
 			files = (
 				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
 				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
+				EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */,
 				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
 				FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */,
 			);
