@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 
-class ObserverViewController: SceneControlViewController {
+class ObserverViewController: SceneController {
     
     lazy var obsScene = ObserverScene()
 
@@ -38,6 +38,8 @@ class ObserverViewController: SceneControlViewController {
         scnView.isPlaying = true
         scnView.overlaySKScene = StarScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
-        scnView.allowsCameraControl = true
+        viewSlideDivisor = 10000
+        viewSlideVelocityCap = 300
+        cameraInversion = [.invertX, .invertZ]
     }
 }

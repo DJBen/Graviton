@@ -13,7 +13,7 @@ import Orbits
 import SpaceTime
 import MathUtil
 
-class SolarSystemViewController: SceneControlViewController {
+class SolarSystemViewController: SceneController {
     
     var focusController: FocusingSupport?
     var ephemeris: Ephemeris?

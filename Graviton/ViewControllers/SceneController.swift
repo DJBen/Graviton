@@ -1,5 +1,5 @@
 //
-//  SceneControlViewController.swift
+//  SceneController.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 1/8/17.
@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 
-class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
+class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     var cameraController: CameraControlling?
     
@@ -82,6 +82,17 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         }
     }
     
+    struct Invert : OptionSet {
+        let rawValue: Int
+        
+        static let none = Invert(rawValue: 0)
+        static let invertX = Invert(rawValue: 1)
+        static let invertY = Invert(rawValue: 1 << 1)
+        static let invertZ = Invert(rawValue: 1 << 2)
+        static let invertAll: Invert = [.invertX, .invertY, .invertZ]
+    }
+    
+    var cameraInversion: Invert = .none
     var viewSlideDivisor: CGFloat = 5000
     var viewSlideVelocityCap: CGFloat = 800
     var viewSlideInertiaDuration: TimeInterval = 1
@@ -93,8 +104,14 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
         }
         let oldRot: SCNQuaternion = cameraNode.rotation
         var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
-        let rotX: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.x / viewSlideDivisor), 0, 1, 0)
-        let rotY: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.y / viewSlideDivisor), 1, 0, 0)
+        var rotX: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.x / viewSlideDivisor), 0, 1, 0)
+        if cameraInversion.contains(.invertX) {
+            rotX = GLKQuaternionInvert(rotX)
+        }
+        var rotY: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.y / viewSlideDivisor), 1, 0, 0)
+        if cameraInversion.contains(.invertY) {
+            rotY = GLKQuaternionInvert(rotY)
+        }
         let netRot: GLKQuaternion = GLKQuaternionMultiply(rotX, rotY)
         rot = GLKQuaternionMultiply(rot, netRot)
         
@@ -117,7 +134,10 @@ class SceneControlViewController: UIViewController, SCNSceneRendererDelegate {
             return
         }
         var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
-        let rotZ: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotationGR.rotation), 0, 0, 1)
+        var rotZ: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotationGR.rotation), 0, 0, 1)
+        if cameraInversion.contains(.invertZ) {
+            rotZ = GLKQuaternionInvert(rotZ)
+        }
         rot = GLKQuaternionMultiply(rot, rotZ)
         
         let axis = GLKQuaternionAxis(rot)
