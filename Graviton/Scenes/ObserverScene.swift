@@ -13,7 +13,7 @@ import SpaceTime
 import MathUtil
 import GLKit
 
-class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRendererDelegate {
+class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     lazy var stars = DistantStar.magitudeLessThan(5)
     
@@ -31,7 +31,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRender
         return cn
     }()
     
-    private static let defaultFov: Double = 45
+    static let defaultFov: Double = 45
     /// Determines how fast zooming changes fov; the greater this number, the faster
     private static let fovExpBase: Double = 1.25
     private static let maxFov: Double = 120
@@ -76,7 +76,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRender
         sphere.radius = 12
         let mtx = SCNMatrix4MakeRotation(Float(-M_PI_2), 1, 0, 0)
         milkyWayNode.pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
-        milkyWayNode.opacity = 0.5
+        milkyWayNode.opacity = 0.25
         rootNode.addChildNode(milkyWayNode)
         let light: SCNNode = {
             let node = SCNNode()
@@ -89,14 +89,20 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRender
         }()
         rootNode.addChildNode(light)
         rootNode.addChildNode(cameraNode)
+        let mat = SCNMaterial()
+        mat.diffuse.contents = UIColor.white
+        mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+        mat.isDoubleSided = true
         for star in stars {
-//            let starNode = SCNNode()
-            let starNode = SCNNode(geometry: SCNSphere(radius: radiusForMagnitude(star.physicalInfo.magnitude)))
+            let radius = radiusForMagnitude(star.physicalInfo.magnitude)
+            let plane = SCNPlane(width: radius, height: radius)
+            plane.firstMaterial = mat
+            let starNode = SCNNode(geometry: plane)
             let coord = star.physicalInfo.coordinate.normalized() * 10
+            starNode.constraints = [SCNLookAtConstraint(target: cameraNode)]
+            starNode.eulerAngles = SCNVector3(cos(coord.x), cos(coord.y), cos(coord.z))
             starNode.position = SCNVector3(coord)
-            starNode.geometry!.firstMaterial!.diffuse.contents = UIColor.white
             starNode.name = String(star.identity.id)
-//            starNode.rendererDelegate = self
             rootNode.addChildNode(starNode)
         }
         let southNode = SCNNode(geometry: SCNSphere(radius: 0.1))
@@ -129,10 +135,5 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, SCNNodeRender
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: - SCNNode Renderer Delegate
-    func renderNode(_ node: SCNNode, renderer: SCNRenderer, arguments: [String : Any]) {
-        print(node)
     }
 }

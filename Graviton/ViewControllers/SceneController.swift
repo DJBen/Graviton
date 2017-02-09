@@ -97,8 +97,10 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     var viewSlideVelocityCap: CGFloat = 800
     var viewSlideInertiaDuration: TimeInterval = 1
     
+    // MARK: - Gesture Handling
+    
     // http://stackoverflow.com/questions/25654772/rotate-scncamera-node-looking-at-an-object-around-an-imaginary-sphere
-    private func handleCameraPan(atTime time: TimeInterval) {
+    func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraController?.cameraNode else {
             return
         }
@@ -129,7 +131,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         }
     }
     
-    private func handleCameraRotation(atTime time: TimeInterval) {
+    func handleCameraRotation(atTime time: TimeInterval) {
         guard let cameraNode = cameraController?.cameraNode, let oldRot = previousRotation else {
             return
         }
@@ -144,6 +146,8 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         let angle = GLKQuaternionAngle(rot)
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
     }
+    
+    // MARK: - Scene Renderer Delegate
     
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         handleCameraPan(atTime: time)

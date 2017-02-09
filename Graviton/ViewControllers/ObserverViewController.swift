@@ -38,6 +38,12 @@ class ObserverViewController: SceneController, SKSceneDelegate {
         }
     }
     
+    override func handleCameraPan(atTime time: TimeInterval) {
+        super.handleCameraPan(atTime: time)
+        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
+        viewSlideDivisor = factor * 25000
+    }
+    
     private func setupViewElements() {
         scnView.delegate = self
         scnView.scene = obsScene
@@ -46,8 +52,7 @@ class ObserverViewController: SceneController, SKSceneDelegate {
         scnView.overlaySKScene = flatStarScene
         flatStarScene.delegate = self
         scnView.backgroundColor = UIColor.black
-        viewSlideDivisor = 10000
-        viewSlideVelocityCap = 300
+        viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
     }
     
@@ -71,11 +76,5 @@ class ObserverViewController: SceneController, SKSceneDelegate {
     
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-//        updateStarsInFrustrum()
-    }
-    
-    // MARK: - SKScene Delegate
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
-//        flatStarScene.drawStars(starPos)
     }
 }

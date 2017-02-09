@@ -24,7 +24,7 @@ class StarScene: SKScene {
     }
     
     func drawStars(_ stars: [(DistantStar, CGPoint)]) {
-//        print("need to draw \(stars.count)")
+        print("need to draw \(stars.count)")
         var namesOfNodesToRemove = Set<String>(children.flatMap { $0.name })
         let nodesRequiresDisplay = Set<String>(stars.map { String($0.0.identity.id) })
         namesOfNodesToRemove = namesOfNodesToRemove.subtracting(nodesRequiresDisplay)
@@ -40,7 +40,7 @@ class StarScene: SKScene {
                 addChild(node)
             }
         }
-//        print("cleaned \(namesOfNodesToRemove.count)")
+        print("cleaned \(namesOfNodesToRemove.count)")
         namesOfNodesToRemove.forEach { self.childNode(withName: $0)?.removeFromParent() }
         print(children.count)
     }
