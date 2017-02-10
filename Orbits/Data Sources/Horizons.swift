@@ -70,7 +70,6 @@ public class Horizons {
             }
         }
         
-        
         // load online data
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
@@ -137,7 +136,12 @@ public class Horizons {
             }
             guard self.errors.isEmpty else {
                 print("complete with failure: fetching planets")
-                complete?(nil, self.errors)
+                if cachedBodies.isEmpty {
+                    complete?(nil, self.errors)
+                } else {
+                    let eph = Ephemeris(solarSystemBodies: cachedBodies)
+                    complete?(eph, self.errors)
+                }
                 return
             }
             print("complete: fetching planets")

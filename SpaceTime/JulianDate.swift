@@ -8,13 +8,23 @@
 
 import Foundation
 
-public struct JulianDate {
+public struct JulianDate: ExpressibleByFloatLiteral {
+    public typealias FloatLiteralType = Double
+    
     public static let B1950: Double = 2433282.4235
     public static let J2000: Double = 2451545.0
     
+    public static func now() -> JulianDate {
+        return JulianDate(date: Date())
+    }
+    
     public let value: Double
     
-    public init(value: Double) {
+    public init(value: FloatLiteralType) {
+        self.value = value
+    }
+    
+    public init(floatLiteral value: FloatLiteralType) {
         self.value = value
     }
     

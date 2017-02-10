@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SpaceTime
 
 /// Ephemeris is a tree structure with celestial bodies ordered in a way that satellites are always children of their respective primaries.
 public struct Ephemeris: Sequence {
@@ -54,5 +55,22 @@ public struct Ephemeris: Sequence {
             result.removeFirst()
             return first
         }
+    }
+    
+    public func updateMotion(using date: Date = Date()) {
+        for body in self {
+            if let moment = body.motion as? OrbitalMotionMoment {
+                moment.julianDate = JulianDate(date: date).value
+            }
+        }
+    }
+    
+    public subscript(naifId: Int) -> CelestialBody? {
+        for body in self {
+            if body.naifId == naifId {
+                return body
+            }
+        }
+        return nil
     }
 }

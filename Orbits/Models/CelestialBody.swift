@@ -10,7 +10,9 @@ import Foundation
 
 open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable, Hashable {
 
+    /// radius in km
     public let radius: Double
+    /// rotation period in hr
     public let rotationPeriod: Double
     public let obliquity: Double
     public let gravParam: Double
