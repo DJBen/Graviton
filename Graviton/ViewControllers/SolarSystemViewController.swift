@@ -202,13 +202,17 @@ class SolarSystemViewController: SceneController {
         self.velocityLabel.alpha = focusedNode.opacity
         self.distanceLabel.alpha = focusedNode.opacity
         
-        let overlayPosition = scnView.project3dTo2d(focusedNode.position)
+        let (overlayPosition, _) = scnView.project3dTo2d(focusedNode.position)
         let nodeSize = scnView.projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
         let nodeHeight = nodeSize.height
         let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
         
         self.distanceLabel.position = newCenter
         self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
+    }
+    
+    private func updateAnnotations() {
+        
     }
     
     // MARK: - Scene Renderer Delegate

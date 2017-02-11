@@ -19,8 +19,8 @@ class ObserverViewController: SceneController {
     private var scnView: SCNView {
         return self.view as! SCNView
     }
-    private lazy var flatStarScene: StarScene = {
-        return StarScene(size: self.scnView.frame.size)
+    private lazy var overlay: ObserverOverlayScene = {
+        return ObserverOverlayScene(size: self.scnView.frame.size)
     }()
 
     override func viewDidLoad() {
@@ -57,7 +57,7 @@ class ObserverViewController: SceneController {
         scnView.pointOfView = obsScene.cameraNode
         cameraController = obsScene
         scnView.isPlaying = true
-        scnView.overlaySKScene = flatStarScene
+        scnView.overlaySKScene = overlay
         scnView.backgroundColor = UIColor.black
         viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
@@ -72,7 +72,7 @@ class ObserverViewController: SceneController {
         }
         starPos = visibleNodes.flatMap { (node) -> (DistantStar, CGPoint)? in
             if let name = node.name, let numId = Int(name), let star = DistantStar.id(numId) {
-                let coord = self.scnView.project3dTo2d(node.position)
+                let (coord, _) = self.scnView.project3dTo2d(node.position)
                 return (star, coord)
             }
             return nil
@@ -84,5 +84,21 @@ class ObserverViewController: SceneController {
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         obsScene.updateEphemeris()
+        func annotate(body: CelestialBody?) {
+            guard let body = body else { return }
+            let id = String(body.naifId)
+            guard let node = self.obsScene.rootNode.childNode(withName: id, recursively: false) else { return }
+            let (position, visible) = self.scnView.project3dTo2d(node.presentation.position)
+            self.overlay.annotate(id, annotation: body.name, position: position, class: .planets, isVisible: visible)
+        }
+        obsScene.ephemeris?.forEach { (body) in
+            guard case let .majorBody(mb) = body.naif else { return }
+            if mb == .earth { return }
+            annotate(body: body)
+        }
+        if let sun = self.obsScene.rootNode.childNode(withName: String(Star.sun.naifId), recursively: false) {
+            let (position, visible) = self.scnView.project3dTo2d(sun.presentation.position)
+            self.overlay.annotate(String(Star.sun.naifId), annotation: Star.sun.name, position: position, class: .sun, isVisible: visible)
+        }
     }
 }

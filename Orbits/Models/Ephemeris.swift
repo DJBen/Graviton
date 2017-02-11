@@ -11,7 +11,7 @@ import SpaceTime
 
 /// Ephemeris is a tree structure with celestial bodies ordered in a way that satellites are always children of their respective primaries.
 public struct Ephemeris: Sequence {
-    let root: CelestialBody
+    public let root: CelestialBody
     
     init(solarSystemBodies: Set<CelestialBody>) {
         let sortedBodies = solarSystemBodies.sorted()

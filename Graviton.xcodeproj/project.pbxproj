@@ -41,7 +41,7 @@
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFDC5C351E3E23F700A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFDC5C371E3E3E0400A08EB2 /* EphemerisTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */; };
-		EFE0EC091E462B7D005A71DC /* StarScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* StarScene.swift */; };
+		EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */; };
 		EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */; };
 		EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -232,7 +232,7 @@
 		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
-		EFE0EC081E462B7D005A71DC /* StarScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarScene.swift; sourceTree = "<group>"; };
+		EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverOverlayScene.swift; sourceTree = "<group>"; };
 		EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverScene.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF571DD86B2B000F0A79 /* Orbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orbits.h; sourceTree = "<group>"; };
@@ -493,7 +493,7 @@
 				EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */,
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
 				EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */,
-				EFE0EC081E462B7D005A71DC /* StarScene.swift */,
+				EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -877,7 +877,7 @@
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
 				EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */,
-				EFE0EC091E462B7D005A71DC /* StarScene.swift in Sources */,
+				EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

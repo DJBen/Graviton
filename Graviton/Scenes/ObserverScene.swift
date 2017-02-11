@@ -110,7 +110,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         sunMat.diffuse.contents = #imageLiteral(resourceName: "sun")
         let sphere = SCNSphere(radius: 0.1)
         sphere.firstMaterial = sunMat
-        return SCNNode(geometry: sphere)
+        let node = SCNNode(geometry: sphere)
+        node.name = String(Star.sun.naifId)
+        return node
     }()
     
     override init() {
@@ -133,13 +135,17 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             starNode.name = String(star.identity.id)
             rootNode.addChildNode(starNode)
         }
-        let southNode = SCNNode(geometry: SCNSphere(radius: 0.1))
+        let southNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         southNode.position = SCNVector3(0, 0, -10)
-        southNode.geometry!.firstMaterial!.diffuse.contents = UIColor.red
+        southNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        southNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
+        southNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(southNode)
-        let northNode = SCNNode(geometry: SCNSphere(radius: 0.1))
+        let northNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         northNode.position = SCNVector3(0, 0, 10)
-        northNode.geometry!.firstMaterial!.diffuse.contents = UIColor.blue
+        northNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+        northNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
+        northNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(northNode)
     }
     
