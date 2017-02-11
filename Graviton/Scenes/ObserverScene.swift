@@ -12,6 +12,11 @@ import Orbits
 import SpaceTime
 import MathUtil
 
+fileprivate let milkywayLayerRadius: Double = 50
+fileprivate let auxillaryLineLayerRadius: Double = 25
+fileprivate let starLayerRadius: Double = 20
+fileprivate let planetLayerRadius: Double = 5
+
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     lazy var stars = DistantStar.magitudeLessThan(5)
@@ -51,6 +56,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         didSet {
             self.drawEcliptic()
             self.drawCelestialEquator()
+            self.drawPlanets()
         }
     }
     
@@ -92,7 +98,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         milkyWayNode.removeFromParentNode()
         let sphere = milkyWayNode.geometry as! SCNSphere
         sphere.firstMaterial!.cullMode = .front
-        sphere.radius = 50
+        sphere.radius = CGFloat(milkywayLayerRadius)
         let mtx = SCNMatrix4MakeRotation(Float(-M_PI_2), 1, 0, 0)
         milkyWayNode.pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
         milkyWayNode.opacity = 0.3
@@ -107,16 +113,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return SCNNode(geometry: sphere)
     }()
     
-    private func makePlanet(naifId: Int, color: UIColor) -> SCNNode {
-        let mat = SCNMaterial()
-        mat.diffuse.contents = color
-        let sphere = SCNSphere(radius: 0.1)
-        sphere.firstMaterial = mat
-        let node = SCNNode(geometry: sphere)
-        node.name = String(naifId)
-        return node
-    }
-    
     override init() {
         super.init()
         resetCamera()
@@ -126,13 +122,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let mat = SCNMaterial()
         mat.diffuse.contents = UIColor.white
         mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
-        mat.isDoubleSided = true
         for star in stars {
             let radius = radiusForMagnitude(star.physicalInfo.magnitude)
             let plane = SCNPlane(width: radius, height: radius)
             plane.firstMaterial = mat
             let starNode = SCNNode(geometry: plane)
-            let coord = star.physicalInfo.coordinate.normalized() * 10
+            let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
             starNode.constraints = [SCNBillboardConstraint()]
             starNode.position = SCNVector3(coord)
             starNode.name = String(star.identity.id)
@@ -146,17 +141,41 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         northNode.position = SCNVector3(0, 0, 10)
         northNode.geometry!.firstMaterial!.diffuse.contents = UIColor.blue
         rootNode.addChildNode(northNode)
-        let yNode = SCNNode(geometry: SCNSphere(radius: 0.1))
-        yNode.geometry!.firstMaterial!.diffuse.contents = UIColor.purple
-        yNode.position = SCNVector3(0, 10, 0)
-        rootNode.addChildNode(yNode)
-        let xNode = SCNNode(geometry: SCNSphere(radius: 0.1))
-        xNode.geometry!.firstMaterial!.diffuse.contents = UIColor.green
-        xNode.position = SCNVector3(10, 0, 0)
-        rootNode.addChildNode(xNode)
     }
     
-    func drawLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
+    private func drawPlanets() {
+        ephemeris?.forEach { (body) in
+            var diffuse: UIImage?
+            guard case let .majorBody(mb) = body.naif else { return }
+            switch mb {
+            case .earth: return
+            case .pluto: return
+            case .mercury:
+                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+            case .venus:
+                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+            case .jupiter:
+                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+            case .saturn:
+                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+            case .mars:
+                diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
+            case .uranus:
+                diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
+            case .neptune:
+                diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
+            }
+            
+            let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
+            planetNode.geometry?.firstMaterial?.isDoubleSided = true
+            planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
+            planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
+            planetNode.name = String(body.naifId)
+            rootNode.addChildNode(planetNode)
+        }
+    }
+    
+    private func drawLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
         guard let earth = self.earth else { return }
         if let existingNode = rootNode.childNode(withName: name, recursively: false) {
             existingNode.removeFromParentNode()
@@ -179,17 +198,17 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(lineNode)
     }
     
-    func drawEcliptic() {
+    private func drawEcliptic() {
         func transform(position: Vector3) -> Vector3 {
             let rotated = position.oblique(by: earth!.obliquity)
-            return rotated.normalized() * 25
+            return rotated.normalized() * auxillaryLineLayerRadius
         }
         drawLine(name: "ecliptic line", color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), transform: transform)
     }
     
-    func drawCelestialEquator() {
+    private func drawCelestialEquator() {
         func transform(position: Vector3) -> Vector3 {
-            return position.normalized() * 25
+            return position.normalized() * auxillaryLineLayerRadius
         }
         drawLine(name: "celestial equator line", color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), transform: transform)
     }
@@ -202,6 +221,19 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let magnification: Double = 5
         let obliquedSunPos = sunPos.oblique(by: earth!.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
+        let earthPos = earth!.heliocentricPosition
+        ephemeris?.forEach { (body) in
+            guard case let .majorBody(mb) = body.naif else { return }
+            switch mb {
+            case .earth: break
+            default:
+                let planetRelativePos = (body.heliocentricPosition - earthPos).oblique(by: earth!.obliquity)
+                if let planetNode = rootNode.childNode(withName: String(body.naifId), recursively: false) {
+                    planetNode.position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
+                    planetNode.constraints = [SCNBillboardConstraint()]
+                }
+            }
+        }
     }
     
     func resetCamera() {
@@ -215,8 +247,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = 0, blendOutEnd: Double = 5) -> CGFloat {
-        let maxSize: Double = 0.1
-        let minSize: Double = 0.02
+        let maxSize: Double = 0.2
+        let minSize: Double = 0.04
         let linearEasing = Easing(startValue: maxSize, endValue: minSize)
         let progress = mag / (blendOutEnd - blendOutStart)
         return CGFloat(linearEasing.value(at: progress))

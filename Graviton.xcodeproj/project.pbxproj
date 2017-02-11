@@ -25,6 +25,8 @@
 		EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
 		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
+		EF6F6D831E4EC73E0046BC04 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */; };
+		EF6F6D841E4EC73E0046BC04 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */; };
 		EF7FA4911E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
 		EF7FA4921E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
 		EF7FA4941E461518000D5AEB /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4931E461518000D5AEB /* StarTest.swift */; };
@@ -215,6 +217,7 @@
 		EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNView+Projection.swift"; sourceTree = "<group>"; };
 		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
+		EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralType.swift; sourceTree = "<group>"; };
 		EF7FA4901E43A8F5000D5AEB /* Constellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constellation.swift; sourceTree = "<group>"; };
 		EF7FA4931E461518000D5AEB /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -515,6 +518,7 @@
 				EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */,
 				EF7FA4901E43A8F5000D5AEB /* Constellation.swift */,
 				EF2CC3831E4236FD00A375F4 /* Star.swift */,
+				EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -892,6 +896,7 @@
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCA930C61E2B8EAE00100706 /* Parser.swift in Sources */,
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
+				EF6F6D831E4EC73E0046BC04 /* SpectralType.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
@@ -926,6 +931,7 @@
 				FCA930BD1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */,
 				FC998DB61E2CE87700E0BFFF /* DBHelper.swift in Sources */,
+				EF6F6D841E4EC73E0046BC04 /* SpectralType.swift in Sources */,
 				FCA930C51E2B8EAE00100706 /* Horizons.swift in Sources */,
 				FCA930D81E2B8F1200100706 /* Constants.swift in Sources */,
 				FCA930C31E2B8EAE00100706 /* EphemerisParser.swift in Sources */,

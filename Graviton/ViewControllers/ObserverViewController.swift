@@ -27,7 +27,9 @@ class ObserverViewController: SceneController {
         super.viewDidLoad()
         setupViewElements()
         Horizons.shared.fetchEphemeris(offline: true, update: { (ephemeris) in
-            self.obsScene.ephemeris = ephemeris
+            DispatchQueue.main.async {
+                self.obsScene.ephemeris = ephemeris
+            }
         })
     }
 
@@ -52,6 +54,7 @@ class ObserverViewController: SceneController {
     private func setupViewElements() {
         scnView.delegate = self
         scnView.scene = obsScene
+        scnView.pointOfView = obsScene.cameraNode
         cameraController = obsScene
         scnView.isPlaying = true
         scnView.overlaySKScene = flatStarScene
@@ -81,12 +84,5 @@ class ObserverViewController: SceneController {
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         obsScene.updateEphemeris()
-//        if let pos = earth?.heliocentricPosition {
-//            obsScene.updateSun(relativePosition: pos.inverse)
-//            if let mercury = ephemeris?[199] {
-//                mercury.motion?.julianDate = JulianDate.now().value
-//                obsScene.updatePlanet(naifId: 199, relativePosition: mercury.heliocentricPosition - pos)
-//            }
-//        }
     }
 }

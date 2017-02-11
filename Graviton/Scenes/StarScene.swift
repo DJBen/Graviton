@@ -35,7 +35,6 @@ class StarScene: SKScene {
                 let size = radiusForMagnitude(star.physicalInfo.magnitude)
                 let node = SKSpriteNode(texture: starTexture, color: UIColor.purple, size: CGSize(width: size, height: size))
                 node.name = String(star.identity.id)
-//                node.blendMode = .alpha
                 node.position = pos
                 addChild(node)
             }

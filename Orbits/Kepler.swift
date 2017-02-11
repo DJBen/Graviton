@@ -1,6 +1,6 @@
 //
 //  Kepler.swift
-//  Graviton
+//  Orbits
 //
 //  Created by Ben Lu on 11/19/16.
 //  Copyright © 2016 Ben Lu. All rights reserved.

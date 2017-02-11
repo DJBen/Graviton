@@ -1,7 +1,7 @@
 
 //
 //  HorizonsQuery.swift
-//  Graviton
+//  Orbits
 //
 //  Created by Ben Lu on 1/27/17.
 //  Copyright © 2017 Ben Lu. All rights reserved.
