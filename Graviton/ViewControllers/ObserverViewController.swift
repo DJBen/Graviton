@@ -63,15 +63,15 @@ class ObserverViewController: SceneController {
         cameraInversion = [.invertX, .invertY]
     }
     
-    private var starPos = [(DistantStar, CGPoint)]()
+    private var starPos = [(Star, CGPoint)]()
     private func updateStarsInFrustrum() {
         let visibleNodes = obsScene.rootNode.childNodes { (child, _) -> Bool in
             if child.name == nil { return false }
             let projected = self.scnView.projectPoint(child.position)
             return self.scnView.frame.contains(CGPoint(x: CGFloat(projected.x), y: CGFloat(projected.y)))
         }
-        starPos = visibleNodes.flatMap { (node) -> (DistantStar, CGPoint)? in
-            if let name = node.name, let numId = Int(name), let star = DistantStar.id(numId) {
+        starPos = visibleNodes.flatMap { (node) -> (Star, CGPoint)? in
+            if let name = node.name, let numId = Int(name), let star = Star.id(numId) {
                 let (coord, _) = self.scnView.project3dTo2d(node.position)
                 return (star, coord)
             }
@@ -96,9 +96,9 @@ class ObserverViewController: SceneController {
             if mb == .earth { return }
             annotate(body: body)
         }
-        if let sun = self.obsScene.rootNode.childNode(withName: String(Star.sun.naifId), recursively: false) {
+        if let sun = self.obsScene.rootNode.childNode(withName: String(Sun.sol.naifId), recursively: false) {
             let (position, visible) = self.scnView.project3dTo2d(sun.presentation.position)
-            self.overlay.annotate(String(Star.sun.naifId), annotation: Star.sun.name, position: position, class: .sun, isVisible: visible)
+            self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: position, class: .sun, isVisible: visible)
         }
     }
 }

@@ -11,9 +11,9 @@ import XCTest
 
 class StarTest: XCTestCase {
     func testStarQuery() {
-        let starQuery = DistantStar.magitudeLessThan(0)
+        let starQuery = Star.magitudeLessThan(0)
         XCTAssertEqual(starQuery.count, 4)
-        let s2Query = DistantStar.hip(69673)
+        let s2Query = Star.hip(69673)
         XCTAssertNotNil(s2Query)
         XCTAssertEqual(s2Query!.identity.properName, "Arcturus")
     }

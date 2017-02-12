@@ -73,7 +73,7 @@ public struct EphemerisParser {
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(orbit: orbit, gm: Star.sun.gravParam, julianDate: jd, timeOfPeriapsisPassage: tp)
+            let motion = OrbitalMotionMoment(orbit: orbit, gm: Sun.sol.gravParam, julianDate: jd, timeOfPeriapsisPassage: tp)
             return motion
         }
         

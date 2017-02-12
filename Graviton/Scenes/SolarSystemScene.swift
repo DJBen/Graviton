@@ -104,7 +104,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(ambient)
         rootNode.addChildNode(lineSegments)
         rootNode.addChildNode(spheres)
-        celestialBodies.append(Star.sun)
+        celestialBodies.append(Sun.sol)
     }
     
     required init?(coder aDecoder: NSCoder) {

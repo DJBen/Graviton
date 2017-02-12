@@ -62,7 +62,7 @@ public class Horizons {
             CelestialBody.load(naifId: $0.rawValue)
         })
         if cachedBodies.isEmpty == false {
-            cachedBodies.insert(Star.sun)
+            cachedBodies.insert(Sun.sol)
             update?(Ephemeris(solarSystemBodies: cachedBodies))
             if offline {
                 complete?(Ephemeris(solarSystemBodies: cachedBodies), nil)
@@ -153,8 +153,8 @@ public class Horizons {
                 return nil
             })
             var merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate)
-            if merged.contains(Star.sun) == false {
-                merged.insert(Star.sun)
+            if merged.contains(Sun.sol) == false {
+                merged.insert(Sun.sol)
             }
             let eph = Ephemeris(solarSystemBodies: merged)
             update?(eph)

@@ -43,7 +43,7 @@ open class Body {
     }
     public var heliocentricPosition: Vector3 {
         let position = motion?.position ?? Vector3.zero
-        if let b = centerBody, b.naifId == Star.sun.naifId {
+        if let b = centerBody, b.naifId == Sun.sol.naifId {
             return position
         } else if let primary = centerBody {
             return primary.heliocentricPosition + position

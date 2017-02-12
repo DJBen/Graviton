@@ -11,9 +11,9 @@ import SpaceTime
 import MathUtil
 import SQLite
 
-public class Star: CelestialBody {
-    public static var sun: Star {
-        return Star(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
+public class Sun: CelestialBody {
+    public static var sol: Sun {
+        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
     }
     
     public override var heliocentricPosition: Vector3 {
@@ -40,7 +40,7 @@ fileprivate let dbCon = Expression<String>("con")
 fileprivate let dbSpect = Expression<String?>("spect")
 fileprivate let dbMag = Expression<Double>("mag")
 
-public struct DistantStar {
+public struct Star {
     
     public struct Identity: Hashable, Equatable {
         public let id: Int
@@ -103,31 +103,31 @@ public struct DistantStar {
     }
     
     private init(row: Row) {
-        let identity = DistantStar.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
+        let identity = Star.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
         let coord = Vector3(row.get(dbX), row.get(dbY), row.get(dbZ))
         let vel = Vector3(row.get(dbVx), row.get(dbVy), row.get(dbVz))
-        let phys = DistantStar.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)
+        let phys = Star.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)
         self.init(identity: identity, physicalInfo: phys)
     }
     
-    public static func magitudeLessThan(_ magCutoff: Double) -> [DistantStar] {
+    public static func magitudeLessThan(_ magCutoff: Double) -> [Star] {
         let query = stars.filter(dbMag < magCutoff).filter(dbInternalId > 0).order(dbMag.asc)
         let rows = try! db.prepare(query)
-        return rows.map { DistantStar(row: $0) }
+        return rows.map { Star(row: $0) }
     }
     
-    public static func hip(_ hip: Int) -> DistantStar? {
+    public static func hip(_ hip: Int) -> Star? {
         let query = stars.filter(dbHip == hip)
         if let row = try! db.pluck(query) {
-            return DistantStar(row: row)
+            return Star(row: row)
         }
         return nil
     }
     
-    public static func id(_ id: Int) -> DistantStar? {
+    public static func id(_ id: Int) -> Star? {
         let query = stars.filter(dbInternalId == id)
         if let row = try! db.pluck(query) {
-            return DistantStar(row: row)
+            return Star(row: row)
         }
         return nil
     }
