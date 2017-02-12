@@ -8,28 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
-		EF2CC3811E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
-		EF2CC3821E42239E00A375F4 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF2CC3801E42239E00A375F4 /* stars.sqlite3 */; };
-		EF2CC3841E4236FD00A375F4 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CC3831E4236FD00A375F4 /* Star.swift */; };
-		EF2CC3851E4236FD00A375F4 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2CC3831E4236FD00A375F4 /* Star.swift */; };
 		EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
-		EF32F04E1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
-		EF32F0541E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
 		EF32F0561E3B83F100AD8778 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */; };
-		EF32F0571E3B83F100AD8778 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */; };
-		EF32F0591E3B988800AD8778 /* NaifTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F0581E3B988800AD8778 /* NaifTest.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
-		EF32F05C1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
 		EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
+		EF5F130D1E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
+		EF5F13141E50208700A8EF51 /* StarryNightTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13131E50208700A8EF51 /* StarryNightTests.swift */; };
+		EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5F13061E50208700A8EF51 /* StarryNight.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
+		EF5F131A1E50208700A8EF51 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EF5F13251E5020FF00A8EF51 /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13211E5020FF00A8EF51 /* Constellation.swift */; };
+		EF5F13261E5020FF00A8EF51 /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13211E5020FF00A8EF51 /* Constellation.swift */; };
+		EF5F13271E5020FF00A8EF51 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13221E5020FF00A8EF51 /* SpectralType.swift */; };
+		EF5F13281E5020FF00A8EF51 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13221E5020FF00A8EF51 /* SpectralType.swift */; };
+		EF5F13291E5020FF00A8EF51 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13231E5020FF00A8EF51 /* Star.swift */; };
+		EF5F132A1E5020FF00A8EF51 /* Star.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF5F13231E5020FF00A8EF51 /* Star.swift */; };
+		EF5F132B1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
+		EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
+		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
-		EF6F6D831E4EC73E0046BC04 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */; };
-		EF6F6D841E4EC73E0046BC04 /* SpectralType.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */; };
-		EF7FA4911E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
-		EF7FA4921E43A8F5000D5AEB /* Constellation.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4901E43A8F5000D5AEB /* Constellation.swift */; };
-		EF7FA4941E461518000D5AEB /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7FA4931E461518000D5AEB /* StarTest.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
 		EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */; };
@@ -39,17 +39,12 @@
 		EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */; };
 		EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
-		EFDC5C351E3E23F700A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
-		EFDC5C371E3E3E0400A08EB2 /* EphemerisTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */; };
 		EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */; };
 		EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */; };
-		EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
-		EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
-		EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
 		FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC1B76561E223F3C00F45343 /* stars.scnassets */; };
 		FC1B76591E224ABF00F45343 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B76581E224ABF00F45343 /* SceneController.swift */; };
@@ -57,9 +52,6 @@
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
-		FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
-		FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
-		FC24354E1E1BBE21002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24358A1E1F87F0002AC626 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; };
 		FC2435931E1F87F0002AC626 /* SpaceTime.h in Headers */ = {isa = PBXBuildFile; fileRef = FC2435831E1F87F0002AC626 /* SpaceTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; };
@@ -79,38 +71,21 @@
 		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
 		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
-		FC998DAE1E2B996B00E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
-		FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DAF1E2BAD8A00E0BFFF /* earth.result */; };
-		FC998DB21E2C749200E0BFFF /* neptune.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB11E2C749200E0BFFF /* neptune.result */; };
 		FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
-		FC998DB61E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
 		FC998DB81E2CF32C00E0BFFF /* venus.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB71E2CF32C00E0BFFF /* venus.result */; };
-		FC998DB91E2CF32C00E0BFFF /* venus.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB71E2CF32C00E0BFFF /* venus.result */; };
 		FC998DBB1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */; };
-		FC998DBC1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930641E236FB500100706 /* CameraControlling.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930631E236FB500100706 /* CameraControlling.swift */; };
 		FCA930681E23780300100706 /* FocusingSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930671E23780300100706 /* FocusingSupport.swift */; };
 		FCA930B91E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
-		FCA930BA1E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
-		FCA930BD1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
 		FCA930C21E2B8EAE00100706 /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BF1E2B8EAE00100706 /* EphemerisParser.swift */; };
-		FCA930C31E2B8EAE00100706 /* EphemerisParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BF1E2B8EAE00100706 /* EphemerisParser.swift */; };
 		FCA930C41E2B8EAE00100706 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930C01E2B8EAE00100706 /* Horizons.swift */; };
-		FCA930C51E2B8EAE00100706 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930C01E2B8EAE00100706 /* Horizons.swift */; };
 		FCA930C61E2B8EAE00100706 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930C11E2B8EAE00100706 /* Parser.swift */; };
-		FCA930C71E2B8EAE00100706 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930C11E2B8EAE00100706 /* Parser.swift */; };
 		FCA930C91E2B8ED900100706 /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCA930C81E2B8ED900100706 /* naif.sqlite3 */; };
-		FCA930CA1E2B8ED900100706 /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCA930C81E2B8ED900100706 /* naif.sqlite3 */; };
 		FCA930D71E2B8F1200100706 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* Constants.swift */; };
-		FCA930D81E2B8F1200100706 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* Constants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
-		FCA930DD1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCA930DF1E2B8F4C00100706 /* mars.result in Resources */ = {isa = PBXBuildFile; fileRef = FCA930DE1E2B8F4C00100706 /* mars.result */; };
-		FCA930E01E2B8F4C00100706 /* mars.result in Resources */ = {isa = PBXBuildFile; fileRef = FCA930DE1E2B8F4C00100706 /* mars.result */; };
-		FCA930E41E2B8F5400100706 /* HorizonsTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930E11E2B8F5400100706 /* HorizonsTest.swift */; };
-		FCA930E61E2B8F5400100706 /* ParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930E21E2B8F5400100706 /* ParserTest.swift */; };
 		FCC0BDAE1E2D97DC003939B1 /* MathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; };
 		FCC0BDB21E2D97DC003939B1 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -118,17 +93,29 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
-		FCC0BDC31E2F8A56003939B1 /* TransientDBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */; };
-		FCC0BDC71E2F8BEC003939B1 /* DBHelperTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		EFE8BF5F1DD86B2B000F0A79 /* PBXContainerItemProxy */ = {
+		EF5F130E1E50208700A8EF51 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = EFE8BF541DD86B2B000F0A79;
-			remoteInfo = Orbits;
+			remoteGlobalIDString = EF5F13031E50208700A8EF51;
+			remoteInfo = StarryNight;
+		};
+		EF5F13101E50208700A8EF51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
+			remoteInfo = Graviton;
+		};
+		EF5F13171E50208700A8EF51 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EF5F13031E50208700A8EF51;
+			remoteInfo = StarryNight;
 		};
 		EFE8BF681DD86B2B000F0A79 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -136,6 +123,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = EFE8BF541DD86B2B000F0A79;
 			remoteInfo = Orbits;
+		};
+		FC13B31A1E5119B400555DBC /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
+			remoteInfo = MathUtil;
 		};
 		FC24358B1E1F87F0002AC626 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -195,6 +189,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				EF5F131A1E50208700A8EF51 /* StarryNight.framework in Embed Frameworks */,
 				FCC0BDB21E2D97DC003939B1 /* MathUtil.framework in Embed Frameworks */,
 				EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */,
 				FC2435971E1F87F0002AC626 /* SpaceTime.framework in Embed Frameworks */,
@@ -206,8 +201,6 @@
 
 /* Begin PBXFileReference section */
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
-		EF2CC3801E42239E00A375F4 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
-		EF2CC3831E4236FD00A375F4 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
@@ -216,9 +209,17 @@
 		EF4851891D91EB8D00737CE4 /* CelestialNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNode.swift; sourceTree = "<group>"; };
 		EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNView+Projection.swift"; sourceTree = "<group>"; };
 		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
+		EF5F13041E50208700A8EF51 /* StarryNight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarryNight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF5F13061E50208700A8EF51 /* StarryNight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarryNight.h; sourceTree = "<group>"; };
+		EF5F13071E50208700A8EF51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF5F130C1E50208700A8EF51 /* StarryNightTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = StarryNightTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		EF5F13131E50208700A8EF51 /* StarryNightTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarryNightTests.swift; sourceTree = "<group>"; };
+		EF5F13151E50208700A8EF51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EF5F13211E5020FF00A8EF51 /* Constellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constellation.swift; sourceTree = "<group>"; };
+		EF5F13221E5020FF00A8EF51 /* SpectralType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralType.swift; sourceTree = "<group>"; };
+		EF5F13231E5020FF00A8EF51 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
+		EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
-		EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralType.swift; sourceTree = "<group>"; };
-		EF7FA4901E43A8F5000D5AEB /* Constellation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constellation.swift; sourceTree = "<group>"; };
 		EF7FA4931E461518000D5AEB /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -237,7 +238,6 @@
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF571DD86B2B000F0A79 /* Orbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orbits.h; sourceTree = "<group>"; };
 		EFE8BF581DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNodeTest.swift; sourceTree = "<group>"; };
@@ -294,6 +294,22 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		EF5F13001E50208700A8EF51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF5F13091E50208700A8EF51 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F130D1E50208700A8EF51 /* StarryNight.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFC2C6911D88D02F0031AA9C /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -301,6 +317,7 @@
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */,
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
+				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -310,15 +327,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EFE8BF5A1DD86B2B000F0A79 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EFE8BF5E1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
-				FC24354E1E1BBE21002AC626 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -355,6 +363,28 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		EF5F13051E50208700A8EF51 /* StarryNight */ = {
+			isa = PBXGroup;
+			children = (
+				EF5F13061E50208700A8EF51 /* StarryNight.h */,
+				EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */,
+				EF5F13231E5020FF00A8EF51 /* Star.swift */,
+				EF5F13211E5020FF00A8EF51 /* Constellation.swift */,
+				EF5F13221E5020FF00A8EF51 /* SpectralType.swift */,
+				EF5F13071E50208700A8EF51 /* Info.plist */,
+			);
+			path = StarryNight;
+			sourceTree = "<group>";
+		};
+		EF5F13121E50208700A8EF51 /* StarryNightTests */ = {
+			isa = PBXGroup;
+			children = (
+				EF5F13131E50208700A8EF51 /* StarryNightTests.swift */,
+				EF5F13151E50208700A8EF51 /* Info.plist */,
+			);
+			path = StarryNightTests;
+			sourceTree = "<group>";
+		};
 		EFA7FEBB1D8A802F0043E8CC /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,6 +399,8 @@
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
+				EF5F13051E50208700A8EF51 /* StarryNight */,
+				EF5F13121E50208700A8EF51 /* StarryNightTests */,
 				FC2435821E1F87F0002AC626 /* SpaceTime */,
 				FC24358F1E1F87F0002AC626 /* SpaceTimeTests */,
 				FCC0BDAB1E2D97DC003939B1 /* MathUtil */,
@@ -382,10 +414,11 @@
 			children = (
 				EFC2C6941D88D02F0031AA9C /* Graviton.app */,
 				EFE8BF551DD86B2B000F0A79 /* Orbits.framework */,
-				EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */,
 				FC2435811E1F87F0002AC626 /* SpaceTime.framework */,
 				FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */,
 				FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */,
+				EF5F13041E50208700A8EF51 /* StarryNight.framework */,
+				EF5F130C1E50208700A8EF51 /* StarryNightTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -417,7 +450,6 @@
 				FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */,
 				EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */,
 				EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */,
-				EF2CC3801E42239E00A375F4 /* stars.sqlite3 */,
 				FCA930B71E2B8E6600100706 /* Models */,
 				FCA930BE1E2B8EAE00100706 /* Data Sources */,
 				FCA930CB1E2B8EF600100706 /* Utils */,
@@ -516,9 +548,6 @@
 				EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */,
 				FCA930B81E2B8E6600100706 /* Body.swift */,
 				EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */,
-				EF7FA4901E43A8F5000D5AEB /* Constellation.swift */,
-				EF2CC3831E4236FD00A375F4 /* Star.swift */,
-				EF6F6D821E4EC73E0046BC04 /* SpectralType.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -562,6 +591,14 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
+		EF5F13011E50208700A8EF51 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFE8BF521DD86B2B000F0A79 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -589,6 +626,44 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		EF5F13031E50208700A8EF51 /* StarryNight */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF5F131F1E50208700A8EF51 /* Build configuration list for PBXNativeTarget "StarryNight" */;
+			buildPhases = (
+				EF5F12FF1E50208700A8EF51 /* Sources */,
+				EF5F13001E50208700A8EF51 /* Frameworks */,
+				EF5F13011E50208700A8EF51 /* Headers */,
+				EF5F13021E50208700A8EF51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC13B31B1E5119B400555DBC /* PBXTargetDependency */,
+			);
+			name = StarryNight;
+			productName = StarryNight;
+			productReference = EF5F13041E50208700A8EF51 /* StarryNight.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		EF5F130B1E50208700A8EF51 /* StarryNightTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = EF5F13201E50208700A8EF51 /* Build configuration list for PBXNativeTarget "StarryNightTests" */;
+			buildPhases = (
+				EF5F13081E50208700A8EF51 /* Sources */,
+				EF5F13091E50208700A8EF51 /* Frameworks */,
+				EF5F130A1E50208700A8EF51 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				EF5F130F1E50208700A8EF51 /* PBXTargetDependency */,
+				EF5F13111E50208700A8EF51 /* PBXTargetDependency */,
+			);
+			name = StarryNightTests;
+			productName = StarryNightTests;
+			productReference = EF5F130C1E50208700A8EF51 /* StarryNightTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		EFC2C6931D88D02F0031AA9C /* Graviton */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = EFC2C6B31D88D02F0031AA9C /* Build configuration list for PBXNativeTarget "Graviton" */;
@@ -605,6 +680,7 @@
 				EFE8BF691DD86B2B000F0A79 /* PBXTargetDependency */,
 				FC2435951E1F87F0002AC626 /* PBXTargetDependency */,
 				FCC0BDB01E2D97DC003939B1 /* PBXTargetDependency */,
+				EF5F13181E50208700A8EF51 /* PBXTargetDependency */,
 			);
 			name = Graviton;
 			productName = Graviton;
@@ -630,24 +706,6 @@
 			productName = Orbits;
 			productReference = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */;
 			productType = "com.apple.product-type.framework";
-		};
-		EFE8BF5C1DD86B2B000F0A79 /* OrbitsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = EFE8BF701DD86B2B000F0A79 /* Build configuration list for PBXNativeTarget "OrbitsTests" */;
-			buildPhases = (
-				EFE8BF591DD86B2B000F0A79 /* Sources */,
-				EFE8BF5A1DD86B2B000F0A79 /* Frameworks */,
-				EFE8BF5B1DD86B2B000F0A79 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				EFE8BF601DD86B2B000F0A79 /* PBXTargetDependency */,
-			);
-			name = OrbitsTests;
-			productName = OrbitsTests;
-			productReference = EFE8BF5D1DD86B2B000F0A79 /* OrbitsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		FC2435801E1F87F0002AC626 /* SpaceTime */ = {
 			isa = PBXNativeTarget;
@@ -715,6 +773,18 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Ben Lu";
 				TargetAttributes = {
+					EF5F13031E50208700A8EF51 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0820;
+						ProvisioningStyle = Automatic;
+					};
+					EF5F130B1E50208700A8EF51 = {
+						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 52RD2GH5DP;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EFC2C6931D88D02F0031AA9C;
+					};
 					EFC2C6931D88D02F0031AA9C = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 52RD2GH5DP;
@@ -726,13 +796,6 @@
 						DevelopmentTeam = 52RD2GH5DP;
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
-					};
-					EFE8BF5C1DD86B2B000F0A79 = {
-						CreatedOnToolsVersion = 8.2;
-						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
-						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
 					FC2435801E1F87F0002AC626 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -769,15 +832,32 @@
 			targets = (
 				EFC2C6931D88D02F0031AA9C /* Graviton */,
 				EFE8BF541DD86B2B000F0A79 /* Orbits */,
-				EFE8BF5C1DD86B2B000F0A79 /* OrbitsTests */,
 				FC2435801E1F87F0002AC626 /* SpaceTime */,
 				FC2435881E1F87F0002AC626 /* SpaceTimeTests */,
 				FCC0BDA91E2D97DC003939B1 /* MathUtil */,
+				EF5F13031E50208700A8EF51 /* StarryNight */,
+				EF5F130B1E50208700A8EF51 /* StarryNightTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		EF5F13021E50208700A8EF51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F132B1E5020FF00A8EF51 /* stars.sqlite3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF5F130A1E50208700A8EF51 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFC2C6921D88D02F0031AA9C /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -797,26 +877,9 @@
 				EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */,
 				EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */,
 				FC998DB81E2CF32C00E0BFFF /* venus.result in Resources */,
-				EF2CC3811E42239E00A375F4 /* stars.sqlite3 in Resources */,
 				FCA930C91E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FC998DBB1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */,
 				FCA930DF1E2B8F4C00100706 /* mars.result in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EFE8BF5B1DD86B2B000F0A79 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC998DBC1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */,
-				FC998DB01E2BAD8A00E0BFFF /* earth.result in Resources */,
-				EF2CC3821E42239E00A375F4 /* stars.sqlite3 in Resources */,
-				FC998DB91E2CF32C00E0BFFF /* venus.result in Resources */,
-				FCA930CA1E2B8ED900100706 /* naif.sqlite3 in Resources */,
-				FC998DB21E2C749200E0BFFF /* neptune.result in Resources */,
-				EF32F0541E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */,
-				EF32F04E1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */,
-				FCA930E01E2B8F4C00100706 /* mars.result in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -861,6 +924,27 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		EF5F12FF1E50208700A8EF51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F13291E5020FF00A8EF51 /* Star.swift in Sources */,
+				EF5F13251E5020FF00A8EF51 /* Constellation.swift in Sources */,
+				EF5F13271E5020FF00A8EF51 /* SpectralType.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF5F13081E50208700A8EF51 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EF5F13141E50208700A8EF51 /* StarryNightTests.swift in Sources */,
+				EF5F13281E5020FF00A8EF51 /* SpectralType.swift in Sources */,
+				EF5F13261E5020FF00A8EF51 /* Constellation.swift in Sources */,
+				EF5F132A1E5020FF00A8EF51 /* Star.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		EFC2C6901D88D02F0031AA9C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -891,12 +975,9 @@
 				EF32F0561E3B83F100AD8778 /* HorizonsQuery.swift in Sources */,
 				EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */,
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
-				EF7FA4911E43A8F5000D5AEB /* Constellation.swift in Sources */,
-				EF2CC3841E4236FD00A375F4 /* Star.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCA930C61E2B8EAE00100706 /* Parser.swift in Sources */,
 				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
-				EF6F6D831E4EC73E0046BC04 /* SpectralType.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
@@ -905,39 +986,6 @@
 				EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
 				FCA930C41E2B8EAE00100706 /* Horizons.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		EFE8BF591DD86B2B000F0A79 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				EFDC5C371E3E3E0400A08EB2 /* EphemerisTest.swift in Sources */,
-				EF2CC3851E4236FD00A375F4 /* Star.swift in Sources */,
-				FCA930BA1E2B8E6600100706 /* Body.swift in Sources */,
-				FCA930C71E2B8EAE00100706 /* Parser.swift in Sources */,
-				EF32F05C1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
-				EF7FA4921E43A8F5000D5AEB /* Constellation.swift in Sources */,
-				FCA930DD1E2B8F3700100706 /* Ephemeris.swift in Sources */,
-				FCC0BDC31E2F8A56003939B1 /* TransientDBHelper.swift in Sources */,
-				FCC0BDC71E2F8BEC003939B1 /* DBHelperTest.swift in Sources */,
-				EFDC5C351E3E23F700A08EB2 /* Naif.swift in Sources */,
-				FC24354C1E1BBDFC002AC626 /* OrbitalMotionMoment.swift in Sources */,
-				FCA930E61E2B8F5400100706 /* ParserTest.swift in Sources */,
-				EFF8BE701DE0935E00F75444 /* Orbit.swift in Sources */,
-				EF32F0571E3B83F100AD8778 /* HorizonsQuery.swift in Sources */,
-				FCA930E41E2B8F5400100706 /* HorizonsTest.swift in Sources */,
-				FC24354B1E1BBDFA002AC626 /* OrbitalMotion.swift in Sources */,
-				FCA930BD1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
-				EFF8BE6F1DE0935C00F75444 /* Kepler.swift in Sources */,
-				FC998DB61E2CE87700E0BFFF /* DBHelper.swift in Sources */,
-				EF6F6D841E4EC73E0046BC04 /* SpectralType.swift in Sources */,
-				FCA930C51E2B8EAE00100706 /* Horizons.swift in Sources */,
-				FCA930D81E2B8F1200100706 /* Constants.swift in Sources */,
-				FCA930C31E2B8EAE00100706 /* EphemerisParser.swift in Sources */,
-				EF32F0591E3B988800AD8778 /* NaifTest.swift in Sources */,
-				EF7FA4941E461518000D5AEB /* StarTest.swift in Sources */,
-				FC998DAE1E2B996B00E0BFFF /* Formatters.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -984,15 +1032,30 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		EFE8BF601DD86B2B000F0A79 /* PBXTargetDependency */ = {
+		EF5F130F1E50208700A8EF51 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = EFE8BF541DD86B2B000F0A79 /* Orbits */;
-			targetProxy = EFE8BF5F1DD86B2B000F0A79 /* PBXContainerItemProxy */;
+			target = EF5F13031E50208700A8EF51 /* StarryNight */;
+			targetProxy = EF5F130E1E50208700A8EF51 /* PBXContainerItemProxy */;
+		};
+		EF5F13111E50208700A8EF51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
+			targetProxy = EF5F13101E50208700A8EF51 /* PBXContainerItemProxy */;
+		};
+		EF5F13181E50208700A8EF51 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EF5F13031E50208700A8EF51 /* StarryNight */;
+			targetProxy = EF5F13171E50208700A8EF51 /* PBXContainerItemProxy */;
 		};
 		EFE8BF691DD86B2B000F0A79 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = EFE8BF541DD86B2B000F0A79 /* Orbits */;
 			targetProxy = EFE8BF681DD86B2B000F0A79 /* PBXContainerItemProxy */;
+		};
+		FC13B31B1E5119B400555DBC /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
+			targetProxy = FC13B31A1E5119B400555DBC /* PBXContainerItemProxy */;
 		};
 		FC24358C1E1F87F0002AC626 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1051,6 +1114,93 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		EF5F131B1E50208700A8EF51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = StarryNight/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		EF5F131C1E50208700A8EF51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				INFOPLIST_FILE = StarryNight/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNight;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		EF5F131D1E50208700A8EF51 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				INFOPLIST_FILE = StarryNightTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Debug;
+		};
+		EF5F131E1E50208700A8EF51 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				INFOPLIST_FILE = StarryNightTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNightTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Release;
+		};
 		EFC2C6B11D88D02F0031AA9C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1245,47 +1395,6 @@
 			};
 			name = Release;
 		};
-		EFE8BF711DD86B2B000F0A79 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = OrbitsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
-			};
-			name = Debug;
-		};
-		EFE8BF721DD86B2B000F0A79 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CLANG_ENABLE_MODULES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"$(PROJECT_DIR)/Carthage/Build/iOS",
-				);
-				INFOPLIST_FILE = OrbitsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
-			};
-			name = Release;
-		};
 		FC2435991E1F87F0002AC626 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1417,6 +1526,24 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		EF5F131F1E50208700A8EF51 /* Build configuration list for PBXNativeTarget "StarryNight" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF5F131B1E50208700A8EF51 /* Debug */,
+				EF5F131C1E50208700A8EF51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		EF5F13201E50208700A8EF51 /* Build configuration list for PBXNativeTarget "StarryNightTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				EF5F131D1E50208700A8EF51 /* Debug */,
+				EF5F131E1E50208700A8EF51 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -1440,15 +1567,6 @@
 			buildConfigurations = (
 				EFE8BF6D1DD86B2B000F0A79 /* Debug */,
 				EFE8BF6E1DD86B2B000F0A79 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		EFE8BF701DD86B2B000F0A79 /* Build configuration list for PBXNativeTarget "OrbitsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				EFE8BF711DD86B2B000F0A79 /* Debug */,
-				EFE8BF721DD86B2B000F0A79 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

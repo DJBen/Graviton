@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import MathUtil
 
 open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable, Hashable {
 
@@ -92,5 +93,15 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     
     public static func <(lhs: CelestialBody, rhs: CelestialBody) -> Bool {
         return lhs.naif < rhs.naif
+    }
+}
+
+public class Sun: CelestialBody {
+    public static var sol: Sun {
+        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
+    }
+    
+    public override var heliocentricPosition: Vector3 {
+        return Vector3.zero
     }
 }

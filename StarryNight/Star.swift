@@ -11,17 +11,7 @@ import SpaceTime
 import MathUtil
 import SQLite
 
-public class Sun: CelestialBody {
-    public static var sol: Sun {
-        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
-    }
-    
-    public override var heliocentricPosition: Vector3 {
-        return Vector3.zero
-    }
-}
-
-fileprivate let db = try! Connection(Bundle(for: DBHelper.self).path(forResource: "stars", ofType: "sqlite3")!)
+fileprivate let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)
 fileprivate let stars = Table("stars_7")
 // The sun has id 0. Using id > 0 to filter out the sun.
 fileprivate let dbInternalId = Expression<Int>("id")
