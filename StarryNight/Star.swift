@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SpaceTime
 import MathUtil
 import SQLite
 
@@ -84,6 +83,9 @@ public struct Star {
         }
     }
     
+    // Mapping from id to Star object
+    private static var cachedStars: [Int: Star] = [:]
+    
     public let identity: Identity
     public let physicalInfo: PhysicalInfo
     
@@ -109,15 +111,41 @@ public struct Star {
     public static func hip(_ hip: Int) -> Star? {
         let query = stars.filter(dbHip == hip)
         if let row = try! db.pluck(query) {
-            return Star(row: row)
+            let id = row.get(dbInternalId)
+            if let cachedStar = cachedStars[id] {
+                return cachedStar
+            }
+            let star = Star(row: row)
+            cachedStars[id] = star
+            return star
+        }
+        return nil
+    }
+    
+    public static func hr(_ hr: Int) -> Star? {
+        let query = stars.filter(dbHr == hr)
+        if let row = try! db.pluck(query) {
+            let id = row.get(dbInternalId)
+            if let cachedStar = cachedStars[id] {
+                return cachedStar
+            }
+            let star = Star(row: row)
+            cachedStars[id] = star
+            return star
         }
         return nil
     }
     
     public static func id(_ id: Int) -> Star? {
-        let query = stars.filter(dbInternalId == id)
+        if let cachedStar = cachedStars[id] {
+            return cachedStar
+        }
+        let query = stars.filter(dbInternalId ==
+            id)
         if let row = try! db.pluck(query) {
-            return Star(row: row)
+            let star = Star(row: row)
+            cachedStars[id] = star
+            return star
         }
         return nil
     }

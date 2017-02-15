@@ -136,6 +136,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             starNode.name = String(star.identity.id)
             rootNode.addChildNode(starNode)
         }
+        drawConstellationLines()
         let southNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         southNode.position = SCNVector3(0, 0, -10)
         southNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
@@ -203,6 +204,28 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         mat.diffuse.contents = color
         line.firstMaterial = mat
         rootNode.addChildNode(lineNode)
+    }
+    
+    private func drawConstellationLines() {
+        let connectionNode = SCNNode()
+        rootNode.addChildNode(connectionNode)
+        for con in Constellation.all {
+            for line in con.connectionLines {
+                var coord1 = line.star1.physicalInfo.coordinate.normalized() * starLayerRadius
+                var coord2 = line.star2.physicalInfo.coordinate.normalized() * starLayerRadius
+                let diff = coord2 - coord1
+                coord1 = coord1 + diff * 0.05
+                coord2 = coord2 - diff * 0.05
+                let vertexSources = SCNGeometrySource(vertices: [coord1, coord2].map { SCNVector3($0) })
+                let elements = SCNGeometryElement(indices: [CInt(0), CInt(1)], primitiveType: .line)
+                let lineGeo = SCNGeometry(sources: [vertexSources], elements: [elements])
+                let mat = SCNMaterial()
+                mat.diffuse.contents = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                lineGeo.firstMaterial = mat
+                let lineNode = SCNNode(geometry: lineGeo)
+                connectionNode.addChildNode(lineNode)
+            }
+        }
     }
     
     private func drawEcliptic() {

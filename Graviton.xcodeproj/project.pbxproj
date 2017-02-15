@@ -93,6 +93,8 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
+		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
+		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -291,6 +293,7 @@
 		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
+		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -368,6 +371,7 @@
 			children = (
 				EF5F13061E50208700A8EF51 /* StarryNight.h */,
 				EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */,
+				FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */,
 				EF5F13231E5020FF00A8EF51 /* Star.swift */,
 				EF5F13211E5020FF00A8EF51 /* Constellation.swift */,
 				EF5F13221E5020FF00A8EF51 /* SpectralType.swift */,
@@ -847,6 +851,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF5F132B1E5020FF00A8EF51 /* stars.sqlite3 in Resources */,
+				FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -855,6 +860,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */,
+				FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

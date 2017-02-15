@@ -14,30 +14,104 @@ fileprivate let constel = Table("constellations")
 fileprivate let dbName = Expression<String>("constellation")
 fileprivate let dbIAUName = Expression<String>("iau")
 fileprivate let dbGenitive = Expression<String>("genitive")
+fileprivate let constellationLinePath = Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "constellation_lines", ofType: "dat")!
 
-public struct Constellation {
+public struct Constellation: Hashable {
+    public struct Line: CustomStringConvertible {
+        public let star1: Star
+        public let star2: Star
+        
+        public var description: String {
+            return "(\(star1) - \(star2))"
+        }
+    }
+    
+    public var hashValue: Int {
+        return iAUName.hashValue
+    }
+
+    public static func ==(lhs: Constellation, rhs: Constellation) -> Bool {
+        return lhs.iAUName == rhs.iAUName
+    }
+    
+    private static var cachedConstellations: Set<Constellation> = Set<Constellation>()
+    
+    private static var lineMappings: [String: [(Int, Int)]] = {
+        let content = try! String(contentsOfFile: constellationLinePath)
+        let lines = content.components(separatedBy: "\n").filter { (str) -> Bool in
+            return str.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty == false
+        }
+        var dict: [String: [(Int, Int)]] = [:]
+        lines.forEach { (line) in
+            let lineComponents: [String] = line.components(separatedBy: " ").filter { $0.isEmpty == false }
+            let con = lineComponents[0]
+            var starHrs: [(Int, Int)] = []
+            for (hr1, hr2) in zip(lineComponents[2..<(lineComponents.endIndex - 1)], lineComponents[3..<(lineComponents.endIndex)]) {
+                starHrs.append((Int(hr1)!, Int(hr2)!))
+            }
+            if let connections = dict[con] {
+                dict[con] = connections + starHrs
+            } else {
+                dict[con] = starHrs
+            }
+        }
+        return dict
+    }()
+    
+    public static var all: Set<Constellation> {
+        for row in try! db.prepare(constel) {
+            let con = Constellation(name: row.get(dbName), iAUName: row.get(dbIAUName), genitive: row.get(dbGenitive))
+            if cachedConstellations.contains(con) == false {
+                cachedConstellations.insert(con)
+            }
+        }
+        return cachedConstellations
+    }
+    
     public let name: String
     public let iAUName: String
     public let genitive: String
+    private let lines: [(Int, Int)]
     
     private init(name: String, iAUName: String, genitive: String) {
         self.name = name
         self.iAUName = iAUName
         self.genitive = genitive
+        self.lines = Constellation.lineMappings[iAUName] ?? []
+    }
+    
+    public var connectionLines: [Line] {
+        return lines.flatMap { (s1, s2) -> Line? in
+            guard let star1 = Star.hr(s1), let star2 = Star.hr(s2) else {
+                print("constellation \(name): line \(s1) - \(s2) not found")
+                return nil
+            }
+            return Line(star1: star1, star2: star2)
+        }
     }
     
     public static func named(_ name: String) -> Constellation? {
+        if let conIndex = cachedConstellations.index(where: { $0.name == name }) {
+            return cachedConstellations[conIndex]
+        }
         let query = constel.select(dbName, dbIAUName, dbGenitive).filter(dbName == name)
         if let row = try! db.pluck(query) {
-            return Constellation(name: row.get(dbName), iAUName: row.get(dbIAUName), genitive: row.get(dbGenitive))
+            let con = Constellation(name: row.get(dbName), iAUName: row.get(dbIAUName), genitive: row.get(dbGenitive))
+            cachedConstellations.insert(con)
+            return con
         }
         return nil
     }
     
     public static func iau(_ iau: String) -> Constellation? {
+        if let conIndex = cachedConstellations.index(where: { $0.iAUName == iau }) {
+            return cachedConstellations[conIndex]
+        }
         let query = constel.select(dbName, dbIAUName, dbGenitive).filter(dbIAUName == iau)
         if let row = try! db.pluck(query) {
-            return Constellation(name: row.get(dbName), iAUName: row.get(dbIAUName), genitive: row.get(dbGenitive))
+            let con = Constellation(name: row.get(dbName), iAUName: row.get(dbIAUName), genitive: row.get(dbGenitive))
+            cachedConstellations.insert(con)
+            return con
         }
         return nil
     }
