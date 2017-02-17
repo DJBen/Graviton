@@ -49,6 +49,17 @@ public class Horizons {
         return result
     }
     
+    public enum FetchMode {
+        /// Only fetch local data, return empty result if it doesn't exist
+        case localOnly
+        /// Only retrieve online data if local data is not available
+        case preferLocal
+        /// Only fetch data online, disregarding local data
+        case onlineOnly
+        /// Return local data once and return fetched online data once that becomes available
+        case mixed
+    }
+    
     /// Fetch ephemeris of major bodies and moons
     ///
     /// - Parameters:
@@ -56,18 +67,22 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = Naif.planets, offline: Bool = false, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = Naif.planets, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         var shouldIncludeSun: Bool = false
         // load local data
-        var cachedBodies = Set<CelestialBody>(naifs.flatMap {
+        var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
-        })
+        }))
+        if cachedBodies.isEmpty && mode == .localOnly {
+            complete?(nil, nil)
+            return
+        }
         if cachedBodies.isEmpty == false {
             if naifs.contains(Naif.sun) {
                 cachedBodies.insert(Sun.sol)
             }
             update?(Ephemeris(solarSystemBodies: cachedBodies))
-            if offline {
+            if mode == .preferLocal || mode == .localOnly {
                 complete?(Ephemeris(solarSystemBodies: cachedBodies), nil)
                 return
             }

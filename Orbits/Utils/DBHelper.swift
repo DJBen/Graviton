@@ -85,13 +85,13 @@ class DBHelper {
 
         try! celestialBodies.run(celestialBody.create(ifNotExists: true) { t in
             t.column(cbId, primaryKey: true)
-            t.column(cusName)
             t.column(obliquityExpr)
             t.column(gmExpr)
             t.column(hillSphereExpr)
             t.column(radiusExpr)
             t.column(centerBodyId)
             t.column(rotationPeriodExpr)
+            t.column(cusName)
         })
     }
     

@@ -12,29 +12,59 @@ import SQLite
 
 class ViewController: UIViewController {
 
+    let path = NSSearchPathForDirectoriesInDomains(
+        .documentDirectory, .userDomainMask, true
+        ).first!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
     
-    @IBAction func generateMoon(_ sender: UIButton) {
-        let moon = Naif.moon(.moon)
-        let calendar = Calendar(identifier: .gregorian)
-        let monthComponents = calendar.dateComponents([.era, .year, .month], from: Date())
-        let month = calendar.date(from: monthComponents)!
-        
-        Horizons.shared.fetchEphemeris(preferredDate: month, naifs: [moon], offline: false, update: { (ephemeris) in
-            print(ephemeris[moon.rawValue] as Any)
-        }) { (ephemeris, error) in
-            print("complete")
-            print(error as Any)
+    private func clean() {
+        let enumerator = FileManager.default.enumerator(atPath: path)!
+        while let filePath = enumerator.nextObject() as? String {
+            try! FileManager.default.removeItem(atPath: (path as NSString).appendingPathComponent(filePath))
         }
     }
-
+    
+    @IBAction func generateMoon(_ sender: UIButton) {
+        func proceed(action: UIAlertAction) {
+            let moon = Naif.moon(.moon)
+            let calendar = Calendar(identifier: .gregorian)
+            let current = Date()
+            func fetch(offset: Int, terminatingOffset: Int = 360) {
+                if offset >= terminatingOffset {
+                    return
+                }
+                let date = calendar.date(byAdding: .month, value: offset, to: current)!
+                let monthComponents = calendar.dateComponents([.era, .year, .month], from: date)
+                let month = calendar.date(from: monthComponents)!
+                Horizons.shared.fetchEphemeris(preferredDate: month, naifs: [moon], mode: .onlineOnly, update: { (ephemeris) in
+                    print(offset)
+                    print(ephemeris[moon.rawValue] as Any)
+                }) { (ephemeris, error) in
+                    if let e = error {
+                        print(e)
+                    }
+                    fetch(offset: offset + 1, terminatingOffset: terminatingOffset)
+                }
+            }
+            fetch(offset: 240)
+        }
+        if FileManager.default.fileExists(atPath: path) {
+            let alert = UIAlertController(title: "Previous Data Exists", message: "Clean before fetching data?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Clean", style: .destructive, handler: { (action) in
+                self.clean()
+                proceed(action: action)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: proceed))
+            present(alert, animated: true, completion: nil)
+        }
+    }
 
 }
 
