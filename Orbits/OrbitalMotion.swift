@@ -6,7 +6,6 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import SQLite
 import MathUtil
 
 public class OrbitalMotion {

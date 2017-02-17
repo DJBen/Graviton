@@ -21,6 +21,10 @@ public enum Naif: Comparable, Hashable {
         case uranus = 799
         case neptune = 899
         case pluto = 999
+        
+        public var moons: [Moon] {
+            return (1...98).flatMap { Moon(rawValue: $0) }
+        }
     }
     
     public enum Moon: Int {
@@ -186,12 +190,12 @@ public enum Naif: Comparable, Hashable {
     case sun
     case custom(Int)
     
-    static let planets: Set<Naif> = {
+    static let planets: [Naif] = {
         let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune]
-        return Set<Naif>(planets.map { .majorBody($0) })
+        return planets.map { .majorBody($0) }
     }()
     
-    var rawValue: Int {
+    public var rawValue: Int {
         switch self {
         case let .majorBody(mb):
             return mb.rawValue
@@ -218,6 +222,17 @@ public enum Naif: Comparable, Hashable {
             return .majorBody(m.primary)
         case .custom(_):
             return nil
+        }
+    }
+    
+    public var moons: [Naif] {
+        switch self {
+        case .sun:
+            return Naif.planets
+        case .majorBody(let mb):
+            return mb.moons.map { .moon($0) }
+        default:
+            return []
         }
     }
     

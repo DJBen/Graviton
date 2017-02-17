@@ -94,18 +94,42 @@ struct HorizonsQuery: Hashable {
         return urlComponent.url!
     }
     
-    static let planetQueryItems: [HorizonsQuery] = {
-        return planetQuery(date: Date())
-    }()
     
     public static func planetQuery(date: Date) -> [HorizonsQuery] {
+        return ephemerisQuery([Naif.sun] + Naif.planets, date: date)
+    }
+    
+    private static let numberOfMoonsInterested = [0, 0, 1, 2, 4, 5, 2, 2]
+    public static let defaultQueryItems: [Naif] = [Naif.sun] + Naif.planets + zip(numberOfMoonsInterested, Naif.planets.prefix(8)).flatMap { $1.moons.prefix($0) }
+    
+    public static func defaultQuery(date: Date) -> [HorizonsQuery] {
+        return ephemerisQuery(defaultQueryItems, date: date)
+    }
+    
+    public static func ephemerisQuery(_ naifs: [Naif], date: Date) -> [HorizonsQuery] {
         // update yearly for planets
         let calendar = Calendar(identifier: .gregorian)
         let components = calendar.dateComponents([.era, .year], from: date)
         let thisYear = calendar.date(from: components)!
         let thisYearLittleBitLater = thisYear.addingTimeInterval(1800)
-        return Naif.planets.map { (planet) -> HorizonsQuery in
-            return HorizonsQuery(center: Naif.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
+        // update monthly for earth's moon (accuracy demands)
+        let monthComponents = calendar.dateComponents([.era, .year, .month], from: date)
+        let thisMonth = calendar.date(from: monthComponents)!
+        let thisMonthLittleBitLater = thisMonth.addingTimeInterval(1800)
+        
+        return Array(Set<Naif>(naifs)).sorted().flatMap { (naif) -> HorizonsQuery? in
+            switch naif {
+            case .majorBody(let planet):
+                return HorizonsQuery(center: Naif.sun.rawValue, command: planet.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
+            case .moon(let moon):
+                if moon.rawValue == 301 {
+                    return HorizonsQuery(center: moon.primary.rawValue, command: moon.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisMonth, stopTime: thisMonthLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
+                } else {
+                    return HorizonsQuery(center: moon.primary.rawValue, command: moon.rawValue, shouldMakeEphemeris: true, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater, useCsvFormat: true, stepSize: StepSize.step(1))
+                }
+            default:
+                return nil
+            }
         }
     }
     

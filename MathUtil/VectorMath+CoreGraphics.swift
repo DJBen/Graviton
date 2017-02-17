@@ -33,5 +33,5 @@ public prefix func -(p: CGPoint) -> CGPoint {
 }
 
 public prefix func -(v: CGVector) -> CGVector {
-    return transform(v: v) { -$0 }
+    return transform(v: v, transform: -)
 }

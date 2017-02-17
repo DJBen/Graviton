@@ -50,19 +50,7 @@ public struct EphemerisParser {
         return formatter
     }
     
-    public static func parse(list: [String: String]) -> [Int: OrbitalMotion] {
-        let motions = list.flatMap { (naifId, csv) -> (String, OrbitalMotion)? in
-            guard let motion = EphemerisParser.parse(csv: csv) else { return nil }
-//            let body = CelestialBody(naifId: Int(naifId)!, mass: 0, radius: 0)
-//            body.motion = motion
-            return (naifId, motion)
-        }
-        var result = [Int: OrbitalMotion]()
-        motions.forEach { result[Int($0.0)!] = $0.1 }
-        return result
-    }
-    
-    public static func parse(csv: String) -> OrbitalMotion? {
+    public static func parse(gm: Double, csv: String) -> OrbitalMotion? {
         let components = csv.components(separatedBy: ",").map { $0.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines) }.filter { $0.isEmpty == false }
         
         // can have multiple results, just taking the first one
@@ -73,7 +61,7 @@ public struct EphemerisParser {
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(orbit: orbit, gm: Sun.sol.gravParam, julianDate: jd, timeOfPeriapsisPassage: tp)
+            let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDate: jd, timeOfPeriapsisPassage: tp)
             return motion
         }
         

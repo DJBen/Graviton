@@ -22,8 +22,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
             return radRp * radius
         }
         // TODO: implement correct hill sphere
-        guard let primary = centerBody, let distance = motion?.distance else { return nil }
-        return distance * (radius / primary.radius)
+        return 0
     }
     
     /// mass in kg
