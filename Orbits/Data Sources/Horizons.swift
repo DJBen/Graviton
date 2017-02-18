@@ -23,10 +23,6 @@ public class Horizons {
     static let trialBackoffTimeInterval: TimeInterval = 0.5
     static let timeIntervalBetweenJobs: TimeInterval = 0.4
     
-    private var tasksTrialCount: [URL: Int] = [:]
-    private var rawData: [Int: String] = [:]
-    private var errors: [Error] = []
-    
     func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
         var result = b1
         let jd = JulianDate(date: refTime).value
@@ -60,6 +56,10 @@ public class Horizons {
         case mixed
     }
     
+    public func fetchOnlineRawEphemeris(naifs: [Naif], startDate: Date, endDate: Date, complete: ([Naif: String]) -> Void) {
+        
+    }
+    
     /// Fetch ephemeris of major bodies and moons
     ///
     /// - Parameters:
@@ -67,8 +67,13 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = Naif.planets, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.planets, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+        
+        var tasksTrialCount: [URL: Int] = [:]
+        var rawData: [Int: String] = [:]
+        var errors: [Error] = []
         var shouldIncludeSun: Bool = false
+        
         // load local data
         var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -97,7 +102,7 @@ public class Horizons {
             
             // exponential back off retry
             func retry(url: URL) -> Bool {
-                let trialCount = self.tasksTrialCount[url] ?? 0
+                let trialCount = tasksTrialCount[url] ?? 0
                 guard trialCount < Horizons.trialCountLimit else {
                     return false
                 }
@@ -114,7 +119,7 @@ public class Horizons {
             
             if let e = error as? NSError {
                 if !retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL) {
-                    self.errors.append(e)
+                    errors.append(e)
                 }
             } else if let d = data {
                 let httpResponse = response as! HTTPURLResponse
@@ -129,7 +134,7 @@ public class Horizons {
                         print("stop retrying: \(url)")
                     }
                 default:
-                    self.rawData[url.naifId!] = utf8String
+                    rawData[url.naifId!] = utf8String
                     print("complete: \(url) - \(d)")
                 }
             } else {
@@ -152,22 +157,22 @@ public class Horizons {
         }
         group.notify(queue: .main) {
             defer {
-                self.tasksTrialCount.removeAll()
-                self.errors.removeAll()
-                self.rawData.removeAll()
+                tasksTrialCount.removeAll()
+                errors.removeAll()
+                rawData.removeAll()
             }
-            guard self.errors.isEmpty else {
+            guard errors.isEmpty else {
                 print("complete with failure: fetching celestial bodies")
                 if cachedBodies.isEmpty {
-                    complete?(nil, self.errors)
+                    complete?(nil, errors)
                 } else {
                     let eph = Ephemeris(solarSystemBodies: cachedBodies)
-                    complete?(eph, self.errors)
+                    complete?(eph, errors)
                 }
                 return
             }
             print("complete: fetching celestial bodies")
-            var bodies = Set<CelestialBody>(self.rawData.flatMap { (naif, content) -> CelestialBody? in
+            var bodies = Set<CelestialBody>(rawData.flatMap { (naif, content) -> CelestialBody? in
                 if let body = ResponseParser.parse(content: content) {
                     body.save()
                     return body

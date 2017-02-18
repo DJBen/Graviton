@@ -27,7 +27,7 @@ class ObserverViewController: SceneController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        Horizons.shared.fetchEphemeris(offline: true, update: { (ephemeris) in
+        Horizons.shared.fetchEphemeris(mode: .preferLocal, update: { (ephemeris) in
             DispatchQueue.main.async {
                 self.obsScene.ephemeris = ephemeris
             }

@@ -32,29 +32,9 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EFE8BF5C1DD86B2B000F0A79"
+               BlueprintIdentifier = "EF4BD3801E57E58D009D2698"
                BuildableName = "OrbitsTests.xctest"
                BlueprintName = "OrbitsTests"
-               ReferencedContainer = "container:Graviton.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FCA9309C1E2B87C700100706"
-               BuildableName = "StarCatalogTests.xctest"
-               BlueprintName = "StarCatalogTests"
-               ReferencedContainer = "container:Graviton.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "EF5F130B1E50208700A8EF51"
-               BuildableName = "StarryNightTests.xctest"
-               BlueprintName = "StarryNightTests"
                ReferencedContainer = "container:Graviton.xcodeproj">
             </BuildableReference>
          </TestableReference>

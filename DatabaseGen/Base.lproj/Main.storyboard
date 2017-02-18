@@ -31,7 +31,7 @@
                                 <rect key="frame" x="90" y="107" width="194" height="30"/>
                                 <state key="normal" title="Generate Moon's Ephemeris"/>
                                 <connections>
-                                    <action selector="generateMoon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Xbg-TH-N5C"/>
+                                    <action selector="generateMoon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RKA-01-o3D"/>
                                 </connections>
                             </button>
                         </subviews>

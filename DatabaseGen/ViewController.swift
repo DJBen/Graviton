@@ -31,7 +31,32 @@ class ViewController: UIViewController {
         }
     }
     
+    private func ask(_ proceed: @escaping (UIAlertAction) -> Void) {
+        if FileManager.default.fileExists(atPath: path) {
+            let alert = UIAlertController(title: "Previous Data Exists", message: "Clean before fetching data?", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Clean", style: .destructive, handler: { (action) in
+                self.clean()
+                proceed(action)
+            }))
+            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: proceed))
+            present(alert, animated: true, completion: nil)
+        }
+    }
+    
     @IBAction func generateMoon(_ sender: UIButton) {
+        func proceed(action: UIAlertAction) {
+            let localMoonDataPath = Bundle.main.path(forResource: "moon_1500AD_to_3000AD", ofType: "result")!
+            let localMoonData = try! String(contentsOfFile: localMoonDataPath)
+            let _ = ResponseParser.parseEphemeris(content: localMoonData, save: true)
+        }
+        ask(proceed)
+    }
+    
+    @IBAction func fetchMajorPlanets(_ sender: UIButton) {
+        
+    }
+    
+    @IBAction func fetchMoon(_ sender: UIButton) {
         func proceed(action: UIAlertAction) {
             let moon = Naif.moon(.moon)
             let calendar = Calendar(identifier: .gregorian)
@@ -55,15 +80,7 @@ class ViewController: UIViewController {
             }
             fetch(offset: 240)
         }
-        if FileManager.default.fileExists(atPath: path) {
-            let alert = UIAlertController(title: "Previous Data Exists", message: "Clean before fetching data?", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "Clean", style: .destructive, handler: { (action) in
-                self.clean()
-                proceed(action: action)
-            }))
-            alert.addAction(UIAlertAction(title: "No", style: .cancel, handler: proceed))
-            present(alert, animated: true, completion: nil)
-        }
+        ask(proceed)
     }
 
 }
