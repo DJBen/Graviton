@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
-		EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
 		EF32F0561E3B83F100AD8778 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
@@ -25,7 +24,6 @@
 		EF4BD39A1E57E628009D2698 /* neptune.result in Resources */ = {isa = PBXBuildFile; fileRef = FC998DB11E2C749200E0BFFF /* neptune.result */; };
 		EF4BD3A11E57E639009D2698 /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCA930C81E2B8ED900100706 /* naif.sqlite3 */; };
 		EF4BD3A21E57E639009D2698 /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */; };
-		EF4BD3A31E57E639009D2698 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */; };
 		EF4BD3A41E57E639009D2698 /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */; };
 		EF4BD3A51E57E64D009D2698 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		EF4BD3A61E57E64D009D2698 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
@@ -47,6 +45,8 @@
 		EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BD3B71E57E73B009D2698 /* StarTest.swift */; };
 		EF4BD3BB1E57F047009D2698 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF4BD3C21E580373009D2698 /* moon_1500AD_to_3000AD.result in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */; };
+		EF4BD3C41E58806E009D2698 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C31E58806E009D2698 /* orbitalMotions.sqlite3 */; };
+		EF4BD3C51E58806E009D2698 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C31E58806E009D2698 /* orbitalMotions.sqlite3 */; };
 		EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
 		EF5F130D1E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
@@ -279,7 +279,6 @@
 
 /* Begin PBXFileReference section */
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
-		EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
@@ -288,6 +287,7 @@
 		EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF4BD3B71E57E73B009D2698 /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon_1500AD_to_3000AD.result; sourceTree = "<group>"; };
+		EF4BD3C31E58806E009D2698 /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNView+Projection.swift"; sourceTree = "<group>"; };
 		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		EF5F13041E50208700A8EF51 /* StarryNight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarryNight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -570,7 +570,7 @@
 				EFE8BF571DD86B2B000F0A79 /* Orbits.h */,
 				FCA930C81E2B8ED900100706 /* naif.sqlite3 */,
 				FC998DBA1E2CFE6200E0BFFF /* celestialBodies.sqlite3 */,
-				EF32F04C1E3A627B00AD8778 /* orbitalMotions.sqlite3 */,
+				EF4BD3C31E58806E009D2698 /* orbitalMotions.sqlite3 */,
 				EF32F0521E3B79A600AD8778 /* smallBodies.sqlite3 */,
 				FCA930B71E2B8E6600100706 /* Models */,
 				FCA930BE1E2B8EAE00100706 /* Data Sources */,
@@ -1025,8 +1025,8 @@
 				EF4BD39A1E57E628009D2698 /* neptune.result in Resources */,
 				EF4BD3991E57E628009D2698 /* mars.result in Resources */,
 				EF4BD3A41E57E639009D2698 /* smallBodies.sqlite3 in Resources */,
-				EF4BD3A31E57E639009D2698 /* orbitalMotions.sqlite3 in Resources */,
 				EF4BD3A11E57E639009D2698 /* naif.sqlite3 in Resources */,
+				EF4BD3C51E58806E009D2698 /* orbitalMotions.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1075,10 +1075,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF32F04D1E3A627B00AD8778 /* orbitalMotions.sqlite3 in Resources */,
 				EF32F0531E3B79A600AD8778 /* smallBodies.sqlite3 in Resources */,
 				FCA930C91E2B8ED900100706 /* naif.sqlite3 in Resources */,
 				FC998DBB1E2CFE6200E0BFFF /* celestialBodies.sqlite3 in Resources */,
+				EF4BD3C41E58806E009D2698 /* orbitalMotions.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

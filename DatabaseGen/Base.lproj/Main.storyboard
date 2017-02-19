@@ -6,6 +6,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -34,11 +35,21 @@
                                     <action selector="generateMoon:" destination="BYZ-38-t0r" eventType="touchUpInside" id="RKA-01-o3D"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rfH-b0-gMQ">
+                                <rect key="frame" x="56" y="167" width="262" height="30"/>
+                                <state key="normal" title="Generate Major Planet's Ephemeris"/>
+                                <connections>
+                                    <action selector="fetchMajorPlanets:" destination="BYZ-38-t0r" eventType="touchUpInside" id="cPO-bA-WHb"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="j4J-9A-Wcw" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="7oc-Nz-FZM"/>
+                            <constraint firstItem="rfH-b0-gMQ" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="40" id="OAK-ak-Fct"/>
+                            <constraint firstItem="rfH-b0-gMQ" firstAttribute="top" secondItem="8W7-Tq-a44" secondAttribute="bottom" constant="30" id="Ptj-0h-3pS"/>
                             <constraint firstItem="8W7-Tq-a44" firstAttribute="top" secondItem="j4J-9A-Wcw" secondAttribute="bottom" constant="47" id="WBr-42-ptY"/>
+                            <constraint firstItem="rfH-b0-gMQ" firstAttribute="centerX" secondItem="8W7-Tq-a44" secondAttribute="centerX" id="WQn-X9-YCm"/>
                             <constraint firstItem="8W7-Tq-a44" firstAttribute="centerX" secondItem="j4J-9A-Wcw" secondAttribute="centerX" id="v2O-7w-3to"/>
                             <constraint firstItem="j4J-9A-Wcw" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="19" id="vdj-EA-P5N"/>
                         </constraints>
@@ -46,6 +57,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
         </scene>
     </scenes>
 </document>

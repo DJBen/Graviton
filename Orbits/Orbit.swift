@@ -11,7 +11,7 @@ import MathUtil
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
 
-public struct Orbit {
+public struct Orbit: CustomStringConvertible {
     public struct ConicSection: Equatable {
         public enum `Type` {
             case circle
@@ -91,6 +91,10 @@ public struct Orbit {
     public var shape: ConicSection
     public var orientation: Orientation
 
+    public var description: String {
+        return "(a: \(shape.semimajorAxis), e: \(shape.eccentricity), i: \(orientation.inclination), om: \(orientation.longitudeOfAscendingNode), w: \(orientation.argumentOfPeriapsis))"
+    }
+    
     public init(shape: ConicSection, orientation: Orientation) {
         self.shape = shape
         self.orientation = orientation

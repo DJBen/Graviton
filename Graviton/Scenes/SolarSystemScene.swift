@@ -186,7 +186,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             justColor.diffuse.contents = color
             line.firstMaterial = justColor
             lineSegments.addChildNode(lineNode)
-            print("create \(identifier)")
+            print("create \(identifier): \(motion.orbit)")
         }
         
         guard lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) == nil else {

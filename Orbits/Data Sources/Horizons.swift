@@ -17,11 +17,12 @@ public class Horizons {
         return Horizons()
     }()
     static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
-    static let trialCountLimit = 4
-    // back off time should be the following value * pow(CONSTANT, numberOfTrials)
-    // usually CONSTANT = 2
-    static let trialBackoffTimeInterval: TimeInterval = 0.5
-    static let timeIntervalBetweenJobs: TimeInterval = 0.4
+    
+    let trialCountLimit = 4
+    // Back off time should be the following value * pow(CONSTANT, numberOfTrials).
+    // Usually CONSTANT = 2
+    let trialBackoffTimeInterval: TimeInterval = 0.5
+    let timeIntervalBetweenJobs: TimeInterval = 0.4
     
     func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
         var result = b1
@@ -56,43 +57,11 @@ public class Horizons {
         case mixed
     }
     
-    public func fetchOnlineRawEphemeris(naifs: [Naif], startDate: Date, endDate: Date, complete: ([Naif: String]) -> Void) {
-        
-    }
-    
-    /// Fetch ephemeris of major bodies and moons
-    ///
-    /// - Parameters:
-    ///   - preferredDate: The preferred date of ephemeris
-    ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
-    ///   - update: Called when planet data is ready; may never be called or be called multiple times
-    ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.planets, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
-        
+    public func fetchOnlineRawEphemeris(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
         var tasksTrialCount: [URL: Int] = [:]
         var rawData: [Int: String] = [:]
         var errors: [Error] = []
-        var shouldIncludeSun: Bool = false
-        
-        // load local data
-        var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
-            CelestialBody.load(naifId: $0.rawValue)
-        }))
-        if cachedBodies.isEmpty && mode == .localOnly {
-            complete?(nil, nil)
-            return
-        }
-        if cachedBodies.isEmpty == false {
-            if naifs.contains(Naif.sun) {
-                cachedBodies.insert(Sun.sol)
-            }
-            update?(Ephemeris(solarSystemBodies: cachedBodies))
-            if mode == .preferLocal || mode == .localOnly {
-                complete?(Ephemeris(solarSystemBodies: cachedBodies), nil)
-                return
-            }
-        }
-        
+
         // load online data
         let group = DispatchGroup()
         func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
@@ -103,10 +72,10 @@ public class Horizons {
             // exponential back off retry
             func retry(url: URL) -> Bool {
                 let trialCount = tasksTrialCount[url] ?? 0
-                guard trialCount < Horizons.trialCountLimit else {
+                guard trialCount < trialCountLimit else {
                     return false
                 }
-                let timeInterval: TimeInterval = Horizons.trialBackoffTimeInterval * (pow(2.0, Double(trialCount)))
+                let timeInterval: TimeInterval = trialBackoffTimeInterval * (pow(2.0, Double(trialCount)))
                 tasksTrialCount[url] = trialCount + 1
                 group.enter()
                 DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) {
@@ -141,16 +110,15 @@ public class Horizons {
                 print("reponse has no data: \(response)")
             }
         }
-        let tasks = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate).flatMap { (query) -> URLSessionTask? in
+        let tasks = queries.flatMap { (query) -> URLSessionTask? in
             if query.command == Sun.sol.naifId {
-                shouldIncludeSun = true
                 return nil
             }
             return URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
         }
         tasks.enumerated().forEach { (index: Int, task: URLSessionTask) in
             group.enter()
-            let timeInterval: TimeInterval = Horizons.timeIntervalBetweenJobs * Double(index)
+            let timeInterval: TimeInterval = timeIntervalBetweenJobs * Double(index)
             DispatchQueue.global().asyncAfter(deadline: .now() + timeInterval) {
                 task.resume()
             }
@@ -163,6 +131,43 @@ public class Horizons {
             }
             guard errors.isEmpty else {
                 print("complete with failure: fetching celestial bodies")
+                complete([:], errors)
+                return
+            }
+            print("complete: fetching celestial bodies")
+            complete(rawData, nil)
+        }
+    }
+
+    /// Fetch ephemeris of major bodies and moons
+    ///
+    /// - Parameters:
+    ///   - preferredDate: The preferred date of ephemeris
+    ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
+    ///   - update: Called when planet data is ready; may never be called or be called multiple times
+    ///   - complete: Block to execute upon completion
+    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.planets, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+        // load local data
+        var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
+            CelestialBody.load(naifId: $0.rawValue)
+        }))
+        if cachedBodies.isEmpty && mode == .localOnly {
+            complete?(nil, nil)
+            return
+        }
+        if cachedBodies.isEmpty == false {
+            if naifs.contains(Naif.sun) {
+                cachedBodies.insert(Sun.sol)
+            }
+            update?(Ephemeris(solarSystemBodies: cachedBodies))
+            if mode == .preferLocal || mode == .localOnly {
+                complete?(Ephemeris(solarSystemBodies: cachedBodies), nil)
+                return
+            }
+        }
+        let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate)
+        fetchOnlineRawEphemeris(queries: queries) { (rawData, errors) in
+            if let errors = errors {
                 if cachedBodies.isEmpty {
                     complete?(nil, errors)
                 } else {
@@ -179,7 +184,7 @@ public class Horizons {
                 }
                 return nil
             })
-            if shouldIncludeSun {
+            if naifs.contains(Naif.sun) {
                 bodies.insert(Sun.sol)
             }
             let merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate)
@@ -188,6 +193,7 @@ public class Horizons {
             complete?(eph, nil)
         }
     }
+    
 }
 
 fileprivate extension URL {

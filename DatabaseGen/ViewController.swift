@@ -53,7 +53,22 @@ class ViewController: UIViewController {
     }
     
     @IBAction func fetchMajorPlanets(_ sender: UIButton) {
-        
+        let calendar = Calendar(identifier: .gregorian)
+        let components = DateComponents(calendar: calendar, timeZone: TimeZone.init(secondsFromGMT: 0), year: 1901, month: 1, day: 1)
+        let startDate = components.date!
+        let components2 = DateComponents(calendar: calendar, timeZone: TimeZone.init(secondsFromGMT: 0), year: 2100, month: 1, day: 1)
+        let endDate = components2.date!
+        let queries = [HorizonsQuery.init(naif: Naif.majorBody(.pluto), startTime: startDate, stopTime: endDate, stepSize: .year(1))]
+        Horizons.shared.fetchOnlineRawEphemeris(queries: queries) { (dict, errors) in
+            if let e = errors {
+                print(e)
+                return
+            }
+            print(dict)
+            for (_, str) in dict {
+                let _ = ResponseParser.parseEphemeris(content: str, save: true)
+            }
+        }
     }
     
     @IBAction func fetchMoon(_ sender: UIButton) {

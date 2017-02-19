@@ -18,28 +18,34 @@
 
 import Foundation
 
-struct HorizonsQuery: Hashable {
-    enum TableType: String {
+public struct HorizonsQuery: Hashable {
+    public enum TableType: String {
         case elements
-        case observers
+        case observer
         case vectors
         case approach
     }
     
-    enum StepSize: Equatable {
+    public enum StepSize: Equatable {
         case day(Int)
         case hour(Int)
         case minute(Int)
+        case month(Int)
+        case year(Int)
         case step(Int)
         
         var rawValue: String {
             switch self {
+            case let .year(y):
+                return "\(y)y"
+            case let .month(mm):
+                return "\(mm)month"
             case let .day(d):
-                return "\(d) days"
+                return "\(d)d"
             case let .hour(h):
-                return "\(h) hours"
+                return "\(h)h"
             case let .minute(m):
-                return "\(m) min"
+                return "\(m)m"
             case let .step(s):
                 return "\(s)"
             }
@@ -56,7 +62,7 @@ struct HorizonsQuery: Hashable {
         return formatter
     }()
     
-    var hashValue: Int {
+    public var hashValue: Int {
         return command.hashValue ^ startTime.hashValue ^ stopTime.hashValue ^ stepSize.rawValue.hashValue
     }
     
@@ -94,6 +100,20 @@ struct HorizonsQuery: Hashable {
         return urlComponent.url!
     }
     
+    public init(naif: Naif, startTime: Date, stopTime: Date, stepSize: StepSize) {
+        self.init(center: naif.primary?.rawValue, command: naif.rawValue, startTime: startTime, stopTime: stopTime, stepSize: stepSize)
+    }
+    
+    init(center: Int?, command: Int, shouldMakeEphemeris: Bool = true, tableType: TableType = .elements, startTime: Date, stopTime: Date, useCsvFormat: Bool = true, stepSize: StepSize) {
+        self.center = center
+        self.command = command
+        self.shouldMakeEphemeris = shouldMakeEphemeris
+        self.tableType = tableType
+        self.startTime = startTime
+        self.stopTime = stopTime
+        self.useCsvFormat = useCsvFormat
+        self.stepSize = stepSize
+    }
     
     public static func planetQuery(date: Date) -> [HorizonsQuery] {
         return ephemerisQuery([Naif.sun] + Naif.planets, date: date)

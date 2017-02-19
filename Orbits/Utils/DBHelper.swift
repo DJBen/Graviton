@@ -139,21 +139,36 @@ class DBHelper {
     
     func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: Double = JulianDate.now().value) -> OrbitalMotionMoment? {
         let db: Connection = self.orbitalMotions
-        let query = orbitalMotion.filter(bodyId == Int64(theBodyId))
-        let rows = Array(try! db.prepare(query)) + Array(try! backupOb.prepare(query))
-        if rows.isEmpty { return nil }
-        var closestRefJdRow: Row!
-        for row in rows {
-            let referenceJulianDate = row.get(refJd)
-            if closestRefJdRow == nil || abs(referenceJulianDate - julianDate) < abs(closestRefJdRow.get(refJd) - julianDate) {
-                closestRefJdRow = row
-            }
+        func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
+            // km^3/s^2 to m^3/s^2
+            let realSystemGm = row.get(systemGm) != nil ? row.get(systemGm)! * 10e8 : Sun.sol.gravParam
+            let (va, vi, vec, vom, vw, vgm) = (row.get(a), row.get(i), row.get(ec), row.get(om), row.get(w), realSystemGm)
+            let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
+            let bestRefJd = row.get(refJd)
+            let vtp = row.get(tp)
+            return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDate: bestRefJd, timeOfPeriapsisPassage: vtp)
         }
-        let (va, vi, vec, vom, vw, vgm) = (closestRefJdRow.get(a), closestRefJdRow.get(i), closestRefJdRow!.get(ec), closestRefJdRow.get(om), closestRefJdRow.get(w), closestRefJdRow.get(systemGm) ?? Sun.sol.gravParam)
-        let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
-        let bestRefJd = closestRefJdRow.get(refJd)
-        let vtp = closestRefJdRow.get(tp)
-        return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDate: bestRefJd, timeOfPeriapsisPassage: vtp)
+        func pluck(on database: Connection) -> Row? {
+            let preQuery = orbitalMotion.filter(bodyId == Int64(theBodyId))
+            let query = orbitalMotion.select((refJd - julianDate).absoluteValue.min, a, i, ec, om, w, systemGm, refJd, tp).filter(bodyId == Int64(theBodyId))
+            guard try! database.pluck(preQuery) != nil else { return nil }
+            return try! database.pluck(query)
+        }
+        if let row = pluck(on: db) {
+            if let backupRow = pluck(on: backupOb) {
+                let r1 = loadFromRow(row)
+                let r2 = loadFromRow(backupRow)
+                func diff(_ ob: OrbitalMotionMoment) -> Double {
+                    return abs(ob.ephemerisJulianDate - julianDate)
+                }
+                return diff(r1) > diff(r2) ? r2 : r1
+            } else {
+                return loadFromRow(row)
+            }
+        } else if let backupRow = pluck(on: backupOb) {
+            return loadFromRow(backupRow)
+        }
+        return nil
     }
 }
 
