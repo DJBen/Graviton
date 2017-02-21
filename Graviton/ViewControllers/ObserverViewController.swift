@@ -13,8 +13,9 @@ import Orbits
 import StarryNight
 import SpaceTime
 import MathUtil
+import CoreImage
 
-class ObserverViewController: SceneController {
+class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport {
     
     private lazy var obsScene = ObserverScene()
     private var scnView: SCNView {
@@ -23,7 +24,11 @@ class ObserverViewController: SceneController {
     private lazy var overlay: ObserverOverlayScene = {
         return ObserverOverlayScene(size: self.scnView.frame.size)
     }()
-
+    
+    var currentSnapshot: UIImage {
+        return scnView.snapshot()
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
@@ -34,6 +39,11 @@ class ObserverViewController: SceneController {
         })
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.presentTransparentNavigationBar()
+    }
+    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -52,7 +62,18 @@ class ObserverViewController: SceneController {
         viewSlideDivisor = factor * 25000
     }
     
+    func menuButtonTapped() {
+        scnView.pause(nil)
+        let menuController = ObserverMenuController(style: .plain)
+        menuController.backgroundImage = scnView.snapshot()
+        navigationController?.pushViewController(menuController, animated: true)
+    }
+    
     private func setupViewElements() {
+        navigationController?.delegate = self
+        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_menu"), style: .plain, target: self, action: #selector(menuButtonTapped))
+        navigationItem.rightBarButtonItem = barButtonItem
+        navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.delegate = self
         scnView.scene = obsScene
         scnView.pointOfView = obsScene.cameraNode
@@ -101,5 +122,17 @@ class ObserverViewController: SceneController {
             let (position, visible) = self.scnView.project3dTo2d(sun.presentation.position)
             self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: position, class: .sun, isVisible: visible)
         }
+    }
+    
+    // MARK: - Navigation Controller Delegate
+    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
+        if viewController == self {
+            scnView.play(nil)
+        }
+    }
+    
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        let pushTransition = PushOverlayTransition(from: fromVC, to: toVC, operation: operation)
+        return pushTransition
     }
 }

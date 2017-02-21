@@ -82,6 +82,7 @@
 		EFC7C1391E5687FD00B7B9B9 /* SpaceTime.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC7C13A1E5687FD00B7B9B9 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC7C13B1E5687FD00B7B9B9 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5383E1E5E5F4C00B34C28 /* Settings.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */; };
 		EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */; };
@@ -89,7 +90,6 @@
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
-		EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFF8BE721DE1499800F75444 /* WarpControl.swift */; };
 		FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC1B76561E223F3C00F45343 /* stars.scnassets */; };
 		FC1B76591E224ABF00F45343 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B76581E224ABF00F45343 /* SceneController.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -136,6 +136,17 @@
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
+		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
+		FCFBB7211E59FD0700624B4C /* SKButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */; };
+		FCFBB7231E5A5CCE00624B4C /* EphemerisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */; };
+		FCFBB7271E5A69C000624B4C /* ObserverMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7261E5A69C000624B4C /* ObserverMenuController.swift */; };
+		FCFBB7291E5A6E4E00624B4C /* UINavigationController+Transparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */; };
+		FCFBB72B1E5A97E200624B4C /* PushOverlayTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */; };
+		FCFBB7311E5AEA8C00624B4C /* SnapshotSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7301E5AEA8C00624B4C /* SnapshotSupport.swift */; };
+		FCFBB7341E618E9A00624B4C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7331E618E9A00624B4C /* Constants.swift */; };
+		FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7351E61945400624B4C /* MenuCell.swift */; };
+		FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */; };
+		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -317,6 +328,7 @@
 		EFC7C1291E56838F00B7B9B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC7C12C1E56838F00B7B9B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC7C12E1E56838F00B7B9B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFD5383E1E5E5F4C00B34C28 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
 		EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverOverlayScene.swift; sourceTree = "<group>"; };
@@ -327,7 +339,6 @@
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNodeTest.swift; sourceTree = "<group>"; };
-		EFF8BE721DE1499800F75444 /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FC1B76561E223F3C00F45343 /* stars.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = stars.scnassets; sourceTree = "<group>"; };
 		FC1B76581E224ABF00F45343 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
@@ -378,6 +389,20 @@
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
+		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
+		FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButtonNode.swift; sourceTree = "<group>"; };
+		FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
+		FCFBB7261E5A69C000624B4C /* ObserverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuController.swift; sourceTree = "<group>"; };
+		FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transparency.swift"; sourceTree = "<group>"; };
+		FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushOverlayTransition.swift; sourceTree = "<group>"; };
+		FCFBB7301E5AEA8C00624B4C /* SnapshotSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotSupport.swift; sourceTree = "<group>"; };
+		FCFBB7321E60660A00624B4C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		FCFBB7331E618E9A00624B4C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FCFBB7351E61945400624B4C /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
+		FCFBB7371E61DA1A00624B4C /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
+		FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Graviton-Bridging-Header.h"; sourceTree = "<group>"; };
+		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -415,6 +440,7 @@
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
 				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
+				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,6 +520,13 @@
 			isa = PBXGroup;
 			children = (
 				EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */,
+				FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */,
+				FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */,
+				FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */,
+				EFD5383E1E5E5F4C00B34C28 /* Settings.swift */,
+				FCFBB7331E618E9A00624B4C /* Constants.swift */,
+				FCFBB7371E61DA1A00624B4C /* UIImageEffects.h */,
+				FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */,
 			);
 			path = Util;
 			sourceTree = "<group>";
@@ -501,6 +534,7 @@
 		EFC2C68B1D88D02F0031AA9C = {
 			isa = PBXGroup;
 			children = (
+				FCFBB7321E60660A00624B4C /* README.md */,
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
@@ -537,7 +571,7 @@
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
 				FCA930661E23704C00100706 /* ViewControllers */,
 				FCA930651E23700800100706 /* Scenes */,
-				EFF8BE721DE1499800F75444 /* WarpControl.swift */,
+				FCFBB71D1E59FCB200624B4C /* Views */,
 				EF4851881D91E6C800737CE4 /* Model */,
 				EFA7FEBB1D8A802F0043E8CC /* Util */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
@@ -546,6 +580,7 @@
 				EFC2C6991D88D02F0031AA9C /* art.scnassets */,
 				EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */,
 				EFC2C6A51D88D02F0031AA9C /* Info.plist */,
+				FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */,
 			);
 			path = Graviton;
 			sourceTree = "<group>";
@@ -606,6 +641,7 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */,
 				FCA930E71E2B8FEA00100706 /* XCTest.framework */,
 				FC2435391E14C81A002AC626 /* SQLite.framework */,
 			);
@@ -655,8 +691,10 @@
 			isa = PBXGroup;
 			children = (
 				FC1B76581E224ABF00F45343 /* SceneController.swift */,
+				FCFBB7301E5AEA8C00624B4C /* SnapshotSupport.swift */,
 				EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */,
 				FC2435C01E21F11E002AC626 /* ObserverViewController.swift */,
+				FCFBB7261E5A69C000624B4C /* ObserverMenuController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -707,6 +745,16 @@
 				EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */,
 			);
 			path = MathUtil;
+			sourceTree = "<group>";
+		};
+		FCFBB71D1E59FCB200624B4C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FCFBB71E1E59FCF100624B4C /* WarpControl.swift */,
+				FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */,
+				FCFBB7351E61945400624B4C /* MenuCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1127,6 +1175,7 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/KMNavigationBarTransition.framework",
 			);
 			outputPaths = (
 			);
@@ -1192,9 +1241,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */,
+				FCFBB7341E618E9A00624B4C /* Constants.swift in Sources */,
+				FCFBB7311E5AEA8C00624B4C /* SnapshotSupport.swift in Sources */,
+				FCFBB72B1E5A97E200624B4C /* PushOverlayTransition.swift in Sources */,
+				FCFBB7271E5A69C000624B4C /* ObserverMenuController.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
 				EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */,
-				EFF8BE731DE1499800F75444 /* WarpControl.swift in Sources */,
+				FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */,
@@ -1202,8 +1255,14 @@
 				FCA930681E23780300100706 /* FocusingSupport.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
+				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */,
+				FCFBB7211E59FD0700624B4C /* SKButtonNode.swift in Sources */,
 				EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */,
+				FCFBB7231E5A5CCE00624B4C /* EphemerisManager.swift in Sources */,
+				FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */,
+				EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */,
+				FCFBB7291E5A6E4E00624B4C /* UINavigationController+Transparency.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1640,7 +1699,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 			};
@@ -1661,7 +1720,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
@@ -1897,6 +1956,7 @@
 				EF4BD38A1E57E58D009D2698 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		EF5F131F1E50208700A8EF51 /* Build configuration list for PBXNativeTarget "StarryNight" */ = {
 			isa = XCConfigurationList;

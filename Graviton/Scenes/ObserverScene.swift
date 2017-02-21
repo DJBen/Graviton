@@ -20,7 +20,7 @@ fileprivate let planetLayerRadius: Double = 5
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
-    lazy var stars = Star.magitudeLessThan(5)
+    lazy var stars = Star.magitudeLessThan(5.5)
     
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
@@ -209,6 +209,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     private func drawConstellationLines() {
         let connectionNode = SCNNode()
         rootNode.addChildNode(connectionNode)
+        if Settings.default[.constellationLineMode] == .none { return }
         for con in Constellation.all {
             for line in con.connectionLines {
                 var coord1 = line.star1.physicalInfo.coordinate.normalized() * starLayerRadius
@@ -233,14 +234,18 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             let rotated = position.oblique(by: earth!.obliquity)
             return rotated.normalized() * auxillaryLineLayerRadius
         }
-        drawLine(name: "ecliptic line", color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1), transform: transform)
+        if Settings.default[.showEcliptic] {
+            drawLine(name: "ecliptic line", color: Settings.default[.eclipticColor], transform: transform)
+        }
     }
     
     private func drawCelestialEquator() {
         func transform(position: Vector3) -> Vector3 {
             return position.normalized() * auxillaryLineLayerRadius
         }
-        drawLine(name: "celestial equator line", color: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1), transform: transform)
+        if Settings.default[.showCelestialEquator] {
+            drawLine(name: "celestial equator line", color: Settings.default[.celestialEquatorColor], transform: transform)
+        }
     }
     
     func updateEphemeris() {
@@ -276,9 +281,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         
     }
     
-    private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = 0, blendOutEnd: Double = 5) -> CGFloat {
-        let maxSize: Double = 0.2
-        let minSize: Double = 0.04
+    private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
+        let maxSize: Double = 0.28
+        let minSize: Double = 0.01
         let linearEasing = Easing(startValue: maxSize, endValue: minSize)
         let progress = mag / (blendOutEnd - blendOutStart)
         return CGFloat(linearEasing.value(at: progress))

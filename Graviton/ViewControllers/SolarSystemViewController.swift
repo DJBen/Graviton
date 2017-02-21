@@ -72,7 +72,7 @@ class SolarSystemViewController: SceneController {
         control.translatesAutoresizingMaskIntoConstraints = false
         return control
     }()
-    
+
     lazy var focusedObjectLabel: UILabel = {
         let label = self.defaultLabel()
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
