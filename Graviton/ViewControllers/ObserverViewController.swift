@@ -66,6 +66,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
         menuController.backgroundImage = scnView.snapshot()
+        menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }
     

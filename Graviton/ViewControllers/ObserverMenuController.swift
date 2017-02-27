@@ -10,7 +10,8 @@ import UIKit
 import QuartzCore
 import KMNavigationBarTransition
 
-fileprivate let expandableCellId = "expandableCell"
+fileprivate let detailCellId = "detailCell"
+fileprivate let toggleCellId = "toggleCell"
 
 class ObserverMenuController: UITableViewController {
 
@@ -22,6 +23,8 @@ class ObserverMenuController: UITableViewController {
         }
     }
     var blurredImage: UIImage?
+    var menu: Menu!
+    
     private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
     
     private lazy var imageView: UIImageView = {
@@ -33,19 +36,20 @@ class ObserverMenuController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.backgroundColor = UIColor.clear
         clearsSelectionOnViewWillAppear = true
-        tableView.register(MenuCell.self, forCellReuseIdentifier: expandableCellId)
-
+        
         let backgroundView = UIView(frame: view.bounds)
         backgroundView.autoresizingMask = ObserverMenuController.resizingMask
         backgroundView.addSubview(imageView)
         
+        tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
+        tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.separatorColor = Constants.Menu.separatorColor
-        
+        tableView.backgroundColor = UIColor.clear
+
         if let navController = navigationController {
             let scale = UIScreen.main.scale
             let navHeight = navController.navigationBar.frame.height
@@ -53,7 +57,8 @@ class ObserverMenuController: UITableViewController {
             let newImage = UIImage(cgImage: cgImage!, scale: scale, orientation: self.blurredImage!.imageOrientation)
             navController.navigationBar.setBackgroundImage(newImage, for: .default)
         }
-
+        
+        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -67,32 +72,55 @@ class ObserverMenuController: UITableViewController {
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return menu.sections.count
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return menu.sections[section].items.count
     }
     
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
-        cell.imageView?.image = #imageLiteral(resourceName: "row_icon_compass")
-        cell.textLabel?.text = "Content Drawing"
-        cell.accessoryType = .disclosureIndicator
+        cell.imageView?.image = item.image
+        cell.textLabel?.text = item.text
+        switch item.type {
+        case .detail(_):
+            cell.accessoryType = .disclosureIndicator
+        case .toggle:
+            let toggleCell = cell as! MenuToggleCell
+            toggleCell.toggle.isOn = true
+            break
+        }
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: expandableCellId, for: indexPath)
+        let item = menu[indexPath]
+        let cell: UITableViewCell
+        switch item.type {
+        case .toggle:
+            cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath)
+            cell.selectionStyle = .none
+        case .detail(_):
+            cell = tableView.dequeueReusableCell(withIdentifier: detailCellId, for: indexPath)
+        }
         return cell
     }
- 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = menu[indexPath]
+        if case let .detail(submenu) = item.type {
+            // transition to submenu
+            let subMenuController = ObserverMenuController(style: .plain)
+            subMenuController.blurredImage = blurredImage
+            subMenuController.menu = submenu
+            navigationController?.pushViewController(subMenuController, animated: true)
+        }
     }
 }
 
 fileprivate extension UIImageEffects {
     static func blurredMenuImage(_ image: UIImage) -> UIImage {
-        return imageByApplyingBlur(to: image, withRadius: 8, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
+        return imageByApplyingBlur(to: image, withRadius: 16, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
     }
 }

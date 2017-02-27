@@ -12,19 +12,19 @@ class MenuCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        initializeView()
+        setupView()
     }
     
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        initializeView()
+        setupView()
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func initializeView() {
+    private func setupView() {
         imageView?.tintColor = Constants.Menu.tintColor
         textLabel?.textColor = Constants.Menu.textColor
         selectedBackgroundView = {
@@ -41,7 +41,7 @@ class MenuCell: UITableViewCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         let contentViewSize = contentView.bounds.size
-        imageView?.frame = CGRect(x: 21, y: 6, width: 25, height: 25)
+        imageView?.frame = CGRect(x: 21, y: (contentViewSize.height - 25) / 2, width: 25, height: 25)
         textLabel?.frame = CGRect(x: 60, y: 0, width: contentViewSize.width - 60, height: contentViewSize.height)
     }
 }

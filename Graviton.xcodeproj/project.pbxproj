@@ -64,7 +64,6 @@
 		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
-		EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6991D88D02F0031AA9C /* art.scnassets */; };
 		EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
@@ -90,7 +89,6 @@
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
-		FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC1B76561E223F3C00F45343 /* stars.scnassets */; };
 		FC1B76591E224ABF00F45343 /* SceneController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1B76581E224ABF00F45343 /* SceneController.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
@@ -147,6 +145,12 @@
 		FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7351E61945400624B4C /* MenuCell.swift */; };
 		FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */; };
 		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
+		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
+		FCFBB7481E62A6F300624B4C /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB7461E62A6F300624B4C /* art.scnassets */; };
+		FCFBB7491E62A6F300624B4C /* stars.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB7471E62A6F300624B4C /* stars.scnassets */; };
+		FCFBB74B1E62A6FA00624B4C /* main_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB74A1E62A6FA00624B4C /* main_menu.plist */; };
+		FCFBB74D1E62A74800624B4C /* content_drawing_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB74C1E62A74800624B4C /* content_drawing_menu.plist */; };
+		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -313,7 +317,6 @@
 		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		EFC2C6991D88D02F0031AA9C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemViewController.swift; sourceTree = "<group>"; };
 		EFC2C69E1D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -339,7 +342,6 @@
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNodeTest.swift; sourceTree = "<group>"; };
-		FC1B76561E223F3C00F45343 /* stars.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = stars.scnassets; sourceTree = "<group>"; };
 		FC1B76581E224ABF00F45343 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -403,6 +405,12 @@
 		FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Graviton-Bridging-Header.h"; sourceTree = "<group>"; };
 		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
+		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
+		FCFBB7461E62A6F300624B4C /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
+		FCFBB7471E62A6F300624B4C /* stars.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = stars.scnassets; sourceTree = "<group>"; };
+		FCFBB74A1E62A6FA00624B4C /* main_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = main_menu.plist; sourceTree = "<group>"; };
+		FCFBB74C1E62A74800624B4C /* content_drawing_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = content_drawing_menu.plist; sourceTree = "<group>"; };
+		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -489,6 +497,7 @@
 			isa = PBXGroup;
 			children = (
 				EF4851891D91EB8D00737CE4 /* CelestialNode.swift */,
+				FCFBB7431E61E6E600624B4C /* Menu.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -569,6 +578,7 @@
 			isa = PBXGroup;
 			children = (
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
+				FCFBB7451E62A69300624B4C /* Assets */,
 				FCA930661E23704C00100706 /* ViewControllers */,
 				FCA930651E23700800100706 /* Scenes */,
 				FCFBB71D1E59FCB200624B4C /* Views */,
@@ -576,11 +586,9 @@
 				EFA7FEBB1D8A802F0043E8CC /* Util */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
 				EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */,
-				FC1B76561E223F3C00F45343 /* stars.scnassets */,
-				EFC2C6991D88D02F0031AA9C /* art.scnassets */,
 				EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */,
-				EFC2C6A51D88D02F0031AA9C /* Info.plist */,
 				FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */,
+				EFC2C6A51D88D02F0031AA9C /* Info.plist */,
 			);
 			path = Graviton;
 			sourceTree = "<group>";
@@ -753,8 +761,20 @@
 				FCFBB71E1E59FCF100624B4C /* WarpControl.swift */,
 				FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */,
 				FCFBB7351E61945400624B4C /* MenuCell.swift */,
+				FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FCFBB7451E62A69300624B4C /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				FCFBB74A1E62A6FA00624B4C /* main_menu.plist */,
+				FCFBB74C1E62A74800624B4C /* content_drawing_menu.plist */,
+				FCFBB7461E62A6F300624B4C /* art.scnassets */,
+				FCFBB7471E62A6F300624B4C /* stars.scnassets */,
+			);
+			path = Assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1100,9 +1120,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC1B76571E223F3C00F45343 /* stars.scnassets in Resources */,
-				EFC2C69A1D88D02F0031AA9C /* art.scnassets in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
+				FCFBB74B1E62A6FA00624B4C /* main_menu.plist in Resources */,
+				FCFBB74D1E62A74800624B4C /* content_drawing_menu.plist in Resources */,
+				FCFBB7481E62A6F300624B4C /* art.scnassets in Resources */,
+				FCFBB7491E62A6F300624B4C /* stars.scnassets in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
 			);
@@ -1254,6 +1276,7 @@
 				FC1B76591E224ABF00F45343 /* SceneController.swift in Sources */,
 				FCA930681E23780300100706 /* FocusingSupport.swift in Sources */,
 				FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */,
+				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */,
@@ -1263,6 +1286,7 @@
 				FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */,
 				EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */,
 				FCFBB7291E5A6E4E00624B4C /* UINavigationController+Transparency.swift in Sources */,
+				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
