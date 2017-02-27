@@ -207,8 +207,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     private func drawConstellationLines() {
-        let connectionNode = SCNNode()
-        rootNode.addChildNode(connectionNode)
+        let constellationLineNode = SCNNode()
+        constellationLineNode.name = "constellation lines"
+        rootNode.addChildNode(constellationLineNode)
         if Settings.default[.constellationLineMode] == .none { return }
         for con in Constellation.all {
             for line in con.connectionLines {
@@ -221,10 +222,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                 let elements = SCNGeometryElement(indices: [CInt(0), CInt(1)], primitiveType: .line)
                 let lineGeo = SCNGeometry(sources: [vertexSources], elements: [elements])
                 let mat = SCNMaterial()
-                mat.diffuse.contents = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+                mat.diffuse.contents = #colorLiteral(red: 0.7595454454, green: 0.89753443, blue: 0.859713316, alpha: 1).withAlphaComponent(0.3)
                 lineGeo.firstMaterial = mat
                 let lineNode = SCNNode(geometry: lineGeo)
-                connectionNode.addChildNode(lineNode)
+                constellationLineNode.addChildNode(lineNode)
             }
         }
     }
@@ -279,6 +280,32 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     func focus(atNode node: SCNNode) {
         
+    }
+    
+    func updateAccordingToSettings() {
+        if Settings.default[.showCelestialEquator] {
+            if let node = rootNode.childNode(withName: "celestial equator line", recursively: false) {
+                node.isHidden = false
+            } else {
+                drawCelestialEquator()
+            }
+        } else {
+            if let node = rootNode.childNode(withName: "celestial equator line", recursively: false) {
+                node.isHidden = true
+            }
+        }
+        
+        if Settings.default[.showEcliptic] {
+            if let node = rootNode.childNode(withName: "ecliptic line", recursively: false) {
+                node.isHidden = false
+            } else {
+                drawEcliptic()
+            }
+        } else {
+            if let node = rootNode.childNode(withName: "ecliptic line", recursively: false) {
+                node.isHidden = true
+            }
+        }
     }
     
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {

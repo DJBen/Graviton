@@ -87,9 +87,7 @@ class ObserverMenuController: UITableViewController {
         switch item.type {
         case .detail(_):
             cell.accessoryType = .disclosureIndicator
-        case .toggle:
-            let toggleCell = cell as! MenuToggleCell
-            toggleCell.toggle.isOn = true
+        case .toggle(_):
             break
         }
     }
@@ -98,9 +96,11 @@ class ObserverMenuController: UITableViewController {
         let item = menu[indexPath]
         let cell: UITableViewCell
         switch item.type {
-        case .toggle:
+        case .toggle(let binding):
             cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath)
             cell.selectionStyle = .none
+            let toggleCell = cell as! MenuToggleCell
+            toggleCell.binding = binding
         case .detail(_):
             cell = tableView.dequeueReusableCell(withIdentifier: detailCellId, for: indexPath)
         }

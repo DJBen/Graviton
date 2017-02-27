@@ -10,12 +10,20 @@
 				<string>toggle</string>
 				<key>text</key>
 				<string>Show Celestial Equator</string>
+				<key>image</key>
+				<string>row_icon_celestial_sphere</string>
+				<key>binding</key>
+				<string>showCelestialEquator</string>
 			</dict>
 			<dict>
 				<key>type</key>
 				<string>toggle</string>
 				<key>text</key>
 				<string>Show Ecliptic</string>
+				<key>image</key>
+				<string>row_icon_ecliptic</string>
+				<key>binding</key>
+				<string>showEcliptic</string>
 			</dict>
 		</array>
 	</dict>

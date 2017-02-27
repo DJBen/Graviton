@@ -128,6 +128,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     // MARK: - Navigation Controller Delegate
     func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
         if viewController == self {
+            obsScene.updateAccordingToSettings()
             scnView.play(nil)
         }
     }

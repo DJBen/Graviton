@@ -14,6 +14,14 @@ class MenuToggleCell: MenuCell {
         return sw
     }()
     
+    var binding: Settings.BooleanSettings? {
+        didSet {
+            if let field = binding {
+                toggle.isOn = Settings.default[field]
+            }
+        }
+    }
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
@@ -28,7 +36,13 @@ class MenuToggleCell: MenuCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func switchValueChanged(sender: UISwitch) {
+        guard let field = binding else { return }
+        Settings.default[field] = sender.isOn
+    }
+    
     private func setupView() {
         accessoryView = toggle
+        toggle.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
     }
 }

@@ -15,6 +15,8 @@ enum MenuParseError: Error {
     case unrecognizedMenuType
     case missingDestination
     case menuFileNotFound
+    case missingBinding
+    case cannotFindBinding
 }
 
 struct Menu {
@@ -65,7 +67,7 @@ struct Section {
 struct MenuItem {
     enum `Type` {
         case detail(Menu)
-        case toggle
+        case toggle(Settings.BooleanSettings)
     }
     let text: String
     let type: Type
@@ -81,7 +83,9 @@ struct MenuItem {
             guard let path = Bundle.main.path(forResource: submenuName, ofType: "plist") else { throw MenuParseError.menuFileNotFound }
             self.type = .detail(try Menu(filePath: path))
         case "toggle":
-            self.type = .toggle
+            guard let binding = rawItem["binding"] as? String else { throw MenuParseError.missingBinding }
+            guard let field = Settings.BooleanSettings(rawValue: binding) else { throw MenuParseError.cannotFindBinding }
+            self.type = .toggle(field)
         default:
             throw MenuParseError.unrecognizedMenuType
         }

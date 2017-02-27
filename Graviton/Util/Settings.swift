@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .none
+fileprivate let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .all
 fileprivate let showCelestialEquatorDefault: Bool = true
 fileprivate let showEclipticDefault: Bool = true
 fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
