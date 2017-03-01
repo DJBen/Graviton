@@ -123,6 +123,11 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
             let (position, visible) = self.scnView.project3dTo2d(sun.presentation.position)
             self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: position, class: .sun, isVisible: visible)
         }
+        // unproject screen center
+        let screenCenter = SCNVector3(x: Float(UIScreen.main.bounds.size.width / 2), y: Float(UIScreen.main.bounds.size.height / 2), z: 0.5)
+        let screenCenter3d = scnView.unprojectPoint(screenCenter)
+        let centerConstellation = EquatorialCoordinate(cartesian: Vector3(screenCenter3d)).constellation
+        
     }
     
     // MARK: - Navigation Controller Delegate

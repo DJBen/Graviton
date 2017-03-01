@@ -145,6 +145,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(southNode)
         let northNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         northNode.position = SCNVector3(0, 0, 10)
+        northNode.name = "north annotation"
         northNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
         northNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
         northNode.constraints = [SCNBillboardConstraint()]

@@ -77,13 +77,13 @@ extension SCNQuaternion {
 //MARK: VectorMath extensions
 
 extension Vector3 {
-    init(_ v: SCNVector3) {
+    public init(_ v: SCNVector3) {
         self.init(Scalar(v.x), Scalar(v.y), Scalar(v.z))
     }
 }
 
 extension Vector4 {
-    init(_ v: SCNVector4) {
+    public init(_ v: SCNVector4) {
         self.init(x: Scalar(v.x), y: Scalar(v.y), z: Scalar(v.z), w: Scalar(v.w))
     }
 }
@@ -91,7 +91,7 @@ extension Vector4 {
 #if os(iOS) // SCNMatrix4 = CATransform3D on Mac
 
 extension Matrix4 {
-    init(_ m: SCNMatrix4) {
+    public init(_ m: SCNMatrix4) {
         self.init(
             m11: Scalar(m.m11), m12: Scalar(m.m12), m13: Scalar(m.m13), m14: Scalar(m.m14),
             m21: Scalar(m.m21), m22: Scalar(m.m22), m23: Scalar(m.m23), m24: Scalar(m.m24),
@@ -104,7 +104,7 @@ extension Matrix4 {
 #endif
 
 extension Quaternion {
-    init(_ q: SCNQuaternion) {
+    public init(_ q: SCNQuaternion) {
         self.init(x: Scalar(q.x), y: Scalar(q.y), z: Scalar(q.z), w: Scalar(q.w))
     }
 }

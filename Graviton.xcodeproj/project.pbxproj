@@ -49,7 +49,6 @@
 		EF4BD3C51E58806E009D2698 /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C31E58806E009D2698 /* orbitalMotions.sqlite3 */; };
 		EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
-		EF5F130D1E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
 		EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5F13061E50208700A8EF51 /* StarryNight.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
 		EF5F131A1E50208700A8EF51 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -105,10 +104,10 @@
 		FC2435A61E1F8854002AC626 /* SiderealTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A01E1F8854002AC626 /* SiderealTime.swift */; };
 		FC2435AB1E1F886C002AC626 /* JulianDateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A71E1F886C002AC626 /* JulianDateTest.swift */; };
 		FC2435AD1E1F886C002AC626 /* SiderealTimeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */; };
-		FC2435B31E1F88B4002AC626 /* CylindricalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B11E1F88B4002AC626 /* CylindricalCoordinate.swift */; };
-		FC2435B41E1F88B4002AC626 /* CylindricalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B11E1F88B4002AC626 /* CylindricalCoordinate.swift */; };
-		FC2435B51E1F88B4002AC626 /* SphericalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* SphericalCoordinate.swift */; };
-		FC2435B61E1F88B4002AC626 /* SphericalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* SphericalCoordinate.swift */; };
+		FC2435B31E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */; };
+		FC2435B41E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */; };
+		FC2435B51E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */; };
+		FC2435B61E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */; };
 		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
 		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
@@ -132,6 +131,10 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
+		FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DF81E68762100B737D1 /* Intersection.swift */; };
+		FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */; };
+		FCC73DFF1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFE1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift */; };
+		FCC73E001E6AF7AF00B737D1 /* EquatorialCoordinate+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFE1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift */; };
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
@@ -259,6 +262,13 @@
 			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
 			remoteInfo = MathUtil;
 		};
+		FCC73DFC1E6AC89200B737D1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC2435801E1F87F0002AC626;
+			remoteInfo = SpaceTime;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -356,8 +366,8 @@
 		FC2435A01E1F8854002AC626 /* SiderealTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SiderealTime.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC2435A71E1F886C002AC626 /* JulianDateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JulianDateTest.swift; sourceTree = "<group>"; };
 		FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiderealTimeTest.swift; sourceTree = "<group>"; };
-		FC2435B11E1F88B4002AC626 /* CylindricalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = CylindricalCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435B21E1F88B4002AC626 /* SphericalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SphericalCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizontalCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = EquatorialCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTest.swift; sourceTree = "<group>"; };
 		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
@@ -390,6 +400,9 @@
 		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
+		FCC73DF81E68762100B737D1 /* Intersection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intersection.swift; sourceTree = "<group>"; };
+		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
+		FCC73DFE1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "EquatorialCoordinate+Lookup.swift"; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButtonNode.swift; sourceTree = "<group>"; };
@@ -434,7 +447,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EF5F130D1E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				EF4BD3BB1E57F047009D2698 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -510,6 +522,7 @@
 				FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */,
 				EF5F13231E5020FF00A8EF51 /* Star.swift */,
 				EF5F13211E5020FF00A8EF51 /* Constellation.swift */,
+				FCC73DFE1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift */,
 				EF5F13221E5020FF00A8EF51 /* SpectralType.swift */,
 				EF5F13071E50208700A8EF51 /* Info.plist */,
 			);
@@ -520,6 +533,7 @@
 			isa = PBXGroup;
 			children = (
 				EF4BD3B71E57E73B009D2698 /* StarTest.swift */,
+				FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */,
 				EF5F13151E50208700A8EF51 /* Info.plist */,
 			);
 			path = StarryNightTests;
@@ -663,8 +677,8 @@
 				FC24359E1E1F8854002AC626 /* JulianDate.swift */,
 				FC24359F1E1F8854002AC626 /* ObserverInfo.swift */,
 				FC2435A01E1F8854002AC626 /* SiderealTime.swift */,
-				FC2435B21E1F88B4002AC626 /* SphericalCoordinate.swift */,
-				FC2435B11E1F88B4002AC626 /* CylindricalCoordinate.swift */,
+				FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */,
+				FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */,
 				FC2435841E1F87F0002AC626 /* Info.plist */,
 			);
 			path = SpaceTime;
@@ -746,6 +760,7 @@
 				FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */,
 				FCC0BDAD1E2D97DC003939B1 /* Info.plist */,
 				FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */,
+				FCC73DF81E68762100B737D1 /* Intersection.swift */,
 				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
 				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
@@ -846,6 +861,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				FCC73DFD1E6AC89200B737D1 /* PBXTargetDependency */,
 				FC13B31B1E5119B400555DBC /* PBXTargetDependency */,
 			);
 			name = StarryNight;
@@ -1241,6 +1257,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCC73DFF1E6AF7AD00B737D1 /* EquatorialCoordinate+Lookup.swift in Sources */,
 				EF5F13291E5020FF00A8EF51 /* Star.swift in Sources */,
 				EF5F13251E5020FF00A8EF51 /* Constellation.swift in Sources */,
 				EF5F13271E5020FF00A8EF51 /* SpectralType.swift in Sources */,
@@ -1253,7 +1270,9 @@
 			files = (
 				EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */,
 				EF5F13281E5020FF00A8EF51 /* SpectralType.swift in Sources */,
+				FCC73E001E6AF7AF00B737D1 /* EquatorialCoordinate+Lookup.swift in Sources */,
 				EF5F13261E5020FF00A8EF51 /* Constellation.swift in Sources */,
+				FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */,
 				EF5F132A1E5020FF00A8EF51 /* Star.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1327,8 +1346,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2435B31E1F88B4002AC626 /* CylindricalCoordinate.swift in Sources */,
-				FC2435B51E1F88B4002AC626 /* SphericalCoordinate.swift in Sources */,
+				FC2435B31E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */,
+				FC2435B51E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */,
 				FC2435A11E1F8854002AC626 /* JulianDate.swift in Sources */,
 				FC2435A51E1F8854002AC626 /* SiderealTime.swift in Sources */,
 				FC2435A31E1F8854002AC626 /* ObserverInfo.swift in Sources */,
@@ -1339,9 +1358,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC2435B41E1F88B4002AC626 /* CylindricalCoordinate.swift in Sources */,
+				FC2435B41E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */,
 				FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */,
-				FC2435B61E1F88B4002AC626 /* SphericalCoordinate.swift in Sources */,
+				FC2435B61E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */,
 				FC2435A21E1F8854002AC626 /* JulianDate.swift in Sources */,
 				FC2435A61E1F8854002AC626 /* SiderealTime.swift in Sources */,
 				FC2435AB1E1F886C002AC626 /* JulianDateTest.swift in Sources */,
@@ -1359,6 +1378,7 @@
 				EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */,
 				EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */,
 				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
+				FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */,
 				FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1440,6 +1460,11 @@
 			isa = PBXTargetDependency;
 			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
 			targetProxy = FCC0BDBE1E2D9838003939B1 /* PBXContainerItemProxy */;
+		};
+		FCC73DFD1E6AC89200B737D1 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
+			targetProxy = FCC73DFC1E6AC89200B737D1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

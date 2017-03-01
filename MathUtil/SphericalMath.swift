@@ -18,8 +18,12 @@ public func wrapAngle(_ angle: Double) -> Double {
     return wrapped
 }
 
+public func hours(radians: Double) -> Double {
+    return radians / M_PI * 12
+}
+
 public func radians(degrees: Double) -> Double {
-    return degrees / 180 * Double(M_PI)
+    return degrees / 180 * M_PI
 }
 
 public func radians(degrees: Double, minutes: Double, seconds: Double = 0) -> Double {
@@ -33,6 +37,10 @@ public func radians(hours: Double, minutes: Double = 0, seconds: Double = 0) -> 
 
 public func degrees(degrees: Double, minutes: Double, seconds: Double = 0) -> Double {
     return degrees + minutes / 60 + seconds / 3600
+}
+
+public func degrees(radians: Double) -> Double {
+    return radians / M_PI * 180
 }
 
 public func hourFrac(hours: Double, minutes: Double, seconds: Double = 0) -> Double {

@@ -90,6 +90,10 @@ public extension SCNVector3
     }
 }
 
+public prefix func -(v: SCNVector3) -> SCNVector3 {
+    return v.negated()
+}
+
 /**
  * Adds two SCNVector3 vectors and returns the result as a new SCNVector3.
  */

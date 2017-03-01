@@ -1,5 +1,5 @@
 //
-//  CylindricalCoordinate.swift
+//  HorizontalCoordinate.swift
 //  SpaceTime
 //
 //  Created by Sihao Lu on 1/3/17.
@@ -9,11 +9,11 @@
 import CoreLocation
 import MathUtil
 
-public struct CylindricalCoordinate {
+public struct HorizontalCoordinate {
     let altitude: Double
     let azimuth: Double
     
-    public init(sphericalCoordinate s: SphericalCoordinate, observerInfo o: ObserverInfo) {
+    public init(equatorialCoordinate s: EquatorialCoordinate, observerInfo o: ObserverInfo) {
         // sin(ALT) = sin(DEC)*sin(LAT)+cos(DEC)*cos(LAT)*cos(HA)
         let radianLat = radians(degrees: Double(o.location.latitude))
         let hourAngle = o.localSiderealTimeAngle - s.rightAscension
