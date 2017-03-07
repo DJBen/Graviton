@@ -29,7 +29,7 @@ fileprivate let dbCon = Expression<String>("con")
 fileprivate let dbSpect = Expression<String?>("spect")
 fileprivate let dbMag = Expression<Double>("mag")
 
-public struct Star {
+public struct Star: Hashable, Equatable {
     
     public struct Identity: Hashable, Equatable {
         public let id: Int
@@ -86,8 +86,16 @@ public struct Star {
     // Mapping from id to Star object
     private static var cachedStars: [Int: Star] = [:]
     
+    public var hashValue: Int {
+        return identity.hashValue
+    }
+    
     public let identity: Identity
     public let physicalInfo: PhysicalInfo
+    
+    public static func ==(lhs: Star, rhs: Star) -> Bool {
+        return lhs.identity == rhs.identity
+    }
     
     private init(identity: Identity, physicalInfo: PhysicalInfo) {
         self.identity = identity

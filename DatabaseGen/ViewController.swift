@@ -7,8 +7,23 @@
 //
 
 import UIKit
+import StarryNight
 import Orbits
 import SQLite
+import MathUtil
+
+fileprivate let constellationLinePath = Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "constellation_lines", ofType: "dat")!
+fileprivate let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)
+fileprivate let stars = Table("stars_7")
+// The sun has id 0. Using id > 0 to filter out the sun.
+fileprivate let dbInternalId = Expression<Int>("id")
+fileprivate let dbBFDesignation = Expression<String?>("bf")
+fileprivate let dbHip = Expression<Int?>("hip")
+fileprivate let dbHr = Expression<Int?>("hr")
+fileprivate let dbHd = Expression<Int?>("hd")
+fileprivate let dbProperName = Expression<String?>("proper")
+fileprivate let dbX = Expression<Double>("x")
+fileprivate let dbY = Expression<Double>("y")
 
 class ViewController: UIViewController {
 
@@ -23,6 +38,29 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
+    
+    private static var lineMappings: [String: [(Int, Int)]] = {
+        let content = try! String(contentsOfFile: constellationLinePath)
+        let lines = content.components(separatedBy: "\n").filter { (str) -> Bool in
+            return str.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines).isEmpty == false
+        }
+        var dict: [String: [(Int, Int)]] = [:]
+        lines.forEach { (line) in
+            let lineComponents: [String] = line.components(separatedBy: " ").filter { $0.isEmpty == false }
+            let con = lineComponents[0]
+            var starHrs: [(Int, Int)] = []
+            for (hr1, hr2) in zip(lineComponents[2..<(lineComponents.endIndex - 1)], lineComponents[3..<(lineComponents.endIndex)]) {
+                starHrs.append((Int(hr1)!, Int(hr2)!))
+            }
+            if let connections = dict[con] {
+                dict[con] = connections + starHrs
+            } else {
+                dict[con] = starHrs
+            }
+        }
+        return dict
+    }()
+
     
     private func clean() {
         let enumerator = FileManager.default.enumerator(atPath: path)!
@@ -96,6 +134,21 @@ class ViewController: UIViewController {
             fetch(offset: 240)
         }
         ask(proceed)
+    }
+    
+    @IBAction func findConstellationCenter() {
+        var map = [String: Vector3]()
+         Constellation.all.forEach { con in
+            var stars = Set<StarryNight.Star>()
+            con.connectionLines.forEach { line in
+                stars.insert(line.star1)
+                stars.insert(line.star2)
+            }
+            let sum = stars.reduce(Vector3.zero, { (sum, star) -> Vector3 in
+                return sum + star.physicalInfo.coordinate.normalized()
+            })
+            map[con.iAUName] = sum / Double(stars.count)
+        }
     }
 
 }
