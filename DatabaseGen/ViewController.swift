@@ -149,6 +149,7 @@ class ViewController: UIViewController {
             })
             map[con.iAUName] = sum / Double(stars.count)
         }
+        print(map)
     }
 
 }
