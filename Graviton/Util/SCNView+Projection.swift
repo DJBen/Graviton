@@ -8,17 +8,22 @@
 
 import SceneKit
 
+struct PointAndVisibility {
+    let point: CGPoint
+    let visible: Bool
+}
+
 extension SCNView {
-    func project3dTo2d(_ position: SCNVector3) -> (CGPoint, Bool) {
+    func project3dTo2d(_ position: SCNVector3) -> PointAndVisibility {
         let vp = projectPoint(position)
         let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
         let visible = vp.z > 0 && vp.z < 1
-        return (overlaySKScene!.convertPoint(fromView: viewPosition), visible)
+        return PointAndVisibility.init(point: overlaySKScene!.convertPoint(fromView: viewPosition), visible: visible)
     }
     
     func projectedSize(of node: SCNNode) -> CGSize {
-        let (min, _) = project3dTo2d(node.boundingBox.min)
-        let (max, _) = project3dTo2d(node.boundingBox.max)
+        let min = project3dTo2d(node.boundingBox.min).point
+        let max = project3dTo2d(node.boundingBox.max).point
         return CGSize(width: CGFloat(abs(max.x - min.x)), height: CGFloat(abs(max.y - min.y)))
     }
 }

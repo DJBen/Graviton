@@ -95,7 +95,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         }
         starPos = visibleNodes.flatMap { (node) -> (Star, CGPoint)? in
             if let name = node.name, let numId = Int(name), let star = Star.id(numId) {
-                let (coord, _) = self.scnView.project3dTo2d(node.position)
+                let coord = self.scnView.project3dTo2d(node.position).point
                 return (star, coord)
             }
             return nil
@@ -111,8 +111,8 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
             guard let body = body else { return }
             let id = String(body.naifId)
             guard let node = self.obsScene.rootNode.childNode(withName: id, recursively: false) else { return }
-            let (position, visible) = self.scnView.project3dTo2d(node.presentation.position)
-            self.overlay.annotate(id, annotation: body.name, position: position, class: .planets, isVisible: visible)
+            let pv = self.scnView.project3dTo2d(node.presentation.position)
+            self.overlay.annotate(id, annotation: body.name, position: pv.point, class: .planets, isVisible: pv.visible)
         }
         obsScene.ephemeris?.forEach { (body) in
             guard case let .majorBody(mb) = body.naif else { return }
@@ -120,14 +120,14 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
             annotate(body: body)
         }
         if let sun = self.obsScene.rootNode.childNode(withName: String(Sun.sol.naifId), recursively: false) {
-            let (position, visible) = self.scnView.project3dTo2d(sun.presentation.position)
-            self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: position, class: .sun, isVisible: visible)
+            let pv = self.scnView.project3dTo2d(sun.presentation.position)
+            self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: pv.point, class: .sun, isVisible: pv.visible)
         }
-        // unproject screen center
-        let screenCenter = SCNVector3(x: Float(UIScreen.main.bounds.size.width / 2), y: Float(UIScreen.main.bounds.size.height / 2), z: 0.5)
-        let screenCenter3d = scnView.unprojectPoint(screenCenter)
-        let centerConstellation = EquatorialCoordinate(cartesian: Vector3(screenCenter3d)).constellation
-        
+        let result = Constellation.all.displayCenters(
+            transform: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).point },
+            filter: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).visible }
+        )
+        overlay.showConstellationLabels(info: result)
     }
     
     // MARK: - Navigation Controller Delegate

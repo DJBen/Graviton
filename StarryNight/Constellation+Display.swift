@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SceneKit
 import SpaceTime
 import SQLite
 import MathUtil
@@ -19,7 +20,7 @@ fileprivate let dbHighRa = Expression<Double>("high_ra")
 fileprivate let dbLowDec = Expression<Double>("low_dec")
 
 fileprivate let fullBorders = Table("constellation_borders")
-fileprivate let dbOppoCon = Expression<String>("opposite_constellation")
+fileprivate let dbOppoCon = Expression<String>("opposite_con")
 
 fileprivate let constellationCenter: [String: Vector3] = [
     "Peg": Vector3(0.86804042300030027, -0.26298778535788447, 0.33323259346164735),
@@ -114,25 +115,45 @@ fileprivate let constellationCenter: [String: Vector3] = [
 ]
 
 extension Constellation {
-    public var displayCenters: [Vector3] {
-        if iAUName == "Ser1" || iAUName == "Ser2" || iAUName == "Ser" {
-            return [constellationCenter["Ser1"]!, constellationCenter["Ser2"]!]
-        }
-        return [constellationCenter[self.iAUName]!]
+    public func plusNeighbors() -> Set<Constellation> {
+        var result = self.neighbors
+        result.insert(self)
+        return result
     }
     
-    public var neighbors: [Constellation] {
+    public var neighbors: Set<Constellation> {
         var query = fullBorders.select(dbOppoCon)
         if iAUName == "Ser" {
             query = query.where(dbBorderCon == "Ser1" || dbBorderCon == "Ser2")
         } else {
             query = query.where(dbBorderCon == iAUName)
         }
-        return try! db.prepare(query).map { (row) -> Constellation in
+        return Set<Constellation>(try! db.prepare(query).map { (row) -> Constellation in
             let oppoCon = row.get(dbOppoCon)
             return Constellation.iau(oppoCon)!
-        }
+        })
     }
+}
+
+extension Sequence where Iterator.Element == Constellation {
+    public func displayCenters(transform: @escaping (Vector3) -> CGPoint, filter: @escaping (Vector3) -> Bool = { _ in true }) -> [Constellation: CGPoint] {
+        var result = [Constellation: CGPoint]()
+        func optionalPut(key: Constellation, value: Vector3) {
+            if filter(value) {
+                result[key] = transform(value)
+            }
+        }
+        for constellation in self {
+            if constellation.iAUName == "Ser1" || constellation.iAUName == "Ser2" || constellation.iAUName == "Ser" {
+                optionalPut(key: Constellation.iau("Ser1")!, value: constellationCenter["Ser1"]!)
+                optionalPut(key: Constellation.iau("Ser2")!, value: constellationCenter["Ser2"]!)
+            } else {
+                optionalPut(key: constellation, value: constellationCenter[constellation.iAUName]!)
+            }
+        }
+        return result
+    }
+    
 }
 
 public extension EquatorialCoordinate {

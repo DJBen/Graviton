@@ -16,12 +16,20 @@ public func *(v: CGVector, s: CGFloat) -> CGVector {
     return transform(v: v) { $0 * s }
 }
 
+public func /(v: CGVector, s: CGFloat) -> CGVector {
+    return transform(v: v) { $0 / s }
+}
+
 public func *(p: CGSize, s: CGFloat) -> CGSize {
     return CGSize(width: p.width * s, height: p.height * s)
 }
 
 public func +(p: CGPoint, v: CGVector) -> CGPoint {
     return CGPoint(x: p.x + v.dx, y: p.y + v.dy)
+}
+
+public func -(p: CGPoint, p2: CGPoint) -> CGVector {
+    return CGVector(dx: p.x - p2.x, dy: p.y - p2.y)
 }
 
 public func -(p: CGPoint, v: CGVector) -> CGPoint {
@@ -34,4 +42,10 @@ public prefix func -(p: CGPoint) -> CGPoint {
 
 public prefix func -(v: CGVector) -> CGVector {
     return transform(v: v, transform: -)
+}
+
+extension CGVector {
+    public var length: CGFloat {
+        return sqrt(dx * dx + dy * dy)
+    }
 }
