@@ -87,6 +87,8 @@ public struct ResponseParser {
         return results
     }
     
+    // MARK: - Small parsing functions
+    
     private enum BodyInfo {
         case hillSphere
         case rotationPeriod
@@ -103,72 +105,75 @@ public struct ResponseParser {
         return (matches[0][1], Int(matches[0][2])!)
     }
     
-    public static func parse(content: String) -> CelestialBody? {
-        func kmToM(_ km: String?) -> Double? {
-            if km == nil { return nil }
-            if let convertedDouble = Double(km!) {
-                return convertedDouble * 1000
-            }
-            if let matches = km?.matches(for: "([-\\d.]+)(?:(?:\\([\\+-\\.\\d]*\\))|(?:\\+-[\\d\\.]+))") {
-                guard matches.count > 0 else { return nil }
-                guard matches[0].count > 1 else { return nil }
-                return Double(matches[0][1])! * 1000
-            }
-            return nil
+    private static func kmToM(_ km: String?) -> Double? {
+        if km == nil { return nil }
+        if let convertedDouble = Double(km!) {
+            return convertedDouble * 1000
         }
-        func degToRadian(_ deg: String?) -> Double? {
-            if deg == nil { return nil }
-            if let matches = deg?.matches(for: "([-\\d.]+)\\s*(?:deg)?") {
-                guard matches.count > 0 else { return nil }
-                guard matches[0].count > 1 else { return nil }
-                return radians(degrees: Double(matches[0][1])!)
-            }
-            return nil
+        if let matches = km?.matches(for: "([-\\d.]+)(?:(?:\\([\\+-\\.\\d]*\\))|(?:\\+-[\\d\\.]+))") {
+            guard matches.count > 0 else { return nil }
+            guard matches[0].count > 1 else { return nil }
+            return Double(matches[0][1])! * 1000
         }
-        func rotPeriod(_ str: String?, naif: Int, orb: Double) -> Double? {
-            if str == nil {
-                if naif == 301 {
-                    return orb
-                }
-                return nil
-            }
-            if str?.lowercased() == "synchronous" {
+        return nil
+    }
+    
+    private static func degToRadian(_ deg: String?) -> Double? {
+        if deg == nil { return nil }
+        if let matches = deg?.matches(for: "([-\\d.]+)\\s*(?:deg)?") {
+            guard matches.count > 0 else { return nil }
+            guard matches[0].count > 1 else { return nil }
+            return radians(degrees: Double(matches[0][1])!)
+        }
+        return nil
+    }
+    
+    private static func rotPeriod(_ str: String?, naif: Int, orb: Double) -> Double? {
+        if str == nil {
+            if naif == 301 {
                 return orb
             }
-            if let matches = str?.matches(for: "([-\\d.]+)(\\+-[-\\d.]+)?\\s*(hr|d)?") {
-                guard matches.count > 0 else { return nil }
-                guard matches[0].count > 3 else { return nil }
-                guard let result = Double(matches[0][1]) else { return nil }
-                if matches[0][3] == "hr" || matches[0][3].isEmpty {
-                    return result * 3600
-                } else if matches[0][3] == "d" {
-                    return result * 24 * 3600
-                } else {
-                    return nil
-                }
-            }
             return nil
         }
-        func getGm(_ dict: [String: String]) -> Double? {
-            let regex = "GM(?:,| \\()(10\\^(\\d+))?\\s*(km\\^3 s\\^-2|km\\^3\\/s\\^2)\\)?"
-            // match 2 - exponent or nil (1)
-            var exponent: Double = 0
-            let gmKeys = dict.keys.filter { (key) -> Bool in
-                let matches = key.matches(for: regex)
-                return matches.isEmpty == false
-            }
-            guard let gmKey = gmKeys.first else { return nil }
-            let matches = gmKey.matches(for: regex)
-            if matches[0][2].lengthOfBytes(using: .utf8) > 0 {
-                exponent = Double(matches[0][2])!
-            }
-            if let str = dict[gmKey], let result = Double(str.replacingOccurrences(of: ",", with: "")) {
-                return result * pow(10, exponent)
+        if str?.lowercased() == "synchronous" {
+            return orb
+        }
+        if let matches = str?.matches(for: "([-\\d.]+)(\\+-[-\\d.]+)?\\s*(hr|d)?") {
+            guard matches.count > 0 else { return nil }
+            guard matches[0].count > 3 else { return nil }
+            guard let result = Double(matches[0][1]) else { return nil }
+            if matches[0][3] == "hr" || matches[0][3].isEmpty {
+                return result * 3600
+            } else if matches[0][3] == "d" {
+                return result * 24 * 3600
             } else {
                 return nil
             }
         }
-        
+        return nil
+    }
+    
+    private static func getGm(_ dict: [String: String]) -> Double? {
+        let regex = "GM(?:,| \\()(10\\^(\\d+))?\\s*(km\\^3 s\\^-2|km\\^3\\/s\\^2)\\)?"
+        // match 2 - exponent or nil (1)
+        var exponent: Double = 0
+        let gmKeys = dict.keys.filter { (key) -> Bool in
+            let matches = key.matches(for: regex)
+            return matches.isEmpty == false
+        }
+        guard let gmKey = gmKeys.first else { return nil }
+        let matches = gmKey.matches(for: regex)
+        if matches[0][2].lengthOfBytes(using: .utf8) > 0 {
+            exponent = Double(matches[0][2])!
+        }
+        if let str = dict[gmKey], let result = Double(str.replacingOccurrences(of: ",", with: "")) {
+            return result * pow(10, exponent)
+        } else {
+            return nil
+        }
+    }
+    
+    public static func parse(content: String) -> CelestialBody? {
         let bodyInfo = parseBodyInfo(content)
         func info(_ i: BodyInfo) -> String? {
             switch i {

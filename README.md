@@ -1,8 +1,9 @@
 # Graviton
+[![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master)
+
 _Astronomy and orbital mechanics kit on iOS in modern Swift 3_
 
 ## Structure
-There is a main app, relying on multiple frameworks that are useful on their own
 ### Graviton App
 A showcase for constellations, planetary movement and orbital mechanics
 ### Orbits

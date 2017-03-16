@@ -35,7 +35,6 @@
 		EF4BD3AC1E57E64D009D2698 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F0551E3B83F100AD8778 /* HorizonsQuery.swift */; };
 		EF4BD3AD1E57E64D009D2698 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930C11E2B8EAE00100706 /* ResponseParser.swift */; };
 		EF4BD3AE1E57E64D009D2698 /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BF1E2B8EAE00100706 /* ResponseParser+Ephemeris.swift */; };
-		EF4BD3AF1E57E64D009D2698 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EF4BD3B01E57E64D009D2698 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EF4BD3B11E57E64D009D2698 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		EF4BD3B21E57E64D009D2698 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
@@ -62,13 +61,13 @@
 		EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
 		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */; };
+		EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F29751E7B1B63003C2125 /* Kepler.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69C1D88D02F0031AA9C /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
 		EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */; };
-		EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6C94F1DE07AB500877A29 /* Kepler.swift */; };
 		EFC7C1231E56838F00B7B9B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */; };
 		EFC7C1251E56838F00B7B9B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1241E56838F00B7B9B9 /* ViewController.swift */; };
 		EFC7C1281E56838F00B7B9B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC7C1261E56838F00B7B9B9 /* Main.storyboard */; };
@@ -326,6 +325,7 @@
 		EF5F13231E5020FF00A8EF51 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
+		EF6F29751E7B1B63003C2125 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC2C69B1D88D02F0031AA9C /* SolarSystemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemViewController.swift; sourceTree = "<group>"; };
@@ -334,7 +334,6 @@
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreGraphics.swift"; sourceTree = "<group>"; };
-		EFC6C94F1DE07AB500877A29 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFC7C1201E56838F00B7B9B9 /* DatabaseGen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseGen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC7C1241E56838F00B7B9B9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -633,7 +632,6 @@
 				FCA930B71E2B8E6600100706 /* Models */,
 				FCA930BE1E2B8EAE00100706 /* Data Sources */,
 				FCA930CB1E2B8EF600100706 /* Utils */,
-				EFC6C94F1DE07AB500877A29 /* Kepler.swift */,
 				EFE8BF771DD86B38000F0A79 /* Orbit.swift */,
 				FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */,
 				FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */,
@@ -763,6 +761,7 @@
 				FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */,
 				FCC73DF81E68762100B737D1 /* Intersection.swift */,
 				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
+				EF6F29751E7B1B63003C2125 /* Kepler.swift */,
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
 				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
 				FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */,
@@ -1235,7 +1234,6 @@
 				EF4BD38C1E57E60A009D2698 /* HorizonsTest.swift in Sources */,
 				EF4BD3AE1E57E64D009D2698 /* ResponseParser+Ephemeris.swift in Sources */,
 				EF4BD3A51E57E64D009D2698 /* Ephemeris.swift in Sources */,
-				EF4BD3AF1E57E64D009D2698 /* Kepler.swift in Sources */,
 				EF4BD3B41E57E651009D2698 /* DBHelper.swift in Sources */,
 				EF4BD3A81E57E64D009D2698 /* Body.swift in Sources */,
 				EF4BD3B31E57E650009D2698 /* Formatters.swift in Sources */,
@@ -1332,7 +1330,6 @@
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCA930C61E2B8EAE00100706 /* ResponseParser.swift in Sources */,
-				EFC6C9501DE07AB500877A29 /* Kepler.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
@@ -1377,6 +1374,7 @@
 			files = (
 				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
 				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
+				EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */,
 				EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */,
 				EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */,
 				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
