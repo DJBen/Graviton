@@ -20,7 +20,7 @@ fileprivate let planetLayerRadius: Double = 5
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
-    lazy var stars = Star.magitudeLessThan(5.5)
+    lazy var stars = Star.magitudeLessThan(5)
     
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
@@ -250,9 +250,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
-    func updateEphemeris() {
-        guard let eph = self.ephemeris else { return }
-        eph.updateMotion()
+    func updateEphemeris(_ eph: Ephemeris) {
         let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / (Sun.sol.radius * 1000)
         let sunPos = -earth!.heliocentricPosition
         let magnification: Double = 5

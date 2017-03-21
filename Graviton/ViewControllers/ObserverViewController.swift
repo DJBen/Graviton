@@ -18,6 +18,7 @@ import CoreImage
 class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport {
     
     private lazy var obsScene = ObserverScene()
+    private var manager: EphemerisManager?
     private var scnView: SCNView {
         return self.view as! SCNView
     }
@@ -33,9 +34,8 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         super.viewDidLoad()
         setupViewElements()
         Horizons.shared.fetchEphemeris(mode: .preferLocal, update: { (ephemeris) in
-            DispatchQueue.main.async {
-                self.obsScene.ephemeris = ephemeris
-            }
+            self.manager = EphemerisManager(mode: .interval(60), ephemeris: ephemeris)
+            self.obsScene.ephemeris = ephemeris
         })
     }
 
@@ -106,7 +106,10 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        obsScene.updateEphemeris()
+        guard let (eph, changed) = manager?.requestedEphemeris(at: JulianDate.now()) else { return }
+        if changed {
+            obsScene.updateEphemeris(eph)
+        }
         func annotate(body: CelestialBody?) {
             guard let body = body else { return }
             let id = String(body.naifId)

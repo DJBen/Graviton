@@ -79,4 +79,9 @@ public struct JulianDate: ExpressibleByFloatLiteral {
         )
         return dateComponents.date!
     }
+    
+    public static func -(lhs: JulianDate, rhs: JulianDate) -> TimeInterval {
+        // convert day to seconds
+        return (lhs.value - rhs.value) * 86400
+    }
 }

@@ -144,9 +144,9 @@ class SolarSystemViewController: SceneController {
         }
     }
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.presentTransparentNavigationBar()
     }
     
     func handleTap(sender: UITapGestureRecognizer) {
@@ -163,9 +163,10 @@ class SolarSystemViewController: SceneController {
             updateFocusedNodeLabel()
         }
     }
-    
+
     private func setupViewElements() {
         let scnView = self.view as! SCNView
+        navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.addSubview(timeLabel)
         scnView.addConstraints(
             [
