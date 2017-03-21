@@ -56,10 +56,9 @@ class ObserverOverlayScene: SKScene {
             conNode.name = key.iAUName
             self.constellationParentNode.addChild(conNode)
         }
-        let nodesToDelete = self.constellationParentNode.children.filter { (node) -> Bool in
+        self.constellationParentNode.children.filter { (node) -> Bool in
             return info.keys.map { $0.iAUName }.contains(node.name!) == false
-        }
-        nodesToDelete.forEach { $0.removeFromParent() }
+        }.forEach { $0.alpha = 0 }
     }
     
     func annotate(_ name: String, annotation: String, position: CGPoint, `class`: AnnotationClass = .stars, isVisible: Bool = true) {

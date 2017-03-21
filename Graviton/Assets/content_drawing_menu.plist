@@ -25,6 +25,16 @@
 				<key>binding</key>
 				<string>showEcliptic</string>
 			</dict>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
+				<string>Show Constellation Label</string>
+				<key>image</key>
+				<string>row_icon_constellation_label</string>
+				<key>binding</key>
+				<string>showConstellationLabel</string>
+			</dict>
 		</array>
 	</dict>
 </array>

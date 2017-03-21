@@ -130,7 +130,11 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
             transform: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).point },
             filter: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).visible }
         )
-        overlay.showConstellationLabels(info: result)
+        if Settings.default[.showConstellationLabel] {
+            overlay.showConstellationLabels(info: result)
+        } else {
+            overlay.showConstellationLabels(info: [:])
+        }
     }
     
     // MARK: - Navigation Controller Delegate
