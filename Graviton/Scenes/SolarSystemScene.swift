@@ -14,6 +14,10 @@ import MathUtil
 
 class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
+    private static let OrbitLineShader: String = {
+        let path = Bundle.main.path(forResource: "OrbitLineShader", ofType: "shader")!
+        return try! String(contentsOfFile: path, encoding: .utf8)
+    }()
     private static let baseOrthographicScale: Double = 15
     private static let maxScale: Double = 100
     private static let minScale: Double = 0.02
@@ -92,6 +96,16 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
     
+    private func generateOrbitLineMaterial(color: UIColor) -> SCNMaterial {
+        let material = SCNMaterial()
+        material.diffuse.contents = color
+        material.shaderModifiers = [.surface: SolarSystemScene.OrbitLineShader]
+        material.setValue(0, forKeyPath: "trueAnomaly")
+        material.setValue(0.05, forKeyPath: "transparentStart")
+        material.setValue(0.7, forKeyPath: "transparentEnd")
+        return material
+    }
+    
     override init() {
         super.init()
         focusedNode = sunNode
@@ -159,7 +173,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             spheres.addChildNode(planetNode)
         }
 
-        func addNode(identifier: String) {
+        func addNode(identifier: String) -> SCNNode {
             let numberOfVertices: Int = 100
             let vertices = (0..<numberOfVertices).map { index -> SCNVector3 in
                 let offset = Double(index) / Double(numberOfVertices) * M_PI * 2
@@ -178,17 +192,14 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             let lineNode = SCNNode(geometry: line)
             lineNode.transform = SCNMatrix4(Matrix4(quaternion: motion.orbit.orientationTransform))
             lineNode.name = identifier
-            let justColor = SCNMaterial()
-            justColor.diffuse.contents = color
-            line.firstMaterial = justColor
+            line.firstMaterial = generateOrbitLineMaterial(color: color)
             lineSegments.addChildNode(lineNode)
             print("create \(identifier): \(motion.orbit)")
+            return lineNode
         }
-        
-        guard lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) == nil else {
-            return
-        }
-        addNode(identifier: orbitIdentifier(identifier))
+        let lineNode = lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) ?? addNode(identifier: orbitIdentifier(identifier))
+//        lineNode.geometry?.firstMaterial?.setValue(M_PI / 2, forKeyPath: "trueAnomaly")
+        lineNode.geometry?.firstMaterial?.setValue(motion.trueAnomaly, forKeyPath: "trueAnomaly")
     }
     
     private func zoom(position: Vector3) -> SCNVector3 {
