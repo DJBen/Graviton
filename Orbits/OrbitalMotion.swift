@@ -192,14 +192,7 @@ public class OrbitalMotion {
         phase = .meanAnomaly(0)
     }
     
-    
-    /// Calculate state vectors based on true anomaly.
-    /// If eccentric anomaly is not supplied, it will calculated from true anomaly
-    /// - parameter trueAnomaly: True anomaly
-    ///
-    /// - returns: state vector tuple (position, velocity)
-    
-    public func stateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
+    public func unrotatedStateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
         let sinE: Double
         let cosE: Double
         if let ecc = eccentricAnomaly {
@@ -211,25 +204,23 @@ public class OrbitalMotion {
             cosE = (e + cos(trueAnomaly)) / (1 + e * cos(trueAnomaly))
             sinE = sqrt(1 - pow(e, 2)) * sin(trueAnomaly) / (1 + e * cos(trueAnomaly))
         }
-        
         let distance = orbit.shape.semimajorAxis * (1 - orbit.shape.eccentricity * cosE)
-        
         let p = Vector3(cos(trueAnomaly), sin(trueAnomaly), 0) * distance
         let coefficient = sqrt(gm * orbit.shape.semimajorAxis) / distance
         let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
-        let Ω = orbit.orientation.longitudeOfAscendingNode
-        let i = orbit.orientation.inclination
-        let ω = orbit.orientation.argumentOfPeriapsis
-        let position = Vector3(
-            p.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - p.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
-            p.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + p.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
-            p.x * (sin(ω) * sin(i)) + p.y * (cos(ω) * sin(i))
-        )
-        let velocity = Vector3(
-            v.x * (cos(ω) * cos(Ω) - sin(ω) * cos(i) * sin(Ω)) - v.y * (sin(ω) * cos(Ω) + cos(ω) * cos(i) * sin(Ω)),
-            v.x * (cos(ω) * sin(Ω) + sin(ω) * cos(i) * cos(Ω)) + v.y * (cos(ω) * cos(i) * cos(Ω) - sin(ω) * sin(Ω)),
-            v.x * (sin(ω) * sin(i)) + v.y * (cos(ω) * sin(i))
-        )
+        return (p, v)
+    }
+    
+    /// Calculate state vectors based on true anomaly.
+    /// If eccentric anomaly is not supplied, it will calculated from true anomaly
+    /// - parameter trueAnomaly: True anomaly
+    ///
+    /// - returns: state vector tuple (position, velocity)
+    
+    public func stateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
+        let (p, v) = unrotatedStateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
+        let position = p * orbit.orientationTransform
+        let velocity = v * orbit.orientationTransform
         return (position, velocity)
     }
     

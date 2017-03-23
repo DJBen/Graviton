@@ -145,7 +145,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: Int) {
         motion.julianDate = julianDate
         if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
-            planetNode.position = transform(position: motion.position)
+            planetNode.position = zoom(position: motion.position)
         } else {
             let sphere = SCNSphere(radius: 0.85)
             sphere.firstMaterial = {
@@ -155,20 +155,15 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             }()
             let planetNode = SCNNode(geometry: sphere)
             planetNode.name = String(identifier)
-            planetNode.position = transform(position: motion.position)
+            planetNode.position = zoom(position: motion.position)
             spheres.addChildNode(planetNode)
         }
 
-        func vertex(forIndex index: Int, totalIndex: Int) -> SCNVector3 {
-            let offset = Double(index) / Double(totalIndex) * M_PI * 2
-            let (position, _) = motion.stateVectors(fromTrueAnomaly: offset)
-            return transform(position: position)
-        }
-        
         func addNode(identifier: String) {
             let numberOfVertices: Int = 100
-            let vertices = Array(0..<numberOfVertices).map { index in
-                return vertex(forIndex: index, totalIndex: numberOfVertices)
+            let vertices = (0..<numberOfVertices).map { index -> SCNVector3 in
+                let offset = Double(index) / Double(numberOfVertices) * M_PI * 2
+                return zoom(position: motion.unrotatedStateVectors(fromTrueAnomaly: offset).0)
             }
             var indices = [CInt]()
             for i in 0..<(numberOfVertices - 1) {
@@ -181,6 +176,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
             let line = SCNGeometry(sources: [vertexSources], elements: [elements])
             let lineNode = SCNNode(geometry: line)
+            lineNode.transform = SCNMatrix4(Matrix4(quaternion: motion.orbit.orientationTransform))
             lineNode.name = identifier
             let justColor = SCNMaterial()
             justColor.diffuse.contents = color
@@ -195,7 +191,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         addNode(identifier: orbitIdentifier(identifier))
     }
     
-    private func transform(position: Vector3) -> SCNVector3 {
+    private func zoom(position: Vector3) -> SCNVector3 {
         return SCNVector3(position / astronomicalUnitDist * 10)
     }
 }

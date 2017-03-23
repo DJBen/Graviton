@@ -91,6 +91,24 @@ public struct Orbit: CustomStringConvertible {
     public var shape: ConicSection
     public var orientation: Orientation
 
+    // r(t) = Rz(−Ω)Rx(−i)Rz(−ω)o(t)
+    
+    // Rz(−Ω)
+    public var loANTransform: Quaternion {
+        return Quaternion(axisAngle: Vector4(0, 0, 1, orientation.longitudeOfAscendingNode))
+    }
+    // Rx(−i)
+    public var inclinationTransform: Quaternion {
+        return Quaternion(axisAngle: Vector4(1, 0, 0, orientation.inclination))
+    }
+    // Rz(−ω)
+    public var argumentOfPeriapsisTransform: Quaternion {
+        return Quaternion(axisAngle: Vector4(0, 0, 1, orientation.argumentOfPeriapsis))
+    }
+    public var orientationTransform: Quaternion {
+        return loANTransform * inclinationTransform * argumentOfPeriapsisTransform
+    }
+
     public var description: String {
         return "(a: \(shape.semimajorAxis), e: \(shape.eccentricity), i: \(orientation.inclination), om: \(orientation.longitudeOfAscendingNode), w: \(orientation.argumentOfPeriapsis))"
     }
