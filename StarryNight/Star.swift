@@ -116,8 +116,7 @@ public struct Star: Hashable, Equatable {
         return rows.map { Star(row: $0) }
     }
     
-    public static func hip(_ hip: Int) -> Star? {
-        let query = stars.filter(dbHip == hip)
+    private static func queryStar(_ query: Table) -> Star? {
         if let row = try! db.pluck(query) {
             let id = row.get(dbInternalId)
             if let cachedStar = cachedStars[id] {
@@ -126,22 +125,19 @@ public struct Star: Hashable, Equatable {
             let star = Star(row: row)
             cachedStars[id] = star
             return star
+        } else {
+            return nil
         }
-        return nil
+    }
+    
+    public static func hip(_ hip: Int) -> Star? {
+        let query = stars.filter(dbHip == hip)
+        return queryStar(query)
     }
     
     public static func hr(_ hr: Int) -> Star? {
         let query = stars.filter(dbHr == hr)
-        if let row = try! db.pluck(query) {
-            let id = row.get(dbInternalId)
-            if let cachedStar = cachedStars[id] {
-                return cachedStar
-            }
-            let star = Star(row: row)
-            cachedStars[id] = star
-            return star
-        }
-        return nil
+        return queryStar(query)
     }
     
     public static func id(_ id: Int) -> Star? {

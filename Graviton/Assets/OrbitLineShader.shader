@@ -16,7 +16,7 @@ if (angle > M_PI_F) {
 }
 float percent = clamp((angle + M_PI_F) / (2 * M_PI_F), 0.0, 1.0);
 if (percent < 0.3) {
-_surface.transparent = vec4(transparentStart);
+    _surface.transparent = vec4(transparentStart);
 } else {
-_surface.transparent = mix(vec4(transparentStart), vec4(transparentEnd), (percent - 0.3) / 0.7);
+    _surface.transparent = mix(vec4(transparentStart), vec4(transparentEnd), (percent - 0.3) / 0.7);
 }
