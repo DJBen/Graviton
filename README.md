@@ -1,4 +1,6 @@
 # Graviton
+
+[![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 [![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master)
 
 _Astronomy and orbital mechanics kit on iOS in modern Swift 3_
