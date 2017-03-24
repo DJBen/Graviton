@@ -101,6 +101,7 @@ public class OrbitalMotion {
     public private(set) var meanAnomaly: Double!
     
     public private(set) var eccentricAnomaly: Double!
+    /// True anomaly; range = [0, 2π)
     public private(set) var trueAnomaly: Double!
     
     public var position: Vector3!

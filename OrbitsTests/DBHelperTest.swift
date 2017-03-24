@@ -47,7 +47,7 @@ class DBHelperTest: XCTestCase {
         let loaded899 = helper.loadOrbitalMotionMoment(bodyId: 899, optimalJulianDate: JulianDate.J2000 + 240)
         XCTAssertNotNil(loaded899)
         deepEqual(loaded899!.orbit, o2)
-        XCTAssertEqual(loaded899!.gm, 11)
+        XCTAssertEqual(loaded899!.gm, 11e9)
         XCTAssertEqual(loaded899!.timeOfPeriapsisPassage, JulianDate.J2000 + 2)
         XCTAssertEqual(loaded899!.ephemerisJulianDate, JulianDate.J2000 + 200)
     }
