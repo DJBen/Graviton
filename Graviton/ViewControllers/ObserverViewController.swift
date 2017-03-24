@@ -15,7 +15,7 @@ import SpaceTime
 import MathUtil
 import CoreImage
 
-class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport {
+class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport, SKSceneDelegate {
     
     private lazy var obsScene = ObserverScene()
     private var manager: EphemerisManager?
@@ -76,24 +76,26 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         navigationItem.rightBarButtonItem = barButtonItem
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.delegate = self
+        scnView.antialiasingMode = .multisampling2X
+        scnView.isJitteringEnabled = true
         scnView.scene = obsScene
         scnView.pointOfView = obsScene.cameraNode
         cameraController = obsScene
         scnView.isPlaying = true
         scnView.overlaySKScene = overlay
+        overlay.delegate = self
         scnView.backgroundColor = UIColor.black
         viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
     }
     
-    private var starPos = [(Star, CGPoint)]()
-    private func updateStarsInFrustrum() {
+    private func starsInFrustrum() -> [(Star, CGPoint)] {
         let visibleNodes = obsScene.rootNode.childNodes { (child, _) -> Bool in
             if child.name == nil { return false }
             let projected = self.scnView.projectPoint(child.position)
             return self.scnView.frame.contains(CGPoint(x: CGFloat(projected.x), y: CGFloat(projected.y)))
         }
-        starPos = visibleNodes.flatMap { (node) -> (Star, CGPoint)? in
+        return visibleNodes.flatMap { (node) -> (Star, CGPoint)? in
             if let name = node.name, let numId = Int(name), let star = Star.id(numId) {
                 let coord = self.scnView.project3dTo2d(node.position).point
                 return (star, coord)
@@ -110,6 +112,9 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         if changed {
             obsScene.updateEphemeris(eph)
         }
+    }
+    
+    func update(_ currentTime: TimeInterval, for scene: SKScene) {
         func annotate(body: CelestialBody?) {
             guard let body = body else { return }
             let id = String(body.naifId)
@@ -125,15 +130,6 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         if let sun = self.obsScene.rootNode.childNode(withName: String(Sun.sol.naifId), recursively: false) {
             let pv = self.scnView.project3dTo2d(sun.presentation.position)
             self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: pv.point, class: .sun, isVisible: pv.visible)
-        }
-        let result = Constellation.all.displayCenters(
-            transform: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).point },
-            filter: { self.scnView.project3dTo2d(SCNVector3($0 * 9)).visible }
-        )
-        if Settings.default[.showConstellationLabel] {
-            overlay.showConstellationLabels(info: result)
-        } else {
-            overlay.showConstellationLabels(info: [:])
         }
     }
     

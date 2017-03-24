@@ -15,12 +15,18 @@ import MathUtil
 
 fileprivate let milkywayLayerRadius: Double = 50
 fileprivate let auxillaryLineLayerRadius: Double = 25
+fileprivate let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 5
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
-    lazy var stars = Star.magitudeLessThan(5)
+    private static let ConstellationLabelShader: String = {
+        let path = Bundle.main.path(forResource: "ConstellationLabelShader", ofType: "shader")!
+        return try! String(contentsOfFile: path, encoding: .utf8)
+    }()
+    
+    lazy var stars = Star.magitudeLessThan(5.3)
     
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
@@ -122,21 +128,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(milkyWayNode)
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
-        let mat = SCNMaterial()
-        mat.diffuse.contents = UIColor.white
-        mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
-        for star in stars {
-            let radius = radiusForMagnitude(star.physicalInfo.magnitude)
-            let plane = SCNPlane(width: radius, height: radius)
-            plane.firstMaterial = mat
-            let starNode = SCNNode(geometry: plane)
-            let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
-            starNode.constraints = [SCNBillboardConstraint()]
-            starNode.position = SCNVector3(coord)
-            starNode.name = String(star.identity.id)
-            rootNode.addChildNode(starNode)
-        }
+        drawStars()
         drawConstellationLines()
+        drawConstellationLabels()
         let southNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         southNode.position = SCNVector3(0, 0, -10)
         southNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
@@ -152,36 +146,42 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(northNode)
     }
     
-    private func drawPlanets() {
-        ephemeris?.forEach { (body) in
-            var diffuse: UIImage?
-            guard case let .majorBody(mb) = body.naif else { return }
-            switch mb {
-            case .earth: return
-            case .pluto: return
-            case .mercury:
-                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-            case .venus:
-                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-            case .jupiter:
-                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-            case .saturn:
-                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-            case .mars:
-                diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
-            case .uranus:
-                diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
-            case .neptune:
-                diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
-            }
-            
-            let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
-            planetNode.geometry?.firstMaterial?.isDoubleSided = true
-            planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
-            planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
-            planetNode.name = String(body.naifId)
-            rootNode.addChildNode(planetNode)
+    private func drawStars() {
+        let mat = SCNMaterial()
+        mat.diffuse.contents = UIColor.white
+        mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+        for star in stars {
+            let radius = radiusForMagnitude(star.physicalInfo.magnitude)
+            let plane = SCNPlane(width: radius, height: radius)
+            plane.firstMaterial = mat
+            let starNode = SCNNode(geometry: plane)
+            let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
+            starNode.constraints = [SCNBillboardConstraint()]
+            starNode.position = SCNVector3(coord)
+            starNode.name = String(star.identity.id)
+            rootNode.addChildNode(starNode)
         }
+    }
+    
+    private func drawConstellationLabels() {
+        let conLabelNode = SCNNode()
+        conLabelNode.name = "constellation labels"
+        for constellation in Constellation.all {
+            guard let c = constellation.displayCenter else { continue }
+            let center = SCNVector3(c.normalized())
+            let textNode = SCNNode()
+            let text = SCNText(string: constellation.name, extrusionDepth: 0)
+            text.font = UIFont(name: "Palatino", size: 0.8)
+            text.flatness = 0.05
+            text.containerFrame = CGRect.init(origin: CGPoint(x: 0, y: -0.8), size: CGSize(width: 8, height: 1.6))
+            text.firstMaterial?.shaderModifiers = [.surface : ObserverScene.ConstellationLabelShader]
+            text.firstMaterial?.diffuse.contents = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
+            textNode.geometry = text
+            textNode.constraints = [SCNBillboardConstraint()]
+            textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
+            conLabelNode.addChildNode(textNode)
+        }
+        rootNode.addChildNode(conLabelNode)
     }
     
     private func drawLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
@@ -231,6 +231,40 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
+    // MARK: - Dynamic content drawing
+    
+    private func drawPlanets() {
+        ephemeris?.forEach { (body) in
+            var diffuse: UIImage?
+            guard case let .majorBody(mb) = body.naif else { return }
+            switch mb {
+            case .earth: return
+            case .pluto: return
+            case .mercury:
+                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+            case .venus:
+                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+            case .jupiter:
+                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+            case .saturn:
+                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+            case .mars:
+                diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
+            case .uranus:
+                diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
+            case .neptune:
+                diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
+            }
+            
+            let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
+            planetNode.geometry?.firstMaterial?.isDoubleSided = true
+            planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
+            planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
+            planetNode.name = String(body.naifId)
+            rootNode.addChildNode(planetNode)
+        }
+    }
+    
     private func drawEcliptic() {
         func transform(position: Vector3) -> Vector3 {
             let rotated = position.oblique(by: earth!.obliquity)
@@ -271,38 +305,36 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
-    func resetCamera() {
-        cameraNode.transform = SCNMatrix4Identity
-        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
-        scale = 1
+    private enum DisplayElement: String {
+        case celestialEquator = "celestial equator line"
+        case ecliptic = "ecliptic line"
+        case constellationLabels = "constellation labels"
     }
     
-    func focus(atNode node: SCNNode) {
-        
+    private func findNode(_ element: DisplayElement) -> SCNNode? {
+        return rootNode.childNode(withName: element.rawValue, recursively: false)
     }
     
     func updateAccordingToSettings() {
-        if Settings.default[.showCelestialEquator] {
-            if let node = rootNode.childNode(withName: "celestial equator line", recursively: false) {
-                node.isHidden = false
-            } else {
+        if let node = findNode(.celestialEquator) {
+            node.isHidden = !Settings.default[.showCelestialEquator]
+        } else {
+            if Settings.default[.showCelestialEquator] {
                 drawCelestialEquator()
             }
-        } else {
-            if let node = rootNode.childNode(withName: "celestial equator line", recursively: false) {
-                node.isHidden = true
-            }
         }
-        
-        if Settings.default[.showEcliptic] {
-            if let node = rootNode.childNode(withName: "ecliptic line", recursively: false) {
-                node.isHidden = false
-            } else {
+        if let node = findNode(.ecliptic) {
+            node.isHidden = !Settings.default[.showEcliptic]
+        } else {
+            if Settings.default[.showEcliptic] {
                 drawEcliptic()
             }
+        }
+        if let node = findNode(.constellationLabels) {
+            node.isHidden = !Settings.default[.showConstellationLabel]
         } else {
-            if let node = rootNode.childNode(withName: "ecliptic line", recursively: false) {
-                node.isHidden = true
+            if Settings.default[.showConstellationLabel] {
+                drawConstellationLabels()
             }
         }
     }
@@ -317,6 +349,18 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Focusing support
+    
+    func resetCamera() {
+        cameraNode.transform = SCNMatrix4Identity
+        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
+        scale = 1
+    }
+    
+    func focus(atNode node: SCNNode) {
+        
     }
 }
 

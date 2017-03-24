@@ -136,6 +136,7 @@
 		FCC73E021E6BC13E00B737D1 /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
 		FCC73E051E6BDE8700B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
+		FCE0A74C1E853A6D0009EFCB /* ConstellationLabelShader.shader in Resources */ = {isa = PBXBuildFile; fileRef = FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */; };
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
@@ -405,6 +406,7 @@
 		FCC73DF81E68762100B737D1 /* Intersection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intersection.swift; sourceTree = "<group>"; };
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
+		FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ConstellationLabelShader.shader; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FCFBB7201E59FD0700624B4C /* SKButtonNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKButtonNode.swift; sourceTree = "<group>"; };
@@ -791,6 +793,7 @@
 				FCFBB7461E62A6F300624B4C /* art.scnassets */,
 				FCFBB7471E62A6F300624B4C /* stars.scnassets */,
 				FC5B6D091E83C1CD000BD641 /* OrbitLineShader.shader */,
+				FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */,
 			);
 			path = Assets;
 			sourceTree = "<group>";
@@ -1139,6 +1142,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FCE0A74C1E853A6D0009EFCB /* ConstellationLabelShader.shader in Resources */,
 				FC5B6D0B1E83C4FF000BD641 /* OrbitLineShader.shader in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCFBB74B1E62A6FA00624B4C /* main_menu.plist in Resources */,

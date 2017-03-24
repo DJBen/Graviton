@@ -133,6 +133,10 @@ extension Constellation {
             return Constellation.iau(oppoCon)!
         })
     }
+    
+    public var displayCenter: Vector3? {
+        return constellationCenter[iAUName]
+    }
 }
 
 extension Sequence where Iterator.Element == Constellation {

@@ -121,6 +121,6 @@ class ObserverMenuController: UITableViewController {
 
 fileprivate extension UIImageEffects {
     static func blurredMenuImage(_ image: UIImage) -> UIImage {
-        return imageByApplyingBlur(to: image, withRadius: 16, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
+        return imageByApplyingBlur(to: image, withRadius: 24, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
     }
 }
