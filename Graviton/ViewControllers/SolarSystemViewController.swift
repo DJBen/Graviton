@@ -117,7 +117,7 @@ class SolarSystemViewController: SceneController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         self.view.addGestureRecognizer(tapGR)
-        Horizons.shared.fetchEphemeris(mode: .preferLocal, update: { (ephemeris) in
+        Horizons.shared.fetchEphemeris(mode: .mixed, update: { (ephemeris) in
             self.ephemeris = ephemeris
             self.fillSolarSystemScene(self.solarSystemScene)
         }) { (_, error) in
@@ -191,6 +191,8 @@ class SolarSystemViewController: SceneController {
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
+        scnView.antialiasingMode = .multisampling2X
+        scnView.isJitteringEnabled = true
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
     }

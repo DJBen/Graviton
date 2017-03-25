@@ -84,6 +84,11 @@
 		EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */; };
 		EFD3CE8D1E85C89700D6B0FF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */; };
 		EFD3CE8E1E85C89700D6B0FF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */; };
+		EFD3CE911E85CF7800D6B0FF /* pluto.result in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE8F1E85CF7800D6B0FF /* pluto.result */; };
+		EFD3CE991E85D1D400D6B0FF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE981E85D1D400D6B0FF /* Parser.swift */; };
+		EFD3CE9A1E85D1D400D6B0FF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE981E85D1D400D6B0FF /* Parser.swift */; };
+		EFD3CE9C1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
+		EFD3CE9D1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
 		EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5383E1E5E5F4C00B34C28 /* Settings.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */; };
@@ -137,6 +142,10 @@
 		FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
 		FCC73E051E6BDE8700B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
 		FCE0A74C1E853A6D0009EFCB /* ConstellationLabelShader.shader in Resources */ = {isa = PBXBuildFile; fileRef = FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */; };
+		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
+		FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
+		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
+		FCE0A7551E8922F00009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
@@ -347,6 +356,9 @@
 		EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ResponseParser+Ephemeris.swift"; sourceTree = "<group>"; };
 		EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
+		EFD3CE8F1E85CF7800D6B0FF /* pluto.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pluto.result; sourceTree = "<group>"; };
+		EFD3CE981E85D1D400D6B0FF /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
+		EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
 		EFD5383E1E5E5F4C00B34C28 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
@@ -406,6 +418,8 @@
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
 		FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ConstellationLabelShader.shader; sourceTree = "<group>"; };
+		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
+		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
@@ -637,10 +651,13 @@
 		EFD3CE821E85C89700D6B0FF /* Parsing */ = {
 			isa = PBXGroup;
 			children = (
+				FCE0A7521E8919010009EFCB /* Extractors */,
 				EFD3CE831E85C89700D6B0FF /* Horizons.swift */,
 				EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */,
-				EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */,
+				EFD3CE981E85D1D400D6B0FF /* Parser.swift */,
+				EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */,
 				EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */,
+				EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */,
 			);
 			path = Parsing;
 			sourceTree = "<group>";
@@ -669,6 +686,7 @@
 				FC998DB71E2CF32C00E0BFFF /* venus.result */,
 				FCA930DE1E2B8F4C00100706 /* mars.result */,
 				FC998DB11E2C749200E0BFFF /* neptune.result */,
+				EFD3CE8F1E85CF7800D6B0FF /* pluto.result */,
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
@@ -778,6 +796,15 @@
 				EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */,
 			);
 			path = MathUtil;
+			sourceTree = "<group>";
+		};
+		FCE0A7521E8919010009EFCB /* Extractors */ = {
+			isa = PBXGroup;
+			children = (
+				FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */,
+				FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */,
+			);
+			name = Extractors;
 			sourceTree = "<group>";
 		};
 		FCFBB71D1E59FCB200624B4C /* Views */ = {
@@ -1114,6 +1141,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFD3CE911E85CF7800D6B0FF /* pluto.result in Resources */,
 				EF4BD3981E57E628009D2698 /* venus.result in Resources */,
 				EFD3CE7D1E85C87B00D6B0FF /* naif.sqlite3 in Resources */,
 				EF4BD3971E57E628009D2698 /* earth.result in Resources */,
@@ -1249,10 +1277,12 @@
 				EFD3CE881E85C89700D6B0FF /* Horizons.swift in Sources */,
 				EF4BD3B41E57E651009D2698 /* DBHelper.swift in Sources */,
 				EF4BD3A81E57E64D009D2698 /* Body.swift in Sources */,
+				FCE0A7551E8922F00009EFCB /* PlutoPropertyExtractor.swift in Sources */,
 				EF4BD3B31E57E650009D2698 /* Formatters.swift in Sources */,
 				EF4BD3A91E57E64D009D2698 /* CelestialBody.swift in Sources */,
 				EF4BD38D1E57E60A009D2698 /* NaifTest.swift in Sources */,
 				EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
+				FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */,
 				EF4BD3A71E57E64D009D2698 /* Naif.swift in Sources */,
 				EF4BD38F1E57E60A009D2698 /* EphemerisTest.swift in Sources */,
 				EF4BD3901E57E60A009D2698 /* ParserTest.swift in Sources */,
@@ -1260,6 +1290,8 @@
 				EF4BD3A61E57E64D009D2698 /* NaifCatalog.swift in Sources */,
 				EF4BD3B01E57E64D009D2698 /* Orbit.swift in Sources */,
 				EF4BD3AA1E57E64D009D2698 /* Constants.swift in Sources */,
+				EFD3CE9D1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */,
+				EFD3CE9A1E85D1D400D6B0FF /* Parser.swift in Sources */,
 				EF4BD3911E57E60A009D2698 /* TransientDBHelper.swift in Sources */,
 				EF4BD3921E57E60A009D2698 /* DBHelperTest.swift in Sources */,
 				EFD3CE8E1E85C89700D6B0FF /* ResponseParser.swift in Sources */,
@@ -1341,12 +1373,16 @@
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				EFD3CE8D1E85C89700D6B0FF /* ResponseParser.swift in Sources */,
+				FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
 				EFD3CE8B1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
 				FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */,
+				FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */,
 				EFD3CE871E85C89700D6B0FF /* Horizons.swift in Sources */,
+				EFD3CE9C1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */,
+				EFD3CE991E85D1D400D6B0FF /* Parser.swift in Sources */,
 				EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
 				EFD3CE891E85C89700D6B0FF /* HorizonsQuery.swift in Sources */,

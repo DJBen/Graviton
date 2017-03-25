@@ -10,10 +10,14 @@ import UIKit
 
 struct WarpSpeed: CustomStringConvertible {
     
-    var multiplier: Double = 1
+    private var mIndex: Int = 0
+    
+    var multiplier: Double {
+        return Double(WarpSpeed.speeds[mIndex])
+    }
     
     public var description: String {
-        return WarpSpeed.formatter.string(from: NSNumber.init(value: multiplier))! + "x"
+        return WarpSpeed.descriptions[mIndex]
     }
     
     static let formatter: NumberFormatter = {
@@ -22,38 +26,17 @@ struct WarpSpeed: CustomStringConvertible {
         return formatter
     }()
     
-    static let speeds = [1, 5, 10, 100, 1000, 5000, 20000, 100000, 500000]
-    
-    mutating func cycle() {
-        if multiplier >= Double(WarpSpeed.speeds.last!) {
-            multiplier = 1
-        } else {
-            next()
-        }
-    }
+    static let speeds = [1, 5, 10, 100, 1000, 3600, 3600*6, 86400, 86400*15, 86400*90, 86400*365, 86400 * 3650]
+    static let descriptions = [
+        "1x", "5x", "10x", "100x", "1000x", "1s=1h", "1s=6h", "1s=1d", "1s=15d", "1s=3m", "1s=1y", "1s=10y"
+    ]
     
     mutating func next() {
-        if multiplier >= Double(WarpSpeed.speeds.last!) {
-            multiplier = Double(WarpSpeed.speeds.last!)
-        }
-        for speed in WarpSpeed.speeds {
-            if multiplier < Double(speed) {
-                multiplier = Double(speed)
-                break
-            }
-        }
+        mIndex = (mIndex + 1) % WarpSpeed.speeds.count
     }
     
-    mutating func previous() {
-        if multiplier <= Double(WarpSpeed.speeds.first!) {
-            multiplier = Double(WarpSpeed.speeds.first!)
-        }
-        for speed in WarpSpeed.speeds.reversed() {
-            if multiplier > Double(speed) {
-                multiplier = Double(speed)
-                break
-            }
-        }
+    mutating func prev() {
+        mIndex = (mIndex - 1) % WarpSpeed.speeds.count
     }
 }
 
@@ -86,7 +69,7 @@ class WarpControl: UIControl {
     }
     
     func buttonTapped(sender: UIButton) {
-        speed.cycle()
+        speed.next()
         self.sendActions(for: .touchUpInside)
         self.speedButton.setTitle(self.speed.description, for: .normal)
         self.sendActions(for: .valueChanged)

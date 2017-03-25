@@ -50,7 +50,7 @@ extension ResponseParser {
         return formatter
     }
     
-    private static func parseEphemerisLine(naifId: Int, gm: Double, line: String, save: Bool) -> OrbitalMotion? {
+    private func parseEphemerisLine(naifId: Int, gm: Double, line: String, save: Bool) -> OrbitalMotion? {
         let components = line.components(separatedBy: ",").map { $0.trimmed() }.filter { $0.isEmpty == false }
         guard components.count == 14 else { return nil }
         if let jd = Double(components[0]), let ec = Double(components[2]), let semimajorAxis = Double(components[11]), let inclinationDeg = Double(components[4]), let loanDeg = Double(components[5]), let aopDeg = Double(components[6]), let tp = Double(components[7]) {
@@ -68,14 +68,14 @@ extension ResponseParser {
         return nil
     }
     
-    private static func breakEphemerisIntoLines(content: String) -> [String] {
+    private func breakEphemerisIntoLines(content: String) -> [String] {
         guard let start = content.range(of: "$$SOE")?.upperBound,
             let end = content.range(of: "$$EOE")?.lowerBound else { fatalError() }
         let str = content.substring(with: start..<end)
         return str.components(separatedBy: "\n").filter { $0.trimmed().isEmpty == false}
     }
     
-    public static func parseEphemeris(content: String, save: Bool = false) -> [OrbitalMotion] {
+    public func parseEphemeris(content: String, save: Bool = false) -> [OrbitalMotion] {
         func systemGM(_ str: String?) -> Double? {
             guard let s = str else {
                 return nil
@@ -90,7 +90,7 @@ extension ResponseParser {
         let systemInfo = parseLineBasedContent(content)
         guard let systemGm = systemGM(systemInfo["Keplerian GM"]?.0 ?? systemInfo["System GM"]?.0) else { fatalError() }
         let lines = breakEphemerisIntoLines(content: content)
-        guard let naifId = nameId(systemInfo["Target body name"])?.1 else { fatalError() }
+        guard let naifId = extractNameId(systemInfo["Target body name"])?.1 else { fatalError() }
         return lines.flatMap { self.parseEphemerisLine(naifId: naifId, gm: systemGm, line: $0, save: save) }
     }
 }

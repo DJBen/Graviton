@@ -94,7 +94,7 @@ public class Horizons {
                 let httpResponse = response as! HTTPURLResponse
                 let url = httpResponse.url!
                 let utf8String = String(data: d, encoding: .utf8)!
-                switch ResponseValidator.parse(content: utf8String) {
+                switch ResponseValidator.default.parse(content: utf8String) {
                 case .busy:
                     print("busy: \(url), retrying")
                     let retried = retry(url: url)
@@ -178,7 +178,7 @@ public class Horizons {
             }
             print("complete: fetching celestial bodies")
             var bodies = Set<CelestialBody>(rawData.flatMap { (naif, content) -> CelestialBody? in
-                if let body = ResponseParser.parse(content: content) {
+                if let body = ResponseParser.default.parse(content: content) {
                     body.save()
                     return body
                 }
