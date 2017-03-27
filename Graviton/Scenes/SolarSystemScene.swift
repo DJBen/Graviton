@@ -198,7 +198,6 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
             return lineNode
         }
         let lineNode = lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) ?? addNode(identifier: orbitIdentifier(identifier))
-//        lineNode.geometry?.firstMaterial?.setValue(M_PI / 2, forKeyPath: "trueAnomaly")
         lineNode.geometry?.firstMaterial?.setValue(motion.trueAnomaly, forKeyPath: "trueAnomaly")
     }
     

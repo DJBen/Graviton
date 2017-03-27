@@ -191,7 +191,7 @@ public enum Naif: Comparable, Hashable {
     case custom(Int)
     
     static let planets: [Naif] = {
-        let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune]
+        let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto]
         return planets.map { .majorBody($0) }
     }()
     

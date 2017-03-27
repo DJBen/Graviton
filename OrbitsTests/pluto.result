@@ -1,0 +1,108 @@
+*******************************************************************************
+Revised: Nov 05, 2015             134340 Pluto                             999
+
+Fit to all available observations (PLU043/DE433) including New Horizons
+encounter tracking.
+
+ICRF/J2000.0 helio. ecliptic osc. elements (AU, DAYS, DEG, period=Julian yrs):
+
+EPOCH= 2457217.5 ! 2015-Jul-14 00:00:00.0000 (TDB)
+EC= 2.543193766760227E-01 QR= 2.963711277830007E+01 IN= 1.736672922693450E+01
+OM= 1.102097591127033E+02 W = 1.142276233642205E+02 Tp=  2447886.048708124086
+N = 3.933503338914713E-03 MA= 3.670529481351401E+01 TA= 5.935219029576444E+01
+A = 3.974504882021532E+01 AD= 4.985298486213057E+01 PR= 9.152146801007345E+04
+
+NOTE:
+The Horizons output log may report using DE431 as the source of target or
+center data, but it is nevertheless using DE433 as an override if Pluto is
+involved. This is to maintain ephemeris consistency for the New Horizons
+spacecraft encounter at Pluto.
+
+PHYSICAL DATA (updated 2013-Nov-19, Mc= Charon mass, radius is IAU 2009):
+Mass Pluto (10^22 kg) = 1.307+-0.018    Density Pluto:
+GM (planet) km^3/s^2  = 872.4             (R = 1195 km)       = 1.83 g/cm^3
+Mass ratio (Mc/Mp)    = 0.117           Radius of Pluto, Rp   = 1195 km
+Surface gravity       = 61.1 cm/s^2     Geometric albedo      = 0.3
+Sidereal orbit period = 249.58932 yr    Mean orbit velocity   = 4.656 km/s
+Escape velocity (km/s)= 1.21
+*******************************************************************************
+
+
+*******************************************************************************
+Ephemeris / WWW_USER Mon Mar 27 02:29:41 2017 Pasadena, USA      / Horizons
+*******************************************************************************
+Target body name: Pluto (999)                     {source: plu055l_merged}
+Center body name: Sun (10)                        {source: plu055l_merged}
+Center-site name: BODY CENTER
+*******************************************************************************
+Start time      : A.D. 2017-Jan-01 00:00:00.0000 TDB
+Stop  time      : A.D. 2017-Jan-01 00:30:00.0000 TDB
+Step-size       : 1 steps
+*******************************************************************************
+Center geodetic : 0.00000000,0.00000000,0.0000000 {E-lon(deg),Lat(deg),Alt(km)}
+Center cylindric: 0.00000000,0.00000000,0.0000000 {E-lon(deg),Dxy(km),Dz(km)}
+Center radii    : 696000.0 x 696000.0 x 696000.0 k{Equator, meridian, pole}
+Keplerian GM    : 1.3271244091127838E+11 km^3/s^2
+Output units    : KM-S, deg, Julian Day Number (Tp)
+Output type     : GEOMETRIC osculating elements
+Output format   : 10
+Reference frame : ICRF/J2000.0
+Coordinate systm: Ecliptic and Mean Equinox of Reference Epoch
+*******************************************************************************
+JDTDB,            Calendar Date (TDB),                     EC,                     QR,                     IN,                     OM,                      W,                     Tp,                      N,                     MA,                     TA,                      A,                     AD,                     PR,
+**************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+$$SOE
+2457754.500000000, A.D. 2017-Jan-01 00:00:00.0000,  2.550837735828526E-01,  4.426751894353278E+09,  1.735991665630798E+01,  1.102484019764319E+02,  1.138419838986607E+02,  2.447846784807830E+06,  4.556294948244110E-08,  3.900309639441793E+01,  6.264626398677877E+01,  5.942617085473892E+09,  7.458482276594506E+09,  7.901156621538200E+09,
+2457754.520833333, A.D. 2017-Jan-01 00:30:00.0000,  2.550082338685416E-01,  4.426260598940927E+09,  1.735935247289730E+01,  1.102485180177370E+02,  1.138022868458223E+02,  2.447841056788721E+06,  4.557746755490287E-08,  3.903816261744075E+01,  6.268596351412130E+01,  5.941355059432812E+09,  7.456449519924697E+09,  7.898639817281248E+09,
+$$EOE
+**************************************************************************************************************************************************************************************************************************************************************************************************************************************************
+Coordinate system description:
+
+Ecliptic and Mean Equinox of Reference Epoch
+
+Reference epoch: J2000.0
+XY-plane: plane of the Earth's orbit at the reference epoch
+Note: obliquity of 84381.448 arcseconds wrt ICRF equator (IAU76)
+X-axis  : out along ascending node of instantaneous plane of the Earth's
+orbit and the Earth's mean equator at the reference epoch
+Z-axis  : perpendicular to the xy-plane in the directional (+ or -) sense
+of Earth's north pole at the reference epoch.
+
+Symbol meaning:
+
+JDTDB    Julian Day Number, Barycentric Dynamical Time
+EC     Eccentricity, e
+QR     Periapsis distance, q (km)
+IN     Inclination w.r.t XY-plane, i (degrees)
+OM     Longitude of Ascending Node, OMEGA, (degrees)
+W      Argument of Perifocus, w (degrees)
+Tp     Time of periapsis (Julian Day Number)
+N      Mean motion, n (degrees/sec)
+MA     Mean anomaly, M (degrees)
+TA     True anomaly, nu (degrees)
+A      Semi-major axis, a (km)
+AD     Apoapsis distance (km)
+PR     Sidereal orbit period (sec)
+
+Geometric states/elements have no aberrations applied.
+
+Computations by ...
+Solar System Dynamics Group, Horizons On-Line Ephemeris System
+4800 Oak Grove Drive, Jet Propulsion Laboratory
+Pasadena, CA  91109   USA
+Information: http://ssd.jpl.nasa.gov/
+Connect    : telnet://ssd.jpl.nasa.gov:6775  (via browser)
+http://ssd.jpl.nasa.gov/?horizons
+telnet ssd.jpl.nasa.gov 6775    (via command-line)
+Author     : Jon.D.Giorgini@jpl.nasa.gov
+*******************************************************************************
+
+!$$SOF
+MAKE_EPHEM = 'YES'
+CENTER = '10'
+TABLE_TYPE = 'Elements'
+COMMAND = '999'
+STOP_TIME = '2017-Jan-01 00:30'
+CSV_FORMAT = 'YES'
+START_TIME = '2017-Jan-01 00:00'
+STEP_SIZE = '1'

@@ -31,7 +31,7 @@ class HorizonsTest: XCTestCase {
         let precise1970 = Date(timeIntervalSince1970: 0)
         let timeString = f.string(from: precise1970)
         let timeString1hLater = f.string(from: Date(timeIntervalSince1970: 1800))
-        let urls = (1...8).map { String($0) }.map { $0 + "99" }.map { "\(Horizons.batchUrl)?MAKE_EPHEM='YES'&CENTER='10'&TABLE_TYPE='Elements'&COMMAND='\($0)'&STOP_TIME='\(timeString1hLater)'&CSV_FORMAT='YES'&batch='1'&START_TIME='\(timeString)'&STEP_SIZE='1'".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)! }
+        let urls = (1...9).map { String($0) }.map { $0 + "99" }.map { "\(Horizons.batchUrl)?MAKE_EPHEM='YES'&CENTER='10'&TABLE_TYPE='Elements'&COMMAND='\($0)'&STOP_TIME='\(timeString1hLater)'&CSV_FORMAT='YES'&batch='1'&START_TIME='\(timeString)'&STEP_SIZE='1'".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)! }
         let queryStrings = HorizonsQuery.planetQuery(date: d1970).map { $0.url.absoluteString }
         XCTAssertEqual(queryStrings.sorted(), urls.sorted())
     }
