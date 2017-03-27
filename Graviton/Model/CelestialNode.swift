@@ -14,7 +14,7 @@ import MathUtil
 class CelestialNode: SCNNode {
     let body: CelestialBody
     
-    var offsetAngles = SCNVector3(x: Float(M_PI_2), y: 0, z: 0)
+    var offsetAngles = SCNVector3(x: Float(Double.pi / 2), y: 0, z: 0)
     var tilt: SCNVector3 {
         return SCNVector3(x: 0, y: -Float(body.obliquity), z: 0)
     }

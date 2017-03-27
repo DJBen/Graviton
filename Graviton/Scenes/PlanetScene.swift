@@ -47,7 +47,7 @@ class PlanetScene: SCNScene {
 //            print("\(elapsedTime / duration), \(self.earth.motion!.distance)")
 //        }))
 //        let rotationAxis = earthNode.rotationAxis
-//        earthNode.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(M_PI * 2), around: rotationAxis, duration: Double(duration / 365.0))))
+//        earthNode.runAction(SCNAction.repeatForever(SCNAction.rotate(by: CGFloat(Double.pi * 2), around: rotationAxis, duration: Double(duration / 365.0))))
 //        
     }
 }

@@ -36,7 +36,7 @@ class SiderealTimeTest: XCTestCase {
     func testSiderealTime() {
         XCTAssertEqualWithAccuracy(JulianDate(date: date).value, 2457756.645138889, accuracy: 1e-5)
         XCTAssertEqualWithAccuracy(date.greenwichMeanSiderealTime, 10 + 20 / 60.0 + 47.358 / 3600.0, accuracy: 1e-3)
-        let angle: Double = (18 + 15 / 60.0 + 58.614 / 3600.0) / 12 * M_PI
+        let angle: Double = (18 + 15 / 60.0 + 58.614 / 3600.0) / 12 * Double.pi
         XCTAssertEqualWithAccuracy(locationTime.localSiderealTimeAngle, angle, accuracy: 1e-3)
     }
     

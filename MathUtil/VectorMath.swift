@@ -97,16 +97,13 @@ public struct Quaternion {
 //MARK: Scalar
 
 public extension Scalar {
-    public static let pi = Scalar(M_PI)
-    public static let halfPi = Scalar(M_PI_2)
-    public static let quarterPi = Scalar(M_PI_4)
-    public static let twoPi = Scalar(M_PI * 2)
+    public static let twoPi = Scalar(Double.pi * 2)
     public static let degreesPerRadian = 180 / pi
     public static let radiansPerDegree = pi / 180
     public static let epsilon: Scalar = 0.0001
     
     public static func ~=(lhs: Scalar, rhs: Scalar) -> Bool {
-        return abs(lhs - rhs) < .epsilon
+        return Swift.abs(lhs - rhs) < .epsilon
     }
 }
 

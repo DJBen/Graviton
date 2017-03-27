@@ -24,6 +24,6 @@ public struct HorizontalCoordinate {
         //                cos(ALT)*cos(LAT)
         let cosAzimuth = (sin(s.declination) - sinAlt * sin(radianLat)) / (cos(altitude) * cos(radianLat))
         let a = acos(cosAzimuth)
-        azimuth = sin(hourAngle) < 0 ? a : Double(2 * M_PI) - a
+        azimuth = sin(hourAngle) < 0 ? a : Double(2 * Double.pi) - a
     }
 }

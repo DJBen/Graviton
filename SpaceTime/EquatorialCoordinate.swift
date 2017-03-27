@@ -20,7 +20,7 @@ public struct EquatorialCoordinate {
     // http://www.geom.uiuc.edu/docs/reference/CRC-formulas/node42.html
     public init(cartesian v: Vector3) {
         distance = sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
-        declination = M_PI_2 - acos(v.z / distance)
+        declination = Double.pi / 2 - acos(v.z / distance)
         rightAscension = wrapAngle(atan2(v.y, v.x))
     }
     
@@ -55,7 +55,7 @@ public extension EquatorialCoordinate {
         var x1, x2: [Double]
         var t, st, a, b, c, sina, sinb, sinc, cosa, cosb, cosc, ra2, dec2: Double
         
-        cdr = M_PI / 180.0
+        cdr = Double.pi / 180.0
         csr = cdr / 3600.0
         a = cos(dec1)
         x1 = [a*cos(ra1), a*sin(ra1), sin(dec1)]
@@ -86,7 +86,7 @@ public extension EquatorialCoordinate {
         }
         ra2 = atan2(x2[1], x2[0])
         if (ra2 < 0.0) {
-            ra2 += 2.0 * M_PI
+            ra2 += 2.0 * Double.pi
         }
         dec2 = asin(x2[2])
         return EquatorialCoordinate(rightAscension: ra2, declination: dec2, distance: distance)

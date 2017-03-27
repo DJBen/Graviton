@@ -106,7 +106,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let sphere = milkyWayNode.geometry as! SCNSphere
         sphere.firstMaterial!.cullMode = .front
         sphere.radius = CGFloat(milkywayLayerRadius)
-        let mtx = SCNMatrix4MakeRotation(Float(-M_PI_2), 1, 0, 0)
+        let mtx = SCNMatrix4MakeRotation(Float(-Double.pi / 2), 1, 0, 0)
         milkyWayNode.pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
         milkyWayNode.opacity = 0.3
         return milkyWayNode
@@ -191,7 +191,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
         let numberOfVertices: Int = 200
         let vertices: [SCNVector3] = Array(0..<numberOfVertices).map { index in
-            let offset = Double(index) / Double(numberOfVertices) * M_PI * 2
+            let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
             let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
             return SCNVector3(transform(-position))
         }

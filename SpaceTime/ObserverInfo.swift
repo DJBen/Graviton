@@ -23,7 +23,7 @@ public struct ObserverInfo {
     public var localSiderealTimeAngle: Double {
         let hours = location.longitude / 15
         let siderealTime = time.greenwichMeanSiderealTime + hours
-        return wrapAngle(Double((siderealTime / 12 * M_PI)))
+        return wrapAngle(Double((siderealTime / 12 * Double.pi)))
     }
     
 }

@@ -85,8 +85,8 @@ public class Horizons {
                 }
                 return true
             }
-            
-            if let e = error as? NSError {
+            let nsError = error as NSError?
+            if let e = nsError {
                 if !retry(url: e.userInfo[NSURLErrorFailingURLErrorKey] as! URL) {
                     errors.append(e)
                 }
@@ -107,7 +107,7 @@ public class Horizons {
                     print("complete: \(url) - \(d)")
                 }
             } else {
-                print("reponse has no data: \(response)")
+                print("reponse has no data: \(String(describing: response))")
             }
         }
         let tasks = queries.flatMap { (query) -> URLSessionTask? in
