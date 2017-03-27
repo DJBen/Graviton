@@ -1,7 +1,8 @@
 # Graviton
 
 [![Build Status](https://travis-ci.com/DJBen/Graviton.svg?token=1KVrf6xTWoPqLKJBPuJ1&branch=master)](https://travis-ci.com/DJBen/Graviton)
-[![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master)
+[![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master?maxAge=3600)
+![Swift](https://img.shields.io/badge/swift-3-orange.svg?style=flat)
 [![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
 
 _Astronomy and orbital mechanics kit on iOS in modern Swift 3_
