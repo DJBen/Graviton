@@ -63,7 +63,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         didSet {
             self.drawEcliptic()
             self.drawCelestialEquator()
-            self.drawPlanets()
+            self.drawPlanetsAndMoon()
         }
     }
     
@@ -233,13 +233,14 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     // MARK: - Dynamic content drawing
     
-    private func drawPlanets() {
+    private func drawPlanetsAndMoon() {
         ephemeris?.forEach { (body) in
             var diffuse: UIImage?
             guard case let .majorBody(mb) = body.naif else { return }
             switch mb {
             case .earth: return
-            case .pluto: return
+            case .pluto:
+                diffuse = #imageLiteral(resourceName: "grey_planet_diffuse")
             case .mercury:
                 diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
             case .venus:

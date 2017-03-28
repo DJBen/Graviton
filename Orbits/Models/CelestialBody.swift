@@ -11,7 +11,7 @@ import MathUtil
 
 open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable, Hashable {
 
-    /// radius in km
+    /// radius in m
     public let radius: Double
     /// rotation period in hr
     public let rotationPeriod: Double
