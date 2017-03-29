@@ -160,4 +160,19 @@ class ParserTest: XCTestCase {
         XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 872.4, accuracy: 1e-4)
     }
+    
+    func testParsingMoon() {
+        let path = Bundle.init(for: ParserTest.self).path(forResource: "moon", ofType: "result")!
+        let earthData = try! String(contentsOfFile: path, encoding: .utf8)
+        let body = ResponseParser.default.parse(content: earthData)
+        XCTAssertNotNil(body)
+        XCTAssertNotNil(body?.motion)
+        XCTAssertEqualWithAccuracy(body!.radius, 1737.4e3, accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 6.67), accuracy: 1e-4)
+        XCTAssertEqual(body?.naifId, 301)
+        // rotation period equals to orbital period
+        XCTAssertEqualWithAccuracy(body!.rotationPeriod, 2360584.6847, accuracy: 1e-3)
+        XCTAssertEqual(body?.centerBody?.naifId, 399)
+        XCTAssertEqualWithAccuracy(body!.gravParam, 4902.80007, accuracy: 1e-4)
+    }
 }

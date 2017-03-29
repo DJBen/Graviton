@@ -176,7 +176,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         func addNode(identifier: String) -> SCNNode {
             let numberOfVertices: Int = 100
             let vertices = (0..<numberOfVertices).map { index -> SCNVector3 in
-                let offset = Double(index) / Double(numberOfVertices) * M_PI * 2
+                let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
                 return zoom(position: motion.unrotatedStateVectors(fromTrueAnomaly: offset).0)
             }
             var indices = [CInt]()

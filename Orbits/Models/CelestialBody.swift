@@ -11,7 +11,7 @@ import MathUtil
 
 open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable, Hashable {
 
-    /// radius in km
+    /// radius in m
     public let radius: Double
     /// rotation period in hr
     public let rotationPeriod: Double
@@ -33,7 +33,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     public private(set) var satellites: [Body] = []
     
     public var description: String {
-        return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(hillSphere)}"
+        return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(String(describing: hillSphere))}"
     }
     
     public var hashValue: Int {

@@ -10,7 +10,7 @@ import Foundation
 
 /// wrap angle into [0, 2π)
 public func wrapAngle(_ angle: Double) -> Double {
-    let twoPi = M_PI * 2
+    let twoPi = Double.pi * 2
     var wrapped = fmod(angle, twoPi)
     if wrapped < 0.0 {
         wrapped += twoPi
@@ -19,11 +19,11 @@ public func wrapAngle(_ angle: Double) -> Double {
 }
 
 public func hours(radians: Double) -> Double {
-    return radians / M_PI * 12
+    return radians / Double.pi * 12
 }
 
 public func radians(degrees: Double) -> Double {
-    return degrees / 180 * M_PI
+    return degrees / 180 * Double.pi
 }
 
 public func radians(degrees: Double, minutes: Double, seconds: Double = 0) -> Double {
@@ -32,7 +32,7 @@ public func radians(degrees: Double, minutes: Double, seconds: Double = 0) -> Do
 
 public func radians(hours: Double, minutes: Double = 0, seconds: Double = 0) -> Double {
     let h = hourFrac(hours: hours, minutes: minutes, seconds: seconds)
-    return h / 12 * M_PI
+    return h / 12 * Double.pi
 }
 
 public func degrees(degrees: Double, minutes: Double, seconds: Double = 0) -> Double {
@@ -40,7 +40,7 @@ public func degrees(degrees: Double, minutes: Double, seconds: Double = 0) -> Do
 }
 
 public func degrees(radians: Double) -> Double {
-    return radians / M_PI * 180
+    return radians / Double.pi * 180
 }
 
 public func hourFrac(hours: Double, minutes: Double, seconds: Double = 0) -> Double {

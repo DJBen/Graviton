@@ -124,7 +124,7 @@ public struct Orbit: CustomStringConvertible {
     
     public func orbitalPeriod(gm: Double) -> Double? {
         let a = shape.semimajorAxis
-        return Double(M_PI) * 2 * sqrt(pow(a, 3) / gm)
+        return Double(Double.pi) * 2 * sqrt(pow(a, 3) / gm)
     }
 }
 

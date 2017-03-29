@@ -159,7 +159,7 @@ public class OrbitalMotion {
             if position.dot(velocity) >= 0 {
                 return acos(eccentricityVector.dot(position) / (eccentricityVector.length * position.length))
             } else {
-                return Double(2 * M_PI) - acos(eccentricityVector.dot(position) / (eccentricityVector.length * position.length))
+                return Double(2 * Double.pi) - acos(eccentricityVector.dot(position) / (eccentricityVector.length * position.length))
             }
         }()
         trueAnomaly = trueAnomaly.isNaN ? 0 : trueAnomaly
@@ -170,7 +170,7 @@ public class OrbitalMotion {
             if n.y >= 0 {
                 return acos(Double(n.x) / n.length)
             } else {
-                return Double(M_PI * 2) - acos(Double(n.x) / n.length)
+                return Double(Double.pi * 2) - acos(Double(n.x) / n.length)
             }
         }()
         if longitudeOfAscendingNode.isNaN {
@@ -180,7 +180,7 @@ public class OrbitalMotion {
             if eccentricityVector.z >= 0 {
                 return acos(n.dot(eccentricityVector) / (n.length * eccentricityVector.length))
             } else {
-                return Double(M_PI * 2) - acos(n.dot(eccentricityVector) / (n.length * eccentricityVector.length))
+                return Double(Double.pi * 2) - acos(n.dot(eccentricityVector) / (n.length * eccentricityVector.length))
             }
         }()
         if argumentOfPeriapsis.isNaN {

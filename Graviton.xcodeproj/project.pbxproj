@@ -146,6 +146,7 @@
 		FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
 		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
 		FCE0A7551E8922F00009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
+		FCE0A7571E8A59F50009EFCB /* moon.result in Resources */ = {isa = PBXBuildFile; fileRef = FCE0A7561E8A59F50009EFCB /* moon.result */; };
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
@@ -420,6 +421,7 @@
 		FCE0A74A1E853A460009EFCB /* ConstellationLabelShader.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ConstellationLabelShader.shader; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
 		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
+		FCE0A7561E8A59F50009EFCB /* moon.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon.result; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
 		FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
@@ -687,6 +689,7 @@
 				FCA930DE1E2B8F4C00100706 /* mars.result */,
 				FC998DB11E2C749200E0BFFF /* neptune.result */,
 				EFD3CE8F1E85CF7800D6B0FF /* pluto.result */,
+				FCE0A7561E8A59F50009EFCB /* moon.result */,
 				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
@@ -1052,7 +1055,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0820;
-				LastUpgradeCheck = 0820;
+				LastUpgradeCheck = 0830;
 				ORGANIZATIONNAME = "Ben Lu";
 				TargetAttributes = {
 					EF4BD3801E57E58D009D2698 = {
@@ -1150,6 +1153,7 @@
 				EFD3CE811E85C87B00D6B0FF /* smallBodies.sqlite3 in Resources */,
 				EFD3CE7F1E85C87B00D6B0FF /* orbitalMotions.sqlite3 in Resources */,
 				EF4BD3991E57E628009D2698 /* mars.result in Resources */,
+				FCE0A7571E8A59F50009EFCB /* moon.result in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1595,6 +1599,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
@@ -1863,6 +1868,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
@@ -1920,6 +1926,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
@@ -1999,6 +2006,7 @@
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
