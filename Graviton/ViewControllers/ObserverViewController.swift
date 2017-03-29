@@ -33,7 +33,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        Horizons.shared.fetchEphemeris(mode: .preferLocal, update: { (ephemeris) in
+        Horizons.shared.fetchEphemeris(update: { (ephemeris) in
             self.manager = EphemerisManager(mode: .interval(60), ephemeris: ephemeris)
             self.obsScene.ephemeris = ephemeris
         })
@@ -112,25 +112,22 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         if changed {
             obsScene.updateEphemeris(eph)
         }
-    }
-    
-    func update(_ currentTime: TimeInterval, for scene: SKScene) {
-        func annotate(body: CelestialBody?) {
-            guard let body = body else { return }
-            let id = String(body.naifId)
-            guard let node = self.obsScene.rootNode.childNode(withName: id, recursively: false) else { return }
-            let pv = self.scnView.project3dTo2d(node.presentation.position)
-            self.overlay.annotate(id, annotation: body.name, position: pv.point, class: .planets, isVisible: pv.visible)
-        }
-        obsScene.ephemeris?.forEach { (body) in
-            guard case let .majorBody(mb) = body.naif else { return }
-            if mb == .earth { return }
-            annotate(body: body)
-        }
-        if let sun = self.obsScene.rootNode.childNode(withName: String(Sun.sol.naifId), recursively: false) {
-            let pv = self.scnView.project3dTo2d(sun.presentation.position)
-            self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: pv.point, class: .sun, isVisible: pv.visible)
-        }
+//        func annotate(body: CelestialBody?) {
+//            guard let body = body else { return }
+//            let id = String(body.naifId)
+//            guard let node = self.obsScene.rootNode.childNode(withName: id, recursively: false) else { return }
+//            let pv = self.scnView.project3dTo2d(node.presentation.position)
+//            self.overlay.annotate(id, annotation: body.name, position: pv.point, class: .planets, isVisible: pv.visible)
+//        }
+//        obsScene.ephemeris?.forEach { (body) in
+//            guard case let .majorBody(mb) = body.naif else { return }
+//            if mb == .earth { return }
+//            annotate(body: body)
+//        }
+//        if let sun = self.obsScene.rootNode.childNode(withName: String(Sun.sol.naifId), recursively: false) {
+//            let pv = self.scnView.project3dTo2d(sun.presentation.position)
+//            self.overlay.annotate(String(Sun.sol.naifId), annotation: Sun.sol.name, position: pv.point, class: .sun, isVisible: pv.visible)
+//        }
     }
     
     // MARK: - Navigation Controller Delegate

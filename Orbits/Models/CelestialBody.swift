@@ -97,7 +97,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
 
 public class Sun: CelestialBody {
     public static var sol: Sun {
-        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e5)
+        return Sun(naifId: 10, name: "Sun", mass: 1.988544e30, radius: 6.955e8)
     }
     
     public override var heliocentricPosition: Vector3 {

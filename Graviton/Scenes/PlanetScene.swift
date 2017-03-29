@@ -13,7 +13,7 @@ import Orbits
 class PlanetScene: SCNScene {
     func create() {
 //        // create a new scene
-//        let scene = SCNScene(named: "art.scnassets/earth.scn")!
+//        let scene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 //        // retrieve the ship node
 //        let eNode = scene.rootNode.childNode(withName: "earth", recursively: true)!
 //        eNode.removeFromParentNode()

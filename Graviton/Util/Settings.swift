@@ -12,6 +12,7 @@ fileprivate let constellationLineDefault: Settings.ConstellationLineSetting.Mode
 fileprivate let showCelestialEquatorDefault: Bool = true
 fileprivate let showEclipticDefault: Bool = true
 fileprivate let showConstellationLabelDefault: Bool = true
+fileprivate let showPlanetLabelDefault: Bool = true
 fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
 fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
@@ -25,6 +26,7 @@ struct Settings {
         case showCelestialEquator
         case showEcliptic
         case showConstellationLabel
+        case showPlanetLabel
         var `default`: Bool {
             switch self {
             case .showCelestialEquator:
@@ -33,6 +35,8 @@ struct Settings {
                 return showEclipticDefault
             case .showConstellationLabel:
                 return showConstellationLabelDefault
+            case .showPlanetLabel:
+                return showPlanetLabelDefault
             }
         }
     }

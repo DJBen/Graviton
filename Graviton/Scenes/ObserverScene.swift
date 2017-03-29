@@ -18,13 +18,18 @@ fileprivate let auxillaryLineLayerRadius: Double = 25
 fileprivate let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 5
+fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
-    private static let ConstellationLabelShader: String = {
-        let path = Bundle.main.path(forResource: "ConstellationLabelShader", ofType: "shader")!
-        return try! String(contentsOfFile: path, encoding: .utf8)
-    }()
+    private struct Category: OptionSet {
+        let rawValue: Int
+        
+        static let `default` = Category(rawValue: 1)
+        static let sunlight = Category(rawValue: 2)
+        static let moon: Category = [.default, .sunlight]
+        static let all: Category = Category(rawValue: ~0)
+    }
     
     lazy var stars = Star.magitudeLessThan(5.3)
     
@@ -33,6 +38,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         c.automaticallyAdjustsZRange = true
         c.xFov = defaultFov
         c.yFov = defaultFov
+        c.categoryBitMask = Category.all.rawValue
         return c
     }()
     
@@ -169,42 +175,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         for constellation in Constellation.all {
             guard let c = constellation.displayCenter else { continue }
             let center = SCNVector3(c.normalized())
-            let textNode = SCNNode()
-            let text = SCNText(string: constellation.name, extrusionDepth: 0)
-            text.font = UIFont(name: "Palatino", size: 0.8)
-            text.flatness = 0.05
-            text.containerFrame = CGRect.init(origin: CGPoint(x: 0, y: -0.8), size: CGSize(width: 8, height: 1.6))
-            text.firstMaterial?.shaderModifiers = [.surface : ObserverScene.ConstellationLabelShader]
-            text.firstMaterial?.diffuse.contents = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
-            textNode.geometry = text
+            let textNode = OrthographicLabelNode(string: constellation.name)
             textNode.constraints = [SCNBillboardConstraint()]
             textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
             conLabelNode.addChildNode(textNode)
         }
         rootNode.addChildNode(conLabelNode)
-    }
-    
-    private func drawLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
-        guard let earth = self.earth else { return }
-        if let existingNode = rootNode.childNode(withName: name, recursively: false) {
-            existingNode.removeFromParentNode()
-        }
-        let numberOfVertices: Int = 200
-        let vertices: [SCNVector3] = Array(0..<numberOfVertices).map { index in
-            let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
-            let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
-            return SCNVector3(transform(-position))
-        }
-        let indices = (0...numberOfVertices).map { CInt($0 % numberOfVertices) }
-        let vertexSources = SCNGeometrySource(vertices: vertices)
-        let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
-        let line = SCNGeometry(sources: [vertexSources], elements: [elements])
-        let lineNode = SCNNode(geometry: line)
-        lineNode.name = name
-        let mat = SCNMaterial()
-        mat.diffuse.contents = color
-        line.firstMaterial = mat
-        rootNode.addChildNode(lineNode)
     }
     
     private func drawConstellationLines() {
@@ -235,34 +211,45 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     private func drawPlanetsAndMoon() {
         ephemeris?.forEach { (body) in
+            guard rootNode.childNode(withName: String(body.naifId), recursively: false) == nil else { return }
             var diffuse: UIImage?
-            guard case let .majorBody(mb) = body.naif else { return }
-            switch mb {
-            case .earth: return
-            case .pluto:
-                diffuse = #imageLiteral(resourceName: "grey_planet_diffuse")
-            case .mercury:
-                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-            case .venus:
-                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-            case .jupiter:
-                diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-            case .saturn:
-                diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-            case .mars:
-                diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
-            case .uranus:
-                diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
-            case .neptune:
-                diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
+            switch body.naif {
+            case let .majorBody(mb):
+                switch mb {
+                case .earth: return
+                case .pluto:
+                    diffuse = #imageLiteral(resourceName: "grey_planet_diffuse")
+                case .mercury:
+                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+                case .venus:
+                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+                case .jupiter:
+                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+                case .saturn:
+                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+                case .mars:
+                    diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
+                case .uranus:
+                    diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
+                case .neptune:
+                    diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
+                }
+                let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
+                planetNode.geometry?.firstMaterial?.isDoubleSided = true
+                planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
+                planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
+                planetNode.name = String(body.naifId)
+                rootNode.addChildNode(planetNode)
+            case let .moon(m):
+                if m == Naif.Moon.moon, let moonNode = largeBodyScene.rootNode.childNode(withName: "moon", recursively: true) {
+//                    moonNode.name = String(m.rawValue)
+//                    moonNode.categoryBitMask = Category.moon.rawValue
+//                    moonNode.removeFromParentNode()
+//                    rootNode.addChildNode(moonNode)
+                }
+            default:
+                break
             }
-            
-            let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
-            planetNode.geometry?.firstMaterial?.isDoubleSided = true
-            planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
-            planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
-            planetNode.name = String(body.naifId)
-            rootNode.addChildNode(planetNode)
         }
     }
     
@@ -272,7 +259,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             return rotated.normalized() * auxillaryLineLayerRadius
         }
         if Settings.default[.showEcliptic] {
-            drawLine(name: "ecliptic line", color: Settings.default[.eclipticColor], transform: transform)
+            drawDashedLine(name: "ecliptic line", color: Settings.default[.eclipticColor], transform: transform)
         }
     }
     
@@ -281,27 +268,59 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             return position.normalized() * auxillaryLineLayerRadius
         }
         if Settings.default[.showCelestialEquator] {
-            drawLine(name: "celestial equator line", color: Settings.default[.celestialEquatorColor], transform: transform)
+            drawDashedLine(name: "celestial equator line", color: Settings.default[.celestialEquatorColor], transform: transform)
         }
     }
     
+    private func drawDashedLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
+        guard let earth = self.earth else { return }
+        if rootNode.childNode(withName: name, recursively: false) != nil { return }
+        let numberOfVertices: Int = 200
+        let vertices: [SCNVector3] = Array(0..<numberOfVertices).map { index in
+            let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
+            let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
+            return SCNVector3(transform(-position))
+        }
+        let indices = (0...numberOfVertices).map { CInt($0 % numberOfVertices) }
+        let vertexSources = SCNGeometrySource(vertices: vertices)
+        let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
+        let line = SCNGeometry(sources: [vertexSources], elements: [elements])
+        let lineNode = SCNNode(geometry: line)
+        lineNode.name = name
+        let mat = SCNMaterial()
+        mat.diffuse.contents = color
+        line.firstMaterial = mat
+        rootNode.addChildNode(lineNode)
+    }
+    
     func updateEphemeris(_ eph: Ephemeris) {
-        let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / (Sun.sol.radius * 1000)
+        let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
         let sunPos = -earth!.heliocentricPosition
         let magnification: Double = 5
         let obliquedSunPos = sunPos.oblique(by: earth!.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
         let earthPos = earth!.heliocentricPosition
         ephemeris?.forEach { (body) in
-            guard case let .majorBody(mb) = body.naif else { return }
-            switch mb {
-            case .earth: break
-            default:
-                let planetRelativePos = (body.heliocentricPosition - earthPos).oblique(by: earth!.obliquity)
-                if let planetNode = rootNode.childNode(withName: String(body.naifId), recursively: false) {
-                    planetNode.position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
-                    planetNode.constraints = [SCNBillboardConstraint()]
+            switch body.naif {
+            case let .majorBody(mb):
+                switch mb {
+                case .earth: break
+                default:
+                    let planetRelativePos = (body.heliocentricPosition - earthPos).oblique(by: earth!.obliquity)
+                    if let planetNode = rootNode.childNode(withName: String(body.naifId), recursively: false) {
+                        planetNode.position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
+                        planetNode.constraints = [SCNBillboardConstraint()]
+                    }
                 }
+            case let .moon(m):
+                if m == Naif.Moon.moon {
+                    guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
+                    let relativePos = body.motion!.position!.oblique(by: earth!.obliquity)
+                    let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
+                    moonNode.position = SCNVector3(relativePos * moonZoomRatio / magnification)
+                }
+            default:
+                break
             }
         }
     }
