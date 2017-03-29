@@ -25,7 +25,7 @@ public struct EquatorialCoordinate {
     }
     
     public init(rightAscension: Double, declination: Double, distance: Double) {
-        self.rightAscension = rightAscension
+        self.rightAscension = wrapAngle(rightAscension)
         self.declination = declination
         self.distance = distance
     }
@@ -51,44 +51,28 @@ public extension EquatorialCoordinate {
     //
     func precessed(from epoch1: Double, to epoch2: Double) -> EquatorialCoordinate {
         let (ra1, dec1) = (rightAscension, declination)
-        var cdr, csr: Double
-        var x1, x2: [Double]
-        var t, st, a, b, c, sina, sinb, sinc, cosa, cosb, cosc, ra2, dec2: Double
-        
-        cdr = Double.pi / 180.0
-        csr = cdr / 3600.0
+        var a, b, c: Double
+        let cdr = Double.pi / 180.0
+        let csr = cdr / 3600.0
         a = cos(dec1)
-        x1 = [a*cos(ra1), a*sin(ra1), sin(dec1)]
-        t = 0.001*(epoch2 - epoch1)
-        st = 0.001*(epoch1 - 1900.0)
+        let x1 = Vector3(a*cos(ra1), a*sin(ra1), sin(dec1))
+        let t = 0.001*(epoch2 - epoch1)
+        let st = 0.001*(epoch1 - 1900.0)
         a = csr*t*(23042.53 + st*(139.75 + 0.06*st) + t*(30.23 - 0.27*st + 18.0*t))
         b = csr*t*t*(79.27 + 0.66*st + 0.32*t) + a
         c = csr*t*(20046.85 - st*(85.33 + 0.37*st) + t*(-42.67 - 0.37*st - 41.8*t))
-        sina = sin(a)
-        sinb = sin(b)
-        sinc = sin(c)
-        cosa = cos(a)
-        cosb = cos(b)
-        cosc = cos(c)
-        var r = [[0.0, 0.0, 0.0], [0.0, 0.0, 0.0], [0.0, 0.0, 0.0]]
-        r[0][0] = cosa*cosb*cosc - sina*sinb
-        r[0][1] = -cosa*sinb - sina*cosb*cosc
-        r[0][2] = -cosb*sinc
-        r[1][0] = sina*cosb + cosa*sinb*cosc
-        r[1][1] = cosa*cosb - sina*sinb*cosc
-        r[1][2] = -sinb*sinc
-        r[2][0] = cosa*sinc
-        r[2][1] = -sina*sinc
-        r[2][2] = cosc
-        x2 = [0.0, 0.0, 0.0]
-        for i in 0..<3 {
-            x2[i] = r[i][0]*x1[0] + r[i][1]*x1[1] + r[i][2]*x1[2]
-        }
-        ra2 = atan2(x2[1], x2[0])
-        if (ra2 < 0.0) {
-            ra2 += 2.0 * Double.pi
-        }
-        dec2 = asin(x2[2])
-        return EquatorialCoordinate(rightAscension: ra2, declination: dec2, distance: distance)
+        let r = Matrix3.init(
+            cos(a)*cos(b)*cos(c) - sin(a)*sin(b),
+            -cos(a)*sin(b) - sin(a)*cos(b)*cos(c),
+            -cos(b)*sin(c),
+            sin(a)*cos(b) + cos(a)*sin(b)*cos(c),
+            cos(a)*cos(b) - sin(a)*sin(b)*cos(c),
+            -sin(b)*sin(c),
+            cos(a)*sin(c),
+            -sin(a)*sin(c),
+            cos(c)
+        ).transpose
+        let x2 = r * x1
+        return EquatorialCoordinate(rightAscension: atan2(x2.y, x2.x), declination: asin(x2.z), distance: distance)
     }
 }
