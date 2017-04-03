@@ -26,7 +26,6 @@ struct SimpleVertex
     float4 position [[position]];
 };
 
-
 vertex SimpleVertex myVertex(MyVertexInput in [[ stage_in ]],
                              constant SCNSceneBuffer& scn_frame [[buffer(0)]],
                              constant NodeBuffer& scn_node [[buffer(1)]])
