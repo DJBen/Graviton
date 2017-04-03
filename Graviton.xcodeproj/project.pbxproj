@@ -121,7 +121,7 @@
 		FC2435B61E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */; };
 		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
 		FC2435C11E21F11E002AC626 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435C01E21F11E002AC626 /* ObserverViewController.swift */; };
-		FC5B6D0B1E83C4FF000BD641 /* OrbitLineShader.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC5B6D091E83C1CD000BD641 /* OrbitLineShader.shader */; };
+		FC5B6D0B1E83C4FF000BD641 /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC5B6D091E83C1CD000BD641 /* orbit_line.surface.shader */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
@@ -393,7 +393,7 @@
 		FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = EquatorialCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTest.swift; sourceTree = "<group>"; };
 		FC2435C01E21F11E002AC626 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
-		FC5B6D091E83C1CD000BD641 /* OrbitLineShader.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrbitLineShader.shader; sourceTree = "<group>"; };
+		FC5B6D091E83C1CD000BD641 /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC998DAF1E2BAD8A00E0BFFF /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
 		FC998DB11E2C749200E0BFFF /* neptune.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = neptune.result; sourceTree = "<group>"; };
@@ -840,7 +840,7 @@
 				FCFBB74C1E62A74800624B4C /* content_drawing_menu.plist */,
 				FCFBB7461E62A6F300624B4C /* art.scnassets */,
 				FCFBB7471E62A6F300624B4C /* stars.scnassets */,
-				FC5B6D091E83C1CD000BD641 /* OrbitLineShader.shader */,
+				FC5B6D091E83C1CD000BD641 /* orbit_line.surface.shader */,
 				FCE0A74A1E853A460009EFCB /* orthographic_label.surface.shader */,
 				EFBCC3A71E8F0FC500DF740E /* orthographic_label.metal */,
 			);
@@ -1194,7 +1194,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FCE0A74C1E853A6D0009EFCB /* orthographic_label.surface.shader in Resources */,
-				FC5B6D0B1E83C4FF000BD641 /* OrbitLineShader.shader in Resources */,
+				FC5B6D0B1E83C4FF000BD641 /* orbit_line.surface.shader in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCFBB74B1E62A6FA00624B4C /* main_menu.plist in Resources */,
 				FCFBB74D1E62A74800624B4C /* content_drawing_menu.plist in Resources */,

@@ -15,7 +15,7 @@ import MathUtil
 class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     
     private static let OrbitLineShader: String = {
-        let path = Bundle.main.path(forResource: "OrbitLineShader", ofType: "shader")!
+        let path = Bundle.main.path(forResource: "orbit_line.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
     private static let baseOrthographicScale: Double = 15
