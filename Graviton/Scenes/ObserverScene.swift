@@ -105,17 +105,17 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     private lazy var milkyWayNode: SCNNode = {
-        let scene = SCNScene(named: "stars.scnassets/celestial_sphere.scn")!
-        let milkyWayNode = scene.rootNode.childNode(withName: "milky_way", recursively: true)!
-        milkyWayNode.transform = SCNMatrix4Identity
-        milkyWayNode.removeFromParentNode()
-        let sphere = milkyWayNode.geometry as! SCNSphere
-        sphere.firstMaterial!.cullMode = .front
-        sphere.radius = CGFloat(milkywayLayerRadius)
-        let mtx = SCNMatrix4MakeRotation(Float(-Double.pi / 2), 1, 0, 0)
-        milkyWayNode.pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
-        milkyWayNode.opacity = 0.3
-        return milkyWayNode
+        let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
+        node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
+        node.opacity = 0.3
+        return node
+    }()
+    
+    private lazy var debugNode: SCNNode = {
+        let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
+        node.sphere.firstMaterial!.diffuse.contents = UIColor.white
+        node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_transparency")
+        return node
     }()
     
     lazy var sunNode: SCNNode = {
@@ -132,6 +132,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         super.init()
         resetCamera()
         rootNode.addChildNode(milkyWayNode)
+        rootNode.addChildNode(debugNode)
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
         drawStars()
