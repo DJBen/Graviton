@@ -31,24 +31,36 @@ class OrthographicLabelNode: SCNNode {
         }
     }
     
-    init(string: String?) {
+    let offset: CGVector
+    var fontColor: UIColor? {
+        get {
+            return geometry?.firstMaterial?.diffuse.contents as? UIColor
+        }
+        set {
+            geometry?.firstMaterial?.diffuse.contents = newValue
+        }
+    }
+    
+    init(string: String?, fontSize: CGFloat = 0.8, offset: CGVector = CGVector.zero) {
+        self.offset = offset
         super.init()
         let text = SCNText(string: string, extrusionDepth: 0)
-        text.font = UIFont(name: "Palatino", size: 0.8)
-        text.flatness = 0.05
+        text.font = UIFont(name: "Palatino", size: fontSize)
+        text.flatness = 0.01
         geometry = text
         position = SCNVector3Zero
         let (min, max) = self.boundingBox
-        let offset = -min - SCNVector3((max.x - min.x) / 2, 0, 0)
-        text.containerFrame = CGRect(origin: CGPoint(x: CGFloat(offset.x), y: CGFloat(offset.y)), size: CGSize(width: 8, height: 1.6))
+        // The offset to center the text
+        let textOffset = -min - SCNVector3((max.x - min.x) / 2, 0, 0)
+        text.containerFrame = CGRect(origin: CGPoint(x: CGFloat(textOffset.x), y: CGFloat(textOffset.y)), size: CGSize(width: 8, height: fontSize * 2))
         let material = text.firstMaterial!
         material.diffuse.contents = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
         material.shaderModifiers = [
             .geometry : OrthographicLabelNode.geometryShader,
             .surface : OrthographicLabelNode.surfaceShader
         ]
-        material.setValue(0.0, forKeyPath: "horizontalOffset")
-        material.setValue(0.0, forKeyPath: "verticalOffset")
+        material.setValue(offset.dx, forKeyPath: "horizontalOffset")
+        material.setValue(offset.dy, forKeyPath: "verticalOffset")
     }
     
     override convenience init() {

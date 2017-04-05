@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF2122E81E947BFD009D72AD /* ObserverScene+Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */; };
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
@@ -316,6 +317,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
 		EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
@@ -760,6 +762,7 @@
 				EF62D9951E244BE000D8F130 /* SolarSystemOverlayScene.swift */,
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
 				EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */,
+				EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */,
 				EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */,
 			);
 			path = Scenes;
@@ -1364,6 +1367,7 @@
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
 				EF62D9961E244BE000D8F130 /* SolarSystemOverlayScene.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
+				EF2122E81E947BFD009D72AD /* ObserverScene+Annotate.swift in Sources */,
 				EFE0EC0B1E462F78005A71DC /* ObserverScene.swift in Sources */,
 				EFE0EC091E462B7D005A71DC /* ObserverOverlayScene.swift in Sources */,
 				FCFBB7231E5A5CCE00624B4C /* EphemerisManager.swift in Sources */,

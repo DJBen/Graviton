@@ -6,6 +6,9 @@ uniform float verticalOffset;
 float horizontalOffset;
 float verticalOffset;
 
+#pragma transparent
 #pragma body
 
-_geometry.position += vec4(horizontalOffset, verticalOffset, 0.0, 0.0);
+vec4 projected = u_modelViewTransform * _geometry.position;
+projected += vec4(horizontalOffset, verticalOffset, 0.0, 0.0);
+_geometry.position = u_inverseModelViewTransform * projected;

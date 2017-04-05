@@ -15,7 +15,7 @@ import MathUtil
 
 fileprivate let milkywayLayerRadius: Double = 50
 fileprivate let auxillaryLineLayerRadius: Double = 25
-fileprivate let auxillaryConstellationLabelLayerRadius: Double = 24
+let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 5
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
@@ -178,20 +178,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
-    private func drawConstellationLabels() {
-        let conLabelNode = SCNNode()
-        conLabelNode.name = "constellation labels"
-        for constellation in Constellation.all {
-            guard let c = constellation.displayCenter else { continue }
-            let center = SCNVector3(c.normalized())
-            let textNode = OrthographicLabelNode(string: constellation.name)
-            textNode.constraints = [SCNBillboardConstraint()]
-            textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
-            conLabelNode.addChildNode(textNode)
-        }
-        rootNode.addChildNode(conLabelNode)
-    }
-    
     private func drawConstellationLines() {
         let constellationLineNode = SCNNode()
         constellationLineNode.name = "constellation lines"
@@ -303,12 +289,15 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     func updateEphemeris(_ eph: Ephemeris) {
+        let cbLabelNode = SCNNode()
+        rootNode.addChildNode(cbLabelNode)
         let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
         let sunPos = -earth!.heliocentricPosition
         let magnification: Double = 5
         let obliquedSunPos = sunPos.oblique(by: earth!.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
         let earthPos = earth!.heliocentricPosition
+        annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sun)
         ephemeris?.forEach { (body) in
             switch body.naif {
             case let .majorBody(mb):
@@ -317,8 +306,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                 default:
                     let planetRelativePos = (body.heliocentricPosition - earthPos).oblique(by: earth!.obliquity)
                     if let planetNode = rootNode.childNode(withName: String(body.naifId), recursively: false) {
-                        planetNode.position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
+                        let position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
+                        planetNode.position = position
                         planetNode.constraints = [SCNBillboardConstraint()]
+                        annotateCelestialBody(body, position: position, parent: cbLabelNode, class: .planet)
                     }
                 }
             case let .moon(m):
@@ -326,7 +317,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
                     let relativePos = body.motion!.position!.oblique(by: earth!.obliquity)
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
-                    moonNode.position = SCNVector3(relativePos * moonZoomRatio / magnification)
+                    let position = SCNVector3(relativePos * moonZoomRatio / magnification)
+                    moonNode.position = position
+                    annotateCelestialBody(body, position: position, parent: cbLabelNode, class: .planet)
                 }
             default:
                 break
