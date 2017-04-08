@@ -33,7 +33,7 @@ open class Body {
         return CelestialBody.load(naifId: id)
     }
     public var motion: OrbitalMotion?
-    public var julianDate: Double = JulianDate.J2000 {
+    public var julianDate: Double = JulianDate.J2000.value {
         didSet {
             motion?.julianDate = julianDate
             if let primary = self as? CelestialBody {

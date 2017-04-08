@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF131A071E94B6AB00BA17BF /* ObserverScene+Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF131A061E94B6AB00BA17BF /* ObserverScene+Location.swift */; };
 		EF2122E81E947BFD009D72AD /* ObserverScene+Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */; };
 		EF2496B81DC6D88800B9EE9D /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
@@ -317,6 +318,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF131A061E94B6AB00BA17BF /* ObserverScene+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Location.swift"; sourceTree = "<group>"; };
 		EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
 		EF2496B71DC6D88800B9EE9D /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 				FCA930611E2358A700100706 /* PlanetScene.swift */,
 				EFE0EC0A1E462F78005A71DC /* ObserverScene.swift */,
 				EF2122E71E947BFD009D72AD /* ObserverScene+Annotate.swift */,
+				EF131A061E94B6AB00BA17BF /* ObserverScene+Location.swift */,
 				EFE0EC081E462B7D005A71DC /* ObserverOverlayScene.swift */,
 			);
 			path = Scenes;
@@ -1377,6 +1380,7 @@
 				EFBCC3AC1E93490C00DF740E /* SphereInteriorNode.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FCA930641E236FB500100706 /* CameraControlling.swift in Sources */,
+				EF131A071E94B6AB00BA17BF /* ObserverScene+Location.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1827,6 +1831,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -1848,6 +1853,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_VERSION = 3.0;
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

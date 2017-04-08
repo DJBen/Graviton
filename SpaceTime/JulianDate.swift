@@ -11,8 +11,8 @@ import Foundation
 public struct JulianDate: ExpressibleByFloatLiteral {
     public typealias FloatLiteralType = Double
     
-    public static let B1950: Double = 2433282.4235
-    public static let J2000: Double = 2451545.0
+    public static let B1950: JulianDate = 2433282.4235
+    public static let J2000: JulianDate = 2451545.0
     
     public static func now() -> JulianDate {
         return JulianDate(date: Date())

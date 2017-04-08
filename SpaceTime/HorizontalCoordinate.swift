@@ -15,7 +15,7 @@ public struct HorizontalCoordinate {
     
     public init(equatorialCoordinate s: EquatorialCoordinate, observerInfo o: ObserverInfo) {
         // sin(ALT) = sin(DEC)*sin(LAT)+cos(DEC)*cos(LAT)*cos(HA)
-        let radianLat = radians(degrees: Double(o.location.latitude))
+        let radianLat = radians(degrees: Double(o.location.coordinate.latitude))
         let hourAngle = o.localSiderealTimeAngle - s.rightAscension
         let sinAlt = sin(s.declination) * sin(radianLat) + cos(s.declination) * cos(radianLat) * cos(hourAngle)
         altitude = asin(sinAlt)

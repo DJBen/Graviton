@@ -35,7 +35,7 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
         return celestialBodies.filter { $0.naifId == Int(n.name!)! }.first
     }
     
-    var julianDate: Double = JulianDate.J2000 {
+    var julianDate: Double = JulianDate.J2000.value {
         didSet {
             orbitalMotions.forEach { (motion, color, identifier) in
                 self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
