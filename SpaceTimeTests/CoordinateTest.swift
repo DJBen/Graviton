@@ -31,7 +31,8 @@ class CoordinateTest: XCTestCase {
         let calendar = Calendar(identifier: .gregorian)
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2000, month: 1, day: 1, hour: 5)
         let date = calendar.date(from: components)!
-        let obs = ObserverInfo(location: CLLocationCoordinate2DMake(CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)), CLLocationDegrees(-degrees(degrees: 122, minutes: 24, seconds: 47))), time: date)
+        let location = CLLocation(latitude: CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)), longitude: CLLocationDegrees(-degrees(degrees: 122, minutes: 24, seconds: 47)))
+        let obs = ObserverInfo(location: location, timestamp: date)
         let cyl = HorizontalCoordinate(equatorialCoordinate: sph, observerInfo: obs)
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 351, minutes: 45, seconds: 21.84), accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(cyl.altitude, radians(degrees: 65, minutes: 37, seconds: 8.28), accuracy: 1e-3)
@@ -51,11 +52,11 @@ class CoordinateTest: XCTestCase {
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2017, month: 1, day: 6, hour: 1, minute: 31, second: 30)
         let date = calendar.date(from: components)!
         let obs = ObserverInfo(location:
-            CLLocationCoordinate2DMake(
-                CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)),
-                CLLocationDegrees(-degrees(degrees: 122, minutes: 24, seconds: 47))
+            CLLocation(
+                latitude: CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)),
+                longitude: CLLocationDegrees(-degrees(degrees: 122, minutes: 24, seconds: 47))
             ),
-            time: date
+            timestamp: date
         )
         let cyl = HorizontalCoordinate(equatorialCoordinate: sph, observerInfo: obs)
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 32, minutes: 41, seconds: 21.16), accuracy: 5e-3)
@@ -72,11 +73,11 @@ class CoordinateTest: XCTestCase {
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2017, month: 1, day: 6, hour: 2, minute: 27)
         let date = calendar.date(from: components)!
         let obs = ObserverInfo(location:
-            CLLocationCoordinate2DMake(
-                CLLocationDegrees(-33.9249),
-                CLLocationDegrees(18.4241)
+            CLLocation(
+                latitude: CLLocationDegrees(-33.9249),
+                longitude: CLLocationDegrees(18.4241)
             ),
-            time: date
+            timestamp: date
         )
         let cyl = HorizontalCoordinate(equatorialCoordinate: sph, observerInfo: obs)
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 180, minutes: 3, seconds: 48.13), accuracy: 5e-3)

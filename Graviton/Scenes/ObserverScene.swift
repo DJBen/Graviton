@@ -12,6 +12,7 @@ import Orbits
 import StarryNight
 import SpaceTime
 import MathUtil
+import CoreLocation
 
 fileprivate let milkywayLayerRadius: Double = 50
 fileprivate let auxillaryLineLayerRadius: Double = 25
@@ -30,6 +31,15 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         static let moon: Category = [.default, .sunlight]
         static let all: Category = Category(rawValue: ~0)
     }
+    
+    static let defaultFov: Double = 45
+    /// Determines how fast zooming changes fov; the greater this number, the faster
+    private static let fovExpBase: Double = 1.25
+    private static let maxFov: Double = 120
+    private static let minFov: Double = 8
+    // scale is inverse proportional to fov
+    private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
+    private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
     
     lazy var stars = Star.magitudeLessThan(5.3)
     
@@ -50,17 +60,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     var focusedNode: SCNNode?
     
-    private var rotateByObliquity: ((Vector3) -> Vector3)? {
-        guard let earth = self.earth else { return nil }
-        func transform(position: Vector3) -> Vector3 {
-            // rotate around y-axis by earth's obliquity
-            let obliquity = earth.obliquity
-            let q = Quaternion(0, 1, 0, -obliquity)
-            return q * -position
-        }
-        return transform
-    }
-    
     private var earth: CelestialBody? {
         return self.ephemeris?[399]
     }
@@ -72,15 +71,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             self.drawPlanetsAndMoon()
         }
     }
-    
-    static let defaultFov: Double = 45
-    /// Determines how fast zooming changes fov; the greater this number, the faster
-    private static let fovExpBase: Double = 1.25
-    private static let maxFov: Double = 120
-    private static let minFov: Double = 8
-    // scale is inverse proportional to fov
-    private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
-    private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
 
     var scale: Double = 1 {
         didSet {
@@ -104,6 +94,18 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
+    lazy var locationManager: CLLocationManager = {
+        let manager = CLLocationManager()
+        manager.desiredAccuracy = kCLLocationAccuracyKilometer
+        manager.distanceFilter = 1000
+        manager.pausesLocationUpdatesAutomatically = true
+        return manager
+    }()
+    
+    var observerInfo: ObserverInfo?
+    
+    // MARK: - Property - Nodes
+    
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
         node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
@@ -111,10 +113,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
     
-    private lazy var debugNode: SCNNode = {
+    lazy var debugNode: SCNNode = {
         let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
-        node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_transparency")
+        node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+        node.sphere.firstMaterial!.isDoubleSided = true
         return node
     }()
     
@@ -128,6 +131,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
     
+    // MARK: - Functions
+    
     override init() {
         super.init()
         resetCamera()
@@ -138,12 +143,22 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         drawStars()
         drawConstellationLines()
         drawConstellationLabels()
+        
         let southNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         southNode.position = SCNVector3(0, 0, -10)
         southNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
         southNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
         southNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(southNode)
+        
+        let veNode = SCNNode(geometry: SCNPlane(width: 2, height: 2))
+        veNode.position = SCNVector3(10, 0, 0)
+        veNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+        veNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
+        veNode.constraints = [SCNBillboardConstraint()]
+        veNode.name = "zenith"
+        rootNode.addChildNode(veNode)
+        
         let northNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         northNode.position = SCNVector3(0, 0, 10)
         northNode.name = "north annotation"
@@ -151,6 +166,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         northNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
         northNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(northNode)
+        
         let testText = OrthographicLabelNode(string: "North")
         testText.position = SCNVector3(0, 0, 1) * Float(auxillaryConstellationLabelLayerRadius)
         testText.constraints = [SCNBillboardConstraint()]
@@ -159,7 +175,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         testText2.position = SCNVector3(0, 0, -1) * Float(auxillaryConstellationLabelLayerRadius)
         testText2.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(testText2)
+        startLocationService()
     }
+    
+    // MARK: Static Content Drawing
     
     private func drawStars() {
         let mat = SCNMaterial()
@@ -202,7 +221,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
     }
     
-    // MARK: - Dynamic content drawing
+    // MARK: Dynamic content drawing
     
     private func drawPlanetsAndMoon() {
         ephemeris?.forEach { (body) in
@@ -289,8 +308,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }
     
     func updateEphemeris(_ eph: Ephemeris) {
-        let cbLabelNode = SCNNode()
-        rootNode.addChildNode(cbLabelNode)
+        let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
+            let node = SCNNode()
+            node.name = "celestialBodyAnnotations"
+            rootNode.addChildNode(node)
+            return node
+        }()
         let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
         let sunPos = -earth!.heliocentricPosition
         let magnification: Double = 5
