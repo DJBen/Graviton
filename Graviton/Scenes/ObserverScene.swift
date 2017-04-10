@@ -117,6 +117,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
         node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+        // since the coordinat is NED, we rotate around center by 180 degrees
+        var mtx = SCNMatrix4MakeTranslation(-0.5, -0.5, 0)
+        mtx = SCNMatrix4Rotate(mtx, Float(Double.pi), 0, 0, 1)
+        mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
+        node.sphere.firstMaterial!.transparent.contentsTransform = mtx
         node.sphere.firstMaterial!.isDoubleSided = true
         return node
     }()
