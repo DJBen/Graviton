@@ -172,11 +172,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         northNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(northNode)
         
-        let testText = OrthographicLabelNode(string: "North")
+        let testText = TrackingLabelNode(string: "North")
         testText.position = SCNVector3(0, 0, 1) * Float(auxillaryConstellationLabelLayerRadius)
         testText.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(testText)
-        let testText2 = OrthographicLabelNode(string: "South")
+        let testText2 = TrackingLabelNode(string: "South")
         testText2.position = SCNVector3(0, 0, -1) * Float(auxillaryConstellationLabelLayerRadius)
         testText2.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(testText2)

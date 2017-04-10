@@ -22,9 +22,6 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     private var scnView: SCNView {
         return self.view as! SCNView
     }
-    private lazy var overlay: ObserverOverlayScene = {
-        return ObserverOverlayScene(size: self.scnView.frame.size)
-    }()
     
     var currentSnapshot: UIImage {
         return scnView.snapshot()
@@ -82,26 +79,9 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         scnView.pointOfView = obsScene.cameraNode
         cameraController = obsScene
         scnView.isPlaying = true
-        scnView.overlaySKScene = overlay
-        overlay.delegate = self
         scnView.backgroundColor = UIColor.black
         viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
-    }
-    
-    private func starsInFrustrum() -> [(Star, CGPoint)] {
-        let visibleNodes = obsScene.rootNode.childNodes { (child, _) -> Bool in
-            if child.name == nil { return false }
-            let projected = self.scnView.projectPoint(child.position)
-            return self.scnView.frame.contains(CGPoint(x: CGFloat(projected.x), y: CGFloat(projected.y)))
-        }
-        return visibleNodes.flatMap { (node) -> (Star, CGPoint)? in
-            if let name = node.name, let numId = Int(name), let star = Star.id(numId) {
-                let coord = self.scnView.project3dTo2d(node.position).point
-                return (star, coord)
-            }
-            return nil
-        }
     }
     
     // MARK: - Scene Renderer Delegate

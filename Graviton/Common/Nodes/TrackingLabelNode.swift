@@ -1,5 +1,5 @@
 //
-//  OrthographicLabelNode.swift
+//  TrackingLabelNode.swift
 //  Graviton
 //
 //  Created by Ben Lu on 3/31/17.
@@ -10,15 +10,15 @@ import UIKit
 import SceneKit
 import MathUtil
 
-class OrthographicLabelNode: SCNNode {
+class TrackingLabelNode: SCNNode {
     
     private static let surfaceShader: String = {
-        let path = Bundle.main.path(forResource: "orthographic_label.surface", ofType: "shader")!
+        let path = Bundle.main.path(forResource: "tracking_label.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
     
     private static let geometryShader: String = {
-        let path = Bundle.main.path(forResource: "orthographic_label.geometry", ofType: "shader")!
+        let path = Bundle.main.path(forResource: "tracking_label.geometry", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
     
@@ -56,8 +56,8 @@ class OrthographicLabelNode: SCNNode {
         let material = text.firstMaterial!
         material.diffuse.contents = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
         material.shaderModifiers = [
-            .geometry : OrthographicLabelNode.geometryShader,
-            .surface : OrthographicLabelNode.surfaceShader
+            .geometry : TrackingLabelNode.geometryShader,
+            .surface : TrackingLabelNode.surfaceShader
         ]
         material.setValue(offset.dx, forKeyPath: "horizontalOffset")
         material.setValue(offset.dy, forKeyPath: "verticalOffset")
