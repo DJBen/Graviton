@@ -67,7 +67,7 @@ struct Section {
 struct MenuItem {
     enum `Type` {
         case detail(Menu)
-        case toggle(Settings.BooleanSettings)
+        case toggle(Settings.BooleanSetting)
     }
     let text: String
     let type: Type
@@ -84,7 +84,7 @@ struct MenuItem {
             self.type = .detail(try Menu(filePath: path))
         case "toggle":
             guard let binding = rawItem["binding"] as? String else { throw MenuParseError.missingBinding }
-            guard let field = Settings.BooleanSettings(rawValue: binding) else { throw MenuParseError.cannotFindBinding }
+            guard let field = Settings.BooleanSetting(rawValue: binding) else { throw MenuParseError.cannotFindBinding }
             self.type = .toggle(field)
         default:
             throw MenuParseError.unrecognizedMenuType

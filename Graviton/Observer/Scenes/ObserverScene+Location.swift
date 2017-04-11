@@ -46,8 +46,6 @@ extension ObserverScene: CLLocationManagerDelegate {
         self.observerInfo = ObserverInfo(location: lastLocation, timestamp: Date())
         let orientation = Quaternion(rotationMatrix: observerInfo!.localViewTransform)
         debugNode.orientation = SCNQuaternion(orientation)
-        rootNode.childNode(withName: "zenith", recursively: false)!.position = SCNVector3(orientation * Vector3(0, 0, 10))
-        rootNode.childNode(withName: "zenith", recursively: false)!.constraints = [SCNBillboardConstraint()]
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
