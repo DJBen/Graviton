@@ -32,10 +32,10 @@ extension ObserverScene {
             }
         }
         
-        init(setting: Settings.BooleanSetting, identifier: String, vertices: [SCNVector3], color: UIColor) {
+        init(setting: Settings.BooleanSetting, vertices: [SCNVector3], color: UIColor) {
             self.vertices = vertices
             self.color = color
-            super.init(setting: setting, identifier: identifier)
+            super.init(setting: setting)
         }
         
         required init?(coder aDecoder: NSCoder) {

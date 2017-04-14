@@ -17,13 +17,13 @@ extension ObserverScene {
         
         var indicatorNode: SCNNode
         
-        init(setting: Settings.BooleanSetting, identifier: String, position: SCNVector3, color: UIColor) {
+        init(setting: Settings.BooleanSetting, position: SCNVector3, color: UIColor) {
             indicatorNode = SCNNode(geometry: SCNPlane(width: 0.2, height: 0.2))
             indicatorNode.position = position
             indicatorNode.geometry!.firstMaterial!.diffuse.contents = color
             indicatorNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
             indicatorNode.constraints = [SCNBillboardConstraint()]
-            super.init(setting: setting, identifier: identifier)
+            super.init(setting: setting)
         }
         
         required init?(coder aDecoder: NSCoder) {

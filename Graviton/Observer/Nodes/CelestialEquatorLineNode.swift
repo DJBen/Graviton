@@ -19,7 +19,8 @@ extension ObserverScene {
                 let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
                 return SCNVector3(rawToModelCoordinateTransform(-position))
             }
-            super.init(setting: .showCelestialEquator, identifier: "celestial equator", vertices: vertices, color: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+            super.init(setting: .showCelestialEquator, vertices: vertices, color: #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1))
+            name = "celestial equator"
         }
         
         required init?(coder aDecoder: NSCoder) {

@@ -19,7 +19,8 @@ extension ObserverScene {
                 let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
                 return SCNVector3(rawToModelCoordinateTransform(-position))
             }
-            super.init(setting: .showEcliptic, identifier: "ecliptic", vertices: vertices, color: #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1))
+            super.init(setting: .showEcliptic, vertices: vertices, color: #colorLiteral(red: 0.5843137503, green: 0.8235294223, blue: 0.4196078479, alpha: 1))
+            name = "ecliptic"
         }
 
         required init?(coder aDecoder: NSCoder) {

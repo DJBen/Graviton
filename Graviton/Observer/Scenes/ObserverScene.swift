@@ -152,9 +152,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         drawConstellationLines()
         drawConstellationLabels()
         
-        let southNode = IndicatorNode(setting: .showSouthPoleIndicator, identifier: "south pole indicator", position: SCNVector3(0, 0, -10), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1))
+        let southNode = IndicatorNode(setting: .showSouthPoleIndicator, position: SCNVector3(0, 0, -10), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1))
+        southNode.name = "south pole indicator"
         rootNode.addChildNode(southNode)
-        let northNode = IndicatorNode(setting: .showNorthPoleIndicator, identifier: "north pole indicator", position: SCNVector3(0, 0, 10), color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
+        let northNode = IndicatorNode(setting: .showNorthPoleIndicator, position: SCNVector3(0, 0, 10), color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
+        northNode.name = "north pole indicator"
         rootNode.addChildNode(northNode)
         
         startLocationService()
