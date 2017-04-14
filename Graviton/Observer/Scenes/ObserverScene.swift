@@ -152,29 +152,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         drawConstellationLines()
         drawConstellationLabels()
         
-        let southNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
-        southNode.position = SCNVector3(0, 0, -10)
-        southNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-        southNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
-        southNode.constraints = [SCNBillboardConstraint()]
+        let southNode = IndicatorNode(setting: .showSouthPoleIndicator, identifier: "south pole indicator", position: SCNVector3(0, 0, -10), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1))
         rootNode.addChildNode(southNode)
-        
-        let northNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
-        northNode.position = SCNVector3(0, 0, 10)
-        northNode.name = "north annotation"
-        northNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-        northNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
-        northNode.constraints = [SCNBillboardConstraint()]
+        let northNode = IndicatorNode(setting: .showNorthPoleIndicator, identifier: "north pole indicator", position: SCNVector3(0, 0, 10), color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
         rootNode.addChildNode(northNode)
         
-        let testText = TrackingLabelNode(string: "North")
-        testText.position = SCNVector3(0, 0, 1) * Float(auxillaryConstellationLabelLayerRadius)
-        testText.constraints = [SCNBillboardConstraint()]
-        rootNode.addChildNode(testText)
-        let testText2 = TrackingLabelNode(string: "South")
-        testText2.position = SCNVector3(0, 0, -1) * Float(auxillaryConstellationLabelLayerRadius)
-        testText2.constraints = [SCNBillboardConstraint()]
-        rootNode.addChildNode(testText2)
         startLocationService()
     }
     

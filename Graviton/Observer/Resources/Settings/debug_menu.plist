@@ -7,28 +7,23 @@
 		<array>
 			<dict>
 				<key>type</key>
-				<string>detail</string>
+				<string>toggle</string>
 				<key>text</key>
-				<string>Content Drawing</string>
+				<string>North Pole Indicator</string>
 				<key>image</key>
-				<string>row_icon_compass</string>
-				<key>destination</key>
-				<string>content_drawing_menu</string>
+				<string>row_icon_north_pole</string>
+				<key>binding</key>
+				<string>showNorthPoleIndicator</string>
 			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>content</key>
-		<array>
 			<dict>
 				<key>type</key>
-				<string>detail</string>
+				<string>toggle</string>
 				<key>text</key>
-				<string>Debug</string>
+				<string>South Pole Indicator</string>
 				<key>image</key>
-				<string>row_icon_inspection</string>
-				<key>destination</key>
-				<string>debug_menu</string>
+				<string>row_icon_south_pole</string>
+				<key>binding</key>
+				<string>showSouthPoleIndicator</string>
 			</dict>
 		</array>
 	</dict>

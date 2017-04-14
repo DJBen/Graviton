@@ -174,6 +174,8 @@
 		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
+		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
+		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -460,6 +462,8 @@
 		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
+		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
+		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -826,6 +830,7 @@
 			isa = PBXGroup;
 			children = (
 				FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */,
+				FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */,
 				FC7D62031E9B498400BEA5BE /* main_menu.plist */,
 			);
 			path = Settings;
@@ -910,6 +915,7 @@
 				EFAC9BC81E9D849200AAAC95 /* LineNode.swift */,
 				EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */,
 				EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */,
+				FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1335,6 +1341,7 @@
 				FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
+				FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1505,6 +1512,7 @@
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
+				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
 				FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */,
 				EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,

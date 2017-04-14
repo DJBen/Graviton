@@ -28,6 +28,12 @@ extension ObserverScene {
                 }
             }
             name = identifier
+            setUpElement()
+            if Settings.default[setting] {
+                showElement()
+            } else {
+                hideElement()
+            }
         }
         
         deinit {
@@ -40,7 +46,7 @@ extension ObserverScene {
         
         // MARK: ObserverSceneElement
         var isSetUp: Bool {
-            fatalError("isLoaded is not implemented")
+            fatalError("isSetUp is not implemented")
         }
         
         // abstract class: throw for these abstract methods

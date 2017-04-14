@@ -36,6 +36,8 @@ struct Settings {
         case showEcliptic
         case showConstellationLabel
         case showPlanetLabel
+        case showNorthPoleIndicator
+        case showSouthPoleIndicator
         var `default`: Bool {
             switch self {
             case .showCelestialEquator:
@@ -46,6 +48,8 @@ struct Settings {
                 return showConstellationLabelDefault
             case .showPlanetLabel:
                 return showPlanetLabelDefault
+            default:
+                return false
             }
         }
     }
@@ -112,6 +116,6 @@ struct Settings {
     }
     
     mutating func unsubscribeSetting(withIdentifier identifier: String) {
-        
+        booleanSubscriptions[identifier] = nil
     }
 }

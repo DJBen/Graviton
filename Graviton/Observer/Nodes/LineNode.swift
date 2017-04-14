@@ -32,19 +32,10 @@ extension ObserverScene {
             }
         }
         
-        init(setting: Settings.BooleanSetting, identifier: String, vertices: [SCNVector3], color: UIColor, ignoreSetup: Bool = false) {
+        init(setting: Settings.BooleanSetting, identifier: String, vertices: [SCNVector3], color: UIColor) {
             self.vertices = vertices
             self.color = color
             super.init(setting: setting, identifier: identifier)
-            if ignoreSetup {
-                return
-            }
-            setUpElement()
-            if Settings.default[setting] {
-                showElement()
-            } else {
-                hideElement()
-            }
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -69,7 +60,7 @@ extension ObserverScene {
         }
         
         override func showElement() {
-            if let node = lineNode {
+            if let node = lineNode, node.parent == nil {
                 addChildNode(node)
             }
         }
