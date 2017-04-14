@@ -104,8 +104,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     
     var observerInfo: ObserverInfo?
     
-    // MARK: - Property - Nodes
-    
+    // MARK: - Property - Visual Nodes
+
+    private var celesitalEquatorNode: CelestialEquatorLineNode?
+    private var eclipticNode: EclipticLineNode?
+
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
         node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
@@ -117,7 +120,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
         node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
-        // since the coordinat is NED, we rotate around center by 180 degrees
+        // since the coordinate is NED, we rotate around center by 180 degrees to make it upside down
         var mtx = SCNMatrix4MakeTranslation(-0.5, -0.5, 0)
         mtx = SCNMatrix4Rotate(mtx, Float(Double.pi), 0, 0, 1)
         mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
@@ -155,14 +158,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         southNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
         southNode.constraints = [SCNBillboardConstraint()]
         rootNode.addChildNode(southNode)
-        
-        let veNode = SCNNode(geometry: SCNPlane(width: 2, height: 2))
-        veNode.position = SCNVector3(10, 0, 0)
-        veNode.geometry!.firstMaterial!.diffuse.contents = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-        veNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "annotation_cross")
-        veNode.constraints = [SCNBillboardConstraint()]
-        veNode.name = "zenith"
-        rootNode.addChildNode(veNode)
         
         let northNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
         northNode.position = SCNVector3(0, 0, 10)
@@ -271,45 +266,24 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             }
         }
     }
-    
+
     private func drawEcliptic() {
         func transform(position: Vector3) -> Vector3 {
             let rotated = position.oblique(by: earth!.obliquity)
             return rotated.normalized() * auxillaryLineLayerRadius
         }
-        if Settings.default[.showEcliptic] {
-            drawDashedLine(name: "ecliptic line", color: Settings.default[.eclipticColor], transform: transform)
-        }
+        eclipticNode?.removeFromParentNode()
+        eclipticNode = EclipticLineNode(earth: self.earth!, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(eclipticNode!)
     }
-    
+
     private func drawCelestialEquator() {
         func transform(position: Vector3) -> Vector3 {
             return position.normalized() * auxillaryLineLayerRadius
         }
-        if Settings.default[.showCelestialEquator] {
-            drawDashedLine(name: "celestial equator line", color: Settings.default[.celestialEquatorColor], transform: transform)
-        }
-    }
-    
-    private func drawDashedLine(name: String, color: UIColor, transform: @escaping (Vector3) -> Vector3) {
-        guard let earth = self.earth else { return }
-        if rootNode.childNode(withName: name, recursively: false) != nil { return }
-        let numberOfVertices: Int = 200
-        let vertices: [SCNVector3] = Array(0..<numberOfVertices).map { index in
-            let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
-            let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
-            return SCNVector3(transform(-position))
-        }
-        let indices = (0...numberOfVertices).map { CInt($0 % numberOfVertices) }
-        let vertexSources = SCNGeometrySource(vertices: vertices)
-        let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
-        let line = SCNGeometry(sources: [vertexSources], elements: [elements])
-        let lineNode = SCNNode(geometry: line)
-        lineNode.name = name
-        let mat = SCNMaterial()
-        mat.diffuse.contents = color
-        line.firstMaterial = mat
-        rootNode.addChildNode(lineNode)
+        celesitalEquatorNode?.removeFromParentNode()
+        celesitalEquatorNode = CelestialEquatorLineNode(earth: self.earth!, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(celesitalEquatorNode!)
     }
     
     func updateEphemeris(_ eph: Ephemeris) {
@@ -359,34 +333,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         case celestialEquator = "celestial equator line"
         case ecliptic = "ecliptic line"
         case constellationLabels = "constellation labels"
-    }
-    
-    private func findNode(_ element: DisplayElement) -> SCNNode? {
-        return rootNode.childNode(withName: element.rawValue, recursively: false)
-    }
-    
-    func updateAccordingToSettings() {
-        if let node = findNode(.celestialEquator) {
-            node.isHidden = !Settings.default[.showCelestialEquator]
-        } else {
-            if Settings.default[.showCelestialEquator] {
-                drawCelestialEquator()
-            }
-        }
-        if let node = findNode(.ecliptic) {
-            node.isHidden = !Settings.default[.showEcliptic]
-        } else {
-            if Settings.default[.showEcliptic] {
-                drawEcliptic()
-            }
-        }
-        if let node = findNode(.constellationLabels) {
-            node.isHidden = !Settings.default[.showConstellationLabel]
-        } else {
-            if Settings.default[.showConstellationLabel] {
-                drawConstellationLabels()
-            }
-        }
     }
     
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {

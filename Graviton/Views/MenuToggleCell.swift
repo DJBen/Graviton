@@ -14,7 +14,7 @@ class MenuToggleCell: MenuCell {
         return sw
     }()
     
-    var binding: Settings.BooleanSettings? {
+    var binding: Settings.BooleanSetting? {
         didSet {
             if let field = binding {
                 toggle.isOn = Settings.default[field]

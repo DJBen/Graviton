@@ -16,13 +16,22 @@ fileprivate let showPlanetLabelDefault: Bool = true
 fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
 fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
+typealias BooleanSettingBlock = (Bool, Bool) -> Void
+
 struct Settings {
+    
+    private struct BooleanSubscription {
+        let key: BooleanSetting
+        let block: BooleanSettingBlock
+    }
     
     static var `default`: Settings = {
         return Settings()
     }()
     
-    enum BooleanSettings: String {
+    private var booleanSubscriptions = [String: BooleanSubscription]()
+    
+    enum BooleanSetting: String {
         case showCelestialEquator
         case showEcliptic
         case showConstellationLabel
@@ -41,7 +50,7 @@ struct Settings {
         }
     }
     
-    enum ColorSettings: String {
+    enum ColorSetting: String {
         case celestialEquatorColor
         case eclipticColor
         var `default`: UIColor {
@@ -63,17 +72,21 @@ struct Settings {
         case constellationLineMode
     }
     
-    subscript(boolKey: BooleanSettings) -> Bool {
+    subscript(boolKey: BooleanSetting) -> Bool {
         get {
             guard let value = UserDefaults.standard.object(forKey: boolKey.rawValue) else { return boolKey.default }
             return value as! Bool
         }
         set {
+            booleanSubscriptions.filter { $1.key == boolKey }.forEach { (_, subscription) in
+                let oldValue = self[boolKey]
+                subscription.block(oldValue, newValue)
+            }
             UserDefaults.standard.set(newValue, forKey: boolKey.rawValue)
         }
     }
     
-    subscript(colorKey: ColorSettings) -> UIColor {
+    subscript(colorKey: ColorSetting) -> UIColor {
         get {
             guard let data = UserDefaults.standard.data(forKey: colorKey.rawValue) else { return colorKey.default }
             return NSKeyedUnarchiver.unarchiveObject(with: data) as! UIColor
@@ -92,5 +105,13 @@ struct Settings {
         set {
             UserDefaults.standard.set(newValue.rawValue, forKey: conKey.rawValue)
         }
+    }
+    
+    mutating func subscribe(setting: BooleanSetting, identifier: String, valueChanged block: @escaping BooleanSettingBlock) {
+        booleanSubscriptions[identifier] = BooleanSubscription(key: setting, block: block)
+    }
+    
+    mutating func unsubscribeSetting(withIdentifier identifier: String) {
+        
     }
 }
