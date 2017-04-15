@@ -34,7 +34,6 @@
 		EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BD3B71E57E73B009D2698 /* StarTest.swift */; };
 		EF4BD3BB1E57F047009D2698 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF4BD3C21E580373009D2698 /* moon_1500AD_to_3000AD.result in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */; };
-		EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
 		EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5F13061E50208700A8EF51 /* StarryNight.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
@@ -87,7 +86,6 @@
 		EFD3CE9A1E85D1D400D6B0FF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE981E85D1D400D6B0FF /* Parser.swift */; };
 		EFD3CE9C1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
 		EFD3CE9D1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
-		EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD5383E1E5E5F4C00B34C28 /* Settings.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
@@ -136,7 +134,6 @@
 		FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E721E9B514C0026B222 /* SolarSystemViewController.swift */; };
 		FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E741E9B51700026B222 /* SolarSystemOverlayScene.swift */; };
 		FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E771E9B534C0026B222 /* ObserverSceneElement.swift */; };
-		FC959E7A1E9B56C00026B222 /* SettingsSupport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E791E9B56C00026B222 /* SettingsSupport.swift */; };
 		FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
@@ -165,17 +162,19 @@
 		FCFBB71B1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71C1E5457DD00624B4C /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
-		FCFBB7231E5A5CCE00624B4C /* EphemerisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */; };
-		FCFBB7291E5A6E4E00624B4C /* UINavigationController+Transparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */; };
-		FCFBB72B1E5A97E200624B4C /* PushOverlayTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */; };
-		FCFBB7341E618E9A00624B4C /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7331E618E9A00624B4C /* Constants.swift */; };
 		FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7351E61945400624B4C /* MenuCell.swift */; };
-		FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */; };
 		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
+		FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B091EA2145A00C4B006 /* Constants.swift */; };
+		FCFF7B121EA2145A00C4B006 /* EphemerisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */; };
+		FCFF7B131EA2145A00C4B006 /* PushOverlayTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */; };
+		FCFF7B141EA2145A00C4B006 /* SCNView+Projection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */; };
+		FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0D1EA2145A00C4B006 /* Settings.swift */; };
+		FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */; };
+		FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -331,7 +330,6 @@
 		EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF4BD3B71E57E73B009D2698 /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon_1500AD_to_3000AD.result; sourceTree = "<group>"; };
-		EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNView+Projection.swift"; sourceTree = "<group>"; };
 		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		EF5F13041E50208700A8EF51 /* StarryNight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarryNight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5F13061E50208700A8EF51 /* StarryNight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarryNight.h; sourceTree = "<group>"; };
@@ -369,7 +367,6 @@
 		EFD3CE8F1E85CF7800D6B0FF /* pluto.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pluto.result; sourceTree = "<group>"; };
 		EFD3CE981E85D1D400D6B0FF /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
-		EFD5383E1E5E5F4C00B34C28 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -417,7 +414,6 @@
 		FC959E721E9B514C0026B222 /* SolarSystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemViewController.swift; sourceTree = "<group>"; };
 		FC959E741E9B51700026B222 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
 		FC959E771E9B534C0026B222 /* ObserverSceneElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSceneElement.swift; sourceTree = "<group>"; };
-		FC959E791E9B56C00026B222 /* SettingsSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsSupport.swift; sourceTree = "<group>"; };
 		FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanFlaggedNode.swift; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC998DAF1E2BAD8A00E0BFFF /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
@@ -450,20 +446,22 @@
 		FCE0A7561E8A59F50009EFCB /* moon.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon.result; sourceTree = "<group>"; };
 		FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
 		FCFBB71E1E59FCF100624B4C /* WarpControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WarpControl.swift; sourceTree = "<group>"; };
-		FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
-		FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transparency.swift"; sourceTree = "<group>"; };
-		FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushOverlayTransition.swift; sourceTree = "<group>"; };
 		FCFBB7321E60660A00624B4C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		FCFBB7331E618E9A00624B4C /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		FCFBB7351E61945400624B4C /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
-		FCFBB7371E61DA1A00624B4C /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
-		FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Graviton-Bridging-Header.h"; sourceTree = "<group>"; };
 		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
+		FCFF7B091EA2145A00C4B006 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
+		FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushOverlayTransition.swift; sourceTree = "<group>"; };
+		FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNView+Projection.swift"; sourceTree = "<group>"; };
+		FCFF7B0D1EA2145A00C4B006 /* Settings.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; };
+		FCFF7B0E1EA2145A00C4B006 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
+		FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
+		FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transparency.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -579,21 +577,6 @@
 			path = StarryNightTests;
 			sourceTree = "<group>";
 		};
-		EFA7FEBB1D8A802F0043E8CC /* Util */ = {
-			isa = PBXGroup;
-			children = (
-				EF50DBE81E475F0700C41E98 /* SCNView+Projection.swift */,
-				FCFBB7281E5A6E4E00624B4C /* UINavigationController+Transparency.swift */,
-				FCFBB72A1E5A97E200624B4C /* PushOverlayTransition.swift */,
-				FCFBB7221E5A5CCE00624B4C /* EphemerisManager.swift */,
-				EFD5383E1E5E5F4C00B34C28 /* Settings.swift */,
-				FCFBB7331E618E9A00624B4C /* Constants.swift */,
-				FCFBB7371E61DA1A00624B4C /* UIImageEffects.h */,
-				FCFBB7381E61DA1A00624B4C /* UIImageEffects.m */,
-			);
-			path = Util;
-			sourceTree = "<group>";
-		};
 		EFC2C68B1D88D02F0031AA9C = {
 			isa = PBXGroup;
 			children = (
@@ -638,7 +621,6 @@
 				FCA930651E23700800100706 /* Scenes */,
 				FCFBB71D1E59FCB200624B4C /* Views */,
 				EF4851881D91E6C800737CE4 /* Model */,
-				EFA7FEBB1D8A802F0043E8CC /* Util */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
 				EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */,
 				EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */,
@@ -801,6 +783,7 @@
 		FC7D61F41E9B47D400BEA5BE /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				FCFF7B081EA213F900C4B006 /* Utils */,
 				FC959E5F1E9B4FCD0026B222 /* Protocols */,
 				FC959E661E9B50190026B222 /* ViewControllers */,
 				FC959E691E9B50A80026B222 /* Nodes */,
@@ -861,7 +844,6 @@
 				FC959E601E9B4FEC0026B222 /* CameraControlling.swift */,
 				FC959E611E9B4FEC0026B222 /* FocusingSupport.swift */,
 				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
-				FC959E791E9B56C00026B222 /* SettingsSupport.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -984,6 +966,21 @@
 				FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		FCFF7B081EA213F900C4B006 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */,
+				FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */,
+				FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */,
+				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
+				FCFF7B0D1EA2145A00C4B006 /* Settings.swift */,
+				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
+				FCFF7B0E1EA2145A00C4B006 /* UIImageEffects.h */,
+				FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1484,40 +1481,39 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCFBB7341E618E9A00624B4C /* Constants.swift in Sources */,
 				FC959E711E9B51420026B222 /* SolarSystemScene.swift in Sources */,
 				FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */,
-				FCFBB72B1E5A97E200624B4C /* PushOverlayTransition.swift in Sources */,
 				FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
-				FC959E7A1E9B56C00026B222 /* SettingsSupport.swift in Sources */,
 				FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */,
+				FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */,
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
 				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				FC959E5A1E9B4D960026B222 /* ObserverScene+Location.swift in Sources */,
-				EF50DBE91E475F0700C41E98 /* SCNView+Projection.swift in Sources */,
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
+				FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
 				EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */,
-				FCFBB7231E5A5CCE00624B4C /* EphemerisManager.swift in Sources */,
+				FCFF7B141EA2145A00C4B006 /* SCNView+Projection.swift in Sources */,
 				FC959E621E9B4FEC0026B222 /* CameraControlling.swift in Sources */,
 				FC959E581E9B4D960026B222 /* ObserverScene.swift in Sources */,
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
+				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
+				FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */,
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
-				FCFBB7391E61DA1A00624B4C /* UIImageEffects.m in Sources */,
-				EFD5383F1E5E5F4C00B34C28 /* Settings.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,
-				FCFBB7291E5A6E4E00624B4C /* UINavigationController+Transparency.swift in Sources */,
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,
+				FCFF7B121EA2145A00C4B006 /* EphemerisManager.swift in Sources */,
+				FCFF7B131EA2145A00C4B006 /* PushOverlayTransition.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
