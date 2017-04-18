@@ -176,7 +176,6 @@
 		FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */; };
 		FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */; };
 		FCFF7B1D1EA6196500C4B006 /* OrbitalMotionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */; };
-		FCFF7B201EA61B2F00C4B006 /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -464,7 +463,6 @@
 		FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transparency.swift"; sourceTree = "<group>"; };
 		FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionTest.swift; sourceTree = "<group>"; };
-		FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -698,7 +696,6 @@
 				FC998DB11E2C749200E0BFFF /* neptune.result */,
 				EFD3CE8F1E85CF7800D6B0FF /* pluto.result */,
 				FCE0A7561E8A59F50009EFCB /* moon.result */,
-				FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
 				FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */,
@@ -1443,7 +1440,6 @@
 				EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
 				FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */,
 				EF4BD3A71E57E64D009D2698 /* Naif.swift in Sources */,
-				FCFF7B201EA61B2F00C4B006 /* Fixtures.swift in Sources */,
 				EF4BD38F1E57E60A009D2698 /* EphemerisTest.swift in Sources */,
 				EF4BD3901E57E60A009D2698 /* ParserTest.swift in Sources */,
 				EF4BD3B11E57E64D009D2698 /* OrbitalMotion.swift in Sources */,

@@ -84,7 +84,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        let _ = EphemerisManager.default.requestedEphemeris(at: JulianDate.now(), forObject: obsScene)
+        EphemerisManager.default.requestEphemeris(at: JulianDate.now(), forObject: obsScene)
     }
     
     // MARK: - Navigation Controller Delegate

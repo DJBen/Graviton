@@ -72,12 +72,12 @@ class EphemerisManager {
         subscriptions = subscriptions.filter { $0.delegate !== delegate }
     }
     
-    func requestedEphemeris(at requestedJd: JulianDate, forObject delegate: EphemerisUpdateDelegate) -> (Ephemeris, Bool)? {
+    func requestEphemeris(at requestedJd: JulianDate, forObject delegate: EphemerisUpdateDelegate) -> Void {
         var changed = false
         guard let sub = subscriptions.first(where: { $0.delegate === delegate }) else {
             fatalError("object not subscribed")
         }
-        guard let eph = sub.ephemeris else { return nil }
+        guard let eph = sub.ephemeris else { return }
         switch sub.mode {
         case .realtime:
             eph.updateMotion(using: requestedJd.date)
@@ -96,6 +96,5 @@ class EphemerisManager {
             print("update ephemeris for delegate \(delegate)")
             sub.delegate.ephemerisDidUpdate?(ephemeris: eph)
         }
-        return (eph, changed)
     }
 }
