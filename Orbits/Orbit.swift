@@ -11,7 +11,7 @@ import MathUtil
 // http://www.braeunig.us/space/orbmech.htm
 // http://www.bogan.ca/orbits/kepler/orbteqtn.html
 
-public struct Orbit: CustomStringConvertible {
+public struct Orbit: CustomStringConvertible, Equatable {
     public struct ConicSection: Equatable {
         public enum `Type` {
             case circle
@@ -66,7 +66,7 @@ public struct Orbit: CustomStringConvertible {
         }
         
         public static func ==(lhs: ConicSection, rhs: ConicSection) -> Bool {
-            return lhs.semimajorAxis == rhs.semimajorAxis && lhs.eccentricity == rhs.eccentricity
+            return lhs.semimajorAxis ~= rhs.semimajorAxis && lhs.eccentricity ~= rhs.eccentricity
         }
     }
     
@@ -84,7 +84,7 @@ public struct Orbit: CustomStringConvertible {
         }
         
         public static func ==(lhs: Orientation, rhs: Orientation) -> Bool {
-            return lhs.argumentOfPeriapsis == rhs.argumentOfPeriapsis && lhs.inclination == rhs.inclination && lhs.longitudeOfAscendingNode == rhs.longitudeOfAscendingNode
+            return lhs.argumentOfPeriapsis ~= rhs.argumentOfPeriapsis && lhs.inclination ~= rhs.inclination && lhs.longitudeOfAscendingNode ~= rhs.longitudeOfAscendingNode
         }
     }
 
@@ -125,6 +125,11 @@ public struct Orbit: CustomStringConvertible {
     public func orbitalPeriod(gm: Double) -> Double? {
         let a = shape.semimajorAxis
         return Double(Double.pi) * 2 * sqrt(pow(a, 3) / gm)
+    }
+    
+    // MARK: - Equatable
+    public static func ==(lhs: Orbit, rhs: Orbit) -> Bool {
+        return lhs.shape == rhs.shape && lhs.orientation == rhs.orientation
     }
 }
 

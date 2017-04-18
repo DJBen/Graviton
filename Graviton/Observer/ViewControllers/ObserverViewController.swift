@@ -18,7 +18,6 @@ import CoreImage
 class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport, SKSceneDelegate {
     
     private lazy var obsScene = ObserverScene()
-    private var manager: EphemerisManager?
     private var scnView: SCNView {
         return self.view as! SCNView
     }
@@ -30,10 +29,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        Horizons.shared.fetchEphemeris(update: { (ephemeris) in
-            self.manager = EphemerisManager(mode: .interval(60), ephemeris: ephemeris)
-            self.obsScene.ephemeris = ephemeris
-        })
+        EphemerisManager.default.subscribe(obsScene, mode: .interval(10))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -88,10 +84,7 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        guard let (eph, changed) = manager?.requestedEphemeris(at: JulianDate.now()) else { return }
-        if changed {
-            obsScene.updateEphemeris(eph)
-        }
+        let _ = EphemerisManager.default.requestedEphemeris(at: JulianDate.now(), forObject: obsScene)
     }
     
     // MARK: - Navigation Controller Delegate

@@ -20,6 +20,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.tintColor = UIColor.white
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
+        EphemerisManager.default.fetchEphemeris()
         return true
     }
 

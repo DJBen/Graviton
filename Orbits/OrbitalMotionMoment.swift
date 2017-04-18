@@ -18,4 +18,9 @@ public class OrbitalMotionMoment: OrbitalMotion {
         super.init(orbit: orbit, gm: gm, phase: .julianDate(julianDate))
         self.timeOfPeriapsisPassage = timeOfPeriapsisPassage
     }
+    
+    // MARK: - NSCopying
+    public override func copy(with zone: NSZone? = nil) -> Any {
+        return OrbitalMotionMoment.init(orbit: orbit, gm: gm, julianDate: julianDate!, timeOfPeriapsisPassage: timeOfPeriapsisPassage!)
+    }
 }

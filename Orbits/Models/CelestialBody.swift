@@ -93,6 +93,14 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     public static func <(lhs: CelestialBody, rhs: CelestialBody) -> Bool {
         return lhs.naif < rhs.naif
     }
+    
+    // MARK: - NSCopying
+    public func copy(with zone: NSZone? = nil) -> Any {
+        let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: overridenHillSphereRadiusRp)
+        let children = satellites.filter { $0 is CelestialBody } as! [CelestialBody]
+        copy.satellites = children.map { $0.copy() as! CelestialBody }
+        return copy
+    }
 }
 
 public class Sun: CelestialBody {

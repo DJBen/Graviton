@@ -175,6 +175,8 @@
 		FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0D1EA2145A00C4B006 /* Settings.swift */; };
 		FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */; };
 		FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */; };
+		FCFF7B1D1EA6196500C4B006 /* OrbitalMotionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */; };
+		FCFF7B201EA61B2F00C4B006 /* Fixtures.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -374,7 +376,6 @@
 		EFE8BF581DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialNodeTest.swift; sourceTree = "<group>"; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
 		EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EclipticLineNode.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
@@ -462,6 +463,8 @@
 		FCFF7B0E1EA2145A00C4B006 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Transparency.swift"; sourceTree = "<group>"; };
+		FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionTest.swift; sourceTree = "<group>"; };
+		FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Fixtures.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -695,9 +698,10 @@
 				FC998DB11E2C749200E0BFFF /* neptune.result */,
 				EFD3CE8F1E85CF7800D6B0FF /* pluto.result */,
 				FCE0A7561E8A59F50009EFCB /* moon.result */,
-				EFE8BF831DD88425000F0A79 /* CelestialNodeTest.swift */,
+				FCFF7B1E1EA61B2F00C4B006 /* Fixtures.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
+				FCFF7B1C1EA6196500C4B006 /* OrbitalMotionTest.swift */,
 				EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */,
 				FCA930E21E2B8F5400100706 /* ParserTest.swift */,
 				FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */,
@@ -971,12 +975,12 @@
 		FCFF7B081EA213F900C4B006 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */,
+				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
 				FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */,
 				FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				FCFF7B0D1EA2145A00C4B006 /* Settings.swift */,
-				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
+				FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */,
 				FCFF7B0E1EA2145A00C4B006 /* UIImageEffects.h */,
 				FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */,
 			);
@@ -1439,6 +1443,7 @@
 				EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
 				FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */,
 				EF4BD3A71E57E64D009D2698 /* Naif.swift in Sources */,
+				FCFF7B201EA61B2F00C4B006 /* Fixtures.swift in Sources */,
 				EF4BD38F1E57E60A009D2698 /* EphemerisTest.swift in Sources */,
 				EF4BD3901E57E60A009D2698 /* ParserTest.swift in Sources */,
 				EF4BD3B11E57E64D009D2698 /* OrbitalMotion.swift in Sources */,
@@ -1450,6 +1455,7 @@
 				EF4BD3911E57E60A009D2698 /* TransientDBHelper.swift in Sources */,
 				EF4BD3921E57E60A009D2698 /* DBHelperTest.swift in Sources */,
 				EFD3CE8E1E85C89700D6B0FF /* ResponseParser.swift in Sources */,
+				FCFF7B1D1EA6196500C4B006 /* OrbitalMotionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

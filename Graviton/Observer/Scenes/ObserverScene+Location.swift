@@ -44,8 +44,7 @@ extension ObserverScene: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let lastLocation = locations.last!
         self.observerInfo = ObserverInfo(location: lastLocation, timestamp: Date())
-        let orientation = Quaternion(rotationMatrix: observerInfo!.localViewTransform)
-        debugNode.orientation = SCNQuaternion(orientation)
+        updateGround()
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

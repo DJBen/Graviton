@@ -8,7 +8,7 @@
 
 import MathUtil
 
-public class OrbitalMotion {
+public class OrbitalMotion: NSCopying {
     
     public let gm: Double
     
@@ -27,10 +27,24 @@ public class OrbitalMotion {
     /// - meanAnomaly: Mean anomaly in radians
     /// - timeSincePeriapsis: Time of periapsis passage in seconds
     /// - julianDate: Current Julian day time. This option requires `referenceJulianDayTime` to be set
-    public enum Phase {
+    public enum Phase: Equatable {
         case meanAnomaly(Double)
         case timeSincePeriapsis(Double)
         case julianDate(Double)
+        
+        public static func ==(lhs: Phase, rhs: Phase) -> Bool {
+            switch lhs {
+            case .meanAnomaly(let ma):
+                guard case .meanAnomaly(let ma2) = rhs else { return false }
+                return ma ~= ma2
+            case .timeSincePeriapsis(let tsp):
+                guard case .timeSincePeriapsis(let tsp2) = rhs else { return false }
+                return tsp ~= tsp2
+            case .julianDate(let jd):
+                guard case .julianDate(let jd2) = rhs else { return false }
+                return jd ~= jd2
+            }
+        }
     }
     
     public var phase: Phase {
@@ -237,5 +251,10 @@ public class OrbitalMotion {
         let (p, v) = stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
         position = p
         velocity = v
+    }
+    
+    // MARK: - NSCopying
+    public func copy(with zone: NSZone? = nil) -> Any {
+        return OrbitalMotion(orbit: orbit, gm: gm, phase: phase)
     }
 }
