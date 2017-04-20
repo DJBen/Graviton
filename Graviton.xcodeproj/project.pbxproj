@@ -35,6 +35,8 @@
 		EF4BD3BB1E57F047009D2698 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF4BD3C21E580373009D2698 /* moon_1500AD_to_3000AD.result in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */; };
 		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
+		EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF55530C1EA96F8500B5A34D /* Assets.xcassets */; };
+		EF5553101EA9701100B5A34D /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF55530F1EA9701100B5A34D /* Icons.xcassets */; };
 		EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5F13061E50208700A8EF51 /* StarryNight.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; };
 		EF5F131A1E50208700A8EF51 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -332,6 +334,8 @@
 		EF4BD3B71E57E73B009D2698 /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon_1500AD_to_3000AD.result; sourceTree = "<group>"; };
 		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
+		EF55530C1EA96F8500B5A34D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		EF55530F1EA9701100B5A34D /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		EF5F13041E50208700A8EF51 /* StarryNight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarryNight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF5F13061E50208700A8EF51 /* StarryNight.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = StarryNight.h; sourceTree = "<group>"; };
 		EF5F13071E50208700A8EF51 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -551,6 +555,14 @@
 				FCFBB7431E61E6E600624B4C /* Menu.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		EF55530E1EA96FF300B5A34D /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				EF55530F1EA9701100B5A34D /* Icons.xcassets */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		EF5F13051E50208700A8EF51 /* StarryNight */ = {
@@ -788,6 +800,7 @@
 				FC959E5F1E9B4FCD0026B222 /* Protocols */,
 				FC959E661E9B50190026B222 /* ViewControllers */,
 				FC959E691E9B50A80026B222 /* Nodes */,
+				EF55530E1EA96FF300B5A34D /* Resources */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -805,6 +818,7 @@
 		FC7D62001E9B493F00BEA5BE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				EF55530C1EA96F8500B5A34D /* Assets.xcassets */,
 				FC7D62011E9B498400BEA5BE /* Settings */,
 			);
 			path = Resources;
@@ -1332,6 +1346,7 @@
 			files = (
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
+				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
 				FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */,
 				FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
@@ -1339,6 +1354,7 @@
 				FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
+				EF5553101EA9701100B5A34D /* Icons.xcassets in Resources */,
 				FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
