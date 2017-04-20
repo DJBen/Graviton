@@ -97,6 +97,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     // MARK: - NSCopying
     public func copy(with zone: NSZone? = nil) -> Any {
         let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: overridenHillSphereRadiusRp)
+        copy.motion = motion?.copy() as? OrbitalMotion
         let children = satellites.filter { $0 is CelestialBody } as! [CelestialBody]
         copy.satellites = children.map { $0.copy() as! CelestialBody }
         return copy
