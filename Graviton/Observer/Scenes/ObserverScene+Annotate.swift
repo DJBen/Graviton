@@ -25,7 +25,7 @@ extension ObserverScene {
         for constellation in Constellation.all {
             guard let c = constellation.displayCenter else { continue }
             let center = SCNVector3(c.normalized())
-            let textNode = TrackingLabelNode(string: constellation.name)
+            let textNode = TrackingLabelNode(string: constellation.name, textStyle: TextStyle.constellationLabelTextStyle(fontSize: 0.8))
             textNode.constraints = [SCNBillboardConstraint()]
             textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
             conLabelNode.addChildNode(textNode)
@@ -37,11 +37,11 @@ extension ObserverScene {
         func offset(`class`: AnnotationClass) -> CGVector {
             switch `class` {
             case .sun:
-                return CGVector(dx: 0, dy: -1)
+                return CGVector(dx: 0, dy: -1.2)
             default:
                 break
             }
-            return CGVector(dx: 0, dy: -0.5)
+            return CGVector(dx: 0, dy: -0.6)
         }
         if let node = parent.childNode(withName: String(body.naifId), recursively: false) {
             node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
@@ -60,7 +60,7 @@ extension ObserverScene {
                 fontSize = 0.9
                 color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
             }
-            let node = TrackingLabelNode(string: body.name, fontSize: fontSize, offset: offset(class: `class`))
+            let node = TrackingLabelNode(string: body.name, textStyle: TextStyle.nearStellarBodyTextStyle(fontSize: fontSize, color: color), offset: offset(class: `class`))
             node.fontColor = color
             node.name = String(body.naifId)
             node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius - 1)

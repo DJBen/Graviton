@@ -41,20 +41,21 @@ class TrackingLabelNode: SCNNode {
         }
     }
     
-    init(string: String?, fontSize: CGFloat = 0.8, offset: CGVector = CGVector.zero) {
+    init(string: String?, textStyle: TextStyle? = nil, offset: CGVector = CGVector.zero) {
         self.offset = offset
         super.init()
-        let text = SCNText(string: string, extrusionDepth: 0)
-        text.font = UIFont(name: "Palatino", size: fontSize)
+        let style = textStyle ?? TextStyle.defaultTextStyle(fontSize: 0.8)
+        let text = SCNText(string: nullableBlock(style.textTransform)(string), extrusionDepth: 0)
+        text.font = style.font
         text.flatness = 0.01
         geometry = text
         position = SCNVector3Zero
         let (min, max) = self.boundingBox
         // The offset to center the text
         let textOffset = -min - SCNVector3((max.x - min.x) / 2, 0, 0)
-        text.containerFrame = CGRect(origin: CGPoint(x: CGFloat(textOffset.x), y: CGFloat(textOffset.y)), size: CGSize(width: 8, height: fontSize * 2))
+        text.containerFrame = CGRect(origin: CGPoint(x: CGFloat(textOffset.x), y: CGFloat(textOffset.y)), size: CGSize(width: 8, height: style.font.pointSize * 2))
         let material = text.firstMaterial!
-        material.diffuse.contents = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
+        material.diffuse.contents = style.color
         material.shaderModifiers = [
             .geometry : TrackingLabelNode.geometryShader,
             .surface : TrackingLabelNode.surfaceShader

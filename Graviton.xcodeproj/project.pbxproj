@@ -50,6 +50,8 @@
 		EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
 		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F29751E7B1B63003C2125 /* Kepler.swift */; };
+		EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0701EAAB230005D2E0D /* Style.swift */; };
+		EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0721EAAB81A005D2E0D /* Functional.swift */; };
 		EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC9BC81E9D849200AAAC95 /* LineNode.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
@@ -346,6 +348,8 @@
 		EF5F13231E5020FF00A8EF51 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		EF6F29751E7B1B63003C2125 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
+		EFA4F0701EAAB230005D2E0D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
+		EFA4F0721EAAB81A005D2E0D /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		EFAC9BC81E9D849200AAAC95 /* LineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNode.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -987,6 +991,7 @@
 			isa = PBXGroup;
 			children = (
 				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
+				EFA4F0721EAAB81A005D2E0D /* Functional.swift */,
 				FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */,
 				FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
@@ -994,6 +999,7 @@
 				FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */,
 				FCFF7B0E1EA2145A00C4B006 /* UIImageEffects.h */,
 				FCFF7B0F1EA2145A00C4B006 /* UIImageEffects.m */,
+				EFA4F0701EAAB230005D2E0D /* Style.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1505,6 +1511,7 @@
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
 				FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */,
 				FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */,
+				EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */,
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
@@ -1518,6 +1525,7 @@
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
 				EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */,
+				EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */,
 				FCFF7B141EA2145A00C4B006 /* SCNView+Projection.swift in Sources */,
 				FC959E621E9B4FEC0026B222 /* CameraControlling.swift in Sources */,
 				FC959E581E9B4D960026B222 /* ObserverScene.swift in Sources */,
