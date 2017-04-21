@@ -138,17 +138,17 @@ public class OrbitalMotion: NSCopying {
     ///   - gm: The system gm
     ///   - orbit: Orbital elements
     ///   - phase: Phase descriptor
-    init(orbit: Orbit, gm: Double = Sun.sol.gravParam, phase: Phase) {
+    init(orbit: Orbit, gm: Double, phase: Phase) {
         self.gm = gm
         self.orbit = orbit
         self.phase = phase
     }
     
-    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, meanAnomaly: Double) {
+    public convenience init(orbit: Orbit, gm: Double, meanAnomaly: Double) {
         self.init(orbit: orbit, gm: gm, phase: .meanAnomaly(meanAnomaly))
     }
     
-    public convenience init(orbit: Orbit, gm: Double = Sun.sol.gravParam, timeSincePeriapsis: Double = 0) {
+    public convenience init(orbit: Orbit, gm: Double, timeSincePeriapsis: Double = 0) {
         self.init(orbit: orbit, gm: gm, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
     
@@ -206,7 +206,13 @@ public class OrbitalMotion: NSCopying {
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         phase = .meanAnomaly(0)
     }
-    
+
+    /// Calculate state vectors without rotation.
+    /// If eccentric anomaly is not supplied, it will be calculated from true anomaly
+    /// - parameter trueAnomaly: True anomaly
+    ///
+    /// - returns: state vector tuple (position, velocity) without transforming by inclination, LoAN and AoP
+
     public func unrotatedStateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
         let sinE: Double
         let cosE: Double
@@ -226,8 +232,8 @@ public class OrbitalMotion: NSCopying {
         return (p, v)
     }
     
-    /// Calculate state vectors based on true anomaly.
-    /// If eccentric anomaly is not supplied, it will calculated from true anomaly
+    /// Calculate state vectors.
+    /// If eccentric anomaly is not supplied, it will be calculated from true anomaly
     /// - parameter trueAnomaly: True anomaly
     ///
     /// - returns: state vector tuple (position, velocity)
