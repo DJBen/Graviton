@@ -51,13 +51,13 @@ extension ObserverScene {
             let color: UIColor
             switch `class` {
             case .planet:
-                fontSize = 0.8
+                fontSize = 0.6
                 color = #colorLiteral(red: 0.9616846442, green: 0.930521369, blue: 0.8593300581, alpha: 1)
             case .star:
                 fontSize = 0.7
                 color = #colorLiteral(red: 0.8279239535, green: 0.9453579783, blue: 0.9584422708, alpha: 1)
             case .sun:
-                fontSize = 0.9
+                fontSize = 0.65
                 color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
             }
             let node = TrackingLabelNode(string: body.name, textStyle: TextStyle.nearStellarBodyTextStyle(fontSize: fontSize, color: color), offset: offset(class: `class`))
