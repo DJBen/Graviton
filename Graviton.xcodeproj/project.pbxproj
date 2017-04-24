@@ -841,8 +841,8 @@
 		FC7D62061E9B4C8400BEA5BE /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
 				FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */,
+				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";

@@ -14,6 +14,7 @@ import StarryNight
 import SpaceTime
 import MathUtil
 import CoreImage
+import CoreMedia
 
 class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport, SKSceneDelegate {
     
@@ -58,7 +59,9 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
     func menuButtonTapped() {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
+        print(CACurrentMediaTime())
         menuController.backgroundImage = scnView.snapshot()
+        print(CACurrentMediaTime())
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }
@@ -70,7 +73,6 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
-        scnView.isJitteringEnabled = true
         scnView.scene = obsScene
         scnView.pointOfView = obsScene.cameraNode
         cameraController = obsScene

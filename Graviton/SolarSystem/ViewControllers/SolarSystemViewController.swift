@@ -192,7 +192,6 @@ class SolarSystemViewController: SceneController {
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
         scnView.antialiasingMode = .multisampling2X
-        scnView.isJitteringEnabled = true
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
     }
