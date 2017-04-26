@@ -23,7 +23,7 @@ class NavigationTransitionController: NSObject, UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if fromVC is SceneController || toVC is SceneController {
-            return PushOverlayTransition(from: fromVC, to: toVC, operation: operation)
+            return PushOverlayTransition(presenting: operation == .push)
         } else {
             let transition = PushAsideTransition(presenting: operation == .push)
             if let menuProvider = fromVC as? MenuBackgroundProvider, operation == .push {

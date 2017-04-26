@@ -16,7 +16,7 @@ import MathUtil
 import CoreImage
 import CoreMedia
 
-class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate {
+class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
     
     private lazy var obsScene = ObserverScene()
     private var scnView: SCNView {
@@ -59,7 +59,6 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate 
     override func menuButtonTapped(sender: UIButton) {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
-        menuController.backgroundImage = UIImageEffects.blurredMenuImage(scnView.snapshot())
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }
@@ -82,6 +81,11 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisManager.default.requestEphemeris(at: JulianDate.now(), forObject: obsScene)
+    }
+
+    // MARK: - Menu Background Provider
+    func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
+        return UIImageEffects.blurredMenuImage(scnView.snapshot())
     }
 }
 
