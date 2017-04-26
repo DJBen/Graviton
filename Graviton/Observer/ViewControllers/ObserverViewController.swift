@@ -16,7 +16,7 @@ import MathUtil
 import CoreImage
 import CoreMedia
 
-class ObserverViewController: SceneController, UINavigationControllerDelegate, SnapshotSupport, SKSceneDelegate {
+class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate {
     
     private lazy var obsScene = ObserverScene()
     private var scnView: SCNView {
@@ -56,20 +56,15 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         viewSlideDivisor = factor * 25000
     }
     
-    func menuButtonTapped() {
+    override func menuButtonTapped(sender: UIButton) {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
-        print(CACurrentMediaTime())
-        menuController.backgroundImage = scnView.snapshot()
-        print(CACurrentMediaTime())
+        menuController.backgroundImage = UIImageEffects.blurredMenuImage(scnView.snapshot())
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }
     
     private func setupViewElements() {
-        navigationController?.delegate = self
-        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_menu"), style: .plain, target: self, action: #selector(menuButtonTapped))
-        navigationItem.rightBarButtonItem = barButtonItem
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
@@ -88,16 +83,10 @@ class ObserverViewController: SceneController, UINavigationControllerDelegate, S
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisManager.default.requestEphemeris(at: JulianDate.now(), forObject: obsScene)
     }
-    
-    // MARK: - Navigation Controller Delegate
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if viewController == self {
-            scnView.play(nil)
-        }
-    }
-    
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        let pushTransition = PushOverlayTransition(from: fromVC, to: toVC, operation: operation)
-        return pushTransition
+}
+
+fileprivate extension UIImageEffects {
+    static func blurredMenuImage(_ image: UIImage) -> UIImage {
+        return imageByApplyingBlur(to: image, withRadius: 24, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
     }
 }

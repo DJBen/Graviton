@@ -52,6 +52,9 @@
 		EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F29751E7B1B63003C2125 /* Kepler.swift */; };
 		EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0701EAAB230005D2E0D /* Style.swift */; };
 		EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0721EAAB81A005D2E0D /* Functional.swift */; };
+		EFA4F0751EAE7CF4005D2E0D /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0741EAE7CF4005D2E0D /* PushAsideTransition.swift */; };
+		EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */; };
+		EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */; };
 		EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC9BC81E9D849200AAAC95 /* LineNode.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
@@ -350,6 +353,9 @@
 		EF6F29751E7B1B63003C2125 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EFA4F0701EAAB230005D2E0D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		EFA4F0721EAAB81A005D2E0D /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
+		EFA4F0741EAE7CF4005D2E0D /* PushAsideTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAsideTransition.swift; sourceTree = "<group>"; };
+		EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuWithBackground.swift; sourceTree = "<group>"; };
+		EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTransitionController.swift; sourceTree = "<group>"; };
 		EFAC9BC81E9D849200AAAC95 /* LineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNode.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -412,9 +418,9 @@
 		FC959E571E9B4D960026B222 /* ObserverScene+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Location.swift"; sourceTree = "<group>"; };
 		FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuController.swift; sourceTree = "<group>"; };
 		FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
-		FC959E601E9B4FEC0026B222 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraControlling.swift; sourceTree = "<group>"; };
+		FC959E601E9B4FEC0026B222 /* CameraControlling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraControlling.swift; path = ../Protocols/CameraControlling.swift; sourceTree = "<group>"; };
 		FC959E611E9B4FEC0026B222 /* FocusingSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusingSupport.swift; sourceTree = "<group>"; };
-		FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotSupport.swift; sourceTree = "<group>"; };
+		FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotSupport.swift; path = ../Protocols/SnapshotSupport.swift; sourceTree = "<group>"; };
 		FC959E671E9B50340026B222 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		FC959E6A1E9B50CE0026B222 /* SphereInteriorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphereInteriorNode.swift; sourceTree = "<group>"; };
 		FC959E6B1E9B50CE0026B222 /* TrackingLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingLabelNode.swift; sourceTree = "<group>"; };
@@ -860,9 +866,8 @@
 		FC959E5F1E9B4FCD0026B222 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				FC959E601E9B4FEC0026B222 /* CameraControlling.swift */,
 				FC959E611E9B4FEC0026B222 /* FocusingSupport.swift */,
-				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
+				EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -871,6 +876,9 @@
 			isa = PBXGroup;
 			children = (
 				FC959E671E9B50340026B222 /* SceneController.swift */,
+				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
+				FC959E601E9B4FEC0026B222 /* CameraControlling.swift */,
+				EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -994,6 +1002,7 @@
 				EFA4F0721EAAB81A005D2E0D /* Functional.swift */,
 				FCFF7B0A1EA2145A00C4B006 /* EphemerisManager.swift */,
 				FCFF7B0B1EA2145A00C4B006 /* PushOverlayTransition.swift */,
+				EFA4F0741EAE7CF4005D2E0D /* PushAsideTransition.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				FCFF7B0D1EA2145A00C4B006 /* Settings.swift */,
 				FCFF7B101EA2145A00C4B006 /* UINavigationController+Transparency.swift */,
@@ -1512,6 +1521,7 @@
 				FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */,
 				FCFF7B171EA2145A00C4B006 /* UINavigationController+Transparency.swift in Sources */,
 				EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */,
+				EFA4F0751EAE7CF4005D2E0D /* PushAsideTransition.swift in Sources */,
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
@@ -1532,9 +1542,11 @@
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
+				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,
 				FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */,
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
+				EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */,
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,

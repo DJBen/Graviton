@@ -24,13 +24,22 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     lazy var zoom: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(zoom(sender:)))
     
     lazy var rotationGR: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
-    
+
+    let transitionController = NavigationTransitionController()
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.delegate = transitionController
+        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_menu"), style: .plain, target: self, action: #selector(menuButtonTapped))
+        navigationItem.rightBarButtonItem = barButtonItem
         view.addGestureRecognizer(doubleTap)
         view.addGestureRecognizer(pan)
         view.addGestureRecognizer(zoom)
         view.addGestureRecognizer(rotationGR)
+    }
+
+    func menuButtonTapped(sender: UIButton) {
+        doesNotRecognizeSelector(#selector(menuButtonTapped(sender:)))
     }
     
     func recenter(sender: UIGestureRecognizer) {

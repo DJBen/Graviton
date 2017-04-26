@@ -13,22 +13,28 @@ import KMNavigationBarTransition
 fileprivate let detailCellId = "detailCell"
 fileprivate let toggleCellId = "toggleCell"
 
-class ObserverMenuController: UITableViewController {
-
+class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBackgroundProvider {
     var backgroundImage: UIImage? {
         didSet {
-            if let bg = backgroundImage {
-                self.blurredImage = UIImageEffects.blurredMenuImage(bg)
+            if let navController = navigationController {
+                self.imageView.image = self.backgroundImage
+                if let blurredImage = backgroundImage {
+                    let scale = UIScreen.main.scale
+                    let navHeight = navController.navigationBar.frame.height
+                    let cgImage = blurredImage.cgImage?.cropping(to: CGRect(x: 0, y: 0, width: navController.navigationBar.frame.width * scale, height: navHeight * scale))
+                    let newImage = UIImage(cgImage: cgImage!, scale: scale, orientation: blurredImage.imageOrientation)
+                    navController.navigationBar.setBackgroundImage(newImage, for: .default)
+                }
             }
         }
     }
-    var blurredImage: UIImage?
+
     var menu: Menu!
     
     private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
     
     private lazy var imageView: UIImageView = {
-        let imgView = UIImageView(image: self.blurredImage)
+        let imgView = UIImageView(image: self.backgroundImage)
         imgView.frame = self.view.bounds
         imgView.autoresizingMask = resizingMask
         return imgView
@@ -49,15 +55,6 @@ class ObserverMenuController: UITableViewController {
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
         tableView.separatorColor = Constants.Menu.separatorColor
         tableView.backgroundColor = UIColor.clear
-
-        if let navController = navigationController {
-            let scale = UIScreen.main.scale
-            let navHeight = navController.navigationBar.frame.height
-            let cgImage = self.blurredImage?.cgImage?.cropping(to: CGRect(x: 0, y: 0, width: navController.navigationBar.frame.width * scale, height: navHeight * scale))
-            let newImage = UIImage(cgImage: cgImage!, scale: scale, orientation: self.blurredImage!.imageOrientation)
-            navController.navigationBar.setBackgroundImage(newImage, for: .default)
-        }
-        
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
     
@@ -112,15 +109,13 @@ class ObserverMenuController: UITableViewController {
         if case let .detail(submenu) = item.type {
             // transition to submenu
             let subMenuController = ObserverMenuController(style: .plain)
-            subMenuController.blurredImage = blurredImage
             subMenuController.menu = submenu
             navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
-}
 
-fileprivate extension UIImageEffects {
-    static func blurredMenuImage(_ image: UIImage) -> UIImage {
-        return imageByApplyingBlur(to: image, withRadius: 24, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
+    // MARK: - Menu Background Provider
+    func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
+        return backgroundImage
     }
 }

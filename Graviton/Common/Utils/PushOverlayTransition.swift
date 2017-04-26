@@ -9,6 +9,7 @@
 
 import UIKit
 
+/// Custom animator that creates an overlay transition
 class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
     let fromVC: UIViewController
     let toVC: UIViewController
@@ -50,7 +51,8 @@ class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 fromView.transform = offScreenRight
             }
         }, completion: { finished in
-            transitionContext.completeTransition(true)
+            let canceled = transitionContext.transitionWasCancelled
+            transitionContext.completeTransition(!canceled)
         })
     }
 }
