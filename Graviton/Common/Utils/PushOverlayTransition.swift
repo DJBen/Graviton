@@ -9,7 +9,7 @@
 
 import UIKit
 
-/// Custom animator that creates an overlay transition
+/// This transition creates an overlay that blurs the source view. Instead of being pushed aside, the source view keeps in its place.
 class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
     let presenting: Bool
 

@@ -84,6 +84,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     }
 
     // MARK: - Menu Background Provider
+    
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
         return UIImageEffects.blurredMenuImage(scnView.snapshot())
     }

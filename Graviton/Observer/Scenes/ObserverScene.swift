@@ -146,6 +146,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let northNode = IndicatorNode(setting: .showNorthPoleIndicator, position: SCNVector3(0, 0, 10), color: #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1))
         northNode.name = "north pole indicator"
         rootNode.addChildNode(northNode)
+
+        let focuser = FocusIndicatorNode(radius: 0.5)
+        focuser.position = SCNVector3(0, 0, -10)
+        focuser.constraints = [SCNBillboardConstraint()]
+        rootNode.addChildNode(focuser)
         
         startLocationService()
     }

@@ -115,6 +115,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
     }
 
     // MARK: - Menu Background Provider
+
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
         return backgroundImage
     }

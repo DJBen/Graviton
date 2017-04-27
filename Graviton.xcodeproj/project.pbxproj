@@ -72,6 +72,9 @@
 		EFC7C1391E5687FD00B7B9B9 /* SpaceTime.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC7C13A1E5687FD00B7B9B9 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC7C13B1E5687FD00B7B9B9 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */; };
+		EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EA1EB1741900E49A38 /* Line.swift */; };
+		EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */; };
 		EFD3CE7A1E85C87B00D6B0FF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */; };
 		EFD3CE7B1E85C87B00D6B0FF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */; };
 		EFD3CE7C1E85C87B00D6B0FF /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE771E85C87B00D6B0FF /* naif.sqlite3 */; };
@@ -371,6 +374,9 @@
 		EFC7C1291E56838F00B7B9B9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC7C12C1E56838F00B7B9B9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC7C12E1E56838F00B7B9B9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusIndicatorNode.swift; sourceTree = "<group>"; };
+		EFCCF3EA1EB1741900E49A38 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
+		EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = focus_indicator.geometry.shader; path = Graviton/Common/Shaders/focus_indicator.geometry.shader; sourceTree = SOURCE_ROOT; };
 		EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = celestialBodies.sqlite3; sourceTree = "<group>"; };
 		EFD3CE771E85C87B00D6B0FF /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
 		EFD3CE781E85C87B00D6B0FF /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
@@ -667,6 +673,21 @@
 			path = DatabaseGen;
 			sourceTree = "<group>";
 		};
+		EFCCF3E81EB1723000E49A38 /* Shaders */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Shaders;
+			sourceTree = "<group>";
+		};
+		EFCCF3E91EB173F200E49A38 /* Geometries */ = {
+			isa = PBXGroup;
+			children = (
+				EFCCF3EA1EB1741900E49A38 /* Line.swift */,
+			);
+			path = Geometries;
+			sourceTree = "<group>";
+		};
 		EFD3CE751E85C87B00D6B0FF /* Sqlite */ = {
 			isa = PBXGroup;
 			children = (
@@ -799,6 +820,7 @@
 		FC7D61E91E9B471600BEA5BE /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -810,7 +832,9 @@
 				FC959E5F1E9B4FCD0026B222 /* Protocols */,
 				FC959E661E9B50190026B222 /* ViewControllers */,
 				FC959E691E9B50A80026B222 /* Nodes */,
+				EFCCF3E91EB173F200E49A38 /* Geometries */,
 				EF55530E1EA96FF300B5A34D /* Resources */,
+				EFCCF3E81EB1723000E49A38 /* Shaders */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -888,6 +912,7 @@
 			children = (
 				FC959E6A1E9B50CE0026B222 /* SphereInteriorNode.swift */,
 				FC959E6B1E9B50CE0026B222 /* TrackingLabelNode.swift */,
+				EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1360,6 +1385,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
+				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
 				FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */,
@@ -1514,6 +1540,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */,
 				FC959E711E9B51420026B222 /* SolarSystemScene.swift in Sources */,
 				FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */,
 				FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */,
@@ -1544,6 +1571,7 @@
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
 				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,
 				FCFF7B161EA2145A00C4B006 /* UIImageEffects.m in Sources */,
+				EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */,
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
 				EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */,

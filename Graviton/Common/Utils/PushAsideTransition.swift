@@ -8,6 +8,7 @@
 
 import UIKit
 
+/// The animation that pushes and pops two views side by side like default navigation transition does, while persisting the background shared between them.
 class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
     let presenting: Bool
     var destinationBackgroundImage: UIImage?

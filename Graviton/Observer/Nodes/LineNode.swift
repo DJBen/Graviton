@@ -16,11 +16,7 @@ extension ObserverScene {
             case dashed
         }
         
-        var color: UIColor {
-            didSet {
-                
-            }
-        }
+        private let color: UIColor
         
         private let vertices: [SCNVector3]
 
@@ -43,11 +39,7 @@ extension ObserverScene {
         }
         
         private func drawLine() {
-            let numberOfVertices = vertices.count
-            let indices = (0...numberOfVertices).map { CInt($0 % numberOfVertices) }
-            let vertexSources = SCNGeometrySource(vertices: vertices)
-            let elements = SCNGeometryElement(indices: indices, primitiveType: .line)
-            let line = SCNGeometry(sources: [vertexSources], elements: [elements])
+            let line = SCNGeometry.closedDashedPolyLine(vertices: vertices)
             lineNode = SCNNode(geometry: line)
             let mat = SCNMaterial()
             mat.diffuse.contents = color
