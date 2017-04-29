@@ -6,6 +6,7 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
+import SpaceTime
 import MathUtil
 
 extension ResponseParser {
@@ -58,7 +59,7 @@ extension ResponseParser {
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDate: jd, timeOfPeriapsisPassage: tp)
+            let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDate: JulianDate(jd), timeOfPeriapsisPassage: JulianDate(tp))
             if save {
                 motion.save(forBodyId: naifId)
                 print("motion of \(naifId) @ epoch \(jd) (\(components[1])) saved")

@@ -6,9 +6,10 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
+import SpaceTime
 import MathUtil
 
-public class OrbitalMotion: NSCopying {
+public class OrbitalMotion: CustomStringConvertible, NSCopying {
     
     public let gm: Double
     
@@ -21,6 +22,10 @@ public class OrbitalMotion: NSCopying {
             propagateStateVectors()
         }
     }
+
+    public var description: String {
+        fatalError("not implemented")
+    }
     
     /// Phase
     ///
@@ -30,7 +35,7 @@ public class OrbitalMotion: NSCopying {
     public enum Phase: Equatable {
         case meanAnomaly(Double)
         case timeSincePeriapsis(Double)
-        case julianDate(Double)
+        case julianDate(JulianDate)
         
         public static func ==(lhs: Phase, rhs: Phase) -> Bool {
             switch lhs {
@@ -69,7 +74,7 @@ public class OrbitalMotion: NSCopying {
     }
     
     /// the julian date of orbital motion (moment)
-    public var julianDate: Double? {
+    public var julianDate: JulianDate? {
         get {
             guard case let .julianDate(jd) = phase else { return nil }
             return jd
@@ -101,9 +106,9 @@ public class OrbitalMotion: NSCopying {
         }
     }
     
-    public var timeOfPeriapsisPassage: Double?
+    public var timeOfPeriapsisPassage: JulianDate?
     
-    private var unwrappedTimeOfPeriapsisPassage: Double {
+    private var unwrappedTimeOfPeriapsisPassage: JulianDate {
         if let t = timeOfPeriapsisPassage {
             return t
         } else {

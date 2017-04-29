@@ -26,21 +26,21 @@ public class Horizons {
     
     func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
         var result = b1
-        let jd = JulianDate(date: refTime).value
+        let jd = JulianDate(date: refTime)
         for body2 in b2 {
             if let index = b1.index(of: body2) {
                 let body = b1[index]
                 if let mm1 = body.motion as? OrbitalMotionMoment, let mm2 = body2.motion as? OrbitalMotionMoment {
                     if abs(mm1.ephemerisJulianDate - jd) > abs(mm2.ephemerisJulianDate - jd) {
-                        result.insert(body2)
+                        result.update(with: body2)
                     }
                 } else {
                     if body.motion is OrbitalMotionMoment {
-                        result.insert(body2)
+                        result.update(with: body2)
                     }
                 }
             } else {
-                result.insert(body2)
+                result.update(with: body2)
             }
         }
         return result
@@ -183,7 +183,7 @@ public class Horizons {
                 }
                 return nil
             })
-            if naifs.contains(Naif.sun) {
+            if naifs.contains(Naif.sun) && bodies.first(where: { $0.naif == Naif.sun }) == nil {
                 bodies.insert(Sun.sol)
             }
             let merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate)

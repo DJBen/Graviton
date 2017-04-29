@@ -16,11 +16,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
     public let root: CelestialBody
     
     public var timestamp: Date? {
-        if let jd = root.motion?.julianDate {
-            return JulianDate(value: jd).date
-        } else {
-            return nil
-        }
+        return root.motion?.julianDate?.date
     }
     
     init(solarSystemBodies: Set<CelestialBody>) {
@@ -59,7 +55,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
         while queue.isEmpty == false {
             let current = queue.removeFirst()
             result.append(current)
-            let sats = current.satellites as! [CelestialBody]
+            let sats = Array(current.satellites) as! [CelestialBody]
             queue.append(contentsOf: sats)
         }
         return AnyIterator {
@@ -74,7 +70,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
     public func updateMotion(using date: Date = Date()) {
         for body in self {
             if let moment = body.motion as? OrbitalMotionMoment {
-                moment.julianDate = JulianDate(date: date).value
+                moment.julianDate = JulianDate(date: date)
             }
         }
     }
@@ -91,5 +87,16 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
     // MARK: - NSCopying
     public func copy(with zone: NSZone? = nil) -> Any {
         return Ephemeris(root: root.copy() as! CelestialBody)
+    }
+}
+
+public extension Ephemeris {
+    public func debugPrintReferenceJulianDateInfo() {
+        print("--- ephemeris info ---")
+        for body in self {
+            if body is Sun { continue }
+            guard let motion = body.motion else { continue }
+            print("\(body.name): \(motion)")
+        }
     }
 }

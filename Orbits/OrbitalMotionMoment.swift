@@ -7,13 +7,18 @@
 //
 
 import Foundation
+import SpaceTime
 
 public class OrbitalMotionMoment: OrbitalMotion {
+
+    public override var description: String {
+        return "{ dynamic_motion: { ref_jd: \(ephemerisJulianDate), orbit: \(orbit) } }"
+    }
     
     /// A referential julian date when the ephemeris is recorded
-    public let ephemerisJulianDate: Double
+    public let ephemerisJulianDate: JulianDate
         
-    public init(orbit: Orbit, gm: Double, julianDate: Double, timeOfPeriapsisPassage: Double) {
+    public init(orbit: Orbit, gm: Double, julianDate: JulianDate, timeOfPeriapsisPassage: JulianDate) {
         self.ephemerisJulianDate = julianDate
         super.init(orbit: orbit, gm: gm, phase: .julianDate(julianDate))
         self.timeOfPeriapsisPassage = timeOfPeriapsisPassage

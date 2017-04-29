@@ -24,7 +24,7 @@ class JulianDateTest: XCTestCase {
         let JD = 2457660.5
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
-        let date = JulianDate(value: JD).date
+        let date = JulianDate(JD).date
         let component = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         // A.D. 2016-Sep-29
         XCTAssertEqual(component.year, 2016)

@@ -110,7 +110,7 @@ public struct Orbit: CustomStringConvertible, Equatable {
     }
 
     public var description: String {
-        return "(a: \(shape.semimajorAxis), e: \(shape.eccentricity), i: \(orientation.inclination), om: \(orientation.longitudeOfAscendingNode), w: \(orientation.argumentOfPeriapsis))"
+        return "{ a: \(shape.semimajorAxis), e: \(shape.eccentricity), i: \(orientation.inclination), om: \(orientation.longitudeOfAscendingNode), w: \(orientation.argumentOfPeriapsis) }"
     }
     
     public init(shape: ConicSection, orientation: Orientation) {

@@ -17,14 +17,21 @@ public protocol Searchable {
 public protocol BoundedByGravity: Searchable {
     var gravParam: Double { get }
     var hillSphere: Double? { get }
-    var satellites: [Body] { get }
+    var satellites: OrderedSet<Body> { get }
     func addSatellite(satellite: Body)
 }
 
-open class Body {
+open class Body: Hashable {
+    public static func ==(lhs: Body, rhs: Body) -> Bool {
+        return lhs.naif == rhs.naif
+    }
+
     public let naif: Naif
     public var naifId: Int {
         return naif.rawValue
+    }
+    public var hashValue: Int {
+        return naif.hashValue
     }
     public let name: String
     private var centerBodyNaifId: Int?
@@ -33,7 +40,7 @@ open class Body {
         return CelestialBody.load(naifId: id)
     }
     public var motion: OrbitalMotion?
-    public var julianDate: Double = JulianDate.J2000.value {
+    public var julianDate: JulianDate = JulianDate.J2000 {
         didSet {
             motion?.julianDate = julianDate
             if let primary = self as? CelestialBody {

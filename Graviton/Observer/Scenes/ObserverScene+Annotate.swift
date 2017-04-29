@@ -16,7 +16,7 @@ extension ObserverScene {
     enum AnnotationClass {
         case planet
         case star
-        case sun
+        case sunAndMoon
     }
     
     func drawConstellationLabels() {
@@ -36,12 +36,14 @@ extension ObserverScene {
     func annotateCelestialBody(_ body: CelestialBody, position: SCNVector3, parent: SCNNode, `class`: AnnotationClass) {
         func offset(`class`: AnnotationClass) -> CGVector {
             switch `class` {
-            case .sun:
-                return CGVector(dx: 0, dy: -1.2)
+            case .sunAndMoon:
+                return CGVector(dx: 0, dy: -0.6)
+            case .planet:
+                return CGVector(dx: 0, dy: -0.1)
             default:
                 break
             }
-            return CGVector(dx: 0, dy: -0.6)
+            return CGVector(dx: 0, dy: -0.1)
         }
         if let node = parent.childNode(withName: String(body.naifId), recursively: false) {
             node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
@@ -56,7 +58,7 @@ extension ObserverScene {
             case .star:
                 fontSize = 0.7
                 color = #colorLiteral(red: 0.8279239535, green: 0.9453579783, blue: 0.9584422708, alpha: 1)
-            case .sun:
+            case .sunAndMoon:
                 fontSize = 0.65
                 color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
             }

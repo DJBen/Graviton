@@ -230,7 +230,7 @@ class SolarSystemViewController: SceneController {
         timeElapsed += warpedDeltaTime
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
         let warpedJd = JulianDate(date: warpedDate).value
-        self.solarSystemScene.julianDate = warpedJd
+        self.solarSystemScene.julianDate = JulianDate(warpedJd)
         let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
         DispatchQueue.main.async {
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)

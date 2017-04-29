@@ -7,8 +7,9 @@
 //
 
 import Foundation
+import MathUtil
 
-public struct JulianDate: ExpressibleByFloatLiteral {
+public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral {
     public typealias FloatLiteralType = Double
     
     public static let B1950: JulianDate = 2433282.4235
@@ -17,10 +18,14 @@ public struct JulianDate: ExpressibleByFloatLiteral {
     public static func now() -> JulianDate {
         return JulianDate(date: Date())
     }
+
+    public var description: String {
+        return "(JD \(value), \(date))"
+    }
     
     public let value: Double
     
-    public init(value: FloatLiteralType) {
+    public init(_ value: FloatLiteralType) {
         self.value = value
     }
     
@@ -83,5 +88,9 @@ public struct JulianDate: ExpressibleByFloatLiteral {
     public static func -(lhs: JulianDate, rhs: JulianDate) -> TimeInterval {
         // convert day to seconds
         return (lhs.value - rhs.value) * 86400
+    }
+
+    public static func ~=(lhs: JulianDate, rhs: JulianDate) -> Bool {
+        return lhs.value ~= rhs.value
     }
 }

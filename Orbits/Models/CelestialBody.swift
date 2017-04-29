@@ -9,7 +9,7 @@
 import Foundation
 import MathUtil
 
-open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable, Hashable {
+open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable {
 
     /// radius in m
     public let radius: Double
@@ -30,16 +30,12 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         return gravParam / gravConstant
     }
     
-    public private(set) var satellites: [Body] = []
+    public let satellites = OrderedSet<Body>()
     
     public var description: String {
         return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(String(describing: hillSphere))}"
     }
-    
-    public var hashValue: Int {
-        return naifId.hashValue
-    }
-    
+
     private var overridenHillSphereRadiusRp: Double?
     
     public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
@@ -69,7 +65,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         satellites.append(satellite)
         satellite.setCenter(naifId: naifId)
     }
-    
+
     public subscript(subId: Int) -> Body? {
         let targets = satellites.filter { $0.naifId == subId }
         if targets.isEmpty == false {
@@ -99,7 +95,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: overridenHillSphereRadiusRp)
         copy.motion = motion?.copy() as? OrbitalMotion
         let children = satellites.filter { $0 is CelestialBody } as! [CelestialBody]
-        copy.satellites = children.map { $0.copy() as! CelestialBody }
+        children.forEach { copy.addSatellite(satellite: $0.copy() as! CelestialBody) }
         return copy
     }
 }

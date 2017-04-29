@@ -54,7 +54,7 @@ class HorizonsTest: XCTestCase {
             bodyWithId(50009, jd: JulianDate.J2000.value + 9000),
             bodyWithId(34567, jd: 12)
         ])
-        let merged = Horizons.shared.mergeCelestialBodies(bodies1, bodies2, refTime: JulianDate(value: JulianDate.J2000.value - 100).date)
+        let merged = Horizons.shared.mergeCelestialBodies(bodies1, bodies2, refTime: JulianDate(JulianDate.J2000.value - 100).date)
         let expected = Set<CelestialBody>([
             bodyWithId(50001, jd: JulianDate.J2000.value),
             bodyWithId(50009, jd: JulianDate.J2000.value + 9000),

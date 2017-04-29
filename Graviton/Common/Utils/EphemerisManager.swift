@@ -50,6 +50,7 @@ class EphemerisManager {
     func fetchEphemeris() {
         Horizons.shared.fetchEphemeris(update: { (ephemeris) -> Void in
             self.ephemeris = ephemeris
+            ephemeris.debugPrintReferenceJulianDateInfo()
             for sub in self.subscriptions {
                 sub.ephemeris = ephemeris
                 if let lastJd = sub.lastUpdateJd {

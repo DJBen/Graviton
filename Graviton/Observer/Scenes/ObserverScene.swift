@@ -299,7 +299,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
     }
     
     func focus(atNode node: SCNNode) {
-        
+        print(node)
     }
     
     // MARK: - Ephemeris Update Delegate
@@ -323,7 +323,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let obliquedSunPos = sunPos.oblique(by: earth.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
         let earthPos = earth.heliocentricPosition
-        annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sun)
+        annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sunAndMoon)
         ephemeris.forEach { (body) in
             switch body.naif {
             case let .majorBody(mb):
@@ -345,7 +345,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
                     let position = SCNVector3(relativePos * moonZoomRatio / magnification)
                     moonNode.position = position
-                    annotateCelestialBody(body, position: position, parent: cbLabelNode, class: .planet)
+                    annotateCelestialBody(body, position: position, parent: cbLabelNode, class: .sunAndMoon)
                 }
             default:
                 break
