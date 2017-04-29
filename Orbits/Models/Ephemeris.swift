@@ -67,10 +67,10 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
         }
     }
     
-    public func updateMotion(using date: Date = Date()) {
+    public func updateMotion(using julianDate: JulianDate = JulianDate.now()) {
         for body in self {
             if let moment = body.motion as? OrbitalMotionMoment {
-                moment.julianDate = JulianDate(date: date)
+                moment.julianDate = julianDate
             }
         }
     }

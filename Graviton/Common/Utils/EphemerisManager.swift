@@ -54,7 +54,7 @@ class EphemerisManager {
             for sub in self.subscriptions {
                 sub.ephemeris = ephemeris
                 if let lastJd = sub.lastUpdateJd {
-                    sub.ephemeris?.updateMotion(using: lastJd.date)
+                    sub.ephemeris?.updateMotion(using: lastJd)
                 }
                 sub.lastUpdateJd = nil
                 sub.delegate.ephemerisDidLoad?(ephemeris: ephemeris)
@@ -81,13 +81,13 @@ class EphemerisManager {
         guard let eph = sub.ephemeris else { return }
         switch sub.mode {
         case .realtime:
-            eph.updateMotion(using: requestedJd.date)
+            eph.updateMotion(using: requestedJd)
             sub.ephemeris = eph
             sub.lastUpdateJd = requestedJd
             changed = true
         case .interval(let interval):
             if requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0) >= interval / 86400 {
-                eph.updateMotion(using: requestedJd.date)
+                eph.updateMotion(using: requestedJd)
                 sub.ephemeris = eph
                 sub.lastUpdateJd = requestedJd
                 changed = true
@@ -95,6 +95,7 @@ class EphemerisManager {
         }
         if changed {
             print("update ephemeris for delegate \(delegate)")
+            eph.debugPrintReferenceJulianDateInfo()
             sub.delegate.ephemerisDidUpdate?(ephemeris: eph)
         }
     }

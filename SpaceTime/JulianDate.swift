@@ -84,7 +84,21 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral {
         )
         return dateComponents.date!
     }
-    
+
+    public static func +(lhs: JulianDate, rhs: TimeInterval) -> JulianDate {
+        return JulianDate(lhs.value + rhs / 86400)
+    }
+
+    public static func -(lhs: JulianDate, rhs: TimeInterval) -> JulianDate {
+        return JulianDate(lhs.value - rhs / 86400)
+    }
+
+    /// Difference between Julian dates
+    ///
+    /// - Parameters:
+    ///   - lhs: Julian date
+    ///   - rhs: Julian date to be subtracted
+    /// - Returns: The difference between two Julian dates in seconds
     public static func -(lhs: JulianDate, rhs: JulianDate) -> TimeInterval {
         // convert day to seconds
         return (lhs.value - rhs.value) * 86400

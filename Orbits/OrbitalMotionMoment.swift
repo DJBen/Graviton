@@ -12,7 +12,7 @@ import SpaceTime
 public class OrbitalMotionMoment: OrbitalMotion {
 
     public override var description: String {
-        return "{ dynamic_motion: { ref_jd: \(ephemerisJulianDate), orbit: \(orbit) } }"
+        return "{ dynamics: { jd: \(julianDate!), position: \(position) } motion: { ref_jd: \(ephemerisJulianDate), toPP: \(timeOfPeriapsisPassage!) gm: \(gm), orbit: \(orbit) } }"
     }
     
     /// A referential julian date when the ephemeris is recorded

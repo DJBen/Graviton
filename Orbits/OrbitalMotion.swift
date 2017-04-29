@@ -60,7 +60,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             case .timeSincePeriapsis(let tp):
                 meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: gm, shape: orbit.shape)!
             case .julianDate(let jd):
-                meanAnomaly = calculateMeanAnomaly(Δt: (jd - unwrappedTimeOfPeriapsisPassage) * 86400, gravParam: gm, shape: orbit.shape)!
+                meanAnomaly = calculateMeanAnomaly(Δt: jd - unwrappedTimeOfPeriapsisPassage, gravParam: gm, shape: orbit.shape)!
             }
             propagateStateVectors()
         }
