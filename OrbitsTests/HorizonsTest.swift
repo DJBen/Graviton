@@ -39,7 +39,7 @@ class HorizonsTest: XCTestCase {
     func testCelestialBodyMerge() {
         func bodyWithId(_ id: Int, jd: Double) -> CelestialBody {
             let o = Orbit(semimajorAxis: 23.2, eccentricity: 43.4, inclination: 45.6, longitudeOfAscendingNode: 73.8, argumentOfPeriapsis: 19.0)
-            let motion = OrbitalMotionMoment(orbit: o, gm: 10, julianDate: jd, timeOfPeriapsisPassage: JulianDate.J2000.value + 1)
+            let motion = OrbitalMotionMoment(orbit: o, gm: 10, julianDate: JulianDate(jd), timeOfPeriapsisPassage: JulianDate.J2000 + 1)
             let c = CelestialBody(naifId: id, name: "stub", gravParam: 0, radius: 0)
             c.motion = motion
             return c

@@ -16,11 +16,11 @@ public struct ResponseParser: Parser {
     
     // parse range 1
     func parseField(_ content: String) -> [String: String] {
-        let physicalDataRegex = "^\\*\\*+((?!\\*\\*)([\\s\\S]))+\\*\\*+"
-        let planetDataMatched = content.matches(for: physicalDataRegex)[0]
-        let info = planetDataMatched[0]
+        let lines = content.components(separatedBy: "\n")
+        let noHead = lines.drop(while: { $0.matches(regex: "\\*\\*\\*") == false }).dropFirst()
+        let remaining = noHead.prefix(while: { $0.matches(regex: "\\*\\*\\*") == false })
         var results = [String: String]()
-        info.components(separatedBy: "\n").flatMap { (line) -> [(String, String)]? in
+        remaining.flatMap { (line) -> [(String, String)]? in
             guard let result = parseDoubleColumn(line) else { return nil }
             if let col2 = result.1 {
                 return [result.0, col2]
@@ -116,6 +116,17 @@ func dropLast<T>(_ tuple: (T, T, T?)) -> (T, T) {
 }
 
 extension String {
+    func matches(regex: String) -> Bool {
+        do {
+            let regex = try NSRegularExpression(pattern: regex)
+            let nsString = self as NSString
+            return regex.numberOfMatches(in: self, options: [], range: NSRange(location: 0, length: nsString.length)) >= 1
+        } catch let error {
+            print("invalid regex: \(error.localizedDescription)")
+            return false
+        }
+    }
+    
     func matches(for regex: String) -> [[String]] {
         do {
             let regex = try NSRegularExpression(pattern: regex)

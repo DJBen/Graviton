@@ -9,7 +9,7 @@
 import Foundation
 import MathUtil
 
-public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral {
+public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Equatable {
     public typealias FloatLiteralType = Double
     
     public static let B1950: JulianDate = 2433282.4235
@@ -106,5 +106,9 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral {
 
     public static func ~=(lhs: JulianDate, rhs: JulianDate) -> Bool {
         return lhs.value ~= rhs.value
+    }
+    
+    public static func ==(lhs: JulianDate, rhs: JulianDate) -> Bool {
+        return lhs.value == rhs.value
     }
 }

@@ -34,7 +34,7 @@ class EphemerisTest: XCTestCase {
             var queue = [ep.root]
             while queue.isEmpty == false {
                 let current = queue.removeFirst()
-                let sats = current.satellites as! [CelestialBody]
+                let sats = Array(current.satellites) as! [CelestialBody]
                 for sat in sats {
                     expectedDependencies.append(Dependency<Int>(parent: current.naifId, child: sat.naifId))
                 }
