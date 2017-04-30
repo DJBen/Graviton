@@ -1,3 +1,5 @@
+BATVAR: Stored EMAIL_ADDR="50.242.76.187"
+DISDAT: got ADDR=50.242.76.187
 *******************************************************************************
 Revised: Nov 05, 2015             134340 Pluto                             999
 
@@ -29,7 +31,7 @@ Escape velocity (km/s)= 1.21
 
 
 *******************************************************************************
-Ephemeris / WWW_USER Mon Mar 27 02:29:41 2017 Pasadena, USA      / Horizons
+Ephemeris / WWW_USER Sun Apr 30 15:06:04 2017 Pasadena, USA      / Horizons
 *******************************************************************************
 Target body name: Pluto (999)                     {source: plu055l_merged}
 Center body name: Sun (10)                        {source: plu055l_merged}
