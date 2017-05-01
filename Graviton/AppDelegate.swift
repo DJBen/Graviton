@@ -8,6 +8,7 @@
 //
 
 import UIKit
+import Orbits
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,7 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.tintColor = UIColor.white
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
-        EphemerisManager.default.fetchEphemeris()
+        print(ProcessInfo.processInfo.environment)
+        // Disable online fetching in unit tests
+        let mode: Horizons.FetchMode = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil ? .mixed : .localOnly
+        EphemerisManager.default.fetchEphemeris(mode: mode)
         return true
     }
 

@@ -8,6 +8,7 @@
 
 import Foundation
 import MathUtil
+import OrderedSet
 
 open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Comparable {
 

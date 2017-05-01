@@ -9,6 +9,7 @@
 import Foundation
 import SpaceTime
 import MathUtil
+import OrderedSet
 
 public protocol Searchable {
     subscript(subId: Int) -> Body? { get }

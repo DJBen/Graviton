@@ -47,8 +47,8 @@ class EphemerisManager {
     
     private var ephemeris: Ephemeris?
     
-    func fetchEphemeris() {
-        Horizons.shared.fetchEphemeris(update: { (ephemeris) -> Void in
+    func fetchEphemeris(mode: Horizons.FetchMode = .mixed) {
+        Horizons.shared.fetchEphemeris(mode: mode, update: { (ephemeris) -> Void in
             self.ephemeris = ephemeris
             ephemeris.debugPrintReferenceJulianDateInfo()
             for sub in self.subscriptions {

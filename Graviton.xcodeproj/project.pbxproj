@@ -75,7 +75,9 @@
 		EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */; };
 		EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EA1EB1741900E49A38 /* Line.swift */; };
 		EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */; };
-		EFCCF3EF1EB412F600E49A38 /* OrderedSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EE1EB412F600E49A38 /* OrderedSet.swift */; };
+		EFCCF4041EB7D84A00E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
+		EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
+		EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
 		EFD3CE7A1E85C87B00D6B0FF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */; };
 		EFD3CE7B1E85C87B00D6B0FF /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */; };
 		EFD3CE7C1E85C87B00D6B0FF /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE771E85C87B00D6B0FF /* naif.sqlite3 */; };
@@ -378,7 +380,7 @@
 		EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusIndicatorNode.swift; sourceTree = "<group>"; };
 		EFCCF3EA1EB1741900E49A38 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = focus_indicator.geometry.shader; path = Graviton/Common/Shaders/focus_indicator.geometry.shader; sourceTree = SOURCE_ROOT; };
-		EFCCF3EE1EB412F600E49A38 /* OrderedSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrderedSet.swift; sourceTree = "<group>"; };
+		EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OrderedSet.framework; path = Carthage/Build/iOS/OrderedSet.framework; sourceTree = "<group>"; };
 		EFD3CE761E85C87B00D6B0FF /* celestialBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = celestialBodies.sqlite3; sourceTree = "<group>"; };
 		EFD3CE771E85C87B00D6B0FF /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
 		EFD3CE781E85C87B00D6B0FF /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
@@ -493,6 +495,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4BD3B61E57E6DF009D2698 /* Orbits.framework in Frameworks */,
+				EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -521,6 +524,7 @@
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
 				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
+				EFCCF4041EB7D84A00E49A38 /* OrderedSet.framework in Frameworks */,
 				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -539,6 +543,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
+				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -755,6 +760,7 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */,
 				FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */,
 				FCA930E71E2B8FEA00100706 /* XCTest.framework */,
 				FC2435391E14C81A002AC626 /* SQLite.framework */,
@@ -993,7 +999,6 @@
 				FCC0BDAD1E2D97DC003939B1 /* Info.plist */,
 				FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */,
 				FCC73DF81E68762100B737D1 /* Intersection.swift */,
-				EFCCF3EE1EB412F600E49A38 /* OrderedSet.swift */,
 				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
 				EF6F29751E7B1B63003C2125 /* Kepler.swift */,
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
@@ -1145,7 +1150,7 @@
 				EFC2C6911D88D02F0031AA9C /* Frameworks */,
 				EFC2C6921D88D02F0031AA9C /* Resources */,
 				EFE8BF6F1DD86B2B000F0A79 /* Embed Frameworks */,
-				FC2435381E14C7A9002AC626 /* ShellScript */,
+				FC2435381E14C7A9002AC626 /* Copy Carthage Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1464,7 +1469,7 @@
 			shellPath = /bin/sh;
 			shellScript = "/usr/local/bin/carthage copy-frameworks";
 		};
-		FC2435381E14C7A9002AC626 /* ShellScript */ = {
+		FC2435381E14C7A9002AC626 /* Copy Carthage Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1472,7 +1477,9 @@
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/KMNavigationBarTransition.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/OrderedSet.framework",
 			);
+			name = "Copy Carthage Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1653,7 +1660,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFCCF3EF1EB412F600E49A38 /* OrderedSet.swift in Sources */,
 				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
 				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
 				EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */,
