@@ -23,13 +23,14 @@ fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpdateDelegate {
     
-    private struct Category: OptionSet {
+    struct VisibilityCategory: OptionSet {
         let rawValue: Int
-        
-        static let `default` = Category(rawValue: 1)
-        static let sunlight = Category(rawValue: 2)
-        static let moon: Category = [.default, .sunlight]
-        static let all: Category = Category(rawValue: ~0)
+        /// All non-moon objects
+        static let nonMoon = VisibilityCategory(rawValue: 1)
+        /// The moon and its associated lighting
+        static let moon = VisibilityCategory(rawValue: 1 << 1)
+        /// Camera having the visibility of everything
+        static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
     
     static let defaultFov: Double = 45
@@ -48,7 +49,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         c.automaticallyAdjustsZRange = true
         c.xFov = defaultFov
         c.yFov = defaultFov
-        c.categoryBitMask = Category.all.rawValue
+        c.categoryBitMask = VisibilityCategory.camera.rawValue
         return c
     }()
     
@@ -94,13 +95,15 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
     
     // MARK: - Property - Visual Nodes
 
-    private var celesitalEquatorNode: CelestialEquatorLineNode?
+    private var celestialEquatorNode: CelestialEquatorLineNode?
     private var eclipticNode: EclipticLineNode?
 
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
         node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
+        node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
         node.opacity = 0.3
+        node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         return node
     }()
     
@@ -114,29 +117,56 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
         node.sphere.firstMaterial!.transparent.contentsTransform = mtx
         node.sphere.firstMaterial!.isDoubleSided = true
+        node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
+        node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         return node
     }()
     
     lazy var sunNode: SCNNode = {
         let sunMat = SCNMaterial()
         sunMat.diffuse.contents = #imageLiteral(resourceName: "sun")
+        sunMat.locksAmbientWithDiffuse = true
         let sphere = SCNSphere(radius: 0.1)
         sphere.firstMaterial = sunMat
         let node = SCNNode(geometry: sphere)
         node.name = String(Sun.sol.naifId)
+        node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+        return node
+    }()
+    
+    lazy var defaultLightingNode: SCNNode = {
+        let light = SCNLight()
+        light.type = .ambient
+        light.intensity = 500
+        light.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+        let node = SCNNode()
+        node.light = light
+        node.name = "default lighting"
+        return node
+    }()
+    
+    lazy var moonLightingNode: SCNNode = {
+        let light = SCNLight()
+        light.type = .omni
+        light.categoryBitMask = VisibilityCategory.moon.rawValue
+        let node = SCNNode()
+        node.light = light
+        node.name = "moon lighting"
         return node
     }()
     
     lazy var moonNode: SCNNode = {
         let moonMat = SCNMaterial()
+        // material without normal is better in observer view
         moonMat.diffuse.contents = #imageLiteral(resourceName: "moon.jpg")
-        moonMat.normal.contents = #imageLiteral(resourceName: "moon_normal")
+        moonMat.ambient.contents = UIColor.black
+        moonMat.locksAmbientWithDiffuse = false
         let sphere = SCNSphere(radius: 0.1)
         sphere.firstMaterial = moonMat
         let node = SCNNode(geometry: sphere)
         node.name = String(301)
         node.pivot = SCNMatrix4(Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2)))
-        node.categoryBitMask = Category.moon.rawValue
+        node.categoryBitMask = VisibilityCategory.moon.rawValue
         return node
     }()
     
@@ -145,6 +175,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
     override init() {
         super.init()
         resetCamera()
+        rootNode.addChildNode(defaultLightingNode)
         rootNode.addChildNode(milkyWayNode)
         rootNode.addChildNode(debugNode)
         rootNode.addChildNode(sunNode)
@@ -163,6 +194,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let focuser = FocusIndicatorNode(radius: 0.5)
         focuser.position = SCNVector3(0, 0, -10)
         focuser.constraints = [SCNBillboardConstraint()]
+        focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
         
         startLocationService()
@@ -174,6 +206,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let mat = SCNMaterial()
         mat.diffuse.contents = UIColor.white
         mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+        mat.locksAmbientWithDiffuse = true
         for star in stars {
             let radius = radiusForMagnitude(star.physicalInfo.magnitude)
             let plane = SCNPlane(width: radius, height: radius)
@@ -183,6 +216,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             starNode.constraints = [SCNBillboardConstraint()]
             starNode.position = SCNVector3(coord)
             starNode.name = String(star.identity.id)
+            starNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             rootNode.addChildNode(starNode)
         }
     }
@@ -204,6 +238,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                 let lineGeo = SCNGeometry(sources: [vertexSources], elements: [elements])
                 let mat = SCNMaterial()
                 mat.diffuse.contents = #colorLiteral(red: 0.7595454454, green: 0.89753443, blue: 0.859713316, alpha: 1).withAlphaComponent(0.3)
+                mat.locksAmbientWithDiffuse = true
                 lineGeo.firstMaterial = mat
                 let lineNode = SCNNode(geometry: lineGeo)
                 constellationLineNode.addChildNode(lineNode)
@@ -241,12 +276,15 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                 let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
                 planetNode.geometry?.firstMaterial?.isDoubleSided = true
                 planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
+                planetNode.geometry?.firstMaterial?.locksAmbientWithDiffuse = true
                 planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
                 planetNode.name = String(body.naifId)
+                planetNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
                 rootNode.addChildNode(planetNode)
             case let .moon(m):
                 if m == Naif.Moon.moon, moonNode.parent == nil {
                     rootNode.addChildNode(moonNode)
+                    rootNode.addChildNode(moonLightingNode)
                 }
             default:
                 break
@@ -268,9 +306,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         func transform(position: Vector3) -> Vector3 {
             return position.normalized() * auxillaryLineLayerRadius
         }
-        celesitalEquatorNode?.removeFromParentNode()
-        celesitalEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
-        rootNode.addChildNode(celesitalEquatorNode!)
+        celestialEquatorNode?.removeFromParentNode()
+        celestialEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(celestialEquatorNode!)
     }
     
     private func drawAuxillaryLines(ephemeris: Ephemeris) {
@@ -328,11 +366,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             return node
         }()
         let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
-        let sunPos = -earth.heliocentricPosition
+        let sunPos = -earth.position!
         let magnification: Double = 5
         let obliquedSunPos = sunPos.oblique(by: earth.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
-        let earthPos = earth.heliocentricPosition
+        sunNode.constraints = [SCNBillboardConstraint()]
+        let earthPos = earth.position!
         annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sunAndMoon)
         ephemeris.forEach { (body) in
             switch body.naif {
@@ -340,7 +379,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                 switch mb {
                 case .earth: break
                 default:
-                    let planetRelativePos = (body.heliocentricPosition - earthPos).oblique(by: earth.obliquity)
+                    let planetRelativePos = (body.position! - earthPos).oblique(by: earth.obliquity)
                     if let planetNode = rootNode.childNode(withName: String(body.naifId), recursively: false) {
                         let position = SCNVector3(planetRelativePos.normalized() * planetLayerRadius)
                         planetNode.position = position
@@ -351,12 +390,16 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             case let .moon(m):
                 if m == Naif.Moon.moon {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
-                    
-                    let relativePos = body.motion?.position?.oblique(by: earth.obliquity) ?? Vector3.zero
+                    let relativePos = body.motion?.position ?? Vector3.zero
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
-                    let position = SCNVector3(relativePos * moonZoomRatio / magnification)
-                    moonNode.position = position
-                    annotateCelestialBody(body, position: position, parent: cbLabelNode, class: .sunAndMoon)
+                    let moonPosition = relativePos * moonZoomRatio / magnification
+                    let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
+                    moonNode.position = SCNVector3(obliquedMoonPos)
+                    annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
+                    
+                    let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
+                    moonLightingNode.position = SCNVector3(hypotheticalSunPos)
+                    print(moonLightingNode.position)
                 }
             default:
                 break

@@ -25,7 +25,7 @@ private struct Dependency<T: Equatable>: Equatable, CustomStringConvertible {
 class EphemerisTest: XCTestCase {
 
     func testEphemerisTree() {
-        func makeCelesitalBody(id: Int) -> CelestialBody {
+        func makeCelestialBody(id: Int) -> CelestialBody {
             let cb = CelestialBody(naifId: id, name: "blah", gravParam: 123, radius: 343)
             return cb
         }
@@ -45,7 +45,7 @@ class EphemerisTest: XCTestCase {
             }
             XCTAssertEqual(expectedDependencies, convertToDependencies(dependencies))
         }
-        let bodies = [301, 399, 10, 499, 402, 599, 501, 509, 508].map { makeCelesitalBody(id: $0) }
+        let bodies = [301, 399, 10, 499, 402, 599, 501, 509, 508].map { makeCelestialBody(id: $0) }
         let ep = Ephemeris(solarSystemBodies: Set<CelestialBody>(bodies))
         XCTAssertEqual(ep.root.naifId, 10)
         verifyDependencies(ep: ep, dependencies: [(10, 399), (10, 499), (10, 599), (399, 301), (499, 402), (599, 501), (599, 508), (599, 509)])

@@ -56,6 +56,7 @@ class TrackingLabelNode: SCNNode {
         text.containerFrame = CGRect(origin: CGPoint(x: CGFloat(textOffset.x), y: CGFloat(textOffset.y)), size: CGSize(width: 8, height: style.font.pointSize * 2))
         let material = text.firstMaterial!
         material.diffuse.contents = style.color
+        material.locksAmbientWithDiffuse = true
         material.shaderModifiers = [
             .geometry : TrackingLabelNode.geometryShader,
             .surface : TrackingLabelNode.surfaceShader

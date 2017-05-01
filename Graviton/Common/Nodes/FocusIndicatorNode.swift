@@ -43,6 +43,7 @@ class FocusIndicatorNode: SCNNode {
         let line = SCNGeometry.openSolidPolyLine(vertices: [SCNVector3(0, 0, 0), SCNVector3(0.3, 0, 0)])
         let mat = SCNMaterial()
         mat.diffuse.contents = color
+        mat.locksAmbientWithDiffuse = true
         mat.shaderModifiers = [
             .geometry : FocusIndicatorNode.geometryShader,
         ]

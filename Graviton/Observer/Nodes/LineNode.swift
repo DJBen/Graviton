@@ -32,6 +32,7 @@ extension ObserverScene {
             self.vertices = vertices
             self.color = color
             super.init(setting: setting)
+            categoryBitMask = ObserverScene.VisibilityCategory.nonMoon.rawValue
         }
         
         required init?(coder aDecoder: NSCoder) {
@@ -43,6 +44,7 @@ extension ObserverScene {
             lineNode = SCNNode(geometry: line)
             let mat = SCNMaterial()
             mat.diffuse.contents = color
+            mat.locksAmbientWithDiffuse = true
             line.firstMaterial = mat
         }
         
