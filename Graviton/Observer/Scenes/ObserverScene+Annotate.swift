@@ -26,6 +26,7 @@ extension ObserverScene {
             guard let c = constellation.displayCenter else { continue }
             let center = SCNVector3(c.normalized())
             let textNode = TrackingLabelNode(string: constellation.name, textStyle: TextStyle.constellationLabelTextStyle(fontSize: 0.8))
+            textNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             textNode.constraints = [SCNBillboardConstraint()]
             textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
             conLabelNode.addChildNode(textNode)
@@ -63,6 +64,7 @@ extension ObserverScene {
                 color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
             }
             let node = TrackingLabelNode(string: body.name, textStyle: TextStyle.nearStellarBodyTextStyle(fontSize: fontSize, color: color), offset: offset(class: `class`))
+            node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             node.fontColor = color
             node.name = String(body.naifId)
             node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius - 1)

@@ -23,6 +23,7 @@ class SphereInteriorNode: SCNNode {
         super.init()
         let sphere = SCNSphere(radius: CGFloat(radius))
         sphere.firstMaterial!.cullMode = .back
+        sphere.firstMaterial!.locksAmbientWithDiffuse = true
         geometry = sphere
         var mtx = SCNMatrix4MakeRotation(Float(-Double.pi / 2), 1, 0, 0)
         mtx = SCNMatrix4Rotate(mtx, Float(-Double.pi / 2 - textureLongitudeOffset), 0, 1, 0)

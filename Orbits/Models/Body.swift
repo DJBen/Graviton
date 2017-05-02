@@ -49,15 +49,11 @@ open class Body: Hashable {
             }
         }
     }
-    public var heliocentricPosition: Vector3 {
-        let position = motion?.position ?? Vector3.zero
-        if let b = centerBody, b.naifId == Sun.sol.naifId {
-            return position
-        } else if let primary = centerBody {
-            return primary.heliocentricPosition + position
-        } else {
-            return position
+    public var position: Vector3? {
+        if naif == Naif.sun {
+            return Vector3.zero
         }
+        return motion?.position
     }
     public init(naif: Naif, name: String, centerBodyNaifId: Int? = nil) {
         self.naif = naif

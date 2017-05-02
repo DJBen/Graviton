@@ -1082,6 +1082,14 @@ extension Quaternion: Equatable, Hashable {
         self.init(x: x, y: y, z: z, w: w)
     }
     
+    public init(lookAt direction: Vector3) {
+        let normDir = direction.normalized()
+        let forwardUnit = Vector3(0, 0, -1)
+        let axis = forwardUnit.cross(normDir)
+        let angle = acos(forwardUnit.dot(normDir))
+        self.init(axis.toArray() + [angle])
+    }
+    
     public init(axisAngle: Vector4) {
         let r = axisAngle.w * 0.5
         let scale = sin(r)
