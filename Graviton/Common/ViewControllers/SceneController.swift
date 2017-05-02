@@ -30,7 +30,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.delegate = transitionController
-        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_menu"), style: .plain, target: self, action: #selector(menuButtonTapped))
+        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped))
         navigationItem.rightBarButtonItem = barButtonItem
         view.addGestureRecognizer(doubleTap)
         view.addGestureRecognizer(pan)
