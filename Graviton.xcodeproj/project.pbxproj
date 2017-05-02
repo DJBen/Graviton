@@ -155,6 +155,8 @@
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
 		FCA930D71E2B8F1200100706 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* Constants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
+		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
+		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCC0BDAE1E2D97DC003939B1 /* MathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; };
 		FCC0BDB21E2D97DC003939B1 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
@@ -453,6 +455,8 @@
 		FCA930E11E2B8F5400100706 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizonsTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930E21E2B8F5400100706 /* ParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParserTest.swift; sourceTree = "<group>"; };
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
+		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MathUtil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathUtil.h; sourceTree = "<group>"; };
 		FCC0BDAD1E2D97DC003939B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -584,6 +588,7 @@
 			isa = PBXGroup;
 			children = (
 				EF55530F1EA9701100B5A34D /* Icons.xcassets */,
+				FCB365A71EB8565C00027E82 /* Textures.xcassets */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -861,6 +866,7 @@
 			isa = PBXGroup;
 			children = (
 				EF55530C1EA96F8500B5A34D /* Assets.xcassets */,
+				FCB365A91EB857FC00027E82 /* Textures.xcassets */,
 				FC7D62011E9B498400BEA5BE /* Settings */,
 			);
 			path = Resources;
@@ -1395,6 +1401,7 @@
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
 				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
+				FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */,
 				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
 				FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */,
 				FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */,
@@ -1403,6 +1410,7 @@
 				FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
+				FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */,
 				EF5553101EA9701100B5A34D /* Icons.xcassets in Resources */,
 				FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */,
 			);

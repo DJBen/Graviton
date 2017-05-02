@@ -127,6 +127,19 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         return node
     }()
     
+    lazy var moonNode: SCNNode = {
+        let moonMat = SCNMaterial()
+        moonMat.diffuse.contents = #imageLiteral(resourceName: "moon.jpg")
+        moonMat.normal.contents = #imageLiteral(resourceName: "moon_normal")
+        let sphere = SCNSphere(radius: 0.1)
+        sphere.firstMaterial = moonMat
+        let node = SCNNode(geometry: sphere)
+        node.name = String(301)
+        node.pivot = SCNMatrix4(Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2)))
+        node.categoryBitMask = Category.moon.rawValue
+        return node
+    }()
+    
     // MARK: - Functions
     
     override init() {
@@ -232,10 +245,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                 planetNode.name = String(body.naifId)
                 rootNode.addChildNode(planetNode)
             case let .moon(m):
-                if m == Naif.Moon.moon, let moonNode = largeBodyScene.rootNode.childNode(withName: "moon", recursively: true) {
-                    moonNode.name = String(m.rawValue)
-                    moonNode.categoryBitMask = Category.moon.rawValue
-                    moonNode.removeFromParentNode()
+                if m == Naif.Moon.moon, moonNode.parent == nil {
                     rootNode.addChildNode(moonNode)
                 }
             default:
@@ -341,6 +351,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             case let .moon(m):
                 if m == Naif.Moon.moon {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
+                    
                     let relativePos = body.motion?.position?.oblique(by: earth.obliquity) ?? Vector3.zero
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
                     let position = SCNVector3(relativePos * moonZoomRatio / magnification)

@@ -250,10 +250,18 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         return (position, velocity)
     }
     
-    public func stateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
+    private func stateVector(fromMeanAnomaly meanAnomaly: Double, function: (Double, Double?) -> (Vector3, Vector3)) -> (Vector3, Vector3) {
         let eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
-        return stateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
+        return function(trueAnomaly, eccentricAnomaly)
+    }
+    
+    public func unrotatedStateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
+        return stateVector(fromMeanAnomaly: meanAnomaly, function: unrotatedStateVectors(fromTrueAnomaly:eccentricAnomaly:))
+    }
+    
+    public func stateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
+        return stateVector(fromMeanAnomaly: meanAnomaly, function: stateVectors(fromTrueAnomaly:eccentricAnomaly:))
     }
     
     private func propagateStateVectors() {
