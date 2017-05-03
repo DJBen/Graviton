@@ -20,7 +20,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.tintColor = UIColor.white
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
-        print(ProcessInfo.processInfo.environment)
         // Disable online fetching in unit tests
         let mode: Horizons.FetchMode = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil ? .mixed : .localOnly
         EphemerisManager.default.fetchEphemeris(mode: mode)

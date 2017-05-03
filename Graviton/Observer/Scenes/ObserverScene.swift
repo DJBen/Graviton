@@ -282,7 +282,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                 planetNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
                 rootNode.addChildNode(planetNode)
             case let .moon(m):
-                if m == Naif.Moon.moon, moonNode.parent == nil {
+                if m == Naif.Moon.luna, moonNode.parent == nil {
                     rootNode.addChildNode(moonNode)
                     rootNode.addChildNode(moonLightingNode)
                 }
@@ -388,7 +388,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                     }
                 }
             case let .moon(m):
-                if m == Naif.Moon.moon {
+                if m == Naif.Moon.luna {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
                     let relativePos = body.motion?.position ?? Vector3.zero
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius

@@ -28,7 +28,7 @@ public enum Naif: Comparable, Hashable {
     }
 
     public enum Moon: Int {
-        case moon = 301
+        case luna = 301
         case phobos = 401
         case deimos = 402
         case io = 501
@@ -196,7 +196,7 @@ public enum Naif: Comparable, Hashable {
     }()
 
     static let `default`: [Naif] = {
-        let moons: [Moon] = [.moon]
+        let moons: [Moon] = [.luna]
         return planets + moons.map { .moon($0) }
     }()
 
