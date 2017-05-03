@@ -86,19 +86,7 @@
 		EFD3CE7F1E85C87B00D6B0FF /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE781E85C87B00D6B0FF /* orbitalMotions.sqlite3 */; };
 		EFD3CE801E85C87B00D6B0FF /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE791E85C87B00D6B0FF /* smallBodies.sqlite3 */; };
 		EFD3CE811E85C87B00D6B0FF /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE791E85C87B00D6B0FF /* smallBodies.sqlite3 */; };
-		EFD3CE871E85C89700D6B0FF /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE831E85C89700D6B0FF /* Horizons.swift */; };
-		EFD3CE881E85C89700D6B0FF /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE831E85C89700D6B0FF /* Horizons.swift */; };
-		EFD3CE891E85C89700D6B0FF /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */; };
-		EFD3CE8A1E85C89700D6B0FF /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */; };
-		EFD3CE8B1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */; };
-		EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */; };
-		EFD3CE8D1E85C89700D6B0FF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */; };
-		EFD3CE8E1E85C89700D6B0FF /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */; };
 		EFD3CE911E85CF7800D6B0FF /* pluto.result in Resources */ = {isa = PBXBuildFile; fileRef = EFD3CE8F1E85CF7800D6B0FF /* pluto.result */; };
-		EFD3CE991E85D1D400D6B0FF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE981E85D1D400D6B0FF /* Parser.swift */; };
-		EFD3CE9A1E85D1D400D6B0FF /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE981E85D1D400D6B0FF /* Parser.swift */; };
-		EFD3CE9C1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
-		EFD3CE9D1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
@@ -106,6 +94,18 @@
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */; };
 		EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */; };
+		FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
+		FC0F519B1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
+		FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
+		FC0F519D1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
+		FC0F51A31EB9D93D00C1A863 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F519F1EB9D93D00C1A863 /* Parser.swift */; };
+		FC0F51A41EB9D93D00C1A863 /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F519F1EB9D93D00C1A863 /* Parser.swift */; };
+		FC0F51A51EB9D93D00C1A863 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A01EB9D93D00C1A863 /* ResponseParser.swift */; };
+		FC0F51A61EB9D93D00C1A863 /* ResponseParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A01EB9D93D00C1A863 /* ResponseParser.swift */; };
+		FC0F51A71EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A11EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift */; };
+		FC0F51A81EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A11EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift */; };
+		FC0F51A91EB9D93D00C1A863 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A21EB9D93D00C1A863 /* ResponseValidator.swift */; };
+		FC0F51AA1EB9D93D00C1A863 /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51A21EB9D93D00C1A863 /* ResponseValidator.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -387,13 +387,7 @@
 		EFD3CE771E85C87B00D6B0FF /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
 		EFD3CE781E85C87B00D6B0FF /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
 		EFD3CE791E85C87B00D6B0FF /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
-		EFD3CE831E85C89700D6B0FF /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
-		EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
-		EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = "ResponseParser+Ephemeris.swift"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseParser.swift; sourceTree = "<group>"; };
 		EFD3CE8F1E85CF7800D6B0FF /* pluto.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = pluto.result; sourceTree = "<group>"; };
-		EFD3CE981E85D1D400D6B0FF /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
-		EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -403,6 +397,12 @@
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
 		EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EclipticLineNode.swift; sourceTree = "<group>"; };
+		FC0F51981EB9D8BC00C1A863 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
+		FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
+		FC0F519F1EB9D93D00C1A863 /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Parser.swift; path = Parsers/Parser.swift; sourceTree = "<group>"; };
+		FC0F51A01EB9D93D00C1A863 /* ResponseParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseParser.swift; path = Parsers/ResponseParser.swift; sourceTree = "<group>"; };
+		FC0F51A11EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "ResponseParser+Ephemeris.swift"; path = "Parsers/ResponseParser+Ephemeris.swift"; sourceTree = "<group>"; };
+		FC0F51A21EB9D93D00C1A863 /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ResponseValidator.swift; path = Parsers/ResponseValidator.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
@@ -425,7 +425,6 @@
 		FC7D61FC1E9B491000BEA5BE /* tracking_label.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracking_label.surface.shader; sourceTree = "<group>"; };
 		FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = content_drawing_menu.plist; sourceTree = "<group>"; };
 		FC7D62031E9B498400BEA5BE /* main_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = main_menu.plist; sourceTree = "<group>"; };
-		FC929A1D1EB7029F00D13230 /* InMemoryCache.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InMemoryCache.swift; sourceTree = "<group>"; };
 		FC959E551E9B4D960026B222 /* ObserverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverScene.swift; sourceTree = "<group>"; };
 		FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
 		FC959E571E9B4D960026B222 /* ObserverScene+Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Location.swift"; sourceTree = "<group>"; };
@@ -712,18 +711,14 @@
 			path = Sqlite;
 			sourceTree = "<group>";
 		};
-		EFD3CE821E85C89700D6B0FF /* Parsing */ = {
+		EFD3CE821E85C89700D6B0FF /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				FC0F51971EB9D82900C1A863 /* Horizons */,
+				FC0F519E1EB9D8D900C1A863 /* Parsers */,
 				FCE0A7521E8919010009EFCB /* Extractors */,
-				EFD3CE831E85C89700D6B0FF /* Horizons.swift */,
-				EFD3CE841E85C89700D6B0FF /* HorizonsQuery.swift */,
-				EFD3CE981E85D1D400D6B0FF /* Parser.swift */,
-				EFD3CE9B1E85D9F000D6B0FF /* ResponseValidator.swift */,
-				EFD3CE861E85C89700D6B0FF /* ResponseParser.swift */,
-				EFD3CE851E85C89700D6B0FF /* ResponseParser+Ephemeris.swift */,
 			);
-			path = Parsing;
+			path = Networking;
 			sourceTree = "<group>";
 		};
 		EFE8BF561DD86B2B000F0A79 /* Orbits */ = {
@@ -732,7 +727,7 @@
 				EFE8BF571DD86B2B000F0A79 /* Orbits.h */,
 				EFD3CE751E85C87B00D6B0FF /* Sqlite */,
 				FCA930B71E2B8E6600100706 /* Models */,
-				EFD3CE821E85C89700D6B0FF /* Parsing */,
+				EFD3CE821E85C89700D6B0FF /* Networking */,
 				FCA930CB1E2B8EF600100706 /* Utils */,
 				EFE8BF771DD86B38000F0A79 /* Orbit.swift */,
 				FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */,
@@ -761,6 +756,26 @@
 				FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */,
 			);
 			path = OrbitsTests;
+			sourceTree = "<group>";
+		};
+		FC0F51971EB9D82900C1A863 /* Horizons */ = {
+			isa = PBXGroup;
+			children = (
+				FC0F51981EB9D8BC00C1A863 /* Horizons.swift */,
+				FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */,
+			);
+			path = Horizons;
+			sourceTree = "<group>";
+		};
+		FC0F519E1EB9D8D900C1A863 /* Parsers */ = {
+			isa = PBXGroup;
+			children = (
+				FC0F519F1EB9D93D00C1A863 /* Parser.swift */,
+				FC0F51A01EB9D93D00C1A863 /* ResponseParser.swift */,
+				FC0F51A11EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift */,
+				FC0F51A21EB9D93D00C1A863 /* ResponseValidator.swift */,
+			);
+			name = Parsers;
 			sourceTree = "<group>";
 		};
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
@@ -1003,7 +1018,6 @@
 				FCA930D51E2B8F1200100706 /* Constants.swift */,
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
 				FC998DB41E2CE87700E0BFFF /* DBHelper.swift */,
-				FC929A1D1EB7029F00D13230 /* InMemoryCache.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1031,7 +1045,7 @@
 				FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */,
 				FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */,
 			);
-			name = Extractors;
+			path = Extractors;
 			sourceTree = "<group>";
 		};
 		FCFBB71D1E59FCB200624B4C /* Views */ = {
@@ -1511,31 +1525,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				EFD3CE8A1E85C89700D6B0FF /* HorizonsQuery.swift in Sources */,
 				EF4BD3B21E57E64D009D2698 /* OrbitalMotionMoment.swift in Sources */,
 				EF4BD38C1E57E60A009D2698 /* HorizonsTest.swift in Sources */,
+				FC0F519B1EB9D8BC00C1A863 /* Horizons.swift in Sources */,
 				EF4BD3A51E57E64D009D2698 /* Ephemeris.swift in Sources */,
-				EFD3CE881E85C89700D6B0FF /* Horizons.swift in Sources */,
 				EF4BD3B41E57E651009D2698 /* DBHelper.swift in Sources */,
+				FC0F51A81EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */,
 				EF4BD3A81E57E64D009D2698 /* Body.swift in Sources */,
 				FCE0A7551E8922F00009EFCB /* PlutoPropertyExtractor.swift in Sources */,
 				EF4BD3B31E57E650009D2698 /* Formatters.swift in Sources */,
 				EF4BD3A91E57E64D009D2698 /* CelestialBody.swift in Sources */,
 				EF4BD38D1E57E60A009D2698 /* NaifTest.swift in Sources */,
-				EFD3CE8C1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
 				FCE0A7511E87201D0009EFCB /* PropertyExtractor.swift in Sources */,
+				FC0F51A61EB9D93D00C1A863 /* ResponseParser.swift in Sources */,
 				EF4BD3A71E57E64D009D2698 /* Naif.swift in Sources */,
 				EF4BD38F1E57E60A009D2698 /* EphemerisTest.swift in Sources */,
+				FC0F51AA1EB9D93D00C1A863 /* ResponseValidator.swift in Sources */,
+				FC0F519D1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */,
 				EF4BD3901E57E60A009D2698 /* ParserTest.swift in Sources */,
 				EF4BD3B11E57E64D009D2698 /* OrbitalMotion.swift in Sources */,
 				EF4BD3A61E57E64D009D2698 /* NaifCatalog.swift in Sources */,
 				EF4BD3B01E57E64D009D2698 /* Orbit.swift in Sources */,
 				EF4BD3AA1E57E64D009D2698 /* Constants.swift in Sources */,
-				EFD3CE9D1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */,
-				EFD3CE9A1E85D1D400D6B0FF /* Parser.swift in Sources */,
 				EF4BD3911E57E60A009D2698 /* TransientDBHelper.swift in Sources */,
 				EF4BD3921E57E60A009D2698 /* DBHelperTest.swift in Sources */,
-				EFD3CE8E1E85C89700D6B0FF /* ResponseParser.swift in Sources */,
+				FC0F51A41EB9D93D00C1A863 /* Parser.swift in Sources */,
 				FCFF7B1D1EA6196500C4B006 /* OrbitalMotionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1627,23 +1641,23 @@
 			files = (
 				FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */,
 				FCA930B91E2B8E6600100706 /* Body.swift in Sources */,
+				FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */,
 				EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */,
+				FC0F51A31EB9D93D00C1A863 /* Parser.swift in Sources */,
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
-				EFD3CE8D1E85C89700D6B0FF /* ResponseParser.swift in Sources */,
 				FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */,
+				FC0F51A71EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
-				EFD3CE8B1E85C89700D6B0FF /* ResponseParser+Ephemeris.swift in Sources */,
 				FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */,
+				FC0F51A91EB9D93D00C1A863 /* ResponseValidator.swift in Sources */,
+				FC0F51A51EB9D93D00C1A863 /* ResponseParser.swift in Sources */,
 				FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */,
-				EFD3CE871E85C89700D6B0FF /* Horizons.swift in Sources */,
-				EFD3CE9C1E85D9F000D6B0FF /* ResponseValidator.swift in Sources */,
-				EFD3CE991E85D1D400D6B0FF /* Parser.swift in Sources */,
 				EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
+				FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
-				EFD3CE891E85C89700D6B0FF /* HorizonsQuery.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
