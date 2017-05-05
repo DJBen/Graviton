@@ -30,7 +30,7 @@ fileprivate let dbSpect = Expression<String?>("spect")
 fileprivate let dbMag = Expression<Double>("mag")
 
 public struct Star: Hashable, Equatable {
-    
+
     public struct Identity: Hashable, Equatable {
         public let id: Int
         /// The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog. This is a combination of the two designations. The Flamsteed number, if present, is given first; then a three-letter abbreviation for the Bayer Greek letter; the Bayer superscript number, if present; and finally, the three-letter constellation abbreviation. Thus Alpha Andromedae has the field value "21Alp And", and Kappa1 Sculptoris (no Flamsteed number) has "Kap1Scl".
@@ -45,11 +45,11 @@ public struct Star: Hashable, Equatable {
         public let properName: String?
         /// The standard constellation
         public let constellation: Constellation
-        
+
         public var hashValue: Int {
             return id.hashValue
         }
-        
+
         init(id: Int, hipId: Int?, hrId: Int?, hdId: Int?, bfDesig: String?, proper: String?, constellationIAU: String) {
             self.id = id
             self.hipId = hipId
@@ -59,12 +59,12 @@ public struct Star: Hashable, Equatable {
             self.properName = proper
             self.constellation = Constellation.iau(constellationIAU)!
         }
-        
+
         public static func ==(lhs: Identity, rhs: Identity) -> Bool {
             return lhs.id == rhs.id
         }
     }
-    
+
     public struct PhysicalInfo {
         /// The star's spectral type, if known.
         public let spectralType: String?
@@ -74,34 +74,34 @@ public struct Star: Hashable, Equatable {
         public let coordinate: Vector3
         ///  The Cartesian velocity components of the star, in the same coordinate system described immediately above. They are determined from the proper motion and the radial velocity (when known). The velocity unit is parsecs per year; these are small values (around 1 millionth of a parsec per year), but they enormously simplify calculations using parsecs as base units for celestial mapping.
         public let properMotion: Vector3
-        
-        init(spect: String?, mag: Double, coordinate: Vector3, motion: Vector3)  {
+
+        init(spect: String?, mag: Double, coordinate: Vector3, motion: Vector3) {
             self.spectralType = spect
             self.magnitude = mag
             self.coordinate = coordinate
             self.properMotion = motion
         }
     }
-    
+
     // Mapping from id to Star object
     private static var cachedStars: [Int: Star] = [:]
-    
+
     public var hashValue: Int {
         return identity.hashValue
     }
-    
+
     public let identity: Identity
     public let physicalInfo: PhysicalInfo
-    
+
     public static func ==(lhs: Star, rhs: Star) -> Bool {
         return lhs.identity == rhs.identity
     }
-    
+
     private init(identity: Identity, physicalInfo: PhysicalInfo) {
         self.identity = identity
         self.physicalInfo = physicalInfo
     }
-    
+
     private init(row: Row) {
         let identity = Star.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
         let coord = Vector3(row.get(dbX), row.get(dbY), row.get(dbZ))
@@ -109,13 +109,13 @@ public struct Star: Hashable, Equatable {
         let phys = Star.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)
         self.init(identity: identity, physicalInfo: phys)
     }
-    
+
     public static func magitudeLessThan(_ magCutoff: Double) -> [Star] {
         let query = stars.filter(dbMag < magCutoff).filter(dbInternalId > 0).order(dbMag.asc)
         let rows = try! db.prepare(query)
         return rows.map { Star(row: $0) }
     }
-    
+
     private static func queryStar(_ query: Table) -> Star? {
         if let row = try! db.pluck(query) {
             let id = row.get(dbInternalId)
@@ -129,17 +129,17 @@ public struct Star: Hashable, Equatable {
             return nil
         }
     }
-    
+
     public static func hip(_ hip: Int) -> Star? {
         let query = stars.filter(dbHip == hip)
         return queryStar(query)
     }
-    
+
     public static func hr(_ hr: Int) -> Star? {
         let query = stars.filter(dbHr == hr)
         return queryStar(query)
     }
-    
+
     public static func id(_ id: Int) -> Star? {
         if let cachedStar = cachedStars[id] {
             return cachedStar

@@ -13,19 +13,19 @@ import MathUtil
 public struct ObserverInfo {
     public let location: CLLocation
     public var timestamp: Date
-    
+
     public init(location: CLLocation, timestamp: Date?) {
         self.location = location
         self.timestamp = timestamp ?? location.timestamp
     }
-    
+
     /// local sidereal time in radians
     public var localSiderealTimeAngle: Double {
         let hours = location.coordinate.longitude / 15
         let siderealTime = timestamp.greenwichMeanSiderealTime + hours
         return wrapAngle(siderealTime / 12 * Double.pi)
     }
-    
+
     public var localViewTransform: Matrix4 {
         return location.ecefToLocalNedTransform * Matrix4.init(rotation: Vector4(0, 0, 1, -radians(hours: timestamp.greenwichMeanSiderealTime)))
     }
@@ -48,18 +48,18 @@ extension CLLocation {
             (Ne * (1 - e * e) + altitude) * sin(φ)
         )
     }
-    
+
     var ecefToLocalNedTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)
         return Matrix4(
-            -sin(φ) * cos(λ),   -sin(φ) * sin(λ),   cos(φ),  0,
-            -sin(λ),            cos(λ),             0,       0,
-            -cos(φ) * cos(λ),   -cos(φ) * sin(λ),   -sin(φ), 0,
-            0,                  0,                  0,       1
+            -sin(φ) * cos(λ), -sin(φ) * sin(λ), cos(φ), 0,
+            -sin(λ), cos(λ), 0, 0,
+            -cos(φ) * cos(λ), -cos(φ) * sin(λ), -sin(φ), 0,
+            0, 0, 0, 1
         ).transpose
     }
-    
+
     var ecefToLocalEnuTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)

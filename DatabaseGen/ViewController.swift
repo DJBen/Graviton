@@ -30,7 +30,7 @@ class ViewController: UIViewController {
     let path = NSSearchPathForDirectoriesInDomains(
         .documentDirectory, .userDomainMask, true
         ).first!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
     }
@@ -38,7 +38,7 @@ class ViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     private static var lineMappings: [String: [(Int, Int)]] = {
         let content = try! String(contentsOfFile: constellationLinePath)
         let lines = content.components(separatedBy: "\n").filter { (str) -> Bool in
@@ -61,14 +61,13 @@ class ViewController: UIViewController {
         return dict
     }()
 
-    
     private func clean() {
         let enumerator = FileManager.default.enumerator(atPath: path)!
         while let filePath = enumerator.nextObject() as? String {
             try! FileManager.default.removeItem(atPath: (path as NSString).appendingPathComponent(filePath))
         }
     }
-    
+
     private func ask(_ proceed: @escaping (UIAlertAction) -> Void) {
         if FileManager.default.fileExists(atPath: path) {
             let alert = UIAlertController(title: "Previous Data Exists", message: "Clean before fetching data?", preferredStyle: .alert)
@@ -80,16 +79,16 @@ class ViewController: UIViewController {
             present(alert, animated: true, completion: nil)
         }
     }
-    
+
     @IBAction func generateMoon(_ sender: UIButton) {
         func proceed(action: UIAlertAction) {
             let localMoonDataPath = Bundle.main.path(forResource: "moon_1500AD_to_3000AD", ofType: "result")!
             let localMoonData = try! String(contentsOfFile: localMoonDataPath)
-            let _ = ResponseParser.parseEphemeris(content: localMoonData, save: true)
+            _ = ResponseParser.parseEphemeris(content: localMoonData, save: true)
         }
         ask(proceed)
     }
-    
+
     @IBAction func fetchMajorPlanets(_ sender: UIButton) {
         let calendar = Calendar(identifier: .gregorian)
         let components = DateComponents(calendar: calendar, timeZone: TimeZone.init(secondsFromGMT: 0), year: 1901, month: 1, day: 1)
@@ -104,11 +103,11 @@ class ViewController: UIViewController {
             }
             print(dict)
             for (_, str) in dict {
-                let _ = ResponseParser.parseEphemeris(content: str, save: true)
+                _ = ResponseParser.parseEphemeris(content: str, save: true)
             }
         }
     }
-    
+
     @IBAction func fetchMoon(_ sender: UIButton) {
         func proceed(action: UIAlertAction) {
             let moon = Naif.moon(.moon)
@@ -124,7 +123,7 @@ class ViewController: UIViewController {
                 Horizons.shared.fetchEphemeris(preferredDate: month, naifs: [moon], mode: .onlineOnly, update: { (ephemeris) in
                     print(offset)
                     print(ephemeris[moon.rawValue] as Any)
-                }) { (ephemeris, error) in
+                }) { (_, error) in
                     if let e = error {
                         print(e)
                     }
@@ -135,7 +134,7 @@ class ViewController: UIViewController {
         }
         ask(proceed)
     }
-    
+
     @IBAction func findConstellationCenter() {
         var map = [String: Vector3]()
          Constellation.all.forEach { con in
@@ -153,4 +152,3 @@ class ViewController: UIViewController {
     }
 
 }
-

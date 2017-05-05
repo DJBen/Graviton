@@ -1,0 +1,27 @@
+disabled_rules:
+  - cyclomatic_complexity
+  - force_cast
+  - force_try
+  - file_length
+  - function_body_length
+  - line_length
+  - operator_whitespace
+  - shorthand_operator
+  - type_body_length
+opt_in_rules:
+  - operator_usage_whitespace
+excluded:
+  - Carthage
+  - Pods
+  - DatabaseGen
+  - MathUtil/VectorMath.swift
+  - OrbitsTests
+  - StarryNightTests
+  - SpaceTimeTests
+force_try:
+  severity: warning
+nesting:
+  type_level:
+    warning: 2
+  statement_level:
+    warning: 5

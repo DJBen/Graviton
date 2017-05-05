@@ -75,7 +75,7 @@ public struct Constellation: Hashable {
     private var lines: [(Int, Int)] {
         return Constellation.lineMappings[iAUName] ?? []
     }
-    
+
     public let name: String
     public let iAUName: String
     public let genitive: String
@@ -104,7 +104,7 @@ public struct Constellation: Hashable {
         }
         return nil
     }
-    
+
     public static func named(_ name: String) -> Constellation? {
         if let conIndex: DictionaryIndex<String, Constellation> = cachedConstellations.index(where: { $1.name == name }) {
             let (_, v) = cachedConstellations[conIndex]

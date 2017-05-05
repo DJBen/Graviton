@@ -26,7 +26,7 @@ class FocusIndicatorNode: SCNNode {
         super.init()
         setupElements()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -45,7 +45,7 @@ class FocusIndicatorNode: SCNNode {
         mat.diffuse.contents = color
         mat.locksAmbientWithDiffuse = true
         mat.shaderModifiers = [
-            .geometry : FocusIndicatorNode.geometryShader,
+            .geometry: FocusIndicatorNode.geometryShader
         ]
         mat.setValue(radius, forKeyPath: "radius")
         line.firstMaterial = mat

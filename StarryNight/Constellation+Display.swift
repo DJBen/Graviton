@@ -120,7 +120,7 @@ extension Constellation {
         result.insert(self)
         return result
     }
-    
+
     public var neighbors: Set<Constellation> {
         var query = fullBorders.select(dbOppoCon)
         if iAUName == "Ser" {
@@ -133,7 +133,7 @@ extension Constellation {
             return Constellation.iau(oppoCon)!
         })
     }
-    
+
     public var displayCenter: Vector3? {
         return constellationCenter[iAUName]
     }
@@ -157,7 +157,7 @@ extension Sequence where Iterator.Element == Constellation {
         }
         return result
     }
-    
+
 }
 
 public extension EquatorialCoordinate {

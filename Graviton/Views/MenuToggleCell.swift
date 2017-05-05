@@ -13,7 +13,7 @@ class MenuToggleCell: MenuCell {
         let sw = UISwitch()
         return sw
     }()
-    
+
     var binding: Settings.BooleanSetting? {
         didSet {
             if let field = binding {
@@ -21,26 +21,26 @@ class MenuToggleCell: MenuCell {
             }
         }
     }
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     func switchValueChanged(sender: UISwitch) {
         guard let field = binding else { return }
         Settings.default[field] = sender.isOn
     }
-    
+
     private func setupView() {
         accessoryView = toggle
         toggle.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)

@@ -39,7 +39,7 @@ typealias SCNFloat = CGFloat
 
 import SceneKit
 
-//MARK: SceneKit extensions
+// MARK: SceneKit extensions
 
 extension SCNVector3 {
     public init(_ v: Vector3) {
@@ -69,12 +69,12 @@ extension SCNMatrix4 {
 #endif
 
 extension SCNQuaternion {
-    public init(_ q:Quaternion) {
+    public init(_ q: Quaternion) {
         self.init(x: SCNFloat(q.x), y: SCNFloat(q.y), z: SCNFloat(q.z), w: SCNFloat(q.w))
     }
 }
 
-//MARK: VectorMath extensions
+// MARK: VectorMath extensions
 
 extension Vector3 {
     public init(_ v: SCNVector3) {

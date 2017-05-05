@@ -12,17 +12,17 @@ import CoreLocation
 import MathUtil
 
 class CoordinateTest: XCTestCase {
-    
+
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
     }
-    
+
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
+
     func testNearEpochSphericalToCylindricalConversion() {
         let sph = EquatorialCoordinate(
             rightAscension: radians(hours: 11, minutes: 3, seconds: 43),
@@ -38,7 +38,7 @@ class CoordinateTest: XCTestCase {
         XCTAssertEqualWithAccuracy(cyl.altitude, radians(degrees: 65, minutes: 37, seconds: 8.28), accuracy: 1e-3)
 
     }
-    
+
     func testSphericalToCylindricalConversion() {
         // at 2017.1.6, 1:31 AM PT
         // Dubhe is at RA 11h 03m 43s, DEC +61° 45' 3.72''
@@ -62,7 +62,7 @@ class CoordinateTest: XCTestCase {
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 32, minutes: 41, seconds: 21.16), accuracy: 5e-3)
         XCTAssertEqualWithAccuracy(cyl.altitude, radians(degrees: 55, minutes: 55, seconds: 30.18), accuracy: 5e-3)
     }
-    
+
     func testSouthernSphericalToCylindricalConversion() {
         // Sirius
         let sph = EquatorialCoordinate(
@@ -83,5 +83,5 @@ class CoordinateTest: XCTestCase {
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 180, minutes: 3, seconds: 48.13), accuracy: 5e-3)
         XCTAssertEqualWithAccuracy(cyl.altitude, -radians(degrees: 39, minutes: 20, seconds: 54.56), accuracy: 5e-3)
     }
-    
+
 }

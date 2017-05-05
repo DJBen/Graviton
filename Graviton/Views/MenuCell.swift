@@ -14,16 +14,16 @@ class MenuCell: UITableViewCell {
         super.awakeFromNib()
         setupView()
     }
-    
+
     override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupView()
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     private func setupView() {
         imageView?.tintColor = Constants.Menu.tintColor
         textLabel?.textColor = Constants.Menu.textColor
@@ -33,7 +33,7 @@ class MenuCell: UITableViewCell {
             return view
         }()
     }
-    
+
     override func setHighlighted(_ highlighted: Bool, animated: Bool) {
         super.setHighlighted(highlighted, animated: animated)
     }

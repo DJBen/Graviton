@@ -17,16 +17,16 @@ import CoreImage
 import CoreMedia
 
 class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
-    
+
     private lazy var obsScene = ObserverScene()
     private var scnView: SCNView {
         return self.view as! SCNView
     }
-    
+
     var currentSnapshot: UIImage {
         return scnView.snapshot()
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
@@ -40,11 +40,11 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         super.viewWillAppear(animated)
         navigationController?.presentTransparentNavigationBar()
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -52,20 +52,20 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
             return .all
         }
     }
-    
+
     override func handleCameraPan(atTime time: TimeInterval) {
         super.handleCameraPan(atTime: time)
         let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
         viewSlideDivisor = factor * 25000
     }
-    
+
     override func menuButtonTapped(sender: UIButton) {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }
-    
+
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         scnView.delegate = self
@@ -84,14 +84,14 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     }
 
     // MARK: - Scene Renderer Delegate
-    
+
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisManager.default.requestEphemeris(at: JulianDate.now(), forObject: obsScene)
     }
 
     // MARK: - Menu Background Provider
-    
+
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
         return UIImageEffects.blurredMenuImage(scnView.snapshot())
     }

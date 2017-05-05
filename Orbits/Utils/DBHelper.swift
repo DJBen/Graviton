@@ -32,14 +32,14 @@ fileprivate let tp = Expression<Double>("tp") // time of periapsis passage, only
 fileprivate let refJd = Expression<Double>("ref_jd") // reference jd, only when mode = 2
 
 class DBHelper {
-    
+
     static let shared: DBHelper = setupDatabaseHelper()
-    
+
     class func setupDatabaseHelper() -> DBHelper {
         let path = NSSearchPathForDirectoriesInDomains(
             .documentDirectory, .userDomainMask, true
             ).first!
-        
+
         print(path)
         let cb = try! Connection("\(path)/celestialBodies.sqlite3")
         let ob = try! Connection("\(path)/orbitalMotions.sqlite3")
@@ -47,14 +47,14 @@ class DBHelper {
         helper.prepareTables()
         return helper
     }
-    
+
     init(celestialBodies: Connection, orbitalMotions: Connection) {
         self.celestialBodies = celestialBodies
         self.orbitalMotions = orbitalMotions
         self.backupCb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "celestialBodies", ofType: "sqlite3")!)
         self.backupOb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "orbitalMotions", ofType: "sqlite3")!)
     }
-    
+
     let celestialBodies: Connection
     let orbitalMotions: Connection
     let backupCb: Connection
@@ -67,7 +67,7 @@ class DBHelper {
     // Tp     Time of periapsis (Julian Day Number)
     // MA     Mean anomaly, M (degrees)
     // A      Semi-major axis, a (km)
-    
+
     func prepareTables() {
         try! orbitalMotions.run(orbitalMotion.create(ifNotExists: true) { t in
             t.column(obId, primaryKey: .autoincrement)
@@ -94,7 +94,7 @@ class DBHelper {
             t.column(cusName)
         })
     }
-    
+
     func saveCelestialBody(_ body: CelestialBody, shouldSaveMotion: Bool) {
         let setters: [Setter] = [cbId <- Int64(body.naifId), gmExpr <- body.gravParam, obliquityExpr <- body.obliquity, radiusExpr <- body.radius, hillSphereExpr <- body.hillSphere, rotationPeriodExpr <- body.rotationPeriod, centerBodyId <- wrapInt(body.centerBody?.naifId)]
         var nameSetter: [Setter] = []
@@ -106,7 +106,7 @@ class DBHelper {
             obm.save(forBodyId: body.naifId)
         }
     }
-    
+
     func loadCelestialBody(withNaifId naifId: Int, shouldLoadMotion: Bool = true) -> CelestialBody? {
         if naifId == Sun.sol.naifId {
             return Sun.sol
@@ -130,13 +130,13 @@ class DBHelper {
             return nil
         }
     }
-    
+
     func saveOrbitalMotionMoment(_ moment: OrbitalMotionMoment, forBodyId bid: Int) {
         let db: Connection = self.orbitalMotions
         let identitySetter: [Setter] = [bodyId <- Int64(bid), systemGm <- moment.gm, tp <- moment.timeOfPeriapsisPassage!.value, refJd <- moment.ephemerisJulianDate.value]
         try! db.run(orbitalMotion.insert(or: .replace, identitySetter + moment.orbit.sqlSaveSetters))
     }
-    
+
     func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now()) -> OrbitalMotionMoment? {
         let db: Connection = self.orbitalMotions
         func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
@@ -183,12 +183,12 @@ fileprivate func wrapInt(_ v: Int?) -> Int64? {
 }
 
 extension CelestialBody {
-    
+
     /// Save physical properties of the celestial body
     public func save(shouldSaveMotion: Bool = true) {
         DBHelper.shared.saveCelestialBody(self, shouldSaveMotion: shouldSaveMotion)
     }
-    
+
     public class func load(naifId: Int) -> CelestialBody? {
         return DBHelper.shared.loadCelestialBody(withNaifId: naifId)
     }
@@ -198,7 +198,7 @@ extension OrbitalMotionMoment {
     public func save(forBodyId theBodyId: Int) {
         DBHelper.shared.saveOrbitalMotionMoment(self, forBodyId: theBodyId)
     }
-    
+
     public class func load(bodyId: Int) -> OrbitalMotionMoment? {
         return DBHelper.shared.loadOrbitalMotionMoment(bodyId: bodyId)
     }

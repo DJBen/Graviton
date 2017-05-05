@@ -11,17 +11,17 @@ import SceneKit
 import MathUtil
 
 class TrackingLabelNode: SCNNode {
-    
+
     private static let surfaceShader: String = {
         let path = Bundle.main.path(forResource: "tracking_label.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
-    
+
     private static let geometryShader: String = {
         let path = Bundle.main.path(forResource: "tracking_label.geometry", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
-    
+
     var string: String? {
         get {
             return (geometry as? SCNText)?.string as? String
@@ -30,7 +30,7 @@ class TrackingLabelNode: SCNNode {
             (geometry as? SCNText)?.string = newValue
         }
     }
-    
+
     let offset: CGVector
     var fontColor: UIColor? {
         get {
@@ -40,7 +40,7 @@ class TrackingLabelNode: SCNNode {
             geometry?.firstMaterial?.diffuse.contents = newValue
         }
     }
-    
+
     init(string: String?, textStyle: TextStyle? = nil, offset: CGVector = CGVector.zero) {
         self.offset = offset
         super.init()
@@ -58,17 +58,17 @@ class TrackingLabelNode: SCNNode {
         material.diffuse.contents = style.color
         material.locksAmbientWithDiffuse = true
         material.shaderModifiers = [
-            .geometry : TrackingLabelNode.geometryShader,
-            .surface : TrackingLabelNode.surfaceShader
+            .geometry: TrackingLabelNode.geometryShader,
+            .surface: TrackingLabelNode.surfaceShader
         ]
         material.setValue(offset.dx, forKeyPath: "horizontalOffset")
         material.setValue(offset.dy, forKeyPath: "verticalOffset")
     }
-    
+
     override convenience init() {
         self.init(string: nil)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

@@ -1,4 +1,3 @@
-
 //
 //  PushOverlayTransition.swift
 //  Graviton
@@ -17,18 +16,18 @@ class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
         self.presenting = presenting
         super.init()
     }
-    
+
     func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return presenting ? 0.4 : 0.6
     }
-    
+
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let container = transitionContext.containerView
         let fromVC = transitionContext.viewController(forKey: .from)!
         let toVC = transitionContext.viewController(forKey: .to)!
         let fromView = transitionContext.view(forKey: UITransitionContextViewKey.from)!
         let toView = transitionContext.view(forKey: UITransitionContextViewKey.to)!
-        
+
         let offScreenRight = container.frame.offsetBy(dx: container.frame.width, dy: 0)
 
         let imageView: UIImageView
@@ -61,7 +60,7 @@ class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
 
         container.insertSubview(imageContainerView, belowSubview: presenting ? toView : fromView)
         let duration = self.transitionDuration(using: transitionContext)
-        
+
         UIView.animate(withDuration: duration, delay: 0.0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: [], animations: {
             if self.presenting {
                 imageContainerView.frame = container.frame
@@ -72,7 +71,7 @@ class PushOverlayTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 imageView.frame = imageViewLeft
                 fromView.frame = offScreenRight
             }
-        }, completion: { finished in
+        }, completion: { _ in
             let canceled = transitionContext.transitionWasCancelled
             transitionContext.completeTransition(!canceled)
         })

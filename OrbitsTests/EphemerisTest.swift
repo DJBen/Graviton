@@ -12,11 +12,11 @@ import XCTest
 private struct Dependency<T: Equatable>: Equatable, CustomStringConvertible {
     let parent: T
     let child: T
-    
+
     var description: String {
         return "Dependency(\(parent) <- \(child))"
     }
-    
+
     static func ==<T: Equatable>(v1: Dependency<T>, v2: Dependency<T>) -> Bool {
         return v1.parent == v2.parent && v1.child == v2.child
     }
@@ -29,9 +29,9 @@ class EphemerisTest: XCTestCase {
             let cb = CelestialBody(naifId: id, name: "blah", gravParam: 123, radius: 343)
             return cb
         }
-        func verifyDependencies(ep: Ephemeris, dependencies: [(Int, Int)]) {
+        func verifyDependencies(eph: Ephemeris, dependencies: [(Int, Int)]) {
             var expectedDependencies = [Dependency<Int>]()
-            var queue = [ep.root]
+            var queue = [eph.root]
             while queue.isEmpty == false {
                 let current = queue.removeFirst()
                 let sats = Array(current.satellites) as! [CelestialBody]
@@ -48,6 +48,6 @@ class EphemerisTest: XCTestCase {
         let bodies = [301, 399, 10, 499, 402, 599, 501, 509, 508].map { makeCelestialBody(id: $0) }
         let ep = Ephemeris(solarSystemBodies: Set<CelestialBody>(bodies))
         XCTAssertEqual(ep.root.naifId, 10)
-        verifyDependencies(ep: ep, dependencies: [(10, 399), (10, 499), (10, 599), (399, 301), (499, 402), (599, 501), (599, 508), (599, 509)])
+        verifyDependencies(eph: ep, dependencies: [(10, 399), (10, 499), (10, 599), (399, 301), (499, 402), (599, 501), (599, 508), (599, 509)])
     }
 }

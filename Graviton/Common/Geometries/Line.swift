@@ -22,9 +22,9 @@ fileprivate struct LineMode {
         let final: (Int) -> Int = closes ? { $0 } : { $0 - 1 }
         switch fill {
         case .solid:
-            return { n -> [CInt] in (0...final(n)).map { CInt($0 % n) } }
+            return { index -> [CInt] in (0...final(index)).map { CInt($0 % index) } }
         case .dashed:
-            return { n -> [CInt] in (0...final(n)).map { CInt($0 % n) } }
+            return { index -> [CInt] in (0...final(index)).map { CInt($0 % index) } }
         }
     }
 }

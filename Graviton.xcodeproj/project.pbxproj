@@ -1181,6 +1181,7 @@
 				EFC2C6921D88D02F0031AA9C /* Resources */,
 				EFE8BF6F1DD86B2B000F0A79 /* Embed Frameworks */,
 				FC2435381E14C7A9002AC626 /* Copy Carthage Frameworks */,
+				EF6FB1291EBBF14A00BCD215 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -1487,6 +1488,20 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		EF6FB1291EBBF14A00BCD215 /* Swift Lint */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Swift Lint";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
 		EFC7C1351E56876900B7B9B9 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;

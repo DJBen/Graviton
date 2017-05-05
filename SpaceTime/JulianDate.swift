@@ -11,10 +11,10 @@ import MathUtil
 
 public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Equatable {
     public typealias FloatLiteralType = Double
-    
+
     public static let B1950: JulianDate = 2433282.4235
     public static let J2000: JulianDate = 2451545.0
-    
+
     public static func now() -> JulianDate {
         return JulianDate(date: Date())
     }
@@ -22,17 +22,17 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Eq
     public var description: String {
         return "(JD \(value), \(date))"
     }
-    
+
     public let value: Double
-    
+
     public init(_ value: FloatLiteralType) {
         self.value = value
     }
-    
+
     public init(floatLiteral value: FloatLiteralType) {
         self.value = value
     }
-    
+
     public init(date: Date) {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -51,7 +51,7 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Eq
         JDN += floor(y / 4) - floor(y / 100) + floor(y / 400)
         value = JDN + Double(hour - 12) / 24 + Double(minute) / 1440 + Double(second) / 86400
     }
-    
+
     public var date: Date {
         let (y, j, m, n, r, p) = (4716, 1401, 2, 12, 4, 1461)
         let (v, u, s, w, B, C) = (3, 5, 153, 2, 274277, -38)
@@ -107,7 +107,7 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Eq
     public static func ~=(lhs: JulianDate, rhs: JulianDate) -> Bool {
         return lhs.value ~= rhs.value
     }
-    
+
     public static func ==(lhs: JulianDate, rhs: JulianDate) -> Bool {
         return lhs.value == rhs.value
     }

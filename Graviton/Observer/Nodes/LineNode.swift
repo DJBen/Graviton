@@ -15,30 +15,28 @@ extension ObserverScene {
         enum Style {
             case dashed
         }
-        
+
         private let color: UIColor
-        
+
         private let vertices: [SCNVector3]
 
         private var lineNode: SCNNode?
-        
+
         override var isSetUp: Bool {
-            get {
-                return lineNode != nil
-            }
+            return lineNode != nil
         }
-        
+
         init(setting: Settings.BooleanSetting, vertices: [SCNVector3], color: UIColor) {
             self.vertices = vertices
             self.color = color
             super.init(setting: setting)
             categoryBitMask = ObserverScene.VisibilityCategory.nonMoon.rawValue
         }
-        
+
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
-        
+
         private func drawLine() {
             let line = SCNGeometry.closedDashedPolyLine(vertices: vertices)
             lineNode = SCNNode(geometry: line)
@@ -47,22 +45,22 @@ extension ObserverScene {
             mat.locksAmbientWithDiffuse = true
             line.firstMaterial = mat
         }
-        
+
         // MARK: ObserverSceneElement
         override func setUpElement() {
             drawLine()
         }
-        
+
         override func showElement() {
             if let node = lineNode, node.parent == nil {
                 addChildNode(node)
             }
         }
-        
+
         override func hideElement() {
             lineNode?.removeFromParentNode()
         }
-        
+
         override func removeElement() {
             hideElement()
             lineNode = nil

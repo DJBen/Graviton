@@ -10,7 +10,7 @@ import SpaceTime
 import MathUtil
 
 extension ResponseParser {
-    
+
     // The csv is ordered as follows:
     // JDTDB, Calendar Date (TDB), EC, QR, IN, OM, W, Tp, N, MA, TA, A, AD, PR
     //
@@ -38,10 +38,10 @@ extension ResponseParser {
     // A      Semi-major axis, a (km)
     // AD     Apoapsis distance (km)
     // PR     Sidereal orbit period (sec)
-    
+
     /// parse orbital elements in csv format from JPL Horizons telnet server
     /// - parameter csv: the string contains csv
-    
+
     private static var dateFormatter: DateFormatter {
         let formatter = DateFormatter()
         // julian date guarantees AD
@@ -50,7 +50,7 @@ extension ResponseParser {
         formatter.locale = Locale(identifier: "en-US")
         return formatter
     }
-    
+
     private func parseEphemerisLine(naifId: Int, gm: Double, line: String, save: Bool) -> OrbitalMotion? {
         let components = line.components(separatedBy: ",").map { $0.trimmed() }.filter { $0.isEmpty == false }
         guard components.count == 14 else { return nil }
@@ -68,14 +68,14 @@ extension ResponseParser {
         }
         return nil
     }
-    
+
     private func breakEphemerisIntoLines(content: String) -> [String] {
         guard let start = content.range(of: "$$SOE")?.upperBound,
             let end = content.range(of: "$$EOE")?.lowerBound else { fatalError() }
         let str = content.substring(with: start..<end)
-        return str.components(separatedBy: "\n").filter { $0.trimmed().isEmpty == false}
+        return str.components(separatedBy: "\n").filter { $0.trimmed().isEmpty == false }
     }
-    
+
     public func parseEphemeris(content: String, save: Bool = false) -> [OrbitalMotion] {
         func systemGM(_ str: String?) -> Double? {
             guard let s = str else {

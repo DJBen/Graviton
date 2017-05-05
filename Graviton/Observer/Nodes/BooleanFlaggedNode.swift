@@ -31,11 +31,11 @@ extension ObserverScene {
                 hideElement()
             }
         }
-        
+
         deinit {
             unsubscribeFromSetting()
         }
-        
+
         required init?(coder aDecoder: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
@@ -47,26 +47,26 @@ extension ObserverScene {
         private func unsubscribeFromSetting() {
             Settings.default.unsubscribe(object: self)
         }
-        
+
         // MARK: ObserverSceneElement
         var isSetUp: Bool {
             fatalError("isSetUp is not implemented")
         }
-        
+
         // abstract class: throw for these abstract methods
-        
+
         func showElement() {
             doesNotRecognizeSelector(#selector(showElement))
         }
-        
+
         func hideElement() {
             doesNotRecognizeSelector(#selector(hideElement))
         }
-        
+
         func setUpElement() {
             doesNotRecognizeSelector(#selector(setUpElement))
         }
-        
+
         func removeElement() {
             doesNotRecognizeSelector(#selector(removeElement))
         }

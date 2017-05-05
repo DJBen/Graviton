@@ -17,7 +17,7 @@ class StarTest: XCTestCase {
         XCTAssertNotNil(s2Query)
         XCTAssertEqual(s2Query!.identity.properName, "Arcturus")
     }
-    
+
     func testConstellationQuery() {
         let iauQuery = Constellation.iau("Tau")
         XCTAssertNotNil(iauQuery)

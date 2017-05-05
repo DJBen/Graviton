@@ -10,7 +10,7 @@ import Foundation
 
 public struct SpectralType {
     public let spectralClass: String
-    
+
     public init?(_ str: String) {
         if str.isEmpty {
             return nil

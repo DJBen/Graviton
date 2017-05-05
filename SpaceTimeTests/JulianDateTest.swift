@@ -10,7 +10,7 @@ import XCTest
 @testable import SpaceTime
 
 class JulianDateTest: XCTestCase {
-    
+
     func testDateToJulianDate() {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
@@ -19,7 +19,7 @@ class JulianDateTest: XCTestCase {
         let JD = JulianDate(date: date)
         XCTAssertEqualWithAccuracy(JD.value, JulianDate.J2000.value, accuracy: 1e-6)
     }
-    
+
     func testJulianDateToDate() {
         let JD = 2457660.5
         var calendar = Calendar(identifier: .gregorian)

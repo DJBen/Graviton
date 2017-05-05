@@ -15,7 +15,7 @@ public class NaifCatalog {
     private static var db: Connection = {
         return try! Connection(NaifCatalog.databasePath)
     }()
-    
+
     public static func name(forNaif naif: Int) -> String? {
         let table = Table("naif_codes")
         let id = Expression<Int64>("naif_id")

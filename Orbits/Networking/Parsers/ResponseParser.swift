@@ -11,9 +11,9 @@ import MathUtil
 
 public struct ResponseParser: Parser {
     public typealias Result = CelestialBody?
-    
+
     public static let `default` = ResponseParser()
-    
+
     // parse range 1
     func parseField(_ content: String) -> [String: String] {
         let lines = content.components(separatedBy: "\n")
@@ -30,7 +30,7 @@ public struct ResponseParser: Parser {
         }.reduce([], +).forEach { results[$0] = $1 }
         return results
     }
-    
+
     // parse range 1 - subroutine
     func parseDoubleColumn(_ line: String) -> ((String, String), (String, String)?)? {
         let lineRegex = "^\\s*(?:(?:(.{38})\\s+)|(?:(.{38}\\S+)\\s+))(.+)$"
@@ -43,7 +43,7 @@ public struct ResponseParser: Parser {
         }
         let m = matched[0]
         guard m.count == 4 else { return nil }
-        
+
         func parseProperty(_ propLine: String) -> (String, String)? {
             let props = propLine.matches(for: propertyRegex)
             guard props.isEmpty == false else { return nil }
@@ -59,7 +59,7 @@ public struct ResponseParser: Parser {
             return (firstProperty, parseProperty(tp.1))
         } else { return nil }
     }
-    
+
     func parseLineBasedContent(_ content: String) -> [String: (String, String?)] {
         let physicalDataRegex = "Ephemeris[^\\*]+\\*+([^\\*]+)\\*+([^\\*]+)\\*+([^\\*]+)\\*+"
         let planetDataMatched = content.matches(for: physicalDataRegex)[0]
@@ -75,9 +75,9 @@ public struct ResponseParser: Parser {
         }.reduce([], +).forEach { results[$0] = ($1, $2) }
         return results
     }
-    
+
     // MARK: - Small parsing functions
-    
+
     func extractNameId(_ nameId: (String, String?)?) -> (String, Int)? {
         guard let ni = nameId else { return nil }
         let matches = ni.0.matches(for: "(\\w+)\\s*\\((\\d+)\\)")
@@ -85,7 +85,7 @@ public struct ResponseParser: Parser {
         guard matches[0].count > 2 else { return nil }
         return (matches[0][1], Int(matches[0][2])!)
     }
-    
+
     public func parse(content: String) -> CelestialBody? {
         let bodyInfo = parseField(content)
         let systemInfo = parseLineBasedContent(content)
@@ -126,7 +126,7 @@ extension String {
             return false
         }
     }
-    
+
     func matches(for regex: String) -> [[String]] {
         do {
             let regex = try NSRegularExpression(pattern: regex)
@@ -148,7 +148,7 @@ extension String {
             return []
         }
     }
-    
+
     func trimmed() -> String {
         return self.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
     }

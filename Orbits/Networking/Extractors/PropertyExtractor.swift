@@ -17,9 +17,9 @@ class PropertyExtractor {
         case radius
         case gravParam
     }
-    
+
     let bodyInfo: [String: String]
-    
+
     init(bodyInfo: [String: String]) {
         self.bodyInfo = bodyInfo
     }
@@ -36,23 +36,23 @@ class PropertyExtractor {
             return PropertyExtractor(bodyInfo: bodyInfo)
         }
     }
-    
+
     var hillSphereKeys: [String] {
         return ["Hill's sphere rad. Rp", "Hill's sphere radius", "Hill's sphere rad., Rp"]
     }
-    
+
     var rotationPeriodKeys: [String] {
         return ["Sidereal rot. period", "Sidereal period, hr", "Inferred rot. period", "Orbit period", "Orbital period"]
     }
-    
+
     var obliquityKeys: [String] {
         return ["Obliquity to orbit", "Obliquity to orbit, deg"]
     }
-    
+
     var radiusKeys: [String] {
         return ["Mean radius (km)", "Mean radius, km", "Volumetric mean radius", "Radius (IAU), km"]
     }
-    
+
     func extractField(_ field: Field) -> String? {
         func extractFromKeys(_ keys: [String]) -> String? {
             return keys.reduce(nil) { $0 ?? bodyInfo[$1] }
@@ -70,7 +70,7 @@ class PropertyExtractor {
             return nil
         }
     }
-    
+
     var radius: Double? {
         guard let km = extractField(.radius) else { return nil }
         if let convertedDouble = Double(km) {
@@ -84,14 +84,14 @@ class PropertyExtractor {
         guard matches[0].count > 1 else { return nil }
         return Double(matches[0][1])! * 1000
     }
-    
+
     var hillSphere: Double? {
         if let str = extractField(.hillSphere) {
             return Double(str)!
         }
         return nil
     }
-    
+
     var obliquity: Double? {
         guard let deg = extractField(.obliquity) else { return nil }
         let matches = deg.matches(for: "([-\\d.]+)\\s*(?:deg)?")
@@ -99,7 +99,7 @@ class PropertyExtractor {
         guard matches[0].count > 1 else { return nil }
         return radians(degrees: Double(matches[0][1])!)
     }
-    
+
     func rotationPeriod(naifId: Int, orb: Double) -> Double? {
         let str = extractField(.rotationPeriod)
         if str == nil {
@@ -125,7 +125,7 @@ class PropertyExtractor {
         }
         return nil
     }
-    
+
     var gm: Double? {
         let regex = "GM(?:,| \\()(10\\^(\\d+))?\\s*(km\\^3 s\\^-2|km\\^3\\/s\\^2)\\)?"
         // match 2 - exponent or nil (1)

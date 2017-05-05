@@ -10,7 +10,7 @@ import Foundation
 import SceneKit
 
 public struct Formatters {
-    
+
     // format velocity to m/s
     static var velocityFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -23,7 +23,7 @@ public struct Formatters {
         formatter.negativePrefix = "Vel: "
         return formatter
     }()
-    
+
     // format distance to km
     static var distanceFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
@@ -42,7 +42,7 @@ extension Body {
         guard let velocity = motion?.velocity.length else { return nil }
         return Formatters.velocityFormatter.string(from: NSNumber(value: velocity))
     }
-    
+
     public var distanceString: String? {
         guard let distance = motion?.distance else { return nil }
         return Formatters.distanceFormatter.string(from: NSNumber(value: distance / 1000))

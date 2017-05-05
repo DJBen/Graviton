@@ -12,13 +12,13 @@ import SpaceTime
 /// Ephemeris is a tree structure with celestial bodies ordered in a way that satellites are always children of their respective primaries.
 public class Ephemeris: NSObject, Sequence, NSCopying {
     typealias Node = CelestialBody
-    
+
     public let root: CelestialBody
-    
+
     public var timestamp: Date? {
         return root.motion?.julianDate?.date
     }
-    
+
     init(solarSystemBodies: Set<CelestialBody>) {
         let sortedBodies = solarSystemBodies.sorted()
         guard let first = sortedBodies.first else {
@@ -44,11 +44,11 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
             } while true
         }
     }
-    
+
     private init(root: CelestialBody) {
         self.root = root
     }
-    
+
     public func makeIterator() -> AnyIterator<CelestialBody> {
         var result = [CelestialBody]()
         var queue = [root]
@@ -66,7 +66,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
             return first
         }
     }
-    
+
     public func updateMotion(using julianDate: JulianDate = JulianDate.now()) {
         for body in self {
             if let moment = body.motion as? OrbitalMotionMoment {
@@ -74,16 +74,14 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
             }
         }
     }
-    
+
     public subscript(naifId: Int) -> CelestialBody? {
-        for body in self {
-            if body.naifId == naifId {
-                return body
-            }
+        for body in self where body.naifId == naifId {
+            return body
         }
         return nil
     }
-    
+
     // MARK: - NSCopying
     public func copy(with zone: NSZone? = nil) -> Any {
         return Ephemeris(root: root.copy() as! CelestialBody)

@@ -18,7 +18,7 @@ public struct Easing {
         case cubicEaseIn
         case cubicEaseOut
         case cubicEaseInOut
-        
+
         var function: (Double, Double, Double) -> Double {
             switch self {
             case .linear:
@@ -38,18 +38,17 @@ public struct Easing {
             }
         }
     }
-    
+
     public let startValue: Double
     public let endValue: Double
     public let easingMethod: EasingFunction
-    
+
     public init(easingMethod: EasingFunction = .linear, startValue: Double, endValue: Double) {
         self.easingMethod = easingMethod
         self.startValue = startValue
         self.endValue = endValue
     }
-    
-    
+
     /// Calculate the interpolated value in between the start and end points
     ///
     /// - Parameter progress: The progress between 0 and 1
@@ -111,4 +110,3 @@ fileprivate func easeInOutCubic(startValue: Double, endValue: Double, progress: 
     t -= 2
     return c / 2 * (t * t * t + 2) + startValue
 }
-

@@ -13,7 +13,7 @@ class SphereInteriorNode: SCNNode {
     var sphere: SCNSphere {
         return geometry as! SCNSphere
     }
-    
+
     /// Initialize a sphere interior node
     ///
     /// - Parameters:
@@ -29,7 +29,7 @@ class SphereInteriorNode: SCNNode {
         mtx = SCNMatrix4Rotate(mtx, Float(-Double.pi / 2 - textureLongitudeOffset), 0, 1, 0)
         pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

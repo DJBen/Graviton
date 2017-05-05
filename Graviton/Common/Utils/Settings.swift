@@ -19,18 +19,18 @@ fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687,
 typealias BooleanSettingBlock = (Bool, Bool) -> Void
 
 struct Settings {
-    
+
     private struct BooleanSubscription {
         let object: NSObject
         let block: BooleanSettingBlock
     }
-    
+
     static var `default`: Settings = {
         return Settings()
     }()
-    
+
     private var booleanSubscriptions = [BooleanSetting: BooleanSubscription]()
-    
+
     enum BooleanSetting: String {
         case showCelestialEquator
         case showEcliptic
@@ -53,7 +53,7 @@ struct Settings {
             }
         }
     }
-    
+
     enum ColorSetting: String {
         case celestialEquatorColor
         case eclipticColor
@@ -66,7 +66,7 @@ struct Settings {
             }
         }
     }
-    
+
     enum ConstellationLineSetting: String {
         enum Mode: String {
             case center
@@ -75,7 +75,7 @@ struct Settings {
         }
         case constellationLineMode
     }
-    
+
     subscript(boolKey: BooleanSetting) -> Bool {
         get {
             guard let value = UserDefaults.standard.object(forKey: boolKey.rawValue) else { return boolKey.default }
@@ -87,7 +87,7 @@ struct Settings {
             UserDefaults.standard.set(newValue, forKey: boolKey.rawValue)
         }
     }
-    
+
     subscript(colorKey: ColorSetting) -> UIColor {
         get {
             guard let data = UserDefaults.standard.data(forKey: colorKey.rawValue) else { return colorKey.default }
@@ -98,7 +98,7 @@ struct Settings {
             UserDefaults.standard.set(data, forKey: colorKey.rawValue)
         }
     }
-    
+
     subscript(conKey: ConstellationLineSetting) -> ConstellationLineSetting.Mode {
         get {
             guard let str = UserDefaults.standard.string(forKey: conKey.rawValue) else { return constellationLineDefault }
@@ -108,11 +108,11 @@ struct Settings {
             UserDefaults.standard.set(newValue.rawValue, forKey: conKey.rawValue)
         }
     }
-    
+
     mutating func subscribe(setting: BooleanSetting, object: NSObject, valueChanged block: @escaping BooleanSettingBlock) {
         booleanSubscriptions[setting] = BooleanSubscription(object: object, block: block)
     }
-    
+
     mutating func unsubscribe(object: NSObject) {
         let result = booleanSubscriptions.filter { $1.object === object }
         for (setting, _) in result {

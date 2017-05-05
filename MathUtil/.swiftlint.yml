@@ -1,0 +1,13 @@
+disabled_rules:
+  - line_length
+  - force_cast
+  - identifier_name
+  - shorthand_operator
+  - file_length
+  - operator_whitespace
+  - cyclomatic_complexity
+  - control_statement
+  - function_body_length
+  - type_body_length
+force_try:
+  severity: warning

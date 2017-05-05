@@ -24,9 +24,9 @@ struct Menu {
         let path = Bundle.main.path(forResource: "main_menu", ofType: "plist")!
         return try! Menu.init(filePath: path)
     }()
-    
+
     let sections: [Section]
-    
+
     init(filePath: String) throws {
         guard let rawSections = NSArray(contentsOfFile: filePath) as? [[String: AnyObject]] else {
             throw MenuParseError.menuFileNotFound
@@ -37,7 +37,7 @@ struct Menu {
         }
         self.sections = sections
     }
-    
+
     subscript(indexPath: IndexPath) -> MenuItem {
         let (s, r) = (indexPath.section, indexPath.row)
         return sections[s].items[r]
@@ -47,12 +47,12 @@ struct Menu {
 struct Section {
     let name: String?
     let items: [MenuItem]
-    
+
     init(name: String?, items: [MenuItem]) {
         self.name = name
         self.items = items
     }
-    
+
     init(rawSection: [String: AnyObject]) throws {
         guard let sectionContent = rawSection["content"] as? [[String: AnyObject]] else { throw MenuParseError.missingSectionContent }
         name = rawSection["section"] as? String
@@ -72,7 +72,7 @@ struct MenuItem {
     let text: String
     let type: Type
     let image: UIImage?
-    
+
     init(rawItem: [String: AnyObject]) throws {
         guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
         self.text = text

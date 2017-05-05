@@ -42,8 +42,8 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
         container.addSubview(pushedInView)
         container.addSubview(pushedOutView)
 
-        [fromVC, toVC].forEach { vc in
-            if let menuVC = vc as? MenuWithBackground {
+        [fromVC, toVC].forEach { viewController in
+            if let menuVC = viewController as? MenuWithBackground {
                 menuVC.backgroundImage = nil
             }
         }
@@ -51,7 +51,7 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 2.0, options: [.curveEaseInOut], animations: {
             pushedInView.frame = pushedInFinalFrame
             pushedOutView.frame = pushedOutFinalFrame
-        }) { (finished) in
+        }) { (_) in
             let canceled = transitionContext.transitionWasCancelled
 
             if self.presenting {
@@ -59,7 +59,7 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
                     menuController.backgroundImage = self.destinationBackgroundImage
                 }
             }
-            
+
             transitionContext.completeTransition(!canceled)
         }
     }

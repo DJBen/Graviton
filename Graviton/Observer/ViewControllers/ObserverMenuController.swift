@@ -30,24 +30,24 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
     }
 
     var menu: Menu!
-    
+
     private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
-    
+
     private lazy var imageView: UIImageView = {
         let imgView = UIImageView(image: self.backgroundImage)
         imgView.frame = self.view.bounds
         imgView.autoresizingMask = resizingMask
         return imgView
     }()
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
-        
+
         let backgroundView = UIView(frame: view.bounds)
         backgroundView.autoresizingMask = ObserverMenuController.resizingMask
         backgroundView.addSubview(imageView)
-        
+
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
         tableView.backgroundView = backgroundView
@@ -57,11 +57,11 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         tableView.backgroundColor = UIColor.clear
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -75,7 +75,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menu.sections[section].items.count
     }
-    
+
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
@@ -88,7 +88,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             break
         }
     }
-    
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let item = menu[indexPath]
         let cell: UITableViewCell
@@ -103,7 +103,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         }
         return cell
     }
-    
+
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         if case let .detail(submenu) = item.type {

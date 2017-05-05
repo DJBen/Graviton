@@ -10,7 +10,7 @@ import Foundation
 import CoreLocation
 
 public extension Date {
-    
+
     /// GMST in hours and fraction of an hour
     public var greenwichMeanSiderealTime: Double {
         let diff = JulianDate(date: self).value - JulianDate.J2000.value
@@ -19,5 +19,5 @@ public extension Date {
         let GMST = 18.697374558 + 24.06570982441908 * diff
         return GMST.truncatingRemainder(dividingBy: 24)
     }
-    
+
 }

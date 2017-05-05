@@ -10,8 +10,8 @@ import UIKit
 
 public protocol Parser {
     associatedtype Result
-    
+
     static var `default`: Self { get }
-    
+
     func parse(content: String) -> Result
 }

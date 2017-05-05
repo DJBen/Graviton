@@ -12,17 +12,17 @@ import SceneKit
 class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     var cameraController: CameraControlling?
-    
+
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
-    
+
     lazy var doubleTap: UITapGestureRecognizer = {
         let gr = UITapGestureRecognizer(target: self, action: #selector(recenter(sender:)))
         gr.numberOfTapsRequired = 2
         return gr
     }()
-    
+
     lazy var zoom: UIPinchGestureRecognizer = UIPinchGestureRecognizer(target: self, action: #selector(zoom(sender:)))
-    
+
     lazy var rotationGR: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
 
     let transitionController = NavigationTransitionController()
@@ -41,7 +41,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     func menuButtonTapped(sender: UIButton) {
         doesNotRecognizeSelector(#selector(menuButtonTapped(sender:)))
     }
-    
+
     func recenter(sender: UIGestureRecognizer) {
         slideVelocity = CGPoint()
         referenceSlideVelocity = CGPoint()
@@ -50,7 +50,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         cameraController?.resetCamera()
         SCNTransaction.commit()
     }
-    
+
     private var previousScale: Double?
     func zoom(sender: UIPinchGestureRecognizer) {
         switch sender.state {
@@ -68,17 +68,17 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
             break
         }
     }
-    
+
     private var slideVelocity: CGPoint = CGPoint()
     private var referenceSlideVelocity: CGPoint = CGPoint()
     private var slidingStopTimestamp: TimeInterval?
-    
+
     func pan(sender: UIPanGestureRecognizer) {
         slideVelocity = sender.velocity(in: view).cap(to: viewSlideVelocityCap)
         referenceSlideVelocity = slideVelocity
         slidingStopTimestamp = nil
     }
-    
+
     private var previousRotation: SCNVector4?
     func rotate(sender: UIRotationGestureRecognizer) {
         switch sender.state {
@@ -90,24 +90,24 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
             break
         }
     }
-    
-    struct Invert : OptionSet {
+
+    struct Invert: OptionSet {
         let rawValue: Int
-        
+
         static let none = Invert(rawValue: 0)
         static let invertX = Invert(rawValue: 1)
         static let invertY = Invert(rawValue: 1 << 1)
         static let invertZ = Invert(rawValue: 1 << 2)
         static let invertAll: Invert = [.invertX, .invertY, .invertZ]
     }
-    
+
     var cameraInversion: Invert = .none
     var viewSlideDivisor: CGFloat = 5000
     var viewSlideVelocityCap: CGFloat = 800
     var viewSlideInertiaDuration: TimeInterval = 1
-    
+
     // MARK: - Gesture Handling
-    
+
     // http://stackoverflow.com/questions/25654772/rotate-scncamera-node-looking-at-an-object-around-an-imaginary-sphere
     func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraController?.cameraNode else {
@@ -125,7 +125,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         }
         let netRot: GLKQuaternion = GLKQuaternionMultiply(rotX, rotY)
         rot = GLKQuaternionMultiply(rot, netRot)
-        
+
         let axis = GLKQuaternionAxis(rot)
         let angle = GLKQuaternionAngle(rot)
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
@@ -139,7 +139,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
             slidingStopTimestamp = time
         }
     }
-    
+
     func handleCameraRotation(atTime time: TimeInterval) {
         guard let cameraNode = cameraController?.cameraNode, let oldRot = previousRotation else {
             return
@@ -150,14 +150,14 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
             rotZ = GLKQuaternionInvert(rotZ)
         }
         rot = GLKQuaternionMultiply(rot, rotZ)
-        
+
         let axis = GLKQuaternionAxis(rot)
         let angle = GLKQuaternionAngle(rot)
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
     }
-    
+
     // MARK: - Scene Renderer Delegate
-    
+
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         handleCameraPan(atTime: time)
         handleCameraRotation(atTime: time)
@@ -169,7 +169,7 @@ extension CGPoint {
     ///
     /// - Parameter p: The value cap.
     /// - Returns: The capped value.
-    func cap(to p: CGFloat) -> CGPoint {
-        return CGPoint(x: x > 0 ? min(x, p) : max(x, -p), y: y > 0 ? min(y, p) : max(y, -p))
+    func cap(to percentage: CGFloat) -> CGPoint {
+        return CGPoint(x: x > 0 ? min(x, percentage) : max(x, -percentage), y: y > 0 ? min(y, percentage) : max(y, -percentage))
     }
 }

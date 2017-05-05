@@ -11,21 +11,21 @@ import XCTest
 import SpaceTime
 
 class DBHelperTest: XCTestCase {
-    
+
     var helper: DBHelper!
-    
+
     override func setUp() {
         super.setUp()
         helper = TransientDBHelper.setupDatabaseHelper()
     }
-    
+
     func testCelestialBodyStorage() {
         let body = CelestialBody(naifId: 12345, name: "Test", gravParam: 1.1, radius: 2.2, rotationPeriod: 3.3, obliquity: 4.4, centerBodyNaifId: 10, hillSphereRadRp: 5.5)
         helper.saveCelestialBody(body, shouldSaveMotion: false)
         let loaded = helper.loadCelestialBody(withNaifId: 12345)
         XCTAssertNotNil(loaded)
         deepEqual(loaded!, body)
-        
+
         let known = CelestialBody(naifId: 399, gravParam: 828, radius: 2344.3, rotationPeriod: 12.3, obliquity: 4111.4, centerBodyNaifId: 10, hillSphereRadRp: 590.3773)
         helper.saveCelestialBody(known, shouldSaveMotion: false)
         let loaded2 = helper.loadCelestialBody(withNaifId: 399)
@@ -33,7 +33,7 @@ class DBHelperTest: XCTestCase {
         XCTAssertEqual(loaded2?.name, "Earth")
         deepEqual(loaded2!, known)
     }
-    
+
     func testMomentStorage() {
         let o1 = Orbit(semimajorAxis: 23.2, eccentricity: 43.4, inclination: 45.6, longitudeOfAscendingNode: 73.8, argumentOfPeriapsis: 19.0)
         let o2 = Orbit(semimajorAxis: 24.2, eccentricity: 43.4, inclination: 45.6, longitudeOfAscendingNode: 73.8, argumentOfPeriapsis: 19.0)
@@ -51,7 +51,7 @@ class DBHelperTest: XCTestCase {
         XCTAssertEqual(loaded899!.timeOfPeriapsisPassage, JulianDate.J2000 + 2)
         XCTAssertEqual(loaded899!.ephemerisJulianDate, JulianDate.J2000 + 200)
     }
-    
+
     private func deepEqual(_ c1: CelestialBody, _ c2: CelestialBody) {
         XCTAssertEqual(c1.naifId, c2.naifId)
         XCTAssertEqual(c1.gravParam, c2.gravParam)
@@ -60,7 +60,7 @@ class DBHelperTest: XCTestCase {
         XCTAssertEqual(c1.obliquity, c2.obliquity)
         XCTAssertEqual(c1.centerBody, c2.centerBody)
     }
-    
+
     private func deepEqual(_ o1: OrbitalMotion, _ o2: OrbitalMotion) {
         if o1 is OrbitalMotionMoment && !(o2 is OrbitalMotionMoment) {
             XCTFail()
@@ -71,7 +71,7 @@ class DBHelperTest: XCTestCase {
         XCTAssertEqual(o1.gm, o2.gm)
         XCTAssertEqual(o1.julianDate, o2.julianDate)
     }
-    
+
     private func deepEqual(_ or1: Orbit, _ or2: Orbit) {
         let (ls, rs) = (or1.shape, or2.shape)
         let (lo, ro) = (or1.orientation, or2.orientation)

@@ -15,7 +15,7 @@ import SpaceTime
     ///
     /// - Parameter ephemeris: The ephemeris
     @objc optional func ephemerisDidLoad(ephemeris: Ephemeris)
-    
+
     /// Ephemeris is recalculated using the julian date provided
     ///
     /// - Parameter ephemeris: The ephemeris
@@ -24,29 +24,29 @@ import SpaceTime
 
 class EphemerisManager {
     private class Subscription {
-        let delegate: EphemerisUpdateDelegate
+        weak var delegate: EphemerisUpdateDelegate?
         let mode: RefreshMode
         var ephemeris: Ephemeris?
         var lastUpdateJd: JulianDate?
-        
+
         init(delegate: EphemerisUpdateDelegate, mode: RefreshMode, ephemeris: Ephemeris?) {
             self.delegate = delegate
             self.mode = mode
             self.ephemeris = ephemeris
         }
     }
-    
+
     enum RefreshMode {
         case realtime
         case interval(TimeInterval)
     }
 
     private var subscriptions = [Subscription]()
-    
+
     static let `default` = EphemerisManager()
-    
+
     private var ephemeris: Ephemeris?
-    
+
     func fetchEphemeris(mode: Horizons.FetchMode = .mixed) {
         Horizons.shared.fetchEphemeris(mode: mode, update: { (ephemeris) -> Void in
             self.ephemeris = ephemeris
@@ -57,23 +57,23 @@ class EphemerisManager {
                     sub.ephemeris?.updateMotion(using: lastJd)
                 }
                 sub.lastUpdateJd = nil
-                sub.delegate.ephemerisDidLoad?(ephemeris: ephemeris)
+                sub.delegate?.ephemerisDidLoad?(ephemeris: ephemeris)
             }
         })
     }
-    
+
     func subscribe(_ delegate: EphemerisUpdateDelegate, mode: RefreshMode = .realtime) {
         subscriptions.append(Subscription.init(delegate: delegate, mode: mode, ephemeris: self.ephemeris?.copy() as? Ephemeris))
         if let eph = ephemeris {
             delegate.ephemerisDidLoad?(ephemeris: eph)
         }
     }
-    
+
     func unsubscribe(_ delegate: EphemerisUpdateDelegate) {
         subscriptions = subscriptions.filter { $0.delegate !== delegate }
     }
-    
-    func requestEphemeris(at requestedJd: JulianDate, forObject delegate: EphemerisUpdateDelegate) -> Void {
+
+    func requestEphemeris(at requestedJd: JulianDate, forObject delegate: EphemerisUpdateDelegate) {
         var changed = false
         guard let sub = subscriptions.first(where: { $0.delegate === delegate }) else {
             fatalError("object not subscribed")
@@ -96,7 +96,7 @@ class EphemerisManager {
         if changed {
             print("update ephemeris for delegate \(delegate)")
             eph.debugPrintReferenceJulianDateInfo()
-            sub.delegate.ephemerisDidUpdate?(ephemeris: eph)
+            sub.delegate?.ephemerisDidUpdate?(ephemeris: eph)
         }
     }
 }

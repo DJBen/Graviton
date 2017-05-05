@@ -39,15 +39,13 @@ fileprivate func cubeRoot(_ x: Double) -> Double {
     return exp(log(x) / 3.0)
 }
 
-fileprivate func nearParabolic(ecc_anom: Double, e: Double) -> Double
-{
+fileprivate func nearParabolic(ecc_anom: Double, e: Double) -> Double {
     let anom2: Double = (e > 1.0 ? ecc_anom * ecc_anom : -ecc_anom * ecc_anom)
     var term: Double = e * anom2 * ecc_anom / 6.0
     var rval: Double = (1.0 - e) * ecc_anom - term
     var n = 4
-    
-    while(fabs(term) > 1e-15)
-    {
+
+    while(fabs(term) > 1e-15) {
         term *= anom2 / Double(n * (n + 1))
         rval -= term
         n += 2
@@ -68,27 +66,24 @@ public func solveInverseKepler(eccentricity ecc: Double, meanAnomaly ma: Double)
     var is_negative: Bool = false
     var n_iter: Int = 0
     var mean_anom: Double = ma
-    
+
     if mean_anom == 0 {
         return 0
     }
-    
+
     if ecc < 1.0 {
-        if mean_anom < -PI || mean_anom > PI
-        {
+        if mean_anom < -PI || mean_anom > PI {
             var tmod: Double = fmod(mean_anom, PI * 2.0)
-            
+
             if tmod > PI { /* bring mean anom within -pi to +pi */
                 tmod -= 2.0 * PI
-            }
-
-            else if tmod < -PI {
+            } else if tmod < -PI {
                 tmod += 2.0 * PI
             }
             offset = mean_anom - tmod
             mean_anom = tmod
         }
-        
+
         if ecc < 0.99999 {    /* low-eccentricity formula from Meeus,  p. 195 */
             curr = atan2(sin(mean_anom), cos(mean_anom) - ecc)
             repeat {
@@ -98,17 +93,15 @@ public func solveInverseKepler(eccentricity ecc: Double, meanAnomaly ma: Double)
             return curr + offset
         }
     }
-    
-    
-    if mean_anom < 0
-    {
+
+    if mean_anom < 0 {
         mean_anom = -mean_anom
         is_negative = true
     }
-    
+
     curr = mean_anom
     thresh = THRESH * fabs(1.0 - ecc)
-    
+
     /* Due to roundoff error,  there's no way we can hope to */
     /* get below a certain minimum threshhold anyway:        */
     if thresh < MIN_THRESH {
@@ -116,10 +109,10 @@ public func solveInverseKepler(eccentricity ecc: Double, meanAnomaly ma: Double)
     } else if thresh > THRESH {       /* i.e.,  ecc > 2. */
         thresh = THRESH
     }
-    
+
     if mean_anom < PI / 3.0 || ecc > 1.0 { /* up to 60 degrees */
         var trial: Double = mean_anom / fabs(1.0 - ecc)
-        
+
         if trial * trial > 6.0 * fabs(1.0 - ecc) {   /* cubic term is dominant */
             if mean_anom < PI {
                 trial = cubeRoot(6.0 * mean_anom)
@@ -130,8 +123,7 @@ public func solveInverseKepler(eccentricity ecc: Double, meanAnomaly ma: Double)
         curr = trial
     }
     if ecc < 1.0 {
-        while fabs(delta_curr) > thresh
-        {
+        while fabs(delta_curr) > thresh {
             if n_iter > MAX_ITERATIONS {
                 n_iter += 1
                 err = nearParabolic(ecc_anom: curr, e: ecc) - mean_anom
@@ -144,8 +136,7 @@ public func solveInverseKepler(eccentricity ecc: Double, meanAnomaly ma: Double)
 
         }
     } else {
-        while fabs(delta_curr) > thresh
-        {
+        while fabs(delta_curr) > thresh {
             if n_iter > MAX_ITERATIONS {
                 n_iter += 1
                 err = -nearParabolic(ecc_anom: curr, e: ecc) - mean_anom

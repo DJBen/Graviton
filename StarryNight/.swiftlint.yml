@@ -1,0 +1,12 @@
+disabled_rules:
+  - cyclomatic_complexity
+  - force_cast
+  - force_try
+  - function_body_length
+  - line_length
+  - operator_whitespace
+  - type_body_length
+force_try:
+  severity: warning
+identifier_name:
+  min_length: 2

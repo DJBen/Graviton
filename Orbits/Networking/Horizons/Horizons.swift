@@ -17,13 +17,13 @@ public class Horizons {
         return Horizons()
     }()
     static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
-    
+
     let trialCountLimit = 4
     // Back off time should be the following value * pow(CONSTANT, numberOfTrials).
     // Usually CONSTANT = 2
     let trialBackoffTimeInterval: TimeInterval = 0.5
     let timeIntervalBetweenJobs: TimeInterval = 0.4
-    
+
     func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
         var result = b1
         let jd = JulianDate(date: refTime)
@@ -45,7 +45,7 @@ public class Horizons {
         }
         return result
     }
-    
+
     public enum FetchMode {
         /// Only fetch local data, return empty result if it doesn't exist
         case localOnly
@@ -56,7 +56,7 @@ public class Horizons {
         /// Return local data once and return fetched online data once that becomes available
         case mixed
     }
-    
+
     public func fetchOnlineRawEphemeris(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
         var tasksTrialCount: [URL: Int] = [:]
         var rawData: [Int: String] = [:]
@@ -68,7 +68,7 @@ public class Horizons {
             defer {
                 group.leave()
             }
-            
+
             // exponential back off retry
             func retry(url: URL) -> Bool {
                 let trialCount = tasksTrialCount[url] ?? 0
@@ -176,7 +176,7 @@ public class Horizons {
                 }
                 return
             }
-            var bodies = Set<CelestialBody>(rawData.flatMap { (naif, content) -> CelestialBody? in
+            var bodies = Set<CelestialBody>(rawData.flatMap { (_, content) -> CelestialBody? in
                 if let body = ResponseParser.default.parse(content: content) {
                     body.save()
                     return body
@@ -192,7 +192,7 @@ public class Horizons {
             complete?(eph, nil)
         }
     }
-    
+
 }
 
 fileprivate extension URL {

@@ -21,12 +21,12 @@ public enum Naif: Comparable, Hashable {
         case uranus = 799
         case neptune = 899
         case pluto = 999
-        
+
         public var moons: [Moon] {
             return (1...98).flatMap { Moon(rawValue: $0) }
         }
     }
-    
+
     public enum Moon: Int {
         case moon = 301
         case phobos = 401
@@ -179,27 +179,27 @@ public enum Naif: Comparable, Hashable {
         case hydra = 903
         case kerberos = 904
         case styx = 905
-        
+
         public var primary: MajorBody {
             return MajorBody(rawValue: self.rawValue / 100 * 100 + 99)!
         }
     }
-    
+
     case majorBody(MajorBody)
     case moon(Moon)
     case sun
     case custom(Int)
-    
+
     static let planets: [Naif] = {
         let planets: [MajorBody] = [.mercury, .venus, .earth, .mars, .jupiter, .saturn, .uranus, .neptune, .pluto]
         return planets.map { .majorBody($0) }
     }()
-    
+
     static let `default`: [Naif] = {
         let moons: [Moon] = [.moon]
         return planets + moons.map { .moon($0) }
     }()
-    
+
     public var rawValue: Int {
         switch self {
         case let .majorBody(mb):
@@ -212,11 +212,11 @@ public enum Naif: Comparable, Hashable {
             return customId
         }
     }
-    
+
     public var hashValue: Int {
         return rawValue
     }
-    
+
     public var primary: Naif? {
         switch self {
         case .sun:
@@ -229,7 +229,7 @@ public enum Naif: Comparable, Hashable {
             return nil
         }
     }
-    
+
     public var moons: [Naif] {
         switch self {
         case .sun:
@@ -240,7 +240,7 @@ public enum Naif: Comparable, Hashable {
             return []
         }
     }
-    
+
     public init(naifId: Int) {
         if naifId == 10 {
             self = .sun
@@ -260,7 +260,7 @@ public enum Naif: Comparable, Hashable {
             self = .custom(naifId)
         }
     }
-    
+
     /// Returns whether the current celestial body is the primary of the other
     ///
     /// - Parameter otherNaif: Naif code of other celestial body
@@ -285,7 +285,7 @@ public enum Naif: Comparable, Hashable {
             return false
         }
     }
-    
+
     public func isSatellite(of otherNaif: Naif) -> Bool {
         switch self {
         case .moon(let m):
@@ -305,7 +305,7 @@ public enum Naif: Comparable, Hashable {
             return false
         }
     }
-    
+
     public static func <(lhs: Naif, rhs: Naif) -> Bool {
         if lhs.rawValue == rhs.rawValue {
             return false
@@ -328,7 +328,7 @@ public enum Naif: Comparable, Hashable {
             return lhs.rawValue < rhs.rawValue
         }
     }
-    
+
     public static func ==(lhs: Naif, rhs: Naif) -> Bool {
         return lhs.rawValue == rhs.rawValue
     }

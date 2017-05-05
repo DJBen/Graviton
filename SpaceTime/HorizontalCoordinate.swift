@@ -12,17 +12,17 @@ import MathUtil
 public struct HorizontalCoordinate {
     let altitude: Double
     let azimuth: Double
-    
-    public init(equatorialCoordinate s: EquatorialCoordinate, observerInfo o: ObserverInfo) {
+
+    public init(equatorialCoordinate eqCoord: EquatorialCoordinate, observerInfo info: ObserverInfo) {
         // sin(ALT) = sin(DEC)*sin(LAT)+cos(DEC)*cos(LAT)*cos(HA)
-        let radianLat = radians(degrees: Double(o.location.coordinate.latitude))
-        let hourAngle = o.localSiderealTimeAngle - s.rightAscension
-        let sinAlt = sin(s.declination) * sin(radianLat) + cos(s.declination) * cos(radianLat) * cos(hourAngle)
+        let radianLat = radians(degrees: Double(info.location.coordinate.latitude))
+        let hourAngle = info.localSiderealTimeAngle - eqCoord.rightAscension
+        let sinAlt = sin(eqCoord.declination) * sin(radianLat) + cos(eqCoord.declination) * cos(radianLat) * cos(hourAngle)
         altitude = asin(sinAlt)
         //                sin(DEC) - sin(ALT)*sin(LAT)
         // cos(A)   =   ---------------------------------
         //                cos(ALT)*cos(LAT)
-        let cosAzimuth = (sin(s.declination) - sinAlt * sin(radianLat)) / (cos(altitude) * cos(radianLat))
+        let cosAzimuth = (sin(eqCoord.declination) - sinAlt * sin(radianLat)) / (cos(altitude) * cos(radianLat))
         let a = acos(cosAzimuth)
         azimuth = sin(hourAngle) < 0 ? a : Double(2 * Double.pi) - a
     }

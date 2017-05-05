@@ -26,11 +26,11 @@ extension ObserverScene: CLLocationManagerDelegate {
             locationManager.requestWhenInUseAuthorization()
         }
     }
-    
+
     func stopLocationService() {
         locationManager.stopUpdatingLocation()
     }
-    
+
     // MARK: - Location Manager Delegate
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -40,13 +40,13 @@ extension ObserverScene: CLLocationManagerDelegate {
             break
         }
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let lastLocation = locations.last!
         self.observerInfo = ObserverInfo(location: lastLocation, timestamp: Date())
         updateGround()
     }
-    
+
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print(error)
     }

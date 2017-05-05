@@ -23,8 +23,7 @@
 import Foundation
 import SceneKit
 
-public extension SCNVector3
-{
+public extension SCNVector3 {
     /**
      * Negates the vector described by SCNVector3
      */
@@ -32,7 +31,7 @@ public extension SCNVector3
         self = negated()
         return self
     }
-    
+
     /**
      * Negates the vector described by SCNVector3 and returns
      * the result as a new SCNVector3.
@@ -40,7 +39,7 @@ public extension SCNVector3
     public func negated() -> SCNVector3 {
         return self * -1
     }
-    
+
     /**
      * Returns the length (magnitude) of the vector described by the SCNVector3
      */
@@ -51,7 +50,7 @@ public extension SCNVector3
             return sqrtf(x*x + y*y + z*z)
         #endif
     }
-    
+
     /**
      * Normalizes the vector described by the SCNVector3 to length 1.0 and returns
      * the result as a new SCNVector3.
@@ -59,7 +58,7 @@ public extension SCNVector3
     public func normalized() -> SCNVector3 {
         return self / length()
     }
-    
+
     /**
      * Normalizes the vector described by the SCNVector3 to length 1.0.
      */
@@ -67,21 +66,21 @@ public extension SCNVector3
         self = normalized()
         return self
     }
-    
+
     /**
      * Calculates the distance between two SCNVector3. Pythagoras!
      */
     public func distance(_ vector: SCNVector3) -> Float {
         return (self - vector).length()
     }
-    
+
     /**
      * Calculates the dot product between two SCNVector3.
      */
     public func dot(_ vector: SCNVector3) -> Float {
         return x * vector.x + y * vector.y + z * vector.z
     }
-    
+
     /**
      * Calculates the cross product between two SCNVector3.
      */
@@ -190,8 +189,7 @@ func SCNVector3Negate(vector: SCNVector3) -> SCNVector3 {
 /**
  * Returns the length (magnitude) of the vector described by the SCNVector3
  */
-func SCNVector3Length(_ vector: SCNVector3) -> Float
-{
+func SCNVector3Length(_ vector: SCNVector3) -> Float {
     #if os(OSX)
         return sqrt(vector.x*vector.x + vector.y*vector.y + vector.z*vector.z)
     #else

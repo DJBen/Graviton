@@ -10,13 +10,13 @@ import SpaceTime
 import MathUtil
 
 public class OrbitalMotion: CustomStringConvertible, NSCopying {
-    
+
     public let gm: Double
-    
+
     public var orbitalPeriod: Double? {
         return orbit.orbitalPeriod(gm: gm)
     }
-    
+
     public var orbit: Orbit {
         didSet {
             propagateStateVectors()
@@ -26,7 +26,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
     public var description: String {
         fatalError("not implemented")
     }
-    
+
     /// Phase
     ///
     /// - meanAnomaly: Mean anomaly in radians
@@ -36,7 +36,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         case meanAnomaly(Double)
         case timeSincePeriapsis(Double)
         case julianDate(JulianDate)
-        
+
         public static func ==(lhs: Phase, rhs: Phase) -> Bool {
             switch lhs {
             case .meanAnomaly(let ma):
@@ -51,7 +51,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             }
         }
     }
-    
+
     public var phase: Phase {
         didSet {
             switch phase {
@@ -65,14 +65,14 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             propagateStateVectors()
         }
     }
-    
+
     public func setMeanAnomaly(_ ma: Double) {
         guard case .meanAnomaly(_) = phase else {
             fatalError("phase is not in mean anomaly mode")
         }
         phase = .meanAnomaly(ma)
     }
-    
+
     /// the julian date of orbital motion (moment)
     public var julianDate: JulianDate? {
         get {
@@ -89,7 +89,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             self.phase = .julianDate(newJd)
         }
     }
-    
+
     public var timeSincePeriapsis: Double? {
         get {
             guard case let .timeSincePeriapsis(tp) = phase else { return nil }
@@ -105,9 +105,9 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             self.phase = .timeSincePeriapsis(newTp)
         }
     }
-    
+
     public var timeOfPeriapsisPassage: JulianDate?
-    
+
     private var unwrappedTimeOfPeriapsisPassage: JulianDate {
         if let t = timeOfPeriapsisPassage {
             return t
@@ -115,28 +115,27 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             fatalError("timeOfPeriapsisPassage must be set when using Phase.julianDate")
         }
     }
-    
+
     // http://physics.stackexchange.com/questions/191971/hyper-parabolic-kepler-orbits-and-mean-anomaly
     public private(set) var meanAnomaly: Double!
-    
+
     public private(set) var eccentricAnomaly: Double!
     /// True anomaly; range = [0, 2π)
     public private(set) var trueAnomaly: Double!
-    
+
     public var position: Vector3!
     public var velocity: Vector3!
-    
+
     public var specificMechanicalEnergy: Double {
         return velocity.dot(velocity) / 2 - gm / position.length
     }
-    
+
     public var distance: Double {
         return position.length
     }
-    
+
     // https://downloads.rene-schwarz.com/download/M001-Keplerian_Orbit_Elements_to_Cartesian_State_Vectors.pdf
-    
-    
+
     /// Initialize keplarian orbit from orbital elements
     ///
     /// - Parameters:
@@ -148,18 +147,18 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         self.orbit = orbit
         self.phase = phase
     }
-    
+
     public convenience init(orbit: Orbit, gm: Double, meanAnomaly: Double) {
         self.init(orbit: orbit, gm: gm, phase: .meanAnomaly(meanAnomaly))
     }
-    
+
     public convenience init(orbit: Orbit, gm: Double, timeSincePeriapsis: Double = 0) {
         self.init(orbit: orbit, gm: gm, phase: .timeSincePeriapsis(timeSincePeriapsis))
     }
-    
+
     // https://downloads.rene-schwarz.com/download/M002-Cartesian_State_Vectors_to_Keplerian_Orbit_Elements.pdf
     // https://space.stackexchange.com/questions/1904/how-to-programmatically-calculate-orbital-elements-using-position-velocity-vecto?newreg=70344ca3afc847acb4f105c7194ff719
-    
+
     /// Initialize keplarian orbit from state vectors.
     ///
     /// - parameter centerBody: The primary that is orbiting
@@ -236,34 +235,34 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         let v = Vector3(-sinE, sqrt(1 - pow(orbit.shape.eccentricity, 2)) * cosE, 0) * coefficient
         return (p, v)
     }
-    
+
     /// Calculate state vectors.
     /// If eccentric anomaly is not supplied, it will be calculated from true anomaly
     /// - parameter trueAnomaly: True anomaly
     ///
     /// - returns: state vector tuple (position, velocity)
-    
+
     public func stateVectors(fromTrueAnomaly trueAnomaly: Double, eccentricAnomaly: Double? = nil) -> (Vector3, Vector3) {
         let (p, v) = unrotatedStateVectors(fromTrueAnomaly: trueAnomaly, eccentricAnomaly: eccentricAnomaly)
         let position = p * orbit.orientationTransform
         let velocity = v * orbit.orientationTransform
         return (position, velocity)
     }
-    
+
     private func stateVector(fromMeanAnomaly meanAnomaly: Double, function: (Double, Double?) -> (Vector3, Vector3)) -> (Vector3, Vector3) {
         let eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         let trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
         return function(trueAnomaly, eccentricAnomaly)
     }
-    
+
     public func unrotatedStateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
         return stateVector(fromMeanAnomaly: meanAnomaly, function: unrotatedStateVectors(fromTrueAnomaly:eccentricAnomaly:))
     }
-    
+
     public func stateVectors(fromMeanAnomaly meanAnomaly: Double) -> (Vector3, Vector3) {
         return stateVector(fromMeanAnomaly: meanAnomaly, function: stateVectors(fromTrueAnomaly:eccentricAnomaly:))
     }
-    
+
     private func propagateStateVectors() {
         eccentricAnomaly = solveInverseKepler(eccentricity: orbit.shape.eccentricity, meanAnomaly: meanAnomaly)
         trueAnomaly = calculateTrueAnomaly(eccentricity: orbit.shape.eccentricity, eccentricAnomaly: eccentricAnomaly)
@@ -271,7 +270,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         position = p
         velocity = v
     }
-    
+
     // MARK: - NSCopying
     public func copy(with zone: NSZone? = nil) -> Any {
         return OrbitalMotion(orbit: orbit, gm: gm, phase: phase)

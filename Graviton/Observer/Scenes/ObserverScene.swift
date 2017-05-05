@@ -22,7 +22,7 @@ fileprivate let planetLayerRadius: Double = 5
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpdateDelegate {
-    
+
     struct VisibilityCategory: OptionSet {
         let rawValue: Int
         /// All non-moon objects
@@ -32,7 +32,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         /// Camera having the visibility of everything
         static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
-    
+
     static let defaultFov: Double = 45
     /// Determines how fast zooming changes fov; the greater this number, the faster
     private static let fovExpBase: Double = 1.25
@@ -41,9 +41,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
     // scale is inverse proportional to fov
     private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
     private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
-    
+
     lazy var stars = Star.magitudeLessThan(5.3)
-    
+
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
         c.automaticallyAdjustsZRange = true
@@ -52,13 +52,13 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         c.categoryBitMask = VisibilityCategory.camera.rawValue
         return c
     }()
-    
+
     lazy var cameraNode: SCNNode = {
         let cn = SCNNode()
         cn.camera = self.camera
         return cn
     }()
-    
+
     var focusedNode: SCNNode?
 
     var scale: Double = 1 {
@@ -69,7 +69,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             self.camera.yFov = self.fov
         }
     }
-    
+
     var fov: Double {
         get {
             return ObserverScene.defaultFov / pow(ObserverScene.fovExpBase, log2(scale))
@@ -82,7 +82,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             self.scale = exp2(log(ObserverScene.defaultFov / cappedFov) / log(ObserverScene.fovExpBase))
         }
     }
-    
+
     lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
@@ -90,9 +90,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         manager.pausesLocationUpdatesAutomatically = true
         return manager
     }()
-    
+
     var observerInfo: ObserverInfo?
-    
+
     // MARK: - Property - Visual Nodes
 
     private var celestialEquatorNode: CelestialEquatorLineNode?
@@ -106,7 +106,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         return node
     }()
-    
+
     lazy var debugNode: SCNNode = {
         let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
@@ -121,7 +121,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         return node
     }()
-    
+
     lazy var sunNode: SCNNode = {
         let sunMat = SCNMaterial()
         sunMat.diffuse.contents = #imageLiteral(resourceName: "sun")
@@ -133,7 +133,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         return node
     }()
-    
+
     lazy var defaultLightingNode: SCNNode = {
         let light = SCNLight()
         light.type = .ambient
@@ -144,7 +144,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.name = "default lighting"
         return node
     }()
-    
+
     lazy var moonLightingNode: SCNNode = {
         let light = SCNLight()
         light.type = .omni
@@ -154,7 +154,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.name = "moon lighting"
         return node
     }()
-    
+
     lazy var moonNode: SCNNode = {
         let moonMat = SCNMaterial()
         // material without normal is better in observer view
@@ -169,9 +169,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         node.categoryBitMask = VisibilityCategory.moon.rawValue
         return node
     }()
-    
+
     // MARK: - Functions
-    
+
     override init() {
         super.init()
         resetCamera()
@@ -183,7 +183,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         drawStars()
         drawConstellationLines()
         drawConstellationLabels()
-        
+
         let southNode = IndicatorNode(setting: .showSouthPoleIndicator, position: SCNVector3(0, 0, -10), color: #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1))
         southNode.name = "south pole indicator"
         rootNode.addChildNode(southNode)
@@ -196,12 +196,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         focuser.constraints = [SCNBillboardConstraint()]
         focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
-        
+
         startLocationService()
     }
-    
+
     // MARK: Static Content Drawing
-    
+
     private func drawStars() {
         let mat = SCNMaterial()
         mat.diffuse.contents = UIColor.white
@@ -220,7 +220,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             rootNode.addChildNode(starNode)
         }
     }
-    
+
     private func drawConstellationLines() {
         let constellationLineNode = SCNNode()
         constellationLineNode.name = "constellation lines"
@@ -245,9 +245,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
             }
         }
     }
-    
+
     // MARK: Dynamic content drawing
-    
+
     private func drawPlanetsAndMoon(ephemeris: Ephemeris) {
         ephemeris.forEach { (body) in
             guard rootNode.childNode(withName: String(body.naifId), recursively: false) == nil else { return }
@@ -310,13 +310,13 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         celestialEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
         rootNode.addChildNode(celestialEquatorNode!)
     }
-    
+
     private func drawAuxillaryLines(ephemeris: Ephemeris) {
         let earth = ephemeris[399]!
         drawEcliptic(earth: earth)
         drawCelestialEquator(earth: earth)
     }
-    
+
     func updateGround(timestamp: Date? = nil) {
         if let t = timestamp {
             observerInfo?.timestamp = t
@@ -325,7 +325,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let orientation = Quaternion(rotationMatrix: transform)
         debugNode.orientation = SCNQuaternion(orientation)
     }
-    
+
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
         let maxSize: Double = 0.28
         let minSize: Double = 0.01
@@ -333,29 +333,29 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         let progress = mag / (blendOutEnd - blendOutStart)
         return CGFloat(linearEasing.value(at: progress))
     }
-    
+
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
     // MARK: - Focusing support
-    
+
     func resetCamera() {
         cameraNode.transform = SCNMatrix4Identity
         (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
         scale = 1
     }
-    
+
     func focus(atNode node: SCNNode) {
         print(node)
     }
-    
+
     // MARK: - Ephemeris Update Delegate
     func ephemerisDidLoad(ephemeris: Ephemeris) {
         drawAuxillaryLines(ephemeris: ephemeris)
         drawPlanetsAndMoon(ephemeris: ephemeris)
     }
-    
+
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         updateGround(timestamp: ephemeris.timestamp)
         let earth = ephemeris[399]!
@@ -396,7 +396,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
                     let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
                     moonNode.position = SCNVector3(obliquedMoonPos)
                     annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
-                    
+
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
                     print(moonLightingNode.position)

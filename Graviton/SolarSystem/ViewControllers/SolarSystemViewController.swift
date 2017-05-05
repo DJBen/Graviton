@@ -14,27 +14,27 @@ import SpaceTime
 import MathUtil
 
 class SolarSystemViewController: SceneController {
-    
+
     var focusController: FocusingSupport?
     var ephemeris: Ephemeris?
-    
+
     var lastRenderTime: TimeInterval!
     var timeElapsed: TimeInterval = 0
     var refTime: Date!
-    
+
     lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .short
         return formatter
     }()
-    
+
     lazy var solarSystemScene: SolarSystemScene = {
         let scene = SolarSystemScene()
         self.fillSolarSystemScene(scene)
         return scene
     }()
-    
+
     private func fillSolarSystemScene(_ scene: SolarSystemScene) {
         scene.clear()
         let colors: [Int: UIColor] = [
@@ -54,19 +54,19 @@ class SolarSystemViewController: SceneController {
             }
         }
     }
-    
+
     private var scnView: SCNView {
         return self.view as! SCNView
     }
-    
+
     private var sol2dScene: SolarSystemOverlayScene {
         return self.scnView.overlaySKScene as! SolarSystemOverlayScene
     }
-    
+
     lazy var timeLabel: UILabel = {
         return self.defaultLabel()
     }()
-    
+
     lazy var warpControl: WarpControl = {
         let control = WarpControl()
         control.translatesAutoresizingMaskIntoConstraints = false
@@ -78,15 +78,15 @@ class SolarSystemViewController: SceneController {
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
         return label
     }()
-    
+
     var velocityLabel: SKLabelNode {
         return self.sol2dScene.velocityLabel
     }
-    
+
     var distanceLabel: SKLabelNode {
         return self.sol2dScene.distanceLabel
     }
-    
+
     private func defaultLabel() -> UILabel {
         let label = UILabel()
         label.textColor = UIColor.white
@@ -94,7 +94,7 @@ class SolarSystemViewController: SceneController {
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-    
+
     private func updateFocusedNodeLabel() {
         if let naifId = focusController?.focusedNode?.name {
             if let name = NaifCatalog.name(forNaif: Int(naifId)!) {
@@ -106,7 +106,7 @@ class SolarSystemViewController: SceneController {
             focusedObjectLabel.text = nil
         }
     }
-  
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
@@ -131,11 +131,11 @@ class SolarSystemViewController: SceneController {
     override var shouldAutorotate: Bool {
         return true
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -143,16 +143,16 @@ class SolarSystemViewController: SceneController {
             return .all
         }
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.presentTransparentNavigationBar()
     }
-    
+
     func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         let p = sender.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [.boundingBoxOnly : true])
+        let hitResults = scnView.hitTest(p, options: [.boundingBoxOnly: true])
         let objectHit = hitResults.map { $0.node }.filter { $0.name != nil && $0.name!.contains("orbit") == false }
         if objectHit.count > 0 {
             let node = objectHit[0]
@@ -195,7 +195,7 @@ class SolarSystemViewController: SceneController {
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
     }
-    
+
     private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {
         self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
         self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
@@ -203,22 +203,22 @@ class SolarSystemViewController: SceneController {
         self.distanceLabel.text = focusedBody.distanceString
         self.velocityLabel.alpha = focusedNode.opacity
         self.distanceLabel.alpha = focusedNode.opacity
-        
+
         let overlayPosition = scnView.project3dTo2d(focusedNode.position).point
         let nodeSize = scnView.projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
         let nodeHeight = nodeSize.height
         let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
-        
+
         self.distanceLabel.position = newCenter
         self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
     }
-    
+
     private func updateAnnotations() {
-        
+
     }
-    
+
     // MARK: - Scene Renderer Delegate
-    
+
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         if lastRenderTime == nil {

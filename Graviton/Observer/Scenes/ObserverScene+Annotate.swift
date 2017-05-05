@@ -18,7 +18,7 @@ extension ObserverScene {
         case star
         case sunAndMoon
     }
-    
+
     func drawConstellationLabels() {
         let conLabelNode = SCNNode()
         conLabelNode.name = "constellation labels"
@@ -33,7 +33,7 @@ extension ObserverScene {
         }
         rootNode.addChildNode(conLabelNode)
     }
-    
+
     func annotateCelestialBody(_ body: CelestialBody, position: SCNVector3, parent: SCNNode, `class`: AnnotationClass) {
         func offset(`class`: AnnotationClass) -> CGVector {
             switch `class` {
