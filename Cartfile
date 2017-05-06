@@ -1,5 +1,4 @@
 github "stephencelis/SQLite.swift" ~> 0.11.2
 github "MoZhouqi/KMNavigationBarTransition"
 github "Weebly/OrderedSet"
-github "malcommac/SwiftDate" ~> 4.1
 

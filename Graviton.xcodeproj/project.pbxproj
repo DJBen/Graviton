@@ -77,7 +77,6 @@
 		EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */; };
 		EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EA1EB1741900E49A38 /* Line.swift */; };
 		EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */; };
-		EFCCF4041EB7D84A00E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
 		EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
 		EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
@@ -541,7 +540,6 @@
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
 				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
-				EFCCF4041EB7D84A00E49A38 /* OrderedSet.framework in Frameworks */,
 				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

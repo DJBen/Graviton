@@ -17,7 +17,6 @@
 
 import Foundation
 import CoreLocation
-import SwiftDate
 
 public struct HorizonsQuery: Hashable {
 
@@ -204,7 +203,7 @@ public struct HorizonsQuery: Hashable {
     public static func rtsQueries(site: ObserverSite, date: Date) -> [HorizonsQuery] {
         var rtsInterested: Set<Naif> = Set<Naif>([Naif.moon(.luna)])
         rtsInterested.remove(site.naif)
-        let weekLaterDate = date + 1.week
+        let weekLaterDate = date.addingTimeInterval(86400 * 7)
         return rtsInterested.map { target -> HorizonsQuery in
             var query = HorizonsQuery.observerQuery(target: target, site: site, startTime: date, stopTime: weekLaterDate)
             query.stepSize = .minute(1)
@@ -217,7 +216,7 @@ public struct HorizonsQuery: Hashable {
     public static func observerQueries(site: ObserverSite, date: Date) -> [HorizonsQuery] {
         var interested: Set<Naif> = Set<Naif>([Naif.moon(.luna)])
         interested.remove(site.naif)
-        let dayAhead = date + 1.day
+        let dayAhead = date.addingTimeInterval(86400)
         return interested.map { target -> HorizonsQuery in
             var query = HorizonsQuery.observerQuery(target: target, site: site, startTime: date, stopTime: dayAhead)
             query.stepSize = .minute(10)
