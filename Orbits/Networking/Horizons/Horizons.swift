@@ -57,7 +57,7 @@ public class Horizons {
         case mixed
     }
 
-    public func fetchOnlineRawEphemeris(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
+    public func fetchOnlineRawData(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
         var tasksTrialCount: [URL: Int] = [:]
         var rawData: [Int: String] = [:]
         var errors: [Error] = []
@@ -166,7 +166,7 @@ public class Horizons {
             }
         }
         let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate)
-        fetchOnlineRawEphemeris(queries: queries) { (rawData, errors) in
+        fetchOnlineRawData(queries: queries) { (rawData, errors) in
             if let errors = errors {
                 if cachedBodies.isEmpty {
                     complete?(nil, errors)

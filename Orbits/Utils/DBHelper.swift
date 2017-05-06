@@ -42,7 +42,7 @@ class DBHelper {
 
         print(path)
         let cb = try! Connection("\(path)/celestialBodies.sqlite3")
-        let ob = try! Connection("\(path)/orbitalMotions.sqlite3")
+        let ob = try! Connection("\(path)/motions.sqlite3")
         let helper = DBHelper(celestialBodies: cb, orbitalMotions: ob)
         helper.prepareTables()
         return helper
@@ -52,7 +52,7 @@ class DBHelper {
         self.celestialBodies = celestialBodies
         self.orbitalMotions = orbitalMotions
         self.backupCb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "celestialBodies", ofType: "sqlite3")!)
-        self.backupOb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "orbitalMotions", ofType: "sqlite3")!)
+        self.backupOb = try! Connection(Bundle(for: DBHelper.self).path(forResource: "motions", ofType: "sqlite3")!)
     }
 
     let celestialBodies: Connection

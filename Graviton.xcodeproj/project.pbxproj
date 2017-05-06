@@ -53,6 +53,10 @@
 		EFA4F0751EAE7CF4005D2E0D /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0741EAE7CF4005D2E0D /* PushAsideTransition.swift */; };
 		EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */; };
 		EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */; };
+		EFA4FEE61EBDB92A001919DD /* ObserverSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */; };
+		EFA4FEE71EBDB92A001919DD /* ObserverSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */; };
+		EFA4FEE91EBDB94B001919DD /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE81EBDB94B001919DD /* Functional.swift */; };
+		EFA4FEEA1EBDB94B001919DD /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE81EBDB94B001919DD /* Functional.swift */; };
 		EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC9BC81E9D849200AAAC95 /* LineNode.swift */; };
 		EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */; };
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
@@ -107,8 +111,8 @@
 		FC13B7111EBDAD5300AA1BBC /* celestialBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70C1EBDAD5300AA1BBC /* celestialBodies.sqlite3 */; };
 		FC13B7121EBDAD5300AA1BBC /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70D1EBDAD5300AA1BBC /* naif.sqlite3 */; };
 		FC13B7131EBDAD5300AA1BBC /* naif.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70D1EBDAD5300AA1BBC /* naif.sqlite3 */; };
-		FC13B7141EBDAD5300AA1BBC /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70E1EBDAD5300AA1BBC /* orbitalMotions.sqlite3 */; };
-		FC13B7151EBDAD5300AA1BBC /* orbitalMotions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70E1EBDAD5300AA1BBC /* orbitalMotions.sqlite3 */; };
+		FC13B7141EBDAD5300AA1BBC /* motions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */; };
+		FC13B7151EBDAD5300AA1BBC /* motions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */; };
 		FC13B7161EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */; };
 		FC13B7171EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -369,6 +373,8 @@
 		EFA4F0741EAE7CF4005D2E0D /* PushAsideTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAsideTransition.swift; sourceTree = "<group>"; };
 		EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuWithBackground.swift; sourceTree = "<group>"; };
 		EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTransitionController.swift; sourceTree = "<group>"; };
+		EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSite.swift; sourceTree = "<group>"; };
+		EFA4FEE81EBDB94B001919DD /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		EFAC9BC81E9D849200AAAC95 /* LineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNode.swift; sourceTree = "<group>"; };
 		EFC2C6941D88D02F0031AA9C /* Graviton.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graviton.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -413,7 +419,7 @@
 		FC13B7021EBC77CA00AA1BBC /* venus.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = venus.result; sourceTree = "<group>"; };
 		FC13B70C1EBDAD5300AA1BBC /* celestialBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = celestialBodies.sqlite3; sourceTree = "<group>"; };
 		FC13B70D1EBDAD5300AA1BBC /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
-		FC13B70E1EBDAD5300AA1BBC /* orbitalMotions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = orbitalMotions.sqlite3; sourceTree = "<group>"; };
+		FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = motions.sqlite3; sourceTree = "<group>"; };
 		FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
@@ -763,6 +769,7 @@
 				FC0F51981EB9D8BC00C1A863 /* Horizons.swift */,
 				FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */,
 				EF6FB1261EBA9DA900BCD215 /* ObserverField.swift */,
+				EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */,
 			);
 			path = Horizons;
 			sourceTree = "<group>";
@@ -798,7 +805,7 @@
 			children = (
 				FC13B70C1EBDAD5300AA1BBC /* celestialBodies.sqlite3 */,
 				FC13B70D1EBDAD5300AA1BBC /* naif.sqlite3 */,
-				FC13B70E1EBDAD5300AA1BBC /* orbitalMotions.sqlite3 */,
+				FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */,
 				FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */,
 			);
 			path = Preloaded;
@@ -1044,6 +1051,7 @@
 				FCA930D51E2B8F1200100706 /* Constants.swift */,
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
 				FC998DB41E2CE87700E0BFFF /* DBHelper.swift */,
+				EFA4FEE81EBDB94B001919DD /* Functional.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1425,7 +1433,7 @@
 				FC13B7041EBC77CA00AA1BBC /* mars.result in Resources */,
 				FC13B7051EBC77CA00AA1BBC /* moon_ob_rts.result in Resources */,
 				FC13B7131EBDAD5300AA1BBC /* naif.sqlite3 in Resources */,
-				FC13B7151EBDAD5300AA1BBC /* orbitalMotions.sqlite3 in Resources */,
+				FC13B7151EBDAD5300AA1BBC /* motions.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1485,7 +1493,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC13B7141EBDAD5300AA1BBC /* orbitalMotions.sqlite3 in Resources */,
+				FC13B7141EBDAD5300AA1BBC /* motions.sqlite3 in Resources */,
 				FC13B7161EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */,
 				FC13B7101EBDAD5300AA1BBC /* celestialBodies.sqlite3 in Resources */,
 				FC13B7121EBDAD5300AA1BBC /* naif.sqlite3 in Resources */,
@@ -1574,6 +1582,7 @@
 				EF4BD3A51E57E64D009D2698 /* Ephemeris.swift in Sources */,
 				EF4BD3B41E57E651009D2698 /* DBHelper.swift in Sources */,
 				FC0F51A81EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */,
+				EFA4FEE71EBDB92A001919DD /* ObserverSite.swift in Sources */,
 				EF4BD3A81E57E64D009D2698 /* Body.swift in Sources */,
 				EF6FB1281EBAAC4400BCD215 /* ObserverField.swift in Sources */,
 				FCE0A7551E8922F00009EFCB /* PlutoPropertyExtractor.swift in Sources */,
@@ -1594,6 +1603,7 @@
 				EF4BD3911E57E60A009D2698 /* TransientDBHelper.swift in Sources */,
 				EF4BD3921E57E60A009D2698 /* DBHelperTest.swift in Sources */,
 				FC0F51A41EB9D93D00C1A863 /* Parser.swift in Sources */,
+				EFA4FEEA1EBDB94B001919DD /* Functional.swift in Sources */,
 				FCFF7B1D1EA6196500C4B006 /* OrbitalMotionTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1689,7 +1699,9 @@
 				EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */,
 				FC0F51A31EB9D93D00C1A863 /* Parser.swift in Sources */,
 				FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */,
+				EFA4FEE61EBDB92A001919DD /* ObserverSite.swift in Sources */,
 				EF6FB1271EBA9DA900BCD215 /* ObserverField.swift in Sources */,
+				EFA4FEE91EBDB94B001919DD /* Functional.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */,
 				FC0F51A71EB9D93D00C1A863 /* ResponseParser+Ephemeris.swift in Sources */,
