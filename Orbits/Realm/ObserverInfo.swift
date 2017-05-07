@@ -26,7 +26,6 @@ public class ObserverInfo: Object {
         case night
     }
 
-    dynamic var id = 0
     dynamic var naifId: Int = 0
     dynamic var jd: Double = 0
     dynamic var rtsFlag: String = ""
@@ -64,11 +63,7 @@ public class ObserverInfo: Object {
         return JulianDate(jd)
     }
 
-    override public static func primaryKey() -> String? {
-        return "id"
-    }
-
     override public static func indexedProperties() -> [String] {
-        return ["naifId"]
+        return ["naifId", "rtsFlag"]
     }
 }

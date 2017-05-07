@@ -49,15 +49,87 @@ public class Horizons {
     public enum FetchMode {
         /// Only fetch local data, return empty result if it doesn't exist
         case localOnly
-        /// Only retrieve online data if local data is not available
+        /// Only fetch online data if local data is not available
         case preferLocal
-        /// Only fetch data online, disregarding local data
+        /// Only fetch data online regardless of local data presence
         case onlineOnly
-        /// Return local data once and return fetched online data once that becomes available
+        /// Return local data immediately and return fetched online data once that becomes available
         case mixed
     }
 
-    public func fetchOnlineRawData(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
+    public enum FetchStrategy {
+        /// Kick off requests one after one
+        case sequential
+        /// Start all requests at the same time and retry at an exponentially growing interval whenever fails
+        case exponentialBackoff
+    }
+
+    public func fetchOnlineRawData(queries: [HorizonsQuery], strategy: FetchStrategy = .exponentialBackoff, complete: @escaping ([Int: String], [Error]?) -> Void) {
+        switch strategy {
+        case .sequential:
+            return fetchOnlineRawDataSequential(queries: queries, complete: complete)
+        case .exponentialBackoff:
+            return fetchOnlineRawDataExponentialBackoff(queries: queries, complete: complete)
+        }
+    }
+
+    public func fetchOnlineRawDataSequential(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
+
+        var rawData: [Int: String] = [:]
+        var errors: [Error] = []
+
+        func taskComplete(_ data: Data?, _ response: URLResponse?, _ error: Error?) {
+            let nsError = error as NSError?
+            if let e = nsError {
+                errors.append(e)
+            } else if let d = data {
+                let httpResponse = response as! HTTPURLResponse
+                let url = httpResponse.url!
+                let utf8String = String(data: d, encoding: .utf8)!
+                switch ResponseValidator.default.parse(content: utf8String) {
+                case .busy:
+                    print("busy: \(url)")
+                default:
+                    rawData[url.naifId!] = utf8String
+                    print("complete: \(url) - \(d)")
+                }
+            } else {
+                print("reponse has no data: \(String(describing: response))")
+            }
+        }
+
+        let queue = OperationQueue()
+        queue.maxConcurrentOperationCount = 1
+
+        let completeOp = BlockOperation {
+            if errors.isEmpty {
+                complete(rawData, nil)
+            } else {
+                complete([:], errors)
+            }
+        }
+
+        let operations = queries.flatMap { (query) -> BlockOperation? in
+            if query.command == Sun.sol.naifId {
+                return nil
+            }
+            return BlockOperation {
+                let task = URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
+                task.resume()
+            }
+        }
+
+        // Add dependency to previous operation for each operation
+        operations.enumerated().forEach { (index, op) in
+            if index == 0 { return }
+            op.addDependency(operations[index - 1])
+            completeOp.addDependency(op)
+        }
+
+        queue.addOperations(operations + [completeOp], waitUntilFinished: false)
+    }
+
+    public func fetchOnlineRawDataExponentialBackoff(queries: [HorizonsQuery], complete: @escaping ([Int: String], [Error]?) -> Void) {
         var tasksTrialCount: [URL: Int] = [:]
         var rawData: [Int: String] = [:]
         var errors: [Error] = []
@@ -146,7 +218,7 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.default, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.motionDefault, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
         var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -193,6 +265,9 @@ public class Horizons {
         }
     }
 
+    public func fetchRiseTransitSetInfo(preferredDate: Date = Date(), naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .mixed, update: ((RiseTransitSetInfo) -> Void)? = nil, complete: ((RiseTransitSetInfo?, [Error]?) -> Void)? = nil) {
+
+    }
 }
 
 fileprivate extension URL {

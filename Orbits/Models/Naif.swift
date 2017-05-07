@@ -195,9 +195,13 @@ public enum Naif: Comparable, Hashable {
         return planets.map { .majorBody($0) }
     }()
 
-    static let `default`: [Naif] = {
+    static let motionDefault: [Naif] = {
         let moons: [Moon] = [.luna]
         return planets + moons.map { .moon($0) }
+    }()
+
+    static let observerDefault: [Naif] = {
+        return [.sun, .moon(.luna), .majorBody(.mercury), .majorBody(.venus), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)]
     }()
 
     public var rawValue: Int {

@@ -23,3 +23,12 @@ public class RiseTransitSetInfo: ObserverInfo {
         self.elevation = elevation
     }
 }
+
+extension Collection where Iterator.Element == RiseTransitSetInfo {
+    func save() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(self)
+        }
+    }
+}
