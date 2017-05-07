@@ -91,7 +91,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         return manager
     }()
 
-    var observerInfo: ObserverInfo?
+    var observerInfo: LocationAndTime?
 
     // MARK: - Property - Visual Nodes
 

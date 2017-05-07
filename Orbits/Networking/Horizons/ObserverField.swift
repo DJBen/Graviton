@@ -21,6 +21,9 @@ public extension HorizonsQuery {
         /// Adjusted for light-time. Units: HMS (HH MM SS.ff) and DMS (DD MM SS.f)
         public static let astrometricRaAndDec = ObserverField(rawValue:  1 << 1)
 
+        /// Airless apparent azimuth and elevation of target center. Adjusted for light-time, the gravitational deflection of light, stellar aberration, precession and nutation. Azimuth measured North(0) -> East(90) -> South(180) -> West(270) -> North (360). Elevation is with respect to plane perpendicular to local zenith direction.
+        public static let apparentAzimuthAndElevation = ObserverField(rawValue: 1 << 4)
+
         /// Moon's approximate apparent visual magnitude & surface brightness. When
         /// phase angle < 7 deg (within ~ 1 day of full Moon), computed magnitude tends to
         /// be about 0.12 too small.
@@ -57,6 +60,9 @@ public extension HorizonsQuery {
         /// coefficient in which the y-axis body radius is taken to be the same value as
         /// the x-axis radius. Positive longitude is to the EAST.  Units: DEGREES
         public static let sunSubLongitudeAndSubLatitude = ObserverField(rawValue: 1 << 15)
+
+        // Target's North pole position angle (CCW, or east, with respect to direction of true-of-date Celestial North Pole) and its' angular distance from the sub-observer point (center of disk) at observation time. Negative distance indicates the planet's North pole is on the hidden hemisphere.  Units: DEGREES and ARCSECONDS
+        public static let northPolePositionAngleAndDistance = ObserverField(rawValue: 1 << 17)
 
         /// ICRF/J2000.0 Right Ascension and Declination (IAU2009 rotation model)
         /// of target body's North Pole direction at the time light left the body to

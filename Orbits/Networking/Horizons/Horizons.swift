@@ -177,7 +177,7 @@ public class Horizons {
                 return
             }
             var bodies = Set<CelestialBody>(rawData.flatMap { (_, content) -> CelestialBody? in
-                if let body = ResponseParser.default.parse(content: content) {
+                if let body = CelestialBodyParser.default.parse(content: content) {
                     body.save()
                     return body
                 }

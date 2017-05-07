@@ -1,5 +1,5 @@
 //
-//  ObserverInfo.swift
+//  LocationAndTime.swift
 //  SpaceTime
 //
 //  Created by Sihao Lu on 1/5/17.
@@ -10,7 +10,7 @@ import CoreLocation
 import Foundation
 import MathUtil
 
-public struct ObserverInfo {
+public struct LocationAndTime {
     public let location: CLLocation
     public var timestamp: Date
 

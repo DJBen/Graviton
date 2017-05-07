@@ -12,7 +12,7 @@ import CoreLocation
 
 class SiderealTimeTest: XCTestCase {
 
-    var locationTime: ObserverInfo!
+    var locationTime: LocationAndTime!
     var date: Date {
         return locationTime.timestamp
     }
@@ -24,7 +24,7 @@ class SiderealTimeTest: XCTestCase {
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(secondsFromGMT: 0), year: 2017, month: 1, day: 3, hour: 3, minute: 29)
         let date = calendar.date(from: components)!
         // coordinate of my hometown
-        locationTime = ObserverInfo(location: CLLocation(latitude: 32.0603, longitude: 118.7969), timestamp: date)
+        locationTime = LocationAndTime(location: CLLocation(latitude: 32.0603, longitude: 118.7969), timestamp: date)
     }
 
     override func tearDown() {

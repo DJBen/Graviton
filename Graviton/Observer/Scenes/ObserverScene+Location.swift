@@ -43,7 +43,7 @@ extension ObserverScene: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let lastLocation = locations.last!
-        self.observerInfo = ObserverInfo(location: lastLocation, timestamp: Date())
+        self.observerInfo = LocationAndTime(location: lastLocation, timestamp: Date())
         updateGround()
     }
 

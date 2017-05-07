@@ -123,7 +123,7 @@ public struct HorizonsQuery: Hashable {
                 "SITE_COORD": formatSite(site),
                 "ANG_FORMAT": "DEG",
                 "STEP_SIZE": stepSize.rawValue,
-                "REF_SYSTEM": "J2000",
+                "CAL_FORMAT": "JD",
                 "OBJ_PAGE": showObjectPage.yesNo,
                 "CENTER": center
             ].keyOrderMap { (key, value) -> URLQueryItem in
@@ -205,9 +205,9 @@ public struct HorizonsQuery: Hashable {
         rtsInterested.remove(site.naif)
         let weekLaterDate = date.addingTimeInterval(86400 * 7)
         return rtsInterested.map { target -> HorizonsQuery in
-            var query = HorizonsQuery.observerQuery(target: target, site: site, startTime: date, stopTime: weekLaterDate)
+            var query = HorizonsQuery.observerRtsQuery(target: target, site: site, startTime: date, stopTime: weekLaterDate)
             query.stepSize = .minute(1)
-            query.observerField = [.astrometricRaAndDec]
+            query.observerField = [.apparentAzimuthAndElevation]
             query.showObjectPage = false
             return query
         }
