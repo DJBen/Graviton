@@ -51,7 +51,7 @@ public class Horizons {
         case localOnly
         /// Only fetch online data if local data is not available
         case preferLocal
-        /// Only fetch data online regardless of local data presence
+        /// Only fetch online data regardless of presence of local data
         case onlineOnly
         /// Return local data immediately and return fetched online data once that becomes available
         case mixed
@@ -265,8 +265,42 @@ public class Horizons {
         }
     }
 
-    public func fetchRiseTransitSetInfo(preferredDate: Date = Date(), naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .mixed, update: ((RiseTransitSetInfo) -> Void)? = nil, complete: ((RiseTransitSetInfo?, [Error]?) -> Void)? = nil) {
-
+    public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
+        // load local data
+        let rtseList: [RiseTransitSetElevation] = (mode == .onlineOnly ? [] : naifs.flatMap {
+            RiseTransitSetElevation.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate))
+        })
+        var rtseDict = [Naif: RiseTransitSetElevation]()
+        rtseList.forEach { rtseDict[$0.naif] = $0 }
+        let isComplete = naifs.map { rtseDict[$0] != nil }.reduce(true, { $0 && $1 })
+        if isComplete {
+            update?(rtseDict)
+        }
+        if mode == .localOnly || (mode == .preferLocal && isComplete) {
+            complete?(rtseDict, nil)
+            return
+        }
+        let queries = HorizonsQuery.rtsQueries(naifs: Set<Naif>(naifs), site: site, date: preferredDate)
+        fetchOnlineRawData(queries: queries) { (rawData, errors) in
+            if let errors = errors {
+                if isComplete == false {
+                    complete?([:], errors)
+                } else {
+                    complete?(rtseDict, errors)
+                }
+                return
+            }
+            rawData.forEach { (_, content) in
+                let rts = ObserverRiseTransitSetParser.default.parse(content: content)
+                rts.save()
+            }
+            naifs.forEach { naif in
+                let rtse = RiseTransitSetElevation.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate))!
+                rtseDict[naif] = rtse
+            }
+            update?(rtseDict)
+            complete?(rtseDict, nil)
+        }
     }
 }
 

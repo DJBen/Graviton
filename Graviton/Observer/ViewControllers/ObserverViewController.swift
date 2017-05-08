@@ -72,9 +72,10 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.antialiasingMode = .multisampling2X
         scnView.scene = obsScene
         scnView.pointOfView = obsScene.cameraNode
-        cameraController = obsScene
-        scnView.isPlaying = true
         scnView.backgroundColor = UIColor.black
+        scnView.isPlaying = true
+
+        cameraController = obsScene
         viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
     }

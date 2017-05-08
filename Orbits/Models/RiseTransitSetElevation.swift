@@ -12,6 +12,8 @@ import RealmSwift
 
 public struct RiseTransitSetElevation {
 
+    public let naif: Naif
+
     /// Maximum elevation in radians
     public let maximumElevation: Double
     public let riseAt: JulianDate
@@ -25,6 +27,7 @@ public struct RiseTransitSetElevation {
         if r == nil || t == nil || s == nil {
             return nil
         }
+        naif = Naif(naifId: r!.naifId)
         maximumElevation = radians(degrees: t!.elevation)
         riseAt = r!.julianDate
         transitAt = t!.julianDate
