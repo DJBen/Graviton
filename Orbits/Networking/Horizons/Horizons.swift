@@ -265,56 +265,65 @@ public class Horizons {
         }
     }
 
-    public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
-        // load local data
-        let rtseList: [RiseTransitSetElevation] = (mode == .onlineOnly ? [] : naifs.flatMap {
-            RiseTransitSetElevation.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate))
+    private func fetchObserverInfo<T, P>(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, queryMethod: (Set<Naif>, ObserverSite, Date) -> [HorizonsQuery], parser: P, update: (([Naif: T]) -> Void)? = nil, complete: (([Naif: T], [Error]?) -> Void)? = nil) where T: ObserverLoadable, P: Parser {
+        let list: [T] = (mode == .onlineOnly ? [] : naifs.flatMap {
+            T.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate))
         })
-        var rtseDict = [Naif: RiseTransitSetElevation]()
-        rtseList.forEach { rtseDict[$0.naif] = $0 }
-        let isComplete = naifs.map { rtseDict[$0] != nil }.reduce(true, { $0 && $1 })
+        var dict = [Naif: T]()
+        list.forEach { dict[$0.naif] = $0 }
+        let isComplete = naifs.map { dict[$0] != nil }.reduce(true, { $0 && $1 })
         if isComplete {
-            update?(rtseDict)
+            update?(dict)
         }
         if mode == .localOnly || (mode == .preferLocal && isComplete) {
-            complete?(rtseDict, nil)
+            complete?(dict, nil)
             return
         }
-        let queries = HorizonsQuery.rtsQueries(naifs: Set<Naif>(naifs), site: site, date: preferredDate)
+        let queries = queryMethod(Set<Naif>(naifs), site, preferredDate)
         fetchOnlineRawData(queries: queries) { (rawData, errors) in
             if let errors = errors {
                 if isComplete == false {
                     complete?([:], errors)
                 } else {
-                    complete?(rtseDict, errors)
+                    complete?(dict, errors)
                 }
                 return
             }
             rawData.forEach { (_, content) in
-                let rts = ObserverRiseTransitSetParser.default.parse(content: content)
-                rts.save()
+                let parsed = parser.parse(content: content)
+                if let celestial = parsed as? [CelestialBodyObserverInfo] {
+                    celestial.save()
+                } else if let rtse = parsed as? [RiseTransitSetInfo] {
+                    rtse.save()
+                }
             }
             naifs.forEach { naif in
-                let rtse = RiseTransitSetElevation.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate))!
-                rtseDict[naif] = rtse
+                let instance = T.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate))!
+                dict[naif] = instance
             }
-            update?(rtseDict)
-            complete?(rtseDict, nil)
+            update?(dict)
+            complete?(dict, nil)
         }
+    }
+
+    public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
+        fetchObserverInfo(preferredDate: preferredDate, observerSite: site, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
+    }
+
+    public func fetchCelestialBodyObserverInfo(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: CelestialBodyObserverInfo]) -> Void)? = nil, complete: (([Naif: CelestialBodyObserverInfo], [Error]?) -> Void)? = nil) {
+        fetchObserverInfo(preferredDate: preferredDate, observerSite: site, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.observerQueries, parser: ObserverEphemerisParser.default, update: update, complete: complete)
     }
 }
 
 fileprivate extension URL {
     var naifId: Int? {
-        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false) {
-            if let items = components.queryItems {
-                let filtered = items.filter { $0.name == "COMMAND" }
-                guard filtered.isEmpty == false else { return nil }
-                guard let str = filtered[0].value else { return nil }
-                let start = str.index(str.startIndex, offsetBy: 1)
-                let end = str.index(str.endIndex, offsetBy: -1)
-                return Int(str.substring(with: start..<end))
-            }
+        if let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let items = components.queryItems {
+            let filtered = items.filter { $0.name == "COMMAND" }
+            guard filtered.isEmpty == false else { return nil }
+            guard let str = filtered[0].value else { return nil }
+            let start = str.index(str.startIndex, offsetBy: 1)
+            let end = str.index(str.endIndex, offsetBy: -1)
+            return Int(str.substring(with: start..<end))
         }
         return nil
     }

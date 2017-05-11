@@ -41,7 +41,6 @@ class CelestialBodyScene: SCNScene, CameraControlling {
         resetCamera()
         let node = CelestialBodyNode(naif: .moon(.luna))
         rootNode.addChildNode(node)
-        
     }
 
     required init?(coder aDecoder: NSCoder) {

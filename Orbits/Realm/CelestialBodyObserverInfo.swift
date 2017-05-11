@@ -9,7 +9,7 @@
 import RealmSwift
 import SpaceTime
 
-public class CelestialBodyObserverInfo: ObserverInfo {
+public final class CelestialBodyObserverInfo: ObserverInfo {
     dynamic var apparentMagnitude: Double = 0
     dynamic var surfaceBrightness: Double = 0
 
@@ -27,4 +27,27 @@ public class CelestialBodyObserverInfo: ObserverInfo {
 
     dynamic var npRa: Double = 0
     dynamic var npDec: Double = 0
+}
+
+extension CelestialBodyObserverInfo: ObserverLoadable {
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now()) -> CelestialBodyObserverInfo? {
+        let realm = try! Realm()
+        let jdStart = julianDate - 60 * 30
+        let jdEnd = julianDate + 60 * 30
+        let results = realm.objects(CelestialBodyObserverInfo.self).filter("jd BETWEEN {%@, %@}", jdStart.value, jdEnd.value)
+        let info = Array(results)
+        guard info.isEmpty == false else { return nil }
+        return info.reduce(info[0]) { (r1, r2) -> CelestialBodyObserverInfo in
+            abs(r1.julianDate - julianDate) > abs(r2.julianDate - julianDate) ? r2 : r1
+        }
+    }
+}
+
+extension Collection where Iterator.Element == CelestialBodyObserverInfo {
+    func save() {
+        let realm = try! Realm()
+        try! realm.write {
+            realm.add(self)
+        }
+    }
 }

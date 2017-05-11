@@ -31,6 +31,10 @@ public class ObserverInfo: Object {
     dynamic var rtsFlag: String = ""
     dynamic var daylightFlag: String = ""
 
+    public var naif: Naif {
+        return Naif(naifId: naifId)
+    }
+
     public var rts: RiseTransitSet {
         switch rtsFlag {
         case "r":

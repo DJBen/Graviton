@@ -35,7 +35,7 @@ public struct RiseTransitSetElevation {
     }
 }
 
-public extension RiseTransitSetElevation {
+extension RiseTransitSetElevation: ObserverLoadable {
 
     /// Load the rise-transit-set info that is on the requested Julian date.
     ///
@@ -51,5 +51,9 @@ public extension RiseTransitSetElevation {
         let jdEnd = modf(julianDate.value).0 + 1 + deltaT
         let results = realm.objects(RiseTransitSetInfo.self).filter("jd BETWEEN {%@, %@}", jdStart, jdEnd)
         return RiseTransitSetElevation(rts: Array(results))
+    }
+
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now()) -> RiseTransitSetElevation? {
+        return load(naifId: naifId, optimalJulianDate: julianDate, timeZone: TimeZone.current)
     }
 }
