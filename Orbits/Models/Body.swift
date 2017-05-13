@@ -41,14 +41,7 @@ open class Body: Hashable {
         return CelestialBody.load(naifId: id)
     }
     public var motion: OrbitalMotion?
-    public var julianDate: JulianDate = JulianDate.J2000 {
-        didSet {
-            motion?.julianDate = julianDate
-            if let primary = self as? CelestialBody {
-                primary.satellites.forEach { $0.julianDate = julianDate }
-            }
-        }
-    }
+
     public var position: Vector3? {
         if naif == Naif.sun {
             return Vector3.zero

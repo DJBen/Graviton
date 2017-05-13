@@ -142,23 +142,24 @@ public struct HorizonsQuery: Hashable {
     }
 
     public static func orbitalElementQuery(naif: Naif, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        return HorizonsQuery(naif: naif, tableType: .elements, startTime: startTime, stopTime: stopTime)
+        let center = String(naif.primary!.rawValue)
+        return HorizonsQuery(naif: naif, center: center, tableType: .elements, startTime: startTime, stopTime: stopTime)
     }
 
     public static func observerQuery(target: Naif, site: ObserverSite, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        var query = HorizonsQuery(naif: target, tableType: .observer, startTime: startTime, stopTime: stopTime)
+        let center = "coord@" + String(site.naif.rawValue)
+        var query = HorizonsQuery(naif: target, center: center, tableType: .observer, startTime: startTime, stopTime: stopTime)
         query.site = site.location
-        query.center = "coord@" + String(site.naif.rawValue)
         return query
     }
 
     public static func observerRtsQuery(target: Naif, site: ObserverSite, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        var query = HorizonsQuery(naif: target, tableType: .observer, startTime: startTime, stopTime: stopTime)
+        let center = "coord@" + String(site.naif.rawValue)
+        var query = HorizonsQuery(naif: target, center: center, tableType: .observer, startTime: startTime, stopTime: stopTime)
         query.site = site.location
         query.rtsMode = .trueVisualHorizon
         query.showObjectPage = false
         query.observerField = [.astrometricRaAndDec]
-        query.center = "coord@" + String(site.naif.rawValue)
         return query
     }
 
@@ -220,8 +221,8 @@ public struct HorizonsQuery: Hashable {
         }
     }
 
-    private init(naif: Naif, tableType: TableType, startTime: Date, stopTime: Date) {
-        self.init(center: String(naif.primary!.rawValue), command: naif.rawValue, tableType: tableType, startTime: startTime, stopTime: stopTime)
+    private init(naif: Naif, center: String, tableType: TableType, startTime: Date, stopTime: Date) {
+        self.init(center: center, command: naif.rawValue, tableType: tableType, startTime: startTime, stopTime: stopTime)
     }
 
     private init(center: String, command: Int, tableType: TableType, startTime: Date, stopTime: Date) {

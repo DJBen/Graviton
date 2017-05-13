@@ -22,19 +22,20 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
     dynamic var obLon: Double = 0
     dynamic var obLat: Double = 0
 
-    dynamic var slLon: Double = 0
-    dynamic var slLat: Double = 0
+    // Solar sub-longitude or sub-latitude will be nil for the Sun.
+    let slLon = RealmOptional<Double>()
+    let slLat = RealmOptional<Double>()
 
     dynamic var npRa: Double = 0
     dynamic var npDec: Double = 0
 }
 
 extension CelestialBodyObserverInfo: ObserverLoadable {
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now()) -> CelestialBodyObserverInfo? {
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now(), site: ObserverSite, timeZone: TimeZone) -> CelestialBodyObserverInfo? {
         let realm = try! Realm()
         let jdStart = julianDate - 60 * 30
         let jdEnd = julianDate + 60 * 30
-        let results = realm.objects(CelestialBodyObserverInfo.self).filter("jd BETWEEN {%@, %@}", jdStart.value, jdEnd.value)
+        let results = realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
         let info = Array(results)
         guard info.isEmpty == false else { return nil }
         return info.reduce(info[0]) { (r1, r2) -> CelestialBodyObserverInfo in

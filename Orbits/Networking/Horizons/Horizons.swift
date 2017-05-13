@@ -8,6 +8,7 @@
 
 import Foundation
 import SpaceTime
+import CoreLocation
 
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2017-01-01'&STOP_TIME='2017-01-02'&STEP_SIZE='1'&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
@@ -183,9 +184,6 @@ public class Horizons {
             }
         }
         let tasks = queries.flatMap { (query) -> URLSessionTask? in
-            if query.command == Sun.sol.naifId {
-                return nil
-            }
             return URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
         }
         tasks.enumerated().forEach { (index: Int, task: URLSessionTask) in
@@ -237,7 +235,10 @@ public class Horizons {
                 return
             }
         }
-        let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate)
+        // Do not query sun's ephemris because it is the center
+        let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate).filter { (query) -> Bool in
+            return query.command != Sun.sol.naifId
+        }
         fetchOnlineRawData(queries: queries) { (rawData, errors) in
             if let errors = errors {
                 if cachedBodies.isEmpty {
@@ -265,9 +266,23 @@ public class Horizons {
         }
     }
 
-    private func fetchObserverInfo<T, P>(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, queryMethod: (Set<Naif>, ObserverSite, Date) -> [HorizonsQuery], parser: P, update: (([Naif: T]) -> Void)? = nil, complete: (([Naif: T], [Error]?) -> Void)? = nil) where T: ObserverLoadable, P: Parser {
+    private func decodeTimeZone(location: CLLocation, completion: @escaping (TimeZone) -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            let timeZone: TimeZone
+            if let pm = placemarks?.first {
+                timeZone = pm.timeZone ?? TimeZone.current
+            } else {
+                print("Cannot fetch time zone for \(location). \(String(describing: error))")
+                timeZone = TimeZone.current
+            }
+            completion(timeZone)
+        }
+    }
+
+    private func fetchObserverInfo<T, P>(preferredDate: Date = Date(), observerSite site: ObserverSite, timeZone: TimeZone, naifs: [Naif], mode: FetchMode = .preferLocal, queryMethod: (Set<Naif>, ObserverSite, Date) -> [HorizonsQuery], parser: P, update: (([Naif: T]) -> Void)? = nil, complete: (([Naif: T], [Error]?) -> Void)? = nil) where T: ObserverLoadable, P: Parser {
         let list: [T] = (mode == .onlineOnly ? [] : naifs.flatMap {
-            T.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate))
+            T.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate), site: site, timeZone: timeZone)
         })
         var dict = [Naif: T]()
         list.forEach { dict[$0.naif] = $0 }
@@ -298,7 +313,7 @@ public class Horizons {
                 }
             }
             naifs.forEach { naif in
-                let instance = T.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate))!
+                let instance = T.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate), site: site, timeZone: timeZone)!
                 dict[naif] = instance
             }
             update?(dict)
@@ -307,11 +322,15 @@ public class Horizons {
     }
 
     public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
-        fetchObserverInfo(preferredDate: preferredDate, observerSite: site, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
+        decodeTimeZone(location: site.location) { (timeZone) in
+            print("Requesting RTS info for \(site) within time zone \(timeZone)")
+            self.fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: timeZone, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
+        }
+
     }
 
     public func fetchCelestialBodyObserverInfo(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: CelestialBodyObserverInfo]) -> Void)? = nil, complete: (([Naif: CelestialBodyObserverInfo], [Error]?) -> Void)? = nil) {
-        fetchObserverInfo(preferredDate: preferredDate, observerSite: site, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.observerQueries, parser: ObserverEphemerisParser.default, update: update, complete: complete)
+        fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: TimeZone.current, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.observerQueries, parser: ObserverEphemerisParser.default, update: update, complete: complete)
     }
 }
 

@@ -16,7 +16,17 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
     public let root: CelestialBody
 
     public var timestamp: Date? {
-        return root.motion?.julianDate?.date
+        if let ref = self.first(where: { $0.motion?.julianDate != nil }) {
+            return ref.motion!.julianDate!.date
+        }
+        return nil
+    }
+
+    public var referenceTimestamp: Date? {
+        if let ref = self.first(where: { $0.motion?.julianDate != nil }), let mm = ref.motion as? OrbitalMotionMoment {
+            return mm.ephemerisJulianDate.date
+        }
+        return nil
     }
 
     init(solarSystemBodies: Set<CelestialBody>) {

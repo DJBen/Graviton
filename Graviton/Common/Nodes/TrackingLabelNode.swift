@@ -45,7 +45,7 @@ class TrackingLabelNode: SCNNode {
         self.offset = offset
         super.init()
         let style = textStyle ?? TextStyle.defaultTextStyle(fontSize: 0.8)
-        let text = SCNText(string: nullableBlock(style.textTransform)(string), extrusionDepth: 0)
+        let text = SCNText(string: nullable(style.textTransform)(string), extrusionDepth: 0)
         text.font = style.font
         text.flatness = 0.01
         geometry = text

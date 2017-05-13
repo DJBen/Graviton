@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import MathUtil
+import CoreLocation
 
 public class CommonParser {
     func parseLineBasedContent(_ content: String) -> [String: (String, String?)] {
@@ -23,6 +25,15 @@ public class CommonParser {
             }
             }.reduce([], +).forEach { results[$0] = ($1, $2) }
         return results
+    }
+
+    func extractCoordinate(_ coord: (String, String?)?) -> CLLocation? {
+        guard let coord = coord else { return nil }
+        let components = coord.0.components(separatedBy: ",").flatMap { Double($0.trimmed()) }
+        guard components.count == 3 else { return nil }
+        // TODO: calculate height regarding reference ellipsoid
+        // https://en.wikipedia.org/wiki/Reference_ellipsoid
+        return CLLocation(latitude: components[1], longitude: wrapLongitude(components[0]))
     }
 
     func extractNameId(_ nameId: (String, String?)?) -> (String, Int)? {

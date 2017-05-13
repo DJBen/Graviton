@@ -8,6 +8,7 @@
 
 import UIKit
 import SceneKit
+import Orbits
 import MathUtil
 
 class CelestialBodyScene: SCNScene, CameraControlling {
@@ -45,5 +46,14 @@ class CelestialBodyScene: SCNScene, CameraControlling {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Observer Update
+    func updateObserverInfo(_ observerInfo: [Naif: CelestialBodyObserverInfo]) {
+        print(observerInfo)
+    }
+
+    func updateRiseTransitSetInfo(_ rtsInfo: [Naif: RiseTransitSetElevation]) {
+        print(rtsInfo)
     }
 }

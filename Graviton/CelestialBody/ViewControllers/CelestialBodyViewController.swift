@@ -15,9 +15,13 @@ class CelestialBodyViewController: SceneController {
         return self.view as! SCNView
     }
 
+    private var obsSubscriptionIdentifier: SubscriptionUUID!
+    private var rtsSubscriptionIdentifier: SubscriptionUUID!
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
+        subscribeToServices()
     }
 
     private func setupViewElements() {
@@ -32,5 +36,15 @@ class CelestialBodyViewController: SceneController {
         viewSlideDivisor = 8000
         viewSlideVelocityCap = 800
         viewSlideInertiaDuration = 1.5
+    }
+
+    private func subscribeToServices() {
+        obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
+//        rtsSubscriptionIdentifier = ObserverRiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
+    }
+
+    deinit {
+        ObserverEphemerisManager.default.unsubscribe(obsSubscriptionIdentifier)
+//        ObserverRiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 }

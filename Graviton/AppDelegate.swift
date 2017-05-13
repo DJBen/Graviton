@@ -22,8 +22,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.backgroundImage = UIImage()
         tabBar.shadowImage = UIImage()
         // Disable online fetching in unit tests
-        let mode: Horizons.FetchMode = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] == nil ? .mixed : .localOnly
-        EphemerisManager.default.fetchEphemeris(mode: mode)
+        let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        EphemerisMotionManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
+        ObserverRiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
+//        ObserverEphemerisManager.default.fetch(mode: isInTest ? .localOnly : .preferLocal)
+        LocationManager.default.startLocationService()
         return true
     }
 

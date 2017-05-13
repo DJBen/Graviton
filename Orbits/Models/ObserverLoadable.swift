@@ -9,6 +9,6 @@
 import SpaceTime
 
 protocol ObserverLoadable {
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate) -> Self?
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate, site: ObserverSite, timeZone: TimeZone) -> Self?
     var naif: Naif { get }
 }

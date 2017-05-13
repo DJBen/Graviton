@@ -17,6 +17,7 @@ public final class ObserverRiseTransitSetParser: CommonParser, Parser {
         let lines = content.components(separatedBy: "\n")
         let systemInfo = parseLineBasedContent(content)
         guard let naifId = extractNameId(systemInfo["Target body name"])?.1 else { fatalError() }
+        guard let coord = extractCoordinate(systemInfo["Center geodetic"]) else { fatalError() }
         let soeIndex = lines.index(where: { $0.contains("$$SOE") })!
         let eoeIndex = lines.index(where: { $0.contains("$$EOE") })!
         return lines[(soeIndex + 1)..<eoeIndex].map { (line) -> RiseTransitSetInfo in
@@ -26,7 +27,7 @@ public final class ObserverRiseTransitSetParser: CommonParser, Parser {
             let rtsFlag = components[2]
             let azi = Double(components[3])!
             let elev = Double(components[4])!
-            return RiseTransitSetInfo(naifId: naifId, jd: jd, daylightFlag: daylightFlag, rtsFlag: rtsFlag, azimuth: azi, elevation: elev)
+            return RiseTransitSetInfo(naifId: naifId, jd: jd, location: coord, daylightFlag: daylightFlag, rtsFlag: rtsFlag, azimuth: azi, elevation: elev)
         }
     }
 }

@@ -8,7 +8,13 @@
 
 import Foundation
 
-/// wrap angle into [0, 2π)
+/// wrap longitude in degrees into [-180, 180)
+public func wrapLongitude(_ longitude: Double) -> Double {
+    let wrapped = fmod(longitude, 360)
+    return wrapped < 180 ? wrapped : wrapped - 360
+}
+
+/// wrap angle in radians into [0, 2π)
 public func wrapAngle(_ angle: Double) -> Double {
     let twoPi = Double.pi * 2
     var wrapped = fmod(angle, twoPi)

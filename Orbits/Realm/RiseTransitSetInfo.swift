@@ -8,15 +8,17 @@
 
 import RealmSwift
 import SpaceTime
+import CoreLocation
 
 public class RiseTransitSetInfo: ObserverInfo {
     dynamic var azimuth: Double = 0
     dynamic var elevation: Double = 0
 
-    convenience init(naifId: Int, jd: Double, daylightFlag: String, rtsFlag: String, azimuth: Double, elevation: Double) {
+    convenience init(naifId: Int, jd: Double, location: CLLocation, daylightFlag: String, rtsFlag: String, azimuth: Double, elevation: Double) {
         self.init()
         self.naifId = naifId
         self.jd = jd
+        self.location = location
         self.daylightFlag = daylightFlag
         self.rtsFlag = rtsFlag
         self.azimuth = azimuth
