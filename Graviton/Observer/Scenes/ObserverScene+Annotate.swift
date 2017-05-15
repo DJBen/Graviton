@@ -67,7 +67,7 @@ extension ObserverScene {
             node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             node.fontColor = color
             node.name = String(body.naifId)
-            node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius - 1)
+            node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
             node.constraints = [SCNBillboardConstraint()]
             parent.addChildNode(node)
         }

@@ -31,10 +31,10 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
         if isFetching { return }
         isFetching = true
         func customLoad(ephemeris: Ephemeris) {
-            self.isFetching = false
             load(content: ephemeris)
         }
-        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:))
+        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in             self.isFetching = false
+        })
     }
 
     // have to use fully qualified name otherwise compiler will segfault

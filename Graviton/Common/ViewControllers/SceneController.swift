@@ -12,6 +12,7 @@ import SceneKit
 class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     var cameraController: CameraControlling?
+    private var firstTimeRender = true
 
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
 
@@ -156,11 +157,19 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
     }
 
+    func sceneDidRenderFirstTime(scene: SCNScene) {
+
+    }
+
     // MARK: - Scene Renderer Delegate
 
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         handleCameraPan(atTime: time)
         handleCameraRotation(atTime: time)
+        if firstTimeRender {
+            sceneDidRenderFirstTime(scene: scene)
+            firstTimeRender = false
+        }
     }
 }
 

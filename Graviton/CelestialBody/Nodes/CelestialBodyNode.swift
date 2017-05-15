@@ -36,7 +36,7 @@ fileprivate extension Naif {
         switch self {
         case .moon(.luna):
             mat.diffuse.contents = #imageLiteral(resourceName: "moon_texture")
-            mat.normal.contents = #imageLiteral(resourceName: "moon_normal")
+//            mat.normal.contents = #imageLiteral(resourceName: "moon_normal")
         default:
             fatalError("Unsupported celestial body")
         }
