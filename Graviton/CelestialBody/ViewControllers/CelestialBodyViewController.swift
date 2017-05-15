@@ -40,11 +40,11 @@ class CelestialBodyViewController: SceneController {
 
     private func subscribeToServices() {
         obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
-//        rtsSubscriptionIdentifier = ObserverRiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
+        rtsSubscriptionIdentifier = ObserverRiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
     }
 
     deinit {
         ObserverEphemerisManager.default.unsubscribe(obsSubscriptionIdentifier)
-//        ObserverRiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
+        ObserverRiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 }

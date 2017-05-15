@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         EphemerisMotionManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
         ObserverRiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
-//        ObserverEphemerisManager.default.fetch(mode: isInTest ? .localOnly : .preferLocal)
+        ObserverEphemerisManager.default.fetch(mode: isInTest ? .localOnly : .preferLocal)
         LocationManager.default.startLocationService()
         return true
     }

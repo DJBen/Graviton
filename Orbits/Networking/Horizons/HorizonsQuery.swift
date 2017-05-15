@@ -202,9 +202,10 @@ public struct HorizonsQuery: Hashable {
     }
 
     public static func rtsQueries(naifs: Set<Naif>, site: ObserverSite, date: Date) -> [HorizonsQuery] {
-        let weekLaterDate = date.addingTimeInterval(86400 * 7)
+        let prevDate = date.addingTimeInterval(-86400)
+        let laterDate = date.addingTimeInterval(86400 * 3)
         return naifs.subtracting([site.naif]).map { target -> HorizonsQuery in
-            var query = HorizonsQuery.observerRtsQuery(target: target, site: site, startTime: date, stopTime: weekLaterDate)
+            var query = HorizonsQuery.observerRtsQuery(target: target, site: site, startTime: prevDate, stopTime: laterDate)
             query.stepSize = .minute(1)
             query.observerField = [.apparentAzimuthAndElevation]
             query.showObjectPage = false

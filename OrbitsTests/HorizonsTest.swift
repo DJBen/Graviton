@@ -50,7 +50,7 @@ class HorizonsTest: XCTestCase {
     func testRtsObserverUrlConstruction() {
         let queries = HorizonsQuery.rtsQueries(naifs: Set<Naif>([.moon(.luna)]), site: ObserverSite.sanFrancisco, date: Date(timeIntervalSince1970: 0))
         let queryStrings = queries.map { $0.url.absoluteString }
-        let expected = ["http://ssd.jpl.nasa.gov/horizons_batch.cgi?ANG_FORMAT='DEG'&CAL_FORMAT='JD'&CENTER='coord@399'&COMMAND='301'&CSV_FORMAT='YES'&OBJ_PAGE='NO'&QUANTITIES='4'&R_T_S_ONLY='TVH'&SITE_COORD='-122.4156,37.7816,12.0'&START_TIME='1970-Jan-01 00:00'&STEP_SIZE='1m'&STOP_TIME='1970-Jan-08 00:00'&TABLE_TYPE='Observer'&batch='1'"].map { $0.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)! }
+        let expected = ["http://ssd.jpl.nasa.gov/horizons_batch.cgi?ANG_FORMAT='DEG'&CAL_FORMAT='JD'&CENTER='coord@399'&COMMAND='301'&CSV_FORMAT='YES'&OBJ_PAGE='NO'&QUANTITIES='4'&R_T_S_ONLY='TVH'&SITE_COORD='-122.4156,37.7816,12.0'&START_TIME='1969-Dec-31 00:00'&STEP_SIZE='1m'&STOP_TIME='1970-Jan-04 00:00'&TABLE_TYPE='Observer'&batch='1'"].map { $0.addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)! }
         XCTAssertEqual(queryStrings.sorted(), expected.sorted())
     }
 
