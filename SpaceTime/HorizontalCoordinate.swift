@@ -13,7 +13,7 @@ public struct HorizontalCoordinate {
     let altitude: Double
     let azimuth: Double
 
-    public init(equatorialCoordinate eqCoord: EquatorialCoordinate, observerInfo info: ObserverInfo) {
+    public init(equatorialCoordinate eqCoord: EquatorialCoordinate, observerInfo info: LocationAndTime) {
         // sin(ALT) = sin(DEC)*sin(LAT)+cos(DEC)*cos(LAT)*cos(HA)
         let radianLat = radians(degrees: Double(info.location.coordinate.latitude))
         let hourAngle = info.localSiderealTimeAngle - eqCoord.rightAscension

@@ -19,6 +19,8 @@ import CoreMedia
 class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
 
     private lazy var obsScene = ObserverScene()
+    private var ephemerisSubscriptionIdentifier: SubscriptionUUID!
+    private var locationSubscriptionIdentifier: SubscriptionUUID!
     private var scnView: SCNView {
         return self.view as! SCNView
     }
@@ -29,11 +31,8 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        tapGR.require(toFail: doubleTap)
-        self.view.addGestureRecognizer(tapGR)
         setupViewElements()
-        EphemerisManager.default.subscribe(obsScene, mode: .interval(10))
+        registerToServices()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -72,11 +71,26 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.antialiasingMode = .multisampling2X
         scnView.scene = obsScene
         scnView.pointOfView = obsScene.cameraNode
-        cameraController = obsScene
-        scnView.isPlaying = true
         scnView.backgroundColor = UIColor.black
+        scnView.isPlaying = true
+
+        cameraController = obsScene
         viewSlideVelocityCap = 500
         cameraInversion = [.invertX, .invertY]
+
+        let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
+        tapGR.require(toFail: doubleTap)
+        view.addGestureRecognizer(tapGR)
+    }
+
+    private func registerToServices() {
+        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
+        locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
+    }
+
+    deinit {
+        EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
+        LocationManager.default.unsubscribe(locationSubscriptionIdentifier)
     }
 
     func handleTap(sender: UITapGestureRecognizer) {
@@ -87,7 +101,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        EphemerisManager.default.requestEphemeris(at: JulianDate.now(), forObject: obsScene)
+        EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
     }
 
     // MARK: - Menu Background Provider

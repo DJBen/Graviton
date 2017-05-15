@@ -7,6 +7,7 @@
 //
 
 import XCTest
+@testable import Orbits
 
 class OrbitalMotionTest: XCTestCase {
     func testCopying() {

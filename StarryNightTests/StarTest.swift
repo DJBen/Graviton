@@ -8,6 +8,7 @@
 
 import XCTest
 @testable import StarryNight
+import MathUtil
 
 class StarTest: XCTestCase {
     func testStarQuery() {

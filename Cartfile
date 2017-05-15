@@ -1,4 +1,6 @@
 github "stephencelis/SQLite.swift" ~> 0.11.2
 github "MoZhouqi/KMNavigationBarTransition"
 github "Weebly/OrderedSet"
+github "realm/realm-cocoa"
+github "mhergon/RealmGeoQueries"
 

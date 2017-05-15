@@ -1,5 +1,5 @@
 //
-//  ObserverInfo.swift
+//  LocationAndTime.swift
 //  SpaceTime
 //
 //  Created by Sihao Lu on 1/5/17.
@@ -10,7 +10,8 @@ import CoreLocation
 import Foundation
 import MathUtil
 
-public struct ObserverInfo {
+// Yes, I know CLLocation and a timestamp field.
+public struct LocationAndTime {
     public let location: CLLocation
     public var timestamp: Date
 
@@ -19,13 +20,14 @@ public struct ObserverInfo {
         self.timestamp = timestamp ?? location.timestamp
     }
 
-    /// local sidereal time in radians
+    /// local sidereal time in radians.
     public var localSiderealTimeAngle: Double {
         let hours = location.coordinate.longitude / 15
         let siderealTime = timestamp.greenwichMeanSiderealTime + hours
         return wrapAngle(siderealTime / 12 * Double.pi)
     }
 
+    /// The transformation from celestial coordinate (RA, DEC) to North-East-Down coordinate (azi, elev) at the given ECEF coordinate (lat, lon) at the current time.
     public var localViewTransform: Matrix4 {
         return location.ecefToLocalNedTransform * Matrix4.init(rotation: Vector4(0, 0, 1, -radians(hours: timestamp.greenwichMeanSiderealTime)))
     }

@@ -123,7 +123,7 @@ public struct HorizonsQuery: Hashable {
                 "SITE_COORD": formatSite(site),
                 "ANG_FORMAT": "DEG",
                 "STEP_SIZE": stepSize.rawValue,
-                "REF_SYSTEM": "J2000",
+                "CAL_FORMAT": "JD",
                 "OBJ_PAGE": showObjectPage.yesNo,
                 "CENTER": center
             ].keyOrderMap { (key, value) -> URLQueryItem in
@@ -142,23 +142,24 @@ public struct HorizonsQuery: Hashable {
     }
 
     public static func orbitalElementQuery(naif: Naif, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        return HorizonsQuery(naif: naif, tableType: .elements, startTime: startTime, stopTime: stopTime)
+        let center = String(naif.primary!.rawValue)
+        return HorizonsQuery(naif: naif, center: center, tableType: .elements, startTime: startTime, stopTime: stopTime)
     }
 
     public static func observerQuery(target: Naif, site: ObserverSite, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        var query = HorizonsQuery(naif: target, tableType: .observer, startTime: startTime, stopTime: stopTime)
+        let center = "coord@" + String(site.naif.rawValue)
+        var query = HorizonsQuery(naif: target, center: center, tableType: .observer, startTime: startTime, stopTime: stopTime)
         query.site = site.location
-        query.center = "coord@" + String(site.naif.rawValue)
         return query
     }
 
     public static func observerRtsQuery(target: Naif, site: ObserverSite, startTime: Date, stopTime: Date) -> HorizonsQuery {
-        var query = HorizonsQuery(naif: target, tableType: .observer, startTime: startTime, stopTime: stopTime)
+        let center = "coord@" + String(site.naif.rawValue)
+        var query = HorizonsQuery(naif: target, center: center, tableType: .observer, startTime: startTime, stopTime: stopTime)
         query.site = site.location
         query.rtsMode = .trueVisualHorizon
         query.showObjectPage = false
         query.observerField = [.astrometricRaAndDec]
-        query.center = "coord@" + String(site.naif.rawValue)
         return query
     }
 
@@ -200,32 +201,29 @@ public struct HorizonsQuery: Hashable {
         }
     }
 
-    public static func rtsQueries(site: ObserverSite, date: Date) -> [HorizonsQuery] {
-        var rtsInterested: Set<Naif> = Set<Naif>([Naif.moon(.luna)])
-        rtsInterested.remove(site.naif)
-        let weekLaterDate = date.addingTimeInterval(86400 * 7)
-        return rtsInterested.map { target -> HorizonsQuery in
-            var query = HorizonsQuery.observerQuery(target: target, site: site, startTime: date, stopTime: weekLaterDate)
+    public static func rtsQueries(naifs: Set<Naif>, site: ObserverSite, date: Date) -> [HorizonsQuery] {
+        let prevDate = date.addingTimeInterval(-86400)
+        let laterDate = date.addingTimeInterval(86400 * 3)
+        return naifs.subtracting([site.naif]).map { target -> HorizonsQuery in
+            var query = HorizonsQuery.observerRtsQuery(target: target, site: site, startTime: prevDate, stopTime: laterDate)
             query.stepSize = .minute(1)
-            query.observerField = [.astrometricRaAndDec]
+            query.observerField = [.apparentAzimuthAndElevation]
             query.showObjectPage = false
             return query
         }
     }
 
-    public static func observerQueries(site: ObserverSite, date: Date) -> [HorizonsQuery] {
-        var interested: Set<Naif> = Set<Naif>([Naif.moon(.luna)])
-        interested.remove(site.naif)
+    public static func observerQueries(naifs: Set<Naif>, site: ObserverSite, date: Date) -> [HorizonsQuery] {
         let dayAhead = date.addingTimeInterval(86400)
-        return interested.map { target -> HorizonsQuery in
+        return naifs.subtracting([site.naif]).map { target -> HorizonsQuery in
             var query = HorizonsQuery.observerQuery(target: target, site: site, startTime: date, stopTime: dayAhead)
             query.stepSize = .minute(10)
             return query
         }
     }
 
-    private init(naif: Naif, tableType: TableType, startTime: Date, stopTime: Date) {
-        self.init(center: String(naif.primary!.rawValue), command: naif.rawValue, tableType: tableType, startTime: startTime, stopTime: stopTime)
+    private init(naif: Naif, center: String, tableType: TableType, startTime: Date, stopTime: Date) {
+        self.init(center: center, command: naif.rawValue, tableType: tableType, startTime: startTime, stopTime: stopTime)
     }
 
     private init(center: String, command: Int, tableType: TableType, startTime: Date, stopTime: Date) {

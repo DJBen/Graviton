@@ -24,7 +24,7 @@
 				<key>type</key>
 				<string>detail</string>
 				<key>text</key>
-				<string>Debug</string>
+				<string>Debugging</string>
 				<key>image</key>
 				<string>row_icon_inspection</string>
 				<key>destination</key>

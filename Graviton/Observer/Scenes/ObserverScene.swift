@@ -21,7 +21,7 @@ fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 5
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
-class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpdateDelegate {
+class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     struct VisibilityCategory: OptionSet {
         let rawValue: Int
@@ -83,15 +83,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         }
     }
 
-    lazy var locationManager: CLLocationManager = {
-        let manager = CLLocationManager()
-        manager.desiredAccuracy = kCLLocationAccuracyKilometer
-        manager.distanceFilter = 1000
-        manager.pausesLocationUpdatesAutomatically = true
-        return manager
-    }()
-
-    var observerInfo: ObserverInfo?
+    var observerInfo: LocationAndTime?
 
     // MARK: - Property - Visual Nodes
 
@@ -196,8 +188,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         focuser.constraints = [SCNBillboardConstraint()]
         focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
-
-        startLocationService()
     }
 
     // MARK: Static Content Drawing
@@ -317,7 +307,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         drawCelestialEquator(earth: earth)
     }
 
-    func updateGround(timestamp: Date? = nil) {
+    func updateGroundMarker(timestamp: Date? = nil) {
         if let t = timestamp {
             observerInfo?.timestamp = t
         }
@@ -350,14 +340,21 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
         print(node)
     }
 
-    // MARK: - Ephemeris Update Delegate
+    // MARK: - Location Update
+    func updateLocation(location: CLLocation) {
+        self.observerInfo = LocationAndTime(location: location, timestamp: Date())
+        updateGroundMarker()
+    }
+
+    // MARK: - Ephemeris Update
     func ephemerisDidLoad(ephemeris: Ephemeris) {
         drawAuxillaryLines(ephemeris: ephemeris)
         drawPlanetsAndMoon(ephemeris: ephemeris)
     }
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
-        updateGround(timestamp: ephemeris.timestamp)
+        print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
+        updateGroundMarker(timestamp: ephemeris.timestamp)
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
             let node = SCNNode()
@@ -399,7 +396,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport, EphemerisUpda
 
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
-                    print(moonLightingNode.position)
                 }
             default:
                 break

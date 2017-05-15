@@ -9,6 +9,7 @@
 import XCTest
 @testable import StarryNight
 import SpaceTime
+import MathUtil
 
 class ConstellationTest: XCTestCase {
     func testPointToConstellation() {

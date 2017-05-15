@@ -1,3 +1,5 @@
 github "MoZhouqi/KMNavigationBarTransition" "1.0.0"
 github "Weebly/OrderedSet" "v2.0.7"
 github "stephencelis/SQLite.swift" "0.11.3"
+github "realm/realm-cocoa" "v2.7.0"
+github "mhergon/RealmGeoQueries" "v1.2.2"

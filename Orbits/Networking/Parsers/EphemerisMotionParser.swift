@@ -9,7 +9,10 @@
 import SpaceTime
 import MathUtil
 
-extension ResponseParser {
+public final class EphemerisMotionParser: CommonParser, Parser {
+    public typealias Result = [OrbitalMotion]
+
+    public static let `default` = EphemerisMotionParser()
 
     // The csv is ordered as follows:
     // JDTDB, Calendar Date (TDB), EC, QR, IN, OM, W, Tp, N, MA, TA, A, AD, PR
@@ -76,7 +79,11 @@ extension ResponseParser {
         return str.components(separatedBy: "\n").filter { $0.trimmed().isEmpty == false }
     }
 
-    public func parseEphemeris(content: String, save: Bool = false) -> [OrbitalMotion] {
+    public func parse(content: String) -> [OrbitalMotion] {
+        return parse(content: content, save: false)
+    }
+
+    public func parse(content: String, save: Bool = false) -> [OrbitalMotion] {
         func systemGM(_ str: String?) -> Double? {
             guard let s = str else {
                 return nil
