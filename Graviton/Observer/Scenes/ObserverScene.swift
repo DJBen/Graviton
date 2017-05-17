@@ -162,8 +162,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
 
-    // MARK: - Functions
-
     override init() {
         super.init()
         resetCamera()
@@ -338,6 +336,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     func focus(atNode node: SCNNode) {
         print(node)
+    }
+
+    // MARK: - Observer Ephemeris Update
+    func observerInfoUpdate(observerInfo: [Naif: CelestialBodyObserverInfo]) {
+        print(observerInfo)
     }
 
     // MARK: - Location Update

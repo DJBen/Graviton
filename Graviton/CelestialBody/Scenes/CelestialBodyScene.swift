@@ -28,6 +28,16 @@ class CelestialBodyScene: SCNScene, CameraControlling {
         return cn
     }()
 
+    lazy var solarNode: SCNNode = {
+        let light = SCNLight()
+        light.type = .directional
+        let node = SCNNode()
+        node.light = light
+        return node
+    }()
+
+    lazy var celestialNode = CelestialBodyNode(naif: .moon(.luna))
+
     var scale: Double = 1
 
     func resetCamera() {
@@ -40,8 +50,8 @@ class CelestialBodyScene: SCNScene, CameraControlling {
         super.init()
         rootNode.addChildNode(cameraNode)
         resetCamera()
-        let node = CelestialBodyNode(naif: .moon(.luna))
-        rootNode.addChildNode(node)
+        rootNode.addChildNode(celestialNode)
+        rootNode.addChildNode(solarNode)
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -50,6 +60,21 @@ class CelestialBodyScene: SCNScene, CameraControlling {
 
     // MARK: - Observer Update
     func updateObserverInfo(_ observerInfo: [Naif: CelestialBodyObserverInfo]) {
+        if let moonInfo = observerInfo[.moon(.luna)] {
+            solarNode.light!.intensity = 1500
+            let yRot = -radians(degrees: moonInfo.obLon)
+            let xRot = -radians(degrees: moonInfo.obLat)
+            var mat = Matrix4(rotation: Vector4(1, 0, 0, xRot))
+            mat = mat * Matrix4(rotation: Vector4(0, 1, 0, yRot))
+            let slXRot = radians(degrees: moonInfo.slLat.value!)
+            let slYRot = radians(degrees: moonInfo.slLon.value!)
+            var slMat = Matrix4(rotation: Vector4(1, 0, 0, slXRot))
+            slMat = slMat * Matrix4(rotation: Vector4(0, 1, 0, slYRot))
+            celestialNode.transform = SCNMatrix4(mat)
+            solarNode.transform = SCNMatrix4(slMat)
+        } else {
+            // solarNode.light!.intensity = 1500
+        }
         print(observerInfo)
     }
 

@@ -51,6 +51,9 @@ class SubscriptionManager<T> {
     func subscribe(mode: RefreshMode = .realtime, didLoad: SubscriptionBlock? = nil, didUpdate: SubscriptionBlock? = nil) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
         subscriptions[uuid] = Subscription(mode: mode, content: self.content, didLoad: didLoad, didUpdate: didUpdate)
+        if let content = content {
+            didLoad?(content)
+        }
         return uuid
     }
 

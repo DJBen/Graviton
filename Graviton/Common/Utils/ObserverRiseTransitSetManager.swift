@@ -17,25 +17,24 @@ final class ObserverRiseTransitSetManager: LocationSensitiveSubscriptionManager<
 
     static let `default` = ObserverRiseTransitSetManager()
 
-    private var rts: [Naif: RiseTransitSetElevation] = [:]
-
     override func fetch(mode: Horizons.FetchMode? = nil) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.location ?? CLLocation())
         Horizons.shared.fetchRiseTransitSetElevation(observerSite: site, mode: mode ?? ObserverRiseTransitSetManager.globalMode, update: { (dict) in
-            self.isFetching = false
-            self.rts = dict
+            self.content = dict
             for (_, sub) in self.subscriptions {
                 DispatchQueue.main.async {
-                    sub.didLoad?(dict)
+                    sub.didLoad!(dict)
                 }
             }
+        }, complete: { (_, _) in
+            self.isFetching = false
         })
     }
 
     override func update(subscription: LocationSensitiveSubscriptionManager<[Naif: RiseTransitSetElevation]>.Subscription, forJulianDate requestedJd: JulianDate) {
-        guard let rtse = rts.first?.value else { return }
+        guard let rtse = content?.first?.value else { return }
         if JulianDate.now() > rtse.endJd {
             // fetch RTS info for new day
             fetch()

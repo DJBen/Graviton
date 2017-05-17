@@ -20,7 +20,9 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     private lazy var obsScene = ObserverScene()
     private var ephemerisSubscriptionIdentifier: SubscriptionUUID!
+    private var obsSubscriptionIdentifier: SubscriptionUUID!
     private var locationSubscriptionIdentifier: SubscriptionUUID!
+
     private var scnView: SCNView {
         return self.view as! SCNView
     }
@@ -32,12 +34,17 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        registerToServices()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.presentTransparentNavigationBar()
+    }
+
+    deinit {
+        EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
+        ObserverEphemerisManager.default.unsubscribe(obsSubscriptionIdentifier)
+        LocationManager.default.unsubscribe(locationSubscriptionIdentifier)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -83,18 +90,15 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         view.addGestureRecognizer(tapGR)
     }
 
-    private func registerToServices() {
-        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
-        locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
-    }
-
-    deinit {
-        EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
-        LocationManager.default.unsubscribe(locationSubscriptionIdentifier)
-    }
-
     func handleTap(sender: UITapGestureRecognizer) {
         // TODO: Implement star seeking
+    }
+
+    override func sceneDidRenderFirstTime(scene: SCNScene) {
+        super.sceneDidRenderFirstTime(scene: scene)
+        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
+        obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
+        locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
     }
 
     // MARK: - Scene Renderer Delegate

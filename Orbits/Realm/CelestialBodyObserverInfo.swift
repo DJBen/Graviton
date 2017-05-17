@@ -10,24 +10,24 @@ import RealmSwift
 import SpaceTime
 
 public final class CelestialBodyObserverInfo: ObserverInfo {
-    dynamic var apparentMagnitude: Double = 0
-    dynamic var surfaceBrightness: Double = 0
+    public dynamic var apparentMagnitude: Double = 0
+    public dynamic var surfaceBrightness: Double = 0
 
     /// Fraction of target circular disk illuminated by Sun (phase), as seen by observer.  Units: PERCENT
-    dynamic var illuminatedPercentage: Double = 0
+    public dynamic var illuminatedPercentage: Double = 0
 
     /// The equatorial angular width of the target body full disk, if it were fully visible to the observer.  Units: ARCSECONDS
-    dynamic var angularDiameter: Double = 0
+    public dynamic var angularDiameter: Double = 0
 
-    dynamic var obLon: Double = 0
-    dynamic var obLat: Double = 0
+    public dynamic var obLon: Double = 0
+    public dynamic var obLat: Double = 0
 
     // Solar sub-longitude or sub-latitude will be nil for the Sun.
-    let slLon = RealmOptional<Double>()
-    let slLat = RealmOptional<Double>()
+    public let slLon = RealmOptional<Double>()
+    public let slLat = RealmOptional<Double>()
 
-    dynamic var npRa: Double = 0
-    dynamic var npDec: Double = 0
+    public dynamic var npRa: Double = 0
+    public dynamic var npDec: Double = 0
 }
 
 extension CelestialBodyObserverInfo: ObserverLoadable {

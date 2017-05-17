@@ -17,20 +17,19 @@ final class ObserverEphemerisManager: LocationSensitiveSubscriptionManager<[Naif
 
     static let `default` = ObserverEphemerisManager()
 
-    private var observerInfo: [Naif: CelestialBodyObserverInfo] = [:]
-
     override func fetch(mode: Horizons.FetchMode? = nil) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.location ?? CLLocation())
         Horizons.shared.fetchCelestialBodyObserverInfo(observerSite: site, mode: mode ?? ObserverEphemerisManager.globalMode, update: { (dict) in
-            self.isFetching = false
-            self.observerInfo = dict
+            self.content = dict
             for (_, sub) in self.subscriptions {
                 DispatchQueue.main.async {
-                    sub.didLoad?(dict)
+                    sub.didLoad!(dict)
                 }
             }
+        }, complete: { (_, _) in
+            self.isFetching = false
         })
     }
 
