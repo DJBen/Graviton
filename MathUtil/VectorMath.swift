@@ -32,6 +32,8 @@
 //
 
 import Foundation
+import GLKit
+import SceneKit
 
 // MARK: Types
 
@@ -632,6 +634,14 @@ extension Matrix3: Equatable, Hashable {
         )
     }
 
+    public static func +(lhs: Matrix3, rhs: Matrix3) -> Matrix3 {
+        return Matrix3(
+            lhs.m11 * rhs.m11, lhs.m12 * rhs.m12, lhs.m13 * rhs.m13,
+            lhs.m21 * rhs.m21, lhs.m22 * rhs.m22, lhs.m23 * rhs.m23,
+            lhs.m31 * rhs.m31, lhs.m32 * rhs.m32, lhs.m33 * rhs.m33
+        )
+    }
+
     public static prefix func -(m: Matrix3) -> Matrix3 {
         return m.inverse
     }
@@ -1081,14 +1091,6 @@ extension Quaternion: Equatable, Hashable {
         self.init(x: x, y: y, z: z, w: w)
     }
 
-    public init(lookAt direction: Vector3) {
-        let normDir = direction.normalized()
-        let forwardUnit = Vector3(0, 0, -1)
-        let axis = forwardUnit.cross(normDir)
-        let angle = acos(forwardUnit.dot(normDir))
-        self.init(axis.toArray() + [angle])
-    }
-
     public init(axisAngle: Vector4) {
         let r = axisAngle.w * 0.5
         let scale = sin(r)
@@ -1101,6 +1103,15 @@ extension Quaternion: Equatable, Hashable {
         let quatYaw = Quaternion(axisAngle: Vector4(0, 1, 0, yaw))
         let quatRoll = Quaternion(axisAngle: Vector4(0, 0, 1, roll))
         self = quatPitch * quatYaw * quatRoll
+    }
+
+    public init(lookAt point: Vector3, from source: Vector3) {
+        let v1 = Vector3(0, 0, -1)
+        let v2 = (source - point).normalized()
+        let a = v1.cross(v2)
+        let w = sqrt(v1.lengthSquared * v2.lengthSquared) + v1.dot(v2)
+        let q = Quaternion(a.x, a.y, a.z, w).normalized()
+        self.init(q.toArray())
     }
 
     public init(rotationMatrix m: Matrix4) {

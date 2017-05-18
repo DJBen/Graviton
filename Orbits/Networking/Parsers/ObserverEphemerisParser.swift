@@ -14,6 +14,8 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
     public static let `default` = ObserverEphemerisParser()
 
     private enum Field {
+        case rightAscension
+        case declination
         case apparentMagnitude
         case angularDiameter
         case obLon
@@ -27,6 +29,10 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
 
         var strings: [String] {
             switch self {
+            case .rightAscension:
+                return ["R.A._(ICRF/J2000.0)"]
+            case .declination:
+                return ["DEC_(ICRF/J2000.0)"]
             case .apparentMagnitude:
                 return ["APmag"]
             case .angularDiameter:
@@ -80,6 +86,8 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
             result.angularDiameter = Double(extractContent(of: components, for: .angularDiameter))!
             result.surfaceBrightness = Double(extractContent(of: components, for: .surfaceBrightness))!
             result.illuminatedPercentage = Double(extractContent(of: components, for: .illuminatedPercentage))!
+            result.rightAscension = Double(extractContent(of: components, for: .rightAscension))!
+            result.declination = Double(extractContent(of: components, for: .declination))!
             result.obLon = Double(extractContent(of: components, for: .obLon))!
             result.obLat = Double(extractContent(of: components, for: .obLat))!
             result.slLon.value = Double(extractContent(of: components, for: .slLon))

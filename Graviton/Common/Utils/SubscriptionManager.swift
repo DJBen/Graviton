@@ -52,7 +52,9 @@ class SubscriptionManager<T> {
         let uuid = SubscriptionUUID()
         subscriptions[uuid] = Subscription(mode: mode, content: self.content, didLoad: didLoad, didUpdate: didUpdate)
         if let content = content {
-            didLoad?(content)
+            DispatchQueue.main.async {
+                didLoad?(content)
+            }
         }
         return uuid
     }

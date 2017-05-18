@@ -10,6 +10,9 @@ import RealmSwift
 import SpaceTime
 
 public final class CelestialBodyObserverInfo: ObserverInfo {
+    public dynamic var rightAscension: Double = 0
+    public dynamic var declination: Double = 0
+
     public dynamic var apparentMagnitude: Double = 0
     public dynamic var surfaceBrightness: Double = 0
 

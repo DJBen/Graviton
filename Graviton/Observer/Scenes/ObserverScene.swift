@@ -157,7 +157,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         sphere.firstMaterial = moonMat
         let node = SCNNode(geometry: sphere)
         node.name = String(301)
-        node.pivot = SCNMatrix4(Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2)))
         node.categoryBitMask = VisibilityCategory.moon.rawValue
         return node
     }()
@@ -394,9 +393,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
                     let moonPosition = relativePos * moonZoomRatio / magnification
                     let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
-                    moonNode.position = SCNVector3(obliquedMoonPos)
                     annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
-
+                    moonNode.position = SCNVector3(obliquedMoonPos)
+                    moonNode.orientation = SCNQuaternion(Quaternion(lookAt: Vector3.zero, from: Vector3(moonNode.position)))
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
                 }
