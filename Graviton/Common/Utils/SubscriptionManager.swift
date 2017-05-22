@@ -23,13 +23,15 @@ class SubscriptionManager<T> {
     }
 
     class Subscription {
+        let identifier: SubscriptionUUID
         let mode: RefreshMode
         var content: T?
         var lastUpdateJd: JulianDate?
         var didLoad: SubscriptionBlock?
         var didUpdate: SubscriptionBlock?
 
-        init(mode: RefreshMode, content: T?, didLoad: SubscriptionBlock? = nil, didUpdate: SubscriptionBlock? = nil) {
+        init(identifier: SubscriptionUUID, mode: RefreshMode, content: T?, didLoad: SubscriptionBlock? = nil, didUpdate: SubscriptionBlock? = nil) {
+            self.identifier = identifier
             self.mode = mode
             self.content = content
             self.didLoad = didLoad
@@ -50,7 +52,7 @@ class SubscriptionManager<T> {
     /// - Returns: A subscription unique identifier.
     func subscribe(mode: RefreshMode = .realtime, didLoad: SubscriptionBlock? = nil, didUpdate: SubscriptionBlock? = nil) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
-        subscriptions[uuid] = Subscription(mode: mode, content: self.content, didLoad: didLoad, didUpdate: didUpdate)
+        subscriptions[uuid] = Subscription(identifier: uuid, mode: mode, content: self.content, didLoad: didLoad, didUpdate: didUpdate)
         if let content = content {
             DispatchQueue.main.async {
                 didLoad?(content)

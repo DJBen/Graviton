@@ -16,10 +16,11 @@ import MathUtil
 import CoreImage
 import CoreMedia
 
+var ephemerisSubscriptionIdentifier: SubscriptionUUID!
+
 class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
 
     private lazy var obsScene = ObserverScene()
-    private var ephemerisSubscriptionIdentifier: SubscriptionUUID!
     private var obsSubscriptionIdentifier: SubscriptionUUID!
     private var locationSubscriptionIdentifier: SubscriptionUUID!
 

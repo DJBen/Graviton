@@ -18,9 +18,14 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
 
     private static let expirationDuration: Double = 366 * 86400
 
+    func content(for subscription: SubscriptionUUID) -> Ephemeris? {
+        guard let sub = subscriptions[subscription] else { return nil }
+        return sub.content
+    }
+
     override func subscribe(mode: SubscriptionManager<Ephemeris>.RefreshMode, didLoad: SubscriptionBlock?, didUpdate: SubscriptionBlock?) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
-        subscriptions[uuid] = SubscriptionManager<Ephemeris>.Subscription(mode: mode, content: self.content?.copy() as? Ephemeris, didLoad: didLoad, didUpdate: didUpdate)
+        subscriptions[uuid] = SubscriptionManager<Ephemeris>.Subscription(identifier: uuid, mode: mode, content: self.content?.copy() as? Ephemeris, didLoad: didLoad, didUpdate: didUpdate)
         if let eph = content {
             didLoad?(eph)
         }
@@ -39,7 +44,7 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
 
     // have to use fully qualified name otherwise compiler will segfault
     override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDate requestedJd: JulianDate) {
-        if let eph = subscription.content {
+        if let eph = content(for: subscription.identifier) {
             if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime.timeIntervalSince(reqTime)) > EphemerisMotionManager.expirationDuration {
                 print("Ephemeris data outdated. Refetching...")
                 fetch()
