@@ -29,6 +29,9 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
     public let slLon = RealmOptional<Double>()
     public let slLat = RealmOptional<Double>()
 
+    public dynamic var npAng: Double = 0
+    public dynamic var npDs: Double = 0
+
     public dynamic var npRa: Double = 0
     public dynamic var npDec: Double = 0
 }

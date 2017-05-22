@@ -90,6 +90,7 @@
 		FC13B7151EBDAD5300AA1BBC /* motions.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */; };
 		FC13B7161EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */; };
 		FC13B7171EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */; };
+		FC172B261ED27BBA008BF615 /* BooleanFlaggedLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -408,6 +409,7 @@
 		FC13B70D1EBDAD5300AA1BBC /* naif.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = naif.sqlite3; sourceTree = "<group>"; };
 		FC13B70E1EBDAD5300AA1BBC /* motions.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = motions.sqlite3; sourceTree = "<group>"; };
 		FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
+		FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanFlaggedLight.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
@@ -1054,6 +1056,7 @@
 			isa = PBXGroup;
 			children = (
 				FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */,
+				FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */,
 				EFAC9BC81E9D849200AAAC95 /* LineNode.swift */,
 				EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */,
 				EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */,
@@ -1698,6 +1701,7 @@
 				EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */,
 				EF16C3101EC6990300B547E9 /* SubscriptionManager.swift in Sources */,
 				EFA4F0751EAE7CF4005D2E0D /* PushAsideTransition.swift in Sources */,
+				FC172B261ED27BBA008BF615 /* BooleanFlaggedLight.swift in Sources */,
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,

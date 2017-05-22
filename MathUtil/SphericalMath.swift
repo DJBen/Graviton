@@ -36,7 +36,11 @@ public func radians(degrees: Double, minutes: Double, seconds: Double = 0) -> Do
     return radians(degrees: degrees + minutes / 60 + seconds / 3600)
 }
 
-public func radians(hours: Double, minutes: Double = 0, seconds: Double = 0) -> Double {
+public func radians(hours: Double) -> Double {
+    return hours / 12 * Double.pi
+}
+
+public func radians(hours: Double, minutes: Double, seconds: Double = 0) -> Double {
     let h = hourFrac(hours: hours, minutes: minutes, seconds: seconds)
     return h / 12 * Double.pi
 }

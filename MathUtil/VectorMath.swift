@@ -1108,6 +1108,10 @@ extension Quaternion: Equatable, Hashable {
     public init(lookAt point: Vector3, from source: Vector3) {
         let v1 = Vector3(0, 0, -1)
         let v2 = (source - point).normalized()
+        self.init(alignVector: v1, with: v2)
+    }
+
+    public init(alignVector v1: Vector3, with v2: Vector3) {
         let a = v1.cross(v2)
         let w = sqrt(v1.lengthSquared * v2.lengthSquared) + v1.dot(v2)
         let q = Quaternion(a.x, a.y, a.z, w).normalized()

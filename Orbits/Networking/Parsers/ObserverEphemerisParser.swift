@@ -23,7 +23,9 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
         case slLon
         case slLat
         case northPoleRa
-        case northPoleDc
+        case northPoleDec
+        case northPoleAng
+        case northPoleDist
         case illuminatedPercentage
         case surfaceBrightness
 
@@ -51,8 +53,12 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
                 return ["Solar-lon", "Sl-lon"]
             case .northPoleRa:
                 return ["N.Pole-RA"]
-            case .northPoleDc:
+            case .northPoleDec:
                 return ["N.Pole-DC"]
+            case .northPoleAng:
+                return ["NP.ang"]
+            case .northPoleDist:
+                return ["NP.dist"]
             }
         }
     }
@@ -93,7 +99,9 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
             result.slLon.value = Double(extractContent(of: components, for: .slLon))
             result.slLat.value = Double(extractContent(of: components, for: .slLat))
             result.npRa = Double(extractContent(of: components, for: .northPoleRa))!
-            result.npDec = Double(extractContent(of: components, for: .northPoleDc))!
+            result.npDec = Double(extractContent(of: components, for: .northPoleDec))!
+            result.npAng = Double(extractContent(of: components, for: .northPoleAng))!
+            result.npDs = Double(extractContent(of: components, for: .northPoleDist))!
             return result
         }
     }

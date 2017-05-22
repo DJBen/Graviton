@@ -43,7 +43,7 @@ class HorizonsTest: XCTestCase {
         var query = HorizonsQuery.observerQuery(target: Naif.moon(.luna), site: ObserverSite.sanFrancisco, startTime: Date(timeIntervalSince1970: 0), stopTime: Date(timeIntervalSince1970: 86400 * 30))
         query.stepSize = .minute(10)
         let queryString = query.url.absoluteString
-        let expected = "http://ssd.jpl.nasa.gov/horizons_batch.cgi?ANG_FORMAT='DEG'&CAL_FORMAT='JD'&CENTER='coord@399'&COMMAND='301'&CSV_FORMAT='YES'&OBJ_PAGE='YES'&QUANTITIES='1,9,10,13,14,15,32'&R_T_S_ONLY='NO'&SITE_COORD='-122.4156,37.7816,12.0'&START_TIME='1970-Jan-01 00:00'&STEP_SIZE='10m'&STOP_TIME='1970-Jan-31 00:00'&TABLE_TYPE='Observer'&batch='1'".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)!
+        let expected = "http://ssd.jpl.nasa.gov/horizons_batch.cgi?ANG_FORMAT='DEG'&CAL_FORMAT='JD'&CENTER='coord@399'&COMMAND='301'&CSV_FORMAT='YES'&OBJ_PAGE='YES'&QUANTITIES='1,9,10,13,14,15,17,32'&R_T_S_ONLY='NO'&SITE_COORD='-122.4156,37.7816,12.0'&START_TIME='1970-Jan-01 00:00'&STEP_SIZE='10m'&STOP_TIME='1970-Jan-31 00:00'&TABLE_TYPE='Observer'&batch='1'".addingPercentEncoding(withAllowedCharacters: CharacterSet.urlAllowedCharacterSet)!
         XCTAssertEqual(queryString, expected)
     }
 
@@ -84,7 +84,7 @@ class HorizonsTest: XCTestCase {
 
     func testObserverFieldSerialization() {
         let field = HorizonsQuery.ObserverField.geocentricObserverFields
-        XCTAssertEqual(field.quantities, "1,9,10,13,14,15,32")
+        XCTAssertEqual(field.quantities, "1,9,10,13,14,15,17,32")
     }
 }
 
