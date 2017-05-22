@@ -141,9 +141,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
             light.type = .omni
             light.categoryBitMask = VisibilityCategory.moon.rawValue
+            light.intensity = 1000
         }, off: { (light) in
             light.type = .ambient
-            light.intensity = 0
+            light.intensity = 500
             light.categoryBitMask = VisibilityCategory.moon.rawValue
         })
         let node = SCNNode()
@@ -163,6 +164,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let node = SCNNode(geometry: sphere)
         node.name = String(301)
         node.categoryBitMask = VisibilityCategory.moon.rawValue
+        node.pivot = SCNMatrix4(
+            Matrix4(rotation: Vector4(0, 1, 0, Double.pi / 2)) *
+            Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2))
+        )
         return node
     }()
 
@@ -344,42 +349,26 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     // MARK: - Observer Ephemeris Update
     func observerInfoUpdate(observerInfo: [Naif: CelestialBodyObserverInfo]) {
-        if let moonInfo = observerInfo[.moon(.luna)] {
+        if observerInfo[.moon(.luna)] != nil {
             updateMoonOrientation()
-//            moonNode.pivot = SCNMatrix4(Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2)))
         }
         print(observerInfo)
     }
 
     private func updateMoonOrientation() {
-        guard let position = EphemerisMotionManager.default.content?[.moon(.luna)]?.position,
-            let moonInfo = ObserverEphemerisManager.default.content else { return }
-        let moonEquatorialCoord = EquatorialCoordinate.init(cartesian: position)
-        let raRot = Quaternion.init(axisAngle: Vector4(0, 1, 0, -moonEquatorialCoord.rightAscension))
-        let decRot = Quaternion.init(axisAngle: Vector4(0, 0, 1, -moonEquatorialCoord.declination))
-        moonNode.orientation = SCNQuaternion(raRot * decRot)
-
-//        let eq = EquatorialCoordinate(
-//            rightAscension: radians(degrees: moonInfo.npRa),
-//            declination: radians(degrees: moonInfo.npDec),
-//            distance: 1
-//        )
-//        let northPoleAxis = Vector3(equatorialCoordinate: eq)
-//        precondition(northPoleAxis.length ~= 1, "North pole axis should be normalized")
-//        let npRotation = Quaternion.init(alignVector: Vector3(0, 1, 0), with: northPoleAxis)
-//        moonNode.orientation = SCNQuaternion(npRotation)
-//        moonNode.removeAllActions()
-//        let seq = SCNAction.sequence([
-//            SCNAction.wait(duration: 2),
-//            SCNAction.rotate(by: CGFloat(Double.pi / 2), around: SCNVector3(northPoleAxis), duration: 4),
-//            SCNAction.wait(duration: 0.5),
-//            SCNAction.rotate(by: CGFloat(Double.pi / 2), around: SCNVector3(northPoleAxis), duration: 4),
-//            SCNAction.wait(duration: 1),
-//            SCNAction.rotate(by: CGFloat(Double.pi / 2), around: SCNVector3(northPoleAxis), duration: 4),
-//            SCNAction.wait(duration: 0.5),
-//            SCNAction.rotate(by: CGFloat(Double.pi / 2), around: SCNVector3(northPoleAxis), duration: 4)
-//            ])
-//        moonNode.runAction(SCNAction.repeatForever(seq))
+        guard let moonInfo = ObserverEphemerisManager.default.content?[.moon(.luna)] else {
+            return
+        }
+        let position = Vector3(moonNode.position)
+        let moonEquatorialCoord = EquatorialCoordinate(cartesian: position)
+        let obLonRad = radians(degrees: moonInfo.obLon)
+        let obLatRad = radians(degrees: moonInfo.obLat)
+        let moonPoleAxis = Vector3(equatorialCoordinate: EquatorialCoordinate(rightAscension: radians(degrees: moonInfo.npRa), declination: radians(degrees: moonInfo.npDec), distance: 1))
+        let raRot = Quaternion(axisAngle: Vector4(0, 0, 1, moonEquatorialCoord.rightAscension - obLonRad))
+        let decRot = Quaternion(axisAngle: Vector4(position.x, -position.y, 0, moonEquatorialCoord.declination - obLatRad))
+        let rotatedAxis = raRot * decRot * moonPoleAxis
+        let parallanticAngleRot = Quaternion.init(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
+        moonNode.orientation = SCNQuaternion(parallanticAngleRot * raRot * decRot)
     }
 
     // MARK: - Location Update
@@ -435,9 +424,9 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
                     annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
                     moonNode.position = SCNVector3(obliquedMoonPos)
-                    updateMoonOrientation()
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
+                    updateMoonOrientation()
                 }
             default:
                 break
