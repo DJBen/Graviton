@@ -81,6 +81,7 @@ public extension HorizonsQuery {
             targetAngularDiameter,
             observerSubLongitudeAndSubLatitude,
             sunSubLongitudeAndSubLatitude,
+            northPolePositionAngleAndDistance,
             northPoleRaAndDec
         ]
     }

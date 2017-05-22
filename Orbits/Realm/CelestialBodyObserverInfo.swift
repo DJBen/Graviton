@@ -10,6 +10,9 @@ import RealmSwift
 import SpaceTime
 
 public final class CelestialBodyObserverInfo: ObserverInfo {
+    public dynamic var rightAscension: Double = 0
+    public dynamic var declination: Double = 0
+
     public dynamic var apparentMagnitude: Double = 0
     public dynamic var surfaceBrightness: Double = 0
 
@@ -25,6 +28,9 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
     // Solar sub-longitude or sub-latitude will be nil for the Sun.
     public let slLon = RealmOptional<Double>()
     public let slLat = RealmOptional<Double>()
+
+    public dynamic var npAng: Double = 0
+    public dynamic var npDs: Double = 0
 
     public dynamic var npRa: Double = 0
     public dynamic var npDec: Double = 0

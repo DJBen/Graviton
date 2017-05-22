@@ -23,6 +23,17 @@ class CoordinateTest: XCTestCase {
         super.tearDown()
     }
 
+    func testEquatorialToCartesianConversion() {
+        let sph = EquatorialCoordinate(
+            rightAscension: radians(hours: 14.4966),
+            declination: radians(degrees: -62.681),
+            distance: 1.29)
+        let converted = Vector3.init(equatorialCoordinate: sph)
+        XCTAssertEqualWithAccuracy(converted.x, -0.4700, accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(converted.y, -0.3600, accuracy: 1e-3)
+        XCTAssertEqualWithAccuracy(converted.z, -1.1461, accuracy: 1e-3)
+    }
+
     func testNearEpochSphericalToCylindricalConversion() {
         let sph = EquatorialCoordinate(
             rightAscension: radians(hours: 11, minutes: 3, seconds: 43),
@@ -36,7 +47,6 @@ class CoordinateTest: XCTestCase {
         let cyl = HorizontalCoordinate(equatorialCoordinate: sph, observerInfo: obs)
         XCTAssertEqualWithAccuracy(cyl.azimuth, radians(degrees: 351, minutes: 45, seconds: 21.84), accuracy: 1e-3)
         XCTAssertEqualWithAccuracy(cyl.altitude, radians(degrees: 65, minutes: 37, seconds: 8.28), accuracy: 1e-3)
-
     }
 
     func testSphericalToCylindricalConversion() {

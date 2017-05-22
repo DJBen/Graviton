@@ -85,11 +85,13 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
         }
     }
 
+    public subscript(naif: Naif) -> CelestialBody? {
+        return self.first { $0.naif == naif }
+    }
+
     public subscript(naifId: Int) -> CelestialBody? {
-        for body in self where body.naifId == naifId {
-            return body
-        }
-        return nil
+        return self.first { $0.naifId == naifId }
+
     }
 
     // MARK: - NSCopying

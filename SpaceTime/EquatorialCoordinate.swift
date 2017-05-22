@@ -32,11 +32,16 @@ public struct EquatorialCoordinate {
 }
 
 public extension Vector3 {
+    /// Initialize a Cartesian with equatorial coordinate.
+    /// +x: towards \delta = 0 degrees, \alpha = 0.0 hours (the vernal equinox)
+    /// +y: towards \delta = 0 degrees, \alpha = 6.0 hours
+    /// +z: towards \delta = +90.0 degrees (north celestial pole)
+    /// - Parameter coord: The equatorial coordinate
     public init(equatorialCoordinate coord: EquatorialCoordinate) {
         self.init(
-            coord.distance * sin(coord.rightAscension) * cos(coord.declination),
-            coord.distance * sin(coord.rightAscension) * sin(coord.declination),
-            coord.distance * cos(coord.rightAscension)
+            coord.distance * cos(coord.declination) * cos(coord.rightAscension),
+            coord.distance * cos(coord.declination) * sin(coord.rightAscension),
+            coord.distance * sin(coord.declination)
         )
     }
 }

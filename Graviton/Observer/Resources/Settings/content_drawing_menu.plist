@@ -3,6 +3,8 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>section</key>
+		<string>Labels and Indicators</string>
 		<key>content</key>
 		<array>
 			<dict>
@@ -44,6 +46,23 @@
 				<string>row_icon_constellation_label</string>
 				<key>binding</key>
 				<string>showPlanetLabel</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>section</key>
+		<string>Moon</string>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
+				<string>Show Moon Phase</string>
+				<key>image</key>
+				<string>row_icon_moon</string>
+				<key>binding</key>
+				<string>showMoonPhase</string>
 			</dict>
 		</array>
 	</dict>

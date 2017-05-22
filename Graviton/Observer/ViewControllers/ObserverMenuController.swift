@@ -12,8 +12,38 @@ import KMNavigationBarTransition
 
 fileprivate let detailCellId = "detailCell"
 fileprivate let toggleCellId = "toggleCell"
+fileprivate let headerFooter = "headerFooter"
 
 class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBackgroundProvider {
+    class HeaderView: UIView {
+        lazy var textLabel: UILabel = {
+            let label = UILabel()
+            label.translatesAutoresizingMaskIntoConstraints = false
+            label.font = UIFont.boldSystemFont(ofSize: 16)
+            return label
+        }()
+
+        init() {
+            super.init(frame: CGRect.zero)
+            setupViewElements()
+        }
+
+        required init?(coder aDecoder: NSCoder) {
+            fatalError("init(coder:) has not been implemented")
+        }
+
+        private func setupViewElements() {
+            isOpaque = false
+            addSubview(textLabel)
+            addConstraints([
+                textLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+                textLabel.topAnchor.constraint(equalTo: topAnchor),
+                textLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+                textLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            ])
+        }
+    }
+
     var backgroundImage: UIImage? {
         didSet {
             if let navController = navigationController {
@@ -112,6 +142,22 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             subMenuController.menu = submenu
             navigationController?.pushViewController(subMenuController, animated: true)
         }
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        if menu.sections[section].name != nil {
+            return 24
+        } else {
+            return 0
+        }
+    }
+
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = HeaderView()
+        header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
+        header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        header.textLabel.text = menu.sections[section].name
+        return header
     }
 
     // MARK: - Menu Background Provider
