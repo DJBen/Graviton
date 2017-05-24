@@ -18,7 +18,10 @@ fileprivate let milkywayLayerRadius: Double = 50
 fileprivate let auxillaryLineLayerRadius: Double = 25
 let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
-fileprivate let planetLayerRadius: Double = 5
+fileprivate let planetLayerRadius: Double = 10
+fileprivate let landscapeLayerRadius: Double = 6
+fileprivate let moonLayerRadius: Double = 7
+fileprivate let sunLayerRadius: Double = 8
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
 class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
@@ -46,7 +49,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
-        c.automaticallyAdjustsZRange = true
+        c.zNear = 0.5
+        c.zFar = 1000
         c.xFov = defaultFov
         c.yFov = defaultFov
         c.categoryBitMask = VisibilityCategory.camera.rawValue
@@ -99,8 +103,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
 
-    lazy var debugNode: SCNNode = {
-        let node = SphereInteriorNode(radius: milkywayLayerRadius - 1)
+    lazy var landscapeNode: SCNNode = {
+        let node = SphereInteriorNode(radius: landscapeLayerRadius)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
         node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
         // since the coordinate is NED, we rotate around center by 180 degrees to make it upside down
@@ -118,7 +122,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let sunMat = SCNMaterial()
         sunMat.diffuse.contents = #imageLiteral(resourceName: "sun")
         sunMat.locksAmbientWithDiffuse = true
-        let sphere = SCNSphere(radius: 0.1)
+        let sphere = SCNSphere(radius: 0.0)
         sphere.firstMaterial = sunMat
         let node = SCNNode(geometry: sphere)
         node.name = String(Sun.sol.naifId)
@@ -159,7 +163,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         moonMat.diffuse.contents = #imageLiteral(resourceName: "moon.jpg")
         moonMat.ambient.contents = UIColor.black
         moonMat.locksAmbientWithDiffuse = false
-        let sphere = SCNSphere(radius: 0.1)
+        // radius will be set later
+        let sphere = SCNSphere(radius: 0.0)
         sphere.firstMaterial = moonMat
         let node = SCNNode(geometry: sphere)
         node.name = String(301)
@@ -176,7 +181,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         resetCamera()
         rootNode.addChildNode(defaultLightingNode)
         rootNode.addChildNode(milkyWayNode)
-        rootNode.addChildNode(debugNode)
+        rootNode.addChildNode(landscapeNode)
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
         drawStars()
@@ -270,7 +275,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                 case .neptune:
                     diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
                 }
-                let planetNode = SCNNode(geometry: SCNPlane(width: 0.05, height: 0.05))
+                let planetNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
                 planetNode.geometry?.firstMaterial?.isDoubleSided = true
                 planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
                 planetNode.geometry?.firstMaterial?.locksAmbientWithDiffuse = true
@@ -320,7 +325,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         }
         guard let transform = observerInfo?.localViewTransform else { return }
         let orientation = Quaternion(rotationMatrix: transform)
-        debugNode.orientation = SCNQuaternion(orientation)
+        landscapeNode.orientation = SCNQuaternion(orientation)
     }
 
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
@@ -396,8 +401,11 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
         let sunPos = -earth.position!
         let magnification: Double = 5
+        let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length * magnification
+        (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize)
         let obliquedSunPos = sunPos.oblique(by: earth.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
+        print("Sun display size: \(sunDisplaySize)")
         sunNode.constraints = [SCNBillboardConstraint()]
         let earthPos = earth.position!
         annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sunAndMoon)
@@ -419,11 +427,14 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                 if m == Naif.Moon.luna {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
                     let relativePos = body.motion?.position ?? Vector3.zero
-                    let moonZoomRatio = Double((moonNode.geometry as! SCNSphere).radius) / body.radius
+                    let moonDisplaySize = body.radius * moonLayerRadius / relativePos.length * magnification
+                    (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize)
+                    let moonZoomRatio = moonDisplaySize / body.radius
                     let moonPosition = relativePos * moonZoomRatio / magnification
                     let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
                     annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
                     moonNode.position = SCNVector3(obliquedMoonPos)
+                    print("Moon display size: \(moonDisplaySize)")
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
                     updateMoonOrientation()
