@@ -38,7 +38,8 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
         func customLoad(ephemeris: Ephemeris) {
             load(content: ephemeris)
         }
-        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in             self.isFetching = false
+        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in
+            self.isFetching = false
         })
     }
 

@@ -84,19 +84,13 @@ public final class EphemerisMotionParser: CommonParser, Parser {
     }
 
     public func parse(content: String, save: Bool = false) -> [OrbitalMotion] {
-        func systemGM(_ str: String?) -> Double? {
-            guard let s = str else {
-                return nil
-            }
+        func systemGM(_ str: String?) -> Double {
             let regex = "([-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?)\\s*(km\\^3 s\\^-2|km\\^3\\/s\\^2)"
-            let matches = s.matches(for: regex)
-            if matches.isEmpty {
-                return nil
-            }
-            return Double(matches[0][1])
+            let matches = str!.matches(for: regex)
+            return Double(matches[0][1])! * 10e8
         }
         let systemInfo = parseLineBasedContent(content)
-        guard let systemGm = systemGM(systemInfo["Keplerian GM"]?.0 ?? systemInfo["System GM"]?.0) else { fatalError() }
+        let systemGm = systemGM(systemInfo["Keplerian GM"]?.0 ?? systemInfo["System GM"]?.0)
         let lines = breakEphemerisIntoLines(content: content)
         guard let naifId = extractNameId(systemInfo["Target body name"])?.1 else { fatalError() }
         return lines.flatMap { self.parseEphemerisLine(naifId: naifId, gm: systemGm, line: $0, save: save) }
