@@ -23,6 +23,7 @@ typealias BooleanSettingBlock = (Bool, Bool) -> Void
 struct Settings {
 
     private struct BooleanSubscription {
+        let setting: BooleanSetting
         let object: NSObject
         let block: BooleanSettingBlock
     }
@@ -31,7 +32,15 @@ struct Settings {
         return Settings()
     }()
 
-    private var booleanSubscriptions = [BooleanSetting: BooleanSubscription]()
+    private var booleanSubscriptions = [BooleanSubscription]()
+
+    private func findBooleanSubscriptions(_ key: BooleanSetting) -> [BooleanSubscription] {
+        return booleanSubscriptions.filter { key == $0.setting }
+    }
+
+    private func executeBooleanBlock(setting: BooleanSetting, oldValue: Bool, newValue: Bool) {
+        booleanSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
+    }
 
     enum BooleanSetting: String {
         case showCelestialEquator
@@ -91,7 +100,7 @@ struct Settings {
         }
         set {
             let oldValue = self[boolKey]
-            booleanSubscriptions[boolKey]?.block(oldValue, newValue)
+            executeBooleanBlock(setting: boolKey, oldValue: oldValue, newValue: newValue)
             UserDefaults.standard.set(newValue, forKey: boolKey.rawValue)
         }
     }
@@ -118,13 +127,10 @@ struct Settings {
     }
 
     mutating func subscribe(setting: BooleanSetting, object: NSObject, valueChanged block: @escaping BooleanSettingBlock) {
-        booleanSubscriptions[setting] = BooleanSubscription(object: object, block: block)
+        booleanSubscriptions.append(BooleanSubscription(setting: setting, object: object, block: block))
     }
 
     mutating func unsubscribe(object: NSObject) {
-        let result = booleanSubscriptions.filter { $1.object === object }
-        for (setting, _) in result {
-            booleanSubscriptions[setting] = nil
-        }
+        booleanSubscriptions = booleanSubscriptions.filter { $0.object !== object }
     }
 }
