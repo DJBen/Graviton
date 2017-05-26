@@ -116,6 +116,7 @@ class SubscriptionManager<T> {
             sub.lastUpdateJd = nil
             DispatchQueue.main.async {
                 sub.didLoad?(content)
+                sub.didUpdate?(content)
             }
         }
     }

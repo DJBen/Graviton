@@ -28,11 +28,12 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     struct VisibilityCategory: OptionSet {
         let rawValue: Int
+        static let none = VisibilityCategory(rawValue: 0)
         /// All non-moon objects
         static let nonMoon = VisibilityCategory(rawValue: 1)
         /// The moon and its associated lighting
         static let moon = VisibilityCategory(rawValue: 1 << 1)
-        /// Camera having the visibility of everything
+        /// Camera having the visibility of everything except none
         static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
 
@@ -133,7 +134,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     lazy var defaultLightingNode: SCNNode = {
         let light = SCNLight()
         light.type = .ambient
-        light.intensity = 500
+        light.intensity = 700
         light.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         let node = SCNNode()
         node.light = light
@@ -141,15 +142,26 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
 
+    lazy var moonEarthshineNode: SCNNode = {
+        let light = BooleanFlaggedLight.init(setting: .showEarthshine, on: { (light) in
+            light.type = .omni
+            light.categoryBitMask = VisibilityCategory.moon.rawValue
+        }, off: { (light) in
+            light.categoryBitMask = VisibilityCategory.none.rawValue
+        })
+        let node = SCNNode()
+        node.light = light
+        node.name = "earthshine"
+        return node
+    }()
+
     lazy var moonLightingNode: SCNNode = {
         let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
             light.type = .omni
-            light.categoryBitMask = VisibilityCategory.moon.rawValue
             light.intensity = 1000
-        }, off: { (light) in
-            light.type = .ambient
-            light.intensity = 500
             light.categoryBitMask = VisibilityCategory.moon.rawValue
+        }, off: { (light) in
+            // TODO: bypass ambient light ignoring category bit mask
         })
         let node = SCNNode()
         node.light = light
@@ -287,6 +299,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                 if m == Naif.Moon.luna, moonNode.parent == nil {
                     rootNode.addChildNode(moonNode)
                     rootNode.addChildNode(moonLightingNode)
+                    rootNode.addChildNode(moonEarthshineNode)
                 }
             default:
                 break
@@ -440,6 +453,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     print("Moon display size: \(moonDisplaySize)")
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
+                    moonEarthshineNode.position = SCNVector3Zero
+                    let cosAngle = hypotheticalSunPos.normalized().dot(-obliquedMoonPos.normalized())
+                    print("earth-sun-moon cos(angle): \(cosAngle)")
+                    moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
                     updateMoonOrientation()
                 }
             default:

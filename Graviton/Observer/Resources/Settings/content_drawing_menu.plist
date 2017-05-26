@@ -64,6 +64,16 @@
 				<key>binding</key>
 				<string>showMoonPhase</string>
 			</dict>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
+				<string>Show Earthshine</string>
+				<key>image</key>
+				<string>row_icon_earthshine</string>
+				<key>binding</key>
+				<string>showEarthshine</string>
+			</dict>
 		</array>
 	</dict>
 </array>

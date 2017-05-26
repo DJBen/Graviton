@@ -81,6 +81,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.pointOfView = obsScene.cameraNode
         scnView.backgroundColor = UIColor.black
         scnView.isPlaying = true
+        scnView.autoenablesDefaultLighting = false
 
         cameraController = obsScene
         viewSlideVelocityCap = 500

@@ -55,7 +55,7 @@ extension ObserverScene {
 
         // MARK: - Observer Scene Element
         var isSetUp: Bool {
-            return false
+            return true
         }
 
         func showElement() {

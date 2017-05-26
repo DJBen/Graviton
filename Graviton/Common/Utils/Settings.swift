@@ -14,6 +14,7 @@ fileprivate let showEclipticDefault: Bool = true
 fileprivate let showConstellationLabelDefault: Bool = true
 fileprivate let showPlanetLabelDefault: Bool = true
 fileprivate let showMoonPhaseDefault: Bool = true
+fileprivate let showEarthshineDefault = true
 fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
 fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
 
@@ -40,6 +41,7 @@ struct Settings {
         case showNorthPoleIndicator
         case showSouthPoleIndicator
         case showMoonPhase
+        case showEarthshine
         var `default`: Bool {
             switch self {
             case .showCelestialEquator:
@@ -52,6 +54,8 @@ struct Settings {
                 return showPlanetLabelDefault
             case .showMoonPhase:
                 return showMoonPhaseDefault
+            case .showEarthshine:
+                return showEarthshineDefault
             default:
                 return false
             }
