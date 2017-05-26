@@ -370,10 +370,13 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         let obLatRad = radians(degrees: moonInfo.obLat)
         let moonPoleAxis = Vector3(equatorialCoordinate: EquatorialCoordinate(rightAscension: radians(degrees: moonInfo.npRa), declination: radians(degrees: moonInfo.npDec), distance: 1))
         let raRot = Quaternion(axisAngle: Vector4(0, 0, 1, moonEquatorialCoord.rightAscension - obLonRad))
-        let decRot = Quaternion(axisAngle: Vector4(position.x, -position.y, 0, moonEquatorialCoord.declination - obLatRad))
+        let decRotAxis = Vector3(position.x, -position.y, 0).normalized()
+        let decRot = Quaternion(axisAngle: Vector4(decRotAxis, w: moonEquatorialCoord.declination - obLatRad))
         let rotatedAxis = raRot * decRot * moonPoleAxis
         let parallanticAngleRot = Quaternion.init(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
-        moonNode.orientation = SCNQuaternion(parallanticAngleRot * raRot * decRot)
+        let moonOrientation = parallanticAngleRot * raRot * decRot
+        precondition(moonOrientation.length ~= 1, "quaternion should have unit length")
+        moonNode.orientation = SCNQuaternion(moonOrientation)
     }
 
     // MARK: - Location Update

@@ -45,6 +45,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                     // Realm will automatically detect new properties and removed properties
                     // And will update the schema on disk automatically
                 }
+                _ = migration
         })
 
         // Tell Realm to use this new configuration object for the default Realm
