@@ -141,7 +141,7 @@ class DBHelper {
         let db: Connection = self.orbitalMotions
         func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
             // km^3/s^2 to m^3/s^2
-            let realSystemGm = row.get(systemGm) != nil ? row.get(systemGm)! * 10e8 : Sun.sol.gravParam
+            let realSystemGm = row.get(systemGm) != nil ? row.get(systemGm)! : Sun.sol.gravParam
             let (va, vi, vec, vom, vw, vgm) = (row.get(a), row.get(i), row.get(ec), row.get(om), row.get(w), realSystemGm)
             let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
             let bestRefJd = row.get(refJd)
