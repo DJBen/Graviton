@@ -73,6 +73,15 @@
 				<string>row_icon_earthshine</string>
 				<key>binding</key>
 				<string>showEarthshine</string>
+				<key>disableCondition</key>
+				<dict>
+					<key>key</key>
+					<string>showMoonPhase</string>
+					<key>condition</key>
+					<false/>
+					<key>fallback</key>
+					<false/>
+				</dict>
 			</dict>
 		</array>
 	</dict>

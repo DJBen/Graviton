@@ -70,6 +70,8 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         return imgView
     }()
 
+    private var indexPathsToDisable = Set<IndexPath>()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
@@ -86,6 +88,34 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         tableView.separatorColor = Constants.Menu.separatorColor
         tableView.backgroundColor = UIColor.clear
         navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
+
+        let behaviors = menu.registerAllConditionalDisabling()
+        behaviors.forEach { (behavior) in
+            let indexPath = self.menu.indexPath(for: behavior.setting)!
+            if behavior.condition == Settings.default[behavior.dependent] {
+                self.indexPathsToDisable.insert(indexPath)
+            } else {
+                self.indexPathsToDisable.remove(indexPath)
+            }
+            Settings.default.subscribe(setting: behavior.dependent, object: self, valueChanged: { (_, newValue) in
+                if behavior.condition == newValue {
+                    self.indexPathsToDisable.insert(indexPath)
+                } else {
+                    self.indexPathsToDisable.remove(indexPath)
+                }
+                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            })
+            Settings.default.subscribe(setting: behavior.setting, object: self, valueChanged: { (_, newValue) in
+                if let cell = self.tableView.cellForRow(at: indexPath) as? MenuToggleCell, cell.toggle.isEnabled == newValue {
+                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                }
+            })
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        Settings.default.unsubscribe(object: self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -115,7 +145,10 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         case .detail(_):
             cell.accessoryType = .disclosureIndicator
         case .toggle(_):
-            break
+            let toggleCell = cell as! MenuToggleCell
+            let shouldDisable = indexPathsToDisable.contains(indexPath)
+            toggleCell.textLabel?.isEnabled = !shouldDisable
+            toggleCell.toggle.isEnabled = !shouldDisable
         }
     }
 
@@ -123,7 +156,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         let item = menu[indexPath]
         let cell: UITableViewCell
         switch item.type {
-        case .toggle(let binding):
+        case .toggle(let binding, _):
             cell = tableView.dequeueReusableCell(withIdentifier: toggleCellId, for: indexPath)
             cell.selectionStyle = .none
             let toggleCell = cell as! MenuToggleCell
