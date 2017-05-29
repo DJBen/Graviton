@@ -22,7 +22,17 @@ typealias BooleanSettingBlock = (Bool, Bool) -> Void
 
 struct Settings {
 
+    struct BooleanDisableBehavior {
+        let setting: BooleanSetting
+        let dependent: BooleanSetting
+        /// activate when dependent is at this value
+        let condition: Bool
+        /// set the setting to this value if not already when condition is met
+        let fallback: Bool
+    }
+
     private struct BooleanSubscription {
+        let setting: BooleanSetting
         let object: NSObject
         let block: BooleanSettingBlock
     }
@@ -31,7 +41,16 @@ struct Settings {
         return Settings()
     }()
 
-    private var booleanSubscriptions = [BooleanSetting: BooleanSubscription]()
+    private var booleanSubscriptions = [BooleanSubscription]()
+    private var disableBehaviors = [BooleanDisableBehavior]()
+
+    private func findBooleanSubscriptions(_ key: BooleanSetting) -> [BooleanSubscription] {
+        return booleanSubscriptions.filter { key == $0.setting }
+    }
+
+    private func executeBooleanBlock(setting: BooleanSetting, oldValue: Bool, newValue: Bool) {
+        booleanSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
+    }
 
     enum BooleanSetting: String {
         case showCelestialEquator
@@ -91,8 +110,15 @@ struct Settings {
         }
         set {
             let oldValue = self[boolKey]
-            booleanSubscriptions[boolKey]?.block(oldValue, newValue)
             UserDefaults.standard.set(newValue, forKey: boolKey.rawValue)
+            executeBooleanBlock(setting: boolKey, oldValue: oldValue, newValue: newValue)
+            if let behavior = disableBehaviors.first(where: { $0.dependent == boolKey }), behavior.condition == newValue {
+                let currentValue = self[behavior.setting]
+                let targetValue = behavior.fallback
+                if currentValue != targetValue {
+                    self[behavior.setting] = behavior.fallback
+                }
+            }
         }
     }
 
@@ -117,14 +143,26 @@ struct Settings {
         }
     }
 
+    mutating func addConditionalDisabling(_ behavior: BooleanDisableBehavior) {
+        if disableBehaviors.contains(where: { $0.setting == behavior.setting }) {
+            return
+        }
+        disableBehaviors.append(behavior)
+    }
+
+    mutating func removeConditionalDisabling(on setting: BooleanSetting) {
+        if let index = disableBehaviors.index(where: { $0.setting == setting }) {
+            disableBehaviors.remove(at: index)
+        } else {
+            preconditionFailure("cannot find conditional disabling on setting \(setting)")
+        }
+    }
+
     mutating func subscribe(setting: BooleanSetting, object: NSObject, valueChanged block: @escaping BooleanSettingBlock) {
-        booleanSubscriptions[setting] = BooleanSubscription(object: object, block: block)
+        booleanSubscriptions.append(BooleanSubscription(setting: setting, object: object, block: block))
     }
 
     mutating func unsubscribe(object: NSObject) {
-        let result = booleanSubscriptions.filter { $1.object === object }
-        for (setting, _) in result {
-            booleanSubscriptions[setting] = nil
-        }
+        booleanSubscriptions = booleanSubscriptions.filter { $0.object !== object }
     }
 }

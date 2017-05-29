@@ -38,6 +38,24 @@ struct Menu {
         self.sections = sections
     }
 
+    /// Register conditional disabling
+    ///
+    /// - Returns: A list of settings to observe
+    func registerAllConditionalDisabling() -> [Settings.BooleanDisableBehavior] {
+        var behaviors: [Settings.BooleanDisableBehavior] = []
+        sections.forEach { (section) in
+            section.items.forEach { (item) in
+                if case let .toggle(_, behavior) = item.type {
+                    if let behavior = behavior {
+                        Settings.default.addConditionalDisabling(behavior)
+                        behaviors.append(behavior)
+                    }
+                }
+            }
+        }
+        return behaviors
+    }
+
     subscript(indexPath: IndexPath) -> MenuItem {
         let (s, r) = (indexPath.section, indexPath.row)
         return sections[s].items[r]
@@ -67,7 +85,7 @@ struct Section {
 struct MenuItem {
     enum `Type` {
         case detail(Menu)
-        case toggle(Settings.BooleanSetting)
+        case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
     }
     let text: String
     let type: Type
@@ -85,7 +103,15 @@ struct MenuItem {
         case "toggle":
             guard let binding = rawItem["binding"] as? String else { throw MenuParseError.missingBinding }
             guard let field = Settings.BooleanSetting(rawValue: binding) else { throw MenuParseError.cannotFindBinding }
-            self.type = .toggle(field)
+            if let disableCondition = rawItem["disableCondition"] as? [String: Any] {
+                let dependent = Settings.BooleanSetting(rawValue: disableCondition["key"] as! String)!
+                let condition = disableCondition["condition"] as! Bool
+                let fallback = disableCondition["fallback"] as! Bool
+                let behavior = Settings.BooleanDisableBehavior(setting: field, dependent: dependent, condition: condition, fallback: fallback)
+                self.type = .toggle(field, behavior)
+            } else {
+                self.type = .toggle(field, nil)
+            }
         default:
             throw MenuParseError.unrecognizedMenuType
         }
@@ -94,5 +120,20 @@ struct MenuItem {
         } else {
             image = nil
         }
+    }
+}
+
+extension Menu {
+    func indexPath(for setting: Settings.BooleanSetting) -> IndexPath? {
+        for (i, section) in sections.enumerated() {
+            for (j, item) in section.items.enumerated() {
+                if case let .toggle(field, _) = item.type {
+                    if field == setting {
+                        return IndexPath.init(row: j, section: i)
+                    }
+                }
+            }
+        }
+        return nil
     }
 }

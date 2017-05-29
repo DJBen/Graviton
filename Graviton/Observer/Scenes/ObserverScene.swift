@@ -161,7 +161,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             light.intensity = 1000
             light.categoryBitMask = VisibilityCategory.moon.rawValue
         }, off: { (light) in
-            // TODO: bypass ambient light ignoring category bit mask
+            light.intensity = 0
         })
         let node = SCNNode()
         node.light = light
@@ -414,10 +414,10 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
             rootNode.addChildNode(node)
             return node
         }()
-        let zoomRatio = Double((sunNode.geometry as! SCNSphere).radius) / Sun.sol.radius
-        let sunPos = -earth.position!
         let magnification: Double = 5
+        let sunPos = -earth.position!
         let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length * magnification
+        let zoomRatio = sunDisplaySize / Sun.sol.radius
         (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize)
         let obliquedSunPos = sunPos.oblique(by: earth.obliquity)
         sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
