@@ -49,7 +49,9 @@ struct Settings {
     }
 
     private func executeBooleanBlock(setting: BooleanSetting, oldValue: Bool, newValue: Bool) {
-        booleanSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
+        DispatchQueue.main.async {
+            self.booleanSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
+        }
     }
 
     enum BooleanSetting: String {

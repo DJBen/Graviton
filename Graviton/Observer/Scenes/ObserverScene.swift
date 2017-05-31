@@ -157,15 +157,29 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     lazy var moonLightingNode: SCNNode = {
         let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
-            light.type = .omni
             light.intensity = 1000
-            light.categoryBitMask = VisibilityCategory.moon.rawValue
         }, off: { (light) in
             light.intensity = 0
         })
+        light.type = .omni
+        light.categoryBitMask = VisibilityCategory.moon.rawValue
         let node = SCNNode()
         node.light = light
         node.name = "moon lighting"
+        return node
+    }()
+
+    lazy var moonFullLightingNode: SCNNode = {
+        let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
+            light.intensity = 0
+        }, off: { (light) in
+            light.intensity = 1000
+        })
+        light.type = .omni
+        light.categoryBitMask = VisibilityCategory.moon.rawValue
+        let node = SCNNode()
+        node.light = light
+        node.name = "moon full lighting"
         return node
     }()
 
@@ -300,6 +314,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     rootNode.addChildNode(moonNode)
                     rootNode.addChildNode(moonLightingNode)
                     rootNode.addChildNode(moonEarthshineNode)
+                    rootNode.addChildNode(moonFullLightingNode)
                 }
             default:
                 break
@@ -454,6 +469,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
                     let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
                     moonEarthshineNode.position = SCNVector3Zero
+                    moonFullLightingNode.position = SCNVector3Zero
                     let cosAngle = hypotheticalSunPos.normalized().dot(-obliquedMoonPos.normalized())
                     print("earth-sun-moon cos(angle): \(cosAngle)")
                     moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
