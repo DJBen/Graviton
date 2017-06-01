@@ -60,10 +60,9 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         }
     }
 
-    override func handleCameraPan(atTime time: TimeInterval) {
-        super.handleCameraPan(atTime: time)
-        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
-        viewSlideDivisor = factor * 25000
+    override func zoom(sender: UIPinchGestureRecognizer) {
+        super.zoom(sender: sender)
+        configurePanSpeed()
     }
 
     override func menuButtonTapped(sender: UIButton) {
@@ -83,9 +82,11 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.isPlaying = true
         scnView.autoenablesDefaultLighting = false
 
-        cameraController = obsScene
-        viewSlideVelocityCap = 500
-        cameraInversion = [.invertX, .invertY]
+        cameraModifier = obsScene
+        cameraController.viewSlideVelocityCap = 500
+        cameraController.cameraInversion = [.invertX, .invertY]
+        cameraController.cameraNode = obsScene.cameraNode
+        configurePanSpeed()
 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
@@ -101,6 +102,11 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
         obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
+    }
+
+    private func configurePanSpeed() {
+        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
+        cameraController.viewSlideDivisor = factor * 25000
     }
 
     // MARK: - Scene Renderer Delegate

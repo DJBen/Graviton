@@ -31,10 +31,10 @@ class CelestialBodyViewController: SceneController {
         scnView.backgroundColor = UIColor.black
         scnView.isPlaying = true
 
-        cameraController = cbScene
-        viewSlideDivisor = 8000
-        viewSlideVelocityCap = 800
-        viewSlideInertiaDuration = 1.5
+        cameraModifier = cbScene
+        cameraController.viewSlideDivisor = 8000
+        cameraController.viewSlideVelocityCap = 800
+        cameraController.viewSlideInertiaDuration = 1.5
     }
 
     deinit {

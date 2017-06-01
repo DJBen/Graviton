@@ -12,7 +12,7 @@ import Orbits
 import SpaceTime
 import MathUtil
 
-class CelestialBodyScene: SCNScene, CameraControlling {
+class CelestialBodyScene: SCNScene, CameraResponsive {
     static let defaultFov: Double = 30
 
     private lazy var camera: SCNCamera = {

@@ -25,7 +25,7 @@ fileprivate let moonLayerRadius: Double = 7
 fileprivate let sunLayerRadius: Double = 8
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
-class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
+class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     struct VisibilityCategory: OptionSet {
         let rawValue: Int

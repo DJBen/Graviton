@@ -111,7 +111,7 @@ class SolarSystemViewController: SceneController {
         super.viewDidLoad()
         setupViewElements()
         refTime = Date()
-        cameraController = solarSystemScene
+        cameraModifier = solarSystemScene
         focusController = solarSystemScene
         updateFocusedNodeLabel()
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
@@ -194,6 +194,7 @@ class SolarSystemViewController: SceneController {
         scnView.antialiasingMode = .multisampling2X
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
+        cameraController.cameraNode = solarSystemScene.cameraNode
     }
 
     private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {

@@ -12,7 +12,7 @@ import Orbits
 import SpaceTime
 import MathUtil
 
-class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
+class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private static let OrbitLineShader: String = {
         let path = Bundle.main.path(forResource: "orbit_line.surface", ofType: "shader")!
