@@ -8,6 +8,7 @@
 
 import UIKit
 import SceneKit
+import MathUtil
 
 class SceneController: UIViewController, SCNSceneRendererDelegate {
 
@@ -111,26 +112,22 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     // http://stackoverflow.com/questions/25654772/rotate-scncamera-node-looking-at-an-object-around-an-imaginary-sphere
     func handleCameraPan(atTime time: TimeInterval) {
-        guard let cameraNode = cameraController?.cameraNode else {
+        guard let camController = cameraController else {
             return
         }
-        let oldRot: SCNQuaternion = cameraNode.rotation
-        var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
-        var rotX: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.x / viewSlideDivisor), 0, 1, 0)
+        let cameraNode = camController.cameraNode
+        let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        var rotX = Quaternion(axisAngle: Vector4(0, 1, 0, Double(-slideVelocity.x / viewSlideDivisor)))
         if cameraInversion.contains(.invertX) {
-            rotX = GLKQuaternionInvert(rotX)
+            rotX = rotX.inverse
         }
-        var rotY: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(-slideVelocity.y / viewSlideDivisor), 1, 0, 0)
+        var rotY = Quaternion(axisAngle: Vector4(1, 0, 0, Double(-slideVelocity.y / viewSlideDivisor)))
         if cameraInversion.contains(.invertY) {
-            rotY = GLKQuaternionInvert(rotY)
+            rotY = rotY.inverse
         }
-        let netRot: GLKQuaternion = GLKQuaternionMultiply(rotX, rotY)
-        rot = GLKQuaternionMultiply(rot, netRot)
-
-        let axis = GLKQuaternionAxis(rot)
-        let angle = GLKQuaternionAngle(rot)
-        cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
-
+        let finalRot = rot * rotX * rotY
+        precondition(finalRot.length ~= 1)
+        cameraNode.orientation = SCNQuaternion(finalRot)
         // dampen velocity
         if let ts = slidingStopTimestamp {
             let p = min((time - ts) / viewSlideInertiaDuration, 1) - 1

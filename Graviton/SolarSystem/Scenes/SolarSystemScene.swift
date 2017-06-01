@@ -24,6 +24,10 @@ class SolarSystemScene: SCNScene, CameraControlling, FocusingSupport {
     private static let diminishStartDistance: Float = 3.3
     private static let diminishEndDistance: Float = 1.8
 
+    var gestureOrientation: Quaternion {
+        return Quaternion.identity
+    }
+
     private var orbitalMotions = [(OrbitalMotion, UIColor, Int)]()
     private var lineSegments = SCNNode()
     private var spheres = SCNNode()

@@ -29,6 +29,10 @@ class CelestialBodyScene: SCNScene, CameraControlling {
         return cn
     }()
 
+    var gestureOrientation: Quaternion {
+        return Quaternion.identity
+    }
+
     lazy var solarNode: SCNNode = {
         let light = SCNLight()
         light.type = .directional

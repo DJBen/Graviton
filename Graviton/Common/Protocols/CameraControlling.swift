@@ -7,9 +7,11 @@
 //
 
 import SceneKit
+import MathUtil
 
 protocol CameraControlling {
     var cameraNode: SCNNode { get }
+    var gestureOrientation: Quaternion { get }
     var scale: Double { get set }
     func resetCamera()
 }

@@ -47,16 +47,18 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
     private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
 
+    var gestureOrientation: Quaternion = Quaternion.identity
+
     lazy var stars = Star.magitudeLessThan(5.3)
 
     private lazy var camera: SCNCamera = {
-        let c = SCNCamera()
-        c.zNear = 0.5
-        c.zFar = 1000
-        c.xFov = defaultFov
-        c.yFov = defaultFov
-        c.categoryBitMask = VisibilityCategory.camera.rawValue
-        return c
+        let camera = SCNCamera()
+        camera.zNear = 0.5
+        camera.zFar = 1000
+        camera.xFov = defaultFov
+        camera.yFov = defaultFov
+        camera.categoryBitMask = VisibilityCategory.camera.rawValue
+        return camera
     }()
 
     lazy var cameraNode: SCNNode = {
@@ -351,7 +353,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         drawCelestialEquator(earth: earth)
     }
 
-    func updateGroundMarker(timestamp: Date? = nil) {
+    func updateObserverView(timestamp: Date? = nil) {
         if let t = timestamp {
             observerInfo?.timestamp = t
         }
@@ -415,7 +417,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     // MARK: - Location Update
     func updateLocation(location: CLLocation) {
         self.observerInfo = LocationAndTime(location: location, timestamp: Date())
-        updateGroundMarker()
+        updateObserverView()
     }
 
     // MARK: - Ephemeris Update
@@ -426,7 +428,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
-        updateGroundMarker(timestamp: ephemeris.timestamp)
+        updateObserverView(timestamp: ephemeris.timestamp)
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
             let node = SCNNode()
