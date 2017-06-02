@@ -64,6 +64,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     lazy var cameraNode: SCNNode = {
         let cn = SCNNode()
         cn.camera = self.camera
+        let quaternion = Quaternion(axisAngle: Vector4(0, 1, 0, Double.pi / 2)) * Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
+        cn.pivot = SCNMatrix4(Matrix4(quaternion: quaternion))
         return cn
     }()
 
@@ -379,7 +381,6 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     func resetCamera() {
         cameraNode.transform = SCNMatrix4Identity
-        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
         scale = 1
     }
 

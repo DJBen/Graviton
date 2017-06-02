@@ -29,7 +29,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     let transitionController = NavigationTransitionController()
 
-    var cameraController = CameraController()
+    var cameraController: CameraController = CameraController()
 
     override func viewDidLoad() {
         super.viewDidLoad()

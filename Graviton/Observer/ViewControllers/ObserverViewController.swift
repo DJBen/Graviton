@@ -83,8 +83,9 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.autoenablesDefaultLighting = false
 
         cameraModifier = obsScene
+        cameraController = ObserverCameraController()
         cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraInversion = [.invertX, .invertY]
+        cameraController.cameraInversion = [.invertPitch, .invertYaw, .invertRoll]
         cameraController.cameraNode = obsScene.cameraNode
         configurePanSpeed()
 

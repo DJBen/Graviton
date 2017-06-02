@@ -14,10 +14,10 @@ class CameraController: NSObject {
     struct Invert: OptionSet {
         let rawValue: Int
         static let none = Invert(rawValue: 0)
-        static let invertX = Invert(rawValue: 1)
-        static let invertY = Invert(rawValue: 1 << 1)
-        static let invertZ = Invert(rawValue: 1 << 2)
-        static let invertAll: Invert = [.invertX, .invertY, .invertZ]
+        static let invertPitch = Invert(rawValue: 1)
+        static let invertYaw = Invert(rawValue: 1 << 1)
+        static let invertRoll = Invert(rawValue: 1 << 2)
+        static let invertAll: Invert = [.invertPitch, .invertYaw, .invertRoll]
     }
 
     var cameraInversion: Invert = .none
@@ -36,15 +36,15 @@ class CameraController: NSObject {
     static var `default` = CameraController()
 
     var cameraMovement: Quaternion {
-        var rotX = Quaternion(axisAngle: Vector4(0, 1, 0, Double(-slideVelocity.x / viewSlideDivisor)))
-        if cameraInversion.contains(.invertX) {
-            rotX = rotX.inverse
+        var yaw = Quaternion(axisAngle: Vector4(0, 1, 0, Double(-slideVelocity.x / viewSlideDivisor)))
+        if cameraInversion.contains(.invertYaw) {
+            yaw = yaw.inverse
         }
-        var rotY = Quaternion(axisAngle: Vector4(1, 0, 0, Double(-slideVelocity.y / viewSlideDivisor)))
-        if cameraInversion.contains(.invertY) {
-            rotY = rotY.inverse
+        var pitch = Quaternion(axisAngle: Vector4(1, 0, 0, Double(-slideVelocity.y / viewSlideDivisor)))
+        if cameraInversion.contains(.invertPitch) {
+            pitch = pitch.inverse
         }
-        return rotX * rotY
+        return pitch * yaw
     }
 
     func fadeOutCameraMovement(atTime time: TimeInterval) {
@@ -71,7 +71,7 @@ class CameraController: NSObject {
         guard let cameraNode = cameraNode, let oldRot = previousRotation else { return }
         var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
         var rotZ: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotation), 0, 0, 1)
-        if cameraInversion.contains(.invertZ) {
+        if cameraInversion.contains(.invertRoll) {
             rotZ = GLKQuaternionInvert(rotZ)
         }
         rot = GLKQuaternionMultiply(rot, rotZ)
