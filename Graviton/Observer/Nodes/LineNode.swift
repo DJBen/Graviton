@@ -46,7 +46,7 @@ extension ObserverScene {
             line.firstMaterial = mat
         }
 
-        // MARK: ObserverSceneElement
+        // MARK: - ObserverSceneElement
         override func setUpElement() {
             drawLine()
         }

@@ -20,6 +20,7 @@ let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 10
 fileprivate let landscapeLayerRadius: Double = 6
+fileprivate let directionMarkerLayerRadius: Double = 5.5
 fileprivate let moonLayerRadius: Double = 7
 fileprivate let sunLayerRadius: Double = 8
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
@@ -202,6 +203,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         return node
     }()
 
+    lazy var directionMarkers = DirectionMarkerNode(radius: directionMarkerLayerRadius, sideLength: 0.3)
+
     override init() {
         super.init()
         resetCamera()
@@ -210,6 +213,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         rootNode.addChildNode(landscapeNode)
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
+        rootNode.addChildNode(directionMarkers)
         drawStars()
         drawConstellationLines()
         drawConstellationLabels()
@@ -354,6 +358,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         guard let transform = observerInfo?.localViewTransform else { return }
         let orientation = Quaternion(rotationMatrix: transform)
         landscapeNode.orientation = SCNQuaternion(orientation)
+        directionMarkers.ecefToNedOrientation = orientation
     }
 
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
