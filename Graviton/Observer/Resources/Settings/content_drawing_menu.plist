@@ -47,6 +47,16 @@
 				<key>binding</key>
 				<string>showPlanetLabel</string>
 			</dict>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
+				<string>Show Direction Markers</string>
+				<key>image</key>
+				<string>row_icon_direction_marker</string>
+				<key>binding</key>
+				<string>showDirectionMarkers</string>
+			</dict>
 		</array>
 	</dict>
 	<dict>
