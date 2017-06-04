@@ -12,7 +12,7 @@ import Orbits
 import SpaceTime
 import MathUtil
 
-class CelestialBodyScene: SCNScene, CameraControlling {
+class CelestialBodyScene: SCNScene, CameraResponsive {
     static let defaultFov: Double = 30
 
     private lazy var camera: SCNCamera = {
@@ -28,6 +28,10 @@ class CelestialBodyScene: SCNScene, CameraControlling {
         cn.camera = self.camera
         return cn
     }()
+
+    var gestureOrientation: Quaternion {
+        return Quaternion.identity
+    }
 
     lazy var solarNode: SCNNode = {
         let light = SCNLight()
@@ -72,8 +76,6 @@ class CelestialBodyScene: SCNScene, CameraControlling {
             let northPoleAxis = Vector3(equatorialCoordinate: eq)
             precondition(northPoleAxis.length ~= 1, "North pole axis should be normalized")
             let rotation = Quaternion.init(alignVector: Vector3(0, 1, 0), with: northPoleAxis)
-            let pre = Quaternion.init(axisAngle: Vector4(1, 0, 0, Double.pi / 2))
-            let post = Quaternion.init(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
             let latRot = Quaternion.init(axisAngle: Vector4(0, 0, 1, -radians(degrees: moonInfo.obLon)))
             celestialNode.orientation = SCNQuaternion(latRot * rotation)
             celestialNode.pivot = SCNMatrix4(Matrix4.init(rotation: Vector4(1, 0, 0, Double.pi / 2)))

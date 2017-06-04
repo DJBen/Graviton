@@ -8,7 +8,10 @@
 
 import MathUtil
 
-public struct EquatorialCoordinate {
+public struct EquatorialCoordinate: ExpressibleByDictionaryLiteral {
+    public typealias Key = String
+    public typealias Value = Double
+
     public let distance: Double
 
     /// Right ascension in radians
@@ -28,6 +31,22 @@ public struct EquatorialCoordinate {
         self.rightAscension = wrapAngle(rightAscension)
         self.declination = declination
         self.distance = distance
+    }
+
+    public init(dictionary: [String: Double]) {
+        if let raDeg = dictionary["raDeg"], let decDeg = dictionary["decDeg"] {
+            self.init(rightAscension: radians(degrees: raDeg), declination: radians(degrees: decDeg), distance: 1)
+        } else if let ra = dictionary["ra"], let dec = dictionary["dec"] {
+            self.init(rightAscension: ra, declination: dec, distance: 1)
+        } else {
+            fatalError("Supply (raDeg, decDeg) or (ra, dec) as keys when initializing EquatorialCoordinate")
+        }
+    }
+
+    public init(dictionaryLiteral elements: (String, Double)...) {
+        var dict = [String: Double]()
+        elements.forEach { dict[$0.0] = $0.1 }
+        self.init(dictionary: dict)
     }
 }
 

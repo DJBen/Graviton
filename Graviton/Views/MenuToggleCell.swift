@@ -22,26 +22,13 @@ class MenuToggleCell: MenuCell {
         }
     }
 
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        setupView()
-    }
-
-    override init(style: UITableViewCellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-        setupView()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
     func switchValueChanged(sender: UISwitch) {
         guard let field = binding else { return }
         Settings.default[field] = sender.isOn
     }
 
-    private func setupView() {
+    override func setupView() {
+        super.setupView()
         accessoryView = toggle
         toggle.addTarget(self, action: #selector(switchValueChanged(sender:)), for: .valueChanged)
     }

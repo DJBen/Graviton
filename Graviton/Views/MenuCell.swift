@@ -24,7 +24,7 @@ class MenuCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func setupView() {
+    func setupView() {
         imageView?.tintColor = Constants.Menu.tintColor
         textLabel?.textColor = Constants.Menu.textColor
         selectedBackgroundView = {

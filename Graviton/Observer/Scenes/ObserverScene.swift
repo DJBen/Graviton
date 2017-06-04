@@ -25,7 +25,7 @@ fileprivate let moonLayerRadius: Double = 7
 fileprivate let sunLayerRadius: Double = 8
 fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
-class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
+class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     struct VisibilityCategory: OptionSet {
         let rawValue: Int
@@ -47,21 +47,25 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
     private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
 
+    var gestureOrientation: Quaternion = Quaternion.identity
+
     lazy var stars = Star.magitudeLessThan(5.3)
 
     private lazy var camera: SCNCamera = {
-        let c = SCNCamera()
-        c.zNear = 0.5
-        c.zFar = 1000
-        c.xFov = defaultFov
-        c.yFov = defaultFov
-        c.categoryBitMask = VisibilityCategory.camera.rawValue
-        return c
+        let camera = SCNCamera()
+        camera.zNear = 0.5
+        camera.zFar = 1000
+        camera.xFov = defaultFov
+        camera.yFov = defaultFov
+        camera.categoryBitMask = VisibilityCategory.camera.rawValue
+        return camera
     }()
 
     lazy var cameraNode: SCNNode = {
         let cn = SCNNode()
         cn.camera = self.camera
+        let quaternion = Quaternion(axisAngle: Vector4(0, 1, 0, Double.pi / 2)) * Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
+        cn.pivot = SCNMatrix4(Matrix4(quaternion: quaternion))
         return cn
     }()
 
@@ -204,6 +208,8 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     }()
 
     lazy var directionMarkers = DirectionMarkerNode(radius: directionMarkerLayerRadius, sideLength: 0.3)
+    var jumpToCelestialPointObserver: NSObjectProtocol!
+    var jumpToDirectionObserver: NSObjectProtocol!
 
     override init() {
         super.init()
@@ -230,6 +236,28 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         focuser.constraints = [SCNBillboardConstraint()]
         focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
+
+        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { (notification) in
+            guard let coordinate = notification.userInfo?["content"] as? EquatorialCoordinate else {
+                return
+            }
+            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: coordinate)))
+        }
+        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { (notification) in
+            guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
+                return
+            }
+            guard let obInfo = self.observerInfo else {
+                print("Missing observer info")
+                return
+            }
+            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(jumpToCelestialPointObserver)
+        NotificationCenter.default.removeObserver(jumpToDirectionObserver)
     }
 
     // MARK: Static Content Drawing
@@ -351,7 +379,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
         drawCelestialEquator(earth: earth)
     }
 
-    func updateGroundMarker(timestamp: Date? = nil) {
+    func updateObserverView(timestamp: Date? = nil) {
         if let t = timestamp {
             observerInfo?.timestamp = t
         }
@@ -377,7 +405,6 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     func resetCamera() {
         cameraNode.transform = SCNMatrix4Identity
-        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
         scale = 1
     }
 
@@ -415,7 +442,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
     // MARK: - Location Update
     func updateLocation(location: CLLocation) {
         self.observerInfo = LocationAndTime(location: location, timestamp: Date())
-        updateGroundMarker()
+        updateObserverView()
     }
 
     // MARK: - Ephemeris Update
@@ -426,7 +453,7 @@ class ObserverScene: SCNScene, CameraControlling, FocusingSupport {
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
-        updateGroundMarker(timestamp: ephemeris.timestamp)
+        updateObserverView(timestamp: ephemeris.timestamp)
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
             let node = SCNNode()

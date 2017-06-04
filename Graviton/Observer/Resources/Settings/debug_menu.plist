@@ -3,6 +3,8 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>section</key>
+		<string>Display</string>
 		<key>content</key>
 		<array>
 			<dict>
@@ -24,6 +26,33 @@
 				<string>row_icon_south_pole</string>
 				<key>binding</key>
 				<string>showSouthPoleIndicator</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>section</key>
+		<string>Focus on</string>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>detail</string>
+				<key>text</key>
+				<string>Horizontal Directions</string>
+				<key>image</key>
+				<string>row_icon_direction_marker</string>
+				<key>destination</key>
+				<string>direction_marker_menu</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<string>detail</string>
+				<key>text</key>
+				<string>Celestial Points</string>
+				<key>image</key>
+				<string>row_icon_celestial_sphere</string>
+				<key>destination</key>
+				<string>direction_celestial_menu</string>
 			</dict>
 		</array>
 	</dict>

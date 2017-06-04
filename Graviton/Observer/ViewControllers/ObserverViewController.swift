@@ -60,10 +60,9 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         }
     }
 
-    override func handleCameraPan(atTime time: TimeInterval) {
-        super.handleCameraPan(atTime: time)
-        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
-        viewSlideDivisor = factor * 25000
+    override func zoom(sender: UIPinchGestureRecognizer) {
+        super.zoom(sender: sender)
+        configurePanSpeed()
     }
 
     override func menuButtonTapped(sender: UIButton) {
@@ -83,9 +82,12 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.isPlaying = true
         scnView.autoenablesDefaultLighting = false
 
-        cameraController = obsScene
-        viewSlideVelocityCap = 500
-        cameraInversion = [.invertX, .invertY]
+        cameraModifier = obsScene
+        cameraController = ObserverCameraController()
+        cameraController.viewSlideVelocityCap = 500
+        cameraController.cameraInversion = [.invertPitch, .invertYaw, .invertRoll]
+        cameraController.cameraNode = obsScene.cameraNode
+        configurePanSpeed()
 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
@@ -103,14 +105,19 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
     }
 
-    // MARK: - Scene Renderer Delegate
+    private func configurePanSpeed() {
+        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
+        cameraController.viewSlideDivisor = factor * 25000
+    }
+
+    // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
     }
 
-    // MARK: - Menu Background Provider
+    // MARK: - Menu background provider
 
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
         return UIImageEffects.blurredMenuImage(scnView.snapshot())
