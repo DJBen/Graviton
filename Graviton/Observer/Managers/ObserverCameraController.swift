@@ -29,7 +29,6 @@ class ObserverCameraController: CameraController {
         let finalRot = rot * cameraMovement
         var axisAngle = finalRot.toAxisAngle()
         axisAngle.x = -axisAngle.y
-        print(axisAngle)
 //        cameraNode.orientation = SCNQuaternion(Quaternion.init(axisAngle: axisAngle))
         cameraNode.orientation = SCNQuaternion(finalRot)
         fadeOutCameraMovement(atTime: time)

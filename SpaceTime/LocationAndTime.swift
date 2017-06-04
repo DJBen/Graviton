@@ -10,7 +10,9 @@ import CoreLocation
 import Foundation
 import MathUtil
 
-// Yes, I know CLLocation and a timestamp field.
+/// This struct encloses a referential timestamp and a location.
+///
+/// **Note**: The meaning of timestamp is foundamentally different from the `timestamp` in CLLocation, which in turns specifies the timestamp the location is measured.
 public struct LocationAndTime {
     public let location: CLLocation
     public var timestamp: Date
@@ -20,7 +22,7 @@ public struct LocationAndTime {
         self.timestamp = timestamp ?? location.timestamp
     }
 
-    /// local sidereal time in radians.
+    /// local sidereal time as hour angle in radians.
     public var localSiderealTimeAngle: Double {
         let hours = location.coordinate.longitude / 15
         let siderealTime = timestamp.greenwichMeanSiderealTime + hours
@@ -51,6 +53,7 @@ extension CLLocation {
         )
     }
 
+    /// The transform that rotates ECEF coordinate to NED coordinate at given timestamp and location
     var ecefToLocalNedTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)
@@ -62,6 +65,7 @@ extension CLLocation {
         ).transpose
     }
 
+    // UNTESTED
     var ecefToLocalEnuTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)

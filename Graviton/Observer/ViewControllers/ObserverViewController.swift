@@ -98,6 +98,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
         obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
+        obsScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
     }
 
     private func configurePanSpeed() {

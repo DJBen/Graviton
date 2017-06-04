@@ -47,6 +47,11 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     private static let maxScale: Double = exp2(log(defaultFov / minFov) / log(fovExpBase))
     private static var minScale: Double = exp2(log(defaultFov / maxFov) / log(fovExpBase))
 
+    /// Maximum magnification for the Sun and the Moon
+    private static let maxMagnification: Double = 15
+
+    var motionSubscriptionId: SubscriptionUUID?
+
     var gestureOrientation: Quaternion = Quaternion.identity
 
     lazy var stars = Star.magitudeLessThan(5.3)
@@ -77,6 +82,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             self.scale = cappedScale
             self.camera.xFov = self.fov
             self.camera.yFov = self.fov
+            updateForZoomChanges()
         }
     }
 
@@ -91,6 +97,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             let cappedFov = min(max(newValue, ObserverScene.minFov), ObserverScene.maxFov)
             self.scale = exp2(log(ObserverScene.defaultFov / cappedFov) / log(ObserverScene.fovExpBase))
         }
+    }
+
+    private var dynamicMagnificationFactor: Double {
+        let easing = Easing.init(startValue: 1, endValue: ObserverScene.maxMagnification)
+        let fovPercentage = (fov - ObserverScene.minFov) / (ObserverScene.maxFov - ObserverScene.minFov)
+        return easing.value(at: fovPercentage)
     }
 
     var observerInfo: LocationAndTime?
@@ -401,6 +413,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         fatalError("init(coder:) has not been implemented")
     }
 
+    private func updateForZoomChanges() {
+        if let id = motionSubscriptionId, let ephemeris = EphemerisMotionManager.default.content(for: id) {
+            updateDynamicSizes(forEphemeris: ephemeris)
+        }
+    }
+
     // MARK: - Focusing support
 
     func resetCamera() {
@@ -447,6 +465,20 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Ephemeris Update
+    private func updateDynamicSizes(forEphemeris ephemeris: Ephemeris) {
+        if let earth = ephemeris[.majorBody(.earth)], let earthPos = earth.position {
+            let sunPos = -earthPos
+            let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
+            (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize * dynamicMagnificationFactor)
+            print("Sun display size: \(sunDisplaySize)")
+        }
+        if let moonBody = ephemeris[.moon(.luna)], let relativePos = moonBody.motion?.position {
+            let moonDisplaySize = moonBody.radius * moonLayerRadius / relativePos.length
+            (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
+            print("Moon display size: \(moonDisplaySize * dynamicMagnificationFactor)")
+        }
+    }
+
     func ephemerisDidLoad(ephemeris: Ephemeris) {
         drawAuxillaryLines(ephemeris: ephemeris)
         drawPlanetsAndMoon(ephemeris: ephemeris)
@@ -462,14 +494,15 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             rootNode.addChildNode(node)
             return node
         }()
-        let magnification: Double = 5
         let sunPos = -earth.position!
-        let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length * magnification
+        // The should-be radius of the sun being displayed at a certain distance from camera
+        let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
         let zoomRatio = sunDisplaySize / Sun.sol.radius
-        (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize)
+        (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize * dynamicMagnificationFactor)
         let obliquedSunPos = sunPos.oblique(by: earth.obliquity)
-        sunNode.position = SCNVector3(obliquedSunPos * zoomRatio / magnification)
-        print("Sun display size: \(sunDisplaySize)")
+        let sunDisplayPosition = obliquedSunPos * zoomRatio
+        precondition(sunDisplayPosition.length ~= sunLayerRadius)
+        sunNode.position = SCNVector3(sunDisplayPosition)
         sunNode.constraints = [SCNBillboardConstraint()]
         let earthPos = earth.position!
         annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sunAndMoon)
@@ -491,15 +524,15 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                 if m == Naif.Moon.luna {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
                     let relativePos = body.motion?.position ?? Vector3.zero
-                    let moonDisplaySize = body.radius * moonLayerRadius / relativePos.length * magnification
-                    (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize)
+                    let moonDisplaySize = body.radius * moonLayerRadius / relativePos.length
                     let moonZoomRatio = moonDisplaySize / body.radius
-                    let moonPosition = relativePos * moonZoomRatio / magnification
+                    (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
+                    let moonPosition = relativePos * moonZoomRatio
                     let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
+                    precondition(obliquedMoonPos.length ~= moonLayerRadius)
                     annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
                     moonNode.position = SCNVector3(obliquedMoonPos)
-                    print("Moon display size: \(moonDisplaySize)")
-                    let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / magnification
+                    let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / dynamicMagnificationFactor
                     moonLightingNode.position = SCNVector3(hypotheticalSunPos)
                     moonEarthshineNode.position = SCNVector3Zero
                     moonFullLightingNode.position = SCNVector3Zero

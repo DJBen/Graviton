@@ -52,9 +52,11 @@ public struct EquatorialCoordinate: ExpressibleByDictionaryLiteral {
 
 public extension Vector3 {
     /// Initialize a Cartesian with equatorial coordinate.
-    /// +x: towards \delta = 0 degrees, \alpha = 0.0 hours (the vernal equinox)
-    /// +y: towards \delta = 0 degrees, \alpha = 6.0 hours
-    /// +z: towards \delta = +90.0 degrees (north celestial pole)
+    ///
+    /// - +x towards \delta = 0 degrees, \alpha = 0.0 hours (the vernal equinox)
+    /// - +y towards \delta = 0 degrees, \alpha = 6.0 hours
+    /// - +z: towards \delta = +90.0 degrees (north celestial pole)
+    ///
     /// - Parameter coord: The equatorial coordinate
     public init(equatorialCoordinate coord: EquatorialCoordinate) {
         self.init(
