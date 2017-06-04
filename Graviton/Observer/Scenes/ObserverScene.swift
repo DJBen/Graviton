@@ -405,6 +405,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     func resetCamera() {
         cameraNode.transform = SCNMatrix4Identity
+        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
         scale = 1
     }
 
