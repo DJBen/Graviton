@@ -17,6 +17,8 @@ enum MenuParseError: Error {
     case menuFileNotFound
     case missingBinding
     case cannotFindBinding
+    case cannotFindSelector
+    case cannotInitializeClassName
 }
 
 struct Menu {
@@ -86,6 +88,7 @@ struct MenuItem {
     enum `Type` {
         case detail(Menu)
         case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
+        case button(String, Any?)
     }
     let text: String
     let type: Type
@@ -112,6 +115,10 @@ struct MenuItem {
             } else {
                 self.type = .toggle(field, nil)
             }
+        case "button":
+            guard let key = rawItem["key"] as? String else { throw MenuParseError.cannotFindSelector }
+            let userInfo = rawItem["userInfo"]
+            self.type = .button(key, userInfo)
         default:
             throw MenuParseError.unrecognizedMenuType
         }

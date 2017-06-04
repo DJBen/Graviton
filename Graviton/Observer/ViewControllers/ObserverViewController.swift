@@ -110,14 +110,14 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         cameraController.viewSlideDivisor = factor * 25000
     }
 
-    // MARK: - Scene Renderer Delegate
+    // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
     }
 
-    // MARK: - Menu Background Provider
+    // MARK: - Menu background provider
 
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
         return UIImageEffects.blurredMenuImage(scnView.snapshot())

@@ -119,6 +119,9 @@
 		FC39DAF71EC860D4005D7EBA /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */; };
 		FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */; };
 		FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */; };
+		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
+		FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */; };
+		FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */; };
 		FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */; };
 		FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61E71E9B470F00BEA5BE /* art.scnassets */; };
 		FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */; };
@@ -443,6 +446,9 @@
 		FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoQueries.framework; path = Carthage/Build/iOS/GeoQueries.framework; sourceTree = "<group>"; };
 		FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetInfo.swift; sourceTree = "<group>"; };
+		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
+		FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_celestial_menu.plist; sourceTree = "<group>"; };
+		FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButtonCell.swift; sourceTree = "<group>"; };
 		FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyNode.swift; sourceTree = "<group>"; };
 		FC7D61E71E9B470F00BEA5BE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
@@ -1010,6 +1016,8 @@
 			children = (
 				FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */,
 				FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */,
+				FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */,
+				FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */,
 				FC7D62031E9B498400BEA5BE /* main_menu.plist */,
 			);
 			path = Settings;
@@ -1199,6 +1207,7 @@
 			children = (
 				FCFBB71E1E59FCF100624B4C /* WarpControl.swift */,
 				FCFBB7351E61945400624B4C /* MenuCell.swift */,
+				FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */,
 				FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */,
 			);
 			path = Views;
@@ -1567,6 +1576,7 @@
 			files = (
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
 				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
+				FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */,
 				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
@@ -1576,6 +1586,7 @@
 				FC7D61FF1E9B491000BEA5BE /* tracking_label.surface.shader in Resources */,
 				FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
+				FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
 				FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */,
 				EF5553101EA9701100B5A34D /* Icons.xcassets in Resources */,
@@ -1724,6 +1735,7 @@
 				FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */,
 				EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */,
 				FC959E711E9B51420026B222 /* SolarSystemScene.swift in Sources */,
+				FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */,
 				FC1CC2DE1EE01F92009FA252 /* ObserverCameraController.swift in Sources */,
 				FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */,
 				FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */,

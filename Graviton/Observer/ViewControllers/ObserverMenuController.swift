@@ -9,7 +9,9 @@
 import UIKit
 import QuartzCore
 import KMNavigationBarTransition
+import SpaceTime
 
+fileprivate let buttonCellId = "buttonCell"
 fileprivate let detailCellId = "detailCell"
 fileprivate let toggleCellId = "toggleCell"
 fileprivate let headerFooter = "headerFooter"
@@ -82,6 +84,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
 
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
+        tableView.register(MenuButtonCell.self, forCellReuseIdentifier: buttonCellId)
         tableView.backgroundView = backgroundView
         tableView.tableFooterView = UIView()
         tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
@@ -126,6 +129,21 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         return true
     }
 
+    // MARK: - Menu delivered actions
+    func jumpToCelestialPoint(_ userInfo: Any?) {
+        guard let dict = userInfo as? [String: Double] else { fatalError() }
+        let coordinate = EquatorialCoordinate(dictionary: dict)
+        navigationController?.popToRootViewController(animated: true)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: self, userInfo: ["content": coordinate])
+    }
+
+    func jumpToDirection(_ userInfo: Any?) {
+        guard let dict = userInfo as? [String: Double] else { fatalError() }
+        let coordinate = HorizontalCoordinate(dictionary: dict)
+        navigationController?.popToRootViewController(animated: true)
+        NotificationCenter.default.post(name: NSNotification.Name(rawValue: "jumpToDirection"), object: self, userInfo: ["content": coordinate])
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -149,6 +167,8 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             let shouldDisable = indexPathsToDisable.contains(indexPath)
             toggleCell.textLabel?.isEnabled = !shouldDisable
             toggleCell.toggle.isEnabled = !shouldDisable
+        case .button(_, _):
+            break
         }
     }
 
@@ -163,6 +183,15 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             toggleCell.binding = binding
         case .detail(_):
             cell = tableView.dequeueReusableCell(withIdentifier: detailCellId, for: indexPath)
+        case let .button(key, info):
+            cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath)
+            let buttonCell = cell as! MenuButtonCell
+            buttonCell.button.setTitle(item.text, for: .normal)
+            buttonCell.key = key
+            buttonCell.userInfo = info
+            buttonCell.handler = { [weak self] (key, userInfo) in
+                self?.performSelector(onMainThread: Selector.init(key + ":"), with: info, waitUntilDone: false)
+            }
         }
         return cell
     }

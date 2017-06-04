@@ -208,6 +208,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }()
 
     lazy var directionMarkers = DirectionMarkerNode(radius: directionMarkerLayerRadius, sideLength: 0.3)
+    var jumpToCelestialPointObserver: NSObjectProtocol!
+    var jumpToDirectionObserver: NSObjectProtocol!
 
     override init() {
         super.init()
@@ -234,6 +236,28 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         focuser.constraints = [SCNBillboardConstraint()]
         focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
+
+        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { (notification) in
+            guard let coordinate = notification.userInfo?["content"] as? EquatorialCoordinate else {
+                return
+            }
+            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: coordinate)))
+        }
+        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { (notification) in
+            guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
+                return
+            }
+            guard let obInfo = self.observerInfo else {
+                print("Missing observer info")
+                return
+            }
+            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
+        }
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(jumpToCelestialPointObserver)
+        NotificationCenter.default.removeObserver(jumpToDirectionObserver)
     }
 
     // MARK: Static Content Drawing
