@@ -60,11 +60,6 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         }
     }
 
-    override func zoom(sender: UIPinchGestureRecognizer) {
-        super.zoom(sender: sender)
-        configurePanSpeed()
-    }
-
     override func menuButtonTapped(sender: UIButton) {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
@@ -103,6 +98,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
         obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
+        obsScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
     }
 
     private func configurePanSpeed() {
@@ -115,6 +111,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
+        configurePanSpeed()
     }
 
     // MARK: - Menu background provider
