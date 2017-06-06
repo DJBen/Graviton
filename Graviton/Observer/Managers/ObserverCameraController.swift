@@ -26,6 +26,7 @@ class ObserverCameraController: CameraController {
     override func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraNode else { return }
         let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        
         let finalRot = rot * cameraMovement
         var axisAngle = finalRot.toAxisAngle()
         axisAngle.x = -axisAngle.y

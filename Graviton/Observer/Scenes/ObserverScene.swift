@@ -470,12 +470,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             let sunPos = -earthPos
             let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
             (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize * dynamicMagnificationFactor)
-            print("Sun display size: \(sunDisplaySize)")
         }
         if let moonBody = ephemeris[.moon(.luna)], let relativePos = moonBody.motion?.position {
             let moonDisplaySize = moonBody.radius * moonLayerRadius / relativePos.length
             (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
-            print("Moon display size: \(moonDisplaySize * dynamicMagnificationFactor)")
         }
     }
 
