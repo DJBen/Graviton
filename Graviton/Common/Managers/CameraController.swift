@@ -35,16 +35,20 @@ class CameraController: NSObject {
 
     static var `default` = CameraController()
 
-    var cameraMovement: Quaternion {
-        var yaw = Quaternion(axisAngle: Vector4(0, 1, 0, Double(-slideVelocity.x / viewSlideDivisor)))
+    var cameraYaw: Double {
+        var yaw = Double(-slideVelocity.x / viewSlideDivisor)
         if cameraInversion.contains(.invertYaw) {
-            yaw = yaw.inverse
+            yaw = -yaw
         }
-        var pitch = Quaternion(axisAngle: Vector4(1, 0, 0, Double(-slideVelocity.y / viewSlideDivisor)))
+        return yaw
+    }
+
+    var cameraPitch: Double {
+        var pitch = Double(-slideVelocity.y / viewSlideDivisor)
         if cameraInversion.contains(.invertPitch) {
-            pitch = pitch.inverse
+            pitch = -pitch
         }
-        return pitch * yaw
+        return pitch
     }
 
     func fadeOutCameraMovement(atTime time: TimeInterval) {
@@ -61,6 +65,9 @@ class CameraController: NSObject {
     func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraNode else { return }
         let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        let yaw = Quaternion(axisAngle: Vector4(0, 1, 0, cameraYaw))
+        let pitch = Quaternion(axisAngle: Vector4(1, 0, 0, cameraPitch))
+        let cameraMovement = pitch * yaw
         let finalRot = rot * cameraMovement
         precondition(finalRot.length ~= 1)
         cameraNode.orientation = SCNQuaternion(finalRot)

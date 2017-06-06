@@ -12,12 +12,10 @@ import MathUtil
 public struct HorizontalCoordinate: ExpressibleByDictionaryLiteral {
     let altitude: Double
     let azimuth: Double
-    let distance: Double
 
-    public init(azimuth: Double, altitude: Double, distance: Double = 1) {
+    public init(azimuth: Double, altitude: Double) {
         self.azimuth = azimuth
         self.altitude = altitude
-        self.distance = distance
     }
 
     public init(equatorialCoordinate eqCoord: EquatorialCoordinate, observerInfo info: LocationAndTime) {
@@ -28,7 +26,6 @@ public struct HorizontalCoordinate: ExpressibleByDictionaryLiteral {
         let cosAzimuth = (sin(eqCoord.declination) - sinAlt * sin(radianLat)) / (cos(altitude) * cos(radianLat))
         let a = acos(cosAzimuth)
         azimuth = sin(hourAngle) < 0 ? a : Double(2 * Double.pi) - a
-        distance = 1
     }
 
     public init(dictionary: [String: Double]) {
@@ -49,6 +46,13 @@ public struct HorizontalCoordinate: ExpressibleByDictionaryLiteral {
 }
 
 public extension EquatorialCoordinate {
+
+    /// Initialize an equatorial coordinate from horizontal coordinate 
+    /// with distance defaulting to 1.
+    ///
+    /// - Parameters:
+    ///   - coord: horizontal coordinate
+    ///   - info: location and time information about the observer
     public init(horizontalCoordinate coord: HorizontalCoordinate, observerInfo info: LocationAndTime) {
         let latitude = radians(degrees: info.location.coordinate.latitude)
         let sinDec = sin(coord.altitude) * sin(latitude) + cos(coord.altitude) * cos(latitude) * cos(coord.azimuth)

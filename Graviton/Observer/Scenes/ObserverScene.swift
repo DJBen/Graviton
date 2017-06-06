@@ -469,8 +469,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Location Update
-    func updateLocation(location: CLLocation) {
-        self.observerInfo = LocationAndTime(location: location, timestamp: Date())
+    func updateLocationAndTime(observerInfo: LocationAndTime) {
+        self.observerInfo = observerInfo
         updateObserverView()
     }
 
