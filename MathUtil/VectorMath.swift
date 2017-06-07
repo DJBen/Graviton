@@ -1119,6 +1119,10 @@ extension Quaternion: Equatable, Hashable {
     }
 
     public init(rotationMatrix m: Matrix4) {
+        guard m != .identity else {
+            self.init(0, 0, 0, 1)
+            return
+        }
         let diagonal = m.m11 + m.m22 + m.m33 + 1
         if diagonal ~= 0 {
             let scale = sqrt(diagonal) * 2
