@@ -17,6 +17,11 @@ public struct LocationAndTime {
     public let location: CLLocation
     public var timestamp: Date
 
+    public init() {
+        self.location = CLLocation()
+        self.timestamp = Date()
+    }
+
     public init(location: CLLocation, timestamp: Date?) {
         self.location = location
         self.timestamp = timestamp ?? location.timestamp

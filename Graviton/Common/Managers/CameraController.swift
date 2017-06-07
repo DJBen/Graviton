@@ -51,7 +51,10 @@ class CameraController: NSObject {
         return pitch
     }
 
-    func fadeOutCameraMovement(atTime time: TimeInterval) {
+    /// Decelerate the amera by attenuating slide velocity.
+    ///
+    /// - Parameter time: The timestamp
+    func decelerateCamera(atTime time: TimeInterval) {
         if let ts = slidingStopTimestamp {
             let p = min((time - ts) / viewSlideInertiaDuration, 1) - 1
             let factor: CGFloat = CGFloat(-p * p * p)
@@ -71,7 +74,7 @@ class CameraController: NSObject {
         let finalRot = rot * cameraMovement
         precondition(finalRot.length ~= 1)
         cameraNode.orientation = SCNQuaternion(finalRot)
-        fadeOutCameraMovement(atTime: time)
+        decelerateCamera(atTime: time)
     }
 
     func handleCameraRotation(atTime time: TimeInterval) {

@@ -10,12 +10,16 @@ import CoreLocation
 import MathUtil
 
 public struct HorizontalCoordinate: ExpressibleByDictionaryLiteral {
-    let altitude: Double
-    let azimuth: Double
+    public let altitude: Double
+    public let azimuth: Double
 
     public init(azimuth: Double, altitude: Double) {
         self.azimuth = azimuth
         self.altitude = altitude
+    }
+
+    public init(cartesian vec: Vector3, observerInfo info: LocationAndTime) {
+        self.init(equatorialCoordinate: EquatorialCoordinate.init(cartesian: vec), observerInfo: info)
     }
 
     public init(equatorialCoordinate eqCoord: EquatorialCoordinate, observerInfo info: LocationAndTime) {
