@@ -12,16 +12,18 @@ import SpaceTime
 import MathUtil
 
 class ObserverCameraController: CameraController {
-    var lastAppliedCameraTransform = Quaternion.identity
+    var lastApplied: Quaternion = .identity
 
     override func handleCameraPan(atTime time: TimeInterval) {
         let observerInfo = ObserverInfoManager.default.observerInfo ?? LocationAndTime()
-        var quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
+        let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
-        let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        lastApplied = quat
         var eu = EulerAngle(quaternion: rot)
-        eu.roll = 0
-        let derolledRot = Quaternion(eulerAngle: eu)
+        // because of NED, invert roll by 180°.
+        eu.roll = Double.pi
+        let derolledRot = lastApplied * Quaternion(eulerAngle: eu)
         let movement = Quaternion(eulerAngle: EulerAngle(yaw: cameraYaw * cos(eu.pitch), pitch: cameraPitch, roll: 0))
         cameraNode.orientation = SCNQuaternion(derolledRot * movement)
         decelerateCamera(atTime: time)
