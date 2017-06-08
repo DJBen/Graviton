@@ -62,18 +62,13 @@ extension CLLocation {
     var ecefToLocalNedTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)
-        return Matrix4(
-            -sin(φ) * cos(λ), -sin(φ) * sin(λ), cos(φ), 0,
-            -sin(λ), cos(λ), 0, 0,
-            -cos(φ) * cos(λ), -cos(φ) * sin(λ), -sin(φ), 0,
-            0, 0, 0, 1
-        ).transpose
+        return Matrix4(rotation: Vector4(0, 1, 0, φ + Double.pi / 2)) * Matrix4(rotation: Vector4(0, 0, 1, -λ))
     }
 
     // UNTESTED
     var ecefToLocalEnuTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)
-        return Matrix4.init(rotation: Vector4(1, 0, 0, Double.pi / 2 - φ)) * Matrix4.init(rotation: Vector4(0, 0, 1, Double.pi / 2 + λ))
+        return Matrix4(rotation: Vector4(1, 0, 0, Double.pi / 2 - φ)) * Matrix4(rotation: Vector4(0, 0, 1, Double.pi / 2 + λ))
     }
 }
