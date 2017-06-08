@@ -7,4 +7,4 @@ before_install:
   - travis_wait 40 carthage bootstrap --no-use-binaries --platform iOS --cache-builds
 script:
   - swiftlint
-  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3' build test
+  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator -destination 'platform=iOS Simulator,name=iPhone 7,OS=10.3.1' build test
