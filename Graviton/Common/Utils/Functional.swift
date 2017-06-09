@@ -12,3 +12,9 @@ func nullable<T>(_ block: @escaping (T) -> T) -> ((T?) -> T?) {
         return block(v)
     }
 }
+
+func pairs<K, V>(fromDict dict: [K: V]) -> [(K, V)] {
+    var pairs = [(K, V)]()
+    dict.forEach { pairs.append(($0.key, $0.value)) }
+    return pairs
+}

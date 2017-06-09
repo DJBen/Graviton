@@ -9,11 +9,11 @@
 				<key>type</key>
 				<string>detail</string>
 				<key>text</key>
-				<string>Content Drawing</string>
+				<string>Content Rendering</string>
 				<key>image</key>
 				<string>row_icon_compass</string>
 				<key>destination</key>
-				<string>content_drawing_menu</string>
+				<string>content_rendering_menu</string>
 			</dict>
 		</array>
 	</dict>

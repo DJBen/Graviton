@@ -14,9 +14,9 @@ import SpaceTime
 fileprivate let buttonCellId = "buttonCell"
 fileprivate let detailCellId = "detailCell"
 fileprivate let toggleCellId = "toggleCell"
-fileprivate let headerFooter = "headerFooter"
+fileprivate let headerFooterId = "headerFooter"
 
-class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBackgroundProvider {
+class ObserverMenuController: MenuController {
     class HeaderView: UIView {
         lazy var textLabel: UILabel = {
             let label = UILabel()
@@ -46,31 +46,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         }
     }
 
-    var backgroundImage: UIImage? {
-        didSet {
-            if let navController = navigationController {
-                self.imageView.image = self.backgroundImage
-                if let blurredImage = backgroundImage {
-                    let scale = UIScreen.main.scale
-                    let navHeight = navController.navigationBar.frame.height
-                    let cgImage = blurredImage.cgImage?.cropping(to: CGRect(x: 0, y: 0, width: navController.navigationBar.frame.width * scale, height: navHeight * scale))
-                    let newImage = UIImage(cgImage: cgImage!, scale: scale, orientation: blurredImage.imageOrientation)
-                    navController.navigationBar.setBackgroundImage(newImage, for: .default)
-                }
-            }
-        }
-    }
-
     var menu: Menu!
-
-    private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
-
-    private lazy var imageView: UIImageView = {
-        let imgView = UIImageView(image: self.backgroundImage)
-        imgView.frame = self.view.bounds
-        imgView.autoresizingMask = resizingMask
-        return imgView
-    }()
 
     private var indexPathsToDisable = Set<IndexPath>()
 
@@ -78,19 +54,9 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
 
-        let backgroundView = UIView(frame: view.bounds)
-        backgroundView.autoresizingMask = ObserverMenuController.resizingMask
-        backgroundView.addSubview(imageView)
-
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
         tableView.register(MenuButtonCell.self, forCellReuseIdentifier: buttonCellId)
-        tableView.backgroundView = backgroundView
-        tableView.tableFooterView = UIView()
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
-        tableView.separatorColor = Constants.Menu.separatorColor
-        tableView.backgroundColor = UIColor.clear
-        navigationItem.backBarButtonItem = UIBarButtonItem(title: "", style: .plain, target: nil, action: nil)
 
         let behaviors = menu.registerAllConditionalDisabling()
         behaviors.forEach { (behavior) in
@@ -160,7 +126,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         cell.imageView?.image = item.image
         cell.textLabel?.text = item.text
         switch item.type {
-        case .detail(_):
+        case .detail(_), .multipleSelect(_):
             cell.accessoryType = .disclosureIndicator
         case .toggle(_):
             let toggleCell = cell as! MenuToggleCell
@@ -181,7 +147,7 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             cell.selectionStyle = .none
             let toggleCell = cell as! MenuToggleCell
             toggleCell.binding = binding
-        case .detail(_):
+        case .detail(_), .multipleSelect(_):
             cell = tableView.dequeueReusableCell(withIdentifier: detailCellId, for: indexPath)
         case let .button(key, info):
             cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath)
@@ -203,6 +169,11 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
             let subMenuController = ObserverMenuController(style: .plain)
             subMenuController.menu = submenu
             navigationController?.pushViewController(subMenuController, animated: true)
+        } else if case let .multipleSelect(mulSel) = item.type {
+            // transition to submenu
+            let subMenuController = ObserverMenuMultipleSelectController(style: .plain)
+            subMenuController.multipleSelect = mulSel
+            navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
 
@@ -222,9 +193,4 @@ class ObserverMenuController: UITableViewController, MenuWithBackground, MenuBac
         return header
     }
 
-    // MARK: - Menu Background Provider
-
-    func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
-        return backgroundImage
-    }
 }

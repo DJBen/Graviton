@@ -123,11 +123,13 @@
 		FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */; };
 		FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */; };
 		FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */; };
+		FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */; };
+		FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88561EEC9764007EFE2E /* MenuController.swift */; };
 		FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61E71E9B470F00BEA5BE /* art.scnassets */; };
 		FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */; };
 		FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */; };
 		FC7D61FF1E9B491000BEA5BE /* tracking_label.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FC1E9B491000BEA5BE /* tracking_label.surface.shader */; };
-		FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */; };
+		FC7D62041E9B498400BEA5BE /* content_rendering_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */; };
 		FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC7D62031E9B498400BEA5BE /* main_menu.plist */; };
 		FC959E581E9B4D960026B222 /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E551E9B4D960026B222 /* ObserverScene.swift */; };
 		FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */; };
@@ -450,11 +452,13 @@
 		FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_celestial_menu.plist; sourceTree = "<group>"; };
 		FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButtonCell.swift; sourceTree = "<group>"; };
 		FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyNode.swift; sourceTree = "<group>"; };
+		FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuMultipleSelectController.swift; sourceTree = "<group>"; };
+		FC6B88561EEC9764007EFE2E /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		FC7D61E71E9B470F00BEA5BE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
 		FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracking_label.geometry.shader; sourceTree = "<group>"; };
 		FC7D61FC1E9B491000BEA5BE /* tracking_label.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracking_label.surface.shader; sourceTree = "<group>"; };
-		FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = content_drawing_menu.plist; sourceTree = "<group>"; };
+		FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = content_rendering_menu.plist; sourceTree = "<group>"; };
 		FC7D62031E9B498400BEA5BE /* main_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = main_menu.plist; sourceTree = "<group>"; };
 		FC959E551E9B4D960026B222 /* ObserverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverScene.swift; sourceTree = "<group>"; };
 		FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
@@ -1014,7 +1018,7 @@
 		FC7D62011E9B498400BEA5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				FC7D62021E9B498400BEA5BE /* content_drawing_menu.plist */,
+				FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */,
 				FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */,
 				FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */,
 				FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */,
@@ -1028,6 +1032,7 @@
 			children = (
 				FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */,
 				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
+				FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1061,6 +1066,7 @@
 			isa = PBXGroup;
 			children = (
 				FC959E671E9B50340026B222 /* SceneController.swift */,
+				FC6B88561EEC9764007EFE2E /* MenuController.swift */,
 				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
 				FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */,
 				EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */,
@@ -1584,7 +1590,7 @@
 				FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
 				FC7D61FF1E9B491000BEA5BE /* tracking_label.surface.shader in Resources */,
-				FC7D62041E9B498400BEA5BE /* content_drawing_menu.plist in Resources */,
+				FC7D62041E9B498400BEA5BE /* content_rendering_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
 				FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */,
 				EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */,
@@ -1737,6 +1743,7 @@
 				FC959E711E9B51420026B222 /* SolarSystemScene.swift in Sources */,
 				FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */,
 				FC1CC2DE1EE01F92009FA252 /* ObserverCameraController.swift in Sources */,
+				FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */,
 				FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */,
 				FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */,
 				FC1CC2D61EE016CC009FA252 /* UINavigationController+Transparency.swift in Sources */,
@@ -1748,6 +1755,7 @@
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
+				FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */,
 				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */,
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
