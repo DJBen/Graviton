@@ -39,7 +39,7 @@
 				<key>type</key>
 				<string>button</string>
 				<key>text</key>
-				<string>Autumnal equinox (0h RA, 0° DEC)</string>
+				<string>Autumnal equinox (12h RA, 0° DEC)</string>
 				<key>key</key>
 				<string>jumpToCelestialPoint</string>
 				<key>userInfo</key>

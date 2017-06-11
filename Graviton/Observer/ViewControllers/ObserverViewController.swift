@@ -21,8 +21,8 @@ var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
 
     private lazy var obsScene = ObserverScene()
-    private var obsSubscriptionIdentifier: SubscriptionUUID!
-    private var locationSubscriptionIdentifier: SubscriptionUUID!
+    private var observerSubscriptionIdentifier: SubscriptionUUID!
+    private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
 
     private var scnView: SCNView {
         return self.view as! SCNView
@@ -44,8 +44,8 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     deinit {
         EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
-        ObserverEphemerisManager.default.unsubscribe(obsSubscriptionIdentifier)
-        LocationManager.default.unsubscribe(locationSubscriptionIdentifier)
+        ObserverEphemerisManager.default.unsubscribe(observerSubscriptionIdentifier)
+        ObserverInfoManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -80,7 +80,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         cameraModifier = obsScene
         cameraController = ObserverCameraController()
         cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraInversion = [.invertPitch, .invertYaw, .invertRoll]
+        cameraController.cameraInversion = [.invertYaw, .invertRoll]
         cameraController.cameraNode = obsScene.cameraNode
         configurePanSpeed()
 
@@ -96,8 +96,8 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     override func sceneDidRenderFirstTime(scene: SCNScene) {
         super.sceneDidRenderFirstTime(scene: scene)
         ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
-        obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
-        locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: obsScene.updateLocation(location:))
+        observerSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
+        locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: obsScene.updateLocationAndTime(observerInfo:))
         obsScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
     }
 

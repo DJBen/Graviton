@@ -12,12 +12,12 @@ import CoreLocation
 typealias LocationRequestResultBlock = () -> Void
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
-    typealias SubscriptionBlock = (CLLocation) -> Void
+    typealias LocationSubscriptionBlock = (CLLocation) -> Void
 
     class Subscription {
-        var didUpdate: SubscriptionBlock
+        var didUpdate: LocationSubscriptionBlock
 
-        init(didUpdate: @escaping SubscriptionBlock) {
+        init(didUpdate: @escaping LocationSubscriptionBlock) {
             self.didUpdate = didUpdate
         }
     }
@@ -54,7 +54,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 
-    func subscribe(didUpdate: @escaping SubscriptionBlock) -> SubscriptionUUID {
+    func subscribe(didUpdate: @escaping LocationSubscriptionBlock) -> SubscriptionUUID {
         let uuid = UUID()
         let sub = Subscription(didUpdate: didUpdate)
         subscriptions[uuid] = sub

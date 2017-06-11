@@ -63,7 +63,7 @@ extension ObserverScene {
 
         /// The orientation to transform from ECEF to NED coordinate
         ///
-        /// **Note**: do not use orientation property or otherwise the orientation of each marker will be wrong
+        /// **Note**: do not use orientation property or the orientation of each marker will be wrong
         var ecefToNedOrientation: Quaternion = Quaternion.identity {
             didSet {
                 self.childNodes.forEach { (node) in
@@ -92,7 +92,6 @@ extension ObserverScene {
             let node = MarkerNode(marker: marker)
             node.geometry = plane
             node.position = SCNVector3(marker.unitPosition * radius)
-            node.constraints = [SCNBillboardConstraint()]
             addChildNode(node)
         }
 
@@ -119,7 +118,9 @@ extension ObserverScene {
 
         override func showElement() {
             childNodes.forEach { node in
-                node.constraints = [SCNBillboardConstraint()]
+                let constraint = SCNBillboardConstraint()
+                constraint.freeAxes = [.X, .Y]
+                node.constraints = [constraint]
                 node.isHidden = false
             }
         }

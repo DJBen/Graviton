@@ -162,6 +162,9 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
+		FCC50D371EE67137009045AC /* EulerAngle.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D361EE67137009045AC /* EulerAngle.swift */; };
+		FCC50D391EE67C82009045AC /* EulerAngleTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D381EE67C82009045AC /* EulerAngleTest.swift */; };
+		FCC50D3B1EE69CD7009045AC /* ObserverInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */; };
 		FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DF81E68762100B737D1 /* Intersection.swift */; };
 		FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */; };
 		FCC73E021E6BC13E00B737D1 /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
@@ -496,6 +499,9 @@
 		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
+		FCC50D361EE67137009045AC /* EulerAngle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EulerAngle.swift; sourceTree = "<group>"; };
+		FCC50D381EE67C82009045AC /* EulerAngleTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EulerAngleTest.swift; sourceTree = "<group>"; };
+		FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfoManager.swift; sourceTree = "<group>"; };
 		FCC73DF81E68762100B737D1 /* Intersection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intersection.swift; sourceTree = "<group>"; };
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
@@ -851,6 +857,7 @@
 			children = (
 				FC1CC2C11EE01646009FA252 /* EphemerisMotionManager.swift */,
 				FC1CC2C21EE01646009FA252 /* LocationManager.swift */,
+				FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */,
 				FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */,
 				FC1CC2C41EE01646009FA252 /* ObserverEphemerisManager.swift */,
 				FC1CC2C51EE01646009FA252 /* ObserverRiseTransitSetManager.swift */,
@@ -902,6 +909,7 @@
 				FC24359F1E1F8854002AC626 /* LocationAndTime.swift */,
 				FC2435A01E1F8854002AC626 /* SiderealTime.swift */,
 				FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */,
+				FCC50D361EE67137009045AC /* EulerAngle.swift */,
 				FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */,
 				FC2435841E1F87F0002AC626 /* Info.plist */,
 			);
@@ -914,6 +922,7 @@
 				FC2435A71E1F886C002AC626 /* JulianDateTest.swift */,
 				FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */,
 				FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */,
+				FCC50D381EE67C82009045AC /* EulerAngleTest.swift */,
 				FC2435921E1F87F0002AC626 /* Info.plist */,
 			);
 			path = SpaceTimeTests;
@@ -1754,6 +1763,7 @@
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
+				FCC50D3B1EE69CD7009045AC /* ObserverInfoManager.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
 				FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */,
 				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
@@ -1851,6 +1861,7 @@
 				FC2435A11E1F8854002AC626 /* JulianDate.swift in Sources */,
 				FC2435A51E1F8854002AC626 /* SiderealTime.swift in Sources */,
 				FC2435A31E1F8854002AC626 /* LocationAndTime.swift in Sources */,
+				FCC50D371EE67137009045AC /* EulerAngle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1861,6 +1872,7 @@
 				FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */,
 				FC2435AB1E1F886C002AC626 /* JulianDateTest.swift in Sources */,
 				FC2435AD1E1F886C002AC626 /* SiderealTimeTest.swift in Sources */,
+				FCC50D391EE67C82009045AC /* EulerAngleTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

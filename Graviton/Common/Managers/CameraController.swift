@@ -35,19 +35,26 @@ class CameraController: NSObject {
 
     static var `default` = CameraController()
 
-    var cameraMovement: Quaternion {
-        var yaw = Quaternion(axisAngle: Vector4(0, 1, 0, Double(-slideVelocity.x / viewSlideDivisor)))
+    var cameraYaw: Double {
+        var yaw = Double(-slideVelocity.x / viewSlideDivisor)
         if cameraInversion.contains(.invertYaw) {
-            yaw = yaw.inverse
+            yaw = -yaw
         }
-        var pitch = Quaternion(axisAngle: Vector4(1, 0, 0, Double(-slideVelocity.y / viewSlideDivisor)))
-        if cameraInversion.contains(.invertPitch) {
-            pitch = pitch.inverse
-        }
-        return pitch * yaw
+        return yaw
     }
 
-    func fadeOutCameraMovement(atTime time: TimeInterval) {
+    var cameraPitch: Double {
+        var pitch = Double(-slideVelocity.y / viewSlideDivisor)
+        if cameraInversion.contains(.invertPitch) {
+            pitch = -pitch
+        }
+        return pitch
+    }
+
+    /// Decelerate the amera by attenuating slide velocity.
+    ///
+    /// - Parameter time: The timestamp
+    func decelerateCamera(atTime time: TimeInterval) {
         if let ts = slidingStopTimestamp {
             let p = min((time - ts) / viewSlideInertiaDuration, 1) - 1
             let factor: CGFloat = CGFloat(-p * p * p)
@@ -61,10 +68,13 @@ class CameraController: NSObject {
     func handleCameraPan(atTime time: TimeInterval) {
         guard let cameraNode = cameraNode else { return }
         let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        let yaw = Quaternion(axisAngle: Vector4(0, 1, 0, cameraYaw))
+        let pitch = Quaternion(axisAngle: Vector4(1, 0, 0, cameraPitch))
+        let cameraMovement = pitch * yaw
         let finalRot = rot * cameraMovement
         precondition(finalRot.length ~= 1)
         cameraNode.orientation = SCNQuaternion(finalRot)
-        fadeOutCameraMovement(atTime: time)
+        decelerateCamera(atTime: time)
     }
 
     func handleCameraRotation(atTime time: TimeInterval) {

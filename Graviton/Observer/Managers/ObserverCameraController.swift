@@ -8,31 +8,31 @@
 
 import UIKit
 import SceneKit
+import SpaceTime
 import MathUtil
 
 class ObserverCameraController: CameraController {
-    override var cameraMovement: Quaternion {
-        var yaw = Quaternion(axisAngle: Vector4(0, 0, 1, Double(-slideVelocity.x / viewSlideDivisor)))
-        if cameraInversion.contains(.invertYaw) {
-            yaw = yaw.inverse
-        }
-        var pitch = Quaternion(axisAngle: Vector4(0, 1, 0, Double(slideVelocity.y / viewSlideDivisor)))
-        if cameraInversion.contains(.invertPitch) {
-            pitch = pitch.inverse
-        }
-        return pitch * yaw
-    }
+    var lastApplied: Quaternion = .identity
 
     override func handleCameraPan(atTime time: TimeInterval) {
+        let observerInfo = ObserverInfoManager.default.observerInfo ?? LocationAndTime()
+        let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
-        let rot = Quaternion(axisAngle: Vector4(cameraNode.rotation))
-        
-        let finalRot = rot * cameraMovement
-        var axisAngle = finalRot.toAxisAngle()
-        axisAngle.x = -axisAngle.y
-//        cameraNode.orientation = SCNQuaternion(Quaternion.init(axisAngle: axisAngle))
-        cameraNode.orientation = SCNQuaternion(finalRot)
-        fadeOutCameraMovement(atTime: time)
+        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        lastApplied = quat
+        var eu = EulerAngle(quaternion: rot)
+        // because of NED, invert roll by 180°.
+        eu.roll = Double.pi
+        // cap camera pitch near singularies
+        if eu.pitch > 0.95 * Double.pi / 2 {
+            eu.pitch = 0.95 * Double.pi / 2
+        } else if eu.pitch < -0.95 * Double.pi / 2 {
+            eu.pitch = -0.95 * Double.pi / 2
+        }
+        let derolledRot = lastApplied * Quaternion(eulerAngle: eu)
+        let movement = Quaternion(eulerAngle: EulerAngle(yaw: cameraYaw * cos(eu.pitch), pitch: cameraPitch, roll: 0))
+        cameraNode.orientation = SCNQuaternion(derolledRot * movement)
+        decelerateCamera(atTime: time)
     }
 
     override func handleCameraRotation(atTime time: TimeInterval) {
