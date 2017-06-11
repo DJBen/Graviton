@@ -24,10 +24,10 @@ class ObserverCameraController: CameraController {
         // because of NED, invert roll by 180°.
         eu.roll = Double.pi
         // cap camera pitch near singularies
-        if eu.pitch > 0.95 * Double.pi / 2 {
+        if eu.pitch > 0.95 * Double.pi / 2 && eu.pitch < Double.pi / 2 {
             eu.pitch = 0.95 * Double.pi / 2
-        } else if eu.pitch < -0.95 * Double.pi / 2 {
-            eu.pitch = -0.95 * Double.pi / 2
+        } else if eu.pitch < Double.pi * 2 - 0.95 * Double.pi / 2 && eu.pitch > Double.pi * 3 / 2 {
+            eu.pitch = Double.pi * 2 - 0.95 * Double.pi / 2
         }
         let derolledRot = lastApplied * Quaternion(eulerAngle: eu)
         let movement = Quaternion(eulerAngle: EulerAngle(yaw: cameraYaw * cos(eu.pitch), pitch: cameraPitch, roll: 0))
