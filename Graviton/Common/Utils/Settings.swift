@@ -18,8 +18,10 @@ fileprivate let showEarthshineDefault = true
 fileprivate let showDirectionMarkersDefault = true
 fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
 fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+fileprivate let groundTextureDefaultKey: String = "debugNode"
 
 typealias BooleanSettingBlock = (Bool, Bool) -> Void
+typealias SelectionSettingBlock = (String, String) -> Void
 
 struct Settings {
 
@@ -38,11 +40,18 @@ struct Settings {
         let block: BooleanSettingBlock
     }
 
+    private struct SelectionSettingSubscription {
+        let setting: SelectionSetting
+        let object: NSObject
+        let block: SelectionSettingBlock
+    }
+
     static var `default`: Settings = {
         return Settings()
     }()
 
     private var booleanSubscriptions = [BooleanSubscription]()
+    private var selectionSubscriptions = [SelectionSettingSubscription]()
     private var disableBehaviors = [BooleanDisableBehavior]()
 
     private func findBooleanSubscriptions(_ key: BooleanSetting) -> [BooleanSubscription] {
@@ -52,6 +61,12 @@ struct Settings {
     private func executeBooleanBlock(setting: BooleanSetting, oldValue: Bool, newValue: Bool) {
         DispatchQueue.main.async {
             self.booleanSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
+        }
+    }
+
+    private func executeSelectionBlock(setting: SelectionSetting, oldValue: String, newValue: String) {
+        DispatchQueue.main.async {
+            self.selectionSubscriptions.filter { setting == $0.setting }.forEach { $0.block(oldValue, newValue) }
         }
     }
 
@@ -83,6 +98,16 @@ struct Settings {
                 return showDirectionMarkersDefault
             default:
                 return false
+            }
+        }
+    }
+
+    enum SelectionSetting: String {
+        case groundTexture
+        var `default`: String {
+            switch self {
+            case .groundTexture:
+                return groundTextureDefaultKey
             }
         }
     }
@@ -128,6 +153,18 @@ struct Settings {
         }
     }
 
+    subscript(selectionKey: SelectionSetting) -> String {
+        get {
+            guard let value = UserDefaults.standard.object(forKey: selectionKey.rawValue) else { return selectionKey.default }
+            return value as! String
+        }
+        set {
+            let oldValue = self[selectionKey]
+            UserDefaults.standard.set(newValue, forKey: selectionKey.rawValue)
+            executeSelectionBlock(setting: selectionKey, oldValue: oldValue, newValue: newValue)
+        }
+    }
+
     subscript(colorKey: ColorSetting) -> UIColor {
         get {
             guard let data = UserDefaults.standard.data(forKey: colorKey.rawValue) else { return colorKey.default }
@@ -170,5 +207,10 @@ struct Settings {
 
     mutating func unsubscribe(object: NSObject) {
         booleanSubscriptions = booleanSubscriptions.filter { $0.object !== object }
+        selectionSubscriptions = selectionSubscriptions.filter { $0.object !== object }
+    }
+
+    mutating func subscribe(setting: SelectionSetting, object: NSObject, valueChanged block: @escaping SelectionSettingBlock) {
+        selectionSubscriptions.append(SelectionSettingSubscription(setting: setting, object: object, block: block))
     }
 }

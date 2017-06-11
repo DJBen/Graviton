@@ -265,6 +265,16 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             }
             self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
         }
+        Settings.default.subscribe(setting: .groundTexture, object: self) { (_, newValue) in
+            switch newValue {
+            case "debugNode":
+                self.landscapeNode.isHidden = false
+            case "none":
+                self.landscapeNode.isHidden = true
+            default:
+                fatalError("unrecognized groundTexture setting")
+            }
+        }
     }
 
     deinit {

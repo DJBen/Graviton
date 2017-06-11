@@ -19,6 +19,7 @@ enum MenuParseError: Error {
     case cannotFindBinding
     case cannotFindSelector
     case cannotInitializeClassName
+    case cannotInitializeMultipleSelect
 }
 
 struct Menu {
@@ -84,11 +85,45 @@ struct Section {
     }
 }
 
+struct MultipleSelect {
+    let text: String
+    let setting: Settings.SelectionSetting
+    let options: [(String, String)]
+
+    var selectedIndex: Int {
+        let key = Settings.default[setting]
+        return options.index(where: { $0.0 == key})!
+    }
+
+    var selection: (String, String) {
+        let key = Settings.default[setting]
+        return options.first(where: { $0.0 == key })!
+    }
+
+    init(dict: [String: AnyObject]) throws {
+        precondition(dict["type"] as? String == "multipleSelect")
+        guard let text = dict["text"] as? String, let binding = dict["binding"] as? String, let options = dict["options"] as? [[String: String]] else {
+            throw MenuParseError.cannotInitializeMultipleSelect
+        }
+        var selections = [String: String]()
+        for option in options {
+            selections[option["key"]!] = option["text"]
+        }
+        self.text = text
+        guard let setting = Settings.SelectionSetting(rawValue: binding) else {
+            fatalError("unregistered multiple select binding, go to Settings.swift to add a case in SelectionSetting enum")
+        }
+        self.setting = setting
+        self.options = pairs(fromDict: selections)
+    }
+}
+
 struct MenuItem {
     enum `Type` {
         case detail(Menu)
         case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
         case button(String, Any?)
+        case multipleSelect(MultipleSelect)
     }
     let text: String
     let type: Type
@@ -119,6 +154,9 @@ struct MenuItem {
             guard let key = rawItem["key"] as? String else { throw MenuParseError.cannotFindSelector }
             let userInfo = rawItem["userInfo"]
             self.type = .button(key, userInfo)
+        case "multipleSelect":
+            let mulSel = try MultipleSelect(dict: rawItem)
+            self.type = .multipleSelect(mulSel)
         default:
             throw MenuParseError.unrecognizedMenuType
         }
@@ -140,6 +178,15 @@ extension Menu {
                     }
                 }
             }
+        }
+        return nil
+    }
+}
+
+extension MultipleSelect {
+    func indexPath(for key: String) -> IndexPath? {
+        if let index = options.index(where: { $0.0 == key }) {
+            return IndexPath.init(row: index, section: 0)
         }
         return nil
     }
