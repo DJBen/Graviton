@@ -11,22 +11,12 @@ import CoreLocation
 
 typealias LocationRequestResultBlock = () -> Void
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
-    typealias LocationSubscriptionBlock = (CLLocation) -> Void
-
-    class Subscription {
-        var didUpdate: LocationSubscriptionBlock
-
-        init(didUpdate: @escaping LocationSubscriptionBlock) {
-            self.didUpdate = didUpdate
-        }
-    }
+class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDelegate {
 
     static let `default` = LocationManager()
 
-    var subscriptions = [SubscriptionUUID: Subscription]()
     var timeZone: TimeZone = TimeZone.current
-    var location: CLLocation? {
+    override var content: CLLocation? {
         return locationManager.location
     }
 
@@ -54,22 +44,6 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 
-    func subscribe(didUpdate: @escaping LocationSubscriptionBlock) -> SubscriptionUUID {
-        let uuid = UUID()
-        let sub = Subscription(didUpdate: didUpdate)
-        subscriptions[uuid] = sub
-        if let location = self.location {
-            DispatchQueue.main.async {
-                didUpdate(location)
-            }
-        }
-        return uuid
-    }
-
-    func unsubscribe(_ uuid: SubscriptionUUID) {
-        subscriptions[uuid] = nil
-    }
-
     // MARK: - Location Manager Delegate
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
@@ -84,7 +58,7 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         let location = locations.last!
         for (_, sub) in self.subscriptions {
             DispatchQueue.main.async {
-                sub.didUpdate(location)
+                sub.didUpdate?(location)
             }
         }
     }

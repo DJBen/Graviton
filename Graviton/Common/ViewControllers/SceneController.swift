@@ -29,10 +29,11 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     let transitionController = NavigationTransitionController()
 
-    var cameraController: CameraController = CameraController()
+    var cameraController: CameraController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        loadCameraController()
         navigationController?.delegate = transitionController
         let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped))
         navigationItem.rightBarButtonItem = barButtonItem
@@ -53,6 +54,10 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         SCNTransaction.animationDuration = 0.5
         cameraModifier?.resetCamera()
         SCNTransaction.commit()
+    }
+
+    func loadCameraController() {
+        cameraController = CameraController()
     }
 
     func zoom(sender: UIPinchGestureRecognizer) {
