@@ -24,6 +24,21 @@
 				<key>type</key>
 				<string>detail</string>
 				<key>text</key>
+				<string>Controls</string>
+				<key>image</key>
+				<string>row_icon_control</string>
+				<key>destination</key>
+				<string>control_menu</string>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>detail</string>
+				<key>text</key>
 				<string>Debugging</string>
 				<key>image</key>
 				<string>row_icon_inspection</string>
