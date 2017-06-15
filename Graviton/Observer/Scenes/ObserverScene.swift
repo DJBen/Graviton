@@ -121,7 +121,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         return node
     }()
 
-    lazy var landscapeNode: SCNNode = {
+    lazy var panoramaNode: SCNNode = {
         let node = SphereInteriorNode(radius: landscapeLayerRadius)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
         node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
@@ -228,7 +228,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         resetCamera()
         rootNode.addChildNode(defaultLightingNode)
         rootNode.addChildNode(milkyWayNode)
-        rootNode.addChildNode(landscapeNode)
+        rootNode.addChildNode(panoramaNode)
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
         rootNode.addChildNode(directionMarkers)
@@ -265,15 +265,26 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             }
             self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
         }
+
+        loadPanoramaTexture(Settings.default[.groundTexture])
         Settings.default.subscribe(setting: .groundTexture, object: self) { (_, newValue) in
-            switch newValue {
-            case "debugNode":
-                self.landscapeNode.isHidden = false
-            case "none":
-                self.landscapeNode.isHidden = true
-            default:
-                fatalError("unrecognized groundTexture setting")
-            }
+            self.loadPanoramaTexture(newValue)
+        }
+    }
+
+    private func loadPanoramaTexture(_ key: String) {
+        self.panoramaNode.isHidden = key == "none"
+        switch key {
+        case "citySilhoulette":
+            self.panoramaNode.geometry?.firstMaterial?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
+            self.panoramaNode.geometry?.firstMaterial?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
+        case "debugNode":
+            self.panoramaNode.geometry?.firstMaterial?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+            self.panoramaNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+        case "none":
+            break
+        default:
+            fatalError("unrecognized groundTexture setting")
         }
     }
 
@@ -407,7 +418,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
         guard let transform = observerInfo?.localViewTransform else { return }
         let orientation = Quaternion(rotationMatrix: transform)
-        landscapeNode.orientation = SCNQuaternion(orientation)
+        panoramaNode.orientation = SCNQuaternion(orientation)
         directionMarkers.ecefToNedOrientation = orientation
     }
 
