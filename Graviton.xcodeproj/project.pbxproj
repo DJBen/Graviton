@@ -122,6 +122,8 @@
 		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
 		FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */; };
 		FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */; };
+		FC6619AA1EF26CB900B670CC /* AttitudeStabilizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6619A91EF26CB900B670CC /* AttitudeStabilizer.swift */; };
+		FC6619AC1EF271E500B670CC /* control_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC6619AB1EF271E500B670CC /* control_menu.plist */; };
 		FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */; };
 		FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */; };
 		FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88561EEC9764007EFE2E /* MenuController.swift */; };
@@ -457,6 +459,8 @@
 		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
 		FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_celestial_menu.plist; sourceTree = "<group>"; };
 		FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButtonCell.swift; sourceTree = "<group>"; };
+		FC6619A91EF26CB900B670CC /* AttitudeStabilizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AttitudeStabilizer.swift; sourceTree = "<group>"; };
+		FC6619AB1EF271E500B670CC /* control_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = control_menu.plist; sourceTree = "<group>"; };
 		FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyNode.swift; sourceTree = "<group>"; };
 		FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuMultipleSelectController.swift; sourceTree = "<group>"; };
 		FC6B88561EEC9764007EFE2E /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
@@ -1035,11 +1039,12 @@
 		FC7D62011E9B498400BEA5BE /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				FC7D62031E9B498400BEA5BE /* main_menu.plist */,
 				FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */,
 				FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */,
 				FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */,
 				FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */,
-				FC7D62031E9B498400BEA5BE /* main_menu.plist */,
+				FC6619AB1EF271E500B670CC /* control_menu.plist */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -1240,6 +1245,7 @@
 		FCFF7B081EA213F900C4B006 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				FC6619A91EF26CB900B670CC /* AttitudeStabilizer.swift */,
 				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
 				EFA4F0721EAAB81A005D2E0D /* Functional.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
@@ -1603,6 +1609,7 @@
 				FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */,
+				FC6619AC1EF271E500B670CC /* control_menu.plist in Resources */,
 				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
 				FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */,
 				FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */,
@@ -1766,6 +1773,7 @@
 				FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */,
 				FC1CC2D61EE016CC009FA252 /* UINavigationController+Transparency.swift in Sources */,
 				EFC2C6981D88D02F0031AA9C /* AppDelegate.swift in Sources */,
+				FC6619AA1EF26CB900B670CC /* AttitudeStabilizer.swift in Sources */,
 				FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */,
 				EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */,
 				FC172B261ED27BBA008BF615 /* BooleanFlaggedLight.swift in Sources */,
