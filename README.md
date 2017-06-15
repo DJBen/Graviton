@@ -18,7 +18,7 @@
 __Unless marked internal, all frameworks are available for standalone use.__
 ### Orbits
 _High accuracy ephemeris query and orbital mechanics calculation framework._
-- [x] Calculate [Keplarian](https://en.wikipedia.org/wiki/Kepler_orbit) orbital mechanics with support of all [conics](https://en.wikipedia.org/wiki/Conic_section)
+- [x] Calculate [Keplarian](https://en.wikipedia.org/wiki/Kepler_orbit) orbital mechanics with support of all [conics](https://en.wikipedia.org/wiki/Conic_section).
 - [x] Query and process high accuracy ephemeris from NASA JPL's [Horizon](http://ssd.jpl.nasa.gov/?horizons) interface and automatically cache results using [Realm](https://realm.io) and SQLite.
 - [x] Excellent offline mode. Stock ephemeris from 1500 AD to 3000 AD of major celestial bodies.
 - [x] Support querying rise, transit and set timestamps for major celestial bodies.
@@ -49,5 +49,5 @@ This is an amateurish project by an amateur astronomer. As a lover of science an
 - (?) A space flight simulator that utilizes [patched conics approximation](https://en.wikipedia.org/wiki/Patched_conic_approximation).
 
 ## Copyright
-This project is licensed with GPLv3.
-If you have issues with any assets or resources in Graviton, please don't hesitate to reach out @DJBen. No copyright issue is too small.
+This project is licensed under GPLv3.
+If you have issues with any assets or resources in Graviton, please don't hesitate to reach out [DJBen](mailto:lsh32768@gmail.com). No copyright issue is too small.
