@@ -66,6 +66,12 @@
 						<key>text</key>
 						<string>Debugging texture</string>
 					</dict>
+					<dict>
+						<key>key</key>
+						<string>citySilhoulette</string>
+						<key>text</key>
+						<string>City Silhoulette</string>
+					</dict>
 				</array>
 			</dict>
 		</array>
