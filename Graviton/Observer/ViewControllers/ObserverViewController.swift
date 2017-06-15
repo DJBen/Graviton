@@ -23,6 +23,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     private lazy var obsScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
+    private var motionSubscriptionIdentifier: SubscriptionUUID!
 
     private var scnView: SCNView {
         return self.view as! SCNView
@@ -30,6 +31,10 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     var currentSnapshot: UIImage {
         return scnView.snapshot()
+    }
+
+    var observerCameraController: ObserverCameraController {
+        return cameraController as! ObserverCameraController
     }
 
     override func viewDidLoad() {
@@ -46,6 +51,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
         ObserverEphemerisManager.default.unsubscribe(observerSubscriptionIdentifier)
         ObserverInfoManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
+//        MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -60,6 +66,14 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         }
     }
 
+    override func loadCameraController() {
+        cameraController = ObserverCameraController()
+        cameraController.viewSlideVelocityCap = 500
+        cameraController.cameraInversion = [.invertYaw, .invertRoll]
+        cameraController.cameraNode = obsScene.cameraNode
+        configurePanSpeed()
+    }
+
     override func menuButtonTapped(sender: UIButton) {
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
@@ -69,6 +83,9 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
 
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
+        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
+        navigationItem.leftBarButtonItem = barButtonItem
+
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
         scnView.scene = obsScene
@@ -78,15 +95,20 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         scnView.autoenablesDefaultLighting = false
 
         cameraModifier = obsScene
-        cameraController = ObserverCameraController()
-        cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraInversion = [.invertYaw, .invertRoll]
-        cameraController.cameraNode = obsScene.cameraNode
-        configurePanSpeed()
 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         view.addGestureRecognizer(tapGR)
+    }
+
+    func gyroButtonTapped(sender: UIBarButtonItem) {
+        MotionManager.default.toggleMotionUpdate()
+    }
+
+    override func pan(sender: UIPanGestureRecognizer) {
+        super.pan(sender: sender)
+        // if there's any pan event, cancel motion updates
+        MotionManager.default.stopMotionUpdate()
     }
 
     func handleTap(sender: UITapGestureRecognizer) {
@@ -99,6 +121,7 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
         observerSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
         locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: obsScene.updateLocationAndTime(observerInfo:))
         obsScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
+        motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
     }
 
     private func configurePanSpeed() {

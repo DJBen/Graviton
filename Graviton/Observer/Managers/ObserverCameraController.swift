@@ -8,13 +8,17 @@
 
 import UIKit
 import SceneKit
+import CoreMotion
 import SpaceTime
 import MathUtil
 
 class ObserverCameraController: CameraController {
-    var lastApplied: Quaternion = .identity
+    private var lastApplied: Quaternion = .identity
 
     override func handleCameraPan(atTime time: TimeInterval) {
+        if MotionManager.default.isActive {
+            return
+        }
         let observerInfo = ObserverInfoManager.default.observerInfo ?? LocationAndTime()
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
@@ -36,16 +40,21 @@ class ObserverCameraController: CameraController {
     }
 
     override func handleCameraRotation(atTime time: TimeInterval) {
-        guard let cameraNode = cameraNode, let oldRot = previousRotation else { return }
-        var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
-        var roll: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotation), 1, 0, 0)
-        if cameraInversion.contains(.invertRoll) {
-            roll = GLKQuaternionInvert(roll)
-        }
-        rot = GLKQuaternionMultiply(rot, roll)
+        // disable
+    }
 
-        let axis = GLKQuaternionAxis(rot)
-        let angle = GLKQuaternionAngle(rot)
-        cameraNode.rotation = SCNVector4Make(axis.x, axis.y, axis.z, angle)
+    // I don't know why such algorithm is working. It is working nonetheless.
+    func deviceMotionDidUpdate(motion: CMDeviceMotion) {
+        slideVelocity = CGPoint.zero
+        let observerInfo = ObserverInfoManager.default.observerInfo ?? LocationAndTime()
+        let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
+        let eu = motion.attitude.eulerAngle
+        // device space to NED
+        let transform = Quaternion(axisAngle: Vector4(1, 0, 0, Double.pi)) * Quaternion(axisAngle: Vector4(0, 0, 1, Double.pi / 2)) * Quaternion(motion.attitude.quaternion)
+        let (pitch, yaw, roll) = transform.toPitchYawRoll()
+        let pitchYaw = Quaternion(pitch: pitch - Double.pi / 2, yaw: -yaw, roll: Double.pi / 2)
+        let rollTransform = Quaternion(pitch: 0, yaw: 0, roll: roll + Double.pi / 2)
+        cameraNode?.orientation = SCNQuaternion(quat * rollTransform * pitchYaw)
+        print(eu)
     }
 }

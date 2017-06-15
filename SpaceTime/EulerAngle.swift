@@ -8,6 +8,7 @@
 
 import UIKit
 import MathUtil
+import CoreMotion
 
 public struct EulerAngle: Equatable {
     public var yaw: Double
@@ -65,5 +66,11 @@ public extension Quaternion {
         x = t0 * t3 * t4 - t1 * t2 * t5
         y = t0 * t2 * t5 + t1 * t3 * t4
         z = t1 * t2 * t4 - t0 * t3 * t5
+    }
+}
+
+public extension CMAttitude {
+    var eulerAngle: EulerAngle {
+        return EulerAngle.init(yaw: yaw, pitch: pitch, roll: roll)
     }
 }

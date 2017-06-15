@@ -56,6 +56,8 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>NSMotionUsageDescription</key>
+	<string>Graviton needs motion data to align the rendered stars with real world night sky</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Graviton needs to perform astronomical calculations based on where you are.</string>
 </dict>
