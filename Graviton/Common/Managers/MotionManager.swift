@@ -45,7 +45,6 @@ class MotionManager: NSObject {
     func subscribe(didUpdate: MotionManager.SubscriptionBlock?) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
         subscriptions[uuid] = Subscription(identifier: uuid, didUpdate: didUpdate)
-        print(subscriptions.count)
         if let content = content {
             DispatchQueue.main.async {
                 didUpdate?(content)
@@ -85,8 +84,10 @@ class MotionManager: NSObject {
     }
 
     func stopMotionUpdate() {
-        motionManager.stopDeviceMotionUpdates()
-        print("Device motion update stopped")
+        if motionManager.isDeviceMotionActive {
+            motionManager.stopDeviceMotionUpdates()
+            print("Device motion update stopped")
+        }
     }
 
     func toggleMotionUpdate() {

@@ -25,3 +25,5 @@ nesting:
     warning: 2
   statement_level:
     warning: 5
+large_tuple:
+  warning: 3
