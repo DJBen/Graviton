@@ -69,8 +69,8 @@ class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate,
     override func loadCameraController() {
         cameraController = ObserverCameraController()
         cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraInversion = [.invertYaw, .invertRoll]
         cameraController.cameraNode = obsScene.cameraNode
+        cameraController.cameraInversion = .invertAll
         configurePanSpeed()
     }
 

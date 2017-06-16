@@ -1075,16 +1075,19 @@ extension Quaternion: Equatable, Hashable {
         }
     }
 
+    /// Rotation about z-axis
     public var pitch: Scalar {
-        return atan2(2 * (y * z + w * x), w * w - x * x - y * y + z * z)
+        return asin(2 * (x * y + z * w))
     }
 
+    /// Rotation about y-axis
     public var yaw: Scalar {
-        return asin(-2 * (x * z - w * y))
+        return atan2(2 * y * w - 2 * x * z, 1 - 2 * y * y - 2 * z * z)
     }
 
+    /// Rotation about x-axis
     public var roll: Scalar {
-        return atan2(2 * (x * y + w * z), w * w + x * x - y * y - z * z)
+        return atan2(2 * x * w - 2 * y * z, 1 - 2 * x * x - 2 * z * z)
     }
 
     public init(_ x: Scalar, _ y: Scalar, _ z: Scalar, _ w: Scalar) {
@@ -1098,11 +1101,31 @@ extension Quaternion: Equatable, Hashable {
         self.init(a.x, a.y, a.z, cos(r))
     }
 
+    // http://www.euclideanspace.com/maths/geometry/rotations/conversions/quaternionToEuler/index.htm
+
+    /// Initialize quaternion using the following coordinate system.
+    /// - +X to the right
+    /// - +Y straight up
+    /// - +Z axis toward viewer
+    ///
+    /// Euler angle application order: yaw applied first; pitch applied second and roll applied last.
+    /// - Parameters:
+    ///   - pitch: Pitch. Rotation about z-axis.
+    ///   - yaw: Yaw. Rotation about y-axis.
+    ///   - roll: Roll. Rotation about x-axis.
     public init(pitch: Scalar, yaw: Scalar, roll: Scalar) {
-        let quatPitch = Quaternion(axisAngle: Vector4(1, 0, 0, pitch))
-        let quatYaw = Quaternion(axisAngle: Vector4(0, 1, 0, yaw))
-        let quatRoll = Quaternion(axisAngle: Vector4(0, 0, 1, roll))
-        self = quatPitch * quatYaw * quatRoll
+        let c1 = cos(yaw / 2)
+        let s1 = sin(yaw / 2)
+        let c2 = cos(pitch / 2)
+        let s2 = sin(pitch / 2)
+        let c3 = cos(roll / 2)
+        let s3 = sin(roll / 2)
+        let c1c2 = c1 * c2
+        let s1s2 = s1 * s2
+        w = c1c2*c3 - s1s2*s3
+        x = c1c2*s3 + s1s2*c3
+        y = s1*c2*c3 + c1*s2*s3
+        z = c1*s2*c3 - s1*c2*s3
     }
 
     public init(lookAt point: Vector3, from source: Vector3) {
@@ -1177,6 +1200,12 @@ extension Quaternion: Equatable, Hashable {
         }
     }
 
+
+    /// pitch: Rotation about z-axis
+    ///
+    /// - yaw: Rotation about y-axis
+    ///
+    /// - roll: Rotation about x-axis
     public func toPitchYawRoll() -> (pitch: Scalar, yaw: Scalar, roll: Scalar) {
         return (pitch, yaw, roll)
     }

@@ -35,7 +35,6 @@ class LiteSubscriptionManager<T>: NSObject {
     func subscribe(didUpdate: SubscriptionBlock?) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
         subscriptions[uuid] = Subscription(identifier: uuid, didUpdate: didUpdate)
-        print(subscriptions.count)
         if let content = content {
             DispatchQueue.main.async {
                 didUpdate?(content)

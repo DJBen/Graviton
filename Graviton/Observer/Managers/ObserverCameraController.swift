@@ -31,6 +31,7 @@ class ObserverCameraController: CameraController {
         Settings.default.unsubscribe(object: self)
     }
 
+    // I don't know why such algorithm is working. It is working nonetheless.
     override func handleCameraPan(atTime time: TimeInterval) {
         if MotionManager.default.isActive {
             return
@@ -39,18 +40,17 @@ class ObserverCameraController: CameraController {
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
         let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
-        lastApplied = quat
-        var eu = EulerAngle(quaternion: rot)
-        // because of NED, invert roll by 180°.
-        eu.roll = Double.pi
+        let controlSpaceTransform = Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
+        lastApplied = quat * controlSpaceTransform
+        var (pitch, yaw, _) = rot.toPitchYawRoll()
         // cap camera pitch near singularies
-        if eu.pitch > 0.95 * Double.pi / 2 && eu.pitch < Double.pi / 2 {
-            eu.pitch = 0.95 * Double.pi / 2
-        } else if eu.pitch < Double.pi * 2 - 0.95 * Double.pi / 2 && eu.pitch > Double.pi * 3 / 2 {
-            eu.pitch = Double.pi * 2 - 0.95 * Double.pi / 2
+        if pitch > 0.97 * Double.pi / 2 && pitch < Double.pi / 2 {
+            pitch = 0.97 * Double.pi / 2
+        } else if pitch < -0.97 * Double.pi / 2 && pitch > -Double.pi {
+            pitch = -0.97 * Double.pi / 2
         }
-        let derolledRot = lastApplied * Quaternion(eulerAngle: eu)
-        let movement = Quaternion(eulerAngle: EulerAngle(yaw: cameraYaw * cos(eu.pitch), pitch: cameraPitch, roll: 0))
+        let derolledRot = lastApplied * Quaternion.init(pitch: pitch, yaw: yaw, roll: 0)
+        let movement = controlSpaceTransform * Quaternion(pitch: cameraYaw * cos(pitch), yaw: -cameraPitch, roll: 0)
         cameraNode.orientation = SCNQuaternion(derolledRot * movement)
         decelerateCamera(atTime: time)
     }
@@ -65,11 +65,10 @@ class ObserverCameraController: CameraController {
         slideVelocity = CGPoint.zero
         let observerInfo = ObserverInfoManager.default.observerInfo ?? LocationAndTime()
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
-        // device space to NED
-        let transform = Quaternion(axisAngle: Vector4(1, 0, 0, Double.pi)) * Quaternion(axisAngle: Vector4(0, 0, 1, Double.pi / 2)) * stabilizer.smoothedQuaternion
-        let (pitch, yaw, roll) = transform.toPitchYawRoll()
-        let pitchYaw = Quaternion(pitch: pitch - Double.pi / 2, yaw: -yaw, roll: Double.pi / 2)
-        let rollTransform = Quaternion(pitch: 0, yaw: 0, roll: roll + Double.pi / 2)
-        cameraNode?.orientation = SCNQuaternion(quat * rollTransform * pitchYaw)
+        let transform = Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * Quaternion(axisAngle: Vector4(0, 1, 0, Double.pi / 2))
+        let eulerSpace = transform.inverse * stabilizer.smoothedQuaternion * transform
+        let final = Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * eulerSpace
+        cameraNode?.orientation = SCNQuaternion(quat * final)
     }
+
 }
