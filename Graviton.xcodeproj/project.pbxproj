@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67931EF9D0C700C95AC3 /* Kepler.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
 		EF3CE1961EC26A76004224CB /* ObserverLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3CE1951EC26A76004224CB /* ObserverLoadable.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
@@ -32,7 +33,6 @@
 		EF5F132B1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
 		EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
 		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
-		EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6F29751E7B1B63003C2125 /* Kepler.swift */; };
 		EF6FB1271EBA9DA900BCD215 /* ObserverField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6FB1261EBA9DA900BCD215 /* ObserverField.swift */; };
 		EF9867AF1EE0D8DF00486C64 /* DirectionMarkerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */; };
 		EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0701EAAB230005D2E0D /* Style.swift */; };
@@ -46,7 +46,7 @@
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
-		EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */; };
+		EFC6AA021E46F5B40069341C /* CGVector+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* CGVector+Util.swift */; };
 		EFC7C1231E56838F00B7B9B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */; };
 		EFC7C1251E56838F00B7B9B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1241E56838F00B7B9B9 /* ViewController.swift */; };
 		EFC7C1281E56838F00B7B9B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC7C1261E56838F00B7B9B9 /* Main.storyboard */; };
@@ -157,7 +157,7 @@
 		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930B91E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
-		FCA930D71E2B8F1200100706 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* Constants.swift */; };
+		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
@@ -362,6 +362,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF2A67931EF9D0C700C95AC3 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
 		EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 		EF3CE1951EC26A76004224CB /* ObserverLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverLoadable.swift; sourceTree = "<group>"; };
@@ -381,7 +382,6 @@
 		EF5F13221E5020FF00A8EF51 /* SpectralType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralType.swift; sourceTree = "<group>"; };
 		EF5F13231E5020FF00A8EF51 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
-		EF6F29751E7B1B63003C2125 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EF6FB1261EBA9DA900BCD215 /* ObserverField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverField.swift; sourceTree = "<group>"; };
 		EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionMarkerNode.swift; sourceTree = "<group>"; };
 		EFA4F0701EAAB230005D2E0D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
@@ -397,7 +397,7 @@
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreGraphics.swift"; sourceTree = "<group>"; };
+		EFC6AA011E46F5B40069341C /* CGVector+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGVector+Util.swift"; sourceTree = "<group>"; };
 		EFC7C1201E56838F00B7B9B9 /* DatabaseGen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseGen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC7C1241E56838F00B7B9B9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -504,7 +504,7 @@
 		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCA930B81E2B8E6600100706 /* Body.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Body.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifCatalog.swift; sourceTree = "<group>"; };
-		FCA930D51E2B8F1200100706 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicalConstants.swift; sourceTree = "<group>"; };
 		FCA930DB1E2B8F3700100706 /* Ephemeris.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Ephemeris.swift; sourceTree = "<group>"; };
 		FCA930E11E2B8F5400100706 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizonsTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930E21E2B8F5400100706 /* MotionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionParserTest.swift; sourceTree = "<group>"; };
@@ -1200,7 +1200,8 @@
 		FCA930CB1E2B8EF600100706 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				FCA930D51E2B8F1200100706 /* Constants.swift */,
+				FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */,
+				EF2A67931EF9D0C700C95AC3 /* Kepler.swift */,
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
 				FC998DB41E2CE87700E0BFFF /* DBHelper.swift */,
 				EFA4FEE81EBDB94B001919DD /* Functional.swift */,
@@ -1214,14 +1215,13 @@
 				FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */,
 				FCC0BDAD1E2D97DC003939B1 /* Info.plist */,
 				FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */,
+				EFC6AA011E46F5B40069341C /* CGVector+Util.swift */,
 				FCC73DF81E68762100B737D1 /* Intersection.swift */,
 				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
-				EF6F29751E7B1B63003C2125 /* Kepler.swift */,
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
 				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
 				FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */,
 				FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */,
-				EFC6AA011E46F5B40069341C /* VectorMath+CoreGraphics.swift */,
 			);
 			path = MathUtil;
 			sourceTree = "<group>";
@@ -1906,6 +1906,7 @@
 				FCCF5B6D1EBF1A9D00B8004E /* ObserverRiseTransitSetParser.swift in Sources */,
 				FCCF5B711EBF1A9D00B8004E /* ResponseValidator.swift in Sources */,
 				FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */,
+				EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */,
 				FCCF5B691EBF1A9D00B8004E /* EphemerisMotionParser.swift in Sources */,
 				FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */,
 				FCCF5B651EBF1A9D00B8004E /* CelestialBodyParser.swift in Sources */,
@@ -1920,7 +1921,7 @@
 				FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */,
 				FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */,
 				FCCF5B591EBF152000B8004E /* ObserverInfo.swift in Sources */,
-				FCA930D71E2B8F1200100706 /* Constants.swift in Sources */,
+				FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */,
 				FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */,
 				FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */,
 				FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */,
@@ -1972,9 +1973,8 @@
 				FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */,
 				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
 				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
-				EF6F29761E7B1B63003C2125 /* Kepler.swift in Sources */,
 				EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */,
-				EFC6AA021E46F5B40069341C /* VectorMath+CoreGraphics.swift in Sources */,
+				EFC6AA021E46F5B40069341C /* CGVector+Util.swift in Sources */,
 				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
 				FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */,
 				FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */,

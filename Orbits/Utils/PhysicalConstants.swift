@@ -1,5 +1,5 @@
 //
-//  Constants.swift
+//  PhysicalConstants.swift
 //  Orbits
 //
 //  Created by Ben Lu on 9/13/16.
