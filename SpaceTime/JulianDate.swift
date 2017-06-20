@@ -9,6 +9,12 @@
 import Foundation
 import MathUtil
 
+fileprivate let calendar: Calendar = {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+    return calendar
+}()
+
 public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Comparable {
 
     public typealias FloatLiteralType = Double
@@ -35,8 +41,6 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Co
     }
 
     public init(date: Date) {
-        var calendar = Calendar(identifier: .gregorian)
-        calendar.timeZone = TimeZone(secondsFromGMT: 0)!
         let components = calendar.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
         let year = components.year!
         let month = components.month!
@@ -54,18 +58,18 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Co
     }
 
     public var date: Date {
-        let (y, j, m, n, r, p) = (4716, 1401, 2, 12, 4, 1461)
-        let (v, u, s, w, B, C) = (3, 5, 153, 2, 274277, -38)
-        let J = value
-        var f: Int = Int(J) + j + C
-        f += (((4 * Int(J) + B) / 146097) * 3) / 4
-        let e = r * f + v
-        let g = (e % p) / r
-        let h = u * g + w
-        let day = (h % s) / u + 1
-        let month = (h / s + m) % n + 1
-        let year = e / p - y + (n + m - month) / n
-        var frac = (modf(J).1 > 0.5 ? modf(J).1 - 0.5 : modf(J).1 + 0.5) * 86400
+        let JD = value
+        var L = Int(modf(JD).1 > 0.5 ? JD + 0.5 : JD) + 68569
+        let N = 4 * L / 146097
+        L = L - (146097 * N + 3) / 4
+        var I = 4000 * (L + 1) / 1461001
+        L = L - 1461 * I / 4 + 31
+        var J = 80 * L / 2447
+        let K = L - 2447 * J / 80
+        L = J / 11
+        J = J + 2 - 12 * L
+        I = 100 * (N - 49) + I + L
+        var frac = (modf(JD).1 > 0.5 ? modf(JD).1 - 0.5 : modf(JD).1 + 0.5) * 86400
         let hour = Int(frac / 3600)
         frac -= Double(hour * 3600)
         let minute = Int(frac / 60)
@@ -76,9 +80,9 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Co
         let dateComponents = DateComponents(
             calendar: calendar,
             timeZone: TimeZone(secondsFromGMT: 0)!,
-            year: year,
-            month: month,
-            day: day,
+            year: I,
+            month: J,
+            day: K,
             hour: hour,
             minute: minute,
             second: second
