@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67931EF9D0C700C95AC3 /* Kepler.swift */; };
+		EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
 		EF3CE1961EC26A76004224CB /* ObserverLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF3CE1951EC26A76004224CB /* ObserverLoadable.swift */; };
 		EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4851891D91EB8D00737CE4 /* CelestialNode.swift */; };
@@ -363,6 +364,7 @@
 
 /* Begin PBXFileReference section */
 		EF2A67931EF9D0C700C95AC3 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
+		EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassRoseNode.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
 		EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBody.swift; sourceTree = "<group>"; };
 		EF3CE1951EC26A76004224CB /* ObserverLoadable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverLoadable.swift; sourceTree = "<group>"; };
@@ -1171,6 +1173,7 @@
 				EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */,
 				FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */,
 				EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */,
+				EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */,
 			);
 			path = Nodes;
 			sourceTree = "<group>";
@@ -1876,6 +1879,7 @@
 				EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */,
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,
+				EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */,
 				FCEDA6141EC04B07005C7BFF /* CelestialBodyViewController.swift in Sources */,
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,
 				FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */,
