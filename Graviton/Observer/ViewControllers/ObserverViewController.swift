@@ -18,7 +18,7 @@ import CoreMedia
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
-class ObserverViewController: SceneController, SnapshotSupport, SKSceneDelegate, MenuBackgroundProvider {
+class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundProvider {
 
     private lazy var obsScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!

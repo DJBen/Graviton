@@ -226,11 +226,11 @@ public enum Naif: Comparable, Hashable {
         switch self {
         case .sun:
             return nil
-        case .majorBody(_):
+        case .majorBody:
             return .sun
         case .moon(let m):
             return .majorBody(m.primary)
-        case .custom(_):
+        case .custom:
             return nil
         }
     }
@@ -272,10 +272,10 @@ public enum Naif: Comparable, Hashable {
     /// - Returns: Whether the current celestial body is the primary of the other
     public func isPrimary(of otherNaif: Naif) -> Bool {
         switch self {
-        case .moon(_):
+        case .moon:
             return false
         case .sun:
-            if case .majorBody(_) = otherNaif {
+            if case .majorBody = otherNaif {
                 return true
             } else {
                 return false
@@ -286,7 +286,7 @@ public enum Naif: Comparable, Hashable {
             } else {
                 return false
             }
-        case .custom(_):
+        case .custom:
             return false
         }
     }
@@ -298,7 +298,7 @@ public enum Naif: Comparable, Hashable {
                 return mb.rawValue / 100 == m.rawValue / 100
             }
             return false
-        case .majorBody(_):
+        case .majorBody:
             if case .sun = otherNaif {
                 return true
             } else {
@@ -306,7 +306,7 @@ public enum Naif: Comparable, Hashable {
             }
         case .sun:
             return false
-        case .custom(_):
+        case .custom:
             return false
         }
     }

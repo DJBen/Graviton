@@ -131,6 +131,16 @@
 				<key>binding</key>
 				<string>showDirectionMarkers</string>
 			</dict>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
+				<string>Show Zenith &amp; Nadir Indicators</string>
+				<key>image</key>
+				<string>row_icon_compass_rose</string>
+				<key>binding</key>
+				<string>showZenithAndNadirMarkers</string>
+			</dict>
 		</array>
 	</dict>
 </array>

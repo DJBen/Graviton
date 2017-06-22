@@ -126,14 +126,14 @@ class ObserverMenuController: MenuController {
         cell.imageView?.image = item.image
         cell.textLabel?.text = item.text
         switch item.type {
-        case .detail(_), .multipleSelect(_):
+        case .detail, .multipleSelect:
             cell.accessoryType = .disclosureIndicator
-        case .toggle(_):
+        case .toggle:
             let toggleCell = cell as! MenuToggleCell
             let shouldDisable = indexPathsToDisable.contains(indexPath)
             toggleCell.textLabel?.isEnabled = !shouldDisable
             toggleCell.toggle.isEnabled = !shouldDisable
-        case .button(_, _):
+        case .button:
             break
         }
     }
@@ -147,7 +147,7 @@ class ObserverMenuController: MenuController {
             cell.selectionStyle = .none
             let toggleCell = cell as! MenuToggleCell
             toggleCell.binding = binding
-        case .detail(_), .multipleSelect(_):
+        case .detail, .multipleSelect:
             cell = tableView.dequeueReusableCell(withIdentifier: detailCellId, for: indexPath)
         case let .button(key, info):
             cell = tableView.dequeueReusableCell(withIdentifier: buttonCellId, for: indexPath)

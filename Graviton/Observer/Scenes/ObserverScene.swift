@@ -20,6 +20,7 @@ let auxillaryConstellationLabelLayerRadius: Double = 24
 fileprivate let starLayerRadius: Double = 20
 fileprivate let planetLayerRadius: Double = 10
 fileprivate let landscapeLayerRadius: Double = 6
+fileprivate let compassRoseRadius: Double = 5.5
 fileprivate let directionMarkerLayerRadius: Double = 5.5
 fileprivate let moonLayerRadius: Double = 7
 fileprivate let sunLayerRadius: Double = 8
@@ -219,6 +220,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         return node
     }()
 
+    lazy var compassRoseNode: CompassRoseNode = CompassRoseNode(radius: 5.5, sideLength: 0.8)
+
     lazy var directionMarkers = DirectionMarkerNode(radius: directionMarkerLayerRadius, sideLength: 0.3)
     var jumpToCelestialPointObserver: NSObjectProtocol!
     var jumpToDirectionObserver: NSObjectProtocol!
@@ -232,6 +235,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         rootNode.addChildNode(sunNode)
         rootNode.addChildNode(cameraNode)
         rootNode.addChildNode(directionMarkers)
+        rootNode.addChildNode(compassRoseNode)
         drawStars()
         drawConstellationLines()
         drawConstellationLabels()
@@ -420,6 +424,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let orientation = Quaternion(rotationMatrix: transform)
         panoramaNode.orientation = SCNQuaternion(orientation)
         directionMarkers.ecefToNedOrientation = orientation
+        compassRoseNode.ecefToNedOrientation = orientation
     }
 
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
