@@ -75,6 +75,15 @@ extension ObserverScene {
             nadirNode.orientation = SCNQuaternion(self.ecefToNedOrientation * Quaternion(axisAngle: Vector4(1, 0, 0, Double.pi)) * Quaternion(axisAngle: Vector4(0, 0, 1, Double.pi / 2)))
         }
 
+        func updateTransparency(withCameraOrientation cameraOrientation: Quaternion) {
+            let realCamOrientation = self.ecefToNedOrientation.inverse * cameraOrientation
+            let cameraNadirAngle = (realCamOrientation * Vector3(1, 0, 0)).angle(to: Vector3(0, 0, 1))
+            let cameraZenithAngle = (realCamOrientation * Vector3(1, 0, 0)).angle(to: Vector3(0, 0, -1))
+            let interp = Easing(easingMethod: .quadraticEaseOut, startValue: 1, endValue: 0)
+            nadirNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraNadirAngle.cap(to: 0...0.6) * (1 / 0.6)))
+            zenithNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraZenithAngle.cap(to: 0...0.6) * (1 / 0.6)))
+        }
+
         // MARK: - ObserverSceneElement
 
         override var isSetUp: Bool {
