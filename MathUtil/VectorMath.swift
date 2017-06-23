@@ -1279,3 +1279,9 @@ extension Quaternion: Equatable, Hashable {
         return lhs.x ~= rhs.x && lhs.y ~= rhs.y && lhs.z ~= rhs.z && lhs.w ~= rhs.w
     }
 }
+
+public extension Vector3 {
+    public func angle(to vector: Vector3) -> Double {
+        return acos(self.dot(vector) / (self.length * vector.length))
+    }
+}

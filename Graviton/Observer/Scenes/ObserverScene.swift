@@ -445,6 +445,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
     }
 
+    func rendererUpdate() {
+        compassRoseNode.updateTransparency(withCameraOrientation: Quaternion(cameraNode.orientation))
+    }
+
     // MARK: - Focusing support
 
     func resetCamera() {

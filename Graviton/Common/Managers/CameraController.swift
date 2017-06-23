@@ -35,6 +35,11 @@ class CameraController: NSObject {
 
     static var `default` = CameraController()
 
+    /// Unit 3d coordinate in the center of the screen
+    var center: Vector3 {
+        fatalError("unimplemented")
+    }
+
     var cameraYaw: Double {
         var yaw = Double(-slideVelocity.x / viewSlideDivisor)
         if cameraInversion.contains(.invertYaw) {

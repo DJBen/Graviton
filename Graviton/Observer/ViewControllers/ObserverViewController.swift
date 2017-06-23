@@ -20,7 +20,7 @@ var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
 class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundProvider {
 
-    private lazy var obsScene = ObserverScene()
+    private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
@@ -69,7 +69,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     override func loadCameraController() {
         cameraController = ObserverCameraController()
         cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraNode = obsScene.cameraNode
+        cameraController.cameraNode = observerScene.cameraNode
         cameraController.cameraInversion = .invertAll
         configurePanSpeed()
     }
@@ -88,13 +88,13 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
-        scnView.scene = obsScene
-        scnView.pointOfView = obsScene.cameraNode
+        scnView.scene = observerScene
+        scnView.pointOfView = observerScene.cameraNode
         scnView.backgroundColor = UIColor.black
         scnView.isPlaying = true
         scnView.autoenablesDefaultLighting = false
 
-        cameraModifier = obsScene
+        cameraModifier = observerScene
 
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
@@ -117,15 +117,15 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func sceneDidRenderFirstTime(scene: SCNScene) {
         super.sceneDidRenderFirstTime(scene: scene)
-        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: obsScene.ephemerisDidLoad(ephemeris:), didUpdate: obsScene.ephemerisDidUpdate(ephemeris:))
-        observerSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: obsScene.observerInfoUpdate(observerInfo:))
-        locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: obsScene.updateLocationAndTime(observerInfo:))
-        obsScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
+        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
+        observerSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
+        locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
+        observerScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
     }
 
     private func configurePanSpeed() {
-        let factor = CGFloat(ObserverScene.defaultFov / obsScene.fov)
+        let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
         cameraController.viewSlideDivisor = factor * 25000
     }
 
@@ -135,6 +135,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         super.renderer(renderer, didRenderScene: scene, atTime: time)
         EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
         configurePanSpeed()
+        observerScene.rendererUpdate()
     }
 
     // MARK: - Menu background provider

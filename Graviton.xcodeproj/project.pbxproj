@@ -200,6 +200,7 @@
 		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
+		FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD521EFD1300009327F5 /* Double+Util.swift */; };
 		FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
@@ -553,6 +554,7 @@
 		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
+		FCFCDD521EFD1300009327F5 /* Double+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Util.swift"; sourceTree = "<group>"; };
 		FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreMotion.swift"; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
@@ -1222,6 +1224,7 @@
 				FCC73DF81E68762100B737D1 /* Intersection.swift */,
 				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
 				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
+				FCFCDD521EFD1300009327F5 /* Double+Util.swift */,
 				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
 				FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */,
 				FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */,
@@ -1977,6 +1980,7 @@
 				FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */,
 				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
 				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
+				FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */,
 				EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */,
 				EFC6AA021E46F5B40069341C /* CGVector+Util.swift in Sources */,
 				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
