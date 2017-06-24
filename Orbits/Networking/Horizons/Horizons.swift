@@ -216,7 +216,7 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: Date = Date(), naifs: [Naif] = [Naif.sun] + Naif.motionDefault, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: JulianDate = JulianDate.now, naifs: [Naif] = [Naif.sun] + Naif.motionDefault, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
         var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -236,7 +236,7 @@ public class Horizons {
             }
         }
         // Do not query sun's ephemris because it is the center
-        let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate).filter { (query) -> Bool in
+        let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate.date).filter { (query) -> Bool in
             return query.command != Sun.sol.naifId
         }
         fetchOnlineRawData(queries: queries) { (rawData, errors) in
@@ -259,7 +259,7 @@ public class Horizons {
             if naifs.contains(Naif.sun) && bodies.first(where: { $0.naif == Naif.sun }) == nil {
                 bodies.insert(Sun.sol)
             }
-            let merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate)
+            let merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate.date)
             let eph = Ephemeris(solarSystemBodies: merged)
             update?(eph)
             complete?(eph, nil)

@@ -15,16 +15,16 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
 
     public let root: CelestialBody
 
-    public var timestamp: Date? {
+    public var timestamp: JulianDate? {
         if let ref = self.first(where: { $0.motion?.julianDate != nil }) {
-            return ref.motion!.julianDate!.date
+            return ref.motion!.julianDate!
         }
         return nil
     }
 
-    public var referenceTimestamp: Date? {
+    public var referenceTimestamp: JulianDate? {
         if let ref = self.first(where: { $0.motion?.julianDate != nil }), let mm = ref.motion as? OrbitalMotionMoment {
-            return mm.ephemerisJulianDate.date
+            return mm.ephemerisJulianDate
         }
         return nil
     }
@@ -77,7 +77,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
         }
     }
 
-    public func updateMotion(using julianDate: JulianDate = JulianDate.now()) {
+    public func updateMotion(using julianDate: JulianDate = JulianDate.now) {
         for body in self {
             if let moment = body.motion as? OrbitalMotionMoment {
                 moment.julianDate = julianDate

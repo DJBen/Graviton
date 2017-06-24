@@ -117,7 +117,7 @@ class DBHelper {
             }
             let cb = CelestialBody(naifId: Int(result.get(cbId)), gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
             if shouldLoadMotion {
-                cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDate: JulianDate.now())
+                cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDate: JulianDate.now)
             }
             return cb
         }
@@ -137,7 +137,7 @@ class DBHelper {
         try! db.run(orbitalMotion.insert(or: .replace, identitySetter + moment.orbit.sqlSaveSetters))
     }
 
-    func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now()) -> OrbitalMotionMoment? {
+    func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now) -> OrbitalMotionMoment? {
         let db: Connection = self.orbitalMotions
         func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
             // km^3/s^2 to m^3/s^2

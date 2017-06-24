@@ -37,7 +37,7 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
 }
 
 extension CelestialBodyObserverInfo: ObserverLoadable {
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now(), site: ObserverSite, timeZone: TimeZone) -> CelestialBodyObserverInfo? {
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now, site: ObserverSite, timeZone: TimeZone) -> CelestialBodyObserverInfo? {
         let realm = try! Realm()
         let jdStart = julianDate - 60 * 30
         let jdEnd = julianDate + 60 * 30

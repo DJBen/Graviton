@@ -86,7 +86,7 @@ class SubscriptionManager<T> {
             sub.lastUpdateJd = requestedJd
             changed = true
         case .interval(let interval):
-            if requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0) >= interval / 86400 {
+            if abs(requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0)) >= interval / 86400 {
                 update(subscription: sub, forJulianDate: requestedJd)
                 sub.content = eph
                 sub.lastUpdateJd = requestedJd
@@ -126,7 +126,8 @@ class SubscriptionManager<T> {
     /// Fetch the content. This usually involves a network request or database query.
     ///
     /// - Parameter mode: Fetch mode
-    func fetch(mode: Horizons.FetchMode?) {
+    /// - Parameter requestedJd:  Requested Julian date to fetch the content.
+    func fetch(mode: Horizons.FetchMode?, forJulianDate requestedJd: JulianDate = JulianDate.now) {
         fatalError()
     }
 

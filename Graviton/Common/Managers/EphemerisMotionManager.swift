@@ -32,13 +32,13 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
         return uuid
     }
 
-    override func fetch(mode: Horizons.FetchMode? = nil) {
+    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate = JulianDate.now) {
         if isFetching { return }
         isFetching = true
         func customLoad(ephemeris: Ephemeris) {
             load(content: ephemeris)
         }
-        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in
+        Horizons.shared.fetchEphemeris(preferredDate: requestedJd, mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in
             self.isFetching = false
         })
     }
@@ -46,9 +46,9 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
     // have to use fully qualified name otherwise compiler will segfault
     override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDate requestedJd: JulianDate) {
         if let eph = content(for: subscription.identifier) {
-            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime.timeIntervalSince(reqTime)) > EphemerisMotionManager.expirationDuration {
+            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisMotionManager.expirationDuration {
                 print("Ephemeris data outdated. Refetching...")
-                fetch()
+                fetch(forJulianDate: requestedJd)
             }
             eph.updateMotion(using: requestedJd)
         }
