@@ -24,12 +24,30 @@ class ObserverInfoManager: NSObject {
     var subId: SubscriptionUUID!
     private(set) var observerInfo: LocationAndTime?
 
+    /// An override of normal julian date in time warp mode
+    var julianDate: JulianDate? {
+        didSet {
+            guard let observerInfo = self.observerInfo else {
+                return
+            }
+            if oldValue == julianDate {
+                return
+            }
+            self.observerInfo = LocationAndTime(location: observerInfo.location, timestamp: self.julianDate ?? JulianDate.now)
+            DispatchQueue.main.async {
+                self.subscriptions.forEach { (_, sub) in
+                    sub.didUpdate(observerInfo)
+                }
+            }
+        }
+    }
+
     var subscriptions = [SubscriptionUUID: Subscription]()
 
     override init() {
         super.init()
-        subId = LocationManager.default.subscribe(didUpdate: { [unowned self] (location) in
-            self.observerInfo = LocationAndTime(location: location, timestamp: Date())
+        subId = LocationManager.default.subscribe(didUpdate: { (location) in
+            self.observerInfo = LocationAndTime(location: location, timestamp: self.julianDate ?? JulianDate.now)
             self.subscriptions.forEach({ (_, subscriber) in
                 subscriber.didUpdate(self.observerInfo!)
             })

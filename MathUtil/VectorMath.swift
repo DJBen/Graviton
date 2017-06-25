@@ -1142,7 +1142,7 @@ extension Quaternion: Equatable, Hashable {
     }
 
     public init(rotationMatrix m: Matrix4) {
-        guard m != .identity else {
+        if m == .identity {
             self.init(0, 0, 0, 1)
             return
         }

@@ -416,7 +416,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         drawCelestialEquator(earth: earth)
     }
 
-    func updateObserverView(timestamp: Date? = nil) {
+    func updateObserverView(timestamp: JulianDate? = nil) {
         if let t = timestamp {
             observerInfo?.timestamp = t
         }

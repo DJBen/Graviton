@@ -17,11 +17,11 @@ final class ObserverEphemerisManager: LocationSensitiveSubscriptionManager<[Naif
 
     static let `default` = ObserverEphemerisManager()
 
-    override func fetch(mode: Horizons.FetchMode? = nil) {
+    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.content ?? CLLocation())
-        Horizons.shared.fetchCelestialBodyObserverInfo(observerSite: site, mode: mode ?? ObserverEphemerisManager.globalMode, update: { (dict) in
+        Horizons.shared.fetchCelestialBodyObserverInfo(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? ObserverEphemerisManager.globalMode, update: { (dict) in
             self.content = dict
             for (_, sub) in self.subscriptions {
                 DispatchQueue.main.async {

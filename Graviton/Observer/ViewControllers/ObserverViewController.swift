@@ -133,7 +133,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        EphemerisMotionManager.default.request(at: JulianDate.now(), forSubscription: ephemerisSubscriptionIdentifier)
+        EphemerisMotionManager.default.request(at: JulianDate.now, forSubscription: ephemerisSubscriptionIdentifier)
         configurePanSpeed()
         observerScene.rendererUpdate()
     }

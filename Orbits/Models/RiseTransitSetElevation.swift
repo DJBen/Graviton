@@ -60,7 +60,7 @@ extension RiseTransitSetElevation: ObserverLoadable {
     ///   - site: The observer site
     ///   - timeZone: The observer site's time zone
     /// - Returns: A rise-transit-set info record within the same day of requested Julian date
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now(), site: ObserverSite, timeZone: TimeZone) -> RiseTransitSetElevation? {
+    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now, site: ObserverSite, timeZone: TimeZone) -> RiseTransitSetElevation? {
         let realm = try! Realm()
         let deltaT = Double(timeZone.secondsFromGMT()) / 86400
         let startJd = modf(julianDate.value).0 + deltaT

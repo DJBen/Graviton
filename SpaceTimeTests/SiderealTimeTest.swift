@@ -13,7 +13,7 @@ import CoreLocation
 class SiderealTimeTest: XCTestCase {
 
     var locationTime: LocationAndTime!
-    var date: Date {
+    var date: JulianDate {
         return locationTime.timestamp
     }
 
@@ -22,7 +22,7 @@ class SiderealTimeTest: XCTestCase {
         var calendar = Calendar(identifier: .gregorian)
         calendar.timeZone = TimeZone(secondsFromGMT: 0)!
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(secondsFromGMT: 0), year: 2017, month: 1, day: 3, hour: 3, minute: 29)
-        let date = calendar.date(from: components)!
+        let date = JulianDate(date: calendar.date(from: components)!)
         // coordinate of my hometown
         locationTime = LocationAndTime(location: CLLocation(latitude: 32.0603, longitude: 118.7969), timestamp: date)
     }
@@ -33,7 +33,7 @@ class SiderealTimeTest: XCTestCase {
     }
 
     func testSiderealTime() {
-        XCTAssertEqualWithAccuracy(JulianDate(date: date).value, 2457756.645138889, accuracy: 1e-5)
+        XCTAssertEqualWithAccuracy(date.value, 2457756.645138889, accuracy: 1e-5)
         XCTAssertEqualWithAccuracy(date.greenwichMeanSiderealTime, 10 + 20 / 60.0 + 47.358 / 3600.0, accuracy: 1e-3)
         let angle: Double = (18 + 15 / 60.0 + 58.614 / 3600.0) / 12 * Double.pi
         XCTAssertEqualWithAccuracy(locationTime.localSiderealTimeAngle, angle, accuracy: 1e-3)

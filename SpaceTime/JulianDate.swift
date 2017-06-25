@@ -22,7 +22,7 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Co
     public static let B1950: JulianDate = 2433282.4235
     public static let J2000: JulianDate = 2451545.0
 
-    public static func now() -> JulianDate {
+    public static var now: JulianDate {
         return JulianDate(date: Date())
     }
 
@@ -123,5 +123,17 @@ public struct JulianDate: CustomStringConvertible, ExpressibleByFloatLiteral, Co
     ///   - rhs: Another value to compare.
     public static func <(lhs: JulianDate, rhs: JulianDate) -> Bool {
         return lhs.value < rhs.value
+    }
+}
+
+extension Optional where Wrapped == JulianDate {
+    public static func ~=(lhs: JulianDate?, rhs: JulianDate?) -> Bool {
+        if lhs == rhs {
+            return true
+        }
+        if (lhs == nil && rhs != nil) || (lhs != nil && rhs == nil) {
+            return false
+        }
+        return lhs!.value ~= rhs!.value
     }
 }

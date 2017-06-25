@@ -15,16 +15,16 @@ import MathUtil
 /// **Note**: The meaning of timestamp is foundamentally different from the `timestamp` in CLLocation, which in turns specifies the timestamp the location is measured.
 public struct LocationAndTime {
     public let location: CLLocation
-    public var timestamp: Date
+    public var timestamp: JulianDate
 
     public init() {
         self.location = CLLocation()
-        self.timestamp = Date()
+        self.timestamp = JulianDate.now
     }
 
-    public init(location: CLLocation, timestamp: Date?) {
+    public init(location: CLLocation, timestamp: JulianDate?) {
         self.location = location
-        self.timestamp = timestamp ?? location.timestamp
+        self.timestamp = timestamp ?? JulianDate(date: location.timestamp)
     }
 
     /// local sidereal time as hour angle in radians.

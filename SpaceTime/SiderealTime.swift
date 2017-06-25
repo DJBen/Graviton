@@ -9,10 +9,10 @@
 import Foundation
 import CoreLocation
 
-public extension Date {
+public extension JulianDate {
     /// GMST in hours and fraction of an hour
     public var greenwichMeanSiderealTime: Double {
-        let diff = JulianDate(date: self).value - JulianDate.J2000.value
+        let diff = value - JulianDate.J2000.value
         // magic function comes from
         // https://en.wikipedia.org/wiki/Sidereal_time
         let GMST = 18.697374558 + 24.06570982441908 * diff

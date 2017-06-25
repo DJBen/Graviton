@@ -41,7 +41,7 @@ class CoordinateTest: XCTestCase {
             distance: 1)
         let calendar = Calendar(identifier: .gregorian)
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2000, month: 1, day: 1, hour: 5)
-        let date = calendar.date(from: components)!
+        let date = JulianDate(date: calendar.date(from: components)!)
         let location = CLLocation(latitude: CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)), longitude: CLLocationDegrees(-degrees(degrees: 122, minutes: 24, seconds: 47)))
         let obs = LocationAndTime(location: location, timestamp: date)
         let cyl = HorizontalCoordinate(equatorialCoordinate: sph, observerInfo: obs)
@@ -60,7 +60,7 @@ class CoordinateTest: XCTestCase {
             distance: 1)
         let calendar = Calendar(identifier: .gregorian)
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2017, month: 1, day: 6, hour: 1, minute: 31, second: 30)
-        let date = calendar.date(from: components)!
+        let date = JulianDate(date: calendar.date(from: components)!)
         let obs = LocationAndTime(location:
             CLLocation(
                 latitude: CLLocationDegrees(degrees(degrees: 37, minutes: 46, seconds: 51)),
@@ -81,7 +81,7 @@ class CoordinateTest: XCTestCase {
             distance: 1)
         let calendar = Calendar(identifier: .gregorian)
         let components = DateComponents(calendar: calendar, timeZone: TimeZone(abbreviation: "PST"), year: 2017, month: 1, day: 6, hour: 2, minute: 27)
-        let date = calendar.date(from: components)!
+        let date = JulianDate(date: calendar.date(from: components)!)
         let obs = LocationAndTime(location:
             CLLocation(
                 latitude: CLLocationDegrees(-33.9249),
