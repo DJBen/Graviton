@@ -56,11 +56,8 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
-        for (_, sub) in self.subscriptions {
-            DispatchQueue.main.async {
-                sub.didUpdate?(location)
-            }
-        }
+        print("update location to \(location)")
+        updateAllSubscribers(location)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

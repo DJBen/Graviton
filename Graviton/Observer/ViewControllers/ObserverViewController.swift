@@ -20,10 +20,31 @@ var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
 class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundProvider {
 
+    static let dataFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd hh:mm a 'UTC'"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)!
+        return formatter
+    }()
+
+    private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
+    private var isTimeWarpActive: Bool = false
+    private var timeWarpSpeed: Double = 0
+
+    private lazy var titleButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.frame = CGRect(x: 0, y: 0, width: 300, height: 44)
+        button.titleLabel?.textColor = UIColor.white
+        button.autoresizingMask = .flexibleWidth
+        button.titleLabel?.textAlignment = .center
+        button.titleLabel?.font = TextStyle.Font.monoLabelFont(size: 16)
+        button.addTarget(self, action: #selector(toggleTimeWarp(sender:)), for: .touchUpInside)
+        return button
+    }()
 
     private var scnView: SCNView {
         return self.view as! SCNView
@@ -51,7 +72,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
         ObserverEphemerisManager.default.unsubscribe(observerSubscriptionIdentifier)
         ObserverInfoManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
-//        MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
+        MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -75,6 +96,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     }
 
     override func menuButtonTapped(sender: UIButton) {
+        endTimeWarp(withAnimationDuration: 0)
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
@@ -85,11 +107,13 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
         navigationItem.leftBarButtonItem = barButtonItem
+        navigationItem.titleView = titleButton
 
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
         scnView.scene = observerScene
         scnView.pointOfView = observerScene.cameraNode
+        scnView.overlaySKScene = overlayScene
         scnView.backgroundColor = UIColor.black
         scnView.isPlaying = true
         scnView.autoenablesDefaultLighting = false
@@ -99,16 +123,51 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         view.addGestureRecognizer(tapGR)
+
+        let displaylink = CADisplayLink(target: self, selector: #selector(updateTimestampLabel))
+        displaylink.add(to: .current, forMode: .defaultRunLoopMode)
+    }
+
+    func updateTimestampLabel() {
+        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
+        titleButton.setTitle(ObserverViewController.dataFormatter.string(from: requestTimestamp.date), for: .normal)
+    }
+
+    override func pan(sender: UIPanGestureRecognizer) {
+        // if there's any pan event, cancel motion updates
+        MotionManager.default.stopMotionUpdate()
+        let location = sender.location(in: self.view)
+        if isTimeWarpActive && CGRect(x: view.bounds.width - 44, y: 0, width: 44, height: view.bounds.height).contains(location) {
+            let percentage = Double((view.bounds.height / 2 - sender.location(in: self.view).y) / (view.bounds.height / 2))
+            let warpSpeed = percentage >= 0 ? exp(percentage * 16) : -exp(-percentage * 16)
+            timeWarpSpeed = warpSpeed
+        } else {
+            super.pan(sender: sender)
+        }
+        if sender.state == .ended {
+            timeWarpSpeed = 0
+        }
     }
 
     func gyroButtonTapped(sender: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
     }
 
-    override func pan(sender: UIPanGestureRecognizer) {
-        super.pan(sender: sender)
-        // if there's any pan event, cancel motion updates
-        MotionManager.default.stopMotionUpdate()
+    func toggleTimeWarp(sender: UIBarButtonItem) {
+        guard Settings.default[.enableTimeWarp] else { return }
+        isTimeWarpActive = !isTimeWarpActive
+        print("Time warp toggled \(isTimeWarpActive)")
+        if isTimeWarpActive {
+            overlayScene.show(withDuration: 0.25)
+        } else {
+            endTimeWarp(withAnimationDuration: 0.25)
+        }
+    }
+
+    private func endTimeWarp(withAnimationDuration animationDuration: Double) {
+        Timekeeper.default.reset()
+        ObserverInfoManager.default.julianDate = nil
+        overlayScene.hide(withDuration: animationDuration)
     }
 
     func handleTap(sender: UITapGestureRecognizer) {
@@ -133,7 +192,10 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        EphemerisMotionManager.default.request(at: JulianDate.now, forSubscription: ephemerisSubscriptionIdentifier)
+        Timekeeper.default.warp(by: timeWarpSpeed)
+        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
+        EphemerisMotionManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
+        ObserverInfoManager.default.julianDate = requestTimestamp
         configurePanSpeed()
         observerScene.rendererUpdate()
     }

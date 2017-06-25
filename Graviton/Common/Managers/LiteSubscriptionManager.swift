@@ -49,4 +49,12 @@ class LiteSubscriptionManager<T>: NSObject {
     func unsubscribe(_ uuid: SubscriptionUUID) {
         subscriptions[uuid] = nil
     }
+
+    func updateAllSubscribers(_ content: T) {
+        for (_, sub) in self.subscriptions {
+            DispatchQueue.main.async {
+                sub.didUpdate?(content)
+            }
+        }
+    }
 }

@@ -106,8 +106,6 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         return easing.value(at: fovPercentage)
     }
 
-    var observerInfo: LocationAndTime?
-
     // MARK: - Property - Visual Nodes
 
     private var celestialEquatorNode: CelestialEquatorLineNode?
@@ -263,7 +261,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
                 return
             }
-            guard let obInfo = self.observerInfo else {
+            guard let obInfo = ObserverInfoManager.default.observerInfo else {
                 print("Missing observer info")
                 return
             }
@@ -416,17 +414,6 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         drawCelestialEquator(earth: earth)
     }
 
-    func updateObserverView(timestamp: JulianDate? = nil) {
-        if let t = timestamp {
-            observerInfo?.timestamp = t
-        }
-        guard let transform = observerInfo?.localViewTransform else { return }
-        let orientation = Quaternion(rotationMatrix: transform)
-        panoramaNode.orientation = SCNQuaternion(orientation)
-        directionMarkers.ecefToNedOrientation = orientation
-        compassRoseNode.ecefToNedOrientation = orientation
-    }
-
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
         let maxSize: Double = 0.28
         let minSize: Double = 0.01
@@ -490,8 +477,11 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     // MARK: - Location Update
     func updateLocationAndTime(observerInfo: LocationAndTime) {
-        self.observerInfo = observerInfo
-        updateObserverView()
+        let transform = observerInfo.localViewTransform
+        let orientation = Quaternion(rotationMatrix: transform)
+        panoramaNode.orientation = SCNQuaternion(orientation)
+        directionMarkers.ecefToNedOrientation = orientation
+        compassRoseNode.ecefToNedOrientation = orientation
     }
 
     // MARK: - Ephemeris Update
@@ -513,8 +503,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
-        print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
-        updateObserverView(timestamp: ephemeris.timestamp)
+        if Timekeeper.default.isWarping == false {
+            print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
+        }
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
             let node = SCNNode()

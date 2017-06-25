@@ -16,7 +16,20 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
 
     static let `default` = EphemerisMotionManager()
 
-    private static let expirationDuration: Double = 366 * 86400
+    private static let expirationDuration: Double = 365.4215 * 86400
+
+    private override init() {
+        super.init()
+        NotificationCenter.default.addObserver(self, selector: #selector(resetToNormalEphemeris), name: Notification.Name(rawValue: "warpReset"), object: nil)
+    }
+
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+
+    @objc func resetToNormalEphemeris() {
+        print("Reset to normal ephemeris")
+    }
 
     func content(for subscription: SubscriptionUUID) -> Ephemeris? {
         guard let sub = subscriptions[subscription] else { return nil }
@@ -36,17 +49,38 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
         if isFetching { return }
         isFetching = true
         func customLoad(ephemeris: Ephemeris) {
+            ephemeris.updateMotion(using: requestedJd)
             load(content: ephemeris)
         }
-        Horizons.shared.fetchEphemeris(preferredDate: requestedJd, mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, _ in
-            self.isFetching = false
+        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, errors in
+            defer {
+                self.isFetching = false
+            }
+            if let errors = errors {
+                print(errors)
+            }
         })
+    }
+
+    override func request(at requestedJd: JulianDate, forSubscription identifier: SubscriptionUUID) {
+        if Timekeeper.default.isWarping {
+            // ignore update frequency
+            guard let sub = subscriptions[identifier] else {
+                fatalError("object not subscribed")
+            }
+            update(subscription: sub, forJulianDate: requestedJd)
+            DispatchQueue.main.async {
+                sub.didUpdate?(sub.content!)
+            }
+        } else {
+            super.request(at: requestedJd, forSubscription: identifier)
+        }
     }
 
     // have to use fully qualified name otherwise compiler will segfault
     override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDate requestedJd: JulianDate) {
         if let eph = content(for: subscription.identifier) {
-            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisMotionManager.expirationDuration {
+            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisMotionManager.expirationDuration, Timekeeper.default.isWarping == false {
                 print("Ephemeris data outdated. Refetching...")
                 fetch(forJulianDate: requestedJd)
             }
