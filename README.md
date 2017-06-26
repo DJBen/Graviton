@@ -11,6 +11,8 @@
 ----
 ## App
 - [x] Real-time night sky rendering. Fully customizable. Totally hackable.
+  - [x] Reading from GPS or inputing custom position to see a night sky in your location.
+  - [ ] Time warp - see what night sky is like at any time.
 - [x] Real-time high accuracy solar system illustration. In scale.
 - [ ] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
@@ -31,7 +33,7 @@ _A framework make convenient for reference to stars and constellations._
   - HR, HD, HIP and Bayer-Flamsteed designations.
   - Celestial coordinate and proper motion.
   - Visual and absolute magnitude, luminance, spectral type binary star info, and other physical properties
-- Position query, connection line and border support for constellations.
+- Constellation support, including querying position, constellation line and constellation border.
 
 ### SpaceTime
 - [x] Astronomy coordinate conversion. Conversion among spherical coordinate `(RA, DEC)`, cylindrical coordinate `(Azi, Alt)` and Euclidean coordinate `(x, y, z)`.
