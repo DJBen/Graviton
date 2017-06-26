@@ -20,4 +20,8 @@ struct Constants {
             static let font = UIFont.boldSystemFont(ofSize: 18)
         }
     }
+    struct TimeWarp {
+        static let textColor: UIColor = #colorLiteral(red: 0.8928905129, green: 0.9480869174, blue: 1, alpha: 1)
+        static let barColor: UIColor = #colorLiteral(red: 0.8928905129, green: 0.9480869174, blue: 1, alpha: 1)
+    }
 }

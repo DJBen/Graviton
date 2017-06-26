@@ -11,4 +11,3 @@ public extension Double {
         return max(min(self, range.upperBound), range.lowerBound)
     }
 }
-

@@ -15,3 +15,9 @@ func wrapAngles(_ eulerAngle: (pitch: Scalar, yaw: Scalar, roll: Scalar)) -> (pi
         wrapAngle(eulerAngle.roll)
     )
 }
+
+extension Double {
+    func cap(toRange range: Range<Double>) -> Double {
+        return min(max(range.lowerBound, self), range.upperBound)
+    }
+}

@@ -47,5 +47,20 @@
 			</dict>
 		</array>
 	</dict>
+	<dict>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>detail</string>
+				<key>text</key>
+				<string>Experiments</string>
+				<key>image</key>
+				<string>row_icon_experiment</string>
+				<key>destination</key>
+				<string>experiment_menu</string>
+			</dict>
+		</array>
+	</dict>
 </array>
 </plist>
