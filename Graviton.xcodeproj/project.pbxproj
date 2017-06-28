@@ -35,6 +35,7 @@
 		EF5F132C1E5020FF00A8EF51 /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */; };
 		EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF6FB1271EBA9DA900BCD215 /* ObserverField.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF6FB1261EBA9DA900BCD215 /* ObserverField.swift */; };
+		EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */; };
 		EF9867AF1EE0D8DF00486C64 /* DirectionMarkerNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */; };
 		EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0701EAAB230005D2E0D /* Style.swift */; };
 		EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0721EAAB81A005D2E0D /* Functional.swift */; };
@@ -392,6 +393,7 @@
 		EF5F13231E5020FF00A8EF51 /* Star.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Star.swift; sourceTree = "<group>"; };
 		EF5F13241E5020FF00A8EF51 /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		EF6FB1261EBA9DA900BCD215 /* ObserverField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverField.swift; sourceTree = "<group>"; };
+		EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SceneKit+Util.swift"; sourceTree = "<group>"; };
 		EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DirectionMarkerNode.swift; sourceTree = "<group>"; };
 		EFA4F0701EAAB230005D2E0D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		EFA4F0721EAAB81A005D2E0D /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
@@ -1302,10 +1304,11 @@
 				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
 				FC6619A91EF26CB900B670CC /* AttitudeStabilizer.swift */,
 				EFA4F0721EAAB81A005D2E0D /* Functional.swift */,
-				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				FCFF7B0D1EA2145A00C4B006 /* Settings.swift */,
 				EFA4F0701EAAB230005D2E0D /* Style.swift */,
 				FC7096FE1EF3898700D4FA30 /* Math.swift */,
+				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
+				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1884,6 +1887,7 @@
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC1CC2CA1EE01646009FA252 /* ObserverEphemerisManager.swift in Sources */,
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
+				EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
 				EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */,
 				EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */,

@@ -10,8 +10,8 @@ import CoreLocation
 import MathUtil
 
 // MARK: - Coordinate Transformations
-extension CLLocation {
-    var ecefCoordinate: Vector3 {
+public extension CLLocation {
+    public var ecefCoordinate: Vector3 {
         // equatorial radius
         let R_Ea: Double = 6378137
         // meridian radius
@@ -28,7 +28,7 @@ extension CLLocation {
     }
 
     /// The transform that rotates ECEF coordinate to NED coordinate at given timestamp and location
-    var ecefToLocalNedTransform: Matrix4 {
+    public var ecefToLocalNedTransform: Matrix4 {
         let φ = radians(degrees: coordinate.latitude)
         let λ = radians(degrees: coordinate.longitude)
         return Matrix4(rotation: Vector4(0, 1, 0, φ + Double.pi / 2)) * Matrix4(rotation: Vector4(0, 0, 1, -λ))

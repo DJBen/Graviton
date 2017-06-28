@@ -56,12 +56,7 @@ extension ObserverScene {
             } else {
                 node.name = "nadir"
                 plane.firstMaterial?.transparent.contents = #imageLiteral(resourceName: "texture_compass_rose_nadir")
-                plane.firstMaterial?.transparent.contentsTransform = {
-                    var mtx = SCNMatrix4MakeTranslation(-0.5, -0.5, 0)
-                    mtx = SCNMatrix4Rotate(mtx, Float(Double.pi), 0, 0, 1)
-                    mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
-                    return mtx
-                }()
+                plane.firstMaterial?.transparent.contentsTransform = flipTextureContentsTransform
             }
             node.geometry = plane
             node.position = SCNVector3(Vector3(0, 0, isZenith ? -1 : 1) * radius)

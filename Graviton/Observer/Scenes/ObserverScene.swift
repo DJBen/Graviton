@@ -124,11 +124,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let node = SphereInteriorNode(radius: landscapeLayerRadius)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
         node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
-        // since the coordinate is NED, we rotate around center by 180 degrees to make it upside down
-        var mtx = SCNMatrix4MakeTranslation(-0.5, -0.5, 0)
-        mtx = SCNMatrix4Rotate(mtx, Float(Double.pi), 0, 0, 1)
-        mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
-        node.sphere.firstMaterial!.transparent.contentsTransform = mtx
+        node.sphere.firstMaterial!.transparent.contentsTransform = flipTextureContentsTransform
         node.sphere.firstMaterial!.isDoubleSided = true
         node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
         node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
