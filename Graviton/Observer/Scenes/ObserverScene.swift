@@ -476,7 +476,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let transform = observerInfo.localViewTransform
         let orientation = Quaternion(rotationMatrix: transform)
         panoramaNode.orientation = SCNQuaternion(orientation)
-        directionMarkers.ecefToNedOrientation = orientation
+        directionMarkers.locationAndTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
     }
 
