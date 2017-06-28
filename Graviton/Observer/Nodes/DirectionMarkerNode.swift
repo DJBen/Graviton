@@ -8,6 +8,8 @@
 
 import UIKit
 import SceneKit
+import SpaceTime
+import CoreLocation
 import MathUtil
 
 extension ObserverScene {
@@ -43,6 +45,19 @@ extension ObserverScene {
                     return #imageLiteral(resourceName: "direction_marker_west")
                 }
             }
+
+            func markerTransform(pitch: Double, yaw: Double, roll: Double) -> Quaternion {
+                switch self {
+                case .north:
+                    return Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion.init(pitch: 0, yaw: yaw, roll: roll)
+                case .west:
+                    return .identity * Quaternion.init(pitch: pitch, yaw: 0, roll: roll)
+                case .south:
+                    return Quaternion(pitch: 0, yaw: 0, roll: -Double.pi / 2) * Quaternion.init(pitch: 0, yaw: yaw, roll: roll)
+                case .east:
+                    return Quaternion(pitch: 0, yaw: Double.pi, roll: 0) * Quaternion.init(pitch: pitch, yaw: 0, roll: roll)
+                }
+            }
         }
 
         private class MarkerNode: SCNNode {
@@ -61,14 +76,16 @@ extension ObserverScene {
         let radius: Double
         let sideLength: Double
 
-        /// The orientation to transform from ECEF to NED coordinate
-        ///
-        /// **Note**: do not use orientation property or the orientation of each marker will be wrong
-        var ecefToNedOrientation: Quaternion = Quaternion.identity {
+        var locationAndTime: LocationAndTime = LocationAndTime() {
             didSet {
+                let ecefToNed = Quaternion(rotationMatrix: self.locationAndTime.localViewTransform)
                 self.childNodes.forEach { (node) in
                     let markerNode = node as! MarkerNode
-                    node.position = SCNVector3(self.ecefToNedOrientation * markerNode.marker.unitPosition * radius)
+                    node.position = SCNVector3(ecefToNed * markerNode.marker.unitPosition * radius)
+                    var orientation = Quaternion.init(lookAt: Vector3.zero, from: Vector3(node.position))
+                    let (pitch, yaw, roll) = (ecefToNed.inverse * orientation).toPitchYawRoll()
+                    orientation = ecefToNed * markerNode.marker.markerTransform(pitch: pitch, yaw: yaw, roll: roll)
+                    node.orientation = SCNQuaternion(orientation)
                 }
             }
         }
@@ -118,9 +135,6 @@ extension ObserverScene {
 
         override func showElement() {
             childNodes.forEach { node in
-                let constraint = SCNBillboardConstraint()
-                constraint.freeAxes = [.X, .Y]
-                node.constraints = [constraint]
                 node.isHidden = false
             }
         }
