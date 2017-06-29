@@ -96,7 +96,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     }
 
     override func menuButtonTapped(sender: UIButton) {
-        endTimeWarp(withAnimationDuration: 0)
+        stopTimeWarp(withAnimationDuration: 0)
         scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
@@ -160,11 +160,11 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         if isTimeWarpActive {
             overlayScene.show(withDuration: 0.25)
         } else {
-            endTimeWarp(withAnimationDuration: 0.25)
+            stopTimeWarp(withAnimationDuration: 0.25)
         }
     }
 
-    private func endTimeWarp(withAnimationDuration animationDuration: Double) {
+    private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
         Timekeeper.default.reset()
         ObserverInfoManager.default.julianDate = nil
         overlayScene.hide(withDuration: animationDuration)

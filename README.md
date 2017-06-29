@@ -1,3 +1,5 @@
+![Header image](https://github.com/DJBen/Graviton/raw/master/External%20Assets/header.png)
+
 # Graviton :milky_way:
 
 [![Language](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://swift.org)

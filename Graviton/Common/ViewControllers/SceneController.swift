@@ -116,7 +116,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 extension CGPoint {
     /// Cap the value not to exceed an absolute magnitude
     ///
-    /// - Parameter p: The value cap.
+    /// - Parameter percentage: The value cap.
     /// - Returns: The capped value.
     func cap(to percentage: CGFloat) -> CGPoint {
         return CGPoint(x: x > 0 ? min(x, percentage) : max(x, -percentage), y: y > 0 ? min(y, percentage) : max(y, -percentage))
