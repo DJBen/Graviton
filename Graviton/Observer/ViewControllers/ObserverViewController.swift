@@ -33,7 +33,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var isTimeWarpActive: Bool = false
-    private var timeWarpSpeed: Double = 0
+    private var timeWarpSpeed: Double?
 
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -145,7 +145,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
             super.pan(sender: sender)
         }
         if sender.state == .ended {
-            timeWarpSpeed = 0
+            timeWarpSpeed = nil
         }
     }
 
@@ -192,7 +192,9 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        Timekeeper.default.warp(by: timeWarpSpeed)
+        if let warpSpeed = timeWarpSpeed {
+            Timekeeper.default.warp(by: warpSpeed)
+        }
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
         EphemerisMotionManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         ObserverInfoManager.default.julianDate = requestTimestamp

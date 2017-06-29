@@ -86,7 +86,8 @@ class SubscriptionManager<T> {
             sub.lastUpdateJd = requestedJd
             changed = true
         case .interval(let interval):
-            if abs(requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0)) >= interval / 86400 {
+            let diff = abs(requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0))
+            if diff >= interval / 86400 {
                 update(subscription: sub, forJulianDate: requestedJd)
                 sub.content = eph
                 sub.lastUpdateJd = requestedJd
