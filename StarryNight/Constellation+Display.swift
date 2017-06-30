@@ -157,7 +157,6 @@ extension Sequence where Iterator.Element == Constellation {
         }
         return result
     }
-
 }
 
 public extension EquatorialCoordinate {

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF281F941F061C66003CB4A3 /* Regex.framework */; };
+		EF281F961F061C81003CB4A3 /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF281F941F061C66003CB4A3 /* Regex.framework */; };
+		EF281F981F061EF2003CB4A3 /* BayerFlamsteed.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF281F971F061EF2003CB4A3 /* BayerFlamsteed.swift */; };
 		EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67931EF9D0C700C95AC3 /* Kepler.swift */; };
 		EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
@@ -208,6 +211,7 @@
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
 		FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD521EFD1300009327F5 /* Double+Util.swift */; };
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
+		FCFCDD571F064D28009327F5 /* BayerFlamsteedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */; };
 		FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
@@ -371,6 +375,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		EF281F941F061C66003CB4A3 /* Regex.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Regex.framework; path = Carthage/Build/iOS/Regex.framework; sourceTree = "<group>"; };
+		EF281F971F061EF2003CB4A3 /* BayerFlamsteed.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BayerFlamsteed.swift; sourceTree = "<group>"; };
 		EF2A67931EF9D0C700C95AC3 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassRoseNode.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
@@ -569,6 +575,7 @@
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
 		FCFCDD521EFD1300009327F5 /* Double+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Util.swift"; sourceTree = "<group>"; };
 		FCFCDD541F00FC54009327F5 /* experiment_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = experiment_menu.plist; sourceTree = "<group>"; };
+		FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BayerFlamsteedTest.swift; sourceTree = "<group>"; };
 		FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreMotion.swift"; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
@@ -592,6 +599,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF281F961F061C81003CB4A3 /* Regex.framework in Frameworks */,
 				EF5F132D1E50212700A8EF51 /* SQLite.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -608,6 +616,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */,
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
@@ -698,6 +707,7 @@
 				EF5F13211E5020FF00A8EF51 /* Constellation.swift */,
 				FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */,
 				EF5F13221E5020FF00A8EF51 /* SpectralType.swift */,
+				EF281F971F061EF2003CB4A3 /* BayerFlamsteed.swift */,
 				EF5F13071E50208700A8EF51 /* Info.plist */,
 			);
 			path = StarryNight;
@@ -708,6 +718,7 @@
 			children = (
 				EF4BD3B71E57E73B009D2698 /* StarTest.swift */,
 				FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */,
+				FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */,
 				EF5F13151E50208700A8EF51 /* Info.plist */,
 			);
 			path = StarryNightTests;
@@ -943,6 +954,7 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				EF281F941F061C66003CB4A3 /* Regex.framework */,
 				FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */,
 				FCCF5B4D1EBEC9F800B8004E /* Realm.framework */,
 				FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */,
@@ -1804,6 +1816,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/GeoQueries.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/Regex.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1835,6 +1848,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				EF281F981F061EF2003CB4A3 /* BayerFlamsteed.swift in Sources */,
 				FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */,
 				EF5F13291E5020FF00A8EF51 /* Star.swift in Sources */,
 				EF5F13251E5020FF00A8EF51 /* Constellation.swift in Sources */,
@@ -1848,6 +1862,7 @@
 			files = (
 				EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */,
 				FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */,
+				FCFCDD571F064D28009327F5 /* BayerFlamsteedTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

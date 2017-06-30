@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import SpaceTime
 import MathUtil
 import SQLite
 
@@ -18,6 +19,7 @@ fileprivate let dbBFDesignation = Expression<String?>("bf")
 fileprivate let dbHip = Expression<Int?>("hip")
 fileprivate let dbHr = Expression<Int?>("hr")
 fileprivate let dbHd = Expression<Int?>("hd")
+fileprivate let dbGl = Expression<String?>("gl")
 fileprivate let dbProperName = Expression<String?>("proper")
 fileprivate let dbX = Expression<Double>("x")
 fileprivate let dbY = Expression<Double>("y")
@@ -28,19 +30,21 @@ fileprivate let dbVz = Expression<Double>("vz")
 fileprivate let dbCon = Expression<String>("con")
 fileprivate let dbSpect = Expression<String?>("spect")
 fileprivate let dbMag = Expression<Double>("mag")
+fileprivate let dbDist = Expression<Double>("dist")
 
 public struct Star: Hashable, Equatable {
 
-    public struct Identity: Hashable, Equatable {
+    public struct Identity: Hashable, Equatable, CustomStringConvertible {
         public let id: Int
         /// The Bayer / Flamsteed designation, primarily from the Fifth Edition of the Yale Bright Star Catalog. This is a combination of the two designations. The Flamsteed number, if present, is given first; then a three-letter abbreviation for the Bayer Greek letter; the Bayer superscript number, if present; and finally, the three-letter constellation abbreviation. Thus Alpha Andromedae has the field value "21Alp And", and Kappa1 Sculptoris (no Flamsteed number) has "Kap1Scl".
-        public let bayerFlamsteedDesignation: String?
+        public let rawBfDesignation: String?
         /// The star's ID in the Hipparcos catalog, if known.
         public let hipId: Int?
         /// The star's ID in the Harvard Revised catalog, which is the same as its number in the Yale Bright Star Catalog.
         public let hrId: Int?
         /// The star's ID in the Henry Draper catalog, if known.
         public let hdId: Int?
+        public let gl: String?
         /// A common name for the star, such as "Barnard's Star" or "Sirius". I have taken these names primarily from the Hipparcos project's web site, which lists representative names for the 150 brightest stars and many of the 150 closest stars. I have added a few names to this list. Most of the additions are designations from catalogs mostly now forgotten (e.g., Lalande, Groombridge, and Gould ["G."]) except for certain nearby stars which are still best known by these designations.
         public let properName: String?
         /// The standard constellation
@@ -50,18 +54,43 @@ public struct Star: Hashable, Equatable {
             return id.hashValue
         }
 
-        init(id: Int, hipId: Int?, hrId: Int?, hdId: Int?, bfDesig: String?, proper: String?, constellationIAU: String) {
+        init(id: Int, hipId: Int?, hrId: Int?, hdId: Int?, gl: String?, bfDesig: String?, proper: String?, constellationIAU: String) {
             self.id = id
             self.hipId = hipId
             self.hrId = hrId
             self.hdId = hdId
-            self.bayerFlamsteedDesignation = bfDesig
-            self.properName = proper
+            self.gl = nilIfEmpty(gl)
+            self.rawBfDesignation = nilIfEmpty(bfDesig)
+            self.properName = nilIfEmpty(proper)
             self.constellation = Constellation.iau(constellationIAU)!
         }
 
         public static func ==(lhs: Identity, rhs: Identity) -> Bool {
             return lhs.id == rhs.id
+        }
+
+        private var hrIdString: String? {
+            return hrId != nil ? "HR \(hrId!)" : nil
+        }
+
+        private var hipIdString: String? {
+            return hipId != nil ? "HIP \(hipId!)" : nil
+        }
+
+        private var hdIdString: String? {
+            return hdId != nil ? "HD \(hdId!)" : nil
+        }
+
+        public var bayerFlamsteedDesignation: String? {
+            guard let bf = rawBfDesignation else {
+                return nil
+            }
+            let bayerFlamsteed = BayerFlamsteed(bf)!
+            return String(describing: bayerFlamsteed)
+        }
+
+        public var description: String {
+            return properName ?? bayerFlamsteedDesignation ?? gl ?? hrIdString ?? hdIdString ?? hipIdString!
         }
     }
 
@@ -103,7 +132,7 @@ public struct Star: Hashable, Equatable {
     }
 
     private init(row: Row) {
-        let identity = Star.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
+        let identity = Star.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), gl: row.get(dbGl), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
         let coord = Vector3(row.get(dbX), row.get(dbY), row.get(dbZ))
         let vel = Vector3(row.get(dbVx), row.get(dbVy), row.get(dbVz))
         let phys = Star.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)
@@ -111,9 +140,28 @@ public struct Star: Hashable, Equatable {
     }
 
     public static func magitudeLessThan(_ magCutoff: Double) -> [Star] {
-        let query = stars.filter(dbMag < magCutoff).filter(dbInternalId > 0).order(dbMag.asc)
+        let query = stars.filter(dbMag < magCutoff && dbInternalId > 0).order(dbMag.asc)
         let rows = try! db.prepare(query)
         return rows.map { Star(row: $0) }
+    }
+
+    /// Find the closest star to a given cartesian coordinate.
+    ///
+    /// - Parameters:
+    ///   - coordinate: The unit cartesian coordinate converted from equatorial coordinate
+    ///   - magCutoff: Minimum magnitude to consider. Any star lower than the given magnitude (greater numerically) will be ignored. If set to `nil`, no such filtering takes place.
+    /// - Returns: The closest star to a given cartesian coordinate.
+    public static func closest(to coordinate: Vector3, minimumMagnitude magCutoff: Double? = nil) -> Star? {
+        let xSqr = (dbX / dbDist - coordinate.x) * (dbX / dbDist - coordinate.x)
+        let ySqr = (dbY / dbDist - coordinate.y) * (dbY / dbDist - coordinate.y)
+        let zSqr = (dbZ / dbDist - coordinate.z) * (dbZ / dbDist - coordinate.z)
+        let cutoff = magCutoff ?? Double.greatestFiniteMagnitude
+        let query = stars.filter(dbMag < cutoff && dbInternalId > 0).order(xSqr + ySqr + zSqr).limit(1)
+        if let row = try! db.pluck(query) {
+            return Star(row: row)
+        } else {
+            return nil
+        }
     }
 
     private static func queryStar(_ query: Table) -> Star? {
@@ -153,4 +201,11 @@ public struct Star: Hashable, Equatable {
         }
         return nil
     }
+}
+
+fileprivate func nilIfEmpty(_ name: String?) -> String? {
+    if let str = name {
+        return str.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? nil : str
+    }
+    return nil
 }

@@ -167,6 +167,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         return node
     }()
 
+    lazy var focuser: FocusIndicatorNode = {
+        let focuser = FocusIndicatorNode(radius: 0.4)
+        focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+        return focuser
+    }()
+
     lazy var moonLightingNode: SCNNode = {
         let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
             light.intensity = 1000
@@ -241,11 +247,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         northNode.name = "north pole indicator"
         rootNode.addChildNode(northNode)
 
-        let focuser = FocusIndicatorNode(radius: 0.5)
-        focuser.position = SCNVector3(0, 0, -10)
         focuser.constraints = [SCNBillboardConstraint()]
-        focuser.categoryBitMask = VisibilityCategory.nonMoon.rawValue
         rootNode.addChildNode(focuser)
+        focuser.isHidden = true
 
         jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { (notification) in
             guard let coordinate = notification.userInfo?["content"] as? EquatorialCoordinate else {
@@ -441,7 +445,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     func focus(atNode node: SCNNode) {
-        print(node)
+        focuser.isHidden = false
+        focuser.position = node.position.normalized() * 10
     }
 
     // MARK: - Observer Ephemeris Update

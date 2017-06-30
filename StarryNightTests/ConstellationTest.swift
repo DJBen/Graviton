@@ -12,6 +12,13 @@ import SpaceTime
 import MathUtil
 
 class ConstellationTest: XCTestCase {
+    func testConstellationQuery() {
+        let iauQuery = Constellation.iau("Tau")
+        XCTAssertNotNil(iauQuery)
+        let nameQuery = Constellation.named("Orion")
+        XCTAssertNotNil(nameQuery)
+    }
+    
     func testPointToConstellation() {
         let coord = EquatorialCoordinate.init(rightAscension: 1.547, declination: 0.129, distance: 1)
         XCTAssertEqual(coord.constellation, Constellation.iau("Ori"))
