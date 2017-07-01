@@ -45,7 +45,7 @@ class ObserverOverlayScene: SKScene {
         timeWarpRootNode.alpha = 0
         addChild(starInfoRootNode)
         starInfoRootNode.addChild(starLabel)
-        starInfoRootNode.isHidden = true
+        starInfoRootNode.alpha = 0
     }
 
     private func layoutSceneElements() {
@@ -62,11 +62,11 @@ class ObserverOverlayScene: SKScene {
     }
 
     func displayStar(_ star: Star) {
-        starInfoRootNode.isHidden = false
+        starInfoRootNode.run(SKAction.fadeIn(withDuration: 0.25))
         starLabel.text = String(describing: star.identity)
     }
 
     func hideStarDisplay() {
-        starInfoRootNode.isHidden = true
+        starInfoRootNode.run(SKAction.fadeOut(withDuration: 0.25))
     }
 }

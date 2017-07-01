@@ -55,7 +55,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     var gestureOrientation: Quaternion = Quaternion.identity
 
-    lazy var stars = Star.magitudeLessThan(5.3)
+    lazy var stars = Star.magitudeLessThan(Constants.Observer.maximumDisplayMagnitude)
 
     private lazy var camera: SCNCamera = {
         let camera = SCNCamera()

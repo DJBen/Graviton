@@ -26,6 +26,5 @@ class ConstellationTest: XCTestCase {
             let coord = EquatorialCoordinate(cartesian: star.physicalInfo.coordinate)
             XCTAssertEqual(coord.constellation, star.identity.constellation, "Star \(star.identity.hrId!) @ coordinate \(star.physicalInfo.coordinate) should be in \(star.identity.constellation), but calculated at \(coord.constellation)")
         }
-
     }
 }

@@ -173,9 +173,12 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         let point = sender.location(in: view)
         let vec = SCNVector3(point.x, point.y, 0.5)
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
-        if let star = Star.closest(to: unitVec, minimumMagnitude: 4) {
-            observerScene.focus(atNode: observerScene.rootNode.childNode(withName: String(star.identity.id), recursively: true)!)
+        if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 15)) {
+            let node = observerScene.rootNode.childNode(withName: String(star.identity.id), recursively: true)!
+            observerScene.focus(atNode: node)
             overlayScene.displayStar(star)
+        } else {
+            overlayScene.hideStarDisplay()
         }
     }
 
