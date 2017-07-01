@@ -119,9 +119,8 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         scnView.autoenablesDefaultLighting = false
 
         cameraModifier = observerScene
-
+        view.removeGestureRecognizer(doubleTap)
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
-        tapGR.require(toFail: doubleTap)
         view.addGestureRecognizer(tapGR)
 
         let displaylink = CADisplayLink(target: self, selector: #selector(updateTimestampLabel))
@@ -171,7 +170,13 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     }
 
     func handleTap(sender: UITapGestureRecognizer) {
-        // TODO: Implement star seeking
+        let point = sender.location(in: view)
+        let vec = SCNVector3(point.x, point.y, 0.5)
+        let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
+        if let star = Star.closest(to: unitVec, minimumMagnitude: 4) {
+            observerScene.focus(atNode: observerScene.rootNode.childNode(withName: String(star.identity.id), recursively: true)!)
+            overlayScene.displayStar(star)
+        }
     }
 
     override func sceneDidRenderFirstTime(scene: SCNScene) {
