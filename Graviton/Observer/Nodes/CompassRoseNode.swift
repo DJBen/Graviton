@@ -72,8 +72,8 @@ extension ObserverScene {
 
         func updateTransparency(withCameraOrientation cameraOrientation: Quaternion) {
             let realCamOrientation = self.ecefToNedOrientation.inverse * cameraOrientation
-            let cameraNadirAngle = (realCamOrientation * Vector3(1, 0, 0)).angle(to: Vector3(0, 0, 1))
-            let cameraZenithAngle = (realCamOrientation * Vector3(1, 0, 0)).angle(to: Vector3(0, 0, -1))
+            let cameraNadirAngle = (realCamOrientation * Vector3(1, 0, 0)).angularSeparation(from: Vector3(0, 0, 1))
+            let cameraZenithAngle = (realCamOrientation * Vector3(1, 0, 0)).angularSeparation(from: Vector3(0, 0, -1))
             let interp = Easing(easingMethod: .quadraticEaseOut, startValue: 1, endValue: 0)
             nadirNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraNadirAngle.cap(to: 0...0.6) * (1 / 0.6)))
             zenithNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraZenithAngle.cap(to: 0...0.6) * (1 / 0.6)))

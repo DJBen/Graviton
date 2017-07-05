@@ -96,7 +96,11 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: overridenHillSphereRadiusRp)
         copy.motion = motion?.copy() as? OrbitalMotion
         let children = satellites.filter { $0 is CelestialBody } as! [CelestialBody]
-        children.forEach { copy.addSatellite(satellite: $0.copy() as! CelestialBody) }
+        children.forEach { (child) in
+            let copiedChild = child.copy() as! CelestialBody
+            copy.addSatellite(satellite: copiedChild)
+            copiedChild.centerBody = copy
+        }
         return copy
     }
 }

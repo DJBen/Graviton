@@ -10,7 +10,7 @@ import Foundation
 
 // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html#NAIF%20Object%20ID%20numbers
 
-public enum Naif: Comparable, Hashable {
+public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral {
     public enum MajorBody: Int {
         case mercury = 199
         case venus = 299
@@ -244,6 +244,10 @@ public enum Naif: Comparable, Hashable {
         default:
             return []
         }
+    }
+
+    public init(integerLiteral value: Int) {
+        self.init(naifId: value)
     }
 
     public init(naifId: Int) {
