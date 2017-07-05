@@ -95,14 +95,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         configurePanSpeed()
     }
 
-    override func menuButtonTapped(sender: UIButton) {
-        stopTimeWarp(withAnimationDuration: 0)
-        scnView.pause(nil)
-        let menuController = ObserverMenuController(style: .plain)
-        menuController.menu = Menu.main
-        navigationController?.pushViewController(menuController, animated: true)
-    }
-
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
@@ -127,10 +119,21 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         displaylink.add(to: .current, forMode: .defaultRunLoopMode)
     }
 
-    func updateTimestampLabel() {
-        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        titleButton.setTitle(ObserverViewController.dataFormatter.string(from: requestTimestamp.date), for: .normal)
+    // MARK: - Button handling
+
+    override func menuButtonTapped(sender: UIButton) {
+        stopTimeWarp(withAnimationDuration: 0)
+        scnView.pause(nil)
+        let menuController = ObserverMenuController(style: .plain)
+        menuController.menu = Menu.main
+        navigationController?.pushViewController(menuController, animated: true)
     }
+
+    func gyroButtonTapped(sender: UIBarButtonItem) {
+        MotionManager.default.toggleMotionUpdate()
+    }
+
+    // MARK: - Gesture handling
 
     override func pan(sender: UIPanGestureRecognizer) {
         // if there's any pan event, cancel motion updates
@@ -148,8 +151,21 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         }
     }
 
-    func gyroButtonTapped(sender: UIBarButtonItem) {
-        MotionManager.default.toggleMotionUpdate()
+    func handleTap(sender: UITapGestureRecognizer) {
+        let point = sender.location(in: view)
+        let vec = SCNVector3(point.x, point.y, 0.5)
+        let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
+        let ephemeris = EphemerisMotionManager.default.content(for: ephemerisSubscriptionIdentifier)!
+        if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: radians(degrees: 3)) {
+            observerScene.focus(atCelestialBody: closeBody)
+            overlayScene.showCelestialBodyDisplay(closeBody)
+        } else if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 3)) {
+            observerScene.focus(atStar: star)
+            overlayScene.showStarDisplay(star)
+        } else {
+            observerScene.removeFocus()
+            overlayScene.hideStarDisplay()
+        }
     }
 
     func toggleTimeWarp(sender: UIBarButtonItem) {
@@ -163,23 +179,20 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         }
     }
 
+    func updateTimestampLabel() {
+        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
+        titleButton.setTitle(ObserverViewController.dataFormatter.string(from: requestTimestamp.date), for: .normal)
+    }
+
     private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
         Timekeeper.default.reset()
         ObserverInfoManager.default.julianDate = nil
         overlayScene.hide(withDuration: animationDuration)
     }
 
-    func handleTap(sender: UITapGestureRecognizer) {
-        let point = sender.location(in: view)
-        let vec = SCNVector3(point.x, point.y, 0.5)
-        let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
-        if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 15)) {
-            let node = observerScene.rootNode.childNode(withName: String(star.identity.id), recursively: true)!
-            observerScene.focus(atNode: node)
-            overlayScene.displayStar(star)
-        } else {
-            overlayScene.hideStarDisplay()
-        }
+    private func configurePanSpeed() {
+        let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
+        cameraController.viewSlideDivisor = factor * 25000
     }
 
     override func sceneDidRenderFirstTime(scene: SCNScene) {
@@ -189,11 +202,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
         observerScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
-    }
-
-    private func configurePanSpeed() {
-        let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
-        cameraController.viewSlideDivisor = factor * 25000
     }
 
     // MARK: - Scene renderer delegate

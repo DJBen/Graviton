@@ -444,9 +444,23 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         scale = 1
     }
 
+    func focus(atCelestialBody body: CelestialBody) {
+        let node = rootNode.childNode(withName: String(body.naifId), recursively: true)!
+        focus(atNode: node)
+    }
+
+    func focus(atStar star: Star) {
+        let node = rootNode.childNode(withName: String(star.identity.id), recursively: true)!
+        focus(atNode: node)
+    }
+
     func focus(atNode node: SCNNode) {
         focuser.isHidden = false
         focuser.position = node.position.normalized() * 10
+    }
+
+    func removeFocus() {
+        focuser.isHidden = true
     }
 
     // MARK: - Observer Ephemeris Update
@@ -565,13 +579,5 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                 break
             }
         }
-    }
-}
-
-fileprivate extension Vector3 {
-    func oblique(by obliquity: Double) -> Vector3 {
-        // rotate around x-axis by earth's obliquity
-        let m = Matrix4(rotation: Vector4(1, 0, 0, obliquity))
-        return m * self
     }
 }

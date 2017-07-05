@@ -1285,7 +1285,7 @@ extension Quaternion: Equatable, Hashable {
 }
 
 public extension Vector3 {
-    public func angle(to vector: Vector3) -> Double {
+    public func angularSeparation(from vector: Vector3) -> Double {
         return acos(self.dot(vector) / (self.length * vector.length))
     }
 }

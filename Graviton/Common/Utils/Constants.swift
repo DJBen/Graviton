@@ -24,6 +24,9 @@ struct Constants {
         static let textColor: UIColor = #colorLiteral(red: 0.8928905129, green: 0.9480869174, blue: 1, alpha: 1)
         static let barColor: UIColor = #colorLiteral(red: 0.8928905129, green: 0.9480869174, blue: 1, alpha: 1)
     }
+    struct BodyInfo {
+        static let barBackgroundColor: UIColor = #colorLiteral(red: 0.7607843137, green: 0.89753443, blue: 0.859713316, alpha: 0.5)
+    }
     struct Observer {
         static let maximumDisplayMagnitude: Double = 5.2
     }

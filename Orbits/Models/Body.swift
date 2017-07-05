@@ -36,10 +36,9 @@ open class Body: Hashable {
     }
     public let name: String
     private var centerBodyNaifId: Int?
-    public var centerBody: CelestialBody? {
-        guard let id = centerBodyNaifId else { return nil }
-        return CelestialBody.load(naifId: id)
-    }
+
+    // Only set when forming an ephemeris
+    public var centerBody: CelestialBody?
     public var motion: OrbitalMotion?
 
     public var position: Vector3? {

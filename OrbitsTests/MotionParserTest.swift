@@ -99,7 +99,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 25.19), accuracy: 1e-3)
         XCTAssertEqual(body!.naifId, 499)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 88642.6632, accuracy: 1e-3)
-        XCTAssertEqual(body!.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 42828.3, accuracy: 1e-6)
     }
 
@@ -113,7 +112,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 23.45), accuracy: 1e-3)
         XCTAssertEqual(body?.naifId, 399)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 23.93419 * 3600, accuracy: 1e-3)
-        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 398600.440, accuracy: 1e-4)
     }
 
@@ -127,7 +125,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 177.3), accuracy: 1e-3)
         XCTAssertEqual(body?.naifId, 299)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, -243.0185 * 3600 * 24, accuracy: 1e-3)
-        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 324858.63, accuracy: 1e-4)
     }
 
@@ -141,7 +138,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, radians(degrees: 29.56), accuracy: 1e-3)
         XCTAssertEqual(body?.naifId, 899)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 16.7 * 3600, accuracy: 1e-3)
-        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 6835107, accuracy: 1e-4)
     }
 
@@ -155,7 +151,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqualWithAccuracy(body!.obliquity, 0, accuracy: 1e-3)
         XCTAssertEqual(body?.naifId, 999)
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 0, accuracy: 1e-3)
-        XCTAssertEqual(body?.centerBody?.naifId, Sun.sol.naifId)
         XCTAssertEqualWithAccuracy(body!.gravParam, 872.4, accuracy: 1e-4)
     }
 
@@ -170,7 +165,6 @@ class MotionParserTest: XCTestCase {
         XCTAssertEqual(body?.naifId, 301)
         // rotation period equals to orbital period
         XCTAssertEqualWithAccuracy(body!.rotationPeriod, 2360584.6847, accuracy: 1e-3)
-        XCTAssertEqual(body?.centerBody?.naifId, 399)
         XCTAssertEqualWithAccuracy(body!.gravParam, 4902.80007, accuracy: 1e-4)
     }
 }

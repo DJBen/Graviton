@@ -192,6 +192,7 @@
 		FCCF5B6D1EBF1A9D00B8004E /* ObserverRiseTransitSetParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B621EBF1A9D00B8004E /* ObserverRiseTransitSetParser.swift */; };
 		FCCF5B6F1EBF1A9D00B8004E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B631EBF1A9D00B8004E /* Parser.swift */; };
 		FCCF5B711EBF1A9D00B8004E /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */; };
+		FCD5B6B21F0CDF23005213DC /* Vector3+Oblique.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */; };
 		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
 		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
 		FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */; };
@@ -212,6 +213,7 @@
 		FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD521EFD1300009327F5 /* Double+Util.swift */; };
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
 		FCFCDD571F064D28009327F5 /* BayerFlamsteedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */; };
+		FCFCDD5B1F0B8C34009327F5 /* FakeOrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */; };
 		FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
@@ -555,6 +557,7 @@
 		FCCF5B621EBF1A9D00B8004E /* ObserverRiseTransitSetParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverRiseTransitSetParser.swift; sourceTree = "<group>"; };
 		FCCF5B631EBF1A9D00B8004E /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
+		FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Vector3+Oblique.swift"; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
 		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
 		FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetElevation.swift; sourceTree = "<group>"; };
@@ -576,6 +579,7 @@
 		FCFCDD521EFD1300009327F5 /* Double+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Util.swift"; sourceTree = "<group>"; };
 		FCFCDD541F00FC54009327F5 /* experiment_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = experiment_menu.plist; sourceTree = "<group>"; };
 		FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BayerFlamsteedTest.swift; sourceTree = "<group>"; };
+		FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOrbitalMotion.swift; sourceTree = "<group>"; };
 		FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreMotion.swift"; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
@@ -848,6 +852,7 @@
 			isa = PBXGroup;
 			children = (
 				FC13B6EA1EBC778800AA1BBC /* Fixtures */,
+				FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */,
 				FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */,
 				FCA930E11E2B8F5400100706 /* HorizonsTest.swift */,
 				EF32F0581E3B988800AD8778 /* NaifTest.swift */,
@@ -1237,6 +1242,7 @@
 		FCA930CB1E2B8EF600100706 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */,
 				FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */,
 				EF2A67931EF9D0C700C95AC3 /* Kepler.swift */,
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
@@ -1834,6 +1840,7 @@
 			files = (
 				EF4BD38C1E57E60A009D2698 /* HorizonsTest.swift in Sources */,
 				FCEDA60A1EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift in Sources */,
+				FCFCDD5B1F0B8C34009327F5 /* FakeOrbitalMotion.swift in Sources */,
 				EF4BD38D1E57E60A009D2698 /* NaifTest.swift in Sources */,
 				EF4BD38F1E57E60A009D2698 /* EphemerisTest.swift in Sources */,
 				EF4BD3901E57E60A009D2698 /* MotionParserTest.swift in Sources */,
@@ -1969,6 +1976,7 @@
 				EFA4FEE91EBDB94B001919DD /* Functional.swift in Sources */,
 				FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */,
 				FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */,
+				FCD5B6B21F0CDF23005213DC /* Vector3+Oblique.swift in Sources */,
 				FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */,
 				FCCF5B591EBF152000B8004E /* ObserverInfo.swift in Sources */,
 				FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */,
