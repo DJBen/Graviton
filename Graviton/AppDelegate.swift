@@ -23,7 +23,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         tabBar.shadowImage = UIImage()
         // Disable online fetching in unit tests
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
-        EphemerisMotionManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
+        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(5)) {
+            EphemerisMotionManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
+        }
         ObserverRiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
         ObserverEphemerisManager.globalMode = isInTest ? .localOnly : .preferLocal
         LocationManager.default.startLocationService()

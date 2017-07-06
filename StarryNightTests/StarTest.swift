@@ -18,6 +18,17 @@ class StarTest: XCTestCase {
         let s2Query = Star.hip(69673)
         XCTAssertNotNil(s2Query)
         XCTAssertEqual(s2Query!.identity.properName, "Arcturus")
+        measure {
+            _ = Star.magitudeLessThan(5.6)
+        }
+    }
+
+    func testMassHrQueries() {
+        measure {
+            for i in 0..<10000 {
+                _ = Star.hr(i)
+            }
+        }
     }
 
     func testClosestToStarQuery() {

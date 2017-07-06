@@ -486,7 +486,6 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let rotatedAxis = raRot * decRot * moonPoleAxis
         let parallanticAngleRot = Quaternion.init(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
         let moonOrientation = parallanticAngleRot * raRot * decRot
-        precondition(moonOrientation.length ~= 1, "quaternion should have unit length")
         moonNode.orientation = SCNQuaternion(moonOrientation)
     }
 
