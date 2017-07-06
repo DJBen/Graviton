@@ -5,7 +5,7 @@
 [![Language](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.com/DJBen/Graviton.svg?token=1KVrf6xTWoPqLKJBPuJ1&branch=master)](https://travis-ci.com/DJBen/Graviton)
 [![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master?maxAge=3600)
-[![AUR](https://img.shields.io/aur/license/yaourt.svg)]()
+[![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 - _Real-time night sky and solar system rendering._
 - _Astronomy and celestial mechanics toolkit._
