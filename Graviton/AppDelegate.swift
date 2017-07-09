@@ -24,10 +24,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Disable online fetching in unit tests
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(5)) {
-            EphemerisMotionManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
+            EphemerisManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
         }
-        ObserverRiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
-        ObserverEphemerisManager.globalMode = isInTest ? .localOnly : .preferLocal
+        RiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
+        CelestialBodyObserverInfoManager.globalMode = isInTest ? .localOnly : .preferLocal
         LocationManager.default.startLocationService()
         return true
     }

@@ -1,5 +1,5 @@
 //
-//  EphemerisMotionManager.swift
+//  EphemerisManager.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 2/19/17.
@@ -10,11 +10,11 @@ import UIKit
 import Orbits
 import SpaceTime
 
-final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
+final class EphemerisManager: SubscriptionManager<Ephemeris> {
 
     static var globalMode: Horizons.FetchMode = .mixed
 
-    static let `default` = EphemerisMotionManager()
+    static let `default` = EphemerisManager()
 
     private static let expirationDuration: Double = 365.4215 * 86400
 
@@ -52,7 +52,7 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
             ephemeris.updateMotion(using: requestedJd)
             load(content: ephemeris)
         }
-        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisMotionManager.globalMode, update: customLoad(ephemeris:), complete: { _, errors in
+        Horizons.shared.fetchEphemeris(mode: mode ?? EphemerisManager.globalMode, update: customLoad(ephemeris:), complete: { _, errors in
             defer {
                 self.isFetching = false
             }
@@ -80,7 +80,7 @@ final class EphemerisMotionManager: SubscriptionManager<Ephemeris> {
     // have to use fully qualified name otherwise compiler will segfault
     override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDate requestedJd: JulianDate) {
         if let eph = content(for: subscription.identifier) {
-            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisMotionManager.expirationDuration, Timekeeper.default.isWarping == false {
+            if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisManager.expirationDuration, Timekeeper.default.isWarping == false {
                 print("Ephemeris data outdated. Refetching...")
                 fetch(forJulianDate: requestedJd)
             }

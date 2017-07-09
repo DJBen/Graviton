@@ -38,13 +38,13 @@ class CelestialBodyViewController: SceneController {
     }
 
     deinit {
-        ObserverEphemerisManager.default.unsubscribe(obsSubscriptionIdentifier)
-        ObserverRiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
+        CelestialBodyObserverInfoManager.default.unsubscribe(obsSubscriptionIdentifier)
+        RiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 
     override func sceneDidRenderFirstTime(scene: SCNScene) {
         super.sceneDidRenderFirstTime(scene: scene)
-        obsSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
-        rtsSubscriptionIdentifier = ObserverRiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
+        obsSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
+        rtsSubscriptionIdentifier = RiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
     }
 }

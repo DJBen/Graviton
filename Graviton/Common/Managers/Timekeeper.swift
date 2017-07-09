@@ -44,7 +44,12 @@ class Timekeeper: LiteSubscriptionManager<JulianDate> {
     ///
     /// Example: when shift is -10, the result date is warped back 10 seconds.
     /// - Parameter shift: The shift in seconds.
-    func warp(by shift: Double) {
+    func warp(by shift: Double?) {
+        guard let shift = shift else {
+            recentWarpSpeed = 0
+            updateAllSubscribers(warpedJulianDate ?? JulianDate.now)
+            return
+        }
         recentWarpSpeed = shift
         if let warpedJd = warpedJulianDate {
             warpedJulianDate = warpedJd + shift

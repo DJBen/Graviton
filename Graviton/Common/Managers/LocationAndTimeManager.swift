@@ -1,5 +1,5 @@
 //
-//  ObserverInfoManager.swift
+//  LocationAndTimeManager.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 6/6/17.
@@ -9,7 +9,7 @@
 import UIKit
 import SpaceTime
 
-class ObserverInfoManager: NSObject {
+class LocationAndTimeManager: NSObject {
     typealias ObserverInfoSubscriptionBlock = (LocationAndTime) -> Void
 
     class Subscription {
@@ -20,7 +20,7 @@ class ObserverInfoManager: NSObject {
         }
     }
 
-    static let `default` = ObserverInfoManager()
+    static let `default` = LocationAndTimeManager()
     var subId: SubscriptionUUID!
     private(set) var observerInfo: LocationAndTime?
 

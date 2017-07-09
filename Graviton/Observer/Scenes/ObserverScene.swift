@@ -261,7 +261,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
                 return
             }
-            guard let obInfo = ObserverInfoManager.default.observerInfo else {
+            guard let obInfo = LocationAndTimeManager.default.observerInfo else {
                 print("Missing observer info")
                 return
             }
@@ -427,7 +427,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     private func updateForZoomChanges() {
-        if let id = motionSubscriptionId, let ephemeris = EphemerisMotionManager.default.content(for: id) {
+        if let id = motionSubscriptionId, let ephemeris = EphemerisManager.default.content(for: id) {
             updateDynamicSizes(forEphemeris: ephemeris)
         }
     }
@@ -472,7 +472,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     private func updateMoonOrientation() {
-        guard let moonInfo = ObserverEphemerisManager.default.content?[.moon(.luna)] else {
+        guard let moonInfo = CelestialBodyObserverInfoManager.default.content?[.moon(.luna)] else {
             return
         }
         let position = Vector3(moonNode.position)

@@ -1,5 +1,5 @@
 //
-//  ObserverRiseTransitSetManager.swift
+//  RiseTransitSetManager.swift
 //  Graviton
 //
 //  Created by Ben Lu on 5/12/17.
@@ -11,17 +11,17 @@ import Orbits
 import SpaceTime
 import CoreLocation
 
-final class ObserverRiseTransitSetManager: LocationSensitiveSubscriptionManager<[Naif: RiseTransitSetElevation]> {
+final class RiseTransitSetManager: LocationSensitiveSubscriptionManager<[Naif: RiseTransitSetElevation]> {
 
     static var globalMode: Horizons.FetchMode = .preferLocal
 
-    static let `default` = ObserverRiseTransitSetManager()
+    static let `default` = RiseTransitSetManager()
 
     override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate = JulianDate.now) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.content ?? CLLocation())
-        Horizons.shared.fetchRiseTransitSetElevation(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? ObserverRiseTransitSetManager.globalMode, update: { (dict) in
+        Horizons.shared.fetchRiseTransitSetElevation(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? RiseTransitSetManager.globalMode, update: { (dict) in
             self.content = dict
             for (_, sub) in self.subscriptions {
                 DispatchQueue.main.async {

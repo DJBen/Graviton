@@ -95,11 +95,11 @@
 		FC13B7171EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */; };
 		FC172B261ED27BBA008BF615 /* BooleanFlaggedLight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */; };
 		FC18E1B61EF613E30061C2F6 /* ObserverOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC18E1B51EF613E30061C2F6 /* ObserverOverlayScene.swift */; };
-		FC1CC2C71EE01646009FA252 /* EphemerisMotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C11EE01646009FA252 /* EphemerisMotionManager.swift */; };
+		FC1CC2C71EE01646009FA252 /* EphemerisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C11EE01646009FA252 /* EphemerisManager.swift */; };
 		FC1CC2C81EE01646009FA252 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C21EE01646009FA252 /* LocationManager.swift */; };
 		FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */; };
-		FC1CC2CA1EE01646009FA252 /* ObserverEphemerisManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C41EE01646009FA252 /* ObserverEphemerisManager.swift */; };
-		FC1CC2CB1EE01646009FA252 /* ObserverRiseTransitSetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C51EE01646009FA252 /* ObserverRiseTransitSetManager.swift */; };
+		FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */; };
+		FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */; };
 		FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */; };
 		FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2CE1EE01689009FA252 /* PushAsideTransition.swift */; };
 		FC1CC2D11EE01689009FA252 /* PushOverlayTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2CF1EE01689009FA252 /* PushOverlayTransition.swift */; };
@@ -174,7 +174,7 @@
 		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
 		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
 		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
-		FCC50D3B1EE69CD7009045AC /* ObserverInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */; };
+		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
 		FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DF81E68762100B737D1 /* Intersection.swift */; };
 		FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */; };
 		FCC73E021E6BC13E00B737D1 /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
@@ -453,11 +453,11 @@
 		FC13B70F1EBDAD5300AA1BBC /* smallBodies.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = smallBodies.sqlite3; sourceTree = "<group>"; };
 		FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanFlaggedLight.swift; sourceTree = "<group>"; };
 		FC18E1B51EF613E30061C2F6 /* ObserverOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverOverlayScene.swift; sourceTree = "<group>"; };
-		FC1CC2C11EE01646009FA252 /* EphemerisMotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisMotionManager.swift; sourceTree = "<group>"; };
+		FC1CC2C11EE01646009FA252 /* EphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisManager.swift; sourceTree = "<group>"; };
 		FC1CC2C21EE01646009FA252 /* LocationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationSensitiveSubscriptionManager.swift; sourceTree = "<group>"; };
-		FC1CC2C41EE01646009FA252 /* ObserverEphemerisManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverEphemerisManager.swift; sourceTree = "<group>"; };
-		FC1CC2C51EE01646009FA252 /* ObserverRiseTransitSetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverRiseTransitSetManager.swift; sourceTree = "<group>"; };
+		FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyObserverInfoManager.swift; sourceTree = "<group>"; };
+		FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetManager.swift; sourceTree = "<group>"; };
 		FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
 		FC1CC2CE1EE01689009FA252 /* PushAsideTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAsideTransition.swift; sourceTree = "<group>"; };
 		FC1CC2CF1EE01689009FA252 /* PushOverlayTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushOverlayTransition.swift; sourceTree = "<group>"; };
@@ -540,7 +540,7 @@
 		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
-		FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfoManager.swift; sourceTree = "<group>"; };
+		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
 		FCC73DF81E68762100B737D1 /* Intersection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intersection.swift; sourceTree = "<group>"; };
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
@@ -921,12 +921,12 @@
 		FC1CC2C01EE01607009FA252 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
-				FC1CC2C11EE01646009FA252 /* EphemerisMotionManager.swift */,
+				FC1CC2C11EE01646009FA252 /* EphemerisManager.swift */,
 				FC1CC2C21EE01646009FA252 /* LocationManager.swift */,
-				FCC50D3A1EE69CD7009045AC /* ObserverInfoManager.swift */,
+				FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */,
 				FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */,
-				FC1CC2C41EE01646009FA252 /* ObserverEphemerisManager.swift */,
-				FC1CC2C51EE01646009FA252 /* ObserverRiseTransitSetManager.swift */,
+				FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */,
+				FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */,
 				FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */,
 				FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */,
 				FC1CC2DA1EE0171F009FA252 /* CameraController.swift */,
@@ -1896,7 +1896,7 @@
 				FC18E1B61EF613E30061C2F6 /* ObserverOverlayScene.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */,
-				FCC50D3B1EE69CD7009045AC /* ObserverInfoManager.swift in Sources */,
+				FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */,
 				FCF2EA901EF633A600B787F8 /* TimeWarpVerticalBar.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
 				FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */,
@@ -1907,7 +1907,7 @@
 				FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
-				FC1CC2CA1EE01646009FA252 /* ObserverEphemerisManager.swift in Sources */,
+				FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */,
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
@@ -1917,7 +1917,7 @@
 				FCFF7B141EA2145A00C4B006 /* SCNView+Projection.swift in Sources */,
 				FCF2EA921EF64EA000B787F8 /* Timekeeper.swift in Sources */,
 				FC959E621E9B4FEC0026B222 /* CameraResponsive.swift in Sources */,
-				FC1CC2C71EE01646009FA252 /* EphemerisMotionManager.swift in Sources */,
+				FC1CC2C71EE01646009FA252 /* EphemerisManager.swift in Sources */,
 				FC1CC2D41EE016BC009FA252 /* UIImageEffects.m in Sources */,
 				FC959E581E9B4D960026B222 /* ObserverScene.swift in Sources */,
 				EF9867AF1EE0D8DF00486C64 /* DirectionMarkerNode.swift in Sources */,
@@ -1938,7 +1938,7 @@
 				FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */,
 				FCEDA6171EC04D19005C7BFF /* CelestialBodyScene.swift in Sources */,
 				FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */,
-				FC1CC2CB1EE01646009FA252 /* ObserverRiseTransitSetManager.swift in Sources */,
+				FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */,
 				FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */,

@@ -1,5 +1,5 @@
 //
-//  ObserverEphemerisManager.swift
+//  CelestialBodyObserverInfoManager.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 5/14/17.
@@ -11,17 +11,17 @@ import Orbits
 import SpaceTime
 import CoreLocation
 
-final class ObserverEphemerisManager: LocationSensitiveSubscriptionManager<[Naif: CelestialBodyObserverInfo]> {
+final class CelestialBodyObserverInfoManager: LocationSensitiveSubscriptionManager<[Naif: CelestialBodyObserverInfo]> {
 
     static var globalMode: Horizons.FetchMode = .preferLocal
 
-    static let `default` = ObserverEphemerisManager()
+    static let `default` = CelestialBodyObserverInfoManager()
 
     override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.content ?? CLLocation())
-        Horizons.shared.fetchCelestialBodyObserverInfo(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? ObserverEphemerisManager.globalMode, update: { (dict) in
+        Horizons.shared.fetchCelestialBodyObserverInfo(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? CelestialBodyObserverInfoManager.globalMode, update: { (dict) in
             self.content = dict
             for (_, sub) in self.subscriptions {
                 DispatchQueue.main.async {

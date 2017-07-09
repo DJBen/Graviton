@@ -30,7 +30,7 @@ class TimeWarpVerticalBar: SKNode {
         addChild(emitter)
         warpSubId = Timekeeper.default.subscribe(didUpdate: { (_) in
             let recentWarpSpeed = Timekeeper.default.recentWarpSpeed
-            if recentWarpSpeed ~= 0 {
+            if recentWarpSpeed == 0 {
                 self.emitter.particleBirthRate = 0
                 self.emitter.particleSpeed = 0
                 return

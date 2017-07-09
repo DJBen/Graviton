@@ -69,9 +69,9 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     }
 
     deinit {
-        EphemerisMotionManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
-        ObserverEphemerisManager.default.unsubscribe(observerSubscriptionIdentifier)
-        ObserverInfoManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
+        EphemerisManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
+        CelestialBodyObserverInfoManager.default.unsubscribe(observerSubscriptionIdentifier)
+        LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
         MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
     }
 
@@ -155,7 +155,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         let point = sender.location(in: view)
         let vec = SCNVector3(point.x, point.y, 0.5)
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
-        let ephemeris = EphemerisMotionManager.default.content(for: ephemerisSubscriptionIdentifier)!
+        let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
         if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: radians(degrees: 3)) {
             observerScene.focus(atCelestialBody: closeBody)
             overlayScene.showCelestialBodyDisplay(closeBody)
@@ -186,7 +186,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
         Timekeeper.default.reset()
-        ObserverInfoManager.default.julianDate = nil
+        LocationAndTimeManager.default.julianDate = nil
         overlayScene.hide(withDuration: animationDuration)
     }
 
@@ -197,9 +197,9 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func sceneDidRenderFirstTime(scene: SCNScene) {
         super.sceneDidRenderFirstTime(scene: scene)
-        ephemerisSubscriptionIdentifier = EphemerisMotionManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
-        observerSubscriptionIdentifier = ObserverEphemerisManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
-        locationAndTimeSubscriptionIdentifier = ObserverInfoManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
+        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
+        observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
+        locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
         observerScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
     }
@@ -208,12 +208,10 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        if let warpSpeed = timeWarpSpeed {
-            Timekeeper.default.warp(by: warpSpeed)
-        }
+        Timekeeper.default.warp(by: timeWarpSpeed)
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        EphemerisMotionManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
-        ObserverInfoManager.default.julianDate = requestTimestamp
+        EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
+        LocationAndTimeManager.default.julianDate = requestTimestamp
         configurePanSpeed()
         observerScene.rendererUpdate()
     }
