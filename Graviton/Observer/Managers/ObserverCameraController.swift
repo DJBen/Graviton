@@ -31,19 +31,14 @@ class ObserverCameraController: CameraController {
         Settings.default.unsubscribe(object: self)
     }
 
-    // I don't know why such algorithm is working. It is working nonetheless.
-    override func handleCameraPan(atTime time: TimeInterval) {
-        if MotionManager.default.isActive {
-            return
-        }
-        let observerInfo = LocationAndTimeManager.default.observerInfo ?? LocationAndTime()
+    func orientCameraNode(observerInfo: LocationAndTime = LocationAndTime()) {
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
         let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
         let controlSpaceTransform = Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
         lastApplied = quat * controlSpaceTransform
         var (pitch, yaw, _) = rot.toPitchYawRoll()
-        // cap camera pitch near singularies
+        // restrain camera pitch near singularities
         if pitch > 0.97 * Double.pi / 2 && pitch < Double.pi / 2 {
             pitch = 0.97 * Double.pi / 2
         } else if pitch < -0.97 * Double.pi / 2 && pitch > -Double.pi {
@@ -52,6 +47,13 @@ class ObserverCameraController: CameraController {
         let derolledRot = lastApplied * Quaternion.init(pitch: pitch, yaw: yaw, roll: 0)
         let movement = controlSpaceTransform * Quaternion(pitch: cameraYaw * cos(pitch), yaw: -cameraPitch, roll: 0)
         cameraNode.orientation = SCNQuaternion(derolledRot * movement)
+    }
+
+    override func handleCameraPan(atTime time: TimeInterval) {
+        if MotionManager.default.isActive {
+            return
+        }
+        orientCameraNode(observerInfo: LocationAndTimeManager.default.observerInfo ?? LocationAndTime())
         decelerateCamera(atTime: time)
     }
 
@@ -59,7 +61,6 @@ class ObserverCameraController: CameraController {
         // disable
     }
 
-    // I don't know why such algorithm is working. It is working nonetheless.
     func deviceMotionDidUpdate(motion: CMDeviceMotion) {
         stabilizer.addDeviceMotion(motion)
         slideVelocity = CGPoint.zero

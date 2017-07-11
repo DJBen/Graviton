@@ -23,7 +23,7 @@ class LocationSensitiveSubscriptionManager<T>: SubscriptionManager<T> {
     }
 
     func updateLocation(location: CLLocation) {
-        if Timekeeper.default.isWarping == false {
+        if Timekeeper.default.isWarpActive == false {
             // refetch new RTS info if location has significant change
             fetch(mode: .preferLocal)
         }

@@ -21,11 +21,13 @@ class CelestialBodyViewController: SceneController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
+        obsSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
+        rtsSubscriptionIdentifier = RiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
     }
 
     private func setupViewElements() {
         scnView.delegate = self
-        scnView.antialiasingMode = .multisampling2X
+        scnView.antialiasingMode = .multisampling4X
         scnView.scene = cbScene
         scnView.pointOfView = cbScene.cameraNode
         scnView.backgroundColor = UIColor.black
@@ -40,11 +42,5 @@ class CelestialBodyViewController: SceneController {
     deinit {
         CelestialBodyObserverInfoManager.default.unsubscribe(obsSubscriptionIdentifier)
         RiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
-    }
-
-    override func sceneDidRenderFirstTime(scene: SCNScene) {
-        super.sceneDidRenderFirstTime(scene: scene)
-        obsSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: cbScene.updateObserverInfo)
-        rtsSubscriptionIdentifier = RiseTransitSetManager.default.subscribe(didLoad: cbScene.updateRiseTransitSetInfo)
     }
 }

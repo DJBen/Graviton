@@ -13,7 +13,6 @@ import MathUtil
 class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     var cameraModifier: CameraResponsive?
-    private var firstTimeRender = true
 
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
 
@@ -94,22 +93,12 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         }
     }
 
-    // MARK: - Gesture Handling
-
-    func sceneDidRenderFirstTime(scene: SCNScene) {
-
-    }
-
     // MARK: - Scene Renderer Delegate
 
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         cameraController.handleCameraPan(atTime: time)
         cameraController.rotation = rotationGR.rotation
         cameraController.handleCameraRotation(atTime: time)
-        if firstTimeRender {
-            sceneDidRenderFirstTime(scene: scene)
-            firstTimeRender = false
-        }
     }
 }
 

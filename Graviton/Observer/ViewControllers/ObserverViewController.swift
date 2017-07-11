@@ -32,7 +32,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
-    private var isTimeWarpActive: Bool = false
     private var timeWarpSpeed: Double?
 
     private lazy var titleButton: UIButton = {
@@ -61,6 +60,10 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
+        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
+        observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
+        locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
+        motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -138,16 +141,17 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     override func pan(sender: UIPanGestureRecognizer) {
         // if there's any pan event, cancel motion updates
         MotionManager.default.stopMotionUpdate()
+        if sender.state == .ended {
+            timeWarpSpeed = nil
+            return
+        }
         let location = sender.location(in: self.view)
-        if isTimeWarpActive && CGRect(x: view.bounds.width - 44, y: 0, width: 44, height: view.bounds.height).contains(location) {
+        if Timekeeper.default.isWarpActive && CGRect(x: view.bounds.width - 44, y: 0, width: 44, height: view.bounds.height).contains(location) {
             let percentage = Double((view.bounds.height / 2 - sender.location(in: self.view).y) / (view.bounds.height / 2))
             let warpSpeed = percentage >= 0 ? exp(percentage * 16) : -exp(-percentage * 16)
             timeWarpSpeed = warpSpeed
         } else {
             super.pan(sender: sender)
-        }
-        if sender.state == .ended {
-            timeWarpSpeed = nil
         }
     }
 
@@ -170,11 +174,13 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     func toggleTimeWarp(sender: UIBarButtonItem) {
         guard Settings.default[.enableTimeWarp] else { return }
-        isTimeWarpActive = !isTimeWarpActive
-        print("Time warp toggled \(isTimeWarpActive)")
-        if isTimeWarpActive {
+        Timekeeper.default.isWarpActive = !Timekeeper.default.isWarpActive
+        print("Time warp toggled \(Timekeeper.default.isWarpActive)")
+        if Timekeeper.default.isWarpActive {
+            LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
             overlayScene.show(withDuration: 0.25)
         } else {
+            locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
             stopTimeWarp(withAnimationDuration: 0.25)
         }
     }
@@ -195,25 +201,28 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         cameraController.viewSlideDivisor = factor * 25000
     }
 
-    override func sceneDidRenderFirstTime(scene: SCNScene) {
-        super.sceneDidRenderFirstTime(scene: scene)
-        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
-        observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
-        locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
-        observerScene.motionSubscriptionId = ephemerisSubscriptionIdentifier
-        motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
-    }
-
     // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        super.renderer(renderer, didRenderScene: scene, atTime: time)
         Timekeeper.default.warp(by: timeWarpSpeed)
+        if Timekeeper.default.isWarpActive && Timekeeper.default.isWarping == false {
+            super.renderer(renderer, didRenderScene: scene, atTime: time)
+            return
+        }
+        if Timekeeper.default.isWarpActive {
+            cameraController.slideVelocity = CGPoint.zero
+        } else {
+            super.renderer(renderer, didRenderScene: scene, atTime: time)
+        }
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
         EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         LocationAndTimeManager.default.julianDate = requestTimestamp
         configurePanSpeed()
         observerScene.rendererUpdate()
+        if Timekeeper.default.isWarpActive, let observerInfo = LocationAndTimeManager.default.observerInfo {
+            observerScene.updateLocationAndTime(observerInfo: observerInfo)
+            self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
+        }
     }
 
     // MARK: - Menu background provider

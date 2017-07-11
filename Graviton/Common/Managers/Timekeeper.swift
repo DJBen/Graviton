@@ -30,6 +30,8 @@ class Timekeeper: LiteSubscriptionManager<JulianDate> {
         return warpedJulianDate?.date
     }
 
+    var isWarpActive: Bool = false
+
     var isWarping: Bool {
         return warpedJulianDate != nil && !(recentWarpSpeed ~= 0)
     }
