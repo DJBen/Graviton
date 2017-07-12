@@ -39,7 +39,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
 
-    static let defaultFov: Double = 45
+    static let defaultFov: Double = 50
     /// Determines how fast zooming changes fov; the greater this number, the faster
     private static let fovExpBase: Double = 1.25
     private static let maxFov: Double = 120
@@ -50,8 +50,6 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     /// Maximum magnification for the Sun and the Moon
     private static let maxMagnification: Double = 15
-
-    var motionSubscriptionId: SubscriptionUUID?
 
     var gestureOrientation: Quaternion = Quaternion.identity
 
@@ -427,7 +425,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     private func updateForZoomChanges() {
-        if let id = motionSubscriptionId, let ephemeris = EphemerisManager.default.content(for: id) {
+        if let id = ephemerisSubscriptionIdentifier, let ephemeris = EphemerisManager.default.content(for: id) {
             updateDynamicSizes(forEphemeris: ephemeris)
         }
     }
@@ -463,7 +461,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         focuser.isHidden = true
     }
 
-    // MARK: - Observer Ephemeris Update
+    // MARK: - Observer Update
     func observerInfoUpdate(observerInfo: [Naif: CelestialBodyObserverInfo]) {
         if observerInfo[.moon(.luna)] != nil {
             updateMoonOrientation()
@@ -499,25 +497,13 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Ephemeris Update
-    private func updateDynamicSizes(forEphemeris ephemeris: Ephemeris) {
-        if let earth = ephemeris[.majorBody(.earth)], let earthPos = earth.position {
-            let sunPos = -earthPos
-            let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
-            (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize * dynamicMagnificationFactor)
-        }
-        if let moonBody = ephemeris[.moon(.luna)], let relativePos = moonBody.motion?.position {
-            let moonDisplaySize = moonBody.radius * moonLayerRadius / relativePos.length
-            (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
-        }
-    }
-
     func ephemerisDidLoad(ephemeris: Ephemeris) {
         drawAuxillaryLines(ephemeris: ephemeris)
         drawPlanetsAndMoon(ephemeris: ephemeris)
     }
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
-        if Timekeeper.default.isWarping == false {
+        if Timekeeper.default.isWarpActive == false {
             print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
         }
         let earth = ephemeris[399]!
@@ -570,13 +556,24 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                     moonEarthshineNode.position = SCNVector3Zero
                     moonFullLightingNode.position = SCNVector3Zero
                     let cosAngle = hypotheticalSunPos.normalized().dot(-obliquedMoonPos.normalized())
-                    print("earth-sun-moon cos(angle): \(cosAngle)")
                     moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
                     updateMoonOrientation()
                 }
             default:
                 break
             }
+        }
+    }
+
+    private func updateDynamicSizes(forEphemeris ephemeris: Ephemeris) {
+        if let earth = ephemeris[.majorBody(.earth)], let earthPos = earth.position {
+            let sunPos = -earthPos
+            let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
+            (sunNode.geometry as! SCNSphere).radius = CGFloat(sunDisplaySize * dynamicMagnificationFactor)
+        }
+        if let moonBody = ephemeris[.moon(.luna)], let relativePos = moonBody.motion?.position {
+            let moonDisplaySize = moonBody.radius * moonLayerRadius / relativePos.length
+            (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
         }
     }
 }

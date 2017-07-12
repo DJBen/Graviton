@@ -921,17 +921,17 @@
 		FC1CC2C01EE01607009FA252 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */,
+				FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */,
+				FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */,
 				FC1CC2C11EE01646009FA252 /* EphemerisManager.swift */,
 				FC1CC2C21EE01646009FA252 /* LocationManager.swift */,
 				FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */,
-				FC1CC2C31EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift */,
 				FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */,
 				FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */,
-				FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */,
-				FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */,
-				FC1CC2DA1EE0171F009FA252 /* CameraController.swift */,
 				FCCB89551EEE043300F1539E /* MotionManager.swift */,
 				FCF2EA911EF64EA000B787F8 /* Timekeeper.swift */,
+				FC1CC2DA1EE0171F009FA252 /* CameraController.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
