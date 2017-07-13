@@ -16,7 +16,6 @@ import MathUtil
 class SolarSystemViewController: SceneController {
 
     var focusController: FocusingSupport?
-    var ephemeris: Ephemeris?
 
     var lastRenderTime: TimeInterval!
     var timeElapsed: TimeInterval = 0
@@ -31,29 +30,10 @@ class SolarSystemViewController: SceneController {
 
     lazy var solarSystemScene: SolarSystemScene = {
         let scene = SolarSystemScene()
-        self.fillSolarSystemScene(scene)
         return scene
     }()
 
-    private func fillSolarSystemScene(_ scene: SolarSystemScene) {
-        scene.clear()
-        let colors: [Int: UIColor] = [
-            199: #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1),
-            299: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1),
-            399: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1),
-            499: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),
-            599: #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1),
-            699: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1),
-            799: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
-            899: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),
-            999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
-        ]
-        ephemeris?.forEach { (body) in
-            if let color = colors[body.naifId] {
-                scene.add(body: body, color: color)
-            }
-        }
-    }
+    private var ephemerisSubscriptionId: SubscriptionUUID!
 
     private var scnView: SCNView {
         return self.view as! SCNView
@@ -117,15 +97,7 @@ class SolarSystemViewController: SceneController {
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
         self.view.addGestureRecognizer(tapGR)
-        Horizons.shared.fetchEphemeris(mode: .mixed, update: { (ephemeris) in
-            self.ephemeris = ephemeris
-            self.fillSolarSystemScene(self.solarSystemScene)
-        }) { (_, error) in
-            if let e = error {
-                print(e)
-                return
-            }
-        }
+        ephemerisSubscriptionId = EphemerisManager.default.subscribe(mode: .realtime, didLoad: solarSystemScene.ephemerisDidLoad(ephemeris:), didUpdate: solarSystemScene.ephemerisDidUpdate(ephemeris:))
     }
 
     override var shouldAutorotate: Bool {
