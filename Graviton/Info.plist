@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CormorantSC-Bold.ttf</string>
+		<string>CormorantSC-Light.ttf</string>
+		<string>CormorantSC-Medium.ttf</string>
+		<string>CormorantSC-Regular.ttf</string>
+		<string>CormorantSC-SemiBold.ttf</string>
+	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>

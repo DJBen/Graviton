@@ -75,6 +75,12 @@
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */; };
 		EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */; };
+		FC099E331F1743C600A65F73 /* CormorantSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */; };
+		FC099E341F1743C600A65F73 /* CormorantSC-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2E1F1743C600A65F73 /* CormorantSC-Light.ttf */; };
+		FC099E351F1743C600A65F73 /* CormorantSC-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2F1F1743C600A65F73 /* CormorantSC-Medium.ttf */; };
+		FC099E361F1743C600A65F73 /* CormorantSC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E301F1743C600A65F73 /* CormorantSC-Regular.ttf */; };
+		FC099E371F1743C600A65F73 /* CormorantSC-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E311F1743C600A65F73 /* CormorantSC-SemiBold.ttf */; };
+		FC099E381F1743C600A65F73 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = FC099E321F1743C600A65F73 /* OFL.txt */; };
 		FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
 		FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
 		FC13B7031EBC77CA00AA1BBC /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC13B6FB1EBC77CA00AA1BBC /* earth.result */; };
@@ -437,6 +443,12 @@
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
 		EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EclipticLineNode.swift; sourceTree = "<group>"; };
+		FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Bold.ttf"; sourceTree = "<group>"; };
+		FC099E2E1F1743C600A65F73 /* CormorantSC-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Light.ttf"; sourceTree = "<group>"; };
+		FC099E2F1F1743C600A65F73 /* CormorantSC-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Medium.ttf"; sourceTree = "<group>"; };
+		FC099E301F1743C600A65F73 /* CormorantSC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Regular.ttf"; sourceTree = "<group>"; };
+		FC099E311F1743C600A65F73 /* CormorantSC-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-SemiBold.ttf"; sourceTree = "<group>"; };
+		FC099E321F1743C600A65F73 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		FC0F51981EB9D8BC00C1A863 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 		FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		FC13B6FB1EBC77CA00AA1BBC /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
@@ -695,6 +707,7 @@
 		EF55530E1EA96FF300B5A34D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FC099E2B1F1743B900A65F73 /* Fonts */,
 				EF55530F1EA9701100B5A34D /* Icons.xcassets */,
 				FCB365A71EB8565C00027E82 /* Textures.xcassets */,
 			);
@@ -865,6 +878,27 @@
 				EFE8BF661DD86B2B000F0A79 /* Info.plist */,
 			);
 			path = OrbitsTests;
+			sourceTree = "<group>";
+		};
+		FC099E2B1F1743B900A65F73 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				FC099E2C1F1743C600A65F73 /* Cormorant_SC */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		FC099E2C1F1743C600A65F73 /* Cormorant_SC */ = {
+			isa = PBXGroup;
+			children = (
+				FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */,
+				FC099E2E1F1743C600A65F73 /* CormorantSC-Light.ttf */,
+				FC099E2F1F1743C600A65F73 /* CormorantSC-Medium.ttf */,
+				FC099E301F1743C600A65F73 /* CormorantSC-Regular.ttf */,
+				FC099E311F1743C600A65F73 /* CormorantSC-SemiBold.ttf */,
+				FC099E321F1743C600A65F73 /* OFL.txt */,
+			);
+			path = Cormorant_SC;
 			sourceTree = "<group>";
 		};
 		FC0F51971EB9D82900C1A863 /* Horizons */ = {
@@ -1707,16 +1741,22 @@
 				FCF2EA941EF65A1C00B787F8 /* TimeWarpParticle.sks in Resources */,
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
 				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
+				FC099E351F1743C600A65F73 /* CormorantSC-Medium.ttf in Resources */,
 				FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCF2EA8E1EF62ABB00B787F8 /* Assets.xcassets in Resources */,
+				FC099E341F1743C600A65F73 /* CormorantSC-Light.ttf in Resources */,
 				FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */,
 				FC6619AC1EF271E500B670CC /* control_menu.plist in Resources */,
 				EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */,
 				FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */,
+				FC099E381F1743C600A65F73 /* OFL.txt in Resources */,
 				FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */,
+				FC099E331F1743C600A65F73 /* CormorantSC-Bold.ttf in Resources */,
 				EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */,
+				FC099E371F1743C600A65F73 /* CormorantSC-SemiBold.ttf in Resources */,
 				FC7D61FF1E9B491000BEA5BE /* tracking_label.surface.shader in Resources */,
+				FC099E361F1743C600A65F73 /* CormorantSC-Regular.ttf in Resources */,
 				FC7D62041E9B498400BEA5BE /* content_rendering_menu.plist in Resources */,
 				FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */,
 				FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */,

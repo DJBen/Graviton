@@ -25,7 +25,7 @@ extension ObserverScene {
         for constellation in Constellation.all {
             guard let c = constellation.displayCenter else { continue }
             let center = SCNVector3(c.normalized())
-            let textNode = TrackingLabelNode(string: constellation.name, textStyle: TextStyle.constellationLabelTextStyle(fontSize: 0.8))
+            let textNode = TrackingLabelNode(string: constellation.name, textStyle: TextStyle.constellationLabelTextStyle(fontSize: 1.1))
             textNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             textNode.constraints = [SCNBillboardConstraint()]
             textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
@@ -38,13 +38,12 @@ extension ObserverScene {
         func offset(`class`: AnnotationClass) -> CGVector {
             switch `class` {
             case .sunAndMoon:
-                return CGVector(dx: 0, dy: -0.6)
+                return CGVector(dx: 0, dy: -1.2)
             case .planet:
-                return CGVector(dx: 0, dy: -0.1)
+                return CGVector(dx: 0, dy: -0.6)
             default:
-                break
+                return CGVector.zero
             }
-            return CGVector(dx: 0, dy: -0.1)
         }
         if let node = parent.childNode(withName: String(body.naifId), recursively: false) {
             node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
@@ -54,13 +53,13 @@ extension ObserverScene {
             let color: UIColor
             switch `class` {
             case .planet:
-                fontSize = 0.6
+                fontSize = 0.9
                 color = #colorLiteral(red: 0.9616846442, green: 0.930521369, blue: 0.8593300581, alpha: 1)
             case .star:
-                fontSize = 0.7
+                fontSize = 1.0
                 color = #colorLiteral(red: 0.8279239535, green: 0.9453579783, blue: 0.9584422708, alpha: 1)
             case .sunAndMoon:
-                fontSize = 0.65
+                fontSize = 0.95
                 color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
             }
             let node = TrackingLabelNode(string: body.name, textStyle: TextStyle.nearStellarBodyTextStyle(fontSize: fontSize, color: color), offset: offset(class: `class`))
