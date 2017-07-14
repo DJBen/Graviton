@@ -34,6 +34,10 @@ class ObserverOverlayScene: SKScene {
         return rect
     }()
 
+    var isShowingStarLabel: Bool {
+        return starInfoRootNode.alpha != 0
+    }
+
     private lazy var timeWarpRootNode: SKNode = SKNode()
     private lazy var starInfoRootNode: SKNode = SKNode()
 

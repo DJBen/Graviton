@@ -75,12 +75,18 @@
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */; };
 		EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */; };
+		FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */; };
+		FC099E271F0F5A6400A65F73 /* ObserverDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */; };
+		FC099E2A1F0F729E00A65F73 /* BodyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */; };
 		FC099E331F1743C600A65F73 /* CormorantSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */; };
 		FC099E341F1743C600A65F73 /* CormorantSC-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2E1F1743C600A65F73 /* CormorantSC-Light.ttf */; };
 		FC099E351F1743C600A65F73 /* CormorantSC-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2F1F1743C600A65F73 /* CormorantSC-Medium.ttf */; };
 		FC099E361F1743C600A65F73 /* CormorantSC-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E301F1743C600A65F73 /* CormorantSC-Regular.ttf */; };
 		FC099E371F1743C600A65F73 /* CormorantSC-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E311F1743C600A65F73 /* CormorantSC-SemiBold.ttf */; };
 		FC099E381F1743C600A65F73 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = FC099E321F1743C600A65F73 /* OFL.txt */; };
+		FC099E3E1F18936D00A65F73 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E3D1F18936D00A65F73 /* InformationViewController.swift */; };
+		FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E401F1899A800A65F73 /* ObserverInfo.swift */; };
+		FC099E431F18A61300A65F73 /* TableViewUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E421F18A61300A65F73 /* TableViewUpdate.swift */; };
 		FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
 		FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
 		FC13B7031EBC77CA00AA1BBC /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC13B6FB1EBC77CA00AA1BBC /* earth.result */; };
@@ -443,12 +449,18 @@
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
 		EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EclipticLineNode.swift; sourceTree = "<group>"; };
+		FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XLPagerTabStrip.framework; path = Carthage/Build/iOS/XLPagerTabStrip.framework; sourceTree = "<group>"; };
+		FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverDetailViewController.swift; sourceTree = "<group>"; };
+		FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyInfoViewController.swift; sourceTree = "<group>"; };
 		FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Bold.ttf"; sourceTree = "<group>"; };
 		FC099E2E1F1743C600A65F73 /* CormorantSC-Light.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Light.ttf"; sourceTree = "<group>"; };
 		FC099E2F1F1743C600A65F73 /* CormorantSC-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Medium.ttf"; sourceTree = "<group>"; };
 		FC099E301F1743C600A65F73 /* CormorantSC-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Regular.ttf"; sourceTree = "<group>"; };
 		FC099E311F1743C600A65F73 /* CormorantSC-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-SemiBold.ttf"; sourceTree = "<group>"; };
 		FC099E321F1743C600A65F73 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
+		FC099E3D1F18936D00A65F73 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
+		FC099E401F1899A800A65F73 /* ObserverInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfo.swift; sourceTree = "<group>"; };
+		FC099E421F18A61300A65F73 /* TableViewUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewUpdate.swift; sourceTree = "<group>"; };
 		FC0F51981EB9D8BC00C1A863 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 		FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		FC13B6FB1EBC77CA00AA1BBC /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
@@ -633,6 +645,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */,
+				FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */,
 				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
@@ -785,6 +798,7 @@
 				FC7D61E01E9B45EC00BEA5BE /* SolarSystem */,
 				FC7D61DF1E9B45E300BEA5BE /* Observer */,
 				FCEDA6111EC04A1F005C7BFF /* CelestialBody */,
+				FC099E391F1892E900A65F73 /* Information */,
 				FCA930651E23700800100706 /* Scenes */,
 				FCFBB71D1E59FCB200624B4C /* Views */,
 				EF4851881D91E6C800737CE4 /* Model */,
@@ -901,6 +915,31 @@
 			path = Cormorant_SC;
 			sourceTree = "<group>";
 		};
+		FC099E391F1892E900A65F73 /* Information */ = {
+			isa = PBXGroup;
+			children = (
+				FC099E3A1F18931700A65F73 /* ViewControllers */,
+				FC099E3F1F18990700A65F73 /* Models */,
+			);
+			path = Information;
+			sourceTree = "<group>";
+		};
+		FC099E3A1F18931700A65F73 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				FC099E3D1F18936D00A65F73 /* InformationViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		FC099E3F1F18990700A65F73 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FC099E401F1899A800A65F73 /* ObserverInfo.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FC0F51971EB9D82900C1A863 /* Horizons */ = {
 			isa = PBXGroup;
 			children = (
@@ -993,6 +1032,7 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */,
 				EF281F941F061C66003CB4A3 /* Regex.framework */,
 				FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */,
 				FCCF5B4D1EBEC9F800B8004E /* Realm.framework */,
@@ -1155,6 +1195,8 @@
 			isa = PBXGroup;
 			children = (
 				FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */,
+				FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */,
+				FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */,
 				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
 				FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */,
 			);
@@ -1361,6 +1403,7 @@
 				FC7096FE1EF3898700D4FA30 /* Math.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
+				FC099E421F18A61300A65F73 /* TableViewUpdate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1863,6 +1906,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/GeoQueries.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Regex.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/XLPagerTabStrip.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1948,6 +1992,8 @@
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */,
+				FC099E271F0F5A6400A65F73 /* ObserverDetailViewController.swift in Sources */,
+				FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */,
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
@@ -1977,11 +2023,14 @@
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,
 				FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */,
 				FCEDA6171EC04D19005C7BFF /* CelestialBodyScene.swift in Sources */,
+				FC099E431F18A61300A65F73 /* TableViewUpdate.swift in Sources */,
 				FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */,
 				FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */,
 				FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */,
+				FC099E2A1F0F729E00A65F73 /* BodyInfoViewController.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */,
+				FC099E3E1F18936D00A65F73 /* InformationViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

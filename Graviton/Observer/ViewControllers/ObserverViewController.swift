@@ -49,6 +49,8 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         return self.view as! SCNView
     }
 
+    var target: BodyInfoTarget?
+
     var currentSnapshot: UIImage {
         return scnView.snapshot()
     }
@@ -157,18 +159,25 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     func handleTap(sender: UITapGestureRecognizer) {
         let point = sender.location(in: view)
+        if point.y > view.frame.height - 40 - tabBarController!.tabBar.frame.height && overlayScene.isShowingStarLabel {
+            performSegue(withIdentifier: "showBodyInfo", sender: self)
+            return
+        }
         let vec = SCNVector3(point.x, point.y, 0.5)
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
         let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
         if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: radians(degrees: 3)) {
             observerScene.focus(atCelestialBody: closeBody)
             overlayScene.showCelestialBodyDisplay(closeBody)
+            target = .nearbyBody(closeBody)
         } else if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 3)) {
             observerScene.focus(atStar: star)
             overlayScene.showStarDisplay(star)
+            target = .star(star)
         } else {
             observerScene.removeFocus()
             overlayScene.hideStarDisplay()
+            target = nil
         }
     }
 
@@ -201,6 +210,16 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         cameraController.viewSlideDivisor = factor * 25000
     }
 
+    // MARK: - Perform segue
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showBodyInfo", let dest = segue.destination as? ObserverDetailViewController {
+            dest.target = target
+        }
+    }
+
+    @IBAction func unwindFromBodyInfo(for segue: UIStoryboardSegue) {
+    }
     // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {

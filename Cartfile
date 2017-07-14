@@ -4,4 +4,5 @@ github "Weebly/OrderedSet"
 github "realm/realm-cocoa"
 github "mhergon/RealmGeoQueries"
 github "sharplet/Regex" ~> 1.0
+github "xmartlabs/XLPagerTabStrip" ~> 7.0
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12120" systemVersion="16E195" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12088"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,7 +21,7 @@
                     <connections>
                         <segue destination="rbu-ZA-MSV" kind="relationship" relationship="viewControllers" id="JsN-Yo-Kvp"/>
                         <segue destination="jRr-Mo-AYA" kind="relationship" relationship="viewControllers" id="y3K-pY-xi0"/>
-                        <segue destination="VCD-aB-EBo" kind="relationship" relationship="viewControllers" id="ETj-nY-J6Y"/>
+                        <segue destination="gZx-OD-cfl" kind="relationship" relationship="viewControllers" id="yKj-yo-IDh"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jH3-VK-yF1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -33,7 +33,7 @@
             <objects>
                 <navigationController id="rbu-ZA-MSV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Observer" image="tab_icon_telescope" id="lhL-yf-1tS"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLf-ud-Qyl">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLf-ud-Qyl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -57,8 +57,12 @@
                     <navigationItem key="navigationItem" id="X9x-vI-9Xt">
                         <barButtonItem key="backBarButtonItem" title=" " id="Goh-QV-xVi"/>
                     </navigationItem>
+                    <connections>
+                        <segue destination="UNP-hw-hxR" kind="presentation" identifier="showBodyInfo" id="g9A-CR-Odd"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xo-lM-HEY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="wV2-LX-zKn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="1006" y="768"/>
         </scene>
@@ -78,12 +82,109 @@
             </objects>
             <point key="canvasLocation" x="975" y="36"/>
         </scene>
+        <!--Observer Detail View Controller-->
+        <scene sceneID="doI-7e-4C3">
+            <objects>
+                <viewController id="UNP-hw-hxR" customClass="ObserverDetailViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bVY-eC-Qbs"/>
+                        <viewControllerLayoutGuide type="bottom" id="46H-1X-gXw"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aOa-wW-Om0">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKi-h6-8jv">
+                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                                <items>
+                                    <navigationItem title="Title" id="8ip-mc-Nze">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="YiP-b6-YIU">
+                                            <connections>
+                                                <segue destination="wV2-LX-zKn" kind="unwind" unwindAction="unwindFromBodyInfoFor:" id="e24-Ny-dUt"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                            <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGm-it-yN4">
+                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <connections>
+                                    <segue destination="8Sl-3S-nnx" kind="embed" id="twT-Wz-Wi0"/>
+                                </connections>
+                            </containerView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="46H-1X-gXw" firstAttribute="top" secondItem="MGm-it-yN4" secondAttribute="bottom" id="0MX-1h-1id"/>
+                            <constraint firstItem="MGm-it-yN4" firstAttribute="top" secondItem="dKi-h6-8jv" secondAttribute="bottom" id="QFc-hq-lh0"/>
+                            <constraint firstItem="MGm-it-yN4" firstAttribute="top" secondItem="dKi-h6-8jv" secondAttribute="bottom" id="cuA-Dc-CuO"/>
+                            <constraint firstAttribute="trailing" secondItem="MGm-it-yN4" secondAttribute="trailing" id="hlr-vv-hFO"/>
+                            <constraint firstAttribute="trailing" secondItem="dKi-h6-8jv" secondAttribute="trailing" id="nkB-WZ-pbu"/>
+                            <constraint firstItem="dKi-h6-8jv" firstAttribute="leading" secondItem="aOa-wW-Om0" secondAttribute="leading" id="viB-b9-YLY"/>
+                            <constraint firstItem="dKi-h6-8jv" firstAttribute="top" secondItem="bVY-eC-Qbs" secondAttribute="bottom" id="xRf-l7-46t"/>
+                            <constraint firstItem="MGm-it-yN4" firstAttribute="leading" secondItem="aOa-wW-Om0" secondAttribute="leading" id="y7V-SK-PBl"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Qrp-An-cnd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1741.5999999999999" y="767.76611694152928"/>
+        </scene>
+        <!--Observer Detail Inner View Controller-->
+        <scene sceneID="GqN-TR-3by">
+            <objects>
+                <viewController id="8Sl-3S-nnx" customClass="ObserverDetailInnerViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="0QS-PS-hBw"/>
+                        <viewControllerLayoutGuide type="bottom" id="XmR-zv-aTv"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="NRm-Pv-1XB">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-Ho-S77" customClass="ButtonBarView" customModule="XLPagerTabStrip">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="43" id="HGS-n9-qx9"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eF1-qY-iJl">
+                                    <size key="itemSize" width="79" height="42"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="35" minY="0.0" maxX="35" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6I-wa-gHt">
+                                <rect key="frame" x="0.0" y="43" width="375" height="560"/>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="i6I-wa-gHt" firstAttribute="leading" secondItem="NRm-Pv-1XB" secondAttribute="leading" id="B2u-NA-e0i"/>
+                            <constraint firstItem="i6I-wa-gHt" firstAttribute="top" secondItem="2rv-Ho-S77" secondAttribute="bottom" id="KtV-Nf-wzN"/>
+                            <constraint firstItem="2rv-Ho-S77" firstAttribute="top" secondItem="0QS-PS-hBw" secondAttribute="bottom" id="NPf-vj-oZb"/>
+                            <constraint firstAttribute="trailing" secondItem="i6I-wa-gHt" secondAttribute="trailing" id="cRS-dt-eYb"/>
+                            <constraint firstItem="2rv-Ho-S77" firstAttribute="leading" secondItem="NRm-Pv-1XB" secondAttribute="leading" id="jEP-Y4-i6q"/>
+                            <constraint firstItem="XmR-zv-aTv" firstAttribute="top" secondItem="i6I-wa-gHt" secondAttribute="bottom" id="n71-1E-bKT"/>
+                            <constraint firstAttribute="trailing" secondItem="2rv-Ho-S77" secondAttribute="trailing" id="w4c-38-BZC"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="buttonBarView" destination="2rv-Ho-S77" id="8Ft-Z0-N3j"/>
+                        <outlet property="containerView" destination="i6I-wa-gHt" id="nxl-4R-mB0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="JPS-na-sWd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2506" y="768"/>
+        </scene>
         <!--Solar System-->
         <scene sceneID="EO4-bf-gTr">
             <objects>
                 <navigationController id="jRr-Mo-AYA" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Solar System" selectedImage="tab_icon_solar_system" id="ake-ol-PDA"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yFx-OF-gUU">
+                    <tabBarItem key="tabBarItem" title="Solar System" image="tab_icon_solar_system" selectedImage="tab_icon_solar_system" id="ake-ol-PDA"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yFx-OF-gUU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -99,22 +200,51 @@
             </objects>
             <point key="canvasLocation" x="118" y="36"/>
         </scene>
-        <!--Celestial Body-->
-        <scene sceneID="0ng-oF-TaW">
+        <!--Observer Information-->
+        <scene sceneID="rK9-AJ-ocN">
             <objects>
-                <viewController id="VCD-aB-EBo" userLabel="Celestial Body" customClass="CelestialBodyViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
-                    <sceneKitView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="af4-An-Vf7">
+                <tableViewController id="JaD-yz-zKt" customClass="InformationViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="YuX-8q-X1F">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    </sceneKitView>
-                    <tabBarItem key="tabBarItem" title="Celestial Body" image="tab_icon_planet" id="gC5-D4-3F7"/>
-                    <navigationItem key="navigationItem" id="q0L-zz-duS">
-                        <barButtonItem key="backBarButtonItem" title=" " id="Zy1-iz-6fe"/>
-                    </navigationItem>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="JQx-rb-qRY" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="informationCell" id="ugG-pj-Bor">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ugG-pj-Bor" id="l5n-Zc-FeG">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="JaD-yz-zKt" id="dd1-pR-YcX"/>
+                            <outlet property="delegate" destination="JaD-yz-zKt" id="rqh-87-ey1"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Observer Information" id="aPO-NK-diA"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="MX2-of-Fr5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1006" y="1507"/>
+            <point key="canvasLocation" x="1006" y="1525"/>
+        </scene>
+        <!--Information-->
+        <scene sceneID="qHE-Zv-XfB">
+            <objects>
+                <navigationController id="gZx-OD-cfl" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Information" image="tab_icon_planet" id="jBr-a9-k2q"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="oxF-ga-Vih">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="JaD-yz-zKt" kind="relationship" relationship="rootViewController" id="iFT-S3-TNJ"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="TZC-Po-CBc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="118" y="1525"/>
         </scene>
     </scenes>
     <resources>

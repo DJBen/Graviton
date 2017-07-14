@@ -13,7 +13,7 @@ import CoreLocation
 
 /// This structure embeds the rise-transit-set info along with
 /// maximum elevation in a sliding window that spans a day
-public struct RiseTransitSetElevation {
+public struct RiseTransitSetElevation: Equatable {
 
     public let naif: Naif
     public let location: CLLocation
@@ -33,11 +33,11 @@ public struct RiseTransitSetElevation {
         let r = rts.first { $0.rts == .rise }
         let t = rts.first { $0.rts == .transit }
         let s = rts.first { $0.rts == .set }
-        // BUG: this assumes the RTS info does not represent polar night
-        if t == nil {
+        if r == nil && t == nil && s == nil {
             return nil
         }
-        naif = Naif(naifId: t!.naifId)
+        let obj = (r ?? t ?? s)!
+        naif = Naif(naifId: obj.naifId)
         if let elev = t?.elevation {
             maximumElevation = radians(degrees: elev)
         } else {
@@ -46,7 +46,11 @@ public struct RiseTransitSetElevation {
         riseAt = r?.julianDate
         transitAt = t?.julianDate
         setAt = s?.julianDate
-        location = rts.first!.location
+        location = obj.location
+    }
+
+    public static func ==(lhs: RiseTransitSetElevation, rhs: RiseTransitSetElevation) -> Bool {
+        return lhs.naif == rhs.naif && lhs.location == rhs.location && lhs.startJd == rhs.startJd && lhs.endJd == rhs.endJd && lhs.maximumElevation == rhs.maximumElevation && lhs.riseAt == rhs.riseAt && lhs.transitAt == rhs.transitAt && lhs.setAt == rhs.setAt
     }
 }
 

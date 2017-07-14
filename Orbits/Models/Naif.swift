@@ -10,7 +10,7 @@ import Foundation
 
 // https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/FORTRAN/req/naif_ids.html#NAIF%20Object%20ID%20numbers
 
-public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral {
+public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral, CustomStringConvertible {
     public enum MajorBody: Int {
         case mercury = 199
         case venus = 299
@@ -201,9 +201,25 @@ public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral {
     }()
 
     static let observerDefault: [Naif] = {
-        return [.sun, .moon(.luna)]
-//        return [.sun, .moon(.luna), .majorBody(.mercury), .majorBody(.venus), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)]
+//        return [.sun, .moon(.luna)]
+        return [.sun, .moon(.luna), .majorBody(.mercury), .majorBody(.venus), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)]
     }()
+
+    public var description: String {
+        switch self {
+        case let .majorBody(mb):
+            return String(describing: mb).capitalized
+        case .sun:
+            return "Sun"
+        case let .moon(m):
+            if m == .luna {
+                return "Moon"
+            }
+            return String(describing: m).capitalized
+        default:
+            fatalError()
+        }
+    }
 
     public var rawValue: Int {
         switch self {
