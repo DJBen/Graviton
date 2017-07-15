@@ -86,7 +86,6 @@
 		FC099E381F1743C600A65F73 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = FC099E321F1743C600A65F73 /* OFL.txt */; };
 		FC099E3E1F18936D00A65F73 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E3D1F18936D00A65F73 /* InformationViewController.swift */; };
 		FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E401F1899A800A65F73 /* ObserverInfo.swift */; };
-		FC099E431F18A61300A65F73 /* TableViewUpdate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E421F18A61300A65F73 /* TableViewUpdate.swift */; };
 		FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
 		FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
 		FC13B7031EBC77CA00AA1BBC /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC13B6FB1EBC77CA00AA1BBC /* earth.result */; };
@@ -460,7 +459,6 @@
 		FC099E321F1743C600A65F73 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		FC099E3D1F18936D00A65F73 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		FC099E401F1899A800A65F73 /* ObserverInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfo.swift; sourceTree = "<group>"; };
-		FC099E421F18A61300A65F73 /* TableViewUpdate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TableViewUpdate.swift; sourceTree = "<group>"; };
 		FC0F51981EB9D8BC00C1A863 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 		FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		FC13B6FB1EBC77CA00AA1BBC /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
@@ -1403,7 +1401,6 @@
 				FC7096FE1EF3898700D4FA30 /* Math.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
-				FC099E421F18A61300A65F73 /* TableViewUpdate.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2023,7 +2020,6 @@
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,
 				FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */,
 				FCEDA6171EC04D19005C7BFF /* CelestialBodyScene.swift in Sources */,
-				FC099E431F18A61300A65F73 /* TableViewUpdate.swift in Sources */,
 				FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */,
 				FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */,
 				FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */,
