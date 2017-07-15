@@ -86,6 +86,7 @@
 		FC099E381F1743C600A65F73 /* OFL.txt in Resources */ = {isa = PBXBuildFile; fileRef = FC099E321F1743C600A65F73 /* OFL.txt */; };
 		FC099E3E1F18936D00A65F73 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E3D1F18936D00A65F73 /* InformationViewController.swift */; };
 		FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E401F1899A800A65F73 /* ObserverInfo.swift */; };
+		FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E441F1AD40D00A65F73 /* Formatters.swift */; };
 		FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51981EB9D8BC00C1A863 /* Horizons.swift */; };
 		FC0F519C1EB9D8BC00C1A863 /* HorizonsQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */; };
 		FC13B7031EBC77CA00AA1BBC /* earth.result in Resources */ = {isa = PBXBuildFile; fileRef = FC13B6FB1EBC77CA00AA1BBC /* earth.result */; };
@@ -459,6 +460,7 @@
 		FC099E321F1743C600A65F73 /* OFL.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OFL.txt; sourceTree = "<group>"; };
 		FC099E3D1F18936D00A65F73 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		FC099E401F1899A800A65F73 /* ObserverInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfo.swift; sourceTree = "<group>"; };
+		FC099E441F1AD40D00A65F73 /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC0F51981EB9D8BC00C1A863 /* Horizons.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Horizons.swift; sourceTree = "<group>"; };
 		FC0F51991EB9D8BC00C1A863 /* HorizonsQuery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HorizonsQuery.swift; sourceTree = "<group>"; };
 		FC13B6FB1EBC77CA00AA1BBC /* earth.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = earth.result; sourceTree = "<group>"; };
@@ -1401,6 +1403,7 @@
 				FC7096FE1EF3898700D4FA30 /* Math.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
+				FC099E441F1AD40D00A65F73 /* Formatters.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -2006,6 +2009,7 @@
 				EF9867AF1EE0D8DF00486C64 /* DirectionMarkerNode.swift in Sources */,
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
+				FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */,
 				FC1CC2D11EE01689009FA252 /* PushOverlayTransition.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
 				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,

@@ -85,6 +85,16 @@
 				<key>type</key>
 				<string>toggle</string>
 				<key>text</key>
+				<string>Use UTC instead of local time</string>
+				<key>image</key>
+				<string>row_icon_clock</string>
+				<key>binding</key>
+				<string>useUtcTime</string>
+			</dict>
+			<dict>
+				<key>type</key>
+				<string>toggle</string>
+				<key>text</key>
 				<string>Show Celestial Equator</string>
 				<key>image</key>
 				<string>row_icon_celestial_sphere</string>

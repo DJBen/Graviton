@@ -20,13 +20,6 @@ var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
 class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundProvider {
 
-    static let dataFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy/MM/dd hh:mm a 'UTC'"
-        formatter.timeZone = TimeZone(secondsFromGMT: 0)!
-        return formatter
-    }()
-
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
@@ -196,7 +189,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     func updateTimestampLabel() {
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        titleButton.setTitle(ObserverViewController.dataFormatter.string(from: requestTimestamp.date), for: .normal)
+        titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
     }
 
     private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
