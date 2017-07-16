@@ -14,7 +14,7 @@ import MathUtil
 
 class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
-    private static let OrbitLineShader: String = {
+    private static let orbitLineShader: String = {
         let path = Bundle.main.path(forResource: "orbit_line.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
@@ -103,10 +103,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     private func generateOrbitLineMaterial(color: UIColor) -> SCNMaterial {
         let material = SCNMaterial()
         material.diffuse.contents = color
-        material.shaderModifiers = [.surface: SolarSystemScene.OrbitLineShader]
-        material.setValue(0, forKeyPath: "trueAnomaly")
-        material.setValue(0.05, forKeyPath: "transparentStart")
-        material.setValue(0.7, forKeyPath: "transparentEnd")
+        material.shaderModifiers = [.surface: SolarSystemScene.orbitLineShader]
         return material
     }
 
@@ -127,6 +124,30 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    func ephemerisDidLoad(ephemeris: Ephemeris) {
+        clearScene()
+        let colors: [Int: UIColor] = [
+            199: #colorLiteral(red: 0.521568656, green: 0.1098039225, blue: 0.05098039284, alpha: 1),
+            299: #colorLiteral(red: 0.9686274529, green: 0.78039217, blue: 0.3450980484, alpha: 1),
+            399: #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1),
+            499: #colorLiteral(red: 0.9254902005, green: 0.2352941185, blue: 0.1019607857, alpha: 1),
+            599: #colorLiteral(red: 0.9529411793, green: 0.6862745285, blue: 0.1333333403, alpha: 1),
+            699: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1),
+            799: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
+            899: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),
+            999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+        ]
+        ephemeris.forEach { (body) in
+            if let color = colors[body.naifId] {
+                self.add(body: body, color: color)
+            }
+        }
+    }
+
+    func ephemerisDidUpdate(ephemeris: Ephemeris) {
+
     }
 
     func add(body: CelestialBody, color: UIColor) {
@@ -154,7 +175,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         focusedNode = node
     }
 
-    func clear() {
+    func clearScene() {
         spheres.childNodes.forEach { $0.removeFromParentNode() }
         lineSegments.childNodes.forEach { $0.removeFromParentNode() }
         orbitalMotions.removeAll()
@@ -203,6 +224,8 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         }
         let lineNode = lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) ?? addNode(identifier: orbitIdentifier(identifier))
         lineNode.geometry?.firstMaterial?.setValue(motion.trueAnomaly, forKeyPath: "trueAnomaly")
+        lineNode.geometry?.firstMaterial?.setValue(0.05, forKeyPath: "transparentStart")
+        lineNode.geometry?.firstMaterial?.setValue(0.7, forKeyPath: "transparentEnd")
     }
 
     private func zoom(position: Vector3) -> SCNVector3 {
