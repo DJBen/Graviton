@@ -275,13 +275,20 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private func loadPanoramaTexture(_ key: String) {
         self.panoramaNode.isHidden = key == "none"
+        let material = self.panoramaNode.geometry?.firstMaterial
         switch key {
         case "citySilhoulette":
-            self.panoramaNode.geometry?.firstMaterial?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
-            self.panoramaNode.geometry?.firstMaterial?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
+            material?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
         case "debugNode":
-            self.panoramaNode.geometry?.firstMaterial?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
-            self.panoramaNode.geometry?.firstMaterial?.diffuse.contents = UIColor.white
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+            material?.diffuse.contents = UIColor.white
+        case "silverMountain":
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "mounain_panorama")
+            material?.diffuse.contents = UIColor.white
         case "none":
             break
         default:

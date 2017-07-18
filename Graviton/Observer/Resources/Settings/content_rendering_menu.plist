@@ -72,6 +72,12 @@
 						<key>text</key>
 						<string>City Silhoulette</string>
 					</dict>
+					<dict>
+						<key>key</key>
+						<string>silverMountain</string>
+						<key>text</key>
+						<string>Silver Mountain</string>
+					</dict>
 				</array>
 			</dict>
 		</array>
