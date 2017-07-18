@@ -14,9 +14,9 @@
 ## App
 - [x] Real-time night sky rendering. Fully customizable. Totally hackable.
   - [x] Reading from GPS or inputing custom position to see a night sky in your location.
-  - [ ] Time warp - see what night sky is like at any time.
+  - [x] Time warp - see what night sky is like at any time.
 - [x] Real-time high accuracy solar system illustration. In scale.
-- [ ] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
+- [x] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
 ## Frameworks
 __Unless marked internal, all frameworks are available for standalone use.__

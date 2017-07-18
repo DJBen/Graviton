@@ -62,6 +62,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         camera.xFov = defaultFov
         camera.yFov = defaultFov
         camera.categoryBitMask = VisibilityCategory.camera.rawValue
+        camera.motionBlurIntensity = 0.2
         return camera
     }()
 
