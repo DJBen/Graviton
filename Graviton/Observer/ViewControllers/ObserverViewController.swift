@@ -30,12 +30,24 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
         button.frame = CGRect(x: 0, y: 0, width: 300, height: 44)
-        button.titleLabel?.textColor = UIColor.white
-        button.autoresizingMask = .flexibleWidth
+        button.setTitleColor(UIColor.white, for: .normal)
         button.titleLabel?.textAlignment = .center
         button.titleLabel?.font = TextStyle.Font.monoLabelFont(size: 16)
         button.addTarget(self, action: #selector(toggleTimeWarp(sender:)), for: .touchUpInside)
         return button
+    }()
+
+    private lazy var titleBlurView: UIVisualEffectView = {
+        var blurEffectView = UIVisualEffectView()
+        blurEffectView.frame = CGRect(x: 0, y: 0, width: 200, height: self.navigationController!.navigationBar.frame.height - 16)
+        blurEffectView.clipsToBounds = true
+        blurEffectView.layer.cornerRadius = (self.navigationController!.navigationBar.frame.height - 16) / 2
+        blurEffectView.layer.borderWidth = 1
+        blurEffectView.layer.borderColor = UIColor.white.withAlphaComponent(0.4).cgColor
+        blurEffectView.contentView.frame = blurEffectView.bounds
+        blurEffectView.contentView.addSubview(self.titleButton)
+        self.titleButton.center = blurEffectView.center
+        return blurEffectView
     }()
 
     private var scnView: SCNView {
@@ -97,7 +109,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
         navigationItem.leftBarButtonItem = barButtonItem
-        navigationItem.titleView = titleButton
+        navigationItem.titleView = titleBlurView
 
         scnView.delegate = self
         scnView.antialiasingMode = .multisampling2X
@@ -181,9 +193,18 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         if Timekeeper.default.isWarpActive {
             LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
             overlayScene.show(withDuration: 0.25)
+            let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
+            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
+                self.titleBlurView.effect = blurEffect
+                self.titleButton.setTitleColor(UIColor.black, for: .normal)
+            })
         } else {
             locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
             stopTimeWarp(withAnimationDuration: 0.25)
+            UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
+                self.titleBlurView.effect = nil
+                self.titleButton.setTitleColor(UIColor.white, for: .normal)
+            })
         }
     }
 
@@ -213,6 +234,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     @IBAction func unwindFromBodyInfo(for segue: UIStoryboardSegue) {
     }
+
     // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
