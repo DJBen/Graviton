@@ -18,6 +18,9 @@
 - [x] Real-time high accuracy solar system illustration. In scale.
 - [x] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
+## Documentation
+*Placeholder*
+
 ## Frameworks
 __Unless marked internal, all frameworks are available for standalone use.__
 ### Orbits

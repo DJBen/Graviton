@@ -112,7 +112,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         navigationItem.titleView = titleBlurView
 
         scnView.delegate = self
-        scnView.antialiasingMode = .multisampling2X
+        scnView.antialiasingMode = .multisampling4X
         scnView.scene = observerScene
         scnView.pointOfView = observerScene.cameraNode
         scnView.overlaySKScene = overlayScene
