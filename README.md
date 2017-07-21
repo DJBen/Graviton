@@ -1,4 +1,4 @@
-![Header image](https://github.com/DJBen/Graviton/raw/master/External%20Assets/header.png)
+![Header image](https://github.com/DJBen/Graviton/raw/master/External%20Assets/G-Purple.png)
 
 # Graviton :milky_way:
 
