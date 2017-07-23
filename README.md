@@ -40,21 +40,6 @@ _A framework make convenient for reference to stars and constellations._
   - Visual and absolute magnitude, luminance, spectral type binary star info, and other physical properties
 - Constellation support, including querying position, constellation line and constellation border.
 
-### SpaceTime
-- [x] Astronomy coordinate conversion. Conversion among spherical coordinate `(RA, DEC)`, cylindrical coordinate `(Azi, Alt)` and Euclidean coordinate `(x, y, z)`.
-- [x] Calculate [Local sidereal time](https://en.wikipedia.org/wiki/Sidereal_time).
-- [x] Transforming from celestial coordinate system to local tangent plane? No Problem! Supports [North-East-Down](https://en.wikipedia.org/wiki/North_east_down) coordinate from [earth-centered, earth-fixed](https://en.wikipedia.org/wiki/ECEF) coordinate system for any given longitude, latitude and timestamp.
-- [x] Conversion between `Date` and [Julian Date](https://en.wikipedia.org/wiki/Julian_day).
-
-### MathUtil (Internal)
-- 3x3 matrix, 4x4 matrix and quaternion support.
-  - Conversion between matrix, quaternion, Euler angle, and axis and rotation.
-  - Matrix, quaternion multiplication, inversion and scalar multiplication.
-  - Overload operators to be succinct.
-- Interpolation support for linear, quadratic and cubic curves with ease-in, ease-out, ease-in-out modes.
-- Detect whether two line segments cross each other.
-- Operator overloading for `SCNVector3` and more.
-
 ## Goals
 This is an amateurish project by an amateur astronomer. As a lover of science and space exploration, there are a few long-term goals:
 
