@@ -25,7 +25,6 @@
 		EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF4BD3B71E57E73B009D2698 /* StarTest.swift */; };
 		EF4BD3BB1E57F047009D2698 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EF4BD3C21E580373009D2698 /* moon_1500AD_to_3000AD.result in Resources */ = {isa = PBXBuildFile; fileRef = EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */; };
-		EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF50DBEA1E478AC700C41E98 /* Easing.swift */; };
 		EF55530D1EA96F8500B5A34D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF55530C1EA96F8500B5A34D /* Assets.xcassets */; };
 		EF5553101EA9701100B5A34D /* Icons.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EF55530F1EA9701100B5A34D /* Icons.xcassets */; };
 		EF5F13161E50208700A8EF51 /* StarryNight.h in Headers */ = {isa = PBXBuildFile; fileRef = EF5F13061E50208700A8EF51 /* StarryNight.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -51,7 +50,6 @@
 		EFC2C69F1D88D02F0031AA9C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C69D1D88D02F0031AA9C /* Main.storyboard */; };
 		EFC2C6A11D88D02F0031AA9C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */; };
 		EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC2C6A21D88D02F0031AA9C /* LaunchScreen.storyboard */; };
-		EFC6AA021E46F5B40069341C /* CGVector+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC6AA011E46F5B40069341C /* CGVector+Util.swift */; };
 		EFC7C1231E56838F00B7B9B9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */; };
 		EFC7C1251E56838F00B7B9B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFC7C1241E56838F00B7B9B9 /* ViewController.swift */; };
 		EFC7C1281E56838F00B7B9B9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = EFC7C1261E56838F00B7B9B9 /* Main.storyboard */; };
@@ -60,8 +58,6 @@
 		EFC7C1321E56857D00B7B9B9 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		EFC7C1361E56879A00B7B9B9 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
 		EFC7C1381E5687FD00B7B9B9 /* Orbits.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EFC7C1391E5687FD00B7B9B9 /* SpaceTime.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		EFC7C13A1E5687FD00B7B9B9 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFC7C13B1E5687FD00B7B9B9 /* StarryNight.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = EF5F13041E50208700A8EF51 /* StarryNight.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */; };
 		EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EA1EB1741900E49A38 /* Line.swift */; };
@@ -123,20 +119,11 @@
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
-		FC2435931E1F87F0002AC626 /* SpaceTime.h in Headers */ = {isa = PBXBuildFile; fileRef = FC2435831E1F87F0002AC626 /* SpaceTime.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; };
-		FC2435971E1F87F0002AC626 /* SpaceTime.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435811E1F87F0002AC626 /* SpaceTime.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FC2435A11E1F8854002AC626 /* JulianDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24359E1E1F8854002AC626 /* JulianDate.swift */; };
-		FC2435A31E1F8854002AC626 /* LocationAndTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24359F1E1F8854002AC626 /* LocationAndTime.swift */; };
-		FC2435A51E1F8854002AC626 /* SiderealTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A01E1F8854002AC626 /* SiderealTime.swift */; };
-		FC2435AB1E1F886C002AC626 /* JulianDateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A71E1F886C002AC626 /* JulianDateTest.swift */; };
-		FC2435AD1E1F886C002AC626 /* SiderealTimeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */; };
-		FC2435B31E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */; };
-		FC2435B51E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */; };
-		FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */; };
 		FC39DAF71EC860D4005D7EBA /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */; };
 		FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */; };
 		FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */; };
+		FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
+		FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6313171F255D8700FE23E0 /* SpaceTime.framework */; };
 		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
 		FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */; };
 		FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */; };
@@ -145,10 +132,7 @@
 		FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */; };
 		FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */; };
 		FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88561EEC9764007EFE2E /* MenuController.swift */; };
-		FC7096FD1EF3870000D4FA30 /* CLLocation+Transform.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7096FC1EF3870000D4FA30 /* CLLocation+Transform.swift */; };
 		FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7096FE1EF3898700D4FA30 /* Math.swift */; };
-		FC7097091EF39FA400D4FA30 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; };
-		FC7097101EF39FBD00D4FA30 /* VectorMathTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC70970F1EF39FBD00D4FA30 /* VectorMathTests.swift */; };
 		FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61E71E9B470F00BEA5BE /* art.scnassets */; };
 		FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */; };
 		FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */; };
@@ -179,16 +163,7 @@
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
-		FCC0BDAE1E2D97DC003939B1 /* MathUtil.h in Headers */ = {isa = PBXBuildFile; fileRef = FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; };
-		FCC0BDB21E2D97DC003939B1 /* MathUtil.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */; };
-		FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB71E2D9805003939B1 /* VectorMath.swift */; };
-		FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */; };
-		FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
-		FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DF81E68762100B737D1 /* Intersection.swift */; };
-		FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */; };
 		FCC73E021E6BC13E00B737D1 /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FCFBB71A1E5457DD00624B4C /* constellation_lines.dat */; };
 		FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
 		FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89551EEE043300F1539E /* MotionManager.swift */; };
@@ -222,11 +197,9 @@
 		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
-		FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD521EFD1300009327F5 /* Double+Util.swift */; };
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
 		FCFCDD571F064D28009327F5 /* BayerFlamsteedTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */; };
 		FCFCDD5B1F0B8C34009327F5 /* FakeOrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */; };
-		FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
 		FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B091EA2145A00C4B006 /* Constants.swift */; };
@@ -285,76 +258,6 @@
 			remoteGlobalIDString = EFE8BF541DD86B2B000F0A79;
 			remoteInfo = Orbits;
 		};
-		FC13B31A1E5119B400555DBC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
-			remoteInfo = MathUtil;
-		};
-		FC24358B1E1F87F0002AC626 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FC2435801E1F87F0002AC626;
-			remoteInfo = SpaceTime;
-		};
-		FC24358D1E1F87F0002AC626 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
-			remoteInfo = Graviton;
-		};
-		FC2435941E1F87F0002AC626 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FC2435801E1F87F0002AC626;
-			remoteInfo = SpaceTime;
-		};
-		FC2435B71E1F88C8002AC626 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FC2435801E1F87F0002AC626;
-			remoteInfo = SpaceTime;
-		};
-		FC70970A1EF39FA400D4FA30 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
-			remoteInfo = MathUtil;
-		};
-		FCC0BDAF1E2D97DC003939B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
-			remoteInfo = MathUtil;
-		};
-		FCC0BDBC1E2D9834003939B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
-			remoteInfo = MathUtil;
-		};
-		FCC0BDBE1E2D9838003939B1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FCC0BDA91E2D97DC003939B1;
-			remoteInfo = MathUtil;
-		};
-		FCC73DFC1E6AC89200B737D1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FC2435801E1F87F0002AC626;
-			remoteInfo = SpaceTime;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -365,8 +268,6 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EFC7C1381E5687FD00B7B9B9 /* Orbits.framework in Embed Frameworks */,
-				EFC7C1391E5687FD00B7B9B9 /* SpaceTime.framework in Embed Frameworks */,
-				EFC7C13A1E5687FD00B7B9B9 /* MathUtil.framework in Embed Frameworks */,
 				EFC7C13B1E5687FD00B7B9B9 /* StarryNight.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -379,9 +280,7 @@
 			dstSubfolderSpec = 10;
 			files = (
 				EF5F131A1E50208700A8EF51 /* StarryNight.framework in Embed Frameworks */,
-				FCC0BDB21E2D97DC003939B1 /* MathUtil.framework in Embed Frameworks */,
 				EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */,
-				FC2435971E1F87F0002AC626 /* SpaceTime.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -400,7 +299,6 @@
 		EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OrbitsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		EF4BD3B71E57E73B009D2698 /* StarTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarTest.swift; sourceTree = "<group>"; };
 		EF4BD3C11E580373009D2698 /* moon_1500AD_to_3000AD.result */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = moon_1500AD_to_3000AD.result; sourceTree = "<group>"; };
-		EF50DBEA1E478AC700C41E98 /* Easing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Easing.swift; sourceTree = "<group>"; };
 		EF55530C1EA96F8500B5A34D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EF55530F1EA9701100B5A34D /* Icons.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Icons.xcassets; sourceTree = "<group>"; };
 		EF5F13041E50208700A8EF51 /* StarryNight.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = StarryNight.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -428,7 +326,6 @@
 		EFC2C6A01D88D02F0031AA9C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		EFC2C6A31D88D02F0031AA9C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		EFC2C6A51D88D02F0031AA9C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EFC6AA011E46F5B40069341C /* CGVector+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CGVector+Util.swift"; sourceTree = "<group>"; };
 		EFC7C1201E56838F00B7B9B9 /* DatabaseGen.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DatabaseGen.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFC7C1221E56838F00B7B9B9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		EFC7C1241E56838F00B7B9B9 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -493,22 +390,11 @@
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
-		FC2435811E1F87F0002AC626 /* SpaceTime.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SpaceTime.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC2435831E1F87F0002AC626 /* SpaceTime.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SpaceTime.h; sourceTree = "<group>"; };
-		FC2435841E1F87F0002AC626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SpaceTimeTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC2435921E1F87F0002AC626 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FC24359E1E1F8854002AC626 /* JulianDate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JulianDate.swift; sourceTree = "<group>"; };
-		FC24359F1E1F8854002AC626 /* LocationAndTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = LocationAndTime.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435A01E1F8854002AC626 /* SiderealTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SiderealTime.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435A71E1F886C002AC626 /* JulianDateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = JulianDateTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SiderealTimeTest.swift; sourceTree = "<group>"; };
-		FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizontalCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = EquatorialCoordinate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CoordinateTest.swift; sourceTree = "<group>"; };
 		FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoQueries.framework; path = Carthage/Build/iOS/GeoQueries.framework; sourceTree = "<group>"; };
 		FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetInfo.swift; sourceTree = "<group>"; };
+		FC63130E1F255BD300FE23E0 /* MathUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MathUtil.framework; path = Carthage/Build/iOS/MathUtil.framework; sourceTree = "<group>"; };
+		FC6313171F255D8700FE23E0 /* SpaceTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpaceTime.framework; path = Carthage/Build/iOS/SpaceTime.framework; sourceTree = "<group>"; };
 		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
 		FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_celestial_menu.plist; sourceTree = "<group>"; };
 		FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButtonCell.swift; sourceTree = "<group>"; };
@@ -517,11 +403,7 @@
 		FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyNode.swift; sourceTree = "<group>"; };
 		FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuMultipleSelectController.swift; sourceTree = "<group>"; };
 		FC6B88561EEC9764007EFE2E /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
-		FC7096FC1EF3870000D4FA30 /* CLLocation+Transform.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CLLocation+Transform.swift"; sourceTree = "<group>"; };
 		FC7096FE1EF3898700D4FA30 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
-		FC7097041EF39FA400D4FA30 /* MathUtilTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MathUtilTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		FC7097081EF39FA400D4FA30 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FC70970F1EF39FBD00D4FA30 /* VectorMathTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorMathTests.swift; sourceTree = "<group>"; };
 		FC7D61E71E9B470F00BEA5BE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
 		FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracking_label.geometry.shader; sourceTree = "<group>"; };
@@ -555,17 +437,9 @@
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
-		FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = MathUtil.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MathUtil.h; sourceTree = "<group>"; };
-		FCC0BDAD1E2D97DC003939B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SCNVector3+Util.swift"; sourceTree = "<group>"; };
-		FCC0BDB71E2D9805003939B1 /* VectorMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VectorMath.swift; sourceTree = "<group>"; };
-		FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+SceneKit.swift"; sourceTree = "<group>"; };
-		FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphericalMath.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
 		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
-		FCC73DF81E68762100B737D1 /* Intersection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Intersection.swift; sourceTree = "<group>"; };
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
 		FCCB89551EEE043300F1539E /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
@@ -600,11 +474,9 @@
 		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
-		FCFCDD521EFD1300009327F5 /* Double+Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Double+Util.swift"; sourceTree = "<group>"; };
 		FCFCDD541F00FC54009327F5 /* experiment_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = experiment_menu.plist; sourceTree = "<group>"; };
 		FCFCDD561F064D28009327F5 /* BayerFlamsteedTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BayerFlamsteedTest.swift; sourceTree = "<group>"; };
 		FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOrbitalMotion.swift; sourceTree = "<group>"; };
-		FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "VectorMath+CoreMotion.swift"; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
 		FCFF7B091EA2145A00C4B006 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -644,11 +516,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */,
+				FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */,
 				EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */,
 				FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
-				FC2435961E1F87F0002AC626 /* SpaceTime.framework in Frameworks */,
-				FCC0BDB11E2D97DC003939B1 /* MathUtil.framework in Frameworks */,
 				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
 				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
@@ -673,35 +545,6 @@
 				FC39DAF71EC860D4005D7EBA /* GeoQueries.framework in Frameworks */,
 				FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */,
 				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC24357D1E1F87F0002AC626 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC2435861E1F87F0002AC626 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC7097011EF39FA400D4FA30 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC7097091EF39FA400D4FA30 /* MathUtil.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FCC0BDA61E2D97DC003939B1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,10 +606,6 @@
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				EF5F13051E50208700A8EF51 /* StarryNight */,
 				EF5F13121E50208700A8EF51 /* StarryNightTests */,
-				FC2435821E1F87F0002AC626 /* SpaceTime */,
-				FC24358F1E1F87F0002AC626 /* SpaceTimeTests */,
-				FCC0BDAB1E2D97DC003939B1 /* MathUtil */,
-				FC7097051EF39FA400D4FA30 /* MathUtilTests */,
 				EFC7C1211E56838F00B7B9B9 /* DatabaseGen */,
 				EFC2C6951D88D02F0031AA9C /* Products */,
 				FC2435351E14C78C002AC626 /* Frameworks */,
@@ -778,14 +617,10 @@
 			children = (
 				EFC2C6941D88D02F0031AA9C /* Graviton.app */,
 				EFE8BF551DD86B2B000F0A79 /* Orbits.framework */,
-				FC2435811E1F87F0002AC626 /* SpaceTime.framework */,
-				FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */,
-				FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */,
 				EF5F13041E50208700A8EF51 /* StarryNight.framework */,
 				EF5F130C1E50208700A8EF51 /* StarryNightTests.xctest */,
 				EFC7C1201E56838F00B7B9B9 /* DatabaseGen.app */,
 				EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */,
-				FC7097041EF39FA400D4FA30 /* MathUtilTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1032,6 +867,8 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FC6313171F255D8700FE23E0 /* SpaceTime.framework */,
+				FC63130E1F255BD300FE23E0 /* MathUtil.framework */,
 				FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */,
 				EF281F941F061C66003CB4A3 /* Regex.framework */,
 				FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */,
@@ -1043,32 +880,6 @@
 				FC2435391E14C81A002AC626 /* SQLite.framework */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		FC2435821E1F87F0002AC626 /* SpaceTime */ = {
-			isa = PBXGroup;
-			children = (
-				FC2435831E1F87F0002AC626 /* SpaceTime.h */,
-				FC24359E1E1F8854002AC626 /* JulianDate.swift */,
-				FC24359F1E1F8854002AC626 /* LocationAndTime.swift */,
-				FC2435A01E1F8854002AC626 /* SiderealTime.swift */,
-				FC7096FC1EF3870000D4FA30 /* CLLocation+Transform.swift */,
-				FC2435B21E1F88B4002AC626 /* EquatorialCoordinate.swift */,
-				FC2435B11E1F88B4002AC626 /* HorizontalCoordinate.swift */,
-				FC2435841E1F87F0002AC626 /* Info.plist */,
-			);
-			path = SpaceTime;
-			sourceTree = "<group>";
-		};
-		FC24358F1E1F87F0002AC626 /* SpaceTimeTests */ = {
-			isa = PBXGroup;
-			children = (
-				FC2435A71E1F886C002AC626 /* JulianDateTest.swift */,
-				FC2435A81E1F886C002AC626 /* SiderealTimeTest.swift */,
-				FC2435BE1E1F9E60002AC626 /* CoordinateTest.swift */,
-				FC2435921E1F87F0002AC626 /* Info.plist */,
-			);
-			path = SpaceTimeTests;
 			sourceTree = "<group>";
 		};
 		FC44EADB1EBDC0BA00241BF9 /* Realm */ = {
@@ -1088,15 +899,6 @@
 			);
 			path = Nodes;
 			sourceTree = "<group>";
-		};
-		FC7097051EF39FA400D4FA30 /* MathUtilTests */ = {
-			isa = PBXGroup;
-			children = (
-				FC70970F1EF39FBD00D4FA30 /* VectorMathTests.swift */,
-				FC7097081EF39FA400D4FA30 /* Info.plist */,
-			);
-			path = MathUtilTests;
-			sourceTree = SOURCE_ROOT;
 		};
 		FC7D61DF1E9B45E300BEA5BE /* Observer */ = {
 			isa = PBXGroup;
@@ -1328,24 +1130,6 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		FCC0BDAB1E2D97DC003939B1 /* MathUtil */ = {
-			isa = PBXGroup;
-			children = (
-				FCC0BDAC1E2D97DC003939B1 /* MathUtil.h */,
-				FCC0BDAD1E2D97DC003939B1 /* Info.plist */,
-				FCC0BDB61E2D9805003939B1 /* SCNVector3+Util.swift */,
-				EFC6AA011E46F5B40069341C /* CGVector+Util.swift */,
-				FCC73DF81E68762100B737D1 /* Intersection.swift */,
-				EF50DBEA1E478AC700C41E98 /* Easing.swift */,
-				FCC0BDC01E2D98D3003939B1 /* SphericalMath.swift */,
-				FCFCDD521EFD1300009327F5 /* Double+Util.swift */,
-				FCC0BDB71E2D9805003939B1 /* VectorMath.swift */,
-				FCC0BDB81E2D9805003939B1 /* VectorMath+SceneKit.swift */,
-				FCFEBC901EEE87AE004F5C49 /* VectorMath+CoreMotion.swift */,
-			);
-			path = MathUtil;
-			sourceTree = "<group>";
-		};
 		FCE0A7521E8919010009EFCB /* Extractors */ = {
 			isa = PBXGroup;
 			children = (
@@ -1427,22 +1211,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC24357E1E1F87F0002AC626 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC2435931E1F87F0002AC626 /* SpaceTime.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FCC0BDA71E2D97DC003939B1 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FCC0BDAE1E2D97DC003939B1 /* MathUtil.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1477,8 +1245,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				FCC73DFD1E6AC89200B737D1 /* PBXTargetDependency */,
-				FC13B31B1E5119B400555DBC /* PBXTargetDependency */,
 			);
 			name = StarryNight;
 			productName = StarryNight;
@@ -1519,8 +1285,6 @@
 			);
 			dependencies = (
 				EFE8BF691DD86B2B000F0A79 /* PBXTargetDependency */,
-				FC2435951E1F87F0002AC626 /* PBXTargetDependency */,
-				FCC0BDB01E2D97DC003939B1 /* PBXTargetDependency */,
 				EF5F13181E50208700A8EF51 /* PBXTargetDependency */,
 			);
 			name = Graviton;
@@ -1560,86 +1324,10 @@
 			buildRules = (
 			);
 			dependencies = (
-				FCC0BDBF1E2D9838003939B1 /* PBXTargetDependency */,
-				FC2435B81E1F88C8002AC626 /* PBXTargetDependency */,
 			);
 			name = Orbits;
 			productName = Orbits;
 			productReference = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		FC2435801E1F87F0002AC626 /* SpaceTime */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FC2435981E1F87F0002AC626 /* Build configuration list for PBXNativeTarget "SpaceTime" */;
-			buildPhases = (
-				FC24357C1E1F87F0002AC626 /* Sources */,
-				FC24357D1E1F87F0002AC626 /* Frameworks */,
-				FC24357E1E1F87F0002AC626 /* Headers */,
-				FC24357F1E1F87F0002AC626 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FCC0BDBD1E2D9834003939B1 /* PBXTargetDependency */,
-			);
-			name = SpaceTime;
-			productName = SpaceTime;
-			productReference = FC2435811E1F87F0002AC626 /* SpaceTime.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		FC2435881E1F87F0002AC626 /* SpaceTimeTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FC24359B1E1F87F0002AC626 /* Build configuration list for PBXNativeTarget "SpaceTimeTests" */;
-			buildPhases = (
-				FC2435851E1F87F0002AC626 /* Sources */,
-				FC2435861E1F87F0002AC626 /* Frameworks */,
-				FC2435871E1F87F0002AC626 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FC24358C1E1F87F0002AC626 /* PBXTargetDependency */,
-				FC24358E1E1F87F0002AC626 /* PBXTargetDependency */,
-			);
-			name = SpaceTimeTests;
-			productName = SpaceTimeTests;
-			productReference = FC2435891E1F87F0002AC626 /* SpaceTimeTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		FC7097031EF39FA400D4FA30 /* MathUtilTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FC70970C1EF39FA400D4FA30 /* Build configuration list for PBXNativeTarget "MathUtilTests" */;
-			buildPhases = (
-				FC7097001EF39FA400D4FA30 /* Sources */,
-				FC7097011EF39FA400D4FA30 /* Frameworks */,
-				FC7097021EF39FA400D4FA30 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				FC70970B1EF39FA400D4FA30 /* PBXTargetDependency */,
-			);
-			name = MathUtilTests;
-			productName = MathUtilTests;
-			productReference = FC7097041EF39FA400D4FA30 /* MathUtilTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		FCC0BDA91E2D97DC003939B1 /* MathUtil */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = FCC0BDB51E2D97DC003939B1 /* Build configuration list for PBXNativeTarget "MathUtil" */;
-			buildPhases = (
-				FCC0BDA51E2D97DC003939B1 /* Sources */,
-				FCC0BDA61E2D97DC003939B1 /* Frameworks */,
-				FCC0BDA71E2D97DC003939B1 /* Headers */,
-				FCC0BDA81E2D97DC003939B1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = MathUtil;
-			productName = MathUtil;
-			productReference = FCC0BDAA1E2D97DC003939B1 /* MathUtil.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -1687,29 +1375,6 @@
 						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 					};
-					FC2435801E1F87F0002AC626 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
-					};
-					FC2435881E1F87F0002AC626 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 52RD2GH5DP;
-						ProvisioningStyle = Automatic;
-						TestTargetID = EFC2C6931D88D02F0031AA9C;
-					};
-					FC7097031EF39FA400D4FA30 = {
-						CreatedOnToolsVersion = 8.3.3;
-						DevelopmentTeam = 52RD2GH5DP;
-						ProvisioningStyle = Automatic;
-					};
-					FCC0BDA91E2D97DC003939B1 = {
-						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0820;
-						ProvisioningStyle = Automatic;
-					};
 				};
 			};
 			buildConfigurationList = EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */;
@@ -1728,10 +1393,6 @@
 				EFC2C6931D88D02F0031AA9C /* Graviton */,
 				EFE8BF541DD86B2B000F0A79 /* Orbits */,
 				EF4BD3801E57E58D009D2698 /* OrbitsTests */,
-				FC2435801E1F87F0002AC626 /* SpaceTime */,
-				FC2435881E1F87F0002AC626 /* SpaceTimeTests */,
-				FCC0BDA91E2D97DC003939B1 /* MathUtil */,
-				FC7097031EF39FA400D4FA30 /* MathUtilTests */,
 				EF5F13031E50208700A8EF51 /* StarryNight */,
 				EF5F130B1E50208700A8EF51 /* StarryNightTests */,
 				EFC7C11F1E56838F00B7B9B9 /* DatabaseGen */,
@@ -1834,34 +1495,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC24357F1E1F87F0002AC626 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC2435871E1F87F0002AC626 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC7097021EF39FA400D4FA30 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FCC0BDA81E2D97DC003939B1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1907,6 +1540,8 @@
 				"$(SRCROOT)/Carthage/Build/iOS/GeoQueries.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Regex.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/XLPagerTabStrip.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/MathUtil.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SpaceTime.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1952,7 +1587,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4BD3B81E57E73B009D2698 /* StarTest.swift in Sources */,
-				FCC73DFB1E6AB89F00B737D1 /* ConstellationTest.swift in Sources */,
 				FCFCDD571F064D28009327F5 /* BayerFlamsteedTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2082,53 +1716,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FC24357C1E1F87F0002AC626 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC2435B31E1F88B4002AC626 /* HorizontalCoordinate.swift in Sources */,
-				FC2435B51E1F88B4002AC626 /* EquatorialCoordinate.swift in Sources */,
-				FC2435A11E1F8854002AC626 /* JulianDate.swift in Sources */,
-				FC2435A51E1F8854002AC626 /* SiderealTime.swift in Sources */,
-				FC2435A31E1F8854002AC626 /* LocationAndTime.swift in Sources */,
-				FC7096FD1EF3870000D4FA30 /* CLLocation+Transform.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC2435851E1F87F0002AC626 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC2435BF1E1F9E60002AC626 /* CoordinateTest.swift in Sources */,
-				FC2435AB1E1F886C002AC626 /* JulianDateTest.swift in Sources */,
-				FC2435AD1E1F886C002AC626 /* SiderealTimeTest.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FC7097001EF39FA400D4FA30 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FC7097101EF39FBD00D4FA30 /* VectorMathTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		FCC0BDA51E2D97DC003939B1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				FCFEBC911EEE87AE004F5C49 /* VectorMath+CoreMotion.swift in Sources */,
-				FCC0BDBA1E2D9805003939B1 /* VectorMath.swift in Sources */,
-				FCC0BDB91E2D9805003939B1 /* SCNVector3+Util.swift in Sources */,
-				FCFCDD531EFD1300009327F5 /* Double+Util.swift in Sources */,
-				EF50DBEB1E478AC700C41E98 /* Easing.swift in Sources */,
-				EFC6AA021E46F5B40069341C /* CGVector+Util.swift in Sources */,
-				FCC0BDBB1E2D9805003939B1 /* VectorMath+SceneKit.swift in Sources */,
-				FCC73DF91E68762100B737D1 /* Intersection.swift in Sources */,
-				FCC0BDC11E2D98D3003939B1 /* SphericalMath.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2166,56 +1753,6 @@
 			isa = PBXTargetDependency;
 			target = EFE8BF541DD86B2B000F0A79 /* Orbits */;
 			targetProxy = EFE8BF681DD86B2B000F0A79 /* PBXContainerItemProxy */;
-		};
-		FC13B31B1E5119B400555DBC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
-			targetProxy = FC13B31A1E5119B400555DBC /* PBXContainerItemProxy */;
-		};
-		FC24358C1E1F87F0002AC626 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
-			targetProxy = FC24358B1E1F87F0002AC626 /* PBXContainerItemProxy */;
-		};
-		FC24358E1E1F87F0002AC626 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
-			targetProxy = FC24358D1E1F87F0002AC626 /* PBXContainerItemProxy */;
-		};
-		FC2435951E1F87F0002AC626 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
-			targetProxy = FC2435941E1F87F0002AC626 /* PBXContainerItemProxy */;
-		};
-		FC2435B81E1F88C8002AC626 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
-			targetProxy = FC2435B71E1F88C8002AC626 /* PBXContainerItemProxy */;
-		};
-		FC70970B1EF39FA400D4FA30 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
-			targetProxy = FC70970A1EF39FA400D4FA30 /* PBXContainerItemProxy */;
-		};
-		FCC0BDB01E2D97DC003939B1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
-			targetProxy = FCC0BDAF1E2D97DC003939B1 /* PBXContainerItemProxy */;
-		};
-		FCC0BDBD1E2D9834003939B1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
-			targetProxy = FCC0BDBC1E2D9834003939B1 /* PBXContainerItemProxy */;
-		};
-		FCC0BDBF1E2D9838003939B1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FCC0BDA91E2D97DC003939B1 /* MathUtil */;
-			targetProxy = FCC0BDBE1E2D9838003939B1 /* PBXContainerItemProxy */;
-		};
-		FCC73DFD1E6AC89200B737D1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = FC2435801E1F87F0002AC626 /* SpaceTime */;
-			targetProxy = FCC73DFC1E6AC89200B737D1 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2624,164 +2161,6 @@
 			};
 			name = Release;
 		};
-		FC2435991E1F87F0002AC626 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SpaceTime/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.SpaceTime;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		FC24359A1E1F87F0002AC626 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = SpaceTime/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.SpaceTime;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		FC24359C1E1F87F0002AC626 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				INFOPLIST_FILE = SpaceTimeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.SpaceTimeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
-			};
-			name = Debug;
-		};
-		FC24359D1E1F87F0002AC626 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
-				INFOPLIST_FILE = SpaceTimeTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.SpaceTimeTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
-			};
-			name = Release;
-		};
-		FC70970D1EF39FA400D4FA30 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				INFOPLIST_FILE = MathUtilTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.MathUtilTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Debug;
-		};
-		FC70970E1EF39FA400D4FA30 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				INFOPLIST_FILE = MathUtilTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.MathUtilTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
-			};
-			name = Release;
-		};
-		FCC0BDB31E2D97DC003939B1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MathUtil/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.MathUtil;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		FCC0BDB41E2D97DC003939B1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "";
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				INFOPLIST_FILE = MathUtil/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.MathUtil;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2844,42 +2223,6 @@
 			buildConfigurations = (
 				EFE8BF6D1DD86B2B000F0A79 /* Debug */,
 				EFE8BF6E1DD86B2B000F0A79 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FC2435981E1F87F0002AC626 /* Build configuration list for PBXNativeTarget "SpaceTime" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FC2435991E1F87F0002AC626 /* Debug */,
-				FC24359A1E1F87F0002AC626 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FC24359B1E1F87F0002AC626 /* Build configuration list for PBXNativeTarget "SpaceTimeTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FC24359C1E1F87F0002AC626 /* Debug */,
-				FC24359D1E1F87F0002AC626 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FC70970C1EF39FA400D4FA30 /* Build configuration list for PBXNativeTarget "MathUtilTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FC70970D1EF39FA400D4FA30 /* Debug */,
-				FC70970E1EF39FA400D4FA30 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		FCC0BDB51E2D97DC003939B1 /* Build configuration list for PBXNativeTarget "MathUtil" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				FCC0BDB31E2D97DC003939B1 /* Debug */,
-				FCC0BDB41E2D97DC003939B1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
