@@ -376,9 +376,9 @@
 		FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
 		FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuController.swift; sourceTree = "<group>"; };
 		FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
-		FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CameraResponsive.swift; path = ../Protocols/CameraResponsive.swift; sourceTree = "<group>"; };
+		FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraResponsive.swift; sourceTree = "<group>"; };
 		FC959E611E9B4FEC0026B222 /* FocusingSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusingSupport.swift; sourceTree = "<group>"; };
-		FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SnapshotSupport.swift; path = ../Protocols/SnapshotSupport.swift; sourceTree = "<group>"; };
+		FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotSupport.swift; sourceTree = "<group>"; };
 		FC959E671E9B50340026B222 /* SceneController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneController.swift; sourceTree = "<group>"; };
 		FC959E6A1E9B50CE0026B222 /* SphereInteriorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SphereInteriorNode.swift; sourceTree = "<group>"; };
 		FC959E6B1E9B50CE0026B222 /* TrackingLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingLabelNode.swift; sourceTree = "<group>"; };
@@ -965,6 +965,8 @@
 			children = (
 				FC959E611E9B4FEC0026B222 /* FocusingSupport.swift */,
 				EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */,
+				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
+				FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -974,8 +976,6 @@
 			children = (
 				FC959E671E9B50340026B222 /* SceneController.swift */,
 				FC6B88561EEC9764007EFE2E /* MenuController.swift */,
-				FC959E641E9B4FF60026B222 /* SnapshotSupport.swift */,
-				FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */,
 				EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */,
 			);
 			path = ViewControllers;
