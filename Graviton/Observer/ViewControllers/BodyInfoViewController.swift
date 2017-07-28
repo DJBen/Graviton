@@ -27,14 +27,14 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
         // Dispose of any resources that can be recreated.
     }
 
-    // MARKL - Info provider
+    // MARK: - Info provider
 
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
         let controller = pagerTabStripController as! ObserverDetailInnerViewController
         switch controller.target! {
-        case .star(_):
+        case .star:
             return "Star Info"
-        case .nearbyBody(_):
+        case .nearbyBody:
             return "Body Info"
         }
     }
