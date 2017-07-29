@@ -32,14 +32,6 @@ _High accuracy ephemeris query and orbital mechanics calculation framework._
 
 > Conics model predicts the orbits of the major planets in our solar system pretty accurately. To account for [apsidal precession](https://en.wikipedia.org/wiki/Apsidal_precession) and other orbital perturbations of celestial bodies like Mercury and Earth's moon, Orbits fetches many data points from JPL and cherry-pick the orbital configuration closest to the reference time.
 
-### StarryNight
-_A framework make convenient for reference to stars and constellations._
-- Database of 15000+ stars within 7th magnitude.
-  - HR, HD, HIP and Bayer-Flamsteed designations.
-  - Celestial coordinate and proper motion.
-  - Visual and absolute magnitude, luminance, spectral type binary star info, and other physical properties
-- Constellation support, including querying position, constellation line and constellation border.
-
 ## Goals
 This is an amateurish project by an amateur astronomer. As a lover of science and space exploration, there are a few long-term goals:
 
