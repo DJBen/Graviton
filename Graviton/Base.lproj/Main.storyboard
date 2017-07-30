@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -12,7 +12,7 @@
         <!--Tab Bar Controller-->
         <scene sceneID="NYI-QS-2QJ">
             <objects>
-                <tabBarController id="MsG-vN-XK9" sceneMemberID="viewController">
+                <tabBarController id="MsG-vN-XK9" customClass="TabBarController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" id="vX5-Y4-Oja">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -33,7 +33,7 @@
             <objects>
                 <navigationController id="rbu-ZA-MSV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Observer" image="tab_icon_telescope" id="lhL-yf-1tS"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="nLf-ud-Qyl">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLf-ud-Qyl">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -184,7 +184,7 @@
             <objects>
                 <navigationController id="jRr-Mo-AYA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Solar System" image="tab_icon_solar_system" selectedImage="tab_icon_solar_system" id="ake-ol-PDA"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="yFx-OF-gUU">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yFx-OF-gUU">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -224,6 +224,18 @@
                         </connections>
                     </tableView>
                     <navigationItem key="navigationItem" title="Observer Information" id="aPO-NK-diA"/>
+                    <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="1Df-iI-txk">
+                        <autoresizingMask key="autoresizingMask"/>
+                        <attributedString key="attributedTitle">
+                            <fragment content="Loading Observation...">
+                                <attributes>
+                                    <color key="NSColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                    <font key="NSFont" size="14" name=".SFNSText"/>
+                                    <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" tighteningFactorForTruncation="0.0"/>
+                                </attributes>
+                            </fragment>
+                        </attributedString>
+                    </refreshControl>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MX2-of-Fr5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -234,7 +246,7 @@
             <objects>
                 <navigationController id="gZx-OD-cfl" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Information" image="tab_icon_planet" id="jBr-a9-k2q"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" misplaced="YES" id="oxF-ga-Vih">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="oxF-ga-Vih">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>

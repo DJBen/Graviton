@@ -19,14 +19,27 @@ class InformationViewController: UITableViewController {
         super.viewDidLoad()
         self.clearsSelectionOnViewWillAppear = false
         rtsSubscriptionIdentifier = RiseTransitSetManager.default.subscribe(didLoad: updateRiseTransitSetInfo)
+        refreshControl?.addTarget(self, action: #selector(handleRefresh(target:)), for: .valueChanged)
+        refreshControl?.beginRefreshing()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        refreshControl?.beginRefreshing()
+        handleRefresh(target: self.refreshControl!)
     }
 
     deinit {
         RiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 
+    func handleRefresh(target: UIRefreshControl) {
+        RiseTransitSetManager.default.fetch()
+    }
+
     func updateRiseTransitSetInfo(_ rtsInfo: [Naif: RiseTransitSetElevation]) {
         observerInfo.updateRtsInfo(rtsInfo)
+        refreshControl?.endRefreshing()
         tableView.reloadData()
     }
 

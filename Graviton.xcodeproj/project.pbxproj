@@ -151,6 +151,7 @@
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
 		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
+		FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
@@ -397,6 +398,7 @@
 		FCA930E11E2B8F5400100706 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizonsTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930E21E2B8F5400100706 /* MotionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionParserTest.swift; sourceTree = "<group>"; };
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
@@ -974,6 +976,7 @@
 		FC959E661E9B50190026B222 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */,
 				FC959E671E9B50340026B222 /* SceneController.swift */,
 				FC6B88561EEC9764007EFE2E /* MenuController.swift */,
 				EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */,
@@ -1534,6 +1537,7 @@
 				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,
 				EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */,
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
+				FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
 				EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */,
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,

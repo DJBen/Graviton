@@ -8,6 +8,23 @@
 
 import UIKit
 
+struct Style {
+    static func setTabBarTransparent(tabBar: UITabBar) {
+        tabBar.barTintColor = UIColor.clear
+        tabBar.tintColor = UIColor.white
+        tabBar.backgroundImage = UIImage()
+        tabBar.shadowImage = UIImage()
+    }
+
+    static func setTabBarNormal(tabBar: UITabBar) {
+        tabBar.barStyle = .default
+        tabBar.tintColor = nil
+        tabBar.barTintColor = nil
+        tabBar.backgroundImage = nil
+        tabBar.shadowImage = nil
+    }
+}
+
 struct TextStyle {
     struct Font {
         static func constellationLabelFont(size: CGFloat) -> UIFont {
