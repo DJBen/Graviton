@@ -20,6 +20,7 @@ enum MenuParseError: Error {
     case cannotFindSelector
     case cannotInitializeClassName
     case cannotInitializeMultipleSelect
+    case missingExternalIdentifier
 }
 
 struct Menu {
@@ -124,15 +125,20 @@ struct MenuItem {
         case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
         case button(String, Any?)
         case multipleSelect(MultipleSelect)
+        case external(String)
     }
-    let text: String
+    let text: String?
     let type: Type
     let image: UIImage?
 
     init(rawItem: [String: AnyObject]) throws {
-        guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
-        self.text = text
         guard let type = rawItem["type"] as? String else { throw MenuParseError.missingMenuType }
+        if type != "external" {
+            guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
+            self.text = text
+        } else {
+            self.text = nil
+        }
         switch type {
         case "detail":
             guard let submenuName = rawItem["destination"] as? String else { throw MenuParseError.missingDestination }
@@ -157,6 +163,9 @@ struct MenuItem {
         case "multipleSelect":
             let mulSel = try MultipleSelect(dict: rawItem)
             self.type = .multipleSelect(mulSel)
+        case "external":
+            guard let identifier = rawItem["identifier"] as? String else { throw MenuParseError.missingExternalIdentifier }
+            self.type = .external(identifier)
         default:
             throw MenuParseError.unrecognizedMenuType
         }

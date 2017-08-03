@@ -146,13 +146,15 @@
 		FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
 		FC998DB51E2CE87700E0BFFF /* DBHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DB41E2CE87700E0BFFF /* DBHelper.swift */; };
-		FCA930621E2358A700100706 /* PlanetScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930611E2358A700100706 /* PlanetScene.swift */; };
 		FCA930B91E2B8E6600100706 /* Body.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930B81E2B8E6600100706 /* Body.swift */; };
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
 		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */; };
 		FCB2C12F1F3300E0002288BE /* cities.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCB2C12E1F3300E0002288BE /* cities.sqlite3 */; };
+		FCB2C1311F330133002288BE /* CityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1301F330133002288BE /* CityManager.swift */; };
+		FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1331F331760002288BE /* MenuLocationCell.swift */; };
+		FCB2C1361F3323AB002288BE /* ObserverLocationMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
@@ -391,7 +393,6 @@
 		FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanFlaggedNode.swift; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
 		FC998DB41E2CE87700E0BFFF /* DBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = DBHelper.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FCA930611E2358A700100706 /* PlanetScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlanetScene.swift; sourceTree = "<group>"; };
 		FCA930B81E2B8E6600100706 /* Body.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Body.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifCatalog.swift; sourceTree = "<group>"; };
 		FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicalConstants.swift; sourceTree = "<group>"; };
@@ -401,6 +402,9 @@
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FCB2C12E1F3300E0002288BE /* cities.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cities.sqlite3; sourceTree = "<group>"; };
+		FCB2C1301F330133002288BE /* CityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityManager.swift; sourceTree = "<group>"; };
+		FCB2C1331F331760002288BE /* MenuLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLocationCell.swift; sourceTree = "<group>"; };
+		FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverLocationMenuController.swift; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
@@ -590,7 +594,6 @@
 				FC7D61DF1E9B45E300BEA5BE /* Observer */,
 				FCEDA6111EC04A1F005C7BFF /* CelestialBody */,
 				FC099E391F1892E900A65F73 /* Information */,
-				FCA930651E23700800100706 /* Scenes */,
 				FCFBB71D1E59FCB200624B4C /* Views */,
 				EF4851881D91E6C800737CE4 /* Model */,
 				EFC2C69D1D88D02F0031AA9C /* Main.storyboard */,
@@ -781,6 +784,7 @@
 				FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */,
 				FCCB89551EEE043300F1539E /* MotionManager.swift */,
 				FCF2EA911EF64EA000B787F8 /* Timekeeper.swift */,
+				FCB2C1301F330133002288BE /* CityManager.swift */,
 				FC1CC2DA1EE0171F009FA252 /* CameraController.swift */,
 			);
 			path = Managers;
@@ -849,6 +853,7 @@
 				FC959E761E9B532E0026B222 /* Protocols */,
 				FC1CC2DC1EE01F62009FA252 /* Managers */,
 				FC7D62061E9B4C8400BEA5BE /* ViewControllers */,
+				FCB2C1321F331726002288BE /* Views */,
 				FC7D62071E9B4C9600BEA5BE /* Scenes */,
 				FC959E7B1E9CAF610026B222 /* Nodes */,
 				FC7D62001E9B493F00BEA5BE /* Resources */,
@@ -942,6 +947,7 @@
 				FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */,
 				FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */,
 				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
+				FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */,
 				FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */,
 			);
 			path = ViewControllers;
@@ -1038,14 +1044,6 @@
 			path = Nodes;
 			sourceTree = "<group>";
 		};
-		FCA930651E23700800100706 /* Scenes */ = {
-			isa = PBXGroup;
-			children = (
-				FCA930611E2358A700100706 /* PlanetScene.swift */,
-			);
-			path = Scenes;
-			sourceTree = "<group>";
-		};
 		FCA930B71E2B8E6600100706 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -1071,6 +1069,14 @@
 				EFA4FEE81EBDB94B001919DD /* Functional.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		FCB2C1321F331726002288BE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				FCB2C1331F331760002288BE /* MenuLocationCell.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		FCE0A7521E8919010009EFCB /* Extractors */ = {
@@ -1510,7 +1516,6 @@
 				FCF2EA901EF633A600B787F8 /* TimeWarpVerticalBar.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
 				FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */,
-				FCA930621E2358A700100706 /* PlanetScene.swift in Sources */,
 				FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */,
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
 				FC1CC2C81EE01646009FA252 /* LocationManager.swift in Sources */,
@@ -1519,6 +1524,8 @@
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */,
 				FC099E271F0F5A6400A65F73 /* ObserverDetailViewController.swift in Sources */,
+				FCB2C1361F3323AB002288BE /* ObserverLocationMenuController.swift in Sources */,
+				FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */,
 				FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */,
 				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */,
@@ -1543,6 +1550,7 @@
 				FC959E651E9B4FF60026B222 /* SnapshotSupport.swift in Sources */,
 				FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
+				FCB2C1311F330133002288BE /* CityManager.swift in Sources */,
 				EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */,
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,

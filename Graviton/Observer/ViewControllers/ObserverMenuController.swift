@@ -14,6 +14,7 @@ import SpaceTime
 fileprivate let buttonCellId = "buttonCell"
 fileprivate let detailCellId = "detailCell"
 fileprivate let toggleCellId = "toggleCell"
+fileprivate let locationCellId = "locationCell"
 fileprivate let headerFooterId = "headerFooter"
 
 class ObserverMenuController: MenuController {
@@ -57,6 +58,7 @@ class ObserverMenuController: MenuController {
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
         tableView.register(MenuButtonCell.self, forCellReuseIdentifier: buttonCellId)
+        tableView.register(MenuLocationCell.self, forCellReuseIdentifier: locationCellId)
 
         let behaviors = menu.registerAllConditionalDisabling()
         behaviors.forEach { (behavior) in
@@ -124,16 +126,19 @@ class ObserverMenuController: MenuController {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
         cell.imageView?.image = item.image
-        cell.textLabel?.text = item.text
         switch item.type {
         case .detail, .multipleSelect:
+            cell.textLabel?.text = item.text
             cell.accessoryType = .disclosureIndicator
         case .toggle:
+            cell.textLabel?.text = item.text
             let toggleCell = cell as! MenuToggleCell
             let shouldDisable = indexPathsToDisable.contains(indexPath)
             toggleCell.textLabel?.isEnabled = !shouldDisable
             toggleCell.toggle.isEnabled = !shouldDisable
         case .button:
+            cell.textLabel?.text = item.text
+        case .external:
             break
         }
     }
@@ -158,6 +163,16 @@ class ObserverMenuController: MenuController {
             buttonCell.handler = { [weak self] (key, userInfo) in
                 self?.performSelector(onMainThread: Selector.init(key + ":"), with: info, waitUntilDone: false)
             }
+        case let .external(identifier):
+            if identifier == "location" {
+                cell = MenuLocationCell(style: .subtitle, reuseIdentifier: locationCellId)
+                let locationCell = cell as! MenuLocationCell
+                locationCell.textLabel?.text = CityManager.default.locationDescription
+                locationCell.detailTextLabel?.text = CityManager.default.locationDetailDescription
+                locationCell.accessoryType = .disclosureIndicator
+            } else {
+                fatalError("Unrecognized external menu identifier")
+            }
         }
         return cell
     }
@@ -173,6 +188,9 @@ class ObserverMenuController: MenuController {
             // transition to submenu
             let subMenuController = ObserverMenuMultipleSelectController(style: .plain)
             subMenuController.multipleSelect = mulSel
+            navigationController?.pushViewController(subMenuController, animated: true)
+        } else if case let .external(identifier) = item.type, identifier == "location" {
+            let subMenuController = ObserverLocationMenuController(style: .plain)
             navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
@@ -191,6 +209,16 @@ class ObserverMenuController: MenuController {
         header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
         header.textLabel.text = menu.sections[section].name
         return header
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        let item = menu[indexPath]
+        switch item.type {
+        case let .external(identifier) where identifier == "location":
+            return 60
+        default:
+            return 44
+        }
     }
 
 }

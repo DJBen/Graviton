@@ -34,10 +34,6 @@ class MenuCell: UITableViewCell {
         }()
     }
 
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         let contentViewSize = contentView.bounds.size
