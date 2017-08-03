@@ -152,6 +152,7 @@
 		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */; };
+		FCB2C12F1F3300E0002288BE /* cities.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCB2C12E1F3300E0002288BE /* cities.sqlite3 */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
@@ -399,6 +400,7 @@
 		FCA930E21E2B8F5400100706 /* MotionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionParserTest.swift; sourceTree = "<group>"; };
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
+		FCB2C12E1F3300E0002288BE /* cities.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cities.sqlite3; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
@@ -518,6 +520,7 @@
 		EF55530E1EA96FF300B5A34D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FCB2C12E1F3300E0002288BE /* cities.sqlite3 */,
 				FC099E2B1F1743B900A65F73 /* Fonts */,
 				EF55530F1EA9701100B5A34D /* Icons.xcassets */,
 				FCB365A71EB8565C00027E82 /* Textures.xcassets */,
@@ -1358,6 +1361,7 @@
 			files = (
 				FCF2EA941EF65A1C00B787F8 /* TimeWarpParticle.sks in Resources */,
 				FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */,
+				FCB2C12F1F3300E0002288BE /* cities.sqlite3 in Resources */,
 				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
 				FC099E351F1743C600A65F73 /* CormorantSC-Medium.ttf in Resources */,
 				FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */,
