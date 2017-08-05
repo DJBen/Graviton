@@ -63,8 +63,8 @@ class CityManager {
             return city.country
         }
         if let coordinate = LocationManager.default.content?.coordinate {
-            // TODO: beautify coordinate formattings
-            return String(format: "%.2f, %.2f", coordinate.latitude, coordinate.longitude)
+            let coordFormatter = CoordinateFormatter()
+            return coordFormatter.string(for: coordinate)!
         }
         return "Unknown"
     }

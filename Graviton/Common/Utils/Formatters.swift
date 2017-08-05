@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import CoreLocation
+import MathUtil
 
 struct Formatters {
     private static let utcDateFormatter: DateFormatter = {
@@ -28,5 +30,38 @@ struct Formatters {
         } else {
             return localTimeDateFormatter
         }
+    }
+
+    static let twoDecimalPointFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .decimal
+        formatter.maximumFractionDigits = 2
+        return formatter
+    }()
+}
+
+class CoordinateFormatter: Formatter {
+    override func string(for obj: Any?) -> String? {
+        guard let coordinate = obj as? CLLocationCoordinate2D else {
+            return nil
+        }
+        let lat = coordinate.latitude
+        let long = coordinate.longitude
+        func stripNegativeSign(_ dms: DegreeMinuteSecond) -> String {
+            if dms.value >= 0 {
+                return dms.description
+            } else {
+                var str = dms.description
+                str.remove(at: str.startIndex)
+                return str
+            }
+        }
+        let latDms = DegreeMinuteSecond(value: lat)
+        latDms.decimalNumberFormatter = Formatters.twoDecimalPointFormatter
+        let longDms = DegreeMinuteSecond(value: long)
+        longDms.decimalNumberFormatter = Formatters.twoDecimalPointFormatter
+        let latStr = stripNegativeSign(latDms) + (lat >= 0 ? " N" : " S")
+        let longStr = stripNegativeSign(longDms) + (long >= 0 ? " E" : " W")
+        return "\(latStr), \(longStr)"
     }
 }
