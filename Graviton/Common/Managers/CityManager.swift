@@ -22,6 +22,11 @@ fileprivate let citiesProvince = Expression<String?>("province")
 fileprivate let citiesIso2 = Expression<String>("iso2")
 fileprivate let citiesIso3 = Expression<String>("iso3")
 
+fileprivate let usStates = Table("us_states")
+fileprivate let usStatesAbbrev = Expression<String>("abbreviation")
+fileprivate let usStatesName = Expression<String>("name")
+
+
 struct City: Equatable {
     let coordinate: CLLocationCoordinate2D
     let name: String
@@ -29,6 +34,13 @@ struct City: Equatable {
     let province: String?
     let iso2: String
     let iso3: String
+
+    var provinceAbbreviation: String? {
+        guard let province = province else {
+            return nil
+        }
+        return try! conn.pluck(usStates.select(usStatesAbbrev).where(province == usStatesName))?.get(usStatesAbbrev)
+    }
 
     static func ==(lhs: City, rhs: City) -> Bool {
         return lhs.name == rhs.name && lhs.province == rhs.province && lhs.country == rhs.country
@@ -60,6 +72,9 @@ class CityManager {
 
     var locationDetailDescription: String {
         if let city = currentlyLocatedCity {
+            if city.iso3 == "USA" {
+                return "\(city.country), \(city.provinceAbbreviation!)"
+            }
             return city.country
         }
         if let coordinate = LocationManager.default.content?.coordinate {

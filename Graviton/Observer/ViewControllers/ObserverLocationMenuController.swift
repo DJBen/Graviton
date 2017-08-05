@@ -42,7 +42,13 @@ class ObserverLocationMenuController: MenuController {
         let city = cities[indexPath.row]
         let cell = MenuLocationCell(style: .subtitle, reuseIdentifier: cityCellId)
         cell.textLabel?.text = city.name
-        cell.detailTextLabel?.text = city.country
+        let detail: String
+        if city.iso3 == "USA" {
+            detail = "\(city.country), \(city.provinceAbbreviation!)"
+        } else {
+            detail = city.country
+        }
+        cell.detailTextLabel?.text = detail
         if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
             cell.accessoryType = .checkmark
         } else {
