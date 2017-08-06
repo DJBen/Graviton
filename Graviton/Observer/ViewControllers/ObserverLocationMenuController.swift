@@ -46,13 +46,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        let city = cities[indexPath.row]
         cell.backgroundColor = UIColor.clear
-        if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,6 +58,11 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
             detail = "\(city.country), \(city.provinceAbbreviation!)"
         } else {
             detail = city.country
+        }
+        if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
         }
         cell.detailTextLabel?.text = detail
         return cell

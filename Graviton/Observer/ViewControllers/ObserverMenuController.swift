@@ -49,6 +49,7 @@ class ObserverMenuController: MenuController {
 
     var menu: Menu!
 
+    private var locationSubId: SubscriptionUUID!
     private var indexPathsToDisable = Set<IndexPath>()
 
     override func viewDidLoad() {
@@ -59,6 +60,10 @@ class ObserverMenuController: MenuController {
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
         tableView.register(MenuButtonCell.self, forCellReuseIdentifier: buttonCellId)
         tableView.register(MenuLocationCell.self, forCellReuseIdentifier: locationCellId)
+
+        locationSubId = LocationManager.default.subscribe(didUpdate: { [weak self] (_) in
+            self?.tableView.reloadRows(at: self!.menu.indexPathsNeedsReloadUponLocationUpdate, with: .none)
+        })
 
         let behaviors = menu.registerAllConditionalDisabling()
         behaviors.forEach { (behavior) in
@@ -91,6 +96,10 @@ class ObserverMenuController: MenuController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+    }
+
+    deinit {
+        LocationManager.default.unsubscribe(locationSubId)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -163,7 +172,7 @@ class ObserverMenuController: MenuController {
             buttonCell.handler = { [weak self] (key, userInfo) in
                 self?.performSelector(onMainThread: Selector.init(key + ":"), with: info, waitUntilDone: false)
             }
-        case let .external(identifier):
+        case let .external(identifier, _):
             if identifier == "location" {
                 cell = MenuLocationCell(style: .subtitle, reuseIdentifier: locationCellId)
                 let locationCell = cell as! MenuLocationCell
@@ -189,7 +198,7 @@ class ObserverMenuController: MenuController {
             let subMenuController = ObserverMenuMultipleSelectController(style: .plain)
             subMenuController.multipleSelect = mulSel
             navigationController?.pushViewController(subMenuController, animated: true)
-        } else if case let .external(identifier) = item.type, identifier == "location" {
+        } else if case let .external(identifier, _) = item.type, identifier == "location" {
             let subMenuController = ObserverLocationMenuController(style: .plain)
             navigationController?.pushViewController(subMenuController, animated: true)
         }
@@ -214,7 +223,7 @@ class ObserverMenuController: MenuController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = menu[indexPath]
         switch item.type {
-        case let .external(identifier) where identifier == "location":
+        case let .external(identifier, _) where identifier == "location":
             return 60
         default:
             return 44

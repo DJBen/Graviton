@@ -125,7 +125,7 @@ struct MenuItem {
         case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
         case button(String, Any?)
         case multipleSelect(MultipleSelect)
-        case external(String)
+        case external(String, ExternalRowDetails)
     }
     let text: String?
     let type: Type
@@ -165,7 +165,8 @@ struct MenuItem {
             self.type = .multipleSelect(mulSel)
         case "external":
             guard let identifier = rawItem["identifier"] as? String else { throw MenuParseError.missingExternalIdentifier }
-            self.type = .external(identifier)
+            let reloadUponLocationUpdate = rawItem["reloadUponLocationUpdate"] as? Bool ?? false
+            self.type = .external(identifier, ExternalRowDetails(reloadUponLocationUpdate: reloadUponLocationUpdate))
         default:
             throw MenuParseError.unrecognizedMenuType
         }
@@ -174,6 +175,18 @@ struct MenuItem {
         } else {
             image = nil
         }
+    }
+}
+
+struct ExternalRowDetails {
+    let reloadUponLocationUpdate: Bool
+
+    init() {
+        reloadUponLocationUpdate = false
+    }
+
+    init(reloadUponLocationUpdate: Bool) {
+        self.reloadUponLocationUpdate = reloadUponLocationUpdate
     }
 }
 
@@ -189,6 +202,20 @@ extension Menu {
             }
         }
         return nil
+    }
+
+    var indexPathsNeedsReloadUponLocationUpdate: [IndexPath] {
+        var indexPaths = [IndexPath]()
+        for (i, section) in sections.enumerated() {
+            for (j, item) in section.items.enumerated() {
+                if case let .external(_, detail) = item.type {
+                    if detail.reloadUponLocationUpdate {
+                        indexPaths.append(IndexPath.init(row: j, section: i))
+                    }
+                }
+            }
+        }
+        return indexPaths
     }
 }
 
