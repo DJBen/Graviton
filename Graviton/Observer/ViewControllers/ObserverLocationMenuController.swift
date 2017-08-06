@@ -10,13 +10,25 @@ import UIKit
 
 fileprivate let cityCellId = "cityCell"
 
-class ObserverLocationMenuController: MenuController {
+class ObserverLocationMenuController: MenuController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+
+    lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController:  nil)
+        searchController.searchResultsUpdater = self
+        searchController.delegate = self
+        searchController.searchBar.delegate = self
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.dimsBackgroundDuringPresentation = false
+        return searchController
+    }()
 
     lazy var cities: [City] = CityManager.fetchCities()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_target"), style: .plain, target: self, action: #selector(requestUsingLocationService))
+        self.navigationItem.titleView = searchController.searchBar
+        self.definesPresentationContext = true
     }
 
     func requestUsingLocationService() {
@@ -34,7 +46,13 @@ class ObserverLocationMenuController: MenuController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        let city = cities[indexPath.row]
         cell.backgroundColor = UIColor.clear
+        if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
+            cell.accessoryType = .checkmark
+        } else {
+            cell.accessoryType = .none
+        }
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -48,11 +66,6 @@ class ObserverLocationMenuController: MenuController {
             detail = city.country
         }
         cell.detailTextLabel?.text = detail
-        if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
-            cell.accessoryType = .checkmark
-        } else {
-            cell.accessoryType = .none
-        }
         return cell
     }
 
@@ -72,4 +85,13 @@ class ObserverLocationMenuController: MenuController {
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
+
+    // MARK: - Search controller delegate
+
+    func updateSearchResults(for searchController: UISearchController) {
+        let searchString = searchController.searchBar.text
+        cities = CityManager.fetchCities(withNameContaining: searchString)
+        tableView.reloadData()
+    }
+
 }

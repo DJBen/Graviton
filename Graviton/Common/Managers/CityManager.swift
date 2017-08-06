@@ -26,7 +26,6 @@ fileprivate let usStates = Table("us_states")
 fileprivate let usStatesAbbrev = Expression<String>("abbreviation")
 fileprivate let usStatesName = Expression<String>("name")
 
-
 struct City: Equatable {
     let coordinate: CLLocationCoordinate2D
     let name: String
@@ -84,8 +83,9 @@ class CityManager {
         return "Unknown"
     }
 
-    static func fetchCities(minimumPopulation: Double = 100_000) -> [City] {
-        let query = cities.select(citiesLat, citiesLng, citiesName, citiesCountry, citiesProvince, citiesIso2, citiesIso3).filter(citiesPop >= minimumPopulation).order(citiesName)
+    static func fetchCities(withNameContaining substr: String? = nil, minimumPopulation: Double = 100_000) -> [City] {
+        let filterClause = substr == nil ? citiesPop >= minimumPopulation : citiesPop >= minimumPopulation && citiesName.like("%\(substr!)%")
+        let query = cities.select(citiesLat, citiesLng, citiesName, citiesCountry, citiesProvince, citiesIso2, citiesIso3).filter(filterClause).order(citiesName)
         return try! conn.prepare(query).map { (row) -> City in
             return City(coordinate: CLLocationCoordinate2D.init(latitude: row.get(citiesLat), longitude: row.get(citiesLng)), name: row.get(citiesName), country: row.get(citiesCountry), province: row.get(citiesProvince), iso2: row.get(citiesIso2), iso3: row.get(citiesIso3))
         }
