@@ -16,8 +16,7 @@ class ObserverLocationMenuController: MenuController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // TODO: use icon to replace bar button item
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Use GPS", style: .plain, target: self, action: #selector(requestUsingLocationService))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_target"), style: .plain, target: self, action: #selector(requestUsingLocationService))
     }
 
     func requestUsingLocationService() {
