@@ -261,8 +261,12 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
 
     // MARK: - Menu background provider
 
+    private var snapshottedImage: UIImage?
     func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
-        return UIImageEffects.blurredMenuImage(scnView.snapshot())
+        if fromVC is ObserverViewController && toVC is MenuController {
+            snapshottedImage = UIImageEffects.blurredMenuImage(scnView.snapshot())
+        }
+        return snapshottedImage
     }
 }
 
