@@ -22,7 +22,11 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         return searchController
     }()
 
-    lazy var cities: [City] = CityManager.fetchCities()
+    let cities: [City] = CityManager.fetchCities()
+    var citySubset: [City]?
+    var dataSource: [City] {
+        return citySubset ?? cities
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -42,7 +46,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return cities.count
+        return dataSource.count
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
@@ -50,7 +54,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let city = cities[indexPath.row]
+        let city = dataSource[indexPath.row]
         let cell = MenuLocationCell(style: .subtitle, reuseIdentifier: cityCellId)
         cell.textLabel?.text = city.name
         let detail: String
@@ -61,15 +65,17 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         }
         if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
             cell.accessoryType = .checkmark
+            cell.setSelected(true, animated: false)
         } else {
             cell.accessoryType = .none
+            cell.setSelected(false, animated: false)
         }
         cell.detailTextLabel?.text = detail
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let city = cities[indexPath.row]
+        let city = dataSource[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .checkmark
         CityManager.default.currentlyLocatedCity = city
@@ -88,8 +94,9 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     // MARK: - Search controller delegate
 
     func updateSearchResults(for searchController: UISearchController) {
-        let searchString = searchController.searchBar.text
-        cities = CityManager.fetchCities(withNameContaining: searchString)
+        if let searchString = searchController.searchBar.text {
+            citySubset = CityManager.fetchCities(withNameContaining: searchString)
+        }
         tableView.reloadData()
     }
 
