@@ -51,6 +51,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
+        (cell as! MenuLocationCell).textLabelLeftInset = 21
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

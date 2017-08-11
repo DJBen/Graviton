@@ -19,7 +19,7 @@ class MenuLocationCell: MenuCell {
     override func layoutSubviews() {
         super.layoutSubviews()
         let contentViewSize = contentView.bounds.size
-        textLabel?.frame = CGRect(x: 60, y: -10, width: contentViewSize.width - 60, height: contentViewSize.height)
-        detailTextLabel?.frame = CGRect(x: 60, y: 30, width: contentViewSize.width - 60, height: contentViewSize.height - 35)
+        textLabel?.frame = CGRect(x: textLabelLeftInset, y: -10, width: contentViewSize.width - textLabelLeftInset, height: contentViewSize.height)
+        detailTextLabel?.frame = CGRect(x: textLabelLeftInset, y: 30, width: contentViewSize.width - textLabelLeftInset, height: contentViewSize.height - 35)
     }
 }
