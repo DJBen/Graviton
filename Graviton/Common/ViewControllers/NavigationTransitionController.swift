@@ -14,13 +14,6 @@ import SceneKit
 }
 
 class NavigationTransitionController: NSObject, UINavigationControllerDelegate {
-    // MARK: - Navigation Controller Delegate
-    func navigationController(_ navigationController: UINavigationController, willShow viewController: UIViewController, animated: Bool) {
-        if let scnView = viewController.view as? SCNView {
-            scnView.play(nil)
-        }
-    }
-
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         if fromVC is SceneController || toVC is SceneController {
             return PushOverlayTransition(presenting: operation == .push)

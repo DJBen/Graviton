@@ -88,7 +88,7 @@ class ObserverOverlayScene: SKScene {
         starLabel.text = String(describing: star.identity)
     }
 
-    func hideStarDisplay() {
-        starInfoRootNode.run(SKAction.fadeOut(withDuration: 0.25))
+    func hideStarDisplay(withDuration duration: TimeInterval = 0.25) {
+        starInfoRootNode.run(SKAction.fadeOut(withDuration: duration))
     }
 }

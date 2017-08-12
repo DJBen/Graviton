@@ -79,6 +79,16 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.presentTransparentNavigationBar()
+        updateTimeLabel()
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        stopTimeWarp(withAnimationDuration: 0)
+        observerScene.removeFocus()
+        overlayScene.hideStarDisplay(withDuration: 0)
+        target = nil
+        Timekeeper.default.isWarpActive = false
+        super.viewWillDisappear(animated)
     }
 
     deinit {
@@ -135,8 +145,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     // MARK: - Button handling
 
     override func menuButtonTapped(sender: UIButton) {
-        stopTimeWarp(withAnimationDuration: 0)
-        scnView.pause(nil)
         let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
@@ -193,6 +201,10 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         guard Settings.default[.enableTimeWarp] else { return }
         Timekeeper.default.isWarpActive = !Timekeeper.default.isWarpActive
         print("Time warp toggled \(Timekeeper.default.isWarpActive)")
+        updateTimeLabel()
+    }
+
+    private func updateTimeLabel() {
         if Timekeeper.default.isWarpActive {
             LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
             overlayScene.show(withDuration: 0.25)

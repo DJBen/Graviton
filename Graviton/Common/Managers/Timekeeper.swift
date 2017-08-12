@@ -30,6 +30,7 @@ class Timekeeper: LiteSubscriptionManager<JulianDate> {
         return warpedJulianDate?.date
     }
 
+    /// Whether is in time warp mode
     var isWarpActive: Bool = false
 
     var isWarping: Bool {
