@@ -10,6 +10,8 @@ import UIKit
 
 class MenuCell: UITableViewCell {
 
+    var textLabelLeftInset: CGFloat = 60
+
     override func awakeFromNib() {
         super.awakeFromNib()
         setupView()
@@ -34,14 +36,10 @@ class MenuCell: UITableViewCell {
         }()
     }
 
-    override func setHighlighted(_ highlighted: Bool, animated: Bool) {
-        super.setHighlighted(highlighted, animated: animated)
-    }
-
     override func layoutSubviews() {
         super.layoutSubviews()
         let contentViewSize = contentView.bounds.size
         imageView?.frame = CGRect(x: 21, y: (contentViewSize.height - 25) / 2, width: 25, height: 25)
-        textLabel?.frame = CGRect(x: 60, y: 0, width: contentViewSize.width - 60, height: contentViewSize.height)
+        textLabel?.frame = CGRect(x: textLabelLeftInset, y: 0, width: contentViewSize.width - textLabelLeftInset, height: contentViewSize.height)
     }
 }

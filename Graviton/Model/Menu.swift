@@ -20,6 +20,7 @@ enum MenuParseError: Error {
     case cannotFindSelector
     case cannotInitializeClassName
     case cannotInitializeMultipleSelect
+    case missingExternalIdentifier
 }
 
 struct Menu {
@@ -124,15 +125,20 @@ struct MenuItem {
         case toggle(Settings.BooleanSetting, Settings.BooleanDisableBehavior?)
         case button(String, Any?)
         case multipleSelect(MultipleSelect)
+        case external(String, ExternalRowDetails)
     }
-    let text: String
+    let text: String?
     let type: Type
     let image: UIImage?
 
     init(rawItem: [String: AnyObject]) throws {
-        guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
-        self.text = text
         guard let type = rawItem["type"] as? String else { throw MenuParseError.missingMenuType }
+        if type != "external" {
+            guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
+            self.text = text
+        } else {
+            self.text = nil
+        }
         switch type {
         case "detail":
             guard let submenuName = rawItem["destination"] as? String else { throw MenuParseError.missingDestination }
@@ -157,6 +163,10 @@ struct MenuItem {
         case "multipleSelect":
             let mulSel = try MultipleSelect(dict: rawItem)
             self.type = .multipleSelect(mulSel)
+        case "external":
+            guard let identifier = rawItem["identifier"] as? String else { throw MenuParseError.missingExternalIdentifier }
+            let reloadUponLocationUpdate = rawItem["reloadUponLocationUpdate"] as? Bool ?? false
+            self.type = .external(identifier, ExternalRowDetails(reloadUponLocationUpdate: reloadUponLocationUpdate))
         default:
             throw MenuParseError.unrecognizedMenuType
         }
@@ -165,6 +175,18 @@ struct MenuItem {
         } else {
             image = nil
         }
+    }
+}
+
+struct ExternalRowDetails {
+    let reloadUponLocationUpdate: Bool
+
+    init() {
+        reloadUponLocationUpdate = false
+    }
+
+    init(reloadUponLocationUpdate: Bool) {
+        self.reloadUponLocationUpdate = reloadUponLocationUpdate
     }
 }
 
@@ -180,6 +202,20 @@ extension Menu {
             }
         }
         return nil
+    }
+
+    var indexPathsNeedsReloadUponLocationUpdate: [IndexPath] {
+        var indexPaths = [IndexPath]()
+        for (i, section) in sections.enumerated() {
+            for (j, item) in section.items.enumerated() {
+                if case let .external(_, detail) = item.type {
+                    if detail.reloadUponLocationUpdate {
+                        indexPaths.append(IndexPath.init(row: j, section: i))
+                    }
+                }
+            }
+        }
+        return indexPaths
     }
 }
 

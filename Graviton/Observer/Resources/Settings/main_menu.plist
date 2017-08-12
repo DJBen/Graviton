@@ -3,6 +3,25 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>section</key>
+		<string>Location</string>
+		<key>content</key>
+		<array>
+			<dict>
+				<key>type</key>
+				<string>external</string>
+				<key>identifier</key>
+				<string>location</string>
+				<key>image</key>
+				<string>row_icon_target</string>
+				<key>reloadUponLocationUpdate</key>
+				<true/>
+			</dict>
+		</array>
+	</dict>
+	<dict>
+		<key>section</key>
+		<string>General</string>
 		<key>content</key>
 		<array>
 			<dict>
@@ -15,11 +34,6 @@
 				<key>destination</key>
 				<string>content_rendering_menu</string>
 			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>content</key>
-		<array>
 			<dict>
 				<key>type</key>
 				<string>detail</string>
@@ -30,11 +44,6 @@
 				<key>destination</key>
 				<string>control_menu</string>
 			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>content</key>
-		<array>
 			<dict>
 				<key>type</key>
 				<string>detail</string>
@@ -45,11 +54,6 @@
 				<key>destination</key>
 				<string>debug_menu</string>
 			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>content</key>
-		<array>
 			<dict>
 				<key>type</key>
 				<string>detail</string>

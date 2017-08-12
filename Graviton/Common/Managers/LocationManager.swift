@@ -15,9 +15,17 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
 
     static let `default` = LocationManager()
 
+    var locationOverride: CLLocation? {
+        didSet {
+            if let loc = content {
+                updateAllSubscribers(loc)
+            }
+        }
+    }
+
     var timeZone: TimeZone = TimeZone.current
     override var content: CLLocation? {
-        return locationManager.location
+        return locationOverride ?? locationManager.location
     }
 
     private lazy var locationManager: CLLocationManager = {
@@ -56,6 +64,10 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
+        guard locationOverride == nil else {
+            print("location updated to \(location) but has been overridden with \(locationOverride!)")
+            return
+        }
         print("update location to \(location)")
         updateAllSubscribers(location)
     }
