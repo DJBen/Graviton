@@ -134,6 +134,9 @@ class ObserverMenuController: MenuController {
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
+        if let menuCell = cell as? MenuCell {
+            menuCell.textLabelLeftInset = item.image == nil ? 21 : 60
+        }
         cell.imageView?.image = item.image
         switch item.type {
         case .detail, .multipleSelect:

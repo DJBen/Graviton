@@ -41,6 +41,12 @@ class ObserverMenuMultipleSelectController: MenuController {
         return multipleSelect.options.count
     }
 
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        if let menuCell = cell as? MenuCell {
+            menuCell.textLabelLeftInset = 21
+        }
+    }
+
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: checkableCellId, for: indexPath)
         cell.backgroundColor = UIColor.clear
