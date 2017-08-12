@@ -23,7 +23,8 @@ class LocationSensitiveSubscriptionManager<T>: SubscriptionManager<T> {
     }
 
     func updateLocation(location: CLLocation) {
-        if Timekeeper.default.isWarpActive == false {
+        // Do not fetch online when city is manually set or in warp mode
+        if Timekeeper.default.isWarpActive == false && LocationManager.default.locationOverride == nil {
             // refetch new RTS info if location has significant change
             fetch(mode: .preferLocal)
         }

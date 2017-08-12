@@ -42,16 +42,6 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "FC2435881E1F87F0002AC626"
-               BuildableName = "SpaceTimeTests.xctest"
-               BlueprintName = "SpaceTimeTests"
-               ReferencedContainer = "container:Graviton.xcodeproj">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
                BlueprintIdentifier = "EF5F130B1E50208700A8EF51"
                BuildableName = "StarryNightTests.xctest"
                BlueprintName = "StarryNightTests"
