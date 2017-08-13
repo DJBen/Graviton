@@ -155,6 +155,9 @@
 		FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1331F331760002288BE /* MenuLocationCell.swift */; };
 		FCB2C1361F3323AB002288BE /* ObserverLocationMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */; };
 		FCB2C13A1F35D321002288BE /* cities.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCB2C1371F35AC5E002288BE /* cities.sqlite3 */; };
+		FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */; };
+		FCB2C13E1F3FE050002288BE /* Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C13D1F3FE050002288BE /* Orbits.swift */; };
+		FCB2C1401F3FE62F002288BE /* StarryNight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C13F1F3FE62F002288BE /* StarryNight.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
@@ -307,7 +310,7 @@
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		EFE8BF571DD86B2B000F0A79 /* Orbits.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Orbits.h; sourceTree = "<group>"; };
-		EFE8BF581DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		EFE8BF581DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = ../Info.plist; sourceTree = "<group>"; };
 		EFE8BF661DD86B2B000F0A79 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
@@ -405,6 +408,9 @@
 		FCB2C1331F331760002288BE /* MenuLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLocationCell.swift; sourceTree = "<group>"; };
 		FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverLocationMenuController.swift; sourceTree = "<group>"; };
 		FCB2C1371F35AC5E002288BE /* cities.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cities.sqlite3; sourceTree = "<group>"; };
+		FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/iOS/SwiftyBeaver.framework; sourceTree = "<group>"; };
+		FCB2C13D1F3FE050002288BE /* Orbits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbits.swift; sourceTree = "<group>"; };
+		FCB2C13F1F3FE62F002288BE /* StarryNight.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StarryNight.swift; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
@@ -492,6 +498,7 @@
 				FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				EF5F13191E50208700A8EF51 /* StarryNight.framework in Frameworks */,
+				FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
 				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
 			);
@@ -543,6 +550,7 @@
 				FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */,
 				EF5F13221E5020FF00A8EF51 /* SpectralType.swift */,
 				EF281F971F061EF2003CB4A3 /* BayerFlamsteed.swift */,
+				FCB2C13F1F3FE62F002288BE /* StarryNight.swift */,
 				EF5F13071E50208700A8EF51 /* Info.plist */,
 			);
 			path = StarryNight;
@@ -647,10 +655,10 @@
 				FCA930B71E2B8E6600100706 /* Models */,
 				EFD3CE821E85C89700D6B0FF /* Networking */,
 				FCA930CB1E2B8EF600100706 /* Utils */,
+				FCB2C13D1F3FE050002288BE /* Orbits.swift */,
 				EFE8BF771DD86B38000F0A79 /* Orbit.swift */,
 				FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */,
 				FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */,
-				EFE8BF581DD86B2B000F0A79 /* Info.plist */,
 			);
 			path = Orbits;
 			sourceTree = "<group>";
@@ -813,6 +821,7 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */,
 				FC6313171F255D8700FE23E0 /* SpaceTime.framework */,
 				FC63130E1F255BD300FE23E0 /* MathUtil.framework */,
 				FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */,
@@ -1061,6 +1070,7 @@
 		FCA930CB1E2B8EF600100706 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				EFE8BF581DD86B2B000F0A79 /* Info.plist */,
 				FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */,
 				FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */,
 				EF2A67931EF9D0C700C95AC3 /* Kepler.swift */,
@@ -1440,6 +1450,7 @@
 				"$(SRCROOT)/Carthage/Build/iOS/XLPagerTabStrip.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MathUtil.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/SpaceTime.framework",
+				"$(SRCROOT)/Carthage/Build/iOS/SwiftyBeaver.framework",
 			);
 			name = "Copy Carthage Frameworks";
 			outputPaths = (
@@ -1473,6 +1484,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF281F981F061EF2003CB4A3 /* BayerFlamsteed.swift in Sources */,
+				FCB2C1401F3FE62F002288BE /* StarryNight.swift in Sources */,
 				FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */,
 				EF5F13291E5020FF00A8EF51 /* Star.swift in Sources */,
 				EF5F13251E5020FF00A8EF51 /* Constellation.swift in Sources */,
@@ -1603,6 +1615,7 @@
 				FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */,
 				FCCF5B6F1EBF1A9D00B8004E /* Parser.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
+				FCB2C13E1F3FE050002288BE /* Orbits.swift in Sources */,
 				FCCF5B6B1EBF1A9D00B8004E /* ObserverEphemerisParser.swift in Sources */,
 				FCCF5B551EBF12C500B8004E /* CelestialBodyObserverInfo.swift in Sources */,
 			);

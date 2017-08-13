@@ -89,7 +89,7 @@ public struct Constellation: Hashable {
     public var connectionLines: [Line] {
         return lines.flatMap { (s1, s2) -> Line? in
             guard let star1 = Star.hr(s1), let star2 = Star.hr(s2) else {
-                print("constellation \(name): line \(s1) - \(s2) not found")
+                logger.error("constellation \(name): line \(s1) - \(s2) not found")
                 return nil
             }
             return Line(star1: star1, star2: star2)

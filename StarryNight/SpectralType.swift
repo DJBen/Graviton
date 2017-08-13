@@ -31,7 +31,7 @@ fileprivate extension String {
             let results = regex.matches(in: self, range: NSRange(location: 0, length: nsString.length))
             return results.map { nsString.substring(with: $0.range) }.first
         } catch let error {
-            print("invalid regex: \(error.localizedDescription)")
+            logger.error("invalid regex: \(error.localizedDescription)")
             return nil
         }
     }

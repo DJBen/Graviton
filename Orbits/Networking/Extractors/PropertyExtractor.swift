@@ -78,7 +78,7 @@ class PropertyExtractor {
         }
         let matches = km.matches(for: "([-\\d.]+)(?:(?:\\([\\+-\\.\\d]*\\))|(?:\\+-[\\d\\.]+))")
         guard matches.count > 0 else {
-            print("\(km) doesn't match radius regex")
+            logger.error("\(km) doesn't match radius regex")
             return nil
         }
         guard matches[0].count > 1 else { return nil }

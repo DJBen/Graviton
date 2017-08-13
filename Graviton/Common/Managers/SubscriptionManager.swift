@@ -97,7 +97,7 @@ class SubscriptionManager<T> {
             break
         }
         if changed {
-            print("update ephemeris for \(identifier.uuidString)")
+            logger.info("update ephemeris for \(identifier.uuidString)")
             DispatchQueue.main.async {
                 sub.didUpdate?(eph)
             }
