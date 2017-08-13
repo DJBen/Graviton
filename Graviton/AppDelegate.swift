@@ -9,6 +9,9 @@
 import UIKit
 import Orbits
 import RealmSwift
+import SwiftyBeaver
+
+let logger = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+        configureLogging()
         // Disable online fetching in unit tests
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(2)) {
@@ -25,6 +29,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         CelestialBodyObserverInfoManager.globalMode = isInTest ? .localOnly : .preferLocal
         LocationManager.default.startLocationService()
         return true
+    }
+
+    private func configureLogging() {
+        let console = ConsoleDestination()
+        logger.addDestination(console)
     }
 
     private func migrateRealmIfNeeded() {

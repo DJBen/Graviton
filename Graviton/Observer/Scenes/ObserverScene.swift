@@ -260,7 +260,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                 return
             }
             guard let obInfo = LocationAndTimeManager.default.observerInfo else {
-                print("Missing observer info")
+                logger.error("Missing observer info")
                 return
             }
             self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
@@ -473,7 +473,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         if observerInfo[.moon(.luna)] != nil {
             updateMoonOrientation()
         }
-        print(observerInfo)
+        logger.verbose(observerInfo)
     }
 
     private func updateMoonOrientation() {
@@ -514,7 +514,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     /// - Parameter ephemeris: Ephemeris to be recalculated
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         if Timekeeper.default.isWarpActive == false {
-            print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
+            logger.info("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
         }
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {

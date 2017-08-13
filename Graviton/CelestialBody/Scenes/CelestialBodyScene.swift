@@ -87,10 +87,10 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
         } else {
             // solarNode.light!.intensity = 1500
         }
-        print(observerInfo)
+        logger.verbose(observerInfo)
     }
 
     func updateRiseTransitSetInfo(_ rtsInfo: [Naif: RiseTransitSetElevation]) {
-        print(rtsInfo)
+        logger.verbose(rtsInfo)
     }
 }

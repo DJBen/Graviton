@@ -200,7 +200,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     func toggleTimeWarp(sender: UIBarButtonItem) {
         guard Settings.default[.enableTimeWarp] else { return }
         Timekeeper.default.isWarpActive = !Timekeeper.default.isWarpActive
-        print("Time warp toggled \(Timekeeper.default.isWarpActive)")
+        logger.verbose("Time warp toggled \(Timekeeper.default.isWarpActive)")
         updateTimeLabel()
     }
 

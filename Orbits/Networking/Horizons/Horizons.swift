@@ -89,13 +89,13 @@ public class Horizons {
                 let utf8String = String(data: d, encoding: .utf8)!
                 switch ResponseValidator.default.parse(content: utf8String) {
                 case .busy:
-                    print("busy: \(url)")
+                    logger.verbose("busy: \(url)")
                 default:
                     rawData[url.naifId!] = utf8String
-                    print("complete: \(url) - \(d)")
+                    logger.verbose("complete: \(url) - \(d)")
                 }
             } else {
-                print("reponse has no data: \(String(describing: response))")
+                logger.verbose("reponse has no data: \(String(describing: response))")
             }
         }
 
@@ -169,18 +169,18 @@ public class Horizons {
                 let utf8String = String(data: d, encoding: .utf8)!
                 switch ResponseValidator.default.parse(content: utf8String) {
                 case .busy:
-                    print("busy: \(url), retrying")
+                    logger.verbose("busy: \(url), retrying")
                     let retried = retry(url: url)
                     if retried == false {
                         // retries run out
-                        print("stop retrying: \(url)")
+                        logger.verbose("stop retrying: \(url)")
                     }
                 default:
                     rawData[url.naifId!] = utf8String
-                    print("complete: \(url) - \(d)")
+                    logger.verbose("complete: \(url) - \(d)")
                 }
             } else {
-                print("reponse has no data: \(String(describing: response))")
+                logger.verbose("reponse has no data: \(String(describing: response))")
             }
         }
         let tasks = queries.flatMap { (query) -> URLSessionTask? in
@@ -200,11 +200,11 @@ public class Horizons {
                 rawData.removeAll()
             }
             guard errors.isEmpty else {
-                print("complete with failure: fetching celestial bodies")
+                logger.error("complete with failure: fetching celestial bodies")
                 complete([:], errors)
                 return
             }
-            print("complete: fetching celestial bodies")
+            logger.info("complete: fetching celestial bodies")
             complete(rawData, nil)
         }
     }
@@ -273,7 +273,7 @@ public class Horizons {
             if let pm = placemarks?.first {
                 timeZone = pm.timeZone ?? TimeZone.current
             } else {
-                print("Cannot fetch time zone for \(location). \(String(describing: error))")
+                logger.error("Cannot fetch time zone for \(location). \(String(describing: error))")
                 timeZone = TimeZone.current
             }
             completion(timeZone)
@@ -323,7 +323,7 @@ public class Horizons {
 
     public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
         decodeTimeZone(location: site.location) { (timeZone) in
-            print("Requesting RTS info for \(site) within time zone \(timeZone)")
+            logger.info("Requesting RTS info for \(site) within time zone \(timeZone)")
             self.fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: timeZone, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
         }
 

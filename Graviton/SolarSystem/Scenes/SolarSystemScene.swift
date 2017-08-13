@@ -219,7 +219,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
             lineNode.name = identifier
             line.firstMaterial = generateOrbitLineMaterial(color: color)
             lineSegments.addChildNode(lineNode)
-            print("create \(identifier): \(motion.orbit)")
+            logger.info("create \(identifier): \(motion.orbit)")
             return lineNode
         }
         let lineNode = lineSegments.childNode(withName: orbitIdentifier(identifier), recursively: false) ?? addNode(identifier: orbitIdentifier(identifier))

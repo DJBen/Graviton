@@ -65,14 +65,14 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
         guard locationOverride == nil else {
-            print("location updated to \(location) but has been overridden with \(locationOverride!)")
+            logger.warning("location updated to \(location) but has been overridden with \(locationOverride!)")
             return
         }
-        print("update location to \(location)")
+        logger.info("update location to \(location)")
         updateAllSubscribers(location)
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print(error)
+        logger.error(error)
     }
 }
