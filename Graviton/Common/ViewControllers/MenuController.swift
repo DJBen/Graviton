@@ -33,6 +33,10 @@ class MenuController: UITableViewController, MenuWithBackground, MenuBackgroundP
         }
     }
 
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 

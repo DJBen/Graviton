@@ -509,6 +509,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         drawPlanetsAndMoon(ephemeris: ephemeris)
     }
 
+    /// Called when ephemeris need recalculation due to change in time and / or observer location
+    ///
+    /// - Parameter ephemeris: Ephemeris to be recalculated
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         if Timekeeper.default.isWarpActive == false {
             print("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
@@ -572,6 +575,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
     }
 
+    /// Display Sun and Moon as big as 5x
+    ///
+    /// - Parameter ephemeris: The current ephemeris
     private func updateDynamicSizes(forEphemeris ephemeris: Ephemeris) {
         if let earth = ephemeris[.majorBody(.earth)], let earthPos = earth.position {
             let sunPos = -earthPos

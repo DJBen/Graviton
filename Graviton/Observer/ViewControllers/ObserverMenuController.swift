@@ -102,10 +102,6 @@ class ObserverMenuController: MenuController {
         LocationManager.default.unsubscribe(locationSubId)
     }
 
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-
     // MARK: - Menu delivered actions
     func jumpToCelestialPoint(_ userInfo: Any?) {
         guard let dict = userInfo as? [String: Double] else { fatalError() }
