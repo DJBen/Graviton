@@ -26,7 +26,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
-    private var locationAndTimeSubscriptionIdentifier: SubscriptionUUID!
+    private var locationSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var timeWarpSpeed: Double?
 
@@ -70,9 +70,9 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: observerScene.ephemerisDidUpdate(ephemeris:))
+        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: self.ephemerisDidUpdate(ephemeris:))
         observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
-        locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
+        locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
     }
 
@@ -94,7 +94,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     deinit {
         EphemerisManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
         CelestialBodyObserverInfoManager.default.unsubscribe(observerSubscriptionIdentifier)
-        LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
         MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
     }
 
@@ -204,9 +203,11 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         updateTimeLabel()
     }
 
+    // MARK: - Updates
+
     private func updateTimeLabel() {
         if Timekeeper.default.isWarpActive {
-            LocationAndTimeManager.default.unsubscribe(locationAndTimeSubscriptionIdentifier)
+            LocationManager.default.unsubscribe(locationSubscriptionIdentifier)
             overlayScene.show(withDuration: 0.25)
             let blurEffect = UIBlurEffect(style: UIBlurEffectStyle.extraLight)
             UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
@@ -214,18 +215,13 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
                 self.titleButton.setTitleColor(UIColor.black, for: .normal)
             })
         } else {
-            locationAndTimeSubscriptionIdentifier = LocationAndTimeManager.default.subscribe(didUpdate: observerScene.updateLocationAndTime(observerInfo:))
+            locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
             stopTimeWarp(withAnimationDuration: 0.25)
             UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
                 self.titleBlurView.effect = nil
                 self.titleButton.setTitleColor(UIColor.white, for: .normal)
             })
         }
-    }
-
-    func updateTimestampLabel() {
-        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
     }
 
     private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
@@ -237,6 +233,19 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     private func configurePanSpeed() {
         let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
         cameraController.viewSlideDivisor = factor * 25000
+    }
+
+    func updateTimestampLabel() {
+        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
+        titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
+    }
+
+    func ephemerisDidUpdate(ephemeris: Ephemeris) {
+        assertMainThread()
+        if let observerInfo = LocationAndTimeManager.default.observerInfo {
+            self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
+        }
+        observerScene.updateStellarContent()
     }
 
     // MARK: - Perform segue
@@ -264,14 +273,10 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
             super.renderer(renderer, didRenderScene: scene, atTime: time)
         }
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         LocationAndTimeManager.default.julianDate = requestTimestamp
+        EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         configurePanSpeed()
         observerScene.rendererUpdate()
-        if Timekeeper.default.isWarpActive, let observerInfo = LocationAndTimeManager.default.observerInfo {
-            observerScene.updateLocationAndTime(observerInfo: observerInfo)
-            self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
-        }
     }
 
     // MARK: - Menu background provider

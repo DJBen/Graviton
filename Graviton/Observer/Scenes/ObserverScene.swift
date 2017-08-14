@@ -495,13 +495,29 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Location Update
-    func updateLocationAndTime(observerInfo: LocationAndTime) {
+    func updateLocation(location: CLLocation) {
+        updateStellarContent()
+    }
+
+    /// Update star related content, including but no limit to follows:
+    /// - Compass rose
+    /// - Direction markers
+    /// - Ground texture
+    func updateStellarContent() {
+        guard let observerInfo = LocationAndTimeManager.default.observerInfo else {
+            logger.debug("observer info not ready")
+            return
+        }
         let transform = observerInfo.localViewTransform
         let orientation = Quaternion(rotationMatrix: transform)
         logger.debug("update orientation \(orientation)")
         panoramaNode.orientation = SCNQuaternion(orientation)
         directionMarkers.locationAndTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
+        if let eph = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier) {
+            ephemerisDidUpdate(ephemeris: eph)
+        }
+        logger.debug("update location & time to \(observerInfo)")
     }
 
     // MARK: - Ephemeris Update
@@ -527,6 +543,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             rootNode.addChildNode(node)
             return node
         }()
+        if earth.position == nil { return }
         let sunPos = -earth.position!
         // The should-be radius of the sun being displayed at a certain distance from camera
         let sunDisplaySize = Sun.sol.radius * sunLayerRadius / sunPos.length
