@@ -33,6 +33,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func configureLogging() {
         let console = ConsoleDestination()
+        console.minLevel = .info
         logger.addDestination(console)
     }
 
