@@ -498,6 +498,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     func updateLocationAndTime(observerInfo: LocationAndTime) {
         let transform = observerInfo.localViewTransform
         let orientation = Quaternion(rotationMatrix: transform)
+        logger.debug("update orientation \(orientation)")
         panoramaNode.orientation = SCNQuaternion(orientation)
         directionMarkers.locationAndTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
@@ -513,8 +514,11 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     ///
     /// - Parameter ephemeris: Ephemeris to be recalculated
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
-        if Timekeeper.default.isWarpActive == false {
-            logger.info("update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))")
+        let logMessage = "update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))"
+        if Timekeeper.default.isWarpActive {
+            logger.debug(logMessage)
+        } else {
+            logger.info(logMessage)
         }
         let earth = ephemeris[399]!
         let cbLabelNode = rootNode.childNode(withName: "celestialBodyAnnotations", recursively: false) ?? {
