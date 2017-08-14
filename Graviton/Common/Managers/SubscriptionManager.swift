@@ -73,9 +73,9 @@ class SubscriptionManager<T> {
     /// - Parameters:
     ///   - requestedJd: The requested Julian date.
     ///   - identifier: The identifier of the subscription.
-    func request(at requestedJd: JulianDate, forSubscription identifier: SubscriptionUUID) {
+    func request(at requestedJd: JulianDate, forSubscription subscriptionId: SubscriptionUUID) {
         var changed = false
-        guard let sub = subscriptions[identifier] else {
+        guard let sub = subscriptions[subscriptionId] else {
             fatalError("object not subscribed")
         }
         guard let eph = sub.content else { return }
@@ -97,7 +97,7 @@ class SubscriptionManager<T> {
             break
         }
         if changed {
-            logger.info("update ephemeris for \(identifier.uuidString)")
+            logger.info("update ephemeris for \(subscriptionId.uuidString)")
             DispatchQueue.main.async {
                 sub.didUpdate?(eph)
             }

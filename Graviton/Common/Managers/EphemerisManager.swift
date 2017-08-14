@@ -62,10 +62,10 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
         })
     }
 
-    override func request(at requestedJd: JulianDate, forSubscription identifier: SubscriptionUUID) {
+    override func request(at requestedJd: JulianDate, forSubscription subscriptionId: SubscriptionUUID) {
         if Timekeeper.default.isWarping {
             // ignore update frequency
-            guard let sub = subscriptions[identifier] else {
+            guard let sub = subscriptions[subscriptionId] else {
                 fatalError("object not subscribed")
             }
             update(subscription: sub, forJulianDate: requestedJd)
@@ -73,7 +73,7 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
                 sub.didUpdate?(sub.content!)
             }
         } else {
-            super.request(at: requestedJd, forSubscription: identifier)
+            super.request(at: requestedJd, forSubscription: subscriptionId)
         }
     }
 
