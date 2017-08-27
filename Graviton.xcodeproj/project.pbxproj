@@ -123,8 +123,8 @@
 		FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88561EEC9764007EFE2E /* MenuController.swift */; };
 		FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7096FE1EF3898700D4FA30 /* Math.swift */; };
 		FC72C68D1F4C109D00C4243D /* constellation_lines.dat in Resources */ = {isa = PBXBuildFile; fileRef = FC72C68B1F4C109D00C4243D /* constellation_lines.dat */; };
-		FC72C68F1F4C109D00C4243D /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC72C68C1F4C109D00C4243D /* stars.sqlite3 */; };
 		FC72C6B81F52049700C4243D /* SpectralTypeTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC72C6B71F52049700C4243D /* SpectralTypeTest.swift */; };
+		FC72C6BA1F521A7300C4243D /* stars.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FC72C6B91F521A7300C4243D /* stars.sqlite3 */; };
 		FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61E71E9B470F00BEA5BE /* art.scnassets */; };
 		FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */; };
 		FC7D61FE1E9B491000BEA5BE /* tracking_label.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */; };
@@ -374,8 +374,8 @@
 		FC6B88561EEC9764007EFE2E /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		FC7096FE1EF3898700D4FA30 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		FC72C68B1F4C109D00C4243D /* constellation_lines.dat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constellation_lines.dat; sourceTree = "<group>"; };
-		FC72C68C1F4C109D00C4243D /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		FC72C6B71F52049700C4243D /* SpectralTypeTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectralTypeTest.swift; sourceTree = "<group>"; };
+		FC72C6B91F521A7300C4243D /* stars.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = stars.sqlite3; sourceTree = "<group>"; };
 		FC7D61E71E9B470F00BEA5BE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
 		FC7D61FB1E9B491000BEA5BE /* tracking_label.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = tracking_label.geometry.shader; sourceTree = "<group>"; };
@@ -861,7 +861,7 @@
 			isa = PBXGroup;
 			children = (
 				FC72C68B1F4C109D00C4243D /* constellation_lines.dat */,
-				FC72C68C1F4C109D00C4243D /* stars.sqlite3 */,
+				FC72C6B91F521A7300C4243D /* stars.sqlite3 */,
 			);
 			path = Fixtures;
 			sourceTree = "<group>";
@@ -1370,7 +1370,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FC72C68D1F4C109D00C4243D /* constellation_lines.dat in Resources */,
-				FC72C68F1F4C109D00C4243D /* stars.sqlite3 in Resources */,
+				FC72C6BA1F521A7300C4243D /* stars.sqlite3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

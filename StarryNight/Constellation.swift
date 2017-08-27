@@ -11,7 +11,6 @@ import SQLite
 import SpaceTime
 import MathUtil
 
-fileprivate let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)
 fileprivate let constel = Table("constellations")
 fileprivate let dbName = Expression<String>("constellation")
 fileprivate let dbIAUName = Expression<String>("iau")

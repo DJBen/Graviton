@@ -12,7 +12,6 @@ import SpaceTime
 import SQLite
 import MathUtil
 
-fileprivate let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)
 fileprivate let borders = Table("con_border_simple")
 fileprivate let dbBorderCon = Expression<String>("con")
 fileprivate let dbLowRa = Expression<Double>("low_ra")
