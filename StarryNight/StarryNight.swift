@@ -7,5 +7,7 @@
 //
 
 import SwiftyBeaver
+import SQLite
 
 let logger = SwiftyBeaver.self
+let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)

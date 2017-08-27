@@ -11,7 +11,6 @@ import SpaceTime
 import MathUtil
 import SQLite
 
-fileprivate let db = try! Connection(Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "stars", ofType: "sqlite3")!)
 fileprivate let stars = Table("stars_7")
 // The sun has id 0. Using id > 0 to filter out the sun.
 fileprivate let dbInternalId = Expression<Int>("id")
