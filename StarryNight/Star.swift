@@ -94,8 +94,10 @@ public struct Star: Hashable, Equatable {
     }
 
     public struct PhysicalInfo {
+        /// Raw spectral type in string
+        let rawSpectralType: String?
         /// The star's spectral type, if known.
-        public let spectralType: String?
+        public let spectralType: SpectralType?
         /// The star's apparent visual magnitude.
         public let magnitude: Double
         /// The Cartesian coordinates of the star, in a system based on the equatorial coordinates as seen from Earth. +X is in the direction of the vernal equinox (at epoch 2000), +Z towards the north celestial pole, and +Y in the direction of R.A. 6 hours, declination 0 degrees.
@@ -104,7 +106,8 @@ public struct Star: Hashable, Equatable {
         public let properMotion: Vector3
 
         init(spect: String?, mag: Double, coordinate: Vector3, motion: Vector3) {
-            self.spectralType = spect
+            self.rawSpectralType = spect
+            self.spectralType = (spect != nil ? SpectralType(spect!) : nil)
             self.magnitude = mag
             self.coordinate = coordinate
             self.properMotion = motion

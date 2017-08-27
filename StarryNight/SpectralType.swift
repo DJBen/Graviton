@@ -27,15 +27,15 @@ public struct SpectralType {
     private var shortenedSpectralType: String {
         return "\(type)\(subType != nil ? String(subType!) : String())\(luminosityClass ?? String())"
     }
-
+    
     /// The effective temperature
-    var temperature: Double {
+    public var temperature: Double {
         let fractionSubtype = "\(type)\(subType != nil ? String(format: "%.1f", subType!) : String())%"
         let integerSubtype = "\(type)\(subType != nil ? String(Int(subType!)) : String())%"
         if let row = try! db.pluck(spectralTable.select(tempColumn).where(spectralTypeColumn.like(fractionSubtype))) {
-            return row[tempColumn]
+            return row[tempColumn] + 273.15
         } else if let row = try! db.pluck(spectralTable.select(tempColumn).where(spectralTypeColumn.like(integerSubtype))) {
-            return row[tempColumn]
+            return row[tempColumn] + 273.15
         }
         fatalError()
     }

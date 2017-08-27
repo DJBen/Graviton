@@ -23,7 +23,7 @@ class SpectralTypeTest: XCTestCase {
     }
 
     func testMessSpectralTypeParsing() {
-        let data = Star.magitudeLessThan(7).filter { $0.physicalInfo.spectralType != nil }.map { ($0.identity.description, $0.physicalInfo.spectralType!) }
+        let data = Star.magitudeLessThan(7).filter { $0.physicalInfo.rawSpectralType != nil }.map { ($0.identity.description, $0.physicalInfo.rawSpectralType!) }
         for (name, spectralType) in data {
             if spectralType.isEmpty {
                 continue
@@ -53,9 +53,9 @@ class SpectralTypeTest: XCTestCase {
     }
 
     func testTemperature() {
-        XCTAssertEqual(SpectralType.init("O3V")!.temperature, 46000)
-        XCTAssertEqual(SpectralType.init("B8Ia")!.temperature, 12500)
-        XCTAssertEqual(SpectralType.init("M7.5V")!.temperature, 2600)
+        XCTAssertEqual(SpectralType.init("O3V")!.temperature, 46000 + 273.15)
+        XCTAssertEqual(SpectralType.init("B8Ia")!.temperature, 12500 + 273.15)
+        XCTAssertEqual(SpectralType.init("M7.5V")!.temperature, 2600 + 273.15)
     }
 }
 

@@ -11,6 +11,7 @@ import SceneKit
 import Orbits
 import StarryNight
 import SpaceTime
+import KelvinColor
 import MathUtil
 import CoreLocation
 
@@ -302,15 +303,42 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     // MARK: Static Content Drawing
 
+    private var starMaterials: [String: SCNMaterial] = [:]
+
+    private func material(forStar star: Star) -> SCNMaterial {
+        let spect = star.physicalInfo.spectralType
+
+        if let spect = spect {
+            let index = "\(spect.type)\(spect.subType != nil ? String(format: "%.1f", spect.subType!) : String())V"
+            if let mat = starMaterials[index] {
+                return mat
+            }
+            let mat = SCNMaterial()
+            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+            mat.locksAmbientWithDiffuse = true
+            mat.diffuse.contents = UIColor.init(temperature: spect.temperature)
+            mat.selfIllumination.contents = UIColor.gray
+            starMaterials[index] = mat
+            return mat
+        } else {
+            if let defaultMat = starMaterials["default"] {
+                return defaultMat
+            }
+            let mat = SCNMaterial()
+            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+            mat.locksAmbientWithDiffuse = true
+            mat.diffuse.contents = UIColor.white
+            mat.selfIllumination.contents = UIColor.gray
+            starMaterials["default"] = mat
+            return mat
+        }
+    }
+
     private func drawStars() {
-        let mat = SCNMaterial()
-        mat.diffuse.contents = UIColor.white
-        mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
-        mat.locksAmbientWithDiffuse = true
         for star in stars {
             let radius = radiusForMagnitude(star.physicalInfo.magnitude)
             let plane = SCNPlane(width: radius, height: radius)
-            plane.firstMaterial = mat
+            plane.firstMaterial = material(forStar: star)
             let starNode = SCNNode(geometry: plane)
             let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
             starNode.constraints = [SCNBillboardConstraint()]
