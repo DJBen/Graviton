@@ -27,7 +27,7 @@ public struct SpectralType {
     private var shortenedSpectralType: String {
         return "\(type)\(subType != nil ? String(subType!) : String())\(luminosityClass ?? String())"
     }
-    
+ 
     /// The effective temperature
     public var temperature: Double {
         let fractionSubtype = "\(type)\(subType != nil ? String(format: "%.1f", subType!) : String())%"
