@@ -139,20 +139,8 @@ class SolarSystemViewController: SceneController {
     private func setupViewElements() {
         let scnView = self.view as! SCNView
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
-        scnView.addSubview(timeLabel)
-        scnView.addConstraints(
-            [
-                timeLabel.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 14),
-                timeLabel.rightAnchor.constraint(equalTo: scnView.rightAnchor, constant: -16)
-            ]
-        )
-        scnView.addSubview(warpControl)
-        scnView.addConstraints(
-            [
-                warpControl.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor, constant: 8),
-                warpControl.leftAnchor.constraint(equalTo: scnView.leftAnchor, constant: 16)
-            ]
-        )
+        navigationItem.titleView = timeLabel
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: warpControl)
         scnView.addSubview(focusedObjectLabel)
         scnView.addConstraints(
             [
