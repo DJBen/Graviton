@@ -18,6 +18,18 @@
 - [x] Real-time high accuracy solar system illustration. In scale.
 - [x] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
+## Getting Started
+__Installation is verified to work with Xcode 8.3.3. Xcode 9 Beta version is not tested.__
+
+### Installation
+
+This app uses [Carthage](https://github.com/Carthage/Carthage) as its dependency manager. Make sure you have installed it before running the following command.
+
+```bash
+carthage update --platform ios
+```
+That's all you need for bootstrapping! Now you can proceed to open the Xcode project file.
+
 ## Documentation
 *Placeholder*
 
