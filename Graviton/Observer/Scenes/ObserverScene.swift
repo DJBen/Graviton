@@ -341,8 +341,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             plane.firstMaterial = material(forStar: star)
             let starNode = SCNNode(geometry: plane)
             let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
-            starNode.constraints = [SCNBillboardConstraint()]
             starNode.position = SCNVector3(coord)
+            starNode.orientation = SCNQuaternion(Quaternion.init(lookAt: Vector3.zero, from: Vector3(starNode.position)))
             starNode.name = String(star.identity.id)
             starNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             rootNode.addChildNode(starNode)
