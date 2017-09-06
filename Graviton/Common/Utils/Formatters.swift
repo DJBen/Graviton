@@ -32,11 +32,24 @@ struct Formatters {
         }
     }
 
+    static let integerFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .none
+        return formatter
+    }()
+
     static let twoDecimalPointFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .decimal
         formatter.maximumFractionDigits = 2
         return formatter
+    }()
+
+    static let scientificNotationFormatter: NumberFormatter = {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .scientific
+        numberFormatter.maximumSignificantDigits = 4
+        return numberFormatter
     }()
 }
 

@@ -97,7 +97,7 @@
                             <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKi-h6-8jv">
                                 <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                                 <items>
-                                    <navigationItem title="Title" id="8ip-mc-Nze">
+                                    <navigationItem title="Celestial Body Information" id="8ip-mc-Nze">
                                         <barButtonItem key="rightBarButtonItem" systemItem="done" id="YiP-b6-YIU">
                                             <connections>
                                                 <segue destination="wV2-LX-zKn" kind="unwind" unwindAction="unwindFromBodyInfoFor:" id="e24-Ny-dUt"/>
@@ -109,7 +109,7 @@
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGm-it-yN4">
                                 <rect key="frame" x="0.0" y="64" width="375" height="603"/>
                                 <connections>
-                                    <segue destination="8Sl-3S-nnx" kind="embed" id="twT-Wz-Wi0"/>
+                                    <segue destination="8Sl-3S-nnx" kind="embed" identifier="embedObserverDetail" id="twT-Wz-Wi0"/>
                                 </connections>
                             </containerView>
                         </subviews>
@@ -143,9 +143,9 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-Ho-S77" customClass="ButtonBarView" customModule="XLPagerTabStrip">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="43" id="HGS-n9-qx9"/>
+                                    <constraint firstAttribute="height" constant="36" id="HGS-n9-qx9"/>
                                 </constraints>
                                 <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="10" id="eF1-qY-iJl">
                                     <size key="itemSize" width="79" height="42"/>
@@ -156,7 +156,7 @@
                                 <cells/>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6I-wa-gHt">
-                                <rect key="frame" x="0.0" y="43" width="375" height="560"/>
+                                <rect key="frame" x="0.0" y="36" width="375" height="567"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

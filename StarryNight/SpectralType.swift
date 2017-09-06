@@ -14,7 +14,12 @@ fileprivate let spectralTable = Table("spectral")
 fileprivate let spectralTypeColumn = Expression<String>("SpT")
 fileprivate let tempColumn = Expression<Double>("Teff")
 
-public struct SpectralType {
+public struct SpectralType: CustomStringConvertible {
+    public let rawType: String
+    public var description: String {
+        return rawType
+    }
+
     public let type: String
     public let subType: Double?
     public let luminosityClass: String?
@@ -27,7 +32,7 @@ public struct SpectralType {
     private var shortenedSpectralType: String {
         return "\(type)\(subType != nil ? String(subType!) : String())\(luminosityClass ?? String())"
     }
- 
+
     /// The effective temperature
     public var temperature: Double {
         let fractionSubtype = "\(type)\(subType != nil ? String(format: "%.1f", subType!) : String())%"
@@ -44,6 +49,7 @@ public struct SpectralType {
         if str.isEmpty {
             return nil
         }
+        self.rawType = str
         // some spectral type may have ambiguity e.g. G8III/IV
         // will remove anything after /
         let unambiguousType = String(str.characters.prefix(while: { $0 != "/" }))
