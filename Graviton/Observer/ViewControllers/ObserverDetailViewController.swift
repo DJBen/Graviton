@@ -21,10 +21,6 @@ class ObserverDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        childViewControllers.forEach { (viewController) in
-            let innerVc = viewController as! ObserverDetailInnerViewController
-            innerVc.target = target
-        }
         setupViewElements()
     }
 
@@ -35,6 +31,13 @@ class ObserverDetailViewController: UIViewController {
 
     private func setupViewElements() {
     }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "embedObserverDetail" {
+            let innerVc = segue.destination as! ObserverDetailInnerViewController
+            innerVc.target = target
+        }
+    }
 }
 
 class ObserverDetailInnerViewController: ButtonBarPagerTabStripViewController {
@@ -42,6 +45,8 @@ class ObserverDetailInnerViewController: ButtonBarPagerTabStripViewController {
 
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        return [BodyInfoViewController(style: .plain)]
+        let bodyInfo = BodyInfoViewController(style: .plain)
+        bodyInfo.target = target
+        return [bodyInfo]
     }
 }
