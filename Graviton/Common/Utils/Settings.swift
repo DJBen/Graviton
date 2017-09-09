@@ -88,6 +88,8 @@ struct Settings {
         case showZenithAndNadirMarkers
         case enableTimeWarp
         case useUtcTime
+        case useAlphaInsteadOfBlurInSettings
+
         var `default`: Bool {
             switch self {
             case .showCelestialEquator:
@@ -112,6 +114,8 @@ struct Settings {
                 return enableTimeWarpDefault
             case .useUtcTime:
                 return useUtcTimeDefault
+            case .useAlphaInsteadOfBlurInSettings:
+                return false
             default:
                 return false
             }

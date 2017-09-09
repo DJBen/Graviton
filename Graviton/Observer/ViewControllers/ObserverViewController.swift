@@ -21,7 +21,7 @@ import CoreMedia
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
-class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundProvider {
+class ObserverViewController: SceneController, MenuBackgroundProvider {
 
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
@@ -58,10 +58,6 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
     }
 
     var target: BodyInfoTarget?
-
-    var currentSnapshot: UIImage {
-        return scnView.snapshot()
-    }
 
     var observerCameraController: ObserverCameraController {
         return cameraController as! ObserverCameraController
@@ -124,7 +120,7 @@ class ObserverViewController: SceneController, SnapshotSupport, MenuBackgroundPr
         navigationItem.titleView = titleBlurView
 
         scnView.delegate = self
-        scnView.antialiasingMode = .multisampling4X
+        scnView.antialiasingMode = .none
         scnView.scene = observerScene
         scnView.pointOfView = observerScene.cameraNode
         scnView.overlaySKScene = overlayScene
