@@ -27,7 +27,7 @@ class CelestialBodyViewController: SceneController {
 
     private func setupViewElements() {
         scnView.delegate = self
-        scnView.antialiasingMode = .multisampling2X
+        scnView.antialiasingMode = .none
         scnView.scene = cbScene
         scnView.pointOfView = cbScene.cameraNode
         scnView.backgroundColor = UIColor.black

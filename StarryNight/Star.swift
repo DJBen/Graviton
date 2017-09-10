@@ -29,6 +29,8 @@ fileprivate let dbVz = Expression<Double>("vz")
 fileprivate let dbCon = Expression<String>("con")
 fileprivate let dbSpect = Expression<String?>("spect")
 fileprivate let dbMag = Expression<Double>("mag")
+fileprivate let dbAbsMag = Expression<Double>("absmag")
+fileprivate let dbLum = Expression<Double>("lum")
 fileprivate let dbDist = Expression<Double>("dist")
 
 public struct Star: Hashable, Equatable {
@@ -98,17 +100,25 @@ public struct Star: Hashable, Equatable {
         let rawSpectralType: String?
         /// The star's spectral type, if known.
         public let spectralType: SpectralType?
-        /// The star's apparent visual magnitude.
-        public let magnitude: Double
+        /// The star's apparent magnitude.
+        public let apparentMagnitude: Double
         /// The Cartesian coordinates of the star, in a system based on the equatorial coordinates as seen from Earth. +X is in the direction of the vernal equinox (at epoch 2000), +Z towards the north celestial pole, and +Y in the direction of R.A. 6 hours, declination 0 degrees.
         public let coordinate: Vector3
         ///  The Cartesian velocity components of the star, in the same coordinate system described immediately above. They are determined from the proper motion and the radial velocity (when known). The velocity unit is parsecs per year; these are small values (around 1 millionth of a parsec per year), but they enormously simplify calculations using parsecs as base units for celestial mapping.
         public let properMotion: Vector3
+        /// The star's absolute magnitude
+        public let absoluteMagnitude: Double
+        /// The star's luminosity
+        public let luminosity: Double
+        public let distance: Double
 
-        init(spect: String?, mag: Double, coordinate: Vector3, motion: Vector3) {
+        init(spect: String?, apparentMagnitude: Double, absoluteMagnitude: Double, luminosity: Double, distance: Double, coordinate: Vector3, motion: Vector3) {
             self.rawSpectralType = spect
             self.spectralType = (spect != nil ? SpectralType(spect!) : nil)
-            self.magnitude = mag
+            self.apparentMagnitude = apparentMagnitude
+            self.absoluteMagnitude = absoluteMagnitude
+            self.distance = distance
+            self.luminosity = luminosity
             self.coordinate = coordinate
             self.properMotion = motion
         }
@@ -137,7 +147,7 @@ public struct Star: Hashable, Equatable {
         let identity = Star.Identity(id: row.get(dbInternalId), hipId: row.get(dbHip), hrId: row.get(dbHr), hdId: row.get(dbHd), gl: row.get(dbGl), bfDesig: row.get(dbBFDesignation), proper: row.get(dbProperName), constellationIAU: row.get(dbCon))
         let coord = Vector3(row.get(dbX), row.get(dbY), row.get(dbZ))
         let vel = Vector3(row.get(dbVx), row.get(dbVy), row.get(dbVz))
-        let phys = Star.PhysicalInfo(spect: row.get(dbSpect), mag: row.get(dbMag), coordinate: coord, motion: vel)
+        let phys = Star.PhysicalInfo(spect: row.get(dbSpect), apparentMagnitude: row.get(dbMag), absoluteMagnitude: row.get(dbAbsMag), luminosity: row.get(dbLum), distance: row.get(dbDist), coordinate: coord, motion: vel)
         self.init(identity: identity, physicalInfo: phys)
     }
 

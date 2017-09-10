@@ -336,7 +336,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private func drawStars() {
         for star in stars {
-            let radius = radiusForMagnitude(star.physicalInfo.magnitude)
+            let radius = radiusForMagnitude(star.physicalInfo.apparentMagnitude)
             let plane = SCNPlane(width: radius, height: radius)
             plane.firstMaterial = material(forStar: star)
             let starNode = SCNNode(geometry: plane)

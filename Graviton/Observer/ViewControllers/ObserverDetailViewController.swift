@@ -21,10 +21,6 @@ class ObserverDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        childViewControllers.forEach { (viewController) in
-            let innerVc = viewController as! ObserverDetailInnerViewController
-            innerVc.target = target
-        }
         setupViewElements()
     }
 
@@ -35,13 +31,34 @@ class ObserverDetailViewController: UIViewController {
 
     private func setupViewElements() {
     }
+
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "embedObserverDetail" {
+            let innerVc = segue.destination as! ObserverDetailInnerViewController
+            innerVc.target = target
+        }
+    }
 }
 
 class ObserverDetailInnerViewController: ButtonBarPagerTabStripViewController {
     var target: BodyInfoTarget!
 
+    override func viewDidLoad() {
+        settings.style.selectedBarBackgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        settings.style.buttonBarBackgroundColor = UIColor.white
+        settings.style.buttonBarItemTitleColor = #colorLiteral(red: 0.05882352963, green: 0.180392161, blue: 0.2470588237, alpha: 1)
+        settings.style.buttonBarItemBackgroundColor = UIColor.white
+        super.viewDidLoad()
+    }
+
     // MARK: - PagerTabStripDataSource
     override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
-        return [BodyInfoViewController(style: .plain)]
+        let bodyInfo = BodyInfoViewController(style: .plain)
+        bodyInfo.target = target
+        return [bodyInfo]
     }
 }

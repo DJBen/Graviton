@@ -9,19 +9,23 @@
 import UIKit
 import StarryNight
 import Orbits
+import SpaceTime
+import MathUtil
 import XLPagerTabStrip
 
 class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
 
+    var target: BodyInfoTarget!
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "infoCell")
     }
 
     // MARK: - Info provider
 
     func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        let controller = pagerTabStripController as! ObserverDetailInnerViewController
-        switch controller.target! {
+        switch target! {
         case .star:
             return "Star Info"
         case .nearbyBody:
@@ -29,71 +33,131 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
         }
     }
 
+    private func rowForPositionSection(_ row: Int) -> Int {
+        if row < 2 {
+            return row
+        }
+        return row - (LocationAndTimeManager.default.observerInfo == nil ? 2 : 0)
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        // #warning Incomplete implementation, return the number of sections
-        return 0
+        return BodyInfoTarget.numberOfSections
+    }
+
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return ["Position", "Designations", "Physical Properties"][section]
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
-        return 0
+        return target.numberOfRows(in: section)
     }
 
-    /*
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "reuseIdentifier", for: indexPath)
+        let cell = UITableViewCell(style: .value1, reuseIdentifier: "infoCell")
+        switch target! {
+        case let .star(star):
+            let coord = EquatorialCoordinate(cartesian: star.physicalInfo.coordinate)
 
-        // Configure the cell...
-
+            switch (indexPath.section, indexPath.row) {
+            case (1, _):
+                cell.textLabel?.text = star.identity.contentAtRow(indexPath.row).0
+                cell.detailTextLabel?.text = star.identity.contentAtRow(indexPath.row).1
+            case (0, 0):
+                cell.textLabel?.text = "Right Ascension"
+                let hms = HourMinuteSecond(value: degrees(radians: coord.rightAscension))
+                hms.decimalNumberFormatter = Formatters.integerFormatter
+                cell.detailTextLabel?.text = String(describing: hms)
+            case (0, 1):
+                cell.textLabel?.text = "Declination"
+                let dms = DegreeMinuteSecond(value: degrees(radians: coord.declination))
+                dms.decimalNumberFormatter = Formatters.integerFormatter
+                cell.detailTextLabel?.text = String(describing: dms)
+            case (0, rowForPositionSection(2)):
+                cell.textLabel?.text = "Azimuth"
+                let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+                let dms = DegreeMinuteSecond(value: degrees(radians: hori.azimuth))
+                dms.decimalNumberFormatter = Formatters.integerFormatter
+                cell.detailTextLabel?.text = String(describing: dms)
+            case (0, rowForPositionSection(3)):
+                cell.textLabel?.text = "Altitude"
+                let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+                let dms = DegreeMinuteSecond(value: degrees(radians: hori.altitude))
+                dms.decimalNumberFormatter = Formatters.integerFormatter
+                cell.detailTextLabel?.text = String(describing: dms)
+            case (0, rowForPositionSection(4)):
+                cell.textLabel?.text = "Constellation"
+                cell.detailTextLabel?.text = star.identity.constellation.name
+            case (0, rowForPositionSection(5)):
+                cell.textLabel?.text = "Distance from Sun"
+                let formatter = Formatters.scientificNotationFormatter
+                var distanceStr = formatter.string(from: star.physicalInfo.distance as NSNumber)!
+                if star.physicalInfo.distance >= 10e6 {
+                    distanceStr = "> \(distanceStr) pc"
+                } else {
+                    distanceStr = "\(distanceStr) pc"
+                }
+                cell.detailTextLabel?.text = distanceStr
+            case (2, 0):
+                cell.textLabel?.text = "Visual Magnitude"
+                cell.detailTextLabel?.text = stringify(star.physicalInfo.apparentMagnitude)
+            case (2, 1):
+                cell.textLabel?.text = "Absolute Magnitude"
+                cell.detailTextLabel?.text = stringify(star.physicalInfo.absoluteMagnitude)
+            case (2, 2):
+                cell.textLabel?.text = "Spectral Type"
+                cell.detailTextLabel?.text = stringify(star.physicalInfo.spectralType)
+            case (2, 3):
+                cell.textLabel?.text = "Luminosity (x Sun)"
+                cell.detailTextLabel?.text = Formatters.scientificNotationFormatter.string(from: star.physicalInfo.luminosity as NSNumber)
+            default:
+                break
+            }
+        case let .nearbyBody(nb):
+            break
+        }
         return cell
     }
-    */
+}
 
-    /*
-    // Override to support conditional editing of the table view.
-    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the specified item to be editable.
-        return true
+extension BodyInfoTarget {
+    static let numberOfSections = 3
+    func numberOfRows(in section: Int) -> Int {
+        switch self {
+        case let .star(star):
+            switch section {
+            case 1: // Identity
+                var identityCount = 0
+                if star.identity.properName != nil { identityCount += 1 }
+                if star.identity.hipId != nil { identityCount += 1 }
+                if star.identity.hrId != nil { identityCount += 1 }
+                if star.identity.gl != nil { identityCount += 1 }
+                if star.identity.rawBfDesignation != nil { identityCount += 1 }
+                if star.identity.hdId != nil { identityCount += 1 }
+                return identityCount
+            case 0: // Position
+                return 6
+            case 2: // Physical Properties
+                return 4
+            default:
+                return 0
+            }
+        case .nearbyBody:
+            return 0
+        }
     }
-    */
+}
 
-    /*
-    // Override to support editing the table view.
-    override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCellEditingStyle, forRowAt indexPath: IndexPath) {
-        if editingStyle == .delete {
-            // Delete the row from the data source
-            tableView.deleteRows(at: [indexPath], with: .fade)
-        } else if editingStyle == .insert {
-            // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-        }    
+extension Star.Identity {
+    func contentAtRow(_ row: Int) -> (String, String) {
+        return zip(["Proper Name", "Bayer-Flamsteed", "Gliese catalog", "Harvard Revised", "Henry Draper", "Hipparcos catalog"], [properName, bayerFlamsteedDesignation, gl, stringify(hrId), stringify(hdId), stringify(hipId)])
+            .filter { $1 != nil }
+            .map { ($0, $1!) }[row]
     }
-    */
+}
 
-    /*
-    // Override to support rearranging the table view.
-    override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-
-    }
-    */
-
-    /*
-    // Override to support conditional rearranging of the table view.
-    override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-        // Return false if you do not want the item to be re-orderable.
-        return true
-    }
-    */
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+fileprivate func stringify(_ str: CustomStringConvertible?) -> String? {
+    if str == nil { return nil }
+    return String(describing: str!)
 }

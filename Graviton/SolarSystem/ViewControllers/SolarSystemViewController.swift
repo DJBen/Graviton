@@ -151,7 +151,7 @@ class SolarSystemViewController: SceneController {
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
-        scnView.antialiasingMode = .multisampling2X
+        scnView.antialiasingMode = .none
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
         cameraController.cameraNode = solarSystemScene.cameraNode
