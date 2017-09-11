@@ -5,9 +5,6 @@ cache:
   directories:
   - Carthage
 before_install:
-  - brew install git-lfs
-  - echo -e "machine github.com\n  login $GITHUB_TOKEN" >> ~/.netrc
-  - git lfs pull
   - travis_wait 40 carthage bootstrap --no-use-binaries --platform iOS --cache-builds
 before_script:
   - swiftlint
