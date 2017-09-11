@@ -249,6 +249,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "showBodyInfo", let dest = segue.destination as? ObserverDetailViewController {
             dest.target = target
+            dest.ephemerisId = ephemerisSubscriptionIdentifier
         }
     }
 

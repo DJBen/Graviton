@@ -16,6 +16,7 @@ import XLPagerTabStrip
 class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
 
     var target: BodyInfoTarget!
+    var ephemerisId: SubscriptionUUID!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,20 +35,34 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
     }
 
     private func rowForPositionSection(_ row: Int) -> Int {
+        if case .nearbyBody = target! {
+            return row
+        }
         if row < 2 {
             return row
         }
         return row - (LocationAndTimeManager.default.observerInfo == nil ? 2 : 0)
     }
 
+    private func relativeCoordinate(forNearbyBody body: Body) -> EquatorialCoordinate {
+        let ephemeris = EphemerisManager.default.content(for: ephemerisId)!
+        let earth = ephemeris[.majorBody(.earth)]!
+        return EquatorialCoordinate(cartesian: (body.heliocentricPosition! - earth.heliocentricPosition!).oblique(by: earth.obliquity))
+    }
+
     // MARK: - Table view data source
 
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return BodyInfoTarget.numberOfSections
+        return target.numberOfSections
     }
 
     override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ["Position", "Designations", "Physical Properties"][section]
+        switch target! {
+        case .star:
+            return ["Position", "Designations", "Physical Properties"][section]
+        case .nearbyBody:
+            return ["Position", "Physical Properties"][section]
+        }
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -56,36 +71,13 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "infoCell")
+        configureSharedPosition(forCell: cell, atIndexPath: indexPath)
         switch target! {
         case let .star(star):
-            let coord = EquatorialCoordinate(cartesian: star.physicalInfo.coordinate)
-
             switch (indexPath.section, indexPath.row) {
             case (1, _):
                 cell.textLabel?.text = star.identity.contentAtRow(indexPath.row).0
                 cell.detailTextLabel?.text = star.identity.contentAtRow(indexPath.row).1
-            case (0, 0):
-                cell.textLabel?.text = "Right Ascension"
-                let hms = HourMinuteSecond(value: degrees(radians: coord.rightAscension))
-                hms.decimalNumberFormatter = Formatters.integerFormatter
-                cell.detailTextLabel?.text = String(describing: hms)
-            case (0, 1):
-                cell.textLabel?.text = "Declination"
-                let dms = DegreeMinuteSecond(value: degrees(radians: coord.declination))
-                dms.decimalNumberFormatter = Formatters.integerFormatter
-                cell.detailTextLabel?.text = String(describing: dms)
-            case (0, rowForPositionSection(2)):
-                cell.textLabel?.text = "Azimuth"
-                let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
-                let dms = DegreeMinuteSecond(value: degrees(radians: hori.azimuth))
-                dms.decimalNumberFormatter = Formatters.integerFormatter
-                cell.detailTextLabel?.text = String(describing: dms)
-            case (0, rowForPositionSection(3)):
-                cell.textLabel?.text = "Altitude"
-                let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
-                let dms = DegreeMinuteSecond(value: degrees(radians: hori.altitude))
-                dms.decimalNumberFormatter = Formatters.integerFormatter
-                cell.detailTextLabel?.text = String(describing: dms)
             case (0, rowForPositionSection(4)):
                 cell.textLabel?.text = "Constellation"
                 cell.detailTextLabel?.text = star.identity.constellation.name
@@ -115,14 +107,76 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
                 break
             }
         case let .nearbyBody(nb):
-            break
+            let celestialBody = nb as! CelestialBody
+            let coord = relativeCoordinate(forNearbyBody: nb)
+            switch (indexPath.section, indexPath.row) {
+            case (0, rowForPositionSection(4)):
+                cell.textLabel?.text = "Constellation"
+                cell.detailTextLabel?.text = coord.constellation.name
+            case (1, 0):
+                cell.textLabel?.text = "Mass (kg)"
+                cell.detailTextLabel?.text = Formatters.scientificNotationFormatter.string(from: celestialBody.mass as NSNumber)
+            case (1, 1):
+                cell.textLabel?.text = "Radius (km)"
+                cell.detailTextLabel?.text = Formatters.scientificNotationFormatter.string(from: celestialBody.radius / 1000 as NSNumber)
+            case (1, 2):
+                cell.textLabel?.text = "Rotation Period (h)"
+                cell.detailTextLabel?.text = Formatters.scientificNotationFormatter.string(from: celestialBody.rotationPeriod / 3600 as NSNumber)
+            default:
+                break
+            }
         }
         return cell
+    }
+
+    private func configureSharedPosition(forCell cell: UITableViewCell, atIndexPath indexPath: IndexPath) {
+        guard indexPath.section == 0 else { return }
+        let coord: EquatorialCoordinate
+        switch target! {
+        case let .star(star):
+            coord = EquatorialCoordinate(cartesian: star.physicalInfo.coordinate)
+        case let .nearbyBody(nb):
+            coord = relativeCoordinate(forNearbyBody: nb)
+        }
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            cell.textLabel?.text = "Right Ascension"
+            let hms = HourMinuteSecond(value: degrees(radians: coord.rightAscension))
+            hms.decimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = String(describing: hms)
+        case (0, 1):
+            cell.textLabel?.text = "Declination"
+            let dms = DegreeMinuteSecond(value: degrees(radians: coord.declination))
+            dms.decimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = String(describing: dms)
+        case (0, rowForPositionSection(2)):
+            cell.textLabel?.text = "Azimuth"
+            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+            let dms = DegreeMinuteSecond(value: degrees(radians: hori.azimuth))
+            dms.decimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = String(describing: dms)
+        case (0, rowForPositionSection(3)):
+            cell.textLabel?.text = "Altitude"
+            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+            let dms = DegreeMinuteSecond(value: degrees(radians: hori.altitude))
+            dms.decimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = String(describing: dms)
+        default:
+            break
+        }
     }
 }
 
 extension BodyInfoTarget {
-    static let numberOfSections = 3
+    var numberOfSections: Int {
+        switch self {
+        case .star:
+            return 3
+        case .nearbyBody:
+            return 2
+        }
+    }
+
     func numberOfRows(in section: Int) -> Int {
         switch self {
         case let .star(star):
@@ -144,7 +198,14 @@ extension BodyInfoTarget {
                 return 0
             }
         case .nearbyBody:
-            return 0
+            switch section {
+            case 0: // Positions
+                return 5
+            case 1: // Physical Properties
+                return 3
+            default:
+                return 0
+            }
         }
     }
 }
