@@ -18,17 +18,17 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     public let rotationPeriod: Double
     public let obliquity: Double
     public let gravParam: Double
+    public let hillSphereRadiusRespectToRadius: Double?
     public var hillSphere: Double? {
-        if let radRp = overridenHillSphereRadiusRp {
+        if let radRp = hillSphereRadiusRespectToRadius {
             return radRp * radius
         }
-        // TODO: implement correct hill sphere
-        return 0
+        return nil
     }
 
     /// mass in kg
     public var mass: Double {
-        return gravParam / gravConstant
+        return gravParam / gravConstant * 10e8
     }
 
     public let satellites = OrderedSet<Body>()
@@ -37,14 +37,12 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(String(describing: hillSphere))}"
     }
 
-    private var overridenHillSphereRadiusRp: Double?
-
     public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         self.gravParam = gravParam
         self.radius = radius
         self.rotationPeriod = rotationPeriod
         self.obliquity = obliquity
-        self.overridenHillSphereRadiusRp = hillSphereRadRp
+        self.hillSphereRadiusRespectToRadius = hillSphereRadRp
         super.init(naif: Naif(naifId: naifId), name: name, centerBodyNaifId: centerBodyNaifId)
     }
 
@@ -93,7 +91,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
 
     // MARK: - NSCopying
     public func copy(with zone: NSZone? = nil) -> Any {
-        let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: overridenHillSphereRadiusRp)
+        let copy = CelestialBody(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBody?.naifId, hillSphereRadRp: hillSphereRadiusRespectToRadius)
         copy.motion = motion?.copy() as? OrbitalMotion
         let children = satellites.filter { $0 is CelestialBody } as! [CelestialBody]
         children.forEach { (child) in

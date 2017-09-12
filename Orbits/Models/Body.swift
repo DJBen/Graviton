@@ -47,6 +47,23 @@ open class Body: Hashable {
         }
         return motion?.position
     }
+
+    public var heliocentricPosition: Vector3? {
+        guard let position = position else {
+            return nil
+        }
+        if let b = centerBody, b.naifId == Sun.sol.naifId {
+            return position
+        } else if let primary = centerBody {
+            guard let primaryHelioPosition = primary.heliocentricPosition else {
+                return nil
+            }
+            return primaryHelioPosition + position
+        } else {
+            return position
+        }
+    }
+
     public init(naif: Naif, name: String, centerBodyNaifId: Int? = nil) {
         self.naif = naif
         self.name = name
