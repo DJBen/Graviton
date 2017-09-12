@@ -21,9 +21,28 @@
 ## Getting Started
 __Installation is verified to work with Xcode 8.3.3. Xcode 9 Beta version is not tested.__
 
-### Installation
+### Prerequisites
 
-This app uses [Carthage](https://github.com/Carthage/Carthage) as its dependency manager. Make sure you have installed it before running the following command.
+#### Git LFS
+
+This project requires [Git LFS](https://git-lfs.github.com) with version greater than `2.2.0` installed to better manage its binary files. To check your version, run the following:
+
+```bash
+$ git lfs version
+```
+
+You should see something like below
+```bash
+git-lfs/2.2.1 (GitHub; darwin amd64; go 1.8.3)
+```
+
+If not, you need to install it. Simply follow the [Git LFS](https://git-lfs.github.com) link to install.
+
+#### Carthage
+This app uses [Carthage](https://github.com/Carthage/Carthage) as its dependency manager. Make sure you have installed it before bootstrapping.
+
+
+### Bootstrapping
 
 ```bash
 carthage update --platform ios
