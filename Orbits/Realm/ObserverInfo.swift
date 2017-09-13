@@ -7,7 +7,6 @@
 //
 
 import RealmSwift
-import GeoQueries
 import SpaceTime
 import CoreLocation
 
