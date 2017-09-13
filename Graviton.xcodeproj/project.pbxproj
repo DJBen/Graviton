@@ -616,6 +616,7 @@
 		EFCCF3E81EB1723000E49A38 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -885,7 +886,6 @@
 				FC959E6E1E9B51020026B222 /* ViewControllers */,
 				FC959E6F1E9B51220026B222 /* Scenes */,
 				FC7D61E11E9B460600BEA5BE /* Resources */,
-				FC7D61E91E9B471600BEA5BE /* Shaders */,
 			);
 			path = SolarSystem;
 			sourceTree = "<group>";
@@ -896,14 +896,6 @@
 				FC7D61E71E9B470F00BEA5BE /* art.scnassets */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		FC7D61E91E9B471600BEA5BE /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		FC7D61F41E9B47D400BEA5BE /* Common */ = {

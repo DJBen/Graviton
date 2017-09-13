@@ -193,12 +193,12 @@ class SolarSystemViewController: SceneController {
         let warpedJd = JulianDate(date: warpedDate).value
         self.solarSystemScene.julianDate = JulianDate(warpedJd)
         let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
-        DispatchQueue.main.async {
-            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
-        }
         guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
-        updateForFocusedNode(focusedNode, representingBody: focusedBody)
+        DispatchQueue.main.async {
+            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
+            self.updateForFocusedNode(focusedNode, representingBody: focusedBody)
+        }
     }
 }
