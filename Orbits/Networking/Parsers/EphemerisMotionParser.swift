@@ -75,7 +75,7 @@ public final class EphemerisMotionParser: CommonParser, Parser {
     private func breakEphemerisIntoLines(content: String) -> [String] {
         guard let start = content.range(of: "$$SOE")?.upperBound,
             let end = content.range(of: "$$EOE")?.lowerBound else { fatalError() }
-        let str = content.substring(with: start..<end)
+        let str = content[start..<end]
         return str.components(separatedBy: "\n").filter { $0.trimmed().isEmpty == false }
     }
 

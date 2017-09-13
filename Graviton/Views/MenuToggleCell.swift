@@ -22,7 +22,7 @@ class MenuToggleCell: MenuCell {
         }
     }
 
-    func switchValueChanged(sender: UISwitch) {
+    @objc func switchValueChanged(sender: UISwitch) {
         guard let field = binding else { return }
         Settings.default[field] = sender.isOn
     }

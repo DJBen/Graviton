@@ -39,7 +39,7 @@ class MenuButtonCell: MenuCell {
         button.frame = CGRect(x: 20, y: 0, width: contentViewSize.width - 40, height: contentViewSize.height)
     }
 
-    func buttonTapped() {
+    @objc func buttonTapped() {
         handler?(key, userInfo)
     }
 }

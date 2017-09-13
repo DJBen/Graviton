@@ -85,10 +85,10 @@ struct GreekLetter: CustomStringConvertible {
 
     private static func indexFromShortEnglish(_ english: String) -> Int? {
         let threeOrEnd = min(english.lengthOfBytes(using: .utf8), 3)
-        let threeLetter = english.lowercased().substring(to: english.index(english.startIndex, offsetBy: threeOrEnd))
+        let threeLetter = english.lowercased()[..<english.index(english.startIndex, offsetBy: threeOrEnd)]
         guard let index = greekAlphabetEnglish.index(where: { (string) -> Bool in
             let threeOrEnd = min(string.lengthOfBytes(using: .utf8), 3)
-            return string.substring(to: string.index(string.startIndex, offsetBy: threeOrEnd)) == threeLetter
+            return string[..<string.index(string.startIndex, offsetBy: threeOrEnd)] == threeLetter
         }) else {
             return nil
         }

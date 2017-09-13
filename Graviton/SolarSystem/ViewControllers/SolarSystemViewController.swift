@@ -55,7 +55,7 @@ class SolarSystemViewController: SceneController {
 
     lazy var focusedObjectLabel: UILabel = {
         let label = self.defaultLabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light)
         return label
     }()
 
@@ -121,7 +121,7 @@ class SolarSystemViewController: SceneController {
         navigationController?.presentTransparentNavigationBar()
     }
 
-    func handleTap(sender: UITapGestureRecognizer) {
+    @objc func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         let p = sender.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [.boundingBoxOnly: true])

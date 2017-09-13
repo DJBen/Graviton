@@ -77,10 +77,10 @@ extension String {
             }
             return results.map { (result) -> [String] in
                 return (0..<result.numberOfRanges).map { (index) -> String in
-                    guard result.rangeAt(index).length > 0 else {
+                    guard result.range(at: index).length > 0 else {
                         return String()
                     }
-                    return (self as NSString).substring(with: result.rangeAt(index))
+                    return (self as NSString).substring(with: result.range(at: index))
                 }
             }
         } catch let error {

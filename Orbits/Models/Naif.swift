@@ -195,16 +195,6 @@ public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral, CustomStrin
         return planets.map { .majorBody($0) }
     }()
 
-    static let motionDefault: [Naif] = {
-        let moons: [Moon] = [.luna]
-        return planets + moons.map { .moon($0) }
-    }()
-
-    static let observerDefault: [Naif] = {
-//        return [.sun, .moon(.luna)]
-        return [.sun, .moon(.luna), .majorBody(.mercury), .majorBody(.venus), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)]
-    }()
-
     public var description: String {
         switch self {
         case let .majorBody(mb):

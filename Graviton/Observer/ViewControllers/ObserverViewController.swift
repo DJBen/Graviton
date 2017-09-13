@@ -145,7 +145,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         navigationController?.pushViewController(menuController, animated: true)
     }
 
-    func gyroButtonTapped(sender: UIBarButtonItem) {
+    @objc func gyroButtonTapped(sender: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
     }
 
@@ -168,7 +168,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         }
     }
 
-    func handleTap(sender: UITapGestureRecognizer) {
+    @objc func handleTap(sender: UITapGestureRecognizer) {
         let point = sender.location(in: view)
         if point.y > view.frame.height - 40 - tabBarController!.tabBar.frame.height && overlayScene.isShowingStarLabel {
             performSegue(withIdentifier: "showBodyInfo", sender: self)
@@ -192,7 +192,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         }
     }
 
-    func toggleTimeWarp(sender: UIBarButtonItem) {
+    @objc func toggleTimeWarp(sender: UIBarButtonItem) {
         guard Settings.default[.enableTimeWarp] else { return }
         Timekeeper.default.isWarpActive = !Timekeeper.default.isWarpActive
         logger.verbose("Time warp toggled \(Timekeeper.default.isWarpActive)")
@@ -231,7 +231,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         cameraController.viewSlideDivisor = factor * 25000
     }
 
-    func updateTimestampLabel() {
+    @objc func updateTimestampLabel() {
         let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
         titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
     }

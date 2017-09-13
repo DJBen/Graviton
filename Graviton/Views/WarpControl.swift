@@ -68,7 +68,7 @@ class WarpControl: UIControl {
         setup()
     }
 
-    func buttonTapped(sender: UIButton) {
+    @objc func buttonTapped(sender: UIButton) {
         speed.next()
         self.sendActions(for: .touchUpInside)
         self.speedButton.setTitle(self.speed.description, for: .normal)

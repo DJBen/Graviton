@@ -18,7 +18,7 @@ private struct Dependency<T: Equatable>: Equatable, CustomStringConvertible {
         return "Dependency(\(parent) <- \(child))"
     }
 
-    static func ==<T: Equatable>(v1: Dependency<T>, v2: Dependency<T>) -> Bool {
+    static func ==<T>(v1: Dependency<T>, v2: Dependency<T>) -> Bool {
         return v1.parent == v2.parent && v1.child == v2.child
     }
 }

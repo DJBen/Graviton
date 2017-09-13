@@ -60,8 +60,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let camera = SCNCamera()
         camera.zNear = 0.5
         camera.zFar = 1000
-        camera.xFov = defaultFov
-        camera.yFov = defaultFov
+        camera.xFov = ObserverScene.defaultFov
+        camera.yFov = ObserverScene.defaultFov
         camera.categoryBitMask = VisibilityCategory.camera.rawValue
         return camera
     }()

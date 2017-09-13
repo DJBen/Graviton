@@ -32,14 +32,14 @@ public class ObserverInfo: Object {
         case night
     }
 
-    public dynamic var naifId: Int = 0
-    public dynamic var jd: Double = 0
+    @objc public dynamic var naifId: Int = 0
+    @objc public dynamic var jd: Double = 0
     // named "lat", "lng" to conform to default GeoQueries values
-    public dynamic var lat: Double = 0
-    public dynamic var lng: Double = 0
-    public dynamic var altitude: Double = 0
-    dynamic var rtsFlag: String = ""
-    dynamic var daylightFlag: String = ""
+    @objc public dynamic var lat: Double = 0
+    @objc public dynamic var lng: Double = 0
+    @objc public dynamic var altitude: Double = 0
+    @objc dynamic var rtsFlag: String = ""
+    @objc dynamic var daylightFlag: String = ""
 
     public var location: CLLocation {
         get {

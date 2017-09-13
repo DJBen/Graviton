@@ -11,8 +11,8 @@ import SpaceTime
 import CoreLocation
 
 public class RiseTransitSetInfo: ObserverInfo {
-    public dynamic var azimuth: Double = 0
-    public dynamic var elevation: Double = 0
+    @objc public dynamic var azimuth: Double = 0
+    @objc public dynamic var elevation: Double = 0
 
     convenience init(naifId: Int, jd: Double, location: CLLocation, daylightFlag: String, rtsFlag: String, azimuth: Double, elevation: Double) {
         self.init()
