@@ -33,7 +33,7 @@ class InformationViewController: UITableViewController {
         RiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 
-    func handleRefresh(target: UIRefreshControl) {
+    @objc func handleRefresh(target: UIRefreshControl) {
         RiseTransitSetManager.default.fetch()
     }
 

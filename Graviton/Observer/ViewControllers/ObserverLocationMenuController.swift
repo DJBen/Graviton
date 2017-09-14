@@ -35,7 +35,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         self.definesPresentationContext = true
     }
 
-    func requestUsingLocationService() {
+    @objc func requestUsingLocationService() {
         CityManager.default.currentlyLocatedCity = nil
     }
 

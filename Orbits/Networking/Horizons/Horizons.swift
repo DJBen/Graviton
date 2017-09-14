@@ -17,6 +17,16 @@ public class Horizons {
     public static let shared: Horizons = {
         return Horizons()
     }()
+
+    public static let motionDefaultNaifs: [Naif] = {
+        let moons: [Naif.Moon] = [.luna]
+        return Naif.planets + moons.map { .moon($0) }
+    }()
+
+    public static let observerDefaultNaifs: [Naif] = {
+        return [.sun, .moon(.luna), .majorBody(.mercury), .majorBody(.venus), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)]
+    }()
+
     static let batchUrl = "http://ssd.jpl.nasa.gov/horizons_batch.cgi"
 
     let trialCountLimit = 4
@@ -216,7 +226,7 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: JulianDate = JulianDate.now, naifs: [Naif] = [Naif.sun] + Naif.motionDefault, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: JulianDate = JulianDate.now, naifs: [Naif] = [Naif.sun] + Horizons.motionDefaultNaifs, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
         var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -321,7 +331,7 @@ public class Horizons {
         }
     }
 
-    public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
+    public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Horizons.observerDefaultNaifs, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
         decodeTimeZone(location: site.location) { (timeZone) in
             logger.info("Requesting RTS info for \(site) within time zone \(timeZone)")
             self.fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: timeZone, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
@@ -329,7 +339,7 @@ public class Horizons {
 
     }
 
-    public func fetchCelestialBodyObserverInfo(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Naif.observerDefault, mode: FetchMode = .preferLocal, update: (([Naif: CelestialBodyObserverInfo]) -> Void)? = nil, complete: (([Naif: CelestialBodyObserverInfo], [Error]?) -> Void)? = nil) {
+    public func fetchCelestialBodyObserverInfo(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Horizons.observerDefaultNaifs, mode: FetchMode = .preferLocal, update: (([Naif: CelestialBodyObserverInfo]) -> Void)? = nil, complete: (([Naif: CelestialBodyObserverInfo], [Error]?) -> Void)? = nil) {
         fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: TimeZone.current, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.observerQueries, parser: ObserverEphemerisParser.default, update: update, complete: complete)
     }
 }
@@ -342,7 +352,7 @@ fileprivate extension URL {
             guard let str = filtered[0].value else { return nil }
             let start = str.index(str.startIndex, offsetBy: 1)
             let end = str.index(str.endIndex, offsetBy: -1)
-            return Int(str.substring(with: start..<end))
+            return Int(str[start..<end])
         }
         return nil
     }

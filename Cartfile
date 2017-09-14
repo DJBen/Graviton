@@ -5,8 +5,7 @@ github "DJBen/KelvinColor" ~> 0.1.0
 github "stephencelis/SQLite.swift" ~> 0.11.2
 github "MoZhouqi/KMNavigationBarTransition"
 github "Weebly/OrderedSet"
-github "realm/realm-cocoa"
-github "mhergon/RealmGeoQueries"
+github "realm/realm-cocoa" ~> 3.0.0
 github "sharplet/Regex" ~> 1.0
 github "xmartlabs/XLPagerTabStrip" ~> 7.0
 github "SwiftyBeaver/SwiftyBeaver"

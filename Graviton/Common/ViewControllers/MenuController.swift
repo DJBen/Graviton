@@ -14,7 +14,7 @@ class MenuController: UITableViewController, MenuWithBackground, MenuBackgroundP
     private lazy var imageView: UIImageView = {
         let imgView = UIImageView(image: self.backgroundImage)
         imgView.frame = self.view.bounds
-        imgView.autoresizingMask = resizingMask
+        imgView.autoresizingMask = MenuController.resizingMask
         return imgView
     }()
 

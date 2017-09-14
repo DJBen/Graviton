@@ -108,7 +108,6 @@
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
 		FC38ED1D1F417A9C00E9EEC9 /* Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */; };
-		FC39DAF71EC860D4005D7EBA /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */; };
 		FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */; };
 		FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */; };
 		FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
@@ -177,6 +176,7 @@
 		FCCF5B6F1EBF1A9D00B8004E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B631EBF1A9D00B8004E /* Parser.swift */; };
 		FCCF5B711EBF1A9D00B8004E /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */; };
 		FCD5B6B21F0CDF23005213DC /* Vector3+Oblique.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */; };
+		FCD8887A1F69249F00E41579 /* GeoQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD888791F69249F00E41579 /* GeoQueries.swift */; };
 		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
 		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
 		FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */; };
@@ -433,6 +433,7 @@
 		FCCF5B631EBF1A9D00B8004E /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
 		FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Vector3+Oblique.swift"; sourceTree = "<group>"; };
+		FCD888791F69249F00E41579 /* GeoQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQueries.swift; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
 		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
 		FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetElevation.swift; sourceTree = "<group>"; };
@@ -510,7 +511,6 @@
 			files = (
 				FCCF5B4F1EBEC9F800B8004E /* Realm.framework in Frameworks */,
 				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
-				FC39DAF71EC860D4005D7EBA /* GeoQueries.framework in Frameworks */,
 				FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */,
 				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
 			);
@@ -616,6 +616,7 @@
 		EFCCF3E81EB1723000E49A38 /* Shaders */ = {
 			isa = PBXGroup;
 			children = (
+				EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */,
 			);
 			path = Shaders;
 			sourceTree = "<group>";
@@ -867,7 +868,6 @@
 		FC7D61DF1E9B45E300BEA5BE /* Observer */ = {
 			isa = PBXGroup;
 			children = (
-				FC929A1C1EB6E4C800D13230 /* Enums */,
 				FC959E761E9B532E0026B222 /* Protocols */,
 				FC1CC2DC1EE01F62009FA252 /* Managers */,
 				FC7D62061E9B4C8400BEA5BE /* ViewControllers */,
@@ -886,7 +886,6 @@
 				FC959E6E1E9B51020026B222 /* ViewControllers */,
 				FC959E6F1E9B51220026B222 /* Scenes */,
 				FC7D61E11E9B460600BEA5BE /* Resources */,
-				FC7D61E91E9B471600BEA5BE /* Shaders */,
 			);
 			path = SolarSystem;
 			sourceTree = "<group>";
@@ -897,14 +896,6 @@
 				FC7D61E71E9B470F00BEA5BE /* art.scnassets */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		FC7D61E91E9B471600BEA5BE /* Shaders */ = {
-			isa = PBXGroup;
-			children = (
-				EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */,
-			);
-			path = Shaders;
 			sourceTree = "<group>";
 		};
 		FC7D61F41E9B47D400BEA5BE /* Common */ = {
@@ -980,13 +971,6 @@
 				FCF2EA8C1EF62ABB00B787F8 /* Assets.xcassets */,
 			);
 			path = Scenes;
-			sourceTree = "<group>";
-		};
-		FC929A1C1EB6E4C800D13230 /* Enums */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Enums;
 			sourceTree = "<group>";
 		};
 		FC959E5F1E9B4FCD0026B222 /* Protocols */ = {
@@ -1085,6 +1069,7 @@
 				FC998DAC1E2B996600E0BFFF /* Formatters.swift */,
 				FC998DB41E2CE87700E0BFFF /* DBHelper.swift */,
 				EFA4FEE81EBDB94B001919DD /* Functional.swift */,
+				FCD888791F69249F00E41579 /* GeoQueries.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1285,37 +1270,39 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0830;
+				LastUpgradeCheck = 0900;
 				ORGANIZATIONNAME = "Ben Lu";
 				TargetAttributes = {
 					EF4BD3801E57E58D009D2698 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
 					EF5F13031E50208700A8EF51 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					EF5F130B1E50208700A8EF51 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
 					EFC2C6931D88D02F0031AA9C = {
 						CreatedOnToolsVersion = 8.0;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0800;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 					EFE8BF541DD86B2B000F0A79 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0820;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -1452,7 +1439,6 @@
 				"$(SRCROOT)/Carthage/Build/iOS/OrderedSet.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/GeoQueries.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Regex.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/XLPagerTabStrip.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/MathUtil.framework",
@@ -1622,6 +1608,7 @@
 				FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */,
 				EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */,
 				FC0F519A1EB9D8BC00C1A863 /* Horizons.swift in Sources */,
+				FCD8887A1F69249F00E41579 /* GeoQueries.swift in Sources */,
 				FCCF5B6F1EBF1A9D00B8004E /* Parser.swift in Sources */,
 				EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */,
 				FCB2C13E1F3FE050002288BE /* Orbits.swift in Sources */,
@@ -1699,7 +1686,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
 			name = Debug;
@@ -1718,7 +1706,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
 			name = Release;
@@ -1747,7 +1736,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1775,7 +1765,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNight;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1795,7 +1786,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
 			name = Debug;
@@ -1814,7 +1806,8 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.StarryNightTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
 			};
 			name = Release;
@@ -1828,7 +1821,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1836,7 +1831,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -1879,7 +1878,9 @@
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
 				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
@@ -1887,7 +1888,11 @@
 				CLANG_WARN_ENUM_CONVERSION = YES;
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_SUSPICIOUS_MOVES = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
@@ -1933,7 +1938,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -1955,7 +1961,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -1984,7 +1991,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -2012,7 +2020,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Orbits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};

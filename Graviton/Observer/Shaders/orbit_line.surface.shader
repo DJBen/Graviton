@@ -1,3 +1,7 @@
+uniform float trueAnomaly;
+uniform float transparentStart;
+uniform float transparentEnd;
+
 #pragma arguments
 
 float trueAnomaly;

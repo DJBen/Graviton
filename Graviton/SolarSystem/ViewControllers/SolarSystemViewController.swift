@@ -55,7 +55,7 @@ class SolarSystemViewController: SceneController {
 
     lazy var focusedObjectLabel: UILabel = {
         let label = self.defaultLabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: UIFontWeightLight)
+        label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light)
         return label
     }()
 
@@ -121,7 +121,7 @@ class SolarSystemViewController: SceneController {
         navigationController?.presentTransparentNavigationBar()
     }
 
-    func handleTap(sender: UITapGestureRecognizer) {
+    @objc func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         let p = sender.location(in: scnView)
         let hitResults = scnView.hitTest(p, options: [.boundingBoxOnly: true])
@@ -193,12 +193,12 @@ class SolarSystemViewController: SceneController {
         let warpedJd = JulianDate(date: warpedDate).value
         self.solarSystemScene.julianDate = JulianDate(warpedJd)
         let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
-        DispatchQueue.main.async {
-            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
-        }
         guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }
-        updateForFocusedNode(focusedNode, representingBody: focusedBody)
+        DispatchQueue.main.async {
+            self.timeLabel.text = self.dateFormatter.string(from: actualTime)
+            self.updateForFocusedNode(focusedNode, representingBody: focusedBody)
+        }
     }
 }

@@ -42,11 +42,11 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         view.addGestureRecognizer(rotationGR)
     }
 
-    func menuButtonTapped(sender: UIButton) {
+    @objc func menuButtonTapped(sender: UIButton) {
         doesNotRecognizeSelector(#selector(menuButtonTapped(sender:)))
     }
 
-    func recenter(sender: UIGestureRecognizer) {
+    @objc func recenter(sender: UIGestureRecognizer) {
         cameraController.slideVelocity = CGPoint()
         cameraController.referenceSlideVelocity = CGPoint()
         SCNTransaction.begin()
@@ -59,7 +59,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         cameraController = CameraController()
     }
 
-    func zoom(sender: UIPinchGestureRecognizer) {
+    @objc func zoom(sender: UIPinchGestureRecognizer) {
         switch sender.state {
         case .began:
             cameraController.previousScale = cameraModifier?.scale
@@ -76,13 +76,13 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         }
     }
 
-    func pan(sender: UIPanGestureRecognizer) {
+    @objc func pan(sender: UIPanGestureRecognizer) {
         cameraController.slideVelocity = sender.velocity(in: view).cap(to: cameraController.viewSlideVelocityCap)
         cameraController.referenceSlideVelocity = cameraController.slideVelocity
         cameraController.slidingStopTimestamp = nil
     }
 
-    func rotate(sender: UIRotationGestureRecognizer) {
+    @objc func rotate(sender: UIRotationGestureRecognizer) {
         switch sender.state {
         case .began:
             cameraController.previousRotation = cameraModifier?.cameraNode.rotation

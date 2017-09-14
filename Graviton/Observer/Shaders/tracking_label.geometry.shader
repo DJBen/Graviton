@@ -3,8 +3,8 @@ uniform float verticalOffset;
 
 #pragma arguments
 
-float horizontalOffset;
-float verticalOffset;
+double horizontalOffset;
+double verticalOffset;
 
 #pragma transparent
 #pragma body

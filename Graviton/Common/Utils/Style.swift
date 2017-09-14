@@ -36,11 +36,11 @@ struct TextStyle {
         }
 
         static func defaultLabelFont(size: CGFloat) -> UIFont {
-            return UIFont.systemFont(ofSize: size, weight: UIFontWeightLight)
+            return UIFont.systemFont(ofSize: size, weight: UIFont.Weight.light)
         }
 
         static func monoLabelFont(size: CGFloat) -> UIFont {
-            return UIFont.monospacedDigitSystemFont(ofSize: size, weight: UIFontWeightThin)
+            return UIFont.monospacedDigitSystemFont(ofSize: size, weight: UIFont.Weight.thin)
         }
     }
 
