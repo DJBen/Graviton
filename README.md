@@ -2,14 +2,14 @@
 
 # Graviton :milky_way:
 
-[![Language](https://img.shields.io/badge/Swift-3.1-orange.svg?style=flat)](https://swift.org)
+[![Language](https://img.shields.io/badge/Swift-4.0-orange.svg?style=flat)](https://swift.org)
 [![Build Status](https://travis-ci.com/DJBen/Graviton.svg?token=1KVrf6xTWoPqLKJBPuJ1&branch=master)](https://travis-ci.com/DJBen/Graviton)
 [![codebeat badge](https://codebeat.co/badges/de61d36c-440a-4cc7-85cf-97379e08ef15)](https://codebeat.co/a/sihao-lu/projects/github-com-djben-graviton-master?maxAge=3600)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL%20v3-blue.svg)](http://www.gnu.org/licenses/gpl-3.0)
 
 - _Real-time night sky and solar system rendering._
 - _Astronomy and celestial mechanics toolkit._
-- _Native Apple technologies with Swift 3 and SceneKit._
+- _Native Apple technologies with Swift 4 and SceneKit._
 ----
 ## App
 - [x] Real-time night sky rendering. Fully customizable. Totally hackable.
@@ -19,7 +19,10 @@
 - [x] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
 ## Getting Started
-__Installation is verified to work with Xcode 8.3.3. Xcode 9 Beta version is not tested.__
+
+### Prerequisites
+
+[Xcode 9](https://developer.apple.com/xcode/) (9A235) toolchain is required to compile and run the project.
 
 ### Installation
 
