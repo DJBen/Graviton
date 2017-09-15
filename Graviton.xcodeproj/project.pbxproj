@@ -160,6 +160,7 @@
 		FCB2C1401F3FE62F002288BE /* StarryNight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C13F1F3FE62F002288BE /* StarryNight.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
+		FCC1D3741F6BD2D800BC64F8 /* UISearchBar+TextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC1D3731F6BD2D800BC64F8 /* UISearchBar+TextField.swift */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
 		FCC73E041E6BD8B000B737D1 /* Constellation+Display.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */; };
 		FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89551EEE043300F1539E /* MotionManager.swift */; };
@@ -416,6 +417,7 @@
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
+		FCC1D3731F6BD2D800BC64F8 /* UISearchBar+TextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISearchBar+TextField.swift"; sourceTree = "<group>"; };
 		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
 		FCC73DFA1E6AB89F00B737D1 /* ConstellationTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConstellationTest.swift; sourceTree = "<group>"; };
 		FCC73E031E6BD8B000B737D1 /* Constellation+Display.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Constellation+Display.swift"; sourceTree = "<group>"; };
@@ -1139,6 +1141,7 @@
 				FC7096FE1EF3898700D4FA30 /* Math.swift */,
 				FCFF7B0C1EA2145A00C4B006 /* SCNView+Projection.swift */,
 				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
+				FCC1D3731F6BD2D800BC64F8 /* UISearchBar+TextField.swift */,
 				FC099E441F1AD40D00A65F73 /* Formatters.swift */,
 				FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */,
 			);
@@ -1551,6 +1554,7 @@
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */,
+				FCC1D3741F6BD2D800BC64F8 /* UISearchBar+TextField.swift in Sources */,
 				FC1CC2D11EE01689009FA252 /* PushOverlayTransition.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
 				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,

@@ -32,7 +32,8 @@ class ObserverMenuController: MenuController {
         }
 
         required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
+            super.init(coder: aDecoder)
+            setupViewElements()
         }
 
         private func setupViewElements() {
@@ -43,7 +44,7 @@ class ObserverMenuController: MenuController {
                 textLabel.topAnchor.constraint(equalTo: topAnchor),
                 textLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
                 textLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-            ])
+                ])
         }
     }
 
@@ -54,7 +55,6 @@ class ObserverMenuController: MenuController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        clearsSelectionOnViewWillAppear = true
 
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
@@ -127,7 +127,7 @@ class ObserverMenuController: MenuController {
         return menu.sections[section].items.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
         if let menuCell = cell as? MenuCell {
@@ -185,25 +185,25 @@ class ObserverMenuController: MenuController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         if case let .detail(submenu) = item.type {
             // transition to submenu
-            let subMenuController = ObserverMenuController(style: .plain)
+            let subMenuController = ObserverMenuController()
             subMenuController.menu = submenu
             navigationController?.pushViewController(subMenuController, animated: true)
         } else if case let .multipleSelect(mulSel) = item.type {
             // transition to submenu
-            let subMenuController = ObserverMenuMultipleSelectController(style: .plain)
+            let subMenuController = ObserverMenuMultipleSelectController()
             subMenuController.multipleSelect = mulSel
             navigationController?.pushViewController(subMenuController, animated: true)
         } else if case let .external(identifier, _) = item.type, identifier == "location" {
-            let subMenuController = ObserverLocationMenuController(style: .plain)
+            let subMenuController = ObserverLocationMenuController()
             navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if menu.sections[section].name != nil {
             return 24
         } else {
@@ -211,7 +211,7 @@ class ObserverMenuController: MenuController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderView()
         header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
         header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -219,7 +219,7 @@ class ObserverMenuController: MenuController {
         return header
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = menu[indexPath]
         switch item.type {
         case let .external(identifier, _) where identifier == "location":

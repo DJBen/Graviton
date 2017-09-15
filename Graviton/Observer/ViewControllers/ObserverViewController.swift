@@ -140,7 +140,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
     // MARK: - Button handling
 
     override func menuButtonTapped(sender: UIButton) {
-        let menuController = ObserverMenuController(style: .plain)
+        let menuController = ObserverMenuController()
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }

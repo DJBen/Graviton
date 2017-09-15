@@ -17,6 +17,8 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         searchController.searchBar.delegate = self
+        searchController.searchBar.autocorrectionType = .no
+        searchController.searchBar.textField?.textColor = UIColor.white
         searchController.hidesNavigationBarDuringPresentation = false
         searchController.dimsBackgroundDuringPresentation = false
         return searchController
@@ -31,8 +33,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_target"), style: .plain, target: self, action: #selector(requestUsingLocationService))
-        self.navigationItem.titleView = searchController.searchBar
-        self.definesPresentationContext = true
+        self.navigationItem.searchController = searchController
     }
 
     @objc func requestUsingLocationService() {
@@ -49,7 +50,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         return dataSource.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         cell.backgroundColor = UIColor.clear
         (cell as! MenuLocationCell).textLabelLeftInset = 21
     }
@@ -75,20 +76,20 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let city = dataSource[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .checkmark
         CityManager.default.currentlyLocatedCity = city
     }
 
-    override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         if let cell = tableView.cellForRow(at: indexPath) {
             cell.accessoryType = .none
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 60
     }
 
