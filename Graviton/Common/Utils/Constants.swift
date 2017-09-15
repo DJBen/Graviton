@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import SceneKit
+import Device
 
 struct Constants {
     struct Menu {
@@ -30,5 +32,23 @@ struct Constants {
     }
     struct Observer {
         static let maximumDisplayMagnitude: Double = 5.3
+    }
+}
+
+struct DerivedProperties {
+    struct Scene {
+        static var antialiasingMode: SCNAntialiasingMode {
+            switch Device.version() {
+            case .simulator:
+                fallthrough
+            case .iPhoneSE, .iPhone6S, .iPhone6SPlus, .iPhone7, .iPhone7Plus, .unknown:
+                // Refer to this performance chart when making judgements
+                // https://browser.geekbench.com/ios-benchmarks
+                // TODO: update when iPhone 8, 8 Plus and X come out
+                return .multisampling2X
+            default:
+                return .none
+            }
+        }
     }
 }
