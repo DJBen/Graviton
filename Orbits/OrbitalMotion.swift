@@ -206,7 +206,6 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         }
         meanAnomaly = eccentricAnomaly - eccentricity * sin(eccentricAnomaly)
         let semimajorAxis = 1 / (2 / position.length - pow(velocity.length, 2) / gm)
-        // won't trigger the didSet observer
         orbit = Orbit(semimajorAxis: semimajorAxis, eccentricity: eccentricity, inclination: inclination, longitudeOfAscendingNode: longitudeOfAscendingNode, argumentOfPeriapsis: argumentOfPeriapsis)
         phase = .meanAnomaly(0)
     }

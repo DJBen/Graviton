@@ -144,14 +144,14 @@ class SolarSystemViewController: SceneController {
         scnView.addSubview(focusedObjectLabel)
         scnView.addConstraints(
             [
-                focusedObjectLabel.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -16),
+                focusedObjectLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
                 focusedObjectLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor)
             ]
         )
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
-        scnView.antialiasingMode = .none
+        scnView.antialiasingMode = DerivedProperties.Scene.antialiasingMode
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
         cameraController.cameraNode = solarSystemScene.cameraNode

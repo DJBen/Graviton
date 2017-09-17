@@ -120,7 +120,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         navigationItem.titleView = titleBlurView
 
         scnView.delegate = self
-        scnView.antialiasingMode = .none
+        scnView.antialiasingMode = DerivedProperties.Scene.antialiasingMode
         scnView.scene = observerScene
         scnView.pointOfView = observerScene.cameraNode
         scnView.overlaySKScene = overlayScene

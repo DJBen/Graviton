@@ -9,3 +9,4 @@ github "realm/realm-cocoa" ~> 3.0.0
 github "sharplet/Regex" ~> 1.0
 github "xmartlabs/XLPagerTabStrip" ~> 7.0
 github "SwiftyBeaver/SwiftyBeaver"
+github "Ekhoo/Device" ~> 3.0.2
