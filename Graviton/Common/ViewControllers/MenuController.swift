@@ -8,8 +8,15 @@
 
 import UIKit
 
-class MenuController: UITableViewController, MenuWithBackground, MenuBackgroundProvider {
+class MenuController: UIViewController, UITableViewDelegate, UITableViewDataSource, MenuWithBackground, MenuBackgroundProvider {
     private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
+
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: self.view.bounds, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        return tableView
+    }()
 
     private lazy var imageView: UIImageView = {
         let imgView = UIImageView(image: self.backgroundImage)
@@ -37,8 +44,21 @@ class MenuController: UITableViewController, MenuWithBackground, MenuBackgroundP
         return true
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let indexPath = tableView.indexPathForSelectedRow {
+            tableView.deselectRow(at: indexPath, animated: animated)
+        }
+    }
+
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.addSubview(tableView)
+        tableView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraint(tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor))
+        view.addConstraint(tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor))
+        view.addConstraint(tableView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor))
+        view.addConstraint(tableView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor))
 
         let backgroundView = UIView(frame: view.bounds)
         backgroundView.autoresizingMask = ObserverMenuController.resizingMask
@@ -54,11 +74,15 @@ class MenuController: UITableViewController, MenuWithBackground, MenuBackgroundP
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    func numberOfSections(in tableView: UITableView) -> Int {
         fatalError()
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        fatalError()
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         fatalError()
     }
 
