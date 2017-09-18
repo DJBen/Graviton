@@ -76,6 +76,10 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         super.viewWillAppear(animated)
         navigationController?.presentTransparentNavigationBar()
         updateTimeLabel()
+        updateAntialiasingMode(Settings.default[.antialiasingMode])
+        Settings.default.subscribe(setting: .antialiasingMode, object: self) { (_, newKey) in
+            self.updateAntialiasingMode(newKey)
+        }
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -91,6 +95,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         EphemerisManager.default.unsubscribe(ephemerisSubscriptionIdentifier)
         CelestialBodyObserverInfoManager.default.unsubscribe(observerSubscriptionIdentifier)
         MotionManager.default.unsubscribe(motionSubscriptionIdentifier)
+        Settings.default.unsubscribe(object: self)
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -242,6 +247,10 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
             self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
         }
         observerScene.updateStellarContent()
+    }
+
+    private func updateAntialiasingMode(_ key: String) {
+        scnView.antialiasingMode = SCNAntialiasingMode(rawValue: UInt(["none", "multisampling2X", "multisampling4X"].index(of: key)!))!
     }
 
     // MARK: - Perform segue
