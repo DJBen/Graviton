@@ -80,6 +80,37 @@
 					</dict>
 				</array>
 			</dict>
+			<dict>
+				<key>type</key>
+				<string>multipleSelect</string>
+				<key>text</key>
+				<string>Antialiasing</string>
+				<key>image</key>
+				<string>row_icon_antialiasing</string>
+				<key>binding</key>
+				<string>antialiasingMode</string>
+				<key>options</key>
+				<array>
+					<dict>
+						<key>key</key>
+						<string>none</string>
+						<key>text</key>
+						<string>None</string>
+					</dict>
+					<dict>
+						<key>key</key>
+						<string>multisampling2X</string>
+						<key>text</key>
+						<string>Multisampling 2X</string>
+					</dict>
+					<dict>
+						<key>key</key>
+						<string>multisampling4X</string>
+						<key>text</key>
+						<string>Multisampling 4X</string>
+					</dict>
+				</array>
+			</dict>
 		</array>
 	</dict>
 	<dict>

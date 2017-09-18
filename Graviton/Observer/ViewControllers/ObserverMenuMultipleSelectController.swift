@@ -16,12 +16,13 @@ class ObserverMenuMultipleSelectController: MenuController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(MenuCell.self, forCellReuseIdentifier: checkableCellId)
-        Settings.default.subscribe(setting: .groundTexture, object: self) { (oldValue, newValue) in
-            self.tableView.reloadRows(at: [oldValue, newValue].map { self.multipleSelect.indexPath(for: $0)! }, with: .automatic)
+        Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { (_, _) in
+            self.tableView.reloadData()
         }
     }
 
-    deinit {
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
         Settings.default.unsubscribe(object: self)
     }
 

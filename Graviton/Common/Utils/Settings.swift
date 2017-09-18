@@ -124,10 +124,13 @@ struct Settings {
 
     enum SelectionSetting: String {
         case groundTexture
+        case antialiasingMode
         var `default`: String {
             switch self {
             case .groundTexture:
                 return groundTextureDefaultKey
+            case .antialiasingMode:
+                return "none"
             }
         }
     }
@@ -232,5 +235,9 @@ struct Settings {
 
     mutating func subscribe(setting: SelectionSetting, object: NSObject, valueChanged block: @escaping SelectionSettingBlock) {
         selectionSubscriptions.append(SelectionSettingSubscription(setting: setting, object: object, block: block))
+    }
+
+    mutating func subscribe(settings: [SelectionSetting], object: NSObject, valueChanged block: @escaping SelectionSettingBlock) {
+        settings.forEach { self.subscribe(setting: $0, object: object, valueChanged: block) }
     }
 }
