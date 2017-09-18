@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13196" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MsG-vN-XK9">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13173"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -34,7 +33,7 @@
                 <navigationController id="rbu-ZA-MSV" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Observer" image="tab_icon_telescope" id="lhL-yf-1tS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLf-ud-Qyl">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -59,6 +58,7 @@
                     </navigationItem>
                     <connections>
                         <segue destination="UNP-hw-hxR" kind="presentation" identifier="showBodyInfo" id="g9A-CR-Odd"/>
+                        <segue destination="KoS-sS-nrx" kind="presentation" identifier="searchStar" id="vAs-I6-JaC"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xo-lM-HEY" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -81,6 +81,58 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="975" y="36"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="yIw-cR-3iw">
+            <objects>
+                <navigationController id="KoS-sS-nrx" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="cjE-ue-OtL">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="uH4-bv-A8N" kind="relationship" relationship="rootViewController" id="f0B-1z-YZS"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Vqj-9E-jHW" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1742" y="36"/>
+        </scene>
+        <!--Star Search-->
+        <scene sceneID="eHl-yr-sob">
+            <objects>
+                <tableViewController id="uH4-bv-A8N" customClass="StarSearchViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="J1F-11-ZTl">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="starCell" id="RCr-5h-Yhr">
+                                <rect key="frame" x="0.0" y="28" width="375" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="RCr-5h-Yhr" id="Vbn-hs-mf4">
+                                    <rect key="frame" x="0.0" y="0.0" width="375" height="43.5"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="uH4-bv-A8N" id="vef-TF-mPb"/>
+                            <outlet property="delegate" destination="uH4-bv-A8N" id="oCD-RU-0dL"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Star Search" id="ivV-kf-cLN">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="7fb-9m-esc">
+                            <connections>
+                                <segue destination="QgO-PO-JbE" kind="unwind" identifier="unwindFromStarSearch" unwindAction="unwindFromBodyInfoFor:" id="jgh-zh-dkZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dDB-Zf-Sxc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <exit id="QgO-PO-JbE" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="2505" y="36"/>
         </scene>
         <!--Observer Detail View Controller-->
         <scene sceneID="doI-7e-4C3">
@@ -143,7 +195,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-Ho-S77" customClass="ButtonBarView" customModule="XLPagerTabStrip">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="36"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="36"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="36" id="HGS-n9-qx9"/>
                                 </constraints>
@@ -156,7 +208,7 @@
                                 <cells/>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6I-wa-gHt">
-                                <rect key="frame" x="0.0" y="36" width="375" height="567"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="547"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -185,11 +237,10 @@
                 <navigationController id="jRr-Mo-AYA" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Solar System" image="tab_icon_solar_system" selectedImage="tab_icon_solar_system" id="ake-ol-PDA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yFx-OF-gUU">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <toolbar key="toolbar" opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="3ZI-gZ-TF9">
-                        <rect key="frame" x="0.0" y="623" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </toolbar>
                     <connections>
@@ -225,6 +276,7 @@
                     </tableView>
                     <navigationItem key="navigationItem" title="Observer Information" id="aPO-NK-diA"/>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="1Df-iI-txk">
+                        <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <attributedString key="attributedTitle">
                             <fragment content="Loading Observation...">
@@ -247,7 +299,7 @@
                 <navigationController id="gZx-OD-cfl" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Information" image="tab_icon_planet" id="jBr-a9-k2q"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="oxF-ga-Vih">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>

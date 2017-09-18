@@ -10,6 +10,7 @@ import Foundation
 import SpaceTime
 import MathUtil
 import SQLite
+import Regex
 
 private let stars = Table("stars_7")
 // The sun has id 0. Using id > 0 to filter out the sun.
@@ -197,6 +198,31 @@ public struct Star: Hashable, Equatable {
         }
     }
 
+    public static func matches(name: String) -> [Star] {
+        if name.isEmpty {
+            return []
+        }
+        let query: Table
+        let nonSolar = dbInternalId > 0
+        switch name {
+        case Regex("hr\\s*(\\d+)", options: [.ignoreCase]):
+            let match = Regex.lastMatch!
+            let hr = Int(match.captures[0]!)!
+            query = stars.filter(dbHr == hr && nonSolar)
+        case Regex("hd\\s*(\\d+)", options: [.ignoreCase]):
+            let match = Regex.lastMatch!
+            let hd = Int(match.captures[0]!)!
+            query = stars.filter(dbHd == hd && nonSolar)
+        case Regex("hip\\s*(\\d+)", options: [.ignoreCase]):
+            let match = Regex.lastMatch!
+            let hip = Int(match.captures[0]!)!
+            query = stars.filter(dbHip == hip && nonSolar)
+        default:
+            query = stars.filter(dbProperName.like("%\(name)%") && nonSolar)
+        }
+        return try! db.prepare(query).map { Star(row: $0) }
+    }
+
     public static func hip(_ hip: Int) -> Star? {
         let query = stars.filter(dbHip == hip)
         return queryStar(query)
@@ -211,8 +237,7 @@ public struct Star: Hashable, Equatable {
         if let cachedStar = cachedStars[id] {
             return cachedStar
         }
-        let query = stars.filter(dbInternalId ==
-            id)
+        let query = stars.filter(dbInternalId == id)
         if let row = try! db.pluck(query) {
             let star = Star(row: row)
             cachedStars[id] = star

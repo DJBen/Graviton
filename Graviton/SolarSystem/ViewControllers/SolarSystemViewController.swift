@@ -144,7 +144,7 @@ class SolarSystemViewController: SceneController {
         scnView.addSubview(focusedObjectLabel)
         scnView.addConstraints(
             [
-                focusedObjectLabel.bottomAnchor.constraint(equalTo: bottomLayoutGuide.topAnchor, constant: -16),
+                focusedObjectLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
                 focusedObjectLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor)
             ]
         )
