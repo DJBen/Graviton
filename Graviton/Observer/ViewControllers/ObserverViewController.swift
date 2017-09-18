@@ -5,9 +5,6 @@
 //  Created by Sihao Lu on 1/7/17.
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
-//  我们活在浩瀚的宇宙里
-//  漫天飘洒的宇宙尘埃和星河光尘
-//  我们是比这些还要渺小的存在
 
 import UIKit
 import SceneKit

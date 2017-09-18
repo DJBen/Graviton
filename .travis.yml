@@ -5,7 +5,7 @@ cache:
   directories:
   - Carthage
 before_install:
-  - travis_wait 40 carthage bootstrap --no-use-binaries --platform iOS --cache-builds
+  - travis_wait 40 carthage bootstrap --platform iOS --cache-builds
 before_script:
   - swiftlint
 script:
