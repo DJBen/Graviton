@@ -60,8 +60,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let camera = SCNCamera()
         camera.zNear = 0.5
         camera.zFar = 1000
-        camera.xFov = ObserverScene.defaultFov
-        camera.yFov = ObserverScene.defaultFov
+        camera.fieldOfView = CGFloat(ObserverScene.defaultFov)
         camera.categoryBitMask = VisibilityCategory.camera.rawValue
         return camera
     }()
@@ -80,8 +79,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         didSet {
             let cappedScale = min(max(scale, ObserverScene.minScale), ObserverScene.maxScale)
             self.scale = cappedScale
-            self.camera.xFov = self.fov
-            self.camera.yFov = self.fov
+            self.camera.fieldOfView = CGFloat(self.fov)
             updateForZoomChanges()
         }
     }
@@ -473,7 +471,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     func resetCamera() {
         cameraNode.transform = SCNMatrix4Identity
-        (camera.xFov, camera.yFov) = (ObserverScene.defaultFov, ObserverScene.defaultFov)
+        camera.fieldOfView = CGFloat(ObserverScene.defaultFov)
         scale = 1
     }
 

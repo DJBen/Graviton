@@ -18,8 +18,7 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
     private lazy var camera: SCNCamera = {
         let c = SCNCamera()
         c.automaticallyAdjustsZRange = true
-        c.xFov = CelestialBodyScene.defaultFov
-        c.yFov = CelestialBodyScene.defaultFov
+        c.fieldOfView = CGFloat(CelestialBodyScene.defaultFov)
         return c
     }()
 

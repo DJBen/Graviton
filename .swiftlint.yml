@@ -8,13 +8,12 @@ disabled_rules:
   - operator_whitespace
   - shorthand_operator
   - type_body_length
+  - todo
 opt_in_rules:
   - operator_usage_whitespace
 excluded:
   - Carthage
   - Pods
-  - DatabaseGen
-  - MathUtil/VectorMath.swift
   - OrbitsTests
   - StarryNightTests
   - SpaceTimeTests
