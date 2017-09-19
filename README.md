@@ -33,11 +33,30 @@ carthage update --platform ios
 ```
 That's all you need for bootstrapping! Now you can proceed to open the Xcode project file.
 
+**Important**: For best experience, please run with real device, especially so when testing against graphics related features.
+
+#### Troubleshooting
+
+If you experienced issues during installations and runtime, here are some workarounds.
+
+1. Carthage update hangs indefinitely.
+
+  *Probable cause*: `weebly/OrderedSet` dependency may have no shared scheme available.
+
+  *Workaround*: run `carthage bootstrap --platform ios` instead of `carthage update`.
+
+2. Xcode 9 simulator has very low performance and is unusable.
+
+  *Cause*: Apple's bug. Refer to [Apple forum thread](https://forums.developer.apple.com/thread/83570) for more information.
+
+  *Workaround*: Use real device, or [hack Xcode](https://twitter.com/stroughtonsmith/status/910203896332783616) to force it to use framework of an old version.
+
 ## Documentation
 *Placeholder*
 
+Two websites are planned to be built. One includes all documentation, the other is a shiny front page for maximum appeal.
+
 ## Frameworks
-__Unless marked internal, all frameworks are available for standalone use.__
 ### Orbits
 _High accuracy ephemeris query and orbital mechanics calculation framework._
 - [x] Calculate [Keplarian](https://en.wikipedia.org/wiki/Kepler_orbit) orbital mechanics with support of all [conics](https://en.wikipedia.org/wiki/Conic_section).
