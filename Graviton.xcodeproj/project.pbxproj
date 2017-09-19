@@ -359,7 +359,6 @@
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
 		FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertions.swift; sourceTree = "<group>"; };
-		FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoQueries.framework; path = Carthage/Build/iOS/GeoQueries.framework; sourceTree = "<group>"; };
 		FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetInfo.swift; sourceTree = "<group>"; };
 		FC63130E1F255BD300FE23E0 /* MathUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MathUtil.framework; path = Carthage/Build/iOS/MathUtil.framework; sourceTree = "<group>"; };
@@ -829,7 +828,6 @@
 				FC63130E1F255BD300FE23E0 /* MathUtil.framework */,
 				FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */,
 				EF281F941F061C66003CB4A3 /* Regex.framework */,
-				FC39DAF51EC860C7005D7EBA /* GeoQueries.framework */,
 				FCCF5B4D1EBEC9F800B8004E /* Realm.framework */,
 				FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */,
 				EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */,
