@@ -24,7 +24,7 @@ class CelestialBodyNode: SCNNode {
     }
 }
 
-fileprivate extension Naif {
+private extension Naif {
     var geometry: SCNGeometry {
         let geometry = SCNSphere(radius: 1)
         geometry.firstMaterial = material

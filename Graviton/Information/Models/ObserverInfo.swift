@@ -9,7 +9,7 @@
 import UIKit
 import Orbits
 
-fileprivate let dateFormatter: DateFormatter = {
+private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()
     formatter.dateStyle = .none
     formatter.timeStyle = .short

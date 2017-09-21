@@ -6,6 +6,7 @@ disabled_rules:
   - line_length
   - operator_whitespace
   - type_body_length
+  - todo
 force_try:
   severity: warning
 identifier_name:

@@ -10,21 +10,21 @@ import UIKit
 import SQLite
 import CoreLocation
 
-fileprivate let conn = try! Connection(Bundle.main.path(forResource: "cities", ofType: "sqlite3")!)
-fileprivate let cities = Table("cities")
+private let conn = try! Connection(Bundle.main.path(forResource: "cities", ofType: "sqlite3")!)
+private let cities = Table("cities")
 
-fileprivate let citiesLat = Expression<Double>("lat")
-fileprivate let citiesLng = Expression<Double>("lng")
-fileprivate let citiesName = Expression<String>("city")
-fileprivate let citiesPop = Expression<Double>("pop")
-fileprivate let citiesCountry = Expression<String>("country")
-fileprivate let citiesProvince = Expression<String?>("province")
-fileprivate let citiesIso2 = Expression<String>("iso2")
-fileprivate let citiesIso3 = Expression<String>("iso3")
+private let citiesLat = Expression<Double>("lat")
+private let citiesLng = Expression<Double>("lng")
+private let citiesName = Expression<String>("city")
+private let citiesPop = Expression<Double>("pop")
+private let citiesCountry = Expression<String>("country")
+private let citiesProvince = Expression<String?>("province")
+private let citiesIso2 = Expression<String>("iso2")
+private let citiesIso3 = Expression<String>("iso3")
 
-fileprivate let usStates = Table("us_states")
-fileprivate let usStatesAbbrev = Expression<String>("abbreviation")
-fileprivate let usStatesName = Expression<String>("name")
+private let usStates = Table("us_states")
+private let usStatesAbbrev = Expression<String>("abbreviation")
+private let usStatesName = Expression<String>("name")
 
 struct City: Equatable {
     let coordinate: CLLocationCoordinate2D

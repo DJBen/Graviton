@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let cityCellId = "cityCell"
+private let cityCellId = "cityCell"
 
 class ObserverLocationMenuController: MenuController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 

@@ -8,21 +8,21 @@
 
 import UIKit
 
-fileprivate let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .all
-fileprivate let showCelestialEquatorDefault: Bool = true
-fileprivate let showEclipticDefault: Bool = true
-fileprivate let showConstellationLabelDefault: Bool = true
-fileprivate let showPlanetLabelDefault: Bool = true
-fileprivate let showMoonPhaseDefault: Bool = true
-fileprivate let showEarthshineDefault = true
-fileprivate let showDirectionMarkersDefault = true
-fileprivate let showZenithAndNadirMarkersDefault = true
-fileprivate let stabilizeCameraDefault = false
-fileprivate let enableTimeWarpDefault = true
-fileprivate let useUtcTimeDefault = false
-fileprivate let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
-fileprivate let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
-fileprivate let groundTextureDefaultKey: String = "silverMountain"
+private let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .all
+private let showCelestialEquatorDefault: Bool = true
+private let showEclipticDefault: Bool = true
+private let showConstellationLabelDefault: Bool = true
+private let showPlanetLabelDefault: Bool = true
+private let showMoonPhaseDefault: Bool = true
+private let showEarthshineDefault = true
+private let showDirectionMarkersDefault = true
+private let showZenithAndNadirMarkersDefault = true
+private let stabilizeCameraDefault = false
+private let enableTimeWarpDefault = true
+private let useUtcTimeDefault = false
+private let celestialEquatorDefaultColor: UIColor = #colorLiteral(red: 0.2392156869, green: 0.6745098233, blue: 0.9686274529, alpha: 1)
+private let eclipticDefaultColor: UIColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 1)
+private let groundTextureDefaultKey: String = "silverMountain"
 
 typealias BooleanSettingBlock = (Bool, Bool) -> Void
 typealias SelectionSettingBlock = (String, String) -> Void

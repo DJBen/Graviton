@@ -18,7 +18,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         let path = Bundle.main.path(forResource: "orbit_line.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
-    private static let baseOrthographicScale: Double = 20
+    private static let baseOrthographicScale: Double = 25
     private static let maxScale: Double = 100
     private static let minScale: Double = 0.02
     private static let diminishStartDistance: Float = 3.3
@@ -233,10 +233,10 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 }
 
-fileprivate func orbitIdentifier(_ identifier: Int) -> String {
+private func orbitIdentifier(_ identifier: Int) -> String {
     return "\(identifier)_orbit"
 }
 
-fileprivate func orbitIdentifier(_ identifier: String) -> String {
+private func orbitIdentifier(_ identifier: String) -> String {
     return "\(identifier)_orbit"
 }

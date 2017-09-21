@@ -344,7 +344,7 @@ public class Horizons {
     }
 }
 
-fileprivate extension URL {
+private extension URL {
     var naifId: Int? {
         if let components = URLComponents(url: self, resolvingAgainstBaseURL: false), let items = components.queryItems {
             let filtered = items.filter { $0.name == "COMMAND" }

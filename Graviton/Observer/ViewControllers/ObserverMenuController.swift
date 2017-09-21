@@ -11,11 +11,11 @@ import QuartzCore
 import KMNavigationBarTransition
 import SpaceTime
 
-fileprivate let buttonCellId = "buttonCell"
-fileprivate let detailCellId = "detailCell"
-fileprivate let toggleCellId = "toggleCell"
-fileprivate let locationCellId = "locationCell"
-fileprivate let headerFooterId = "headerFooter"
+private let buttonCellId = "buttonCell"
+private let detailCellId = "detailCell"
+private let toggleCellId = "toggleCell"
+private let locationCellId = "locationCell"
+private let headerFooterId = "headerFooter"
 
 class ObserverMenuController: MenuController {
     class HeaderView: UIView {

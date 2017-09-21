@@ -240,17 +240,17 @@ public struct HorizonsQuery: Hashable {
     }
 }
 
-fileprivate func formatSite(_ site: CLLocation) -> String {
+private func formatSite(_ site: CLLocation) -> String {
     return "\(site.coordinate.longitude),\(site.coordinate.latitude),\(site.altitude)"
 }
 
-fileprivate extension Bool {
+private extension Bool {
     var yesNo: String {
         return self ? "YES" : "NO"
     }
 }
 
-fileprivate extension String {
+private extension String {
     var isQuoteWrapped: Bool {
         return self[startIndex] == "'" && self[index(before: endIndex)] == "'"
     }

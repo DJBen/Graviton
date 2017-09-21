@@ -218,7 +218,7 @@ extension Star.Identity {
     }
 }
 
-fileprivate func stringify(_ str: CustomStringConvertible?) -> String? {
+private func stringify(_ str: CustomStringConvertible?) -> String? {
     if str == nil { return nil }
     return String(describing: str!)
 }

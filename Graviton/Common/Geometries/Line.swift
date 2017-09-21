@@ -9,7 +9,7 @@
 import UIKit
 import SceneKit
 
-fileprivate struct LineMode {
+private struct LineMode {
     enum Fill {
         case solid
         case dashed

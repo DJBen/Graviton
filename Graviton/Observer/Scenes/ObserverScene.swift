@@ -15,17 +15,17 @@ import KelvinColor
 import MathUtil
 import CoreLocation
 
-fileprivate let milkywayLayerRadius: Double = 50
-fileprivate let auxillaryLineLayerRadius: Double = 25
+private let milkywayLayerRadius: Double = 50
+private let auxillaryLineLayerRadius: Double = 25
 let auxillaryConstellationLabelLayerRadius: Double = 24
-fileprivate let starLayerRadius: Double = 20
-fileprivate let planetLayerRadius: Double = 10
-fileprivate let landscapeLayerRadius: Double = 6
-fileprivate let compassRoseRadius: Double = 5.5
-fileprivate let directionMarkerLayerRadius: Double = 5.5
-fileprivate let moonLayerRadius: Double = 7
-fileprivate let sunLayerRadius: Double = 8
-fileprivate let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
+private let starLayerRadius: Double = 20
+private let planetLayerRadius: Double = 10
+private let landscapeLayerRadius: Double = 6
+private let compassRoseRadius: Double = 5.5
+private let directionMarkerLayerRadius: Double = 5.5
+private let moonLayerRadius: Double = 7
+private let sunLayerRadius: Double = 8
+private let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
 class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
@@ -61,6 +61,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         camera.zNear = 0.5
         camera.zFar = 1000
         camera.fieldOfView = CGFloat(ObserverScene.defaultFov)
+        camera.projectionDirection = .horizontal
         camera.categoryBitMask = VisibilityCategory.camera.rawValue
         return camera
     }()

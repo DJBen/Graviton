@@ -11,11 +11,11 @@ import SQLite
 import SpaceTime
 import MathUtil
 
-fileprivate let constel = Table("constellations")
-fileprivate let dbName = Expression<String>("constellation")
-fileprivate let dbIAUName = Expression<String>("iau")
-fileprivate let dbGenitive = Expression<String>("genitive")
-fileprivate let constellationLinePath = Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "constellation_lines", ofType: "dat")!
+private let constel = Table("constellations")
+private let dbName = Expression<String>("constellation")
+private let dbIAUName = Expression<String>("iau")
+private let dbGenitive = Expression<String>("genitive")
+private let constellationLinePath = Bundle(identifier: "com.Square.sihao.StarryNight")!.path(forResource: "constellation_lines", ofType: "dat")!
 
 public struct Constellation: Hashable {
     public struct Line: CustomStringConvertible {

@@ -17,6 +17,8 @@ excluded:
   - OrbitsTests
   - StarryNightTests
   - SpaceTimeTests
+identifier_name:
+  min_length: 1
 force_try:
   severity: warning
 nesting:

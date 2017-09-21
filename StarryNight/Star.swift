@@ -11,27 +11,27 @@ import SpaceTime
 import MathUtil
 import SQLite
 
-fileprivate let stars = Table("stars_7")
+private let stars = Table("stars_7")
 // The sun has id 0. Using id > 0 to filter out the sun.
-fileprivate let dbInternalId = Expression<Int>("id")
-fileprivate let dbBFDesignation = Expression<String?>("bf")
-fileprivate let dbHip = Expression<Int?>("hip")
-fileprivate let dbHr = Expression<Int?>("hr")
-fileprivate let dbHd = Expression<Int?>("hd")
-fileprivate let dbGl = Expression<String?>("gl")
-fileprivate let dbProperName = Expression<String?>("proper")
-fileprivate let dbX = Expression<Double>("x")
-fileprivate let dbY = Expression<Double>("y")
-fileprivate let dbZ = Expression<Double>("z")
-fileprivate let dbVx = Expression<Double>("vx")
-fileprivate let dbVy = Expression<Double>("vy")
-fileprivate let dbVz = Expression<Double>("vz")
-fileprivate let dbCon = Expression<String>("con")
-fileprivate let dbSpect = Expression<String?>("spect")
-fileprivate let dbMag = Expression<Double>("mag")
-fileprivate let dbAbsMag = Expression<Double>("absmag")
-fileprivate let dbLum = Expression<Double>("lum")
-fileprivate let dbDist = Expression<Double>("dist")
+private let dbInternalId = Expression<Int>("id")
+private let dbBFDesignation = Expression<String?>("bf")
+private let dbHip = Expression<Int?>("hip")
+private let dbHr = Expression<Int?>("hr")
+private let dbHd = Expression<Int?>("hd")
+private let dbGl = Expression<String?>("gl")
+private let dbProperName = Expression<String?>("proper")
+private let dbX = Expression<Double>("x")
+private let dbY = Expression<Double>("y")
+private let dbZ = Expression<Double>("z")
+private let dbVx = Expression<Double>("vx")
+private let dbVy = Expression<Double>("vy")
+private let dbVz = Expression<Double>("vz")
+private let dbCon = Expression<String>("con")
+private let dbSpect = Expression<String?>("spect")
+private let dbMag = Expression<Double>("mag")
+private let dbAbsMag = Expression<Double>("absmag")
+private let dbLum = Expression<Double>("lum")
+private let dbDist = Expression<Double>("dist")
 
 public struct Star: Hashable, Equatable {
 
@@ -222,7 +222,7 @@ public struct Star: Hashable, Equatable {
     }
 }
 
-fileprivate func nilIfEmpty(_ name: String?) -> String? {
+private func nilIfEmpty(_ name: String?) -> String? {
     if let str = name {
         return str.trimmingCharacters(in: .whitespacesAndNewlines) == "" ? nil : str
     }

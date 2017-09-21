@@ -12,16 +12,16 @@ import SpaceTime
 import SQLite
 import MathUtil
 
-fileprivate let borders = Table("con_border_simple")
-fileprivate let dbBorderCon = Expression<String>("con")
-fileprivate let dbLowRa = Expression<Double>("low_ra")
-fileprivate let dbHighRa = Expression<Double>("high_ra")
-fileprivate let dbLowDec = Expression<Double>("low_dec")
+private let borders = Table("con_border_simple")
+private let dbBorderCon = Expression<String>("con")
+private let dbLowRa = Expression<Double>("low_ra")
+private let dbHighRa = Expression<Double>("high_ra")
+private let dbLowDec = Expression<Double>("low_dec")
 
-fileprivate let fullBorders = Table("constellation_borders")
-fileprivate let dbOppoCon = Expression<String>("opposite_con")
+private let fullBorders = Table("constellation_borders")
+private let dbOppoCon = Expression<String>("opposite_con")
 
-fileprivate let constellationCenter: [String: Vector3] = [
+private let constellationCenter: [String: Vector3] = [
     "Peg": Vector3(0.86804042300030027, -0.26298778535788447, 0.33323259346164735),
     "Sex": Vector3(-0.88261544888599275, 0.45798408225176818, -0.052864117997383893),
     "Cam": Vector3(0.11063, 0.279104, 0.953867),

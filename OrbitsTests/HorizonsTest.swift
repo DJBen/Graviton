@@ -88,13 +88,13 @@ class HorizonsTest: XCTestCase {
     }
 }
 
-fileprivate extension CharacterSet {
+private extension CharacterSet {
     static var urlAllowedCharacterSet: CharacterSet {
         return CharacterSet.urlPathAllowed.union(.urlHostAllowed).union(.urlQueryAllowed)
     }
 }
 
-fileprivate extension ObserverSite {
+private extension ObserverSite {
     static var sanFrancisco: ObserverSite {
         return ObserverSite.init(naif: Naif.majorBody(.earth), location: CLLocation(coordinate: CLLocationCoordinate2D.init(latitude: 37.7816, longitude: -122.4156), altitude: 12, horizontalAccuracy: 0, verticalAccuracy: 0, timestamp: Date()))
     }

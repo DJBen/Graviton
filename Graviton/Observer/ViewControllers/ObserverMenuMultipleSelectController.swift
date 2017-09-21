@@ -8,7 +8,7 @@
 
 import UIKit
 
-fileprivate let checkableCellId = "checkableCell"
+private let checkableCellId = "checkableCell"
 class ObserverMenuMultipleSelectController: MenuController {
 
     var multipleSelect: MultipleSelect!

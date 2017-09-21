@@ -10,9 +10,9 @@ import Foundation
 import Regex
 import SQLite
 
-fileprivate let spectralTable = Table("spectral")
-fileprivate let spectralTypeColumn = Expression<String>("SpT")
-fileprivate let tempColumn = Expression<Double>("Teff")
+private let spectralTable = Table("spectral")
+private let spectralTypeColumn = Expression<String>("SpT")
+private let tempColumn = Expression<Double>("Teff")
 
 public struct SpectralType: CustomStringConvertible {
     public let rawType: String
@@ -70,14 +70,14 @@ public struct SpectralType: CustomStringConvertible {
     }
 }
 
-fileprivate func doubleOrEmpty(_ str: String?) -> Double? {
+private func doubleOrEmpty(_ str: String?) -> Double? {
     if let str = str, let dblValue = Double(str) {
         return dblValue
     }
     return nil
 }
 
-fileprivate func nilIfEmpty(_ str: String?) -> String? {
+private func nilIfEmpty(_ str: String?) -> String? {
     if let str = str, str.isEmpty {
         return nil
     }

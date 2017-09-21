@@ -30,15 +30,15 @@
 
 import Foundation
 
-fileprivate let minThresh: Double = 1.0e-15
-fileprivate let startThresh: Double = 1.0e-12
-fileprivate let maxIterations: Int = 7
+private let minThresh: Double = 1.0e-15
+private let startThresh: Double = 1.0e-12
+private let maxIterations: Int = 7
 
-fileprivate func cubeRoot(_ x: Double) -> Double {
+private func cubeRoot(_ x: Double) -> Double {
     return exp(log(x) / 3.0)
 }
 
-fileprivate func nearParabolic(eccAnom: Double, e: Double) -> Double {
+private func nearParabolic(eccAnom: Double, e: Double) -> Double {
     let anom2: Double = (e > 1.0 ? eccAnom * eccAnom : -eccAnom * eccAnom)
     var term: Double = e * anom2 * eccAnom / 6.0
     var rval: Double = (1.0 - e) * eccAnom - term

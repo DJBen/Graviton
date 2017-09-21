@@ -19,6 +19,7 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
         let c = SCNCamera()
         c.automaticallyAdjustsZRange = true
         c.fieldOfView = CGFloat(CelestialBodyScene.defaultFov)
+        c.projectionDirection = .horizontal
         return c
     }()
 

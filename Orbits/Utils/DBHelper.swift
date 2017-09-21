@@ -9,27 +9,27 @@
 import SQLite
 import SpaceTime
 
-fileprivate let celestialBody = Table("celestial_body")
-fileprivate let cbId = Expression<Int64>("naifId")
-fileprivate let cusName = Expression<String?>("customName")
-fileprivate let obliquityExpr = Expression<Double>("obliquity")
-fileprivate let gmExpr = Expression<Double>("gm")
-fileprivate let hillSphereExpr = Expression<Double?>("hillSphere")
-fileprivate let radiusExpr = Expression<Double>("radius")
-fileprivate let rotationPeriodExpr = Expression<Double>("rotationPeriod")
-fileprivate let centerBodyId = Expression<Int64?>("centerBodyNaifId")
+private let celestialBody = Table("celestial_body")
+private let cbId = Expression<Int64>("naifId")
+private let cusName = Expression<String?>("customName")
+private let obliquityExpr = Expression<Double>("obliquity")
+private let gmExpr = Expression<Double>("gm")
+private let hillSphereExpr = Expression<Double?>("hillSphere")
+private let radiusExpr = Expression<Double>("radius")
+private let rotationPeriodExpr = Expression<Double>("rotationPeriod")
+private let centerBodyId = Expression<Int64?>("centerBodyNaifId")
 
-fileprivate let orbitalMotion = Table("orbital_motion")
-fileprivate let obId = Expression<Int64>("ob_id")
-fileprivate let bodyId = Expression<Int64>("body_id")
-fileprivate let systemGm = Expression<Double?>("system_gm")
-fileprivate let a = Expression<Double>("a")
-fileprivate let ec = Expression<Double>("ec")
-fileprivate let i = Expression<Double>("i")
-fileprivate let om = Expression<Double>("om")
-fileprivate let w = Expression<Double>("w")
-fileprivate let tp = Expression<Double>("tp") // time of periapsis passage, only when mode = 2
-fileprivate let refJd = Expression<Double>("ref_jd") // reference jd, only when mode = 2
+private let orbitalMotion = Table("orbital_motion")
+private let obId = Expression<Int64>("ob_id")
+private let bodyId = Expression<Int64>("body_id")
+private let systemGm = Expression<Double?>("system_gm")
+private let a = Expression<Double>("a")
+private let ec = Expression<Double>("ec")
+private let i = Expression<Double>("i")
+private let om = Expression<Double>("om")
+private let w = Expression<Double>("w")
+private let tp = Expression<Double>("tp") // time of periapsis passage, only when mode = 2
+private let refJd = Expression<Double>("ref_jd") // reference jd, only when mode = 2
 
 class DBHelper {
 
@@ -172,12 +172,12 @@ class DBHelper {
     }
 }
 
-fileprivate func unwrapInt64(_ v: Int64?) -> Int? {
+private func unwrapInt64(_ v: Int64?) -> Int? {
     if v == nil { return nil }
     return Int(v!)
 }
 
-fileprivate func wrapInt(_ v: Int?) -> Int64? {
+private func wrapInt(_ v: Int?) -> Int64? {
     if v == nil { return nil }
     return Int64(v!)
 }
@@ -204,7 +204,7 @@ extension OrbitalMotionMoment {
     }
 }
 
-fileprivate extension Orbit {
+private extension Orbit {
     var sqlSaveSetters: [Setter] {
         return [a <- shape.semimajorAxis, ec <- shape.eccentricity, w <- orientation.argumentOfPeriapsis, i <- orientation.inclination, om <- orientation.longitudeOfAscendingNode]
     }

@@ -10,7 +10,7 @@ import Foundation
 import Regex
 
 // superscripts from 1 to 9
-fileprivate let superscripts = ["", "\u{00b9}", "\u{00b2}", "\u{00b3}", "\u{2074}", "\u{2075}", "\u{2076}", "\u{2077}", "\u{2078}", "\u{2079}"]
+private let superscripts = ["", "\u{00b9}", "\u{00b2}", "\u{00b3}", "\u{2074}", "\u{2075}", "\u{2076}", "\u{2077}", "\u{2078}", "\u{2079}"]
 
 struct BayerFlamsteed: CustomStringConvertible {
     enum DesignationType {
