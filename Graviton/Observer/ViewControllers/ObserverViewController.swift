@@ -54,7 +54,23 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         return self.view as! SCNView
     }
 
-    var target: BodyInfoTarget?
+    var target: BodyInfoTarget? {
+        didSet {
+            if let target = self.target {
+                switch target {
+                case .nearbyBody(let closeBody):
+                    observerScene.focus(atCelestialBody: closeBody as! CelestialBody)
+                    overlayScene.showCelestialBodyDisplay(closeBody as! CelestialBody)
+                case .star(let star):
+                    observerScene.focus(atStar: star)
+                    overlayScene.showStarDisplay(star)
+                }
+            } else {
+                observerScene.removeFocus()
+                overlayScene.hideStarDisplay()
+            }
+        }
+    }
 
     var observerCameraController: ObserverCameraController {
         return cameraController as! ObserverCameraController
@@ -117,9 +133,12 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
 
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
-        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
-        navigationItem.leftBarButtonItem = barButtonItem
+        let gyroItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
+        navigationItem.leftBarButtonItem = gyroItem
         navigationItem.titleView = titleBlurView
+        let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped(sender:)))
+        let searchItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
+        navigationItem.rightBarButtonItems = [settingItem, searchItem]
 
         scnView.delegate = self
         scnView.antialiasingMode = .none
@@ -139,9 +158,20 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         displaylink.add(to: .current, forMode: .defaultRunLoopMode)
     }
 
+    func center(atTarget target: BodyInfoTarget) {
+        let coordinate: Vector3
+        switch target {
+        case .nearbyBody:
+            fatalError("centering on close bodies has not been supported yet")
+        case .star(let star):
+            coordinate = star.physicalInfo.coordinate
+        }
+        self.observerScene.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: coordinate))
+    }
+
     // MARK: - Button handling
 
-    override func menuButtonTapped(sender: UIButton) {
+    @objc func menuButtonTapped(sender: UIButton) {
         let menuController = ObserverMenuController()
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
@@ -149,6 +179,10 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
 
     @objc func gyroButtonTapped(sender: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
+    }
+
+    @objc func searchButtonTapped(sender: UIBarButtonItem) {
+        performSegue(withIdentifier: "searchStar", sender: self)
     }
 
     // MARK: - Gesture handling
@@ -180,16 +214,10 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
         let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
         if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: radians(degrees: 3)) {
-            observerScene.focus(atCelestialBody: closeBody)
-            overlayScene.showCelestialBodyDisplay(closeBody)
             target = .nearbyBody(closeBody)
         } else if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 3)) {
-            observerScene.focus(atStar: star)
-            overlayScene.showStarDisplay(star)
             target = .star(star)
         } else {
-            observerScene.removeFocus()
-            overlayScene.hideStarDisplay()
             target = nil
         }
     }
@@ -256,10 +284,13 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         if segue.identifier == "showBodyInfo", let dest = segue.destination as? ObserverDetailViewController {
             dest.target = target
             dest.ephemerisId = ephemerisSubscriptionIdentifier
+        } else if segue.identifier == "searchStar" {
+
         }
     }
 
     @IBAction func unwindFromBodyInfo(for segue: UIStoryboardSegue) {
+
     }
 
     // MARK: - Scene renderer delegate

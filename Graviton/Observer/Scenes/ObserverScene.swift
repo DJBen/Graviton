@@ -482,7 +482,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     func focus(atStar star: Star) {
-        let node = rootNode.childNode(withName: String(star.identity.id), recursively: true)!
+        guard let node = rootNode.childNode(withName: String(star.identity.id), recursively: true) else {
+            logger.warning("Cannot focus on star \(star.identity) because it is not rendered")
+            return
+        }
         focus(atNode: node)
     }
 

@@ -34,16 +34,10 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         super.viewDidLoad()
         loadCameraController()
         navigationController?.delegate = transitionController
-        let barButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped))
-        navigationItem.rightBarButtonItem = barButtonItem
         view.addGestureRecognizer(doubleTap)
         view.addGestureRecognizer(pan)
         view.addGestureRecognizer(zoom)
         view.addGestureRecognizer(rotationGR)
-    }
-
-    @objc func menuButtonTapped(sender: UIButton) {
-        doesNotRecognizeSelector(#selector(menuButtonTapped(sender:)))
     }
 
     @objc func recenter(sender: UIGestureRecognizer) {
