@@ -30,7 +30,7 @@
         <!--Observer-->
         <scene sceneID="sZQ-sW-sFR">
             <objects>
-                <navigationController id="rbu-ZA-MSV" sceneMemberID="viewController">
+                <navigationController id="rbu-ZA-MSV" customClass="ObserverNavigationController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Observer" image="tab_icon_telescope" id="lhL-yf-1tS"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="nLf-ud-Qyl">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>
@@ -234,7 +234,7 @@
         <!--Solar System-->
         <scene sceneID="EO4-bf-gTr">
             <objects>
-                <navigationController id="jRr-Mo-AYA" sceneMemberID="viewController">
+                <navigationController id="jRr-Mo-AYA" customClass="SolarSystemNavigationController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Solar System" image="tab_icon_solar_system" selectedImage="tab_icon_solar_system" id="ake-ol-PDA"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yFx-OF-gUU">
                         <rect key="frame" x="0.0" y="20" width="375" height="44"/>

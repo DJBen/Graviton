@@ -87,7 +87,6 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.presentTransparentNavigationBar()
         updateTimeLabel()
         updateAntialiasingMode(Settings.default[.antialiasingMode])
         Settings.default.subscribe(setting: .antialiasingMode, object: self) { (_, newKey) in
@@ -172,7 +171,7 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
     // MARK: - Button handling
 
     @objc func menuButtonTapped(sender: UIButton) {
-        let menuController = ObserverMenuController()
+        let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
         navigationController?.pushViewController(menuController, animated: true)
     }

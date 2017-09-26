@@ -34,11 +34,6 @@ class ObserverDetailViewController: UIViewController {
         setupViewElements()
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.presentTransparentNavigationBar()
-    }
-
     private func setupViewElements() {
         title = String(describing: target!)
     }
