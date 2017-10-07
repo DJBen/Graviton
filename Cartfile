@@ -1,6 +1,7 @@
 github "DJBen/MathUtil" ~> 0.2.0
 github "DJBen/SpaceTime" ~> 0.1.0
 github "DJBen/KelvinColor" ~> 0.1.0
+github "DJBen/StarryNight" ~> 0.1.0
 
 github "stephencelis/SQLite.swift" ~> 0.11.2
 github "MoZhouqi/KMNavigationBarTransition"
