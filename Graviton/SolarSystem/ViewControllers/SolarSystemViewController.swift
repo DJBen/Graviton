@@ -116,11 +116,6 @@ class SolarSystemViewController: SceneController {
         }
     }
 
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        navigationController?.presentTransparentNavigationBar()
-    }
-
     @objc func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         let p = sender.location(in: scnView)

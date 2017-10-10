@@ -21,6 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
         // Disable online fetching in unit tests
+        UINavigationBar.configureNavigationBarStyles()
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(2)) {
             EphemerisManager.default.fetch(mode: isInTest ? .localOnly : .mixed)

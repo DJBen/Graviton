@@ -18,7 +18,7 @@ import CoreMedia
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
-class ObserverViewController: SceneController, MenuBackgroundProvider {
+class ObserverViewController: SceneController {
 
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
@@ -87,7 +87,6 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        navigationController?.presentTransparentNavigationBar()
         updateTimeLabel()
         updateAntialiasingMode(Settings.default[.antialiasingMode])
         Settings.default.subscribe(setting: .antialiasingMode, object: self) { (_, newKey) in
@@ -172,9 +171,11 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
     // MARK: - Button handling
 
     @objc func menuButtonTapped(sender: UIButton) {
-        let menuController = ObserverMenuController()
+        let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
-        navigationController?.pushViewController(menuController, animated: true)
+        let navigationController = UINavigationController(rootViewController: menuController)
+        navigationController.modalPresentationStyle = .overCurrentContext
+        self.tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
     @objc func gyroButtonTapped(sender: UIBarButtonItem) {
@@ -182,7 +183,10 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
     }
 
     @objc func searchButtonTapped(sender: UIBarButtonItem) {
-        performSegue(withIdentifier: "searchStar", sender: self)
+        let starSearchController = StarSearchViewController(style: .plain)
+        let navigationController = UINavigationController(rootViewController: starSearchController)
+        navigationController.modalPresentationStyle = .overCurrentContext
+        self.tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
     // MARK: - Gesture handling
@@ -284,8 +288,6 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         if segue.identifier == "showBodyInfo", let dest = segue.destination as? ObserverDetailViewController {
             dest.target = target
             dest.ephemerisId = ephemerisSubscriptionIdentifier
-        } else if segue.identifier == "searchStar" {
-
         }
     }
 
@@ -311,16 +313,6 @@ class ObserverViewController: SceneController, MenuBackgroundProvider {
         EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         configurePanSpeed()
         observerScene.rendererUpdate()
-    }
-
-    // MARK: - Menu background provider
-
-    private var snapshottedImage: UIImage?
-    func menuBackgroundImage(fromVC: UIViewController, toVC: UIViewController) -> UIImage? {
-        if fromVC is ObserverViewController && toVC is MenuController {
-            snapshottedImage = UIImageEffects.blurredMenuImage(scnView.snapshot())
-        }
-        return snapshottedImage
     }
 }
 

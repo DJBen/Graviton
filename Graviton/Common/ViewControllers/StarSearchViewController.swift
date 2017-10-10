@@ -34,14 +34,17 @@ class StarSearchViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        setUpBlurredBackground()
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "starCell")
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
-        definesPresentationContext = true
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
+        title = "Star Search"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(sender:)))
     }
 
     override var prefersStatusBarHidden: Bool {
@@ -54,6 +57,10 @@ class StarSearchViewController: UITableViewController {
             vc.target = BodyInfoTarget.star(sender)
             vc.center(atTarget: vc.target!)
         }
+    }
+
+    @objc func doneButtonTapped(sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Table view data source

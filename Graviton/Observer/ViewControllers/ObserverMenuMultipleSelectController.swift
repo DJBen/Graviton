@@ -15,6 +15,7 @@ class ObserverMenuMultipleSelectController: MenuController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearsSelectionOnViewWillAppear = true
         tableView.register(MenuCell.self, forCellReuseIdentifier: checkableCellId)
         Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { (_, _) in
             self.tableView.reloadData()
@@ -41,7 +42,7 @@ class ObserverMenuMultipleSelectController: MenuController {
         return multipleSelect.options.count
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         if let menuCell = cell as? MenuCell {
             menuCell.textLabelLeftInset = 21
         }
@@ -60,7 +61,7 @@ class ObserverMenuMultipleSelectController: MenuController {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         let selection = multipleSelect.options[indexPath.row]
         Settings.default[multipleSelect.setting] = selection.0

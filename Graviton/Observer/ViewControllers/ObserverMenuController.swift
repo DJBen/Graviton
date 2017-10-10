@@ -44,7 +44,7 @@ class ObserverMenuController: MenuController {
                 textLabel.topAnchor.constraint(equalTo: topAnchor),
                 textLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
                 textLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
-                ])
+            ])
         }
     }
 
@@ -55,6 +55,7 @@ class ObserverMenuController: MenuController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        clearsSelectionOnViewWillAppear = true
 
         tableView.register(MenuCell.self, forCellReuseIdentifier: detailCellId)
         tableView.register(MenuToggleCell.self, forCellReuseIdentifier: toggleCellId)
@@ -64,6 +65,8 @@ class ObserverMenuController: MenuController {
         locationSubId = LocationManager.default.subscribe(didUpdate: { [weak self] (_) in
             self?.tableView.reloadRows(at: self!.menu.indexPathsNeedsReloadUponLocationUpdate, with: .none)
         })
+
+        setUpBlurredBackground()
 
         let behaviors = menu.registerAllConditionalDisabling()
         behaviors.forEach { (behavior) in
@@ -87,6 +90,11 @@ class ObserverMenuController: MenuController {
                 }
             })
         }
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(sender:)))
+        title = "Settings"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -99,7 +107,13 @@ class ObserverMenuController: MenuController {
     }
 
     deinit {
-        LocationManager.default.unsubscribe(locationSubId)
+        if let locationSubId = locationSubId {
+            LocationManager.default.unsubscribe(locationSubId)
+        }
+    }
+
+    @objc func doneButtonTapped(sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Menu delivered actions
@@ -127,7 +141,7 @@ class ObserverMenuController: MenuController {
         return menu.sections[section].items.count
     }
 
-    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
         if let menuCell = cell as? MenuCell {
@@ -185,25 +199,25 @@ class ObserverMenuController: MenuController {
         return cell
     }
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         if case let .detail(submenu) = item.type {
             // transition to submenu
-            let subMenuController = ObserverMenuController()
+            let subMenuController = ObserverMenuController(style: .plain)
             subMenuController.menu = submenu
             navigationController?.pushViewController(subMenuController, animated: true)
         } else if case let .multipleSelect(mulSel) = item.type {
             // transition to submenu
-            let subMenuController = ObserverMenuMultipleSelectController()
+            let subMenuController = ObserverMenuMultipleSelectController(style: .plain)
             subMenuController.multipleSelect = mulSel
             navigationController?.pushViewController(subMenuController, animated: true)
         } else if case let .external(identifier, _) = item.type, identifier == "location" {
-            let subMenuController = ObserverLocationMenuController()
+            let subMenuController = ObserverLocationMenuController(style: .plain)
             navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if menu.sections[section].name != nil {
             return 24
         } else {
@@ -211,7 +225,7 @@ class ObserverMenuController: MenuController {
         }
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderView()
         header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
         header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -219,7 +233,7 @@ class ObserverMenuController: MenuController {
         return header
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = menu[indexPath]
         switch item.type {
         case let .external(identifier, _) where identifier == "location":
