@@ -3,7 +3,8 @@ github "DJBen/SpaceTime" ~> 0.1.0
 github "DJBen/KelvinColor" ~> 0.1.0
 github "DJBen/StarryNight" ~> 0.1.0
 
-github "stephencelis/SQLite.swift" ~> 0.11.2
+github "mhergon/RealmGeoQueries" ~> 1.3
+github "stephencelis/SQLite.swift" ~> 0.11.4
 github "Weebly/OrderedSet"
 github "realm/realm-cocoa" ~> 3.0.0
 github "sharplet/Regex" ~> 1.0

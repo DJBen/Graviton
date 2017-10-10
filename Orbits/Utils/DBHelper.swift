@@ -112,10 +112,10 @@ class DBHelper {
             return Sun.sol
         }
         func constructResult(_ result: Row) -> CelestialBody {
-            if let customName = result.get(cusName) {
-                return CelestialBody(naifId: Int(result.get(cbId)), name: customName, gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+            if let customName = try! result.get(cusName) {
+                return CelestialBody(naifId: Int(try! result.get(cbId)), name: customName, gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: try! result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
             }
-            let cb = CelestialBody(naifId: Int(result.get(cbId)), gravParam: result.get(gmExpr), radius: result.get(radiusExpr), rotationPeriod: result.get(rotationPeriodExpr), obliquity: result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(result.get(centerBodyId)), hillSphereRadRp: result.get(hillSphereExpr))
+            let cb = CelestialBody(naifId: Int(try! result.get(cbId)), gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: try! result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
             if shouldLoadMotion {
                 cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDate: JulianDate.now)
             }
@@ -141,11 +141,11 @@ class DBHelper {
         let db: Connection = self.orbitalMotions
         func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
             // km^3/s^2 to m^3/s^2
-            let realSystemGm = row.get(systemGm) != nil ? row.get(systemGm)! : Sun.sol.gravParam
-            let (va, vi, vec, vom, vw, vgm) = (row.get(a), row.get(i), row.get(ec), row.get(om), row.get(w), realSystemGm)
+            let realSystemGm = try! row.get(systemGm) != nil ? try! row.get(systemGm)! : Sun.sol.gravParam
+            let (va, vi, vec, vom, vw, vgm) = (try! row.get(a), try! row.get(i), try! row.get(ec), try! row.get(om), try! row.get(w), realSystemGm)
             let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
-            let bestRefJd = row.get(refJd)
-            let vtp = row.get(tp)
+            let bestRefJd = try! row.get(refJd)
+            let vtp = try! row.get(tp)
             return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDate: JulianDate(bestRefJd), timeOfPeriapsisPassage: JulianDate(vtp))
         }
         func pluck(on database: Connection) -> Row? {
