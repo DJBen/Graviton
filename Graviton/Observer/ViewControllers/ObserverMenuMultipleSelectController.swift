@@ -16,6 +16,7 @@ class ObserverMenuMultipleSelectController: MenuController {
     override func viewDidLoad() {
         super.viewDidLoad()
         clearsSelectionOnViewWillAppear = true
+        setUpBlurredBackground()
         tableView.register(MenuCell.self, forCellReuseIdentifier: checkableCellId)
         Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { (_, _) in
             self.tableView.reloadData()
