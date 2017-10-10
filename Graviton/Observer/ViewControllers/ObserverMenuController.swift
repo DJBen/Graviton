@@ -66,6 +66,8 @@ class ObserverMenuController: MenuController {
             self?.tableView.reloadRows(at: self!.menu.indexPathsNeedsReloadUponLocationUpdate, with: .none)
         })
 
+        setUpBlurredBackground()
+
         let behaviors = menu.registerAllConditionalDisabling()
         behaviors.forEach { (behavior) in
             let indexPath = self.menu.indexPath(for: behavior.setting)!
@@ -88,6 +90,11 @@ class ObserverMenuController: MenuController {
                 }
             })
         }
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(sender:)))
+        title = "Settings"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -100,7 +107,13 @@ class ObserverMenuController: MenuController {
     }
 
     deinit {
-        LocationManager.default.unsubscribe(locationSubId)
+        if let locationSubId = locationSubId {
+            LocationManager.default.unsubscribe(locationSubId)
+        }
+    }
+
+    @objc func doneButtonTapped(sender: UIBarButtonItem) {
+        navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Menu delivered actions

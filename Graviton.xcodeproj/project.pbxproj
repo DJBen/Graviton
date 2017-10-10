@@ -28,7 +28,6 @@
 		EFA4F0711EAAB230005D2E0D /* Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0701EAAB230005D2E0D /* Style.swift */; };
 		EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0721EAAB81A005D2E0D /* Functional.swift */; };
 		EFA4F0771EAEA1C4005D2E0D /* MenuWithBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */; };
-		EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */; };
 		EFA4FEE61EBDB92A001919DD /* ObserverSite.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */; };
 		EFA4FEE91EBDB94B001919DD /* Functional.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFA4FEE81EBDB94B001919DD /* Functional.swift */; };
 		EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFAC9BC81E9D849200AAAC95 /* LineNode.swift */; };
@@ -86,8 +85,6 @@
 		FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */; };
 		FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */; };
 		FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */; };
-		FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2CE1EE01689009FA252 /* PushAsideTransition.swift */; };
-		FC1CC2D11EE01689009FA252 /* PushOverlayTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2CF1EE01689009FA252 /* PushOverlayTransition.swift */; };
 		FC1CC2D41EE016BC009FA252 /* UIImageEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2D31EE016BC009FA252 /* UIImageEffects.m */; };
 		FC1CC2D61EE016CC009FA252 /* UINavigationBar+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2D51EE016CC009FA252 /* UINavigationBar+Config.swift */; };
 		FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DA1EE0171F009FA252 /* CameraController.swift */; };
@@ -166,6 +163,7 @@
 		FCD8887A1F69249F00E41579 /* GeoQueries.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD888791F69249F00E41579 /* GeoQueries.swift */; };
 		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
 		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
+		FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */; };
 		FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */; };
 		FCEDA60A1EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6091EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift */; };
 		FCEDA6141EC04B07005C7BFF /* CelestialBodyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6131EC04B07005C7BFF /* CelestialBodyViewController.swift */; };
@@ -176,7 +174,6 @@
 		FCF2EA941EF65A1C00B787F8 /* TimeWarpParticle.sks in Resources */ = {isa = PBXBuildFile; fileRef = FCF2EA931EF65A1C00B787F8 /* TimeWarpParticle.sks */; };
 		FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB71E1E59FCF100624B4C /* WarpControl.swift */; };
 		FCFBB7361E61945400624B4C /* MenuCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7351E61945400624B4C /* MenuCell.swift */; };
-		FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */; };
 		FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB7431E61E6E600624B4C /* Menu.swift */; };
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
@@ -244,7 +241,6 @@
 		EFA4F0701EAAB230005D2E0D /* Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Style.swift; sourceTree = "<group>"; };
 		EFA4F0721EAAB81A005D2E0D /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		EFA4F0761EAEA1C4005D2E0D /* MenuWithBackground.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuWithBackground.swift; sourceTree = "<group>"; };
-		EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationTransitionController.swift; sourceTree = "<group>"; };
 		EFA4FEE51EBDB92A001919DD /* ObserverSite.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSite.swift; sourceTree = "<group>"; };
 		EFA4FEE81EBDB94B001919DD /* Functional.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Functional.swift; sourceTree = "<group>"; };
 		EFAC9BC81E9D849200AAAC95 /* LineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LineNode.swift; sourceTree = "<group>"; };
@@ -301,8 +297,6 @@
 		FC1CC2C41EE01646009FA252 /* CelestialBodyObserverInfoManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyObserverInfoManager.swift; sourceTree = "<group>"; };
 		FC1CC2C51EE01646009FA252 /* RiseTransitSetManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetManager.swift; sourceTree = "<group>"; };
 		FC1CC2C61EE01646009FA252 /* SubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubscriptionManager.swift; sourceTree = "<group>"; };
-		FC1CC2CE1EE01689009FA252 /* PushAsideTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushAsideTransition.swift; sourceTree = "<group>"; };
-		FC1CC2CF1EE01689009FA252 /* PushOverlayTransition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PushOverlayTransition.swift; sourceTree = "<group>"; };
 		FC1CC2D21EE016BC009FA252 /* UIImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIImageEffects.h; sourceTree = "<group>"; };
 		FC1CC2D31EE016BC009FA252 /* UIImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIImageEffects.m; sourceTree = "<group>"; };
 		FC1CC2D51EE016CC009FA252 /* UINavigationBar+Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Config.swift"; sourceTree = "<group>"; };
@@ -386,6 +380,7 @@
 		FCD888791F69249F00E41579 /* GeoQueries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoQueries.swift; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
 		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
+		FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+BlurredBackground.swift"; sourceTree = "<group>"; };
 		FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetElevation.swift; sourceTree = "<group>"; };
 		FCEDA6091EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetRealmTest.swift; sourceTree = "<group>"; };
 		FCEDA6131EC04B07005C7BFF /* CelestialBodyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyViewController.swift; sourceTree = "<group>"; };
@@ -398,7 +393,6 @@
 		FCFBB7321E60660A00624B4C /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		FCFBB7351E61945400624B4C /* MenuCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuCell.swift; sourceTree = "<group>"; };
 		FCFBB73E1E61DB5400624B4C /* Graviton-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Graviton-Bridging-Header.h"; sourceTree = "<group>"; };
-		FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = KMNavigationBarTransition.framework; path = Carthage/Build/iOS/KMNavigationBarTransition.framework; sourceTree = "<group>"; };
 		FCFBB7431E61E6E600624B4C /* Menu.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
 		FCFCDD541F00FC54009327F5 /* experiment_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = experiment_menu.plist; sourceTree = "<group>"; };
@@ -418,7 +412,6 @@
 			files = (
 				EF4BD3B61E57E6DF009D2698 /* Orbits.framework in Frameworks */,
 				EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */,
-				FCD62C4C1F7E48C200F8CBA6 /* StarryNight.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -433,8 +426,6 @@
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
-				FCFBB7401E61E2B900624B4C /* KMNavigationBarTransition.framework in Frameworks */,
-				FCD62C4A1F7E48B700F8CBA6 /* StarryNight.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -445,7 +436,6 @@
 				FCCF5B4F1EBEC9F800B8004E /* Realm.framework in Frameworks */,
 				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
 				FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */,
-				FCD62C4B1F7E48C100F8CBA6 /* StarryNight.framework in Frameworks */,
 				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -704,11 +694,10 @@
 		FC1CC2CD1EE0165A009FA252 /* UI Effects */ = {
 			isa = PBXGroup;
 			children = (
-				FC1CC2CE1EE01689009FA252 /* PushAsideTransition.swift */,
-				FC1CC2CF1EE01689009FA252 /* PushOverlayTransition.swift */,
 				FC1CC2D21EE016BC009FA252 /* UIImageEffects.h */,
 				FC1CC2D31EE016BC009FA252 /* UIImageEffects.m */,
 				FC1CC2D51EE016CC009FA252 /* UINavigationBar+Config.swift */,
+				FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */,
 			);
 			path = "UI Effects";
 			sourceTree = "<group>";
@@ -724,7 +713,6 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FCD62C491F7E48B700F8CBA6 /* StarryNight.framework */,
 				FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */,
 				FC6313171F255D8700FE23E0 /* SpaceTime.framework */,
 				FC63130E1F255BD300FE23E0 /* MathUtil.framework */,
@@ -733,7 +721,6 @@
 				FCCF5B4D1EBEC9F800B8004E /* Realm.framework */,
 				FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */,
 				EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */,
-				FCFBB73F1E61E2B900624B4C /* KMNavigationBarTransition.framework */,
 				FCA930E71E2B8FEA00100706 /* XCTest.framework */,
 				FC2435391E14C81A002AC626 /* SQLite.framework */,
 			);
@@ -883,7 +870,6 @@
 				FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */,
 				FC959E671E9B50340026B222 /* SceneController.swift */,
 				FC6B88561EEC9764007EFE2E /* MenuController.swift */,
-				EFA4F0781EAEAED9005D2E0D /* NavigationTransitionController.swift */,
 				FCD62BD71F72695C00F8CBA6 /* StarSearchViewController.swift */,
 			);
 			path = ViewControllers;
@@ -1254,7 +1240,6 @@
 			);
 			inputPaths = (
 				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KMNavigationBarTransition.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/OrderedSet.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
 				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
@@ -1351,9 +1336,8 @@
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */,
-				FC1CC2D11EE01689009FA252 /* PushOverlayTransition.swift in Sources */,
+				FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
-				EFA4F0791EAEAED9005D2E0D /* NavigationTransitionController.swift in Sources */,
 				EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */,
 				FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */,
 				EFAC9BC91E9D849200AAAC95 /* LineNode.swift in Sources */,
@@ -1368,7 +1352,6 @@
 				FCEDA6171EC04D19005C7BFF /* CelestialBodyScene.swift in Sources */,
 				FC1CC2CC1EE01646009FA252 /* SubscriptionManager.swift in Sources */,
 				FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */,
-				FC1CC2D01EE01689009FA252 /* PushAsideTransition.swift in Sources */,
 				FC099E2A1F0F729E00A65F73 /* BodyInfoViewController.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */,

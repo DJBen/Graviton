@@ -31,8 +31,12 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_target"), style: .plain, target: self, action: #selector(requestUsingLocationService))
-        self.navigationItem.searchController = searchController
-        self.definesPresentationContext = true
+        navigationItem.searchController = searchController
+        navigationItem.hidesSearchBarWhenScrolling = false
+        title = "Locations"
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        setUpBlurredBackground()
     }
 
     @objc func requestUsingLocationService() {

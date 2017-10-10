@@ -26,14 +26,14 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     lazy var rotationGR: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
 
-    let transitionController = NavigationTransitionController()
+//    let transitionController = NavigationTransitionController()
 
     var cameraController: CameraController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         loadCameraController()
-        navigationController?.delegate = transitionController
+//        navigationController?.delegate = transitionController
         view.addGestureRecognizer(doubleTap)
         view.addGestureRecognizer(pan)
         view.addGestureRecognizer(zoom)
