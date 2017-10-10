@@ -87,7 +87,7 @@ class CityManager {
         let filterClause = substr == nil ? citiesPop >= minimumPopulation : citiesPop >= minimumPopulation && citiesName.like("%\(substr!)%")
         let query = cities.select(citiesLat, citiesLng, citiesName, citiesCountry, citiesProvince, citiesIso2, citiesIso3).filter(filterClause).order(citiesName)
         return try! conn.prepare(query).map { (row) -> City in
-            return City(coordinate: CLLocationCoordinate2D.init(latitude: row.get(citiesLat), longitude: row.get(citiesLng)), name: row.get(citiesName), country: row.get(citiesCountry), province: row.get(citiesProvince), iso2: row.get(citiesIso2), iso3: row.get(citiesIso3))
+            return City(coordinate: CLLocationCoordinate2D.init(latitude: try! row.get(citiesLat), longitude: try! row.get(citiesLng)), name: try! row.get(citiesName), country: try! row.get(citiesCountry), province: try! row.get(citiesProvince), iso2: try! row.get(citiesIso2), iso3: try! row.get(citiesIso3))
         }
     }
 }

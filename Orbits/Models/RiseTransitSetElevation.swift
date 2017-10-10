@@ -10,6 +10,7 @@ import SpaceTime
 import MathUtil
 import RealmSwift
 import CoreLocation
+import GeoQueries
 
 /// This structure embeds the rise-transit-set info along with
 /// maximum elevation in a sliding window that spans a day
