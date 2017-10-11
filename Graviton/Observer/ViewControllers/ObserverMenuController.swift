@@ -117,17 +117,17 @@ class ObserverMenuController: MenuController {
     }
 
     // MARK: - Menu delivered actions
-    func jumpToCelestialPoint(_ userInfo: Any?) {
+    @objc func jumpToCelestialPoint(_ userInfo: Any?) {
         guard let dict = userInfo as? [String: Double] else { fatalError() }
         let coordinate = EquatorialCoordinate(dictionary: dict)
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.dismiss(animated: true, completion: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: self, userInfo: ["content": coordinate])
     }
 
-    func jumpToDirection(_ userInfo: Any?) {
+    @objc func jumpToDirection(_ userInfo: Any?) {
         guard let dict = userInfo as? [String: Double] else { fatalError() }
         let coordinate = HorizontalCoordinate(dictionary: dict)
-        navigationController?.popToRootViewController(animated: true)
+        navigationController?.dismiss(animated: true, completion: nil)
         NotificationCenter.default.post(name: NSNotification.Name(rawValue: "jumpToDirection"), object: self, userInfo: ["content": coordinate])
     }
 

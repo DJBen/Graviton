@@ -184,6 +184,7 @@ class ObserverViewController: SceneController {
 
     @objc func searchButtonTapped(sender: UIBarButtonItem) {
         let starSearchController = StarSearchViewController(style: .plain)
+        starSearchController.delegate = self
         let navigationController = UINavigationController(rootViewController: starSearchController)
         navigationController.modalPresentationStyle = .overCurrentContext
         self.tabBarController?.present(navigationController, animated: true, completion: nil)
@@ -316,8 +317,11 @@ class ObserverViewController: SceneController {
     }
 }
 
-private extension UIImageEffects {
-    static func blurredMenuImage(_ image: UIImage) -> UIImage {
-        return imageByApplyingBlur(to: image, withRadius: 28, tintColor: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1).withAlphaComponent(0.1), saturationDeltaFactor: 1.8, maskImage: nil)
+// MARK: - Star search view controller delegate
+extension ObserverViewController: StarSearchViewControllerDelegate {
+    func starSearchViewController(_ viewController: StarSearchViewController, didSelectStar star: Star) {
+        dismiss(animated: true, completion: nil)
+        target = BodyInfoTarget.star(star)
+        center(atTarget: target!)
     }
 }

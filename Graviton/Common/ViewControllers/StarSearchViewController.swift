@@ -9,11 +9,17 @@
 import UIKit
 import StarryNight
 
+protocol StarSearchViewControllerDelegate: NSObjectProtocol {
+    func starSearchViewController(_ viewController: StarSearchViewController, didSelectStar star: Star)
+}
+
 class StarSearchViewController: UITableViewController {
 
     private enum SearchScope {
         case all
     }
+
+    weak var delegate: StarSearchViewControllerDelegate?
 
     lazy var searchController = UISearchController(searchResultsController: nil)
 
@@ -51,14 +57,6 @@ class StarSearchViewController: UITableViewController {
         return true
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "unwindFromStarSearch", let sender = sender as? Star {
-            let vc = segue.destination as! ObserverViewController
-            vc.target = BodyInfoTarget.star(sender)
-            vc.center(atTarget: vc.target!)
-        }
-    }
-
     @objc func doneButtonTapped(sender: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
@@ -80,7 +78,7 @@ class StarSearchViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "unwindFromStarSearch", sender: currentContent[indexPath.row])
+        delegate?.starSearchViewController(self, didSelectStar: currentContent[indexPath.row])
     }
 
     private func filterStars(forSearchText searchText: String, scope: SearchScope = .all) {
