@@ -20,8 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
-        // Disable online fetching in unit tests
         UINavigationBar.configureNavigationBarStyles()
+        // Disable online fetching in unit tests
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(2)) {
             EphemerisManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
@@ -85,5 +85,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
+}
 
+extension UINavigationController {
+    override open var childViewControllerForStatusBarStyle: UIViewController? {
+        return self.topViewController
+    }
 }

@@ -45,6 +45,7 @@ class StarSearchViewController: UITableViewController {
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
+        navigationController?.navigationBar.barStyle = .black
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
         title = "Star Search"
@@ -54,7 +55,7 @@ class StarSearchViewController: UITableViewController {
     }
 
     override var prefersStatusBarHidden: Bool {
-        return true
+        return Device.isiPhoneX == false
     }
 
     @objc func doneButtonTapped(sender: UIBarButtonItem) {
@@ -69,6 +70,11 @@ class StarSearchViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return currentContent.count
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.textLabel?.textColor = UIColor.white
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
