@@ -111,7 +111,11 @@ class ObserverViewController: SceneController {
     }
 
     override var prefersStatusBarHidden: Bool {
-        return true
+        return Device.isiPhoneX == false
+    }
+
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {

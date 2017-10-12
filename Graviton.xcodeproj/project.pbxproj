@@ -163,6 +163,7 @@
 		FCD62BDC1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD62BDB1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift */; };
 		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
 		FCE0A7541E8919110009EFCB /* PlutoPropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */; };
+		FCE9DB861F8F504E008631DC /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE9DB851F8F504E008631DC /* Device.swift */; };
 		FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */; };
 		FCEC582C1F8CC524008860BB /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC582A1F8CC511008860BB /* GeoQueries.framework */; };
 		FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */; };
@@ -380,6 +381,7 @@
 		FCD62BDB1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemNavigationController.swift; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
 		FCE0A7531E8919110009EFCB /* PlutoPropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlutoPropertyExtractor.swift; sourceTree = "<group>"; };
+		FCE9DB851F8F504E008631DC /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+BlurredBackground.swift"; sourceTree = "<group>"; };
 		FCEC582A1F8CC511008860BB /* GeoQueries.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoQueries.framework; path = Carthage/Build/iOS/GeoQueries.framework; sourceTree = "<group>"; };
 		FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetElevation.swift; sourceTree = "<group>"; };
@@ -1026,6 +1028,7 @@
 				EF7A88E91F034A6900CD3CD7 /* SceneKit+Util.swift */,
 				FC099E441F1AD40D00A65F73 /* Formatters.swift */,
 				FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */,
+				FCE9DB851F8F504E008631DC /* Device.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1310,6 +1313,7 @@
 				FCF2EA901EF633A600B787F8 /* TimeWarpVerticalBar.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
 				FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */,
+				FCE9DB861F8F504E008631DC /* Device.swift in Sources */,
 				FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */,
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
 				FC1CC2C81EE01646009FA252 /* LocationManager.swift in Sources */,

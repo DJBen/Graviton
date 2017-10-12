@@ -39,7 +39,7 @@ class ObserverDetailViewController: UIViewController {
     }
 
     override var prefersStatusBarHidden: Bool {
-        return true
+        return Device.isiPhoneX == false
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
