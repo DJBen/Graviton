@@ -1,194 +1,199 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-	<dict>
-		<key>section</key>
-		<string>Moon</string>
-		<key>content</key>
-		<array>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Moon Phase</string>
-				<key>image</key>
-				<string>row_icon_moon</string>
-				<key>binding</key>
-				<string>showMoonPhase</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Earthshine</string>
-				<key>image</key>
-				<string>row_icon_earthshine</string>
-				<key>binding</key>
-				<string>showEarthshine</string>
-				<key>disableCondition</key>
+<dict>
+	<key>title</key>
+	<string>Rendering</string>
+	<key>contents</key>
+	<array>
+		<dict>
+			<key>section</key>
+			<string>Moon</string>
+			<key>content</key>
+			<array>
 				<dict>
-					<key>key</key>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Moon Phase</string>
+					<key>image</key>
+					<string>row_icon_moon</string>
+					<key>binding</key>
 					<string>showMoonPhase</string>
-					<key>condition</key>
-					<false/>
-					<key>fallback</key>
-					<false/>
 				</dict>
-			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>section</key>
-		<string>Scene</string>
-		<key>content</key>
-		<array>
-			<dict>
-				<key>type</key>
-				<string>multipleSelect</string>
-				<key>text</key>
-				<string>Ground Texture</string>
-				<key>image</key>
-				<string>raw_icon_ground_texture</string>
-				<key>binding</key>
-				<string>groundTexture</string>
-				<key>options</key>
-				<array>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Earthshine</string>
+					<key>image</key>
+					<string>row_icon_earthshine</string>
+					<key>binding</key>
+					<string>showEarthshine</string>
+					<key>disableCondition</key>
 					<dict>
 						<key>key</key>
-						<string>none</string>
-						<key>text</key>
-						<string>None</string>
+						<string>showMoonPhase</string>
+						<key>condition</key>
+						<false/>
+						<key>fallback</key>
+						<false/>
 					</dict>
-					<dict>
-						<key>key</key>
-						<string>debugNode</string>
-						<key>text</key>
-						<string>Debugging texture</string>
-					</dict>
-					<dict>
-						<key>key</key>
-						<string>citySilhoulette</string>
-						<key>text</key>
-						<string>City Silhoulette</string>
-					</dict>
-					<dict>
-						<key>key</key>
-						<string>silverMountain</string>
-						<key>text</key>
-						<string>Silver Mountain</string>
-					</dict>
-				</array>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>multipleSelect</string>
-				<key>text</key>
-				<string>Antialiasing</string>
-				<key>image</key>
-				<string>row_icon_antialiasing</string>
-				<key>binding</key>
-				<string>antialiasingMode</string>
-				<key>options</key>
-				<array>
-					<dict>
-						<key>key</key>
-						<string>none</string>
-						<key>text</key>
-						<string>None</string>
-					</dict>
-					<dict>
-						<key>key</key>
-						<string>multisampling2X</string>
-						<key>text</key>
-						<string>Multisampling 2X</string>
-					</dict>
-					<dict>
-						<key>key</key>
-						<string>multisampling4X</string>
-						<key>text</key>
-						<string>Multisampling 4X</string>
-					</dict>
-				</array>
-			</dict>
-		</array>
-	</dict>
-	<dict>
-		<key>section</key>
-		<string>Labels and Indicators</string>
-		<key>content</key>
-		<array>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Use UTC instead of local time</string>
-				<key>image</key>
-				<string>row_icon_clock</string>
-				<key>binding</key>
-				<string>useUtcTime</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Celestial Equator</string>
-				<key>image</key>
-				<string>row_icon_celestial_sphere</string>
-				<key>binding</key>
-				<string>showCelestialEquator</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Ecliptic</string>
-				<key>image</key>
-				<string>row_icon_ecliptic</string>
-				<key>binding</key>
-				<string>showEcliptic</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Constellation Label</string>
-				<key>image</key>
-				<string>row_icon_constellation_label</string>
-				<key>binding</key>
-				<string>showConstellationLabel</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Planet Label</string>
-				<key>image</key>
-				<string>row_icon_constellation_label</string>
-				<key>binding</key>
-				<string>showPlanetLabel</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Direction Markers</string>
-				<key>image</key>
-				<string>row_icon_direction_marker</string>
-				<key>binding</key>
-				<string>showDirectionMarkers</string>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Show Zenith &amp; Nadir Indicators</string>
-				<key>image</key>
-				<string>row_icon_compass_rose</string>
-				<key>binding</key>
-				<string>showZenithAndNadirMarkers</string>
-			</dict>
-		</array>
-	</dict>
-</array>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>section</key>
+			<string>Scene</string>
+			<key>content</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<string>multipleSelect</string>
+					<key>text</key>
+					<string>Ground Texture</string>
+					<key>image</key>
+					<string>raw_icon_ground_texture</string>
+					<key>binding</key>
+					<string>groundTexture</string>
+					<key>options</key>
+					<array>
+						<dict>
+							<key>key</key>
+							<string>none</string>
+							<key>text</key>
+							<string>None</string>
+						</dict>
+						<dict>
+							<key>key</key>
+							<string>debugNode</string>
+							<key>text</key>
+							<string>Debugging texture</string>
+						</dict>
+						<dict>
+							<key>key</key>
+							<string>citySilhoulette</string>
+							<key>text</key>
+							<string>City Silhoulette</string>
+						</dict>
+						<dict>
+							<key>key</key>
+							<string>silverMountain</string>
+							<key>text</key>
+							<string>Silver Mountain</string>
+						</dict>
+					</array>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>multipleSelect</string>
+					<key>text</key>
+					<string>Antialiasing</string>
+					<key>image</key>
+					<string>row_icon_antialiasing</string>
+					<key>binding</key>
+					<string>antialiasingMode</string>
+					<key>options</key>
+					<array>
+						<dict>
+							<key>key</key>
+							<string>none</string>
+							<key>text</key>
+							<string>None</string>
+						</dict>
+						<dict>
+							<key>key</key>
+							<string>multisampling2X</string>
+							<key>text</key>
+							<string>Multisampling 2X</string>
+						</dict>
+						<dict>
+							<key>key</key>
+							<string>multisampling4X</string>
+							<key>text</key>
+							<string>Multisampling 4X</string>
+						</dict>
+					</array>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>section</key>
+			<string>Labels and Indicators</string>
+			<key>content</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Use UTC instead of local time</string>
+					<key>image</key>
+					<string>row_icon_clock</string>
+					<key>binding</key>
+					<string>useUtcTime</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Celestial Equator</string>
+					<key>image</key>
+					<string>row_icon_celestial_sphere</string>
+					<key>binding</key>
+					<string>showCelestialEquator</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Ecliptic</string>
+					<key>image</key>
+					<string>row_icon_ecliptic</string>
+					<key>binding</key>
+					<string>showEcliptic</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Constellation Label</string>
+					<key>image</key>
+					<string>row_icon_constellation_label</string>
+					<key>binding</key>
+					<string>showConstellationLabel</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Planet Label</string>
+					<key>image</key>
+					<string>row_icon_constellation_label</string>
+					<key>binding</key>
+					<string>showPlanetLabel</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Direction Markers</string>
+					<key>image</key>
+					<string>row_icon_direction_marker</string>
+					<key>binding</key>
+					<string>showDirectionMarkers</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Show Zenith &amp; Nadir Indicators</string>
+					<key>image</key>
+					<string>row_icon_compass_rose</string>
+					<key>binding</key>
+					<string>showZenithAndNadirMarkers</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
 </plist>

@@ -29,16 +29,18 @@ struct Menu {
         return try! Menu.init(filePath: path)
     }()
 
+    let title: String?
     let sections: [Section]
 
     init(filePath: String) throws {
-        guard let rawSections = NSArray(contentsOfFile: filePath) as? [[String: AnyObject]] else {
+        guard let rawMenu = NSDictionary(contentsOfFile: filePath) as? [String: AnyObject], let rawSections = rawMenu["contents"] as? [[String: AnyObject]] else {
             throw MenuParseError.menuFileNotFound
         }
         var sections = [Section]()
         for rawSection in rawSections {
             sections.append(try Section.init(rawSection: rawSection))
         }
+        self.title = rawMenu["title"] as? String
         self.sections = sections
     }
 

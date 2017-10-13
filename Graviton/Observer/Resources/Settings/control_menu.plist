@@ -1,23 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-	<dict>
-		<key>section</key>
-		<string>Camera</string>
-		<key>content</key>
-		<array>
-			<dict>
-				<key>type</key>
-				<string>toggle</string>
-				<key>text</key>
-				<string>Stabilize Camera</string>
-				<key>image</key>
-				<string>row_icon_stabilize</string>
-				<key>binding</key>
-				<string>stabilizeCamera</string>
-			</dict>
-		</array>
-	</dict>
-</array>
+<dict>
+	<key>title</key>
+	<string>Control</string>
+	<key>contents</key>
+	<array>
+		<dict>
+			<key>section</key>
+			<string>Camera</string>
+			<key>content</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
+					<string>Stabilize Camera</string>
+					<key>image</key>
+					<string>row_icon_stabilize</string>
+					<key>binding</key>
+					<string>stabilizeCamera</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
 </plist>

@@ -1,101 +1,104 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<array>
-	<dict>
-		<key>content</key>
-		<array>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>North</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
+<dict>
+	<key>contents</key>
+	<array>
+		<dict>
+			<key>content</key>
+			<array>
 				<dict>
-					<key>aziDeg</key>
-					<integer>0</integer>
-					<key>altDeg</key>
-					<integer>0</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>North</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>0</integer>
+						<key>altDeg</key>
+						<integer>0</integer>
+					</dict>
 				</dict>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>East</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
 				<dict>
-					<key>aziDeg</key>
-					<integer>90</integer>
-					<key>altDeg</key>
-					<integer>0</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>East</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>90</integer>
+						<key>altDeg</key>
+						<integer>0</integer>
+					</dict>
 				</dict>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>South</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
 				<dict>
-					<key>aziDeg</key>
-					<integer>180</integer>
-					<key>altDeg</key>
-					<integer>0</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>South</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>180</integer>
+						<key>altDeg</key>
+						<integer>0</integer>
+					</dict>
 				</dict>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>West</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
 				<dict>
-					<key>aziDeg</key>
-					<integer>270</integer>
-					<key>altDeg</key>
-					<integer>0</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>West</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>270</integer>
+						<key>altDeg</key>
+						<integer>0</integer>
+					</dict>
 				</dict>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>Zenith</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
 				<dict>
-					<key>aziDeg</key>
-					<integer>0</integer>
-					<key>altDeg</key>
-					<integer>90</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>Zenith</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>0</integer>
+						<key>altDeg</key>
+						<integer>90</integer>
+					</dict>
 				</dict>
-			</dict>
-			<dict>
-				<key>type</key>
-				<string>button</string>
-				<key>text</key>
-				<string>Nadir</string>
-				<key>key</key>
-				<string>jumpToDirection</string>
-				<key>userInfo</key>
 				<dict>
-					<key>aziDeg</key>
-					<integer>0</integer>
-					<key>altDeg</key>
-					<integer>-90</integer>
+					<key>type</key>
+					<string>button</string>
+					<key>text</key>
+					<string>Nadir</string>
+					<key>key</key>
+					<string>jumpToDirection</string>
+					<key>userInfo</key>
+					<dict>
+						<key>aziDeg</key>
+						<integer>0</integer>
+						<key>altDeg</key>
+						<integer>-90</integer>
+					</dict>
 				</dict>
-			</dict>
-		</array>
-	</dict>
-</array>
+			</array>
+		</dict>
+	</array>
+</dict>
 </plist>
