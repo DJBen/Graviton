@@ -49,6 +49,7 @@ extension RiseTransitSetElevation {
     var tableRows: [String] {
         return zip(["Rises at ", "Transits at ", "Sets at "], [riseAt, transitAt, setAt]).flatMap { (str, julianDate) -> String? in
             if julianDate == nil { return nil }
+            dateFormatter.timeZone = LocationManager.default.timeZone
             return str + dateFormatter.string(from: julianDate!.date)
         }
     }

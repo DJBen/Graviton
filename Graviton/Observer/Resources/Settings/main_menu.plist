@@ -18,7 +18,7 @@
 					<string>location</string>
 					<key>image</key>
 					<string>row_icon_target</string>
-					<key>reloadUponLocationUpdate</key>
+					<key>volatile</key>
 					<true/>
 				</dict>
 			</array>

@@ -8,7 +8,6 @@
 
 import UIKit
 import QuartzCore
-import KMNavigationBarTransition
 import SpaceTime
 
 private let buttonCellId = "buttonCell"
@@ -52,6 +51,7 @@ class ObserverMenuController: MenuController {
 
     private var locationSubId: SubscriptionUUID!
     private var indexPathsToDisable = Set<IndexPath>()
+    private var selectedCity: City?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -91,6 +91,8 @@ class ObserverMenuController: MenuController {
             })
         }
 
+        selectedCity = CityManager.default.currentlyLocatedCity
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(sender:)))
         title = menu.title
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -104,6 +106,9 @@ class ObserverMenuController: MenuController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if let volatileIndexPaths = self.menu?.volatileIndexPaths {
+            self.tableView.reloadRows(at: volatileIndexPaths, with: .none)
+        }
     }
 
     deinit {
@@ -113,6 +118,7 @@ class ObserverMenuController: MenuController {
     }
 
     @objc func doneButtonTapped(sender: UIBarButtonItem) {
+        CityManager.default.currentlyLocatedCity = selectedCity
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
@@ -189,8 +195,8 @@ class ObserverMenuController: MenuController {
             if identifier == "location" {
                 cell = MenuLocationCell(style: .subtitle, reuseIdentifier: locationCellId)
                 let locationCell = cell as! MenuLocationCell
-                locationCell.textLabel?.text = CityManager.default.locationDescription
-                locationCell.detailTextLabel?.text = CityManager.default.locationDetailDescription
+                locationCell.textLabel?.text = cityDescriptiveTitle
+                locationCell.detailTextLabel?.text = cityDescriptiveSubtitle
                 locationCell.accessoryType = .disclosureIndicator
             } else {
                 fatalError("Unrecognized external menu identifier")
@@ -213,6 +219,8 @@ class ObserverMenuController: MenuController {
             navigationController?.pushViewController(subMenuController, animated: true)
         } else if case let .external(identifier, _) = item.type, identifier == "location" {
             let subMenuController = ObserverLocationMenuController(style: .plain)
+            subMenuController.delegate = self
+            subMenuController.selectedCity = selectedCity
             navigationController?.pushViewController(subMenuController, animated: true)
         }
     }
@@ -242,5 +250,33 @@ class ObserverMenuController: MenuController {
             return 44
         }
     }
+}
 
+extension ObserverMenuController: ObserverLocationMenuControllerDelegate {
+    func observerLocationMenuController(_ controller: ObserverLocationMenuController, cityDidChange city: City?) {
+        selectedCity = city
+    }
+}
+
+extension ObserverMenuController {
+    var cityDescriptiveTitle: String {
+        if let city = selectedCity {
+            return city.name
+        }
+        return "Current Location"
+    }
+
+    var cityDescriptiveSubtitle: String {
+        if let city = selectedCity {
+            if city.iso3 == "USA" {
+                return "\(city.country), \(city.provinceAbbreviation!)"
+            }
+            return city.country
+        }
+        if let coordinate = LocationManager.default.content?.coordinate {
+            let coordFormatter = CoordinateFormatter()
+            return coordFormatter.string(for: coordinate)!
+        }
+        return "Unknown"
+    }
 }

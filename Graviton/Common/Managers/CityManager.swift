@@ -55,32 +55,10 @@ class CityManager {
             if let city = currentlyLocatedCity {
                 let location = CLLocation.init(latitude: city.coordinate.latitude, longitude: city.coordinate.longitude)
                 LocationManager.default.locationOverride = location
-
             } else {
                 LocationManager.default.locationOverride = nil
             }
         }
-    }
-
-    var locationDescription: String {
-        if let city = currentlyLocatedCity {
-            return city.name
-        }
-        return "Current Location"
-    }
-
-    var locationDetailDescription: String {
-        if let city = currentlyLocatedCity {
-            if city.iso3 == "USA" {
-                return "\(city.country), \(city.provinceAbbreviation!)"
-            }
-            return city.country
-        }
-        if let coordinate = LocationManager.default.content?.coordinate {
-            let coordFormatter = CoordinateFormatter()
-            return coordFormatter.string(for: coordinate)!
-        }
-        return "Unknown"
     }
 
     static func fetchCities(withNameContaining substr: String? = nil, minimumPopulation: Double = 100_000) -> [City] {
