@@ -168,7 +168,8 @@ struct MenuItem {
         case "external":
             guard let identifier = rawItem["identifier"] as? String else { throw MenuParseError.missingExternalIdentifier }
             let reloadUponLocationUpdate = rawItem["reloadUponLocationUpdate"] as? Bool ?? false
-            self.type = .external(identifier, ExternalRowDetails(reloadUponLocationUpdate: reloadUponLocationUpdate))
+            let volatile = rawItem["volatile"] as? Bool ?? false
+            self.type = .external(identifier, ExternalRowDetails(reloadUponLocationUpdate: reloadUponLocationUpdate, volatile: volatile))
         default:
             throw MenuParseError.unrecognizedMenuType
         }
@@ -182,17 +183,32 @@ struct MenuItem {
 
 struct ExternalRowDetails {
     let reloadUponLocationUpdate: Bool
+    let volatile: Bool
 
     init() {
         reloadUponLocationUpdate = false
+        volatile = false
     }
 
-    init(reloadUponLocationUpdate: Bool) {
+    init(reloadUponLocationUpdate: Bool, volatile: Bool) {
         self.reloadUponLocationUpdate = reloadUponLocationUpdate
+        self.volatile = volatile
     }
 }
 
 extension Menu {
+    private func filterIndexPath(condition: (MenuItem) -> Bool) -> [IndexPath] {
+        var indexPaths = [IndexPath]()
+        for (i, section) in sections.enumerated() {
+            for (j, item) in section.items.enumerated() {
+                if condition(item) {
+                    indexPaths.append(IndexPath.init(row: j, section: i))
+                }
+            }
+        }
+        return indexPaths
+    }
+
     func indexPath(for setting: Settings.BooleanSetting) -> IndexPath? {
         for (i, section) in sections.enumerated() {
             for (j, item) in section.items.enumerated() {
@@ -207,17 +223,25 @@ extension Menu {
     }
 
     var indexPathsNeedsReloadUponLocationUpdate: [IndexPath] {
-        var indexPaths = [IndexPath]()
-        for (i, section) in sections.enumerated() {
-            for (j, item) in section.items.enumerated() {
-                if case let .external(_, detail) = item.type {
-                    if detail.reloadUponLocationUpdate {
-                        indexPaths.append(IndexPath.init(row: j, section: i))
-                    }
+        return filterIndexPath { (item) in
+            if case let .external(_, detail) = item.type {
+                if detail.reloadUponLocationUpdate {
+                    return true
                 }
             }
+            return false
         }
-        return indexPaths
+    }
+
+    var volatileIndexPaths: [IndexPath] {
+        return filterIndexPath { (item) in
+            if case let .external(_, detail) = item.type {
+                if detail.volatile {
+                    return true
+                }
+            }
+            return false
+        }
     }
 }
 

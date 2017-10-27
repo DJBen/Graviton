@@ -10,6 +10,10 @@ import UIKit
 
 private let cityCellId = "cityCell"
 
+protocol ObserverLocationMenuControllerDelegate: NSObjectProtocol {
+    func observerLocationMenuController(_ controller: ObserverLocationMenuController, cityDidChange city: City?)
+}
+
 class ObserverLocationMenuController: MenuController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     lazy var searchController: UISearchController = {
@@ -27,6 +31,8 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     var dataSource: [City] {
         return citySubset ?? cities
     }
+    weak var delegate: ObserverLocationMenuControllerDelegate?
+    var selectedCity: City?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +46,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
     }
 
     @objc func requestUsingLocationService() {
-        CityManager.default.currentlyLocatedCity = nil
+        delegate?.observerLocationMenuController(self, cityDidChange: nil)
     }
 
     // MARK: - Table view data source
@@ -68,7 +74,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         } else {
             detail = city.country
         }
-        if let currentCity = CityManager.default.currentlyLocatedCity, city == currentCity {
+        if let currentCity = selectedCity, city == currentCity {
             cell.accessoryType = .checkmark
             cell.setSelected(true, animated: false)
         } else {
@@ -83,7 +89,7 @@ class ObserverLocationMenuController: MenuController, UISearchControllerDelegate
         let city = dataSource[indexPath.row]
         let cell = tableView.cellForRow(at: indexPath)!
         cell.accessoryType = .checkmark
-        CityManager.default.currentlyLocatedCity = city
+        delegate?.observerLocationMenuController(self, cityDidChange: city)
     }
 
     override func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {

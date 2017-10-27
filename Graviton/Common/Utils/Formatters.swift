@@ -28,6 +28,7 @@ struct Formatters {
         if Settings.default[.useUtcTime] {
             return utcDateFormatter
         } else {
+            localTimeDateFormatter.timeZone = LocationManager.default.timeZone
             return localTimeDateFormatter
         }
     }

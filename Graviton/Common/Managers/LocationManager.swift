@@ -19,6 +19,11 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
         didSet {
             if let loc = content {
                 updateAllSubscribers(loc)
+                LocationManager.decodeTimeZone(location: loc) { (timeZone) in
+                    self.timeZone = timeZone
+                }
+            } else {
+                self.timeZone = TimeZone.current
             }
         }
     }
@@ -35,6 +40,20 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
         manager.pausesLocationUpdatesAutomatically = true
         return manager
     }()
+
+    public static func decodeTimeZone(location: CLLocation, completion: @escaping (TimeZone) -> Void) {
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+            let timeZone: TimeZone
+            if let pm = placemarks?.first {
+                timeZone = pm.timeZone ?? TimeZone.current
+            } else {
+                logger.error("Cannot fetch time zone for \(location). \(String(describing: error))")
+                timeZone = TimeZone.current
+            }
+            completion(timeZone)
+        }
+    }
 
     func startLocationService() {
         locationManager.delegate = self
