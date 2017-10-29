@@ -115,7 +115,6 @@
 		FC7D62041E9B498400BEA5BE /* content_rendering_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */; };
 		FC7D62051E9B498400BEA5BE /* main_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC7D62031E9B498400BEA5BE /* main_menu.plist */; };
 		FC959E581E9B4D960026B222 /* ObserverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E551E9B4D960026B222 /* ObserverScene.swift */; };
-		FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */; };
 		FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */; };
 		FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */; };
 		FC959E621E9B4FEC0026B222 /* CameraResponsive.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */; };
@@ -328,7 +327,6 @@
 		FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = content_rendering_menu.plist; sourceTree = "<group>"; };
 		FC7D62031E9B498400BEA5BE /* main_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = main_menu.plist; sourceTree = "<group>"; };
 		FC959E551E9B4D960026B222 /* ObserverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverScene.swift; sourceTree = "<group>"; };
-		FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObserverScene+Annotate.swift"; sourceTree = "<group>"; };
 		FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuController.swift; sourceTree = "<group>"; };
 		FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverViewController.swift; sourceTree = "<group>"; };
 		FC959E601E9B4FEC0026B222 /* CameraResponsive.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraResponsive.swift; sourceTree = "<group>"; };
@@ -853,7 +851,6 @@
 			isa = PBXGroup;
 			children = (
 				FC959E551E9B4D960026B222 /* ObserverScene.swift */,
-				FC959E561E9B4D960026B222 /* ObserverScene+Annotate.swift */,
 				FC18E1B51EF613E30061C2F6 /* ObserverOverlayScene.swift */,
 				FCF2EA8C1EF62ABB00B787F8 /* Assets.xcassets */,
 			);
@@ -1327,7 +1324,6 @@
 				FC38ED1D1F417A9C00E9EEC9 /* Assertions.swift in Sources */,
 				FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */,
 				FC099E411F1899A800A65F73 /* ObserverInfo.swift in Sources */,
-				FC959E591E9B4D960026B222 /* ObserverScene+Annotate.swift in Sources */,
 				EF7A88EA1F034A6900CD3CD7 /* SceneKit+Util.swift in Sources */,
 				FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */,
 				EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */,

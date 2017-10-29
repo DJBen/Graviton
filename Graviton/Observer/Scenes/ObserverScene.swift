@@ -55,6 +55,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     var gestureOrientation: Quaternion = Quaternion.identity
 
     lazy var stars = Star.magitudeLessThan(Constants.Observer.maximumDisplayMagnitude)
+    private var starMaterials: [String: SCNMaterial] = [:]
 
     private lazy var camera: SCNCamera = {
         let camera = SCNCamera()
@@ -224,6 +225,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     var jumpToCelestialPointObserver: NSObjectProtocol!
     var jumpToDirectionObserver: NSObjectProtocol!
 
+    // MARK: - View Life Cycle
+
     override init() {
         super.init()
         resetCamera()
@@ -272,191 +275,16 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
     }
 
-    private func loadPanoramaTexture(_ key: String) {
-        self.panoramaNode.isHidden = key == "none"
-        let material = self.panoramaNode.geometry?.firstMaterial
-        switch key {
-        case "citySilhoulette":
-            material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
-            material?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
-        case "debugNode":
-            material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
-            material?.diffuse.contents = UIColor.white
-        case "silverMountain":
-            material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "mounain_panorama")
-            material?.diffuse.contents = UIColor.white
-        case "none":
-            break
-        default:
-            fatalError("unrecognized groundTexture setting")
-        }
-    }
-
     deinit {
         NotificationCenter.default.removeObserver(jumpToCelestialPointObserver)
         NotificationCenter.default.removeObserver(jumpToDirectionObserver)
     }
 
-    // MARK: Static Content Drawing
-
-    private var starMaterials: [String: SCNMaterial] = [:]
-
-    private func material(forStar star: Star) -> SCNMaterial {
-        let spect = star.physicalInfo.spectralType
-
-        if let spect = spect {
-            let index = "\(spect.type)\(spect.subType != nil ? String(format: "%.1f", spect.subType!) : String())V"
-            if let mat = starMaterials[index] {
-                return mat
-            }
-            let mat = SCNMaterial()
-            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
-            mat.locksAmbientWithDiffuse = true
-            mat.diffuse.contents = UIColor.init(temperature: spect.temperature)
-            mat.selfIllumination.contents = UIColor.gray
-            starMaterials[index] = mat
-            return mat
-        } else {
-            if let defaultMat = starMaterials["default"] {
-                return defaultMat
-            }
-            let mat = SCNMaterial()
-            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
-            mat.locksAmbientWithDiffuse = true
-            mat.diffuse.contents = UIColor.white
-            mat.selfIllumination.contents = UIColor.gray
-            starMaterials["default"] = mat
-            return mat
-        }
-    }
-
-    private func drawStars() {
-        for star in stars {
-            let radius = radiusForMagnitude(star.physicalInfo.apparentMagnitude)
-            let plane = SCNPlane(width: radius, height: radius)
-            plane.firstMaterial = material(forStar: star)
-            let starNode = SCNNode(geometry: plane)
-            let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
-            starNode.position = SCNVector3(coord)
-            starNode.orientation = SCNQuaternion(Quaternion.init(lookAt: Vector3.zero, from: Vector3(starNode.position)))
-            starNode.name = String(star.identity.id)
-            starNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
-            rootNode.addChildNode(starNode)
-        }
-    }
-
-    private func drawConstellationLines() {
-        let constellationLineNode = SCNNode()
-        constellationLineNode.name = "constellation lines"
-        rootNode.addChildNode(constellationLineNode)
-        if Settings.default[.constellationLineMode] == .none { return }
-        for con in Constellation.all {
-            for line in con.connectionLines {
-                var coord1 = line.star1.physicalInfo.coordinate.normalized() * starLayerRadius
-                var coord2 = line.star2.physicalInfo.coordinate.normalized() * starLayerRadius
-                let diff = coord2 - coord1
-                coord1 = coord1 + diff * 0.05
-                coord2 = coord2 - diff * 0.05
-                let vertexSources = SCNGeometrySource(vertices: [coord1, coord2].map { SCNVector3($0) })
-                let elements = SCNGeometryElement(indices: [CInt(0), CInt(1)], primitiveType: .line)
-                let lineGeo = SCNGeometry(sources: [vertexSources], elements: [elements])
-                let mat = SCNMaterial()
-                mat.diffuse.contents = #colorLiteral(red: 0.7595454454, green: 0.89753443, blue: 0.859713316, alpha: 1).withAlphaComponent(0.3)
-                mat.locksAmbientWithDiffuse = true
-                lineGeo.firstMaterial = mat
-                let lineNode = SCNNode(geometry: lineGeo)
-                constellationLineNode.addChildNode(lineNode)
-            }
-        }
-    }
-
-    // MARK: Dynamic content drawing
-
-    private func drawPlanetsAndMoon(ephemeris: Ephemeris) {
-        ephemeris.forEach { (body) in
-            guard rootNode.childNode(withName: String(body.naifId), recursively: false) == nil else { return }
-            var diffuse: UIImage?
-            switch body.naif {
-            case let .majorBody(mb):
-                switch mb {
-                case .earth: return
-                case .pluto:
-                    diffuse = #imageLiteral(resourceName: "grey_planet_diffuse")
-                case .mercury:
-                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-                case .venus:
-                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-                case .jupiter:
-                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
-                case .saturn:
-                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
-                case .mars:
-                    diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
-                case .uranus:
-                    diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
-                case .neptune:
-                    diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
-                }
-                let planetNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
-                planetNode.geometry?.firstMaterial?.isDoubleSided = true
-                planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
-                planetNode.geometry?.firstMaterial?.locksAmbientWithDiffuse = true
-                planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
-                planetNode.name = String(body.naifId)
-                planetNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
-                rootNode.addChildNode(planetNode)
-            case let .moon(m):
-                if m == Naif.Moon.luna, moonNode.parent == nil {
-                    rootNode.addChildNode(moonNode)
-                    rootNode.addChildNode(moonLightingNode)
-                    rootNode.addChildNode(moonEarthshineNode)
-                    rootNode.addChildNode(moonFullLightingNode)
-                }
-            default:
-                break
-            }
-        }
-    }
-
-    private func drawEcliptic(earth: CelestialBody) {
-        func transform(position: Vector3) -> Vector3 {
-            let rotated = position.oblique(by: earth.obliquity)
-            return rotated.normalized() * auxillaryLineLayerRadius
-        }
-        eclipticNode?.removeFromParentNode()
-        eclipticNode = EclipticLineNode(earth: earth, rawToModelCoordinateTransform: transform)
-        rootNode.addChildNode(eclipticNode!)
-    }
-
-    private func drawCelestialEquator(earth: CelestialBody) {
-        func transform(position: Vector3) -> Vector3 {
-            return position.normalized() * auxillaryLineLayerRadius
-        }
-        celestialEquatorNode?.removeFromParentNode()
-        celestialEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
-        rootNode.addChildNode(celestialEquatorNode!)
-    }
-
-    private func drawAuxillaryLines(ephemeris: Ephemeris) {
-        let earth = ephemeris[399]!
-        drawEcliptic(earth: earth)
-        drawCelestialEquator(earth: earth)
-    }
-
-    private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
-        let maxSize: Double = 0.28
-        let minSize: Double = 0.01
-        let linearEasing = Easing(startValue: maxSize, endValue: minSize)
-        let progress = mag / (blendOutEnd - blendOutStart)
-        return CGFloat(linearEasing.value(at: progress))
-    }
-
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    // MARK: - Rendering Update
 
     private func updateForZoomChanges() {
         if let id = ephemerisSubscriptionIdentifier, let ephemeris = EphemerisManager.default.content(for: id) {
@@ -638,6 +466,250 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         if let moonBody = ephemeris[.moon(.luna)], let relativePos = moonBody.motion?.position {
             let moonDisplaySize = moonBody.radius * moonLayerRadius / relativePos.length
             (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
+        }
+    }
+}
+
+// MARK: Dynamic Content Drawing
+
+private extension ObserverScene {
+    private func drawConstellationLines() {
+        let constellationLineNode = SCNNode()
+        constellationLineNode.name = "constellation lines"
+        rootNode.addChildNode(constellationLineNode)
+        if Settings.default[.constellationLineMode] == .none { return }
+        for con in Constellation.all {
+            for line in con.connectionLines {
+                var coord1 = line.star1.physicalInfo.coordinate.normalized() * starLayerRadius
+                var coord2 = line.star2.physicalInfo.coordinate.normalized() * starLayerRadius
+                let diff = coord2 - coord1
+                coord1 = coord1 + diff * 0.05
+                coord2 = coord2 - diff * 0.05
+                let vertexSources = SCNGeometrySource(vertices: [coord1, coord2].map { SCNVector3($0) })
+                let elements = SCNGeometryElement(indices: [CInt(0), CInt(1)], primitiveType: .line)
+                let lineGeo = SCNGeometry(sources: [vertexSources], elements: [elements])
+                let mat = SCNMaterial()
+                mat.diffuse.contents = #colorLiteral(red: 0.7595454454, green: 0.89753443, blue: 0.859713316, alpha: 1).withAlphaComponent(0.3)
+                mat.locksAmbientWithDiffuse = true
+                lineGeo.firstMaterial = mat
+                let lineNode = SCNNode(geometry: lineGeo)
+                constellationLineNode.addChildNode(lineNode)
+            }
+        }
+    }
+
+    private func drawPlanetsAndMoon(ephemeris: Ephemeris) {
+        ephemeris.forEach { (body) in
+            guard rootNode.childNode(withName: String(body.naifId), recursively: false) == nil else { return }
+            var diffuse: UIImage?
+            switch body.naif {
+            case let .majorBody(mb):
+                switch mb {
+                case .earth: return
+                case .pluto:
+                    diffuse = #imageLiteral(resourceName: "grey_planet_diffuse")
+                case .mercury:
+                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+                case .venus:
+                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+                case .jupiter:
+                    diffuse = #imageLiteral(resourceName: "yellow_planet_diffuse")
+                case .saturn:
+                    diffuse = #imageLiteral(resourceName: "orange_planet_diffuse")
+                case .mars:
+                    diffuse = #imageLiteral(resourceName: "red_planet_diffuse")
+                case .uranus:
+                    diffuse = #imageLiteral(resourceName: "pale_blue_planet_diffuse")
+                case .neptune:
+                    diffuse = #imageLiteral(resourceName: "blue_planet_diffuse")
+                }
+                let planetNode = SCNNode(geometry: SCNPlane(width: 0.1, height: 0.1))
+                planetNode.geometry?.firstMaterial?.isDoubleSided = true
+                planetNode.geometry!.firstMaterial!.diffuse.contents = diffuse!
+                planetNode.geometry?.firstMaterial?.locksAmbientWithDiffuse = true
+                planetNode.geometry!.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "planet_transparent")
+                planetNode.name = String(body.naifId)
+                planetNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+                rootNode.addChildNode(planetNode)
+            case let .moon(m):
+                if m == Naif.Moon.luna, moonNode.parent == nil {
+                    rootNode.addChildNode(moonNode)
+                    rootNode.addChildNode(moonLightingNode)
+                    rootNode.addChildNode(moonEarthshineNode)
+                    rootNode.addChildNode(moonFullLightingNode)
+                }
+            default:
+                break
+            }
+        }
+    }
+
+    private func drawEcliptic(earth: CelestialBody) {
+        func transform(position: Vector3) -> Vector3 {
+            let rotated = position.oblique(by: earth.obliquity)
+            return rotated.normalized() * auxillaryLineLayerRadius
+        }
+        eclipticNode?.removeFromParentNode()
+        eclipticNode = EclipticLineNode(earth: earth, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(eclipticNode!)
+    }
+
+    private func drawCelestialEquator(earth: CelestialBody) {
+        func transform(position: Vector3) -> Vector3 {
+            return position.normalized() * auxillaryLineLayerRadius
+        }
+        celestialEquatorNode?.removeFromParentNode()
+        celestialEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(celestialEquatorNode!)
+    }
+
+    private func drawAuxillaryLines(ephemeris: Ephemeris) {
+        let earth = ephemeris[399]!
+        drawEcliptic(earth: earth)
+        drawCelestialEquator(earth: earth)
+    }
+
+    private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {
+        let maxSize: Double = 0.28
+        let minSize: Double = 0.01
+        let linearEasing = Easing(startValue: maxSize, endValue: minSize)
+        let progress = mag / (blendOutEnd - blendOutStart)
+        return CGFloat(linearEasing.value(at: progress))
+    }
+}
+
+// MARK: Static Content Drawing
+
+private extension ObserverScene {
+    private func material(forStar star: Star) -> SCNMaterial {
+        let spect = star.physicalInfo.spectralType
+
+        if let spect = spect {
+            let index = "\(spect.type)\(spect.subType != nil ? String(format: "%.1f", spect.subType!) : String())V"
+            if let mat = starMaterials[index] {
+                return mat
+            }
+            let mat = SCNMaterial()
+            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+            mat.locksAmbientWithDiffuse = true
+            mat.diffuse.contents = UIColor.init(temperature: spect.temperature)
+            mat.selfIllumination.contents = UIColor.gray
+            starMaterials[index] = mat
+            return mat
+        } else {
+            if let defaultMat = starMaterials["default"] {
+                return defaultMat
+            }
+            let mat = SCNMaterial()
+            mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
+            mat.locksAmbientWithDiffuse = true
+            mat.diffuse.contents = UIColor.white
+            mat.selfIllumination.contents = UIColor.gray
+            starMaterials["default"] = mat
+            return mat
+        }
+    }
+
+    private func drawStars() {
+        for star in stars {
+            let radius = radiusForMagnitude(star.physicalInfo.apparentMagnitude)
+            let plane = SCNPlane(width: radius, height: radius)
+            plane.firstMaterial = material(forStar: star)
+            let starNode = SCNNode(geometry: plane)
+            let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
+            starNode.position = SCNVector3(coord)
+            starNode.orientation = SCNQuaternion(Quaternion.init(lookAt: Vector3.zero, from: Vector3(starNode.position)))
+            starNode.name = String(star.identity.id)
+            starNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+            rootNode.addChildNode(starNode)
+        }
+    }
+}
+
+// MARK: - Panorama Rendering
+
+private extension ObserverScene {
+    private func loadPanoramaTexture(_ key: String) {
+        self.panoramaNode.isHidden = key == "none"
+        let material = self.panoramaNode.geometry?.firstMaterial
+        switch key {
+        case "citySilhoulette":
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
+            material?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
+        case "debugNode":
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+            material?.diffuse.contents = UIColor.white
+        case "silverMountain":
+            material?.transparencyMode = .aOne
+            material?.transparent.contents = #imageLiteral(resourceName: "mounain_panorama")
+            material?.diffuse.contents = UIColor.white
+        case "none":
+            break
+        default:
+            fatalError("unrecognized groundTexture setting")
+        }
+    }
+}
+
+private extension ObserverScene {
+    private enum AnnotationClass {
+        case planet
+        case star
+        case sunAndMoon
+    }
+
+    private func drawConstellationLabels() {
+        let conLabelNode = SCNNode()
+        conLabelNode.name = "constellation labels"
+        for constellation in Constellation.all {
+            guard let c = constellation.displayCenter else { continue }
+            let center = SCNVector3(c.normalized())
+            let textNode = TrackingLabelNode(string: constellation.name, textStyle: TextStyle.constellationLabelTextStyle(fontSize: 1.1))
+            textNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+            textNode.constraints = [SCNBillboardConstraint()]
+            textNode.position = center * Float(auxillaryConstellationLabelLayerRadius)
+            conLabelNode.addChildNode(textNode)
+        }
+        rootNode.addChildNode(conLabelNode)
+    }
+
+    private func annotateCelestialBody(_ body: CelestialBody, position: SCNVector3, parent: SCNNode, `class`: AnnotationClass) {
+        func offset(`class`: AnnotationClass) -> CGVector {
+            switch `class` {
+            case .sunAndMoon:
+                return CGVector(dx: 0, dy: -1.2)
+            case .planet:
+                return CGVector(dx: 0, dy: -0.6)
+            default:
+                return CGVector.zero
+            }
+        }
+        if let node = parent.childNode(withName: String(body.naifId), recursively: false) {
+            node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
+            node.constraints = [SCNBillboardConstraint()]
+        } else {
+            let fontSize: CGFloat
+            let color: UIColor
+            switch `class` {
+            case .planet:
+                fontSize = 0.9
+                color = #colorLiteral(red: 0.9616846442, green: 0.930521369, blue: 0.8593300581, alpha: 1)
+            case .star:
+                fontSize = 1.0
+                color = #colorLiteral(red: 0.8279239535, green: 0.9453579783, blue: 0.9584422708, alpha: 1)
+            case .sunAndMoon:
+                fontSize = 0.95
+                color = #colorLiteral(red: 0.9517338872, green: 0.8350647092, blue: 0.8214485049, alpha: 1)
+            }
+            let node = TrackingLabelNode(string: body.name, textStyle: TextStyle.nearStellarBodyTextStyle(fontSize: fontSize, color: color), offset: offset(class: `class`))
+            node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
+            node.fontColor = color
+            node.name = String(body.naifId)
+            node.position = position.normalized() * Float(auxillaryConstellationLabelLayerRadius)
+            node.constraints = [SCNBillboardConstraint()]
+            parent.addChildNode(node)
         }
     }
 }
