@@ -142,6 +142,7 @@
 		FCB2C13E1F3FE050002288BE /* Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C13D1F3FE050002288BE /* Orbits.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
+		FCBF424D1FA5764500AAD151 /* OrbitLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBF424C1FA5764500AAD151 /* OrbitLineNode.swift */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
 		FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89551EEE043300F1539E /* MotionManager.swift */; };
 		FCCB89581EEE112E00F1539E /* LiteSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */; };
@@ -357,6 +358,7 @@
 		FCB2C13D1F3FE050002288BE /* Orbits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbits.swift; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
+		FCBF424C1FA5764500AAD151 /* OrbitLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbitLineNode.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
 		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
@@ -921,6 +923,7 @@
 				FC172B251ED27BBA008BF615 /* BooleanFlaggedLight.swift */,
 				EFAC9BC81E9D849200AAAC95 /* LineNode.swift */,
 				EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */,
+				FCBF424C1FA5764500AAD151 /* OrbitLineNode.swift */,
 				EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */,
 				FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */,
 				EF9867AE1EE0D8DF00486C64 /* DirectionMarkerNode.swift */,
@@ -1341,6 +1344,7 @@
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */,
 				FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */,
+				FCBF424D1FA5764500AAD151 /* OrbitLineNode.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
 				EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */,
 				FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */,

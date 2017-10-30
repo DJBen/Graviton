@@ -113,8 +113,18 @@ public extension Ephemeris {
 }
 
 public extension Ephemeris {
-    func observedPosition(of origin: CelestialBody, byObserver observer: CelestialBody) -> Vector3 {
-        let observedPosition = (origin.positionRelativeToSun! - observer.positionRelativeToSun!).oblique(by: observer.obliquity)
+    func observedPosition(of origin: CelestialBody, fromObserver observer: CelestialBody) -> Vector3 {
+        return observerdPosition(Vector3.zero, relativeTo: origin, fromObserver: observer)
+    }
+
+    func observerdPosition(_ position: Vector3, relativeTo reference: CelestialBody? = nil, fromObserver observer: CelestialBody) -> Vector3 {
+        let referencePosition: Vector3
+        if let reference = reference {
+            referencePosition = reference.positionRelativeToSun!
+        } else {
+            referencePosition = Vector3.zero
+        }
+        let observedPosition = (referencePosition + position - observer.positionRelativeToSun!).oblique(by: observer.obliquity)
         return observedPosition
     }
 
@@ -127,7 +137,7 @@ public extension Ephemeris {
     /// - Returns: The closest body to a direction viewed from an observer
     func closestBody(toUnitPosition unitPosition: Vector3, from observer: CelestialBody, maximumAngularDistance: Double = Double.pi * 2) -> CelestialBody? {
         return self.map { (targetBody) -> (body: CelestialBody, separation: Double) in
-            let vec = self.observedPosition(of: targetBody, byObserver: observer).normalized()
+            let vec = self.observedPosition(of: targetBody, fromObserver: observer).normalized()
             return (targetBody, unitPosition.angularSeparation(from: vec))
         }.filter { (targetBody, separation) -> Bool in
             return observer != targetBody && separation <= maximumAngularDistance
