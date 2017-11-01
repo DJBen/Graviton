@@ -41,7 +41,7 @@ extension CelestialBodyObserverInfo: ObserverLoadable {
         let realm = try! Realm()
         let jdStart = julianDate - 60 * 30
         let jdEnd = julianDate + 60 * 30
-        let results = realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
+        let results = try! realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
         let info = Array(results)
         guard info.isEmpty == false else { return nil }
         return info.reduce(info[0]) { (r1, r2) -> CelestialBodyObserverInfo in
