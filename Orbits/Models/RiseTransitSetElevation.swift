@@ -70,7 +70,7 @@ extension RiseTransitSetElevation: ObserverLoadable {
         let deltaT = Double(timeZone.secondsFromGMT()) / 86400
         let startJd = modf(julianDate.value).0 + deltaT
         let endJd = modf(julianDate.value).0 + 1 + deltaT
-        let results = realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
+        let results = try! realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
         return RiseTransitSetElevation(rts: Array(results), startJd: JulianDate(startJd), endJd: JulianDate(endJd))
     }
 }
