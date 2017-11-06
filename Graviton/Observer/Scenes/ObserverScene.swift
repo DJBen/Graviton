@@ -14,6 +14,7 @@ import SpaceTime
 import KelvinColor
 import MathUtil
 import CoreLocation
+import OpenGLES
 
 private let milkywayLayerRadius: Double = 50
 private let auxillaryLineLayerRadius: Double = 25
@@ -109,6 +110,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private var celestialEquatorNode: CelestialEquatorLineNode?
     private var eclipticNode: EclipticLineNode?
+    private var orbitLineNode: OrbitLineNode?
 
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
@@ -237,6 +239,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         rootNode.addChildNode(cameraNode)
         rootNode.addChildNode(directionMarkers)
         rootNode.addChildNode(compassRoseNode)
+        glLineWidth(2)
         drawStars()
         drawConstellationLines()
         drawConstellationLabels()
@@ -307,6 +310,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     func focus(atCelestialBody body: CelestialBody) {
         let node = rootNode.childNode(withName: String(body.naifId), recursively: true)!
         focus(atNode: node)
+        if let id = ephemerisSubscriptionIdentifier, let ephemeris = EphemerisManager.default.content(for: id) {
+            drawOrbitLine(celestialBody: body, ephemeris: ephemeris)
+        }
     }
 
     func focus(atStar star: Star) {
@@ -315,6 +321,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             return
         }
         focus(atNode: node)
+        orbitLineNode?.removeFromParentNode()
+        orbitLineNode = nil
     }
 
     func focus(atNode node: SCNNode) {
@@ -324,6 +332,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     func removeFocus() {
         focuser.isHidden = true
+        orbitLineNode?.removeFromParentNode()
+        orbitLineNode = nil
     }
 
     // MARK: - Observer Update
@@ -567,6 +577,43 @@ private extension ObserverScene {
         let earth = ephemeris[399]!
         drawEcliptic(earth: earth)
         drawCelestialEquator(earth: earth)
+    }
+
+    private func drawOrbitLine(celestialBody: CelestialBody, ephemeris: Ephemeris) {
+        guard let earth = ephemeris[.majorBody(.earth)] else {
+            return
+        }
+        if celestialBody == earth {
+            return
+        }
+        orbitLineNode?.removeFromParentNode()
+        let color: UIColor
+        switch celestialBody.naif {
+        case let .majorBody(mb):
+            switch mb {
+            case .earth: return
+            case .pluto:
+                color = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            case .mercury:
+                color = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            case .venus:
+                color = #colorLiteral(red: 0.9764705896, green: 0.850980401, blue: 0.5490196347, alpha: 1)
+            case .jupiter:
+                color = #colorLiteral(red: 0.9607843161, green: 0.7058823705, blue: 0.200000003, alpha: 1)
+            case .saturn:
+                color = #colorLiteral(red: 0.7254902124, green: 0.4784313738, blue: 0.09803921729, alpha: 1)
+            case .mars:
+                color = #colorLiteral(red: 0.9411764741, green: 0.4980392158, blue: 0.3529411852, alpha: 1)
+            case .uranus:
+                color = #colorLiteral(red: 0.8926730752, green: 0.9946536422, blue: 1, alpha: 1)
+            case .neptune:
+                color = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+            }
+        default:
+            color = UIColor.clear
+        }
+        orbitLineNode = OrbitLineNode(celestialBody: celestialBody, origin: earth, ephemeris: ephemeris, color: color, rawToModelCoordinateTransform: { $0.normalized() * auxillaryLineLayerRadius })
+        rootNode.addChildNode(orbitLineNode!)
     }
 
     private func radiusForMagnitude(_ mag: Double, blendOutStart: Double = -0.5, blendOutEnd: Double = 5) -> CGFloat {

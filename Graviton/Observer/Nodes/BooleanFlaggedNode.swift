@@ -9,66 +9,64 @@
 import UIKit
 import SceneKit
 
-extension ObserverScene {
-    class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
+class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
 
-        init(setting: Settings.BooleanSetting) {
-            super.init()
-            subscribe(setting: setting) { (_, shouldShow) in
-                if shouldShow {
-                    if self.isSetUp == false {
-                        self.setUpElement()
-                    }
-                    self.showElement()
-                } else {
-                    self.hideElement()
+    init(setting: Settings.BooleanSetting) {
+        super.init()
+        subscribe(setting: setting) { (_, shouldShow) in
+            if shouldShow {
+                if self.isSetUp == false {
+                    self.setUpElement()
                 }
-            }
-            setUpElement()
-            if Settings.default[setting] {
-                showElement()
+                self.showElement()
             } else {
-                hideElement()
+                self.hideElement()
             }
         }
-
-        deinit {
-            unsubscribeFromSetting()
+        setUpElement()
+        if Settings.default[setting] {
+            showElement()
+        } else {
+            hideElement()
         }
+    }
 
-        required init?(coder aDecoder: NSCoder) {
-            fatalError("init(coder:) has not been implemented")
-        }
+    deinit {
+        unsubscribeFromSetting()
+    }
 
-        private func subscribe(setting: Settings.BooleanSetting, valueChanged: @escaping BooleanSettingBlock) {
-            Settings.default.subscribe(setting: setting, object: self, valueChanged: valueChanged)
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 
-        private func unsubscribeFromSetting() {
-            Settings.default.unsubscribe(object: self)
-        }
+    private func subscribe(setting: Settings.BooleanSetting, valueChanged: @escaping BooleanSettingBlock) {
+        Settings.default.subscribe(setting: setting, object: self, valueChanged: valueChanged)
+    }
 
-        // MARK: ObserverSceneElement
-        var isSetUp: Bool {
-            fatalError("isSetUp is not implemented")
-        }
+    private func unsubscribeFromSetting() {
+        Settings.default.unsubscribe(object: self)
+    }
 
-        // abstract class: throw for these abstract methods
+    // MARK: ObserverSceneElement
+    var isSetUp: Bool {
+        fatalError("isSetUp is not implemented")
+    }
 
-        func showElement() {
-            doesNotRecognizeSelector(#selector(showElement))
-        }
+    // abstract class: throw for these abstract methods
 
-        func hideElement() {
-            doesNotRecognizeSelector(#selector(hideElement))
-        }
+    func showElement() {
+        doesNotRecognizeSelector(#selector(showElement))
+    }
 
-        func setUpElement() {
-            doesNotRecognizeSelector(#selector(setUpElement))
-        }
+    func hideElement() {
+        doesNotRecognizeSelector(#selector(hideElement))
+    }
 
-        func removeElement() {
-            doesNotRecognizeSelector(#selector(removeElement))
-        }
+    func setUpElement() {
+        doesNotRecognizeSelector(#selector(setUpElement))
+    }
+
+    func removeElement() {
+        doesNotRecognizeSelector(#selector(removeElement))
     }
 }

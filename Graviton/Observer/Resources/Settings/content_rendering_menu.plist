@@ -156,6 +156,16 @@
 					<key>type</key>
 					<string>toggle</string>
 					<key>text</key>
+					<string>Show Planet Orbit</string>
+					<key>image</key>
+					<string>row_icon_ecliptic</string>
+					<key>binding</key>
+					<string>showOrbitLineWhenFocused</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
 					<string>Show Constellation Label</string>
 					<key>image</key>
 					<string>row_icon_constellation_label</string>

@@ -91,16 +91,16 @@ class EphemerisTest: XCTestCase {
     }
 
     func testRelativePositionCalculations() {
-        let position = ephemeris.observedPosition(of: ephemeris[10]!, byObserver: ephemeris[399]!)
-        let position2 = ephemeris.observedPosition(of: ephemeris[399]!, byObserver: ephemeris[301]!)
+        let position = ephemeris.observedPosition(of: ephemeris[10]!, fromObserver: ephemeris[399]!)
+        let position2 = ephemeris.observedPosition(of: ephemeris[399]!, fromObserver: ephemeris[301]!)
         XCTAssertEqual(position, Vector3(-10, -20, -30))
         XCTAssertEqual(position2, Vector3(-1, -1, -1))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[301]!, byObserver: ephemeris[399]!), Vector3(1, 1, 1))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[399]!, byObserver: ephemeris[10]!), Vector3(10, 20, 30))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[499]!, byObserver: ephemeris[10]!), Vector3(20, 13, 40))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[10]!, byObserver: ephemeris[301]!), Vector3(-11, -21, -31))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[399]!, byObserver: ephemeris[499]!), Vector3(-10, 7, -10))
-        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[499]!, byObserver: ephemeris[399]!), Vector3(10, -7, 10))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[301]!, fromObserver: ephemeris[399]!), Vector3(1, 1, 1))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[399]!, fromObserver: ephemeris[10]!), Vector3(10, 20, 30))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[499]!, fromObserver: ephemeris[10]!), Vector3(20, 13, 40))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[10]!, fromObserver: ephemeris[301]!), Vector3(-11, -21, -31))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[399]!, fromObserver: ephemeris[499]!), Vector3(-10, 7, -10))
+        XCTAssertEqual(ephemeris.observedPosition(of: ephemeris[499]!, fromObserver: ephemeris[399]!), Vector3(10, -7, 10))
     }
 
     func testClosestBodyQuery() {

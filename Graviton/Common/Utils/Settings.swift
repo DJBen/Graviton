@@ -12,6 +12,7 @@ private let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .
 private let showCelestialEquatorDefault: Bool = true
 private let showEclipticDefault: Bool = true
 private let showConstellationLabelDefault: Bool = true
+private let showOrbitLineWhenFocusedDefault: Bool = true
 private let showPlanetLabelDefault: Bool = true
 private let showMoonPhaseDefault: Bool = true
 private let showEarthshineDefault = true
@@ -77,6 +78,7 @@ struct Settings {
     enum BooleanSetting: String {
         case showCelestialEquator
         case showEcliptic
+        case showOrbitLineWhenFocused
         case showConstellationLabel
         case showPlanetLabel
         case showNorthPoleIndicator
@@ -96,6 +98,8 @@ struct Settings {
                 return showCelestialEquatorDefault
             case .showEcliptic:
                 return showEclipticDefault
+            case .showOrbitLineWhenFocused:
+                return showOrbitLineWhenFocusedDefault
             case .showConstellationLabel:
                 return showConstellationLabelDefault
             case .showPlanetLabel:
