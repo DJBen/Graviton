@@ -11,22 +11,8 @@ import StarryNight
 import Orbits
 import XLPagerTabStrip
 
-enum BodyInfoTarget: CustomStringConvertible {
-    case star(Star)
-    case nearbyBody(Body)
-
-    var description: String {
-        switch self {
-        case let .star(star):
-            return String(describing: star.identity)
-        case let .nearbyBody(nb):
-            return nb.name
-        }
-    }
-}
-
 class ObserverDetailViewController: UIViewController {
-    var target: BodyInfoTarget!
+    var target: ObserveTarget!
     var ephemerisId: SubscriptionUUID!
 
     override func viewDidLoad() {
@@ -52,7 +38,7 @@ class ObserverDetailViewController: UIViewController {
 }
 
 class ObserverDetailInnerViewController: ButtonBarPagerTabStripViewController {
-    var target: BodyInfoTarget!
+    var target: ObserveTarget!
     var ephemerisId: SubscriptionUUID!
 
     override func viewDidLoad() {

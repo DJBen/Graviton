@@ -15,7 +15,7 @@ import XLPagerTabStrip
 
 class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
 
-    var target: BodyInfoTarget!
+    var target: ObserveTarget!
     var ephemerisId: SubscriptionUUID!
 
     override func viewDidLoad() {
@@ -44,7 +44,7 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
         return row - (LocationAndTimeManager.default.observerInfo == nil ? 2 : 0)
     }
 
-    private func relativeCoordinate(forNearbyBody body: Body) -> EquatorialCoordinate {
+    private func relativeCoordinate(fornearbyBody body: Body) -> EquatorialCoordinate {
         let ephemeris = EphemerisManager.default.content(for: ephemerisId)!
         let earth = ephemeris[.majorBody(.earth)]!
         return EquatorialCoordinate(cartesian: (body.heliocentricPosition! - earth.heliocentricPosition!).oblique(by: earth.obliquity))
@@ -108,7 +108,7 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
             }
         case let .nearbyBody(nb):
             let celestialBody = nb as! CelestialBody
-            let coord = relativeCoordinate(forNearbyBody: nb)
+            let coord = relativeCoordinate(fornearbyBody: nb)
             switch (indexPath.section, indexPath.row) {
             case (0, rowForPositionSection(4)):
                 cell.textLabel?.text = "Constellation"
@@ -136,7 +136,7 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
         case let .star(star):
             coord = EquatorialCoordinate(cartesian: star.physicalInfo.coordinate)
         case let .nearbyBody(nb):
-            coord = relativeCoordinate(forNearbyBody: nb)
+            coord = relativeCoordinate(fornearbyBody: nb)
         }
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
@@ -167,7 +167,7 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
     }
 }
 
-extension BodyInfoTarget {
+extension ObserveTarget {
     var numberOfSections: Int {
         switch self {
         case .star:
