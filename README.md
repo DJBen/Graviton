@@ -35,15 +35,9 @@ That's all you need for bootstrapping! Now you can proceed to open the Xcode pro
 
 **Important**: For best experience, please run with real device, especially so when testing against graphics related features.
 
-#### Troubleshooting
+### Simulator Limitations
 
-If you experienced issues during installations and runtime, here are some workarounds.
-
-1. Xcode 9 simulator has very low performance and is unusable.
-
-  *Cause*: Apple's bug. Refer to [Apple forum thread](https://forums.developer.apple.com/thread/83570) for more information.
-
-  *Workaround*: Solved in Xcode 9.1 beta 2. See [release note](https://download.developer.apple.com/Developer_Tools/Xcode_9.1_beta_2/Xcode_9.1_beta_2_Release_Notes.pdf). Download is available at [Apple Developer](https://developer.apple.com/download/) site.
+Simulator uses OpenGL rendering while real devices use Metal. Some graphics effect may look broken on simulators.
 
 ## Documentation
 *Placeholder*
