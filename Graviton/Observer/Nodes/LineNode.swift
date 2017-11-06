@@ -17,9 +17,13 @@ class LineNode: BooleanFlaggedNode {
 
     private let color: UIColor
 
-    private let vertices: [SCNVector3]
+    let vertices: [SCNVector3]
 
-    private var lineNode: SCNNode?
+    var lineNode: SCNNode?
+
+    var geometryToDraw: SCNGeometry {
+        return SCNGeometry.closedDashedPolyLine(vertices: vertices)
+    }
 
     override var isSetUp: Bool {
         return lineNode != nil
@@ -36,8 +40,8 @@ class LineNode: BooleanFlaggedNode {
         fatalError("init(coder:) has not been implemented")
     }
 
-    private func drawLine() {
-        let line = SCNGeometry.closedDashedPolyLine(vertices: vertices)
+    func drawLine() {
+        let line = geometryToDraw
         lineNode = SCNNode(geometry: line)
         let mat = SCNMaterial()
         mat.diffuse.contents = color
