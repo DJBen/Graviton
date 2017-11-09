@@ -54,7 +54,7 @@ class ObserverViewController: SceneController {
         return self.view as! SCNView
     }
 
-    var target: BodyInfoTarget? {
+    var target: ObserveTarget? {
         didSet {
             if let target = self.target {
                 switch target {
@@ -161,11 +161,11 @@ class ObserverViewController: SceneController {
         displaylink.add(to: .current, forMode: .defaultRunLoopMode)
     }
 
-    func center(atTarget target: BodyInfoTarget) {
+    func center(atTarget target: ObserveTarget) {
         let coordinate: Vector3
         switch target {
-        case .nearbyBody:
-            fatalError("centering on close bodies has not been supported yet")
+        case .nearbyBody(let body):
+            coordinate = body.position!
         case .star(let star):
             coordinate = star.physicalInfo.coordinate
         }
@@ -187,9 +187,10 @@ class ObserverViewController: SceneController {
     }
 
     @objc func searchButtonTapped(sender: UIBarButtonItem) {
-        let starSearchController = StarSearchViewController(style: .plain)
-        starSearchController.delegate = self
-        let navigationController = UINavigationController(rootViewController: starSearchController)
+        let targetSearchController = ObserveTargetSearchViewController(style: .plain)
+        targetSearchController.delegate = self
+        targetSearchController.ephemerisSubscriptionId = ephemerisSubscriptionIdentifier
+        let navigationController = UINavigationController(rootViewController: targetSearchController)
         navigationController.modalPresentationStyle = .overCurrentContext
         self.tabBarController?.present(navigationController, animated: true, completion: nil)
     }
@@ -322,10 +323,10 @@ class ObserverViewController: SceneController {
 }
 
 // MARK: - Star search view controller delegate
-extension ObserverViewController: StarSearchViewControllerDelegate {
-    func starSearchViewController(_ viewController: StarSearchViewController, didSelectStar star: Star) {
+extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
+    func observeTargetViewController(_ viewController: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget) {
         dismiss(animated: true, completion: nil)
-        target = BodyInfoTarget.star(star)
-        center(atTarget: target!)
+        self.target = target
+        center(atTarget: self.target!)
     }
 }

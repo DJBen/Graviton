@@ -97,6 +97,8 @@
 		FC38ED1D1F417A9C00E9EEC9 /* Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */; };
 		FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */; };
 		FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */; };
+		FC4D1E6A1FAFFAB700011478 /* ObserveTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */; };
+		FC4D1E6E1FB44A4E00011478 /* ObserveTargetSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */; };
 		FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
 		FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6313171F255D8700FE23E0 /* SpaceTime.framework */; };
 		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
@@ -158,7 +160,6 @@
 		FCCF5B6F1EBF1A9D00B8004E /* Parser.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B631EBF1A9D00B8004E /* Parser.swift */; };
 		FCCF5B711EBF1A9D00B8004E /* ResponseValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */; };
 		FCD5B6B21F0CDF23005213DC /* Vector3+Oblique.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */; };
-		FCD62BD81F72695C00F8CBA6 /* StarSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD62BD71F72695C00F8CBA6 /* StarSearchViewController.swift */; };
 		FCD62BDA1F7A287E00F8CBA6 /* ObserverNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD62BD91F7A287E00F8CBA6 /* ObserverNavigationController.swift */; };
 		FCD62BDC1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCD62BDB1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift */; };
 		FCE0A7501E8700850009EFCB /* PropertyExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */; };
@@ -310,6 +311,8 @@
 		FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertions.swift; sourceTree = "<group>"; };
 		FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetInfo.swift; sourceTree = "<group>"; };
+		FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveTarget.swift; sourceTree = "<group>"; };
+		FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserveTargetSearchViewController.swift; sourceTree = "<group>"; };
 		FC63130E1F255BD300FE23E0 /* MathUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MathUtil.framework; path = Carthage/Build/iOS/MathUtil.framework; sourceTree = "<group>"; };
 		FC6313171F255D8700FE23E0 /* SpaceTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpaceTime.framework; path = Carthage/Build/iOS/SpaceTime.framework; sourceTree = "<group>"; };
 		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
@@ -376,7 +379,6 @@
 		FCCF5B631EBF1A9D00B8004E /* Parser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parser.swift; sourceTree = "<group>"; };
 		FCCF5B641EBF1A9D00B8004E /* ResponseValidator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ResponseValidator.swift; sourceTree = "<group>"; };
 		FCD5B6B11F0CDF23005213DC /* Vector3+Oblique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Vector3+Oblique.swift"; sourceTree = "<group>"; };
-		FCD62BD71F72695C00F8CBA6 /* StarSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarSearchViewController.swift; sourceTree = "<group>"; };
 		FCD62BD91F7A287E00F8CBA6 /* ObserverNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverNavigationController.swift; sourceTree = "<group>"; };
 		FCD62BDB1F7A2A8900F8CBA6 /* SolarSystemNavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarSystemNavigationController.swift; sourceTree = "<group>"; };
 		FCE0A74F1E8700850009EFCB /* PropertyExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PropertyExtractor.swift; sourceTree = "<group>"; };
@@ -743,6 +745,14 @@
 			path = Realm;
 			sourceTree = "<group>";
 		};
+		FC4D1E681FAFFA8D00011478 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
 		FC6913851EC14D9300F9B3B5 /* Nodes */ = {
 			isa = PBXGroup;
 			children = (
@@ -754,6 +764,7 @@
 		FC7D61DF1E9B45E300BEA5BE /* Observer */ = {
 			isa = PBXGroup;
 			children = (
+				FC4D1E681FAFFA8D00011478 /* Models */,
 				FC959E761E9B532E0026B222 /* Protocols */,
 				FC1CC2DC1EE01F62009FA252 /* Managers */,
 				FC7D62061E9B4C8400BEA5BE /* ViewControllers */,
@@ -840,6 +851,7 @@
 			children = (
 				FC959E5C1E9B4E990026B222 /* ObserverViewController.swift */,
 				FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */,
+				FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */,
 				FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */,
 				FC959E5B1E9B4E990026B222 /* ObserverMenuController.swift */,
 				FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */,
@@ -875,7 +887,6 @@
 				FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */,
 				FC959E671E9B50340026B222 /* SceneController.swift */,
 				FC6B88561EEC9764007EFE2E /* MenuController.swift */,
-				FCD62BD71F72695C00F8CBA6 /* StarSearchViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -1316,9 +1327,9 @@
 				FCE9DB861F8F504E008631DC /* Device.swift in Sources */,
 				FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */,
 				FCFBB7441E61E6E600624B4C /* Menu.swift in Sources */,
+				FC4D1E6A1FAFFAB700011478 /* ObserveTarget.swift in Sources */,
 				FC1CC2C81EE01646009FA252 /* LocationManager.swift in Sources */,
 				FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */,
-				FCD62BD81F72695C00F8CBA6 /* StarSearchViewController.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */,
@@ -1354,6 +1365,7 @@
 				FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */,
 				EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */,
 				EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */,
+				FC4D1E6E1FB44A4E00011478 /* ObserveTargetSearchViewController.swift in Sources */,
 				FCEDA6141EC04B07005C7BFF /* CelestialBodyViewController.swift in Sources */,
 				FC959E5D1E9B4E990026B222 /* ObserverMenuController.swift in Sources */,
 				FC1CC2C91EE01646009FA252 /* LocationSensitiveSubscriptionManager.swift in Sources */,

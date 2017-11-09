@@ -8,18 +8,21 @@
 
 import UIKit
 import StarryNight
+import Orbits
 
-protocol StarSearchViewControllerDelegate: NSObjectProtocol {
-    func starSearchViewController(_ viewController: StarSearchViewController, didSelectStar star: Star)
+protocol ObserveTargetSearchViewControllerDelegate: NSObjectProtocol {
+    func observeTargetViewController(_ viewController: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget)
 }
 
-class StarSearchViewController: UITableViewController {
+class ObserveTargetSearchViewController: UITableViewController {
 
     private enum SearchScope {
         case all
     }
 
-    weak var delegate: StarSearchViewControllerDelegate?
+    weak var delegate: ObserveTargetSearchViewControllerDelegate?
+
+    var ephemerisSubscriptionId: SubscriptionUUID!
 
     lazy var searchController = UISearchController(searchResultsController: nil)
 
@@ -32,10 +35,22 @@ class StarSearchViewController: UITableViewController {
         return searchController.isActive && (!searchBarIsEmpty || searchBarScopeIsFiltering)
     }
 
-    private lazy var allStars: [Star] = Star.magitudeLessThan(Constants.Observer.maximumDisplayMagnitude)
-    private var filteredStars: [Star] = []
-    private var currentContent: [Star] {
-        return isFiltering ? filteredStars : allStars
+    private var nearbyBodies: [ObserveTarget] {
+        if let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionId) {
+            return [.sun, .moon(.luna), .majorBody(.venus), .majorBody(.mercury), .majorBody(.mars), .majorBody(.jupiter), .majorBody(.saturn)].map { ObserveTarget.nearbyBody(ephemeris[$0]!) }
+        } else {
+            return []
+        }
+    }
+
+    private lazy var allTargets: [ObserveTarget] = {
+        let allStars = Star.magitudeLessThan(Constants.Observer.maximumDisplayMagnitude)
+        return allStars.map { ObserveTarget.star($0) } + nearbyBodies
+    }()
+
+    private var filteredTargets: [ObserveTarget] = []
+    private var currentContent: [ObserveTarget] {
+        return isFiltering ? filteredTargets : allTargets
     }
 
     override func viewDidLoad() {
@@ -79,29 +94,42 @@ class StarSearchViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "starCell", for: indexPath)
-        cell.textLabel?.text = String(describing: currentContent[indexPath.row].identity)
+        let content = currentContent[indexPath.row]
+        switch content {
+        case .star(let star):
+            cell.textLabel?.text = String(describing: star.identity)
+        case .nearbyBody(let body):
+            cell.textLabel?.text = body.name
+        }
         return cell
     }
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.starSearchViewController(self, didSelectStar: currentContent[indexPath.row])
+        delegate?.observeTargetViewController(self, didSelectTarget: currentContent[indexPath.row])
     }
 
-    private func filterStars(forSearchText searchText: String, scope: SearchScope = .all) {
-        filteredStars = Star.matches(name: searchText)
+    private func filterTargets(forSearchText searchText: String, scope: SearchScope = .all) {
+        let filteredStars = Star.matches(name: searchText).map { ObserveTarget.star($0) }
+        let filteredNearbyTargets = nearbyBodies.filter { (target) -> Bool in
+            if case let .nearbyBody(body) = target {
+                return body.name.lowercased().contains(searchText.lowercased())
+            }
+            return false
+        }
+        filteredTargets = filteredStars + filteredNearbyTargets
         tableView.reloadData()
     }
 }
 
-extension StarSearchViewController: UISearchBarDelegate {
+extension ObserveTargetSearchViewController: UISearchBarDelegate {
     // MARK: - UISearchBar Delegate
     func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
     }
 }
 
-extension StarSearchViewController: UISearchResultsUpdating {
+extension ObserveTargetSearchViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
     func updateSearchResults(for searchController: UISearchController) {
-        filterStars(forSearchText: searchController.searchBar.text!, scope: .all)
+        filterTargets(forSearchText: searchController.searchBar.text!, scope: .all)
     }
 }
