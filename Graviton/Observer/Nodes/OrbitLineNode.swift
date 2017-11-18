@@ -21,7 +21,7 @@ class OrbitLineNode: LineNode {
             let observedPosition = ephemeris.observerdPosition(position, relativeTo: celestialBody.centerBody, fromObserver: origin)
             return SCNVector3(rawToModelCoordinateTransform(observedPosition))
         }
-        super.init(setting: .showCelestialEquator, vertices: vertices, color: color)
+        super.init(setting: .showOrbitLineWhenFocused, vertices: vertices, color: color)
         name = "orbit line for \(celestialBody.naif)"
     }
 
