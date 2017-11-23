@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode9
+osx_image: xcode9.1
 
 cache:
   directories:
@@ -9,4 +9,4 @@ before_install:
 before_script:
   - swiftlint
 script:
-  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator11.0 -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.0' build test
+  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator11.1 -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.1' build test
