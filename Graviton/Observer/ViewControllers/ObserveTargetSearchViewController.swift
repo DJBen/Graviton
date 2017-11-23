@@ -63,7 +63,7 @@ class ObserveTargetSearchViewController: UITableViewController {
         navigationController?.navigationBar.barStyle = .black
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
-        title = "Star Search"
+        title = "Celestial Objects"
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .done, target: self, action: #selector(doneButtonTapped(sender:)))
