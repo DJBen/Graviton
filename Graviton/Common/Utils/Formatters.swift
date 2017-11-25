@@ -33,6 +33,13 @@ struct Formatters {
         }
     }
 
+    static let fullUtcDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+        formatter.timeZone = TimeZone(secondsFromGMT: 0)!
+        return formatter
+    }()
+
     static let integerFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.numberStyle = .none
@@ -51,6 +58,12 @@ struct Formatters {
         numberFormatter.numberStyle = .scientific
         numberFormatter.maximumSignificantDigits = 4
         return numberFormatter
+    }()
+
+    static let julianDateFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.maximumFractionDigits = 5
+        return formatter
     }()
 }
 

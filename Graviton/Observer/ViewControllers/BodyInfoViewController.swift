@@ -13,7 +13,7 @@ import SpaceTime
 import MathUtil
 import XLPagerTabStrip
 
-class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
+class BodyInfoViewController: UITableViewController {
 
     var target: ObserveTarget!
     var ephemerisId: SubscriptionUUID!
@@ -21,17 +21,6 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "infoCell")
-    }
-
-    // MARK: - Info provider
-
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
-        switch target! {
-        case .star:
-            return "Star Info"
-        case .nearbyBody:
-            return "Body Info"
-        }
     }
 
     private func rowForPositionSection(_ row: Int) -> Int {
@@ -163,6 +152,19 @@ class BodyInfoViewController: UITableViewController, IndicatorInfoProvider {
             cell.detailTextLabel?.text = String(describing: dms)
         default:
             break
+        }
+    }
+}
+
+// MARK: - Info provider
+
+extension BodyInfoViewController: IndicatorInfoProvider {
+    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+        switch target! {
+        case .star:
+            return "Star Info"
+        case .nearbyBody:
+            return "Body Info"
         }
     }
 }
