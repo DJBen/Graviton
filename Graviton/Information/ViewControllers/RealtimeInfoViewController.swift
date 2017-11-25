@@ -31,7 +31,8 @@ class RealtimeInfoViewController: UITableViewController {
 
     @objc func screenUpdate() {
         let date = Date()
-        let jdValue = JulianDate(date: date).value as NSNumber
+        let julianDate = JulianDate(date: date)
+        let jdValue = julianDate.value as NSNumber
 
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
             cell.detailTextLabel?.text = Formatters.fullUtcDateFormatter.string(from: date)
@@ -39,10 +40,20 @@ class RealtimeInfoViewController: UITableViewController {
         if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) {
             cell.detailTextLabel?.text = Formatters.julianDateFormatter.string(from: jdValue)
         }
-        if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)), let location = LocationManager.default.content {
-            let locTime = LocationAndTime(location: location, timestamp: JulianDate(date: date))
-            let sidTime = SiderealTime.init(locationAndTime: locTime)
+        if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) {
+            let sidTime = SiderealTime.init(julianDate: julianDate)
             cell.detailTextLabel?.text = String(describing: sidTime)
+        }
+        if let location = LocationManager.default.content {
+            let locTime = LocationAndTime(location: location, timestamp: julianDate)
+            let sidTime = SiderealTime.init(locationAndTime: locTime)
+
+            if let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) {
+                cell.detailTextLabel?.text = String(describing: sidTime)
+            }
+            if let cell = tableView.cellForRow(at: IndexPath(row: 4, section: 0)) {
+                cell.detailTextLabel?.text = String(describing: sidTime.offsetFromGreenwichMeanSiderealTime)
+            }
         }
     }
 
@@ -53,7 +64,7 @@ class RealtimeInfoViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return LocationManager.default.content == nil ? 2 : 3
+        return LocationManager.default.content == nil ? 3 : 5
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -64,7 +75,11 @@ class RealtimeInfoViewController: UITableViewController {
         case 1:
             cell.textLabel?.text = "Current Julian Date"
         case 2:
+            cell.textLabel?.text = "Greenwich Sidereal Time"
+        case 3:
             cell.textLabel?.text = "Local Sidereal Time"
+        case 4:
+            cell.textLabel?.text = "LST-GST Offset"
         default:
             break
         }
