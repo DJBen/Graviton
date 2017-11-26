@@ -34,9 +34,9 @@ class CelestialBodyViewController: SceneController {
         scnView.isPlaying = true
 
         cameraModifier = cbScene
-        cameraController.viewSlideDivisor = 8000
-        cameraController.viewSlideVelocityCap = 800
-        cameraController.viewSlideInertiaDuration = 1.5
+        legacyCameraController?.viewSlideDivisor = 8000
+        legacyCameraController?.viewSlideVelocityCap = 800
+        legacyCameraController?.viewSlideInertiaDuration = 1.5
     }
 
     deinit {
