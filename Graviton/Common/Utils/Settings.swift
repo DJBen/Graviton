@@ -91,6 +91,7 @@ struct Settings {
         case enableTimeWarp
         case useUtcTime
         case useAlphaInsteadOfBlurInSettings
+        case useCameraControllerV2
 
         var `default`: Bool {
             switch self {
@@ -119,6 +120,8 @@ struct Settings {
             case .useUtcTime:
                 return useUtcTimeDefault
             case .useAlphaInsteadOfBlurInSettings:
+                return false
+            case .useCameraControllerV2:
                 return false
             default:
                 return false

@@ -73,7 +73,7 @@ class ObserverViewController: SceneController {
     }
 
     var observerCameraController: ObserverCameraController {
-        return cameraController as! ObserverCameraController
+        return legacyCameraController as! ObserverCameraController
     }
 
     override func viewDidLoad() {
@@ -127,11 +127,18 @@ class ObserverViewController: SceneController {
     }
 
     override func loadCameraController() {
-        cameraController = ObserverCameraController()
-        cameraController.viewSlideVelocityCap = 500
-        cameraController.cameraNode = observerScene.cameraNode
-        cameraController.cameraInversion = .invertAll
-        configurePanSpeed()
+        if Settings.default[.useCameraControllerV2] {
+            cameraController = SCNCameraController()
+            cameraController?.interactionMode = .orbitAngleMapping
+            cameraController?.inertiaEnabled = true
+            cameraController?.pointOfView = observerScene.cameraNode
+        } else {
+            legacyCameraController = ObserverCameraController()
+            legacyCameraController?.viewSlideVelocityCap = 500
+            legacyCameraController?.cameraNode = observerScene.cameraNode
+            legacyCameraController?.cameraInversion = .invertAll
+            configurePanSpeed()
+        }
     }
 
     private func setupViewElements() {
@@ -268,7 +275,7 @@ class ObserverViewController: SceneController {
 
     private func configurePanSpeed() {
         let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
-        cameraController.viewSlideDivisor = factor * 25000
+        legacyCameraController?.viewSlideDivisor = factor * 25000
     }
 
     @objc func updateTimestampLabel() {
@@ -310,7 +317,7 @@ class ObserverViewController: SceneController {
             return
         }
         if Timekeeper.default.isWarpActive {
-            cameraController.slideVelocity = CGPoint.zero
+            legacyCameraController?.slideVelocity = CGPoint.zero
         } else {
             super.renderer(renderer, didRenderScene: scene, atTime: time)
         }
