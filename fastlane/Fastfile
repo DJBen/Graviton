@@ -27,6 +27,28 @@ platform :ios do
     end
   end
 
+  lane :register_a_device do
+     register_devices(
+       devices: {
+         "Ben's iPhone X": "5f4559e05c42ab375a6da4b232d186c8dbbc6f1b"
+       })
+     refresh_profiles
+   end
+
+   # A helper lane for refreshing provisioning profiles.
+   lane :refresh_profiles do
+     match(
+       type: "development",
+       force: true,
+       git_url: "git@github.com:DJBen/certificates.git"
+     )
+     match(
+       type: "adhoc",
+       force: true,
+       git_url: "git@github.com:DJBen/certificates.git"
+     )
+   end
+
   desc "Runs all the tests"
   lane :test do
     scan

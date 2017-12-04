@@ -30,6 +30,16 @@ xcode-select --install
 
 # Available Actions
 ## iOS
+### ios register_a_device
+```
+fastlane ios register_a_device
+```
+
+### ios refresh_profiles
+```
+fastlane ios refresh_profiles
+```
+
 ### ios test
 ```
 fastlane ios test
