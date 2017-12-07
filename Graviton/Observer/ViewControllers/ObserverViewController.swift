@@ -50,6 +50,12 @@ class ObserverViewController: SceneController {
         return blurEffectView
     }()
 
+    lazy var titleOverlayView: ObserverTitleOverlayView = {
+        let overlay = ObserverTitleOverlayView(frame: CGRect.zero)
+        overlay.delegate = self
+        return overlay
+    }()
+
     private var scnView: SCNView {
         return self.view as! SCNView
     }
@@ -57,17 +63,11 @@ class ObserverViewController: SceneController {
     var target: ObserveTarget? {
         didSet {
             if let target = self.target {
-                switch target {
-                case .nearbyBody(let closeBody):
-                    observerScene.focus(atCelestialBody: closeBody as! CelestialBody)
-                    overlayScene.showCelestialBodyDisplay(closeBody as! CelestialBody)
-                case .star(let star):
-                    observerScene.focus(atStar: star)
-                    overlayScene.showStarDisplay(star)
-                }
+                showTitleOverlay(target: target)
+                focusAtTarget()
             } else {
                 observerScene.removeFocus()
-                overlayScene.hideStarDisplay()
+                hideTitleOverlay()
             }
         }
     }
@@ -97,7 +97,7 @@ class ObserverViewController: SceneController {
     override func viewWillDisappear(_ animated: Bool) {
         stopTimeWarp(withAnimationDuration: 0)
         observerScene.removeFocus()
-        overlayScene.hideStarDisplay(withDuration: 0)
+        hideTitleOverlay()
         target = nil
         Timekeeper.default.isWarpActive = false
         super.viewWillDisappear(animated)
@@ -150,6 +150,17 @@ class ObserverViewController: SceneController {
         let searchItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
         navigationItem.rightBarButtonItems = [settingItem, searchItem]
 
+        titleOverlayView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(titleOverlayView)
+        view.addConstraints(
+            [
+                titleOverlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+                titleOverlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                titleOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            ]
+        )
+        hideTitleOverlay()
+
         scnView.delegate = self
         scnView.antialiasingMode = .none
         scnView.scene = observerScene
@@ -177,6 +188,40 @@ class ObserverViewController: SceneController {
             coordinate = star.physicalInfo.coordinate
         }
         self.observerScene.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: coordinate))
+    }
+
+    private var titleOverlayHeightConstraint: NSLayoutConstraint?
+
+    private func animateOverlayTitle(heightConstant: CGFloat) {
+        if let prevConstraint = self.titleOverlayHeightConstraint {
+            self.titleOverlayView.removeConstraint(prevConstraint)
+        }
+        self.titleOverlayHeightConstraint = self.titleOverlayView.heightAnchor.constraint(equalToConstant: heightConstant)
+        self.titleOverlayView.addConstraint(self.titleOverlayHeightConstraint!)
+        UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
+            self.view.layoutIfNeeded()
+        }, completion: nil)
+    }
+
+    private func showTitleOverlay(target: ObserveTarget) {
+        self.titleOverlayView.title = String(describing: target)
+        animateOverlayTitle(heightConstant: view.safeAreaInsets.bottom + 60)
+    }
+
+    private func hideTitleOverlay() {
+        animateOverlayTitle(heightConstant: 0)
+    }
+
+    private func focusAtTarget() {
+        guard let target = target else {
+            return
+        }
+        switch target {
+        case .nearbyBody(let closeBody):
+            observerScene.focus(atCelestialBody: closeBody as! CelestialBody)
+        case .star(let star):
+            observerScene.focus(atStar: star)
+        }
     }
 
     // MARK: - Button handling
@@ -223,10 +268,6 @@ class ObserverViewController: SceneController {
 
     @objc func handleTap(sender: UITapGestureRecognizer) {
         let point = sender.location(in: view)
-        if point.y > view.frame.height - 40 - tabBarController!.tabBar.frame.height && overlayScene.isShowingStarLabel {
-            performSegue(withIdentifier: "showBodyInfo", sender: self)
-            return
-        }
         let vec = SCNVector3(point.x, point.y, 0.5)
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
         let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
@@ -305,7 +346,11 @@ class ObserverViewController: SceneController {
     }
 
     @IBAction func unwindFromBodyInfo(for segue: UIStoryboardSegue) {
-
+        // keep target selected
+        if segue.identifier == "unwindFromBodyInfo", let source = segue.source as? ObserverDetailViewController {
+            target = source.target
+            focusAtTarget()
+        }
     }
 
     // MARK: - Scene renderer delegate
@@ -335,5 +380,11 @@ extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
         dismiss(animated: true, completion: nil)
         self.target = target
         center(atTarget: self.target!)
+    }
+}
+
+extension ObserverViewController: ObserverTitleOverlayViewDelegate {
+    func titleOverlayTapped(view: ObserverTitleOverlayView) {
+        performSegue(withIdentifier: "showBodyInfo", sender: self)
     }
 }
