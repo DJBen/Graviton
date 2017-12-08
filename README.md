@@ -22,7 +22,7 @@
 
 ### Prerequisites
 
-[Xcode 9](https://developer.apple.com/xcode/) (9A235) toolchain is required to compile and run the project.
+[Xcode 9.2](https://developer.apple.com/xcode/) is required to compile and run the project.
 
 ### Installation
 
