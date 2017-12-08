@@ -35,6 +35,11 @@ That's all you need for bootstrapping! Now you can proceed to open the Xcode pro
 
 **Important**: For best experience, please run with real device, especially so when testing against graphics related features.
 
+### iOS Bug
+
+There's an [issue](https://forums.developer.apple.com/thread/92671 ) that iOS 11.2 breaks SceneKit transparency texture. The appearance of stars will appear like squares instead of round dots.
+
+
 ### Simulator Limitations
 
 Simulator uses OpenGL rendering while real devices use Metal. Some graphics effect may look broken on simulators.
