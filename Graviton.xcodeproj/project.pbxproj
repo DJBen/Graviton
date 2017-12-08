@@ -147,6 +147,7 @@
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
 		FCBF424D1FA5764500AAD151 /* OrbitLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCBF424C1FA5764500AAD151 /* OrbitLineNode.swift */; };
+		FCC11FC21FD9403C00235BFF /* ObserverTitleOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC11FC11FD9403C00235BFF /* ObserverTitleOverlayView.swift */; };
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
 		FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89551EEE043300F1539E /* MotionManager.swift */; };
 		FCCB89581EEE112E00F1539E /* LiteSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */; };
@@ -368,6 +369,7 @@
 		FCBF424C1FA5764500AAD151 /* OrbitLineNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrbitLineNode.swift; sourceTree = "<group>"; };
 		FCC0BDC21E2F8A56003939B1 /* TransientDBHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TransientDBHelper.swift; sourceTree = "<group>"; };
 		FCC0BDC61E2F8BEC003939B1 /* DBHelperTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DBHelperTest.swift; sourceTree = "<group>"; };
+		FCC11FC11FD9403C00235BFF /* ObserverTitleOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserverTitleOverlayView.swift; sourceTree = "<group>"; };
 		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
 		FCCB89551EEE043300F1539E /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteSubscriptionManager.swift; sourceTree = "<group>"; };
@@ -982,6 +984,7 @@
 			isa = PBXGroup;
 			children = (
 				FCB2C1331F331760002288BE /* MenuLocationCell.swift */,
+				FCC11FC11FD9403C00235BFF /* ObserverTitleOverlayView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1324,6 +1327,7 @@
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
 				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				FC18E1B61EF613E30061C2F6 /* ObserverOverlayScene.swift in Sources */,
+				FCC11FC21FD9403C00235BFF /* ObserverTitleOverlayView.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */,
 				FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */,
