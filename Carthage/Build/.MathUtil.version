@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.2.0",
+  "iOS" : [
+    {
+      "name" : "MathUtil",
+      "hash" : "8434ee61c9f02e89412641d59d1b926662aa34406fddab61c17d12596590fb3e"
+    }
+  ]
+}

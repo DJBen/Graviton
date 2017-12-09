@@ -1,0 +1,9 @@
+{
+  "commitish" : "1.1.0",
+  "iOS" : [
+    {
+      "name" : "Regex",
+      "hash" : "b5aa28438e96fbe9e7dd6990552a576c7ea144a152669a069eab4dd7f65e1db1"
+    }
+  ]
+}

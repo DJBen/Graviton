@@ -1,11 +1,6 @@
 language: objective-c
 osx_image: xcode9.2
 
-cache:
-  directories:
-  - Carthage
-before_install:
-  - travis_wait 40 carthage bootstrap --platform iOS --cache-builds
 before_script:
   - swiftlint
 script:

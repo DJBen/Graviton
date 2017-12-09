@@ -1,0 +1,11 @@
+framework module GeoQueries {
+  umbrella header "GeoQueries.h"
+
+  export *
+  module * { export * }
+}
+
+module GeoQueries.Swift {
+    header "GeoQueries-Swift.h"
+    requires objc
+}

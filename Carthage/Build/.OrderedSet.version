@@ -1,0 +1,9 @@
+{
+  "commitish" : "v2.0.7",
+  "iOS" : [
+    {
+      "name" : "OrderedSet",
+      "hash" : "bc0cfa4afce3a57859eddd3856d482be38b2f690c1054d8771c5d929c31e4964"
+    }
+  ]
+}

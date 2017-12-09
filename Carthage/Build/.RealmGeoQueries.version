@@ -1,0 +1,9 @@
+{
+  "commitish" : "v1.3",
+  "iOS" : [
+    {
+      "name" : "GeoQueries",
+      "hash" : "9e5642fd2090ed96da41019deffc848d1dd87b9bad4d0d586ab599059ddc7302"
+    }
+  ]
+}

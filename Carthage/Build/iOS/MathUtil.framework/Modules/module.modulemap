@@ -1,0 +1,11 @@
+framework module MathUtil {
+  umbrella header "MathUtil.h"
+
+  export *
+  module * { export * }
+}
+
+module MathUtil.Swift {
+    header "MathUtil-Swift.h"
+    requires objc
+}
