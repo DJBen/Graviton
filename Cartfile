@@ -6,7 +6,7 @@ github "DJBen/StarryNight" ~> 0.1.0
 github "mhergon/RealmGeoQueries" ~> 1.3
 github "stephencelis/SQLite.swift" ~> 0.11.4
 github "Weebly/OrderedSet"
-github "realm/realm-cocoa" ~> 3.0.0
+github "realm/realm-cocoa"
 github "sharplet/Regex" ~> 1.0
 github "xmartlabs/XLPagerTabStrip" ~> 7.0
 github "SwiftyBeaver/SwiftyBeaver"
