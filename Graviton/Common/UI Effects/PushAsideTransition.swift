@@ -48,7 +48,7 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
         UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 2.0, options: [.curveEaseInOut], animations: {
             pushedInView.frame = pushedInFinalFrame
             pushedOutView.frame = pushedOutFinalFrame
-        }, completion: { (finished) in
+        }, completion: { (_) in
             let canceled = transitionContext.transitionWasCancelled
             transitionContext.completeTransition(!canceled)
         })
