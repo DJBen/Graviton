@@ -583,7 +583,9 @@ private extension ObserverScene {
         guard let earth = ephemeris[.majorBody(.earth)] else {
             return
         }
-        if celestialBody == earth {
+        if celestialBody == earth || celestialBody is Sun {
+            orbitLineNode?.removeFromParentNode()
+            orbitLineNode = nil
             return
         }
         orbitLineNode?.removeFromParentNode()
