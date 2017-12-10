@@ -231,6 +231,7 @@ class ObserverViewController: SceneController {
         menuController.menu = Menu.main
         let navigationController = UINavigationController(rootViewController: menuController)
         navigationController.modalPresentationStyle = .overCurrentContext
+        navigationController.delegate = self
         self.tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
@@ -386,5 +387,11 @@ extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
 extension ObserverViewController: ObserverTitleOverlayViewDelegate {
     func titleOverlayTapped(view: ObserverTitleOverlayView) {
         performSegue(withIdentifier: "showBodyInfo", sender: self)
+    }
+}
+
+extension ObserverViewController: UINavigationControllerDelegate {
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return PushAsideTransition(presenting: operation == .push)
     }
 }
