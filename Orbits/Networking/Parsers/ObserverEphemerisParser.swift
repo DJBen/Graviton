@@ -88,9 +88,9 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
             result.location = coord
             result.daylightFlag = daylightFlag
             result.rtsFlag = rtsFlag
-            result.apparentMagnitude = Double(extractContent(of: components, for: .apparentMagnitude))!
             result.angularDiameter = Double(extractContent(of: components, for: .angularDiameter))!
-            result.surfaceBrightness = Double(extractContent(of: components, for: .surfaceBrightness))!
+            result.apparentMagnitude.value = Double(extractContent(of: components, for: .apparentMagnitude))
+            result.surfaceBrightness.value = Double(extractContent(of: components, for: .surfaceBrightness))
             result.illuminatedPercentage = Double(extractContent(of: components, for: .illuminatedPercentage))!
             result.rightAscension = Double(extractContent(of: components, for: .rightAscension))!
             result.declination = Double(extractContent(of: components, for: .declination))!

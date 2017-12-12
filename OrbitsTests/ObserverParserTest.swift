@@ -35,8 +35,8 @@ class ObserverParserTest: XCTestCase {
         let results = ObserverEphemerisParser.default.parse(content: mockData)
         XCTAssertEqual(results.count, 4321)
         let result6 = CelestialBodyObserverInfo()
-        result6.apparentMagnitude = -10.05
-        result6.surfaceBrightness = 5.20
+        result6.apparentMagnitude.value = -10.05
+        result6.surfaceBrightness.value = 5.20
         result6.illuminatedPercentage = 49.244
         result6.angularDiameter = 1805.181
         result6.obLon = 352.62499
@@ -58,8 +58,8 @@ class ObserverParserTest: XCTestCase {
         XCTAssertEqual(lhs.jd, rhs.jd)
         XCTAssertEqual(lhs.daylight, lhs.daylight)
         XCTAssertEqual(lhs.rts, rhs.rts)
-        XCTAssertEqual(lhs.apparentMagnitude, rhs.apparentMagnitude)
-        XCTAssertEqual(lhs.surfaceBrightness, rhs.surfaceBrightness)
+        XCTAssertEqual(lhs.apparentMagnitude.value, rhs.apparentMagnitude.value)
+        XCTAssertEqual(lhs.surfaceBrightness.value, rhs.surfaceBrightness.value)
         XCTAssertEqual(lhs.illuminatedPercentage, rhs.illuminatedPercentage)
         XCTAssertEqual(lhs.angularDiameter, rhs.angularDiameter)
         XCTAssertEqual(lhs.obLat, lhs.obLat)
