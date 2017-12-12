@@ -13,8 +13,8 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
     @objc public dynamic var rightAscension: Double = 0
     @objc public dynamic var declination: Double = 0
 
-    @objc public dynamic var apparentMagnitude: Double = 0
-    @objc public dynamic var surfaceBrightness: Double = 0
+    public let apparentMagnitude = RealmOptional<Double>()
+    public let surfaceBrightness = RealmOptional<Double>()
 
     /// Fraction of target circular disk illuminated by Sun (phase), as seen by observer.  Units: PERCENT
     @objc public dynamic var illuminatedPercentage: Double = 0
