@@ -10,6 +10,7 @@ import UIKit
 
 protocol ObserverTitleOverlayViewDelegate: NSObjectProtocol {
     func titleOverlayTapped(view: ObserverTitleOverlayView)
+    func titleOverlayFocusTapped(view: ObserverTitleOverlayView)
 }
 
 class ObserverTitleOverlayView: UIView {
@@ -28,6 +29,13 @@ class ObserverTitleOverlayView: UIView {
         button.titleLabel?.textAlignment = .center
         button.setTitle("<Title>", for: .normal)
         button.addTarget(self, action: #selector(buttonTapped(sender:)), for: .touchUpInside)
+        return button
+    }()
+
+    lazy var focusButton: UIButton = {
+        let button = UIButton(type: UIButtonType.custom)
+        button.setImage(#imageLiteral(resourceName: "menu_icon_target"), for: .normal)
+        button.addTarget(self, action: #selector(focusTapped(sender:)), for: .touchUpInside)
         return button
     }()
 
@@ -55,9 +63,18 @@ class ObserverTitleOverlayView: UIView {
         vibrancyEffectView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         addSubview(titleButton)
         blurEffectView.contentView.addSubview(vibrancyEffectView)
-        titleButton.autoresizingMask = .flexibleWidth
-        titleButton.frame = vibrancyEffectView.frame
-        titleButton.frame.size.height = 44
+        vibrancyEffectView.contentView.addSubview(focusButton)
+        focusButton.frame = CGRect(x: vibrancyEffectView.contentView.bounds.width - 60, y: 0, width: 60, height: 44)
+        focusButton.autoresizingMask = .flexibleLeftMargin
+        titleButton.translatesAutoresizingMaskIntoConstraints = false
+        titleButton.addConstraint(titleButton.heightAnchor.constraint(equalToConstant: 44))
+        addConstraints(
+            [
+                titleButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 60),
+                titleButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -60),
+                titleButton.topAnchor.constraint(equalTo: topAnchor)
+            ]
+        )
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -66,5 +83,9 @@ class ObserverTitleOverlayView: UIView {
 
     @objc func buttonTapped(sender: UIButton) {
         delegate?.titleOverlayTapped(view: self)
+    }
+
+    @objc func focusTapped(sender: UIButton) {
+        delegate?.titleOverlayFocusTapped(view: self)
     }
 }
