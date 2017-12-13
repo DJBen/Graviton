@@ -48,6 +48,19 @@ extension CelestialBodyObserverInfo: ObserverLoadable {
             abs(r1.julianDay - julianDay) > abs(r2.julianDay - julianDay) ? r2 : r1
         }
     }
+
+    public static func clearOutdatedInfo(daysAgo days: Double = 7, sinceJulianDate julianDay: JulianDay = JulianDay.now) {
+        do {
+            let realm = try Realm()
+            let results = realm.objects(CelestialBodyObserverInfo.self).filter("jd < %@", julianDay.value - days)
+            try realm.write {
+                realm.delete(results)
+            }
+            logger.info("\(results.count) outdated CelestialBodyObserverInfo objects cleared. Criteria: JD < \(julianDay.value - days)")
+        } catch {
+            logger.warning("Failed to clear outdated CelestialBodyObserverInfo objects. Criteria: JD < \(julianDay.value - days). Failure reason: \(error)")
+        }
+    }
 }
 
 extension Collection where Iterator.Element == CelestialBodyObserverInfo {

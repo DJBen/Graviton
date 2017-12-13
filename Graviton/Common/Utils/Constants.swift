@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreLocation
 
 struct Constants {
     struct Menu {
@@ -31,4 +32,8 @@ struct Constants {
     struct Observer {
         static let maximumDisplayMagnitude: Double = 5.3
     }
+}
+
+struct UITestingConstants {
+    static let location = CLLocation(latitude: 37.775482, longitude: -122.417517)
 }

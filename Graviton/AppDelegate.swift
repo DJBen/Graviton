@@ -8,10 +8,6 @@
 
 import UIKit
 import Orbits
-import RealmSwift
-import SwiftyBeaver
-
-let logger = SwiftyBeaver.self
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -20,24 +16,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
-        migrateRealmIfNeeded()
-
+        RealmManager.default.migrateRealmIfNeeded()
         UINavigationBar.configureNavigationBarStyles()
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
 
-        // Disable online fetching in unit tests
-        let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+        // Disable online fetching in unit tests or UI tests
+        let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil || CommandLine.arguments.contains("--ui-testing")
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(2)) {
             EphemerisManager.default.fetch(mode: isInTest ? .localOnly : .mixed)
         }
         RiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
         CelestialBodyObserverInfoManager.globalMode = isInTest ? .localOnly : .preferLocal
         LocationManager.default.startLocationService()
-
-        DispatchQueue.main.async {
-            self.displaySceneKitBrokenWarning()
+        if CommandLine.arguments.contains("--ui-testing") {
+            // Set up UI Testing environment
+            LocationManager.default.locationOverride = UITestingConstants.location
+            RealmManager.default.clearRedundantRealm(daysAgo: 0)
+        } else {
+            RealmManager.default.clearRedundantRealm()
         }
-
         return true
     }
 
@@ -55,37 +52,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.rootViewController?.present(alertController, animated: true) {
             OccationalPrompt.recordPrompt(forKey: "sceneKitBrokenWarning")
         }
-    }
-
-    private func configureLogging() {
-        let console = ConsoleDestination()
-        console.minLevel = .verbose
-        logger.addDestination(console)
-    }
-
-    private func migrateRealmIfNeeded() {
-        let config = Realm.Configuration(
-            // Set the new schema version. This must be greater than the previously used
-            // version (if you've never set a schema version before, the version is 0).
-            schemaVersion: 1,
-
-            // Set the block which will be called automatically when opening a Realm with
-            // a schema version lower than the one set above
-            migrationBlock: { _, oldSchemaVersion in
-                // We haven’t migrated anything yet, so oldSchemaVersion == 0
-                if oldSchemaVersion < 1 {
-                    // Nothing to do!
-                    // Realm will automatically detect new properties and removed properties
-                    // And will update the schema on disk automatically
-                }
-        })
-
-        // Tell Realm to use this new configuration object for the default Realm
-        Realm.Configuration.defaultConfiguration = config
-
-        // Now that we've told Realm how to handle the schema change, opening the file
-        // will automatically perform the migration
-        _ = try! Realm()
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
