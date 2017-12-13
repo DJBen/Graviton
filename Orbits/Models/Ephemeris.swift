@@ -124,6 +124,7 @@ public extension Ephemeris {
         } else {
             referencePosition = Vector3.zero
         }
+        // TODO: obblique only works on earth
         let observedPosition = (referencePosition + position - observer.positionRelativeToSun!).oblique(by: observer.obliquity)
         return observedPosition
     }

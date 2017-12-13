@@ -180,10 +180,11 @@ class ObserverViewController: SceneController {
     }
 
     func center(atTarget target: ObserveTarget) {
+        let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
         let coordinate: Vector3
         switch target {
         case .nearbyBody(let body):
-            coordinate = body.position!
+            coordinate = ephemeris.observedPosition(of: body as! CelestialBody, fromObserver: ephemeris[.majorBody(.earth)]!)
         case .star(let star):
             coordinate = star.physicalInfo.coordinate
         }
@@ -387,6 +388,10 @@ extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
 extension ObserverViewController: ObserverTitleOverlayViewDelegate {
     func titleOverlayTapped(view: ObserverTitleOverlayView) {
         performSegue(withIdentifier: "showBodyInfo", sender: self)
+    }
+
+    func titleOverlayFocusTapped(view: ObserverTitleOverlayView) {
+        center(atTarget: self.target!)
     }
 }
 
