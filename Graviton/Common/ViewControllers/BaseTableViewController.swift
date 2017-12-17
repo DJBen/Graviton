@@ -1,5 +1,5 @@
 //
-//  MenuController.swift
+//  BaseTableViewController.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 6/10/17.
@@ -8,12 +8,8 @@
 
 import UIKit
 
-class MenuController: UITableViewController {
+class BaseTableViewController: UITableViewController {
     private static let resizingMask: UIViewAutoresizing = [.flexibleWidth, .flexibleHeight]
-
-    override var prefersStatusBarHidden: Bool {
-        return Device.isiPhoneX == false
-    }
 
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent

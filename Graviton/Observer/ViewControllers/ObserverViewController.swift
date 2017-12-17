@@ -338,23 +338,6 @@ class ObserverViewController: SceneController {
         scnView.antialiasingMode = SCNAntialiasingMode(rawValue: UInt(["none", "multisampling2X", "multisampling4X"].index(of: key)!))!
     }
 
-    // MARK: - Perform segue
-
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "showBodyInfo", let dest = segue.destination as? ObserverDetailViewController {
-            dest.target = target
-            dest.ephemerisId = ephemerisSubscriptionIdentifier
-        }
-    }
-
-    @IBAction func unwindFromBodyInfo(for segue: UIStoryboardSegue) {
-        // keep target selected
-        if segue.identifier == "unwindFromBodyInfo", let source = segue.source as? ObserverDetailViewController {
-            target = source.target
-            focusAtTarget()
-        }
-    }
-
     // MARK: - Scene renderer delegate
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
@@ -387,7 +370,16 @@ extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
 
 extension ObserverViewController: ObserverTitleOverlayViewDelegate {
     func titleOverlayTapped(view: ObserverTitleOverlayView) {
-        performSegue(withIdentifier: "showBodyInfo", sender: self)
+        guard let detailVc = storyboard?.instantiateViewController(withIdentifier: "ObserverDetailViewController") as? ObserverDetailViewController else {
+            return
+        }
+        detailVc.delegate = self
+        detailVc.target = target
+        detailVc.ephemerisId = ephemerisSubscriptionIdentifier
+        let navigationController = UINavigationController(rootViewController: detailVc)
+        navigationController.modalPresentationStyle = .overCurrentContext
+        navigationController.delegate = self
+        tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
     func titleOverlayFocusTapped(view: ObserverTitleOverlayView) {
@@ -398,5 +390,13 @@ extension ObserverViewController: ObserverTitleOverlayViewDelegate {
 extension ObserverViewController: UINavigationControllerDelegate {
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PushAsideTransition(presenting: operation == .push)
+    }
+}
+
+extension ObserverViewController: ObserverDetailViewControllerDelegate {
+    func observerDetailViewController(viewController: ObserverDetailViewController, dismissTapped sender: UIButton) {
+        dismiss(animated: true, completion: nil)
+        target = viewController.target
+        focusAtTarget()
     }
 }

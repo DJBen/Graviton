@@ -11,7 +11,7 @@ import MathUtil
 import SpaceTime
 import XLPagerTabStrip
 
-class RealtimeInfoViewController: UITableViewController {
+class RealtimeInfoViewController: BaseTableViewController {
 
     var locationSubscriptionId: SubscriptionUUID!
 
@@ -97,6 +97,12 @@ class RealtimeInfoViewController: UITableViewController {
             self.tableView.deselectRow(at: indexPath, animated: true)
         }))
         present(actionController, animated: true, completion: nil)
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.black
+        cell.textLabel?.textColor = UIColor.white
+        cell.detailTextLabel?.textColor = UIColor.lightText
     }
 }
 
