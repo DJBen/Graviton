@@ -1,0 +1,11 @@
+framework module StarryNight {
+  umbrella header "StarryNight.h"
+
+  export *
+  module * { export * }
+}
+
+module StarryNight.Swift {
+    header "StarryNight-Swift.h"
+    requires objc
+}

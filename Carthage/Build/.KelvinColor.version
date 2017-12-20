@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.1.0",
+  "iOS" : [
+    {
+      "name" : "KelvinColor",
+      "hash" : "dc164071c8fa6776a32b0b0a22394bb67381a29241a7d67d6fbabb1ad8f5dd27"
+    }
+  ]
+}

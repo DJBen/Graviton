@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.1.0",
+  "iOS" : [
+    {
+      "name" : "StarryNight",
+      "hash" : "8c776a1259fa31a89c2267302bbd31bddc1afd1feeee1b53c1dc395acadf320d"
+    }
+  ]
+}

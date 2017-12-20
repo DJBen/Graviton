@@ -1,0 +1,11 @@
+framework module KelvinColor {
+  umbrella header "KelvinColor.h"
+
+  export *
+  module * { export * }
+}
+
+module KelvinColor.Swift {
+    header "KelvinColor-Swift.h"
+    requires objc
+}

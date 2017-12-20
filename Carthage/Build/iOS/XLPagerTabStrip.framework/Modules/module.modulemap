@@ -1,0 +1,11 @@
+framework module XLPagerTabStrip {
+  umbrella header "XLPagerTabStrip.h"
+
+  export *
+  module * { export * }
+}
+
+module XLPagerTabStrip.Swift {
+    header "XLPagerTabStrip-Swift.h"
+    requires objc
+}

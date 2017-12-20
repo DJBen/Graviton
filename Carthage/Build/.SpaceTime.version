@@ -1,0 +1,9 @@
+{
+  "commitish" : "0.1.4",
+  "iOS" : [
+    {
+      "name" : "SpaceTime",
+      "hash" : "a0ac75c4b51ff7e3bda8de1bd895cfc95313ba16e70aa7e674b257480ac51748"
+    }
+  ]
+}

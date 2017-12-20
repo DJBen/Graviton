@@ -1,0 +1,11 @@
+framework module SpaceTime {
+  umbrella header "SpaceTime.h"
+
+  export *
+  module * { export * }
+}
+
+module SpaceTime.Swift {
+    header "SpaceTime-Swift.h"
+    requires objc
+}
