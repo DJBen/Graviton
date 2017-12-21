@@ -111,6 +111,7 @@
 		FC6913871EC14E5C00F9B3B5 /* CelestialBodyNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */; };
 		FC6B88531EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */; };
 		FC6B88571EEC9764007EFE2E /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC6B88561EEC9764007EFE2E /* MenuController.swift */; };
+		FC7088241FEB4AFD00A1048F /* OccationalPrompt.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7088231FEB4AFD00A1048F /* OccationalPrompt.swift */; };
 		FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC7096FE1EF3898700D4FA30 /* Math.swift */; };
 		FC7D61E81E9B470F00BEA5BE /* art.scnassets in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61E71E9B470F00BEA5BE /* art.scnassets */; };
 		FC7D61FD1E9B491000BEA5BE /* orbit_line.surface.shader in Resources */ = {isa = PBXBuildFile; fileRef = FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */; };
@@ -328,6 +329,7 @@
 		FC6913861EC14E5C00F9B3B5 /* CelestialBodyNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyNode.swift; sourceTree = "<group>"; };
 		FC6B88521EEC96B1007EFE2E /* ObserverMenuMultipleSelectController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverMenuMultipleSelectController.swift; sourceTree = "<group>"; };
 		FC6B88561EEC9764007EFE2E /* MenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		FC7088231FEB4AFD00A1048F /* OccationalPrompt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OccationalPrompt.swift; sourceTree = "<group>"; };
 		FC7096FE1EF3898700D4FA30 /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Math.swift; sourceTree = "<group>"; };
 		FC7D61E71E9B470F00BEA5BE /* art.scnassets */ = {isa = PBXFileReference; lastKnownFileType = wrapper.scnassets; path = art.scnassets; sourceTree = "<group>"; };
 		FC7D61FA1E9B491000BEA5BE /* orbit_line.surface.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = orbit_line.surface.shader; sourceTree = "<group>"; };
@@ -1049,6 +1051,7 @@
 				FC099E441F1AD40D00A65F73 /* Formatters.swift */,
 				FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */,
 				FCE9DB851F8F504E008631DC /* Device.swift */,
+				FC7088231FEB4AFD00A1048F /* OccationalPrompt.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1341,6 +1344,7 @@
 				FC4D1E6A1FAFFAB700011478 /* ObserveTarget.swift in Sources */,
 				FC1CC2C81EE01646009FA252 /* LocationManager.swift in Sources */,
 				FCFF7B151EA2145A00C4B006 /* Settings.swift in Sources */,
+				FC7088241FEB4AFD00A1048F /* OccationalPrompt.swift in Sources */,
 				FCFBB71F1E59FCF100624B4C /* WarpControl.swift in Sources */,
 				FC959E5E1E9B4E990026B222 /* ObserverViewController.swift in Sources */,
 				FC1CC2CA1EE01646009FA252 /* CelestialBodyObserverInfoManager.swift in Sources */,

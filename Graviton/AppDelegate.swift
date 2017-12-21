@@ -21,8 +21,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         configureLogging()
         migrateRealmIfNeeded()
+
         UINavigationBar.configureNavigationBarStyles()
         UITextField.appearance(whenContainedInInstancesOf: [UISearchBar.self]).defaultTextAttributes = [NSAttributedStringKey.foregroundColor.rawValue: UIColor.white]
+
         // Disable online fetching in unit tests
         let isInTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
         DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.seconds(2)) {
@@ -31,7 +33,28 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         RiseTransitSetManager.globalMode = isInTest ? .localOnly : .preferLocal
         CelestialBodyObserverInfoManager.globalMode = isInTest ? .localOnly : .preferLocal
         LocationManager.default.startLocationService()
+
+        DispatchQueue.main.async {
+            self.displaySceneKitBrokenWarning()
+        }
+
         return true
+    }
+
+    private func displaySceneKitBrokenWarning() {
+        let forumUrl = URL(string:"https://forums.developer.apple.com/thread/92671")!
+        guard Device.isSceneKitBroken && UIApplication.shared.canOpenURL(forumUrl) && OccationalPrompt.shouldShowPrompt(forKey: "sceneKitBrokenWarning", timeInterval: 86400) else {
+            return
+        }
+        let alertController = UIAlertController(title: "iOS SceneKit Bug", message: "There exists a bug on iOS 11.2 that causes transparent textures not to be rendered. As a result, some nodes will appear square-like. I am working around this issue and actively updating Graviton. Thank you for your support!", preferredStyle: .alert)
+        let openForumAction = UIAlertAction(title: "See Detail", style: .default) { (_) in
+            UIApplication.shared.open(forumUrl, options: [:], completionHandler: nil)
+        }
+        alertController.addAction(openForumAction)
+        alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+        window?.rootViewController?.present(alertController, animated: true) {
+            OccationalPrompt.recordPrompt(forKey: "sceneKitBrokenWarning")
+        }
     }
 
     private func configureLogging() {
