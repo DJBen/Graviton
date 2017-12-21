@@ -72,7 +72,9 @@ platform :ios do
       },
       export_xcargs: "-allowProvisioningUpdates"
     )
-    testflight
+    testflight(
+      skip_waiting_for_build_processing: true
+    )
 
     # sh "your_script.sh"
     # You can also use other beta testing services here (run `fastlane actions`)
