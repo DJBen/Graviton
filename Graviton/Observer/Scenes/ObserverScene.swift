@@ -328,11 +328,13 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     func focus(atNode node: SCNNode) {
         focuser.isHidden = false
+        focusedNode = node
         focuser.position = node.position.normalized() * 10
     }
 
     func removeFocus() {
         focuser.isHidden = true
+        focusedNode = nil
         orbitLineNode?.removeFromParentNode()
         orbitLineNode = nil
     }
@@ -373,7 +375,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         drawMeridian(observerInfo: observerInfo)
     }
 
-    /// Update star related content, including but no limit to follows:
+    /// Update content that should be updated upon ephemeris or time / location update,
+    /// including but no limit to follows:
     /// - Compass rose
     /// - Direction markers
     /// - Ground texture
@@ -386,6 +389,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         directionMarkers.locationAndTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
         drawMeridian(observerInfo: observerInfo)
+        // update focuser position
+        if let focusedNode = self.focusedNode {
+            focus(atNode: focusedNode)
+        }
         if let eph = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier) {
             ephemerisDidUpdate(ephemeris: eph)
         }
