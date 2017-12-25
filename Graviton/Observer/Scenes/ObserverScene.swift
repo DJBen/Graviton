@@ -111,6 +111,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     private var celestialEquatorNode: CelestialEquatorLineNode?
     private var eclipticNode: EclipticLineNode?
     private var orbitLineNode: OrbitLineNode?
+    private var meridianNode: MeridianLineNode?
 
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
@@ -364,24 +365,27 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     // MARK: - Location Update
     func updateLocation(location: CLLocation) {
-        updateStellarContent()
+        guard let observerInfo = LocationAndTimeManager.default.observerInfo else {
+            logger.debug("observer info not ready")
+            return
+        }
+        updateStellarContent(observerInfo: observerInfo)
+        drawMeridian(observerInfo: observerInfo)
     }
 
     /// Update star related content, including but no limit to follows:
     /// - Compass rose
     /// - Direction markers
     /// - Ground texture
-    func updateStellarContent() {
-        guard let observerInfo = LocationAndTimeManager.default.observerInfo else {
-            logger.debug("observer info not ready")
-            return
-        }
+    /// - Meridian line (if enabled)
+    func updateStellarContent(observerInfo: LocationAndTime) {
         let transform = observerInfo.localViewTransform
         let orientation = Quaternion(rotationMatrix: transform)
         logger.debug("update orientation \(orientation)")
         panoramaNode.orientation = SCNQuaternion(orientation)
         directionMarkers.locationAndTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
+        drawMeridian(observerInfo: observerInfo)
         if let eph = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier) {
             ephemerisDidUpdate(ephemeris: eph)
         }
@@ -397,7 +401,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     /// Called when ephemeris need recalculation due to change in time and / or observer location
     ///
     /// - Parameter ephemeris: Ephemeris to be recalculated
-    func ephemerisDidUpdate(ephemeris: Ephemeris) {
+    private func ephemerisDidUpdate(ephemeris: Ephemeris) {
         let logMessage = "update ephemeris at \(String(describing: ephemeris.timestamp)) using data at \(String(describing: ephemeris.referenceTimestamp))"
         if Timekeeper.default.isWarpActive {
             logger.debug(logMessage)
@@ -571,6 +575,15 @@ private extension ObserverScene {
         celestialEquatorNode?.removeFromParentNode()
         celestialEquatorNode = CelestialEquatorLineNode(earth: earth, rawToModelCoordinateTransform: transform)
         rootNode.addChildNode(celestialEquatorNode!)
+    }
+
+    private func drawMeridian(observerInfo: LocationAndTime) {
+        func transform(position: Vector3) -> Vector3 {
+            return position.normalized() * auxillaryLineLayerRadius
+        }
+        meridianNode?.removeFromParentNode()
+        meridianNode = MeridianLineNode(observerInfo: observerInfo, rawToModelCoordinateTransform: transform)
+        rootNode.addChildNode(meridianNode!)
     }
 
     private func drawAuxillaryLines(ephemeris: Ephemeris) {

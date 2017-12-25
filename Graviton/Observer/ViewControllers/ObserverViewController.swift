@@ -330,8 +330,8 @@ class ObserverViewController: SceneController {
         assertMainThread()
         if let observerInfo = LocationAndTimeManager.default.observerInfo {
             self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
+            observerScene.updateStellarContent(observerInfo: observerInfo)
         }
-        observerScene.updateStellarContent()
     }
 
     private func updateAntialiasingMode(_ key: String) {

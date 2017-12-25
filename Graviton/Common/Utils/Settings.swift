@@ -9,12 +9,13 @@
 import UIKit
 
 private let constellationLineDefault: Settings.ConstellationLineSetting.Mode = .all
-private let showCelestialEquatorDefault: Bool = true
-private let showEclipticDefault: Bool = true
-private let showConstellationLabelDefault: Bool = true
-private let showOrbitLineWhenFocusedDefault: Bool = true
-private let showPlanetLabelDefault: Bool = true
-private let showMoonPhaseDefault: Bool = true
+private let showCelestialEquatorDefault = true
+private let showEclipticDefault = true
+private let showMeridianDefault = false
+private let showConstellationLabelDefault = true
+private let showOrbitLineWhenFocusedDefault = true
+private let showPlanetLabelDefault = true
+private let showMoonPhaseDefault = true
 private let showEarthshineDefault = true
 private let showDirectionMarkersDefault = true
 private let showZenithAndNadirMarkersDefault = true
@@ -80,6 +81,7 @@ struct Settings {
         case showEcliptic
         case showOrbitLineWhenFocused
         case showConstellationLabel
+        case showMeridian
         case showPlanetLabel
         case showNorthPoleIndicator
         case showSouthPoleIndicator
@@ -99,6 +101,8 @@ struct Settings {
                 return showCelestialEquatorDefault
             case .showEcliptic:
                 return showEclipticDefault
+            case .showMeridian:
+                return showMeridianDefault
             case .showOrbitLineWhenFocused:
                 return showOrbitLineWhenFocusedDefault
             case .showConstellationLabel:
