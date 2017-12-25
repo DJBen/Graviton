@@ -602,7 +602,7 @@ private extension ObserverScene {
             return
         }
         orbitLineNode?.removeFromParentNode()
-        let color: UIColor
+        let color: UIColor?
         switch celestialBody.naif {
         case let .majorBody(mb):
             switch mb {
@@ -624,10 +624,21 @@ private extension ObserverScene {
             case .neptune:
                 color = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
             }
+        case let .moon(moon):
+            switch moon {
+            case .luna:
+                color = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+            default:
+                color = nil
+            }
         default:
-            color = UIColor.clear
+            color = nil
         }
-        orbitLineNode = OrbitLineNode(celestialBody: celestialBody, origin: earth, ephemeris: ephemeris, color: color, rawToModelCoordinateTransform: { $0.normalized() * auxillaryLineLayerRadius })
+        guard let finalColor = color else {
+            logger.warning("attempt to show orbit line for unregistered celestial body \(celestialBody.naif) - showing nothing")
+            return
+        }
+        orbitLineNode = OrbitLineNode(celestialBody: celestialBody, origin: earth, ephemeris: ephemeris, color: finalColor, rawToModelCoordinateTransform: { $0.normalized() * auxillaryLineLayerRadius })
         rootNode.addChildNode(orbitLineNode!)
     }
 
