@@ -312,7 +312,7 @@ class ObserverViewController: SceneController {
 
     private func stopTimeWarp(withAnimationDuration animationDuration: Double) {
         Timekeeper.default.reset()
-        LocationAndTimeManager.default.julianDate = nil
+        ObserverLocationTimeManager.default.julianDay = nil
         overlayScene.hide(withDuration: animationDuration)
     }
 
@@ -322,13 +322,13 @@ class ObserverViewController: SceneController {
     }
 
     @objc func updateTimestampLabel() {
-        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
+        let requestTimestamp = Timekeeper.default.content ?? JulianDay.now
         titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
     }
 
     func ephemerisDidUpdate(ephemeris: Ephemeris) {
         assertMainThread()
-        if let observerInfo = LocationAndTimeManager.default.observerInfo {
+        if let observerInfo = ObserverLocationTimeManager.default.observerInfo {
             self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
             observerScene.updateStellarContent(observerInfo: observerInfo)
         }
@@ -368,8 +368,8 @@ class ObserverViewController: SceneController {
         } else {
             super.renderer(renderer, didRenderScene: scene, atTime: time)
         }
-        let requestTimestamp = Timekeeper.default.content ?? JulianDate.now
-        LocationAndTimeManager.default.julianDate = requestTimestamp
+        let requestTimestamp = Timekeeper.default.content ?? JulianDay.now
+        ObserverLocationTimeManager.default.julianDay = requestTimestamp
         EphemerisManager.default.request(at: requestTimestamp, forSubscription: ephemerisSubscriptionIdentifier)
         configurePanSpeed()
         observerScene.rendererUpdate()

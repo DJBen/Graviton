@@ -37,15 +37,15 @@ public final class CelestialBodyObserverInfo: ObserverInfo {
 }
 
 extension CelestialBodyObserverInfo: ObserverLoadable {
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now, site: ObserverSite, timeZone: TimeZone) -> CelestialBodyObserverInfo? {
+    static func load(naifId: Int, optimalJulianDay julianDay: JulianDay = JulianDay.now, site: ObserverSite, timeZone: TimeZone) -> CelestialBodyObserverInfo? {
         let realm = try! Realm()
-        let jdStart = julianDate - 60 * 30
-        let jdEnd = julianDate + 60 * 30
+        let jdStart = julianDay - 60 * 30
+        let jdEnd = julianDay + 60 * 30
         let results = try! realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
         let info = Array(results)
         guard info.isEmpty == false else { return nil }
         return info.reduce(info[0]) { (r1, r2) -> CelestialBodyObserverInfo in
-            abs(r1.julianDate - julianDate) > abs(r2.julianDate - julianDate) ? r2 : r1
+            abs(r1.julianDay - julianDay) > abs(r2.julianDay - julianDay) ? r2 : r1
         }
     }
 }

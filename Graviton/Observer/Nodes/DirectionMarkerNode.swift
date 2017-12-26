@@ -76,9 +76,9 @@ extension ObserverScene {
         let radius: Double
         let sideLength: Double
 
-        var locationAndTime: LocationAndTime = LocationAndTime() {
+        var observerLocationTime: ObserverLocationTime = ObserverLocationTime() {
             didSet {
-                let ecefToNed = Quaternion(rotationMatrix: self.locationAndTime.localViewTransform)
+                let ecefToNed = Quaternion(rotationMatrix: self.observerLocationTime.localViewTransform)
                 self.childNodes.forEach { (node) in
                     let markerNode = node as! MarkerNode
                     node.position = SCNVector3(ecefToNed * markerNode.marker.unitPosition * radius)

@@ -26,7 +26,7 @@ class SubscriptionManager<T> {
         let identifier: SubscriptionUUID
         let mode: RefreshMode
         var content: T?
-        var lastUpdateJd: JulianDate?
+        var lastUpdateJd: JulianDay?
         var didLoad: SubscriptionBlock?
         var didUpdate: SubscriptionBlock?
 
@@ -73,7 +73,7 @@ class SubscriptionManager<T> {
     /// - Parameters:
     ///   - requestedJd: The requested Julian date.
     ///   - identifier: The identifier of the subscription.
-    func request(at requestedJd: JulianDate, forSubscription subscriptionId: SubscriptionUUID) {
+    func request(at requestedJd: JulianDay, forSubscription subscriptionId: SubscriptionUUID) {
         var changed = false
         guard let sub = subscriptions[subscriptionId] else {
             fatalError("object not subscribed")
@@ -81,14 +81,14 @@ class SubscriptionManager<T> {
         guard let eph = sub.content else { return }
         switch sub.mode {
         case .realtime:
-            update(subscription: sub, forJulianDate: requestedJd)
+            update(subscription: sub, forJulianDay: requestedJd)
             sub.content = eph
             sub.lastUpdateJd = requestedJd
             changed = true
         case .interval(let interval):
             let diff = abs(requestedJd.value - (sub.lastUpdateJd?.value ?? 0.0))
             if diff >= interval / 86400 {
-                update(subscription: sub, forJulianDate: requestedJd)
+                update(subscription: sub, forJulianDay: requestedJd)
                 sub.content = eph
                 sub.lastUpdateJd = requestedJd
                 changed = true
@@ -112,7 +112,7 @@ class SubscriptionManager<T> {
         for (_, sub) in self.subscriptions {
             sub.content = self.content
             if let lastJd = sub.lastUpdateJd {
-                self.update(subscription: sub, forJulianDate: lastJd)
+                self.update(subscription: sub, forJulianDay: lastJd)
             }
             sub.lastUpdateJd = nil
             DispatchQueue.main.async {
@@ -128,7 +128,7 @@ class SubscriptionManager<T> {
     ///
     /// - Parameter mode: Fetch mode
     /// - Parameter requestedJd:  Requested Julian date to fetch the content.
-    func fetch(mode: Horizons.FetchMode?, forJulianDate requestedJd: JulianDate = JulianDate.now) {
+    func fetch(mode: Horizons.FetchMode?, forJulianDay requestedJd: JulianDay = JulianDay.now) {
         fatalError()
     }
 
@@ -139,7 +139,7 @@ class SubscriptionManager<T> {
     /// - Parameters:
     ///   - subscription: The subscription to be updated
     ///   - requestedJd: Requested Julian date to fit the content.
-    func update(subscription: SubscriptionManager<T>.Subscription, forJulianDate requestedJd: JulianDate) {
+    func update(subscription: SubscriptionManager<T>.Subscription, forJulianDay requestedJd: JulianDay) {
         fatalError()
     }
 }

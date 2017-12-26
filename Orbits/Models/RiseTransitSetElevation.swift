@@ -19,16 +19,16 @@ public struct RiseTransitSetElevation: Equatable {
     public let naif: Naif
     public let location: CLLocation
 
-    public let startJd: JulianDate
-    public let endJd: JulianDate
+    public let startJd: JulianDay
+    public let endJd: JulianDay
 
     /// Maximum elevation in radians
     public let maximumElevation: Double?
-    public let riseAt: JulianDate?
-    public let transitAt: JulianDate?
-    public let setAt: JulianDate?
+    public let riseAt: JulianDay?
+    public let transitAt: JulianDay?
+    public let setAt: JulianDay?
 
-    init?(rts: [RiseTransitSetInfo], startJd: JulianDate, endJd: JulianDate) {
+    init?(rts: [RiseTransitSetInfo], startJd: JulianDay, endJd: JulianDay) {
         self.startJd = startJd
         self.endJd = endJd
         let r = rts.first { $0.rts == .rise }
@@ -44,9 +44,9 @@ public struct RiseTransitSetElevation: Equatable {
         } else {
             maximumElevation = nil
         }
-        riseAt = r?.julianDate
-        transitAt = t?.julianDate
-        setAt = s?.julianDate
+        riseAt = r?.julianDay
+        transitAt = t?.julianDay
+        setAt = s?.julianDay
         location = obj.location
     }
 
@@ -61,16 +61,16 @@ extension RiseTransitSetElevation: ObserverLoadable {
     ///
     /// - Parameters:
     ///   - naifId: Naif ID of the target body
-    ///   - julianDate: The requested Julian date
+    ///   - julianDay: The requested Julian date
     ///   - site: The observer site
     ///   - timeZone: The observer site's time zone
     /// - Returns: A rise-transit-set info record within the same day of requested Julian date
-    static func load(naifId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now, site: ObserverSite, timeZone: TimeZone) -> RiseTransitSetElevation? {
+    static func load(naifId: Int, optimalJulianDay julianDay: JulianDay = JulianDay.now, site: ObserverSite, timeZone: TimeZone) -> RiseTransitSetElevation? {
         let realm = try! Realm()
         let deltaT = Double(timeZone.secondsFromGMT()) / 86400
-        let startJd = modf(julianDate.value).0 + deltaT
-        let endJd = modf(julianDate.value).0 + 1 + deltaT
+        let startJd = modf(julianDay.value).0 + deltaT
+        let endJd = modf(julianDay.value).0 + 1 + deltaT
         let results = try! realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
-        return RiseTransitSetElevation(rts: Array(results), startJd: JulianDate(startJd), endJd: JulianDate(endJd))
+        return RiseTransitSetElevation(rts: Array(results), startJd: JulianDay(startJd), endJd: JulianDay(endJd))
     }
 }

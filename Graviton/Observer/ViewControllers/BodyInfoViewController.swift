@@ -30,7 +30,7 @@ class BodyInfoViewController: UITableViewController {
         if row < 2 {
             return row
         }
-        return row - (LocationAndTimeManager.default.observerInfo == nil ? 2 : 0)
+        return row - (ObserverLocationTimeManager.default.observerInfo == nil ? 2 : 0)
     }
 
     private func relativeCoordinate(fornearbyBody body: Body) -> EquatorialCoordinate {
@@ -140,13 +140,13 @@ class BodyInfoViewController: UITableViewController {
             cell.detailTextLabel?.text = String(describing: dms)
         case (0, rowForPositionSection(2)):
             cell.textLabel?.text = "Azimuth"
-            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: ObserverLocationTimeManager.default.observerInfo!)
             let dms = DegreeMinuteSecond(value: degrees(radians: hori.azimuth))
             dms.decimalNumberFormatter = Formatters.integerFormatter
             cell.detailTextLabel?.text = String(describing: dms)
         case (0, rowForPositionSection(3)):
             cell.textLabel?.text = "Altitude"
-            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: LocationAndTimeManager.default.observerInfo!)
+            let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: ObserverLocationTimeManager.default.observerInfo!)
             let dms = DegreeMinuteSecond(value: degrees(radians: hori.altitude))
             dms.decimalNumberFormatter = Formatters.integerFormatter
             cell.detailTextLabel?.text = String(describing: dms)

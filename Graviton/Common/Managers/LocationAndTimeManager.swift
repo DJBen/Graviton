@@ -1,5 +1,5 @@
 //
-//  LocationAndTimeManager.swift
+//  ObserverLocationTimeManager.swift
 //  Graviton
 //
 //  Created by Sihao Lu on 6/6/17.
@@ -9,29 +9,29 @@
 import UIKit
 import SpaceTime
 
-class LocationAndTimeManager: NSObject {
+class ObserverLocationTimeManager: NSObject {
 
-    static let `default` = LocationAndTimeManager()
+    static let `default` = ObserverLocationTimeManager()
     var subId: SubscriptionUUID!
-    private(set) var observerInfo: LocationAndTime?
+    private(set) var observerInfo: ObserverLocationTime?
 
     /// An override of normal julian date in time warp mode
-    var julianDate: JulianDate? {
+    var julianDay: JulianDay? {
         didSet {
             guard let observerInfo = self.observerInfo else {
                 return
             }
-            if oldValue == julianDate {
+            if oldValue == julianDay {
                 return
             }
-            self.observerInfo = LocationAndTime(location: observerInfo.location, timestamp: self.julianDate ?? JulianDate.now)
+            self.observerInfo = ObserverLocationTime(location: observerInfo.location, timestamp: self.julianDay ?? JulianDay.now)
         }
     }
 
     override init() {
         super.init()
         subId = LocationManager.default.subscribe(didUpdate: { (location) in
-            self.observerInfo = LocationAndTime(location: location, timestamp: self.julianDate ?? JulianDate.now)
+            self.observerInfo = ObserverLocationTime(location: location, timestamp: self.julianDay ?? JulianDay.now)
         })
     }
 

@@ -31,22 +31,22 @@ class RealtimeInfoViewController: UITableViewController {
 
     @objc func screenUpdate() {
         let date = Date()
-        let julianDate = JulianDate(date: date)
-        let jdValue = julianDate.value as NSNumber
+        let julianDay = JulianDay(date: date)
+        let jdValue = julianDay.value as NSNumber
 
         if let cell = tableView.cellForRow(at: IndexPath(row: 0, section: 0)) {
             cell.detailTextLabel?.text = Formatters.fullUtcDateFormatter.string(from: date)
         }
         if let cell = tableView.cellForRow(at: IndexPath(row: 1, section: 0)) {
-            cell.detailTextLabel?.text = Formatters.julianDateFormatter.string(from: jdValue)
+            cell.detailTextLabel?.text = Formatters.julianDayFormatter.string(from: jdValue)
         }
         if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) {
-            let sidTime = SiderealTime.init(julianDate: julianDate)
+            let sidTime = SiderealTime.init(julianDay: julianDay)
             cell.detailTextLabel?.text = String(describing: sidTime)
         }
         if let location = LocationManager.default.content {
-            let locTime = LocationAndTime(location: location, timestamp: julianDate)
-            let sidTime = SiderealTime.init(locationAndTime: locTime)
+            let locTime = ObserverLocationTime(location: location, timestamp: julianDay)
+            let sidTime = SiderealTime.init(observerLocationTime: locTime)
 
             if let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) {
                 cell.detailTextLabel?.text = String(describing: sidTime)

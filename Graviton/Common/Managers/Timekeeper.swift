@@ -9,36 +9,36 @@
 import UIKit
 import SpaceTime
 
-class Timekeeper: LiteSubscriptionManager<JulianDate> {
+class Timekeeper: LiteSubscriptionManager<JulianDay> {
     static var now: Date {
         return Date()
     }
 
-    static var julianDateNow: JulianDate {
-        return JulianDate.now
+    static var julianDayNow: JulianDay {
+        return JulianDay.now
     }
 
     static let `default`: Timekeeper = Timekeeper()
 
-    override var content: JulianDate? {
-        return warpedJulianDate
+    override var content: JulianDay? {
+        return warpedJulianDay
     }
 
-    private var warpedJulianDate: JulianDate?
+    private var warpedJulianDay: JulianDay?
 
     var warpedDate: Date? {
-        return warpedJulianDate?.date
+        return warpedJulianDay?.date
     }
 
     /// Whether is in time warp mode
     var isWarpActive: Bool = false
 
     var isWarping: Bool {
-        return warpedJulianDate != nil && !(recentWarpSpeed ~= 0)
+        return warpedJulianDay != nil && !(recentWarpSpeed ~= 0)
     }
 
     var differenceToRealtime: TimeInterval {
-        return JulianDate.now - (warpedJulianDate ?? JulianDate.now)
+        return JulianDay.now - (warpedJulianDay ?? JulianDay.now)
     }
 
     var recentWarpSpeed: Double = 0
@@ -50,21 +50,21 @@ class Timekeeper: LiteSubscriptionManager<JulianDate> {
     func warp(by shift: Double?) {
         guard let shift = shift else {
             recentWarpSpeed = 0
-            updateAllSubscribers(warpedJulianDate ?? JulianDate.now)
+            updateAllSubscribers(warpedJulianDay ?? JulianDay.now)
             return
         }
         recentWarpSpeed = shift
-        if let warpedJd = warpedJulianDate {
-            warpedJulianDate = warpedJd + shift
+        if let warpedJd = warpedJulianDay {
+            warpedJulianDay = warpedJd + shift
         } else {
-            warpedJulianDate = JulianDate.now + shift
+            warpedJulianDay = JulianDay.now + shift
         }
-        updateAllSubscribers(warpedJulianDate!)
+        updateAllSubscribers(warpedJulianDay!)
     }
 
     func reset() {
-        warpedJulianDate = nil
-        updateAllSubscribers(JulianDate.now)
+        warpedJulianDay = nil
+        updateAllSubscribers(JulianDay.now)
         recentWarpSpeed = 0
         NotificationCenter.default.post(name: Notification.Name(rawValue: "warpReset"), object: self)
     }

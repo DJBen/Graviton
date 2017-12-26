@@ -62,7 +62,7 @@ public final class EphemerisMotionParser: CommonParser, Parser {
             let loan = radians(degrees: loanDeg)
             let aop = radians(degrees: aopDeg)
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
-            let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDate: JulianDate(jd), timeOfPeriapsisPassage: JulianDate(tp))
+            let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDay: JulianDay(jd), timeOfPeriapsisPassage: JulianDay(tp))
             if save {
                 motion.save(forBodyId: naifId)
                 logger.info("motion of \(naifId) @ epoch \(jd) (\(components[1])) saved")

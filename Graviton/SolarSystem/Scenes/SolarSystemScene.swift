@@ -39,7 +39,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         return celestialBodies.filter { $0.naifId == Int(n.name!)! }.first
     }
 
-    var julianDate: JulianDate = JulianDate.J2000 {
+    var julianDay: JulianDay = JulianDay.J2000 {
         didSet {
             orbitalMotions.forEach { (motion, color, identifier) in
                 self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
@@ -182,7 +182,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: Int) {
-        motion.julianDate = julianDate
+        motion.julianDay = julianDay
         if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
             planetNode.position = zoom(position: motion.position)
         } else {

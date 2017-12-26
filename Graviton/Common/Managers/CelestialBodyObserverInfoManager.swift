@@ -17,7 +17,7 @@ final class CelestialBodyObserverInfoManager: LocationSensitiveSubscriptionManag
 
     static let `default` = CelestialBodyObserverInfoManager()
 
-    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate) {
+    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDay requestedJd: JulianDay) {
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.content ?? CLLocation())
@@ -33,7 +33,7 @@ final class CelestialBodyObserverInfoManager: LocationSensitiveSubscriptionManag
         })
     }
 
-    override func update(subscription: LocationSensitiveSubscriptionManager<[Naif: CelestialBodyObserverInfo]>.Subscription, forJulianDate requestedJd: JulianDate) {
+    override func update(subscription: LocationSensitiveSubscriptionManager<[Naif: CelestialBodyObserverInfo]>.Subscription, forJulianDay requestedJd: JulianDay) {
         // no-op
     }
 }

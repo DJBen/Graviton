@@ -31,11 +31,11 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
     ///
     /// - meanAnomaly: Mean anomaly in radians
     /// - timeSincePeriapsis: Time of periapsis passage in seconds
-    /// - julianDate: Current Julian day time. This option requires `referenceJulianDayTime` to be set
+    /// - julianDay: Current Julian day time. This option requires `referenceJulianDayTime` to be set
     public enum Phase: Equatable {
         case meanAnomaly(Double)
         case timeSincePeriapsis(Double)
-        case julianDate(JulianDate)
+        case julianDay(JulianDay)
 
         public static func ==(lhs: Phase, rhs: Phase) -> Bool {
             switch lhs {
@@ -45,8 +45,8 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
             case .timeSincePeriapsis(let tsp):
                 guard case .timeSincePeriapsis(let tsp2) = rhs else { return false }
                 return tsp ~= tsp2
-            case .julianDate(let jd):
-                guard case .julianDate(let jd2) = rhs else { return false }
+            case .julianDay(let jd):
+                guard case .julianDay(let jd2) = rhs else { return false }
                 return jd ~= jd2
             }
         }
@@ -59,7 +59,7 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
                 meanAnomaly = ma
             case .timeSincePeriapsis(let tp):
                 meanAnomaly = calculateMeanAnomaly(Δt: tp, gravParam: gm, shape: orbit.shape)!
-            case .julianDate(let jd):
+            case .julianDay(let jd):
                 meanAnomaly = calculateMeanAnomaly(Δt: jd - unwrappedTimeOfPeriapsisPassage, gravParam: gm, shape: orbit.shape)!
             }
             propagateStateVectors()
@@ -74,19 +74,19 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
     }
 
     /// the julian date of orbital motion (moment)
-    public var julianDate: JulianDate? {
+    public var julianDay: JulianDay? {
         get {
-            guard case let .julianDate(jd) = phase else { return nil }
+            guard case let .julianDay(jd) = phase else { return nil }
             return jd
         }
         set {
-            guard case .julianDate(_) = phase else {
+            guard case .julianDay(_) = phase else {
                 fatalError("phase is not in julian date mode")
             }
             guard let newJd = newValue else {
                 fatalError("Julian date cannot be nil")
             }
-            self.phase = .julianDate(newJd)
+            self.phase = .julianDay(newJd)
         }
     }
 
@@ -106,13 +106,13 @@ public class OrbitalMotion: CustomStringConvertible, NSCopying {
         }
     }
 
-    public var timeOfPeriapsisPassage: JulianDate?
+    public var timeOfPeriapsisPassage: JulianDay?
 
-    private var unwrappedTimeOfPeriapsisPassage: JulianDate {
+    private var unwrappedTimeOfPeriapsisPassage: JulianDay {
         if let t = timeOfPeriapsisPassage {
             return t
         } else {
-            fatalError("timeOfPeriapsisPassage must be set when using Phase.julianDate")
+            fatalError("timeOfPeriapsisPassage must be set when using Phase.julianDay")
         }
     }
 

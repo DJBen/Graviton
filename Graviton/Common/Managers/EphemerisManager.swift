@@ -45,7 +45,7 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
         return uuid
     }
 
-    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDate requestedJd: JulianDate = JulianDate.now) {
+    override func fetch(mode: Horizons.FetchMode? = nil, forJulianDay requestedJd: JulianDay = JulianDay.now) {
         if isFetching { return }
         isFetching = true
         func customLoad(ephemeris: Ephemeris) {
@@ -62,13 +62,13 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
         })
     }
 
-    override func request(at requestedJd: JulianDate, forSubscription subscriptionId: SubscriptionUUID) {
+    override func request(at requestedJd: JulianDay, forSubscription subscriptionId: SubscriptionUUID) {
         if Timekeeper.default.isWarping {
             // ignore update frequency
             guard let sub = subscriptions[subscriptionId] else {
                 fatalError("object not subscribed")
             }
-            update(subscription: sub, forJulianDate: requestedJd)
+            update(subscription: sub, forJulianDay: requestedJd)
             DispatchQueue.main.async {
                 sub.didUpdate?(sub.content!)
             }
@@ -78,11 +78,11 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
     }
 
     // have to use fully qualified name otherwise compiler will segfault
-    override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDate requestedJd: JulianDate) {
+    override func update(subscription: SubscriptionManager<Ephemeris>.Subscription, forJulianDay requestedJd: JulianDay) {
         if let eph = content(for: subscription.identifier) {
             if let refTime = eph.referenceTimestamp, let reqTime = eph.timestamp, abs(refTime - reqTime) > EphemerisManager.expirationDuration, Timekeeper.default.isWarping == false {
                 logger.info("Ephemeris data outdated. Refetching...")
-                fetch(forJulianDate: requestedJd)
+                fetch(forJulianDay: requestedJd)
             }
             eph.updateMotion(using: requestedJd)
         }
