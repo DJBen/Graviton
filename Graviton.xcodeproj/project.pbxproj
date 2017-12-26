@@ -89,6 +89,7 @@
 		FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DA1EE0171F009FA252 /* CameraController.swift */; };
 		FC1CC2DE1EE01F92009FA252 /* ObserverCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */; };
 		FC1D03D01F8CC71300BBCCB8 /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC582A1F8CC511008860BB /* GeoQueries.framework */; };
+		FC22B2A31FF24965002AE044 /* focus_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC22B2A21FF24965002AE044 /* focus_menu.plist */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -309,6 +310,7 @@
 		FC1CC2D51EE016CC009FA252 /* UINavigationBar+Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UINavigationBar+Config.swift"; sourceTree = "<group>"; };
 		FC1CC2DA1EE0171F009FA252 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverCameraController.swift; sourceTree = "<group>"; };
+		FC22B2A21FF24965002AE044 /* focus_menu.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = focus_menu.plist; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
@@ -852,6 +854,7 @@
 				FC7D62021E9B498400BEA5BE /* content_rendering_menu.plist */,
 				FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */,
 				FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */,
+				FC22B2A21FF24965002AE044 /* focus_menu.plist */,
 				FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */,
 				FC6619AB1EF271E500B670CC /* control_menu.plist */,
 				FCFCDD541F00FC54009327F5 /* experiment_menu.plist */,
@@ -1212,6 +1215,7 @@
 				EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */,
 				FC099E351F1743C600A65F73 /* CormorantSC-Medium.ttf in Resources */,
 				FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */,
+				FC22B2A31FF24965002AE044 /* focus_menu.plist in Resources */,
 				EFC2C6A41D88D02F0031AA9C /* LaunchScreen.storyboard in Resources */,
 				FCF2EA8E1EF62ABB00B787F8 /* Assets.xcassets in Resources */,
 				FC099E341F1743C600A65F73 /* CormorantSC-Light.ttf in Resources */,

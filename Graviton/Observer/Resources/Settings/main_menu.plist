@@ -70,6 +70,23 @@
 				</dict>
 			</array>
 		</dict>
+		<dict>
+			<key>section</key>
+			<string>Actions</string>
+			<key>content</key>
+			<array>
+				<dict>
+					<key>type</key>
+					<string>detail</string>
+					<key>text</key>
+					<string>Focus</string>
+					<key>image</key>
+					<string>row_icon_focus</string>
+					<key>destination</key>
+					<string>focus_menu</string>
+				</dict>
+			</array>
+		</dict>
 	</array>
 </dict>
 </plist>

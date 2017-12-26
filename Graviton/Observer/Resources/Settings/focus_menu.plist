@@ -3,33 +3,31 @@
 <plist version="1.0">
 <dict>
 	<key>title</key>
-	<string>Debugging</string>
+	<string>Focus</string>
 	<key>contents</key>
 	<array>
 		<dict>
-			<key>section</key>
-			<string>Display</string>
 			<key>content</key>
 			<array>
 				<dict>
 					<key>type</key>
-					<string>toggle</string>
+					<string>detail</string>
 					<key>text</key>
-					<string>North Pole Indicator</string>
+					<string>Horizontal Directions</string>
 					<key>image</key>
-					<string>row_icon_north_pole</string>
-					<key>binding</key>
-					<string>showNorthPoleIndicator</string>
+					<string>row_icon_direction_marker</string>
+					<key>destination</key>
+					<string>direction_marker_menu</string>
 				</dict>
 				<dict>
 					<key>type</key>
-					<string>toggle</string>
+					<string>detail</string>
 					<key>text</key>
-					<string>South Pole Indicator</string>
+					<string>Celestial Points</string>
 					<key>image</key>
-					<string>row_icon_south_pole</string>
-					<key>binding</key>
-					<string>showSouthPoleIndicator</string>
+					<string>row_icon_celestial_sphere</string>
+					<key>destination</key>
+					<string>direction_celestial_menu</string>
 				</dict>
 			</array>
 		</dict>
