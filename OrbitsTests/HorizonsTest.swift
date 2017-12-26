@@ -57,26 +57,26 @@ class HorizonsTest: XCTestCase {
     func testCelestialBodyMerge() {
         func bodyWithId(_ id: Int, jd: Double) -> CelestialBody {
             let o = Orbit(semimajorAxis: 23.2, eccentricity: 43.4, inclination: 45.6, longitudeOfAscendingNode: 73.8, argumentOfPeriapsis: 19.0)
-            let motion = OrbitalMotionMoment(orbit: o, gm: 10, julianDate: JulianDate(jd), timeOfPeriapsisPassage: JulianDate.J2000 + 1)
+            let motion = OrbitalMotionMoment(orbit: o, gm: 10, julianDay: JulianDay(jd), timeOfPeriapsisPassage: JulianDay.J2000 + 1)
             let c = CelestialBody(naifId: id, name: "stub", gravParam: 0, radius: 0)
             c.motion = motion
             return c
         }
         let bodies1 = Set<CelestialBody>([
-            bodyWithId(50001, jd: JulianDate.J2000.value),
-            bodyWithId(40000, jd: JulianDate.J2000.value - 10000),
-            bodyWithId(50009, jd: JulianDate.J2000.value + 10000)
+            bodyWithId(50001, jd: JulianDay.J2000.value),
+            bodyWithId(40000, jd: JulianDay.J2000.value - 10000),
+            bodyWithId(50009, jd: JulianDay.J2000.value + 10000)
         ])
         let bodies2 = Set<CelestialBody>([
-            bodyWithId(50001, jd: JulianDate.J2000.value + 1000),
-            bodyWithId(50009, jd: JulianDate.J2000.value + 9000),
+            bodyWithId(50001, jd: JulianDay.J2000.value + 1000),
+            bodyWithId(50009, jd: JulianDay.J2000.value + 9000),
             bodyWithId(34567, jd: 12)
         ])
-        let merged = Horizons.shared.mergeCelestialBodies(bodies1, bodies2, refTime: JulianDate(JulianDate.J2000.value - 100).date)
+        let merged = Horizons.shared.mergeCelestialBodies(bodies1, bodies2, refTime: JulianDay(JulianDay.J2000.value - 100).date)
         let expected = Set<CelestialBody>([
-            bodyWithId(50001, jd: JulianDate.J2000.value),
-            bodyWithId(50009, jd: JulianDate.J2000.value + 9000),
-            bodyWithId(40000, jd: JulianDate.J2000.value - 10000),
+            bodyWithId(50001, jd: JulianDay.J2000.value),
+            bodyWithId(50009, jd: JulianDay.J2000.value + 9000),
+            bodyWithId(40000, jd: JulianDay.J2000.value - 10000),
             bodyWithId(34567, jd: 12)
         ])
         XCTAssertEqual(merged, expected)

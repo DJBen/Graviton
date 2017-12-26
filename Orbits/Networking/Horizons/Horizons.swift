@@ -37,12 +37,12 @@ public class Horizons {
 
     func mergeCelestialBodies(_ b1: Set<CelestialBody>, _ b2: Set<CelestialBody>, refTime: Date = Date()) -> Set<CelestialBody> {
         var result = b1
-        let jd = JulianDate(date: refTime)
+        let jd = JulianDay(date: refTime)
         for body2 in b2 {
             if let index = b1.index(of: body2) {
                 let body = b1[index]
                 if let mm1 = body.motion as? OrbitalMotionMoment, let mm2 = body2.motion as? OrbitalMotionMoment {
-                    if abs(mm1.ephemerisJulianDate - jd) > abs(mm2.ephemerisJulianDate - jd) {
+                    if abs(mm1.ephemerisJulianDay - jd) > abs(mm2.ephemerisJulianDay - jd) {
                         result.update(with: body2)
                     }
                 } else {
@@ -226,7 +226,7 @@ public class Horizons {
     ///   - offline: When set to `true`, return immediately if local data is available and do not attempt to fetch online
     ///   - update: Called when planet data is ready; may never be called or be called multiple times
     ///   - complete: Block to execute upon completion
-    public func fetchEphemeris(preferredDate: JulianDate = JulianDate.now, naifs: [Naif] = [Naif.sun] + Horizons.motionDefaultNaifs, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
+    public func fetchEphemeris(preferredDate: JulianDay = JulianDay.now, naifs: [Naif] = [Naif.sun] + Horizons.motionDefaultNaifs, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
         var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
             CelestialBody.load(naifId: $0.rawValue)
@@ -292,7 +292,7 @@ public class Horizons {
 
     private func fetchObserverInfo<T, P>(preferredDate: Date = Date(), observerSite site: ObserverSite, timeZone: TimeZone, naifs: [Naif], mode: FetchMode = .preferLocal, queryMethod: (Set<Naif>, ObserverSite, Date) -> [HorizonsQuery], parser: P, update: (([Naif: T]) -> Void)? = nil, complete: (([Naif: T], [Error]?) -> Void)? = nil) where T: ObserverLoadable, P: Parser {
         let list: [T] = (mode == .onlineOnly ? [] : naifs.flatMap {
-            T.load(naifId: $0.rawValue, optimalJulianDate: JulianDate(date: preferredDate), site: site, timeZone: timeZone)
+            T.load(naifId: $0.rawValue, optimalJulianDay: JulianDay(date: preferredDate), site: site, timeZone: timeZone)
         })
         var dict = [Naif: T]()
         list.forEach { dict[$0.naif] = $0 }
@@ -323,7 +323,7 @@ public class Horizons {
                 }
             }
             naifs.forEach { naif in
-                let instance = T.load(naifId: naif.rawValue, optimalJulianDate: JulianDate(date: preferredDate), site: site, timeZone: timeZone)!
+                let instance = T.load(naifId: naif.rawValue, optimalJulianDay: JulianDay(date: preferredDate), site: site, timeZone: timeZone)!
                 dict[naif] = instance
             }
             update?(dict)

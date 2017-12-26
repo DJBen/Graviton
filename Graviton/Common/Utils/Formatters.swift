@@ -60,7 +60,7 @@ struct Formatters {
         return numberFormatter
     }()
 
-    static let julianDateFormatter: NumberFormatter = {
+    static let julianDayFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.maximumFractionDigits = 5
         return formatter

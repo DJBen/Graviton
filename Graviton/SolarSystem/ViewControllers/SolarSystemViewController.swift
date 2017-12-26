@@ -189,8 +189,8 @@ class SolarSystemViewController: SceneController {
         let warpedDeltaTime = dt * warpControl.speed.multiplier
         timeElapsed += warpedDeltaTime
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
-        let warpedJd = JulianDate(date: warpedDate).value
-        self.solarSystemScene.julianDate = JulianDate(warpedJd)
+        let warpedJd = JulianDay(date: warpedDate).value
+        self.solarSystemScene.julianDay = JulianDay(warpedJd)
         let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
         guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return

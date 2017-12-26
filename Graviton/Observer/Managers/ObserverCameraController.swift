@@ -31,7 +31,7 @@ class ObserverCameraController: CameraController {
         Settings.default.unsubscribe(object: self)
     }
 
-    func orientCameraNode(observerInfo: LocationAndTime = LocationAndTime()) {
+    func orientCameraNode(observerInfo: ObserverLocationTime = ObserverLocationTime()) {
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
         let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
@@ -53,7 +53,7 @@ class ObserverCameraController: CameraController {
         if MotionManager.default.isActive {
             return
         }
-        orientCameraNode(observerInfo: LocationAndTimeManager.default.observerInfo ?? LocationAndTime())
+        orientCameraNode(observerInfo: ObserverLocationTimeManager.default.observerInfo ?? ObserverLocationTime())
         decelerateCamera(atTime: time)
     }
 
@@ -64,7 +64,7 @@ class ObserverCameraController: CameraController {
     func deviceMotionDidUpdate(motion: CMDeviceMotion) {
         stabilizer.addDeviceMotion(motion)
         slideVelocity = CGPoint.zero
-        let observerInfo = LocationAndTimeManager.default.observerInfo ?? LocationAndTime()
+        let observerInfo = ObserverLocationTimeManager.default.observerInfo ?? ObserverLocationTime()
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         let transform = Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * Quaternion(axisAngle: Vector4(0, 1, 0, Double.pi / 2))
         let eulerSpace = transform.inverse * stabilizer.smoothedQuaternion * transform

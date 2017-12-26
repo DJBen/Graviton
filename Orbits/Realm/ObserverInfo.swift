@@ -84,8 +84,8 @@ public class ObserverInfo: Object {
         return translation[daylightFlag]!
     }
 
-    public var julianDate: JulianDate {
-        return JulianDate(jd)
+    public var julianDay: JulianDay {
+        return JulianDay(jd)
     }
 
     override public static func indexedProperties() -> [String] {

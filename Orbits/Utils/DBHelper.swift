@@ -117,7 +117,7 @@ class DBHelper {
             }
             let cb = CelestialBody(naifId: Int(try! result.get(cbId)), gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: try! result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
             if shouldLoadMotion {
-                cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDate: JulianDate.now)
+                cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDay: JulianDay.now)
             }
             return cb
         }
@@ -133,11 +133,11 @@ class DBHelper {
 
     func saveOrbitalMotionMoment(_ moment: OrbitalMotionMoment, forBodyId bid: Int) {
         let db: Connection = self.orbitalMotions
-        let identitySetter: [Setter] = [bodyId <- Int64(bid), systemGm <- moment.gm, tp <- moment.timeOfPeriapsisPassage!.value, refJd <- moment.ephemerisJulianDate.value]
+        let identitySetter: [Setter] = [bodyId <- Int64(bid), systemGm <- moment.gm, tp <- moment.timeOfPeriapsisPassage!.value, refJd <- moment.ephemerisJulianDay.value]
         try! db.run(orbitalMotion.insert(or: .replace, identitySetter + moment.orbit.sqlSaveSetters))
     }
 
-    func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDate julianDate: JulianDate = JulianDate.now) -> OrbitalMotionMoment? {
+    func loadOrbitalMotionMoment(bodyId theBodyId: Int, optimalJulianDay julianDay: JulianDay = JulianDay.now) -> OrbitalMotionMoment? {
         let db: Connection = self.orbitalMotions
         func loadFromRow(_ row: Row) -> OrbitalMotionMoment {
             // km^3/s^2 to m^3/s^2
@@ -146,11 +146,11 @@ class DBHelper {
             let orbit = Orbit(semimajorAxis: va, eccentricity: vec, inclination: vi, longitudeOfAscendingNode: vom, argumentOfPeriapsis: vw)
             let bestRefJd = try! row.get(refJd)
             let vtp = try! row.get(tp)
-            return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDate: JulianDate(bestRefJd), timeOfPeriapsisPassage: JulianDate(vtp))
+            return OrbitalMotionMoment(orbit: orbit, gm: vgm, julianDay: JulianDay(bestRefJd), timeOfPeriapsisPassage: JulianDay(vtp))
         }
         func pluck(on database: Connection) -> Row? {
             let preQuery = orbitalMotion.filter(bodyId == Int64(theBodyId))
-            let query = orbitalMotion.select((refJd - julianDate.value).absoluteValue.min, a, i, ec, om, w, systemGm, refJd, tp).filter(bodyId == Int64(theBodyId))
+            let query = orbitalMotion.select((refJd - julianDay.value).absoluteValue.min, a, i, ec, om, w, systemGm, refJd, tp).filter(bodyId == Int64(theBodyId))
             guard try! database.pluck(preQuery) != nil else { return nil }
             return try! database.pluck(query)
         }
@@ -159,7 +159,7 @@ class DBHelper {
                 let r1 = loadFromRow(row)
                 let r2 = loadFromRow(backupRow)
                 func diff(_ ob: OrbitalMotionMoment) -> Double {
-                    return abs(ob.ephemerisJulianDate - julianDate)
+                    return abs(ob.ephemerisJulianDay - julianDay)
                 }
                 return diff(r1) > diff(r2) ? r2 : r1
             } else {

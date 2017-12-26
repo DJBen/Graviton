@@ -16,16 +16,16 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
 
     public let root: CelestialBody
 
-    public var timestamp: JulianDate? {
-        if let ref = self.first(where: { $0.motion?.julianDate != nil }) {
-            return ref.motion!.julianDate!
+    public var timestamp: JulianDay? {
+        if let ref = self.first(where: { $0.motion?.julianDay != nil }) {
+            return ref.motion!.julianDay!
         }
         return nil
     }
 
-    public var referenceTimestamp: JulianDate? {
-        if let ref = self.first(where: { $0.motion?.julianDate != nil }), let mm = ref.motion as? OrbitalMotionMoment {
-            return mm.ephemerisJulianDate
+    public var referenceTimestamp: JulianDay? {
+        if let ref = self.first(where: { $0.motion?.julianDay != nil }), let mm = ref.motion as? OrbitalMotionMoment {
+            return mm.ephemerisJulianDay
         }
         return nil
     }
@@ -79,10 +79,10 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
         }
     }
 
-    public func updateMotion(using julianDate: JulianDate = JulianDate.now) {
+    public func updateMotion(using julianDay: JulianDay = JulianDay.now) {
         for body in self {
             if let moment = body.motion as? OrbitalMotionMoment {
-                moment.julianDate = julianDate
+                moment.julianDay = julianDay
             }
         }
     }
@@ -102,7 +102,7 @@ public class Ephemeris: NSObject, Sequence, NSCopying {
 }
 
 public extension Ephemeris {
-    public func debugPrintReferenceJulianDateInfo() {
+    public func debugPrintReferenceJulianDayInfo() {
         print("--- ephemeris info ---")
         for body in self {
             if body is Sun { continue }

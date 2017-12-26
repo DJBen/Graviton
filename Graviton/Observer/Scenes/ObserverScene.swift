@@ -266,7 +266,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
                 return
             }
-            guard let obInfo = LocationAndTimeManager.default.observerInfo else {
+            guard let obInfo = ObserverLocationTimeManager.default.observerInfo else {
                 logger.error("Missing observer info")
                 return
             }
@@ -367,7 +367,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     // MARK: - Location Update
     func updateLocation(location: CLLocation) {
-        guard let observerInfo = LocationAndTimeManager.default.observerInfo else {
+        guard let observerInfo = ObserverLocationTimeManager.default.observerInfo else {
             logger.debug("observer info not ready")
             return
         }
@@ -381,12 +381,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     /// - Direction markers
     /// - Ground texture
     /// - Meridian line (if enabled)
-    func updateStellarContent(observerInfo: LocationAndTime) {
+    func updateStellarContent(observerInfo: ObserverLocationTime) {
         let transform = observerInfo.localViewTransform
         let orientation = Quaternion(rotationMatrix: transform)
         logger.debug("update orientation \(orientation)")
         panoramaNode.orientation = SCNQuaternion(orientation)
-        directionMarkers.locationAndTime = observerInfo
+        directionMarkers.observerLocationTime = observerInfo
         compassRoseNode.ecefToNedOrientation = orientation
         drawMeridian(observerInfo: observerInfo)
         // update focuser position
@@ -584,7 +584,7 @@ private extension ObserverScene {
         rootNode.addChildNode(celestialEquatorNode!)
     }
 
-    private func drawMeridian(observerInfo: LocationAndTime) {
+    private func drawMeridian(observerInfo: ObserverLocationTime) {
         func transform(position: Vector3) -> Vector3 {
             return position.normalized() * auxillaryLineLayerRadius
         }
