@@ -273,9 +273,9 @@ class ObserverViewController: SceneController {
         let vec = SCNVector3(point.x, point.y, 0.5)
         let unitVec = Vector3(scnView.unprojectPoint(vec)).normalized()
         let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
-        if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: radians(degrees: 3)) {
+        if let closeBody = ephemeris.closestBody(toUnitPosition: unitVec, from: ephemeris[.majorBody(.earth)]!, maximumAngularDistance: RadianAngle(degreeAngle: DegreeAngle(3))) {
             target = .nearbyBody(closeBody)
-        } else if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: radians(degrees: 3)) {
+        } else if let star = Star.closest(to: unitVec, maximumMagnitude: Constants.Observer.maximumDisplayMagnitude, maximumAngularDistance: RadianAngle(degreeAngle: DegreeAngle(3))) {
             target = .star(star)
         } else {
             target = nil

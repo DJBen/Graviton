@@ -355,10 +355,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let moonEquatorialCoord = EquatorialCoordinate(cartesian: position)
         let obLonRad = radians(degrees: moonInfo.obLon)
         let obLatRad = radians(degrees: moonInfo.obLat)
-        let moonPoleAxis = Vector3(equatorialCoordinate: EquatorialCoordinate(rightAscension: radians(degrees: moonInfo.npRa), declination: radians(degrees: moonInfo.npDec), distance: 1))
-        let raRot = Quaternion(axisAngle: Vector4(0, 0, 1, moonEquatorialCoord.rightAscension - obLonRad))
+        let moonPoleAxis = Vector3(equatorialCoordinate: EquatorialCoordinate(rightAscension: HourAngle(degreeAngle: DegreeAngle(moonInfo.npRa)), declination: DegreeAngle(moonInfo.npDec), distance: 1))
+        let raRot = Quaternion(axisAngle: Vector4(0, 0, 1, RadianAngle(hourAngle: moonEquatorialCoord.rightAscension).wrappedValue - obLonRad))
         let decRotAxis = Vector3(position.x, -position.y, 0).normalized()
-        let decRot = Quaternion(axisAngle: Vector4(decRotAxis, w: moonEquatorialCoord.declination - obLatRad))
+        let decRot = Quaternion(axisAngle: Vector4(decRotAxis, w: RadianAngle(degreeAngle: moonEquatorialCoord.declination).wrappedValue - obLatRad))
         let rotatedAxis = raRot * decRot * moonPoleAxis
         let parallanticAngleRot = Quaternion.init(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
         let moonOrientation = parallanticAngleRot * raRot * decRot

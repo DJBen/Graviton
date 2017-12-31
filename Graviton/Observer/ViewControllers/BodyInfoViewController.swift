@@ -130,26 +130,22 @@ class BodyInfoViewController: UITableViewController {
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
             cell.textLabel?.text = "Right Ascension"
-            let hms = HourMinuteSecond(value: degrees(radians: coord.rightAscension))
-            hms.decimalNumberFormatter = Formatters.integerFormatter
-            cell.detailTextLabel?.text = String(describing: hms)
+            coord.rightAscension.compoundDecimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = coord.rightAscension.compoundDescription
         case (0, 1):
             cell.textLabel?.text = "Declination"
-            let dms = DegreeMinuteSecond(value: degrees(radians: coord.declination))
-            dms.decimalNumberFormatter = Formatters.integerFormatter
-            cell.detailTextLabel?.text = String(describing: dms)
+            coord.declination.compoundDecimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = coord.declination.compoundDescription
         case (0, rowForPositionSection(2)):
             cell.textLabel?.text = "Azimuth"
             let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: ObserverLocationTimeManager.default.observerInfo!)
-            let dms = DegreeMinuteSecond(value: degrees(radians: hori.azimuth))
-            dms.decimalNumberFormatter = Formatters.integerFormatter
-            cell.detailTextLabel?.text = String(describing: dms)
+            hori.azimuth.compoundDecimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = hori.azimuth.compoundDescription
         case (0, rowForPositionSection(3)):
             cell.textLabel?.text = "Altitude"
             let hori = HorizontalCoordinate(equatorialCoordinate: coord, observerInfo: ObserverLocationTimeManager.default.observerInfo!)
-            let dms = DegreeMinuteSecond(value: degrees(radians: hori.altitude))
-            dms.decimalNumberFormatter = Formatters.integerFormatter
-            cell.detailTextLabel?.text = String(describing: dms)
+            hori.altitude.compoundDecimalNumberFormatter = Formatters.integerFormatter
+            cell.detailTextLabel?.text = hori.altitude.compoundDescription
         default:
             break
         }

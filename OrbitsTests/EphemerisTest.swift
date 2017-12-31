@@ -52,7 +52,7 @@ class EphemerisTest: XCTestCase {
         let bodies = [301, 399, 10, 499, 402, 599, 501, 509, 508].map { (id) -> CelestialBody in
             let body: CelestialBody
             if id == 599 {
-                body = CelestialBody(naifId: id, name: "blah", gravParam: 123, radius: 343, obliquity: radians(degrees: 12))
+                body = CelestialBody(naifId: id, name: "blah", gravParam: 123, radius: 343, obliquity: RadianAngle(degreeAngle: DegreeAngle(12)).wrappedValue)
             } else {
                 body = CelestialBody(naifId: id, name: "blah", gravParam: 123, radius: 343)
             }
@@ -104,13 +104,13 @@ class EphemerisTest: XCTestCase {
     }
 
     func testClosestBodyQuery() {
-        let body = ephemeris.closestBody(toUnitPosition: Vector3(9.9, -7.1, 10.1).normalized(), from: ephemeris[399]!, maximumAngularDistance: radians(degrees: 10))
+        let body = ephemeris.closestBody(toUnitPosition: Vector3(9.9, -7.1, 10.1).normalized(), from: ephemeris[399]!, maximumAngularDistance:RadianAngle(degreeAngle: DegreeAngle(10)))
         XCTAssertEqual(body?.naifId, 499)
-        let body2 = ephemeris.closestBody(toUnitPosition: Vector3(-9.5, -19.9, -29.9).normalized(), from: ephemeris[399]!, maximumAngularDistance: radians(degrees: 10))
+        let body2 = ephemeris.closestBody(toUnitPosition: Vector3(-9.5, -19.9, -29.9).normalized(), from: ephemeris[399]!, maximumAngularDistance:RadianAngle(degreeAngle: DegreeAngle(10)))
         XCTAssertEqual(body2?.naifId, 10)
-        let body3 = ephemeris.closestBody(toUnitPosition: Vector3(10, 10.1, 9.9).normalized().oblique(by: radians(degrees: 12)), from: ephemeris[599]!, maximumAngularDistance: radians(degrees: 5))
+        let body3 = ephemeris.closestBody(toUnitPosition: Vector3(10, 10.1, 9.9).normalized().oblique(by: RadianAngle(degreeAngle: DegreeAngle(12)).wrappedValue), from: ephemeris[599]!, maximumAngularDistance:RadianAngle(degreeAngle: DegreeAngle(5)))
         XCTAssertEqual(body3?.naifId, 509)
-        let nilBody = ephemeris.closestBody(toUnitPosition: Vector3(10, 10.1, 9.9).normalized(), from: ephemeris[599]!, maximumAngularDistance: radians(degrees: 5))
+        let nilBody = ephemeris.closestBody(toUnitPosition: Vector3(10, 10.1, 9.9).normalized(), from: ephemeris[599]!, maximumAngularDistance:RadianAngle(degreeAngle: DegreeAngle(5)))
         XCTAssertNil(nilBody)
 
     }

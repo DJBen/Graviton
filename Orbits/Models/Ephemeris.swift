@@ -136,12 +136,12 @@ public extension Ephemeris {
     ///   - observer: The observer.
     ///   - maximumAngularDistance: Will ignore bodies with greater angular separation than this value.
     /// - Returns: The closest body to a direction viewed from an observer
-    func closestBody(toUnitPosition unitPosition: Vector3, from observer: CelestialBody, maximumAngularDistance: Double = Double.pi * 2) -> CelestialBody? {
+    func closestBody(toUnitPosition unitPosition: Vector3, from observer: CelestialBody, maximumAngularDistance: RadianAngle = RadianAngle(Double.pi * 2)) -> CelestialBody? {
         return self.map { (targetBody) -> (body: CelestialBody, separation: Double) in
             let vec = self.observedPosition(of: targetBody, fromObserver: observer).normalized()
             return (targetBody, unitPosition.angularSeparation(from: vec))
         }.filter { (targetBody, separation) -> Bool in
-            return observer != targetBody && separation <= maximumAngularDistance
+            return observer != targetBody && separation <= maximumAngularDistance.wrappedValue
         }.sorted(by: { $0.1 < $1.1 }).first?.0
     }
 }
