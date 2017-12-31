@@ -90,6 +90,13 @@
 		FC1CC2DE1EE01F92009FA252 /* ObserverCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */; };
 		FC1D03D01F8CC71300BBCCB8 /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC582A1F8CC511008860BB /* GeoQueries.framework */; };
 		FC22B2A31FF24965002AE044 /* focus_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC22B2A21FF24965002AE044 /* focus_menu.plist */; };
+		FC22B2B21FF317EC002AE044 /* YinYang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC22B2A91FF317EC002AE044 /* YinYang.framework */; };
+		FC22B2B91FF317EC002AE044 /* YinYangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2B81FF317EC002AE044 /* YinYangTests.swift */; };
+		FC22B2BB1FF317EC002AE044 /* YinYang.h in Headers */ = {isa = PBXBuildFile; fileRef = FC22B2AB1FF317EC002AE044 /* YinYang.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FC22B2BE1FF317EC002AE044 /* YinYang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC22B2A91FF317EC002AE044 /* YinYang.framework */; };
+		FC22B2BF1FF317EC002AE044 /* YinYang.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC22B2A91FF317EC002AE044 /* YinYang.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		FC22B2C71FF32BF0002AE044 /* PeriodicTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2C61FF32BF0002AE044 /* PeriodicTerms.swift */; };
+		FC22B2CD1FF3722F002AE044 /* LunaUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2CC1FF3722F002AE044 /* LunaUtil.swift */; };
 		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
 		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
@@ -217,6 +224,27 @@
 			remoteGlobalIDString = EFE8BF541DD86B2B000F0A79;
 			remoteInfo = Orbits;
 		};
+		FC22B2B31FF317EC002AE044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC22B2A81FF317EC002AE044;
+			remoteInfo = YinYang;
+		};
+		FC22B2B51FF317EC002AE044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
+			remoteInfo = Graviton;
+		};
+		FC22B2BC1FF317EC002AE044 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = FC22B2A81FF317EC002AE044;
+			remoteInfo = YinYang;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -226,6 +254,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				FC22B2BF1FF317EC002AE044 /* YinYang.framework in Embed Frameworks */,
 				EFE8BF6B1DD86B2B000F0A79 /* Orbits.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
@@ -311,6 +340,14 @@
 		FC1CC2DA1EE0171F009FA252 /* CameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverCameraController.swift; sourceTree = "<group>"; };
 		FC22B2A21FF24965002AE044 /* focus_menu.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = focus_menu.plist; sourceTree = "<group>"; };
+		FC22B2A91FF317EC002AE044 /* YinYang.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = YinYang.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC22B2AB1FF317EC002AE044 /* YinYang.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YinYang.h; sourceTree = "<group>"; };
+		FC22B2AC1FF317EC002AE044 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC22B2B11FF317EC002AE044 /* YinYangTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = YinYangTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC22B2B81FF317EC002AE044 /* YinYangTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YinYangTests.swift; sourceTree = "<group>"; };
+		FC22B2BA1FF317EC002AE044 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC22B2C61FF32BF0002AE044 /* PeriodicTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTerms.swift; sourceTree = "<group>"; };
+		FC22B2CC1FF3722F002AE044 /* LunaUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunaUtil.swift; sourceTree = "<group>"; };
 		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
@@ -441,6 +478,7 @@
 				FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */,
 				EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */,
 				FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */,
+				FC22B2BE1FF317EC002AE044 /* YinYang.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
 				FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */,
 				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
@@ -456,6 +494,21 @@
 				FCEC582C1F8CC524008860BB /* GeoQueries.framework in Frameworks */,
 				FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */,
 				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC22B2A51FF317EC002AE044 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC22B2AE1FF317EC002AE044 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC22B2B21FF317EC002AE044 /* YinYang.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -489,6 +542,8 @@
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
 				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
+				FC22B2AA1FF317EC002AE044 /* YinYang */,
+				FC22B2B71FF317EC002AE044 /* YinYangTests */,
 				EFC2C6951D88D02F0031AA9C /* Products */,
 				FC2435351E14C78C002AC626 /* Frameworks */,
 			);
@@ -500,6 +555,8 @@
 				EFC2C6941D88D02F0031AA9C /* Graviton.app */,
 				EFE8BF551DD86B2B000F0A79 /* Orbits.framework */,
 				EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */,
+				FC22B2A91FF317EC002AE044 /* YinYang.framework */,
+				FC22B2B11FF317EC002AE044 /* YinYangTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -730,6 +787,26 @@
 				FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */,
 			);
 			path = Managers;
+			sourceTree = "<group>";
+		};
+		FC22B2AA1FF317EC002AE044 /* YinYang */ = {
+			isa = PBXGroup;
+			children = (
+				FC22B2AB1FF317EC002AE044 /* YinYang.h */,
+				FC22B2AC1FF317EC002AE044 /* Info.plist */,
+				FC22B2C61FF32BF0002AE044 /* PeriodicTerms.swift */,
+				FC22B2CC1FF3722F002AE044 /* LunaUtil.swift */,
+			);
+			path = YinYang;
+			sourceTree = "<group>";
+		};
+		FC22B2B71FF317EC002AE044 /* YinYangTests */ = {
+			isa = PBXGroup;
+			children = (
+				FC22B2B81FF317EC002AE044 /* YinYangTests.swift */,
+				FC22B2BA1FF317EC002AE044 /* Info.plist */,
+			);
+			path = YinYangTests;
 			sourceTree = "<group>";
 		};
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
@@ -1073,6 +1150,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FC22B2A61FF317EC002AE044 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC22B2BB1FF317EC002AE044 /* YinYang.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -1110,6 +1195,7 @@
 			);
 			dependencies = (
 				EFE8BF691DD86B2B000F0A79 /* PBXTargetDependency */,
+				FC22B2BD1FF317EC002AE044 /* PBXTargetDependency */,
 			);
 			name = Graviton;
 			productName = Graviton;
@@ -1134,14 +1220,51 @@
 			productReference = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		FC22B2A81FF317EC002AE044 /* YinYang */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC22B2C41FF317EC002AE044 /* Build configuration list for PBXNativeTarget "YinYang" */;
+			buildPhases = (
+				FC22B2A41FF317EC002AE044 /* Sources */,
+				FC22B2A51FF317EC002AE044 /* Frameworks */,
+				FC22B2A61FF317EC002AE044 /* Headers */,
+				FC22B2A71FF317EC002AE044 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = YinYang;
+			productName = YinYang;
+			productReference = FC22B2A91FF317EC002AE044 /* YinYang.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		FC22B2B01FF317EC002AE044 /* YinYangTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC22B2C51FF317EC002AE044 /* Build configuration list for PBXNativeTarget "YinYangTests" */;
+			buildPhases = (
+				FC22B2AD1FF317EC002AE044 /* Sources */,
+				FC22B2AE1FF317EC002AE044 /* Frameworks */,
+				FC22B2AF1FF317EC002AE044 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC22B2B41FF317EC002AE044 /* PBXTargetDependency */,
+				FC22B2B61FF317EC002AE044 /* PBXTargetDependency */,
+			);
+			name = YinYangTests;
+			productName = YinYangTests;
+			productReference = FC22B2B11FF317EC002AE044 /* YinYangTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		EFC2C68C1D88D02F0031AA9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0830;
-				LastUpgradeCheck = 0900;
+				LastSwiftUpdateCheck = 0920;
+				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = "Ben Lu";
 				TargetAttributes = {
 					EF4BD3801E57E58D009D2698 = {
@@ -1163,6 +1286,18 @@
 						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 					};
+					FC22B2A81FF317EC002AE044 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+					};
+					FC22B2B01FF317EC002AE044 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 52RD2GH5DP;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EFC2C6931D88D02F0031AA9C;
+					};
 				};
 			};
 			buildConfigurationList = EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */;
@@ -1181,6 +1316,8 @@
 				EFC2C6931D88D02F0031AA9C /* Graviton */,
 				EFE8BF541DD86B2B000F0A79 /* Orbits */,
 				EF4BD3801E57E58D009D2698 /* OrbitsTests */,
+				FC22B2A81FF317EC002AE044 /* YinYang */,
+				FC22B2B01FF317EC002AE044 /* YinYangTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1249,6 +1386,20 @@
 				FC13B7161EBDAD5300AA1BBC /* smallBodies.sqlite3 in Resources */,
 				FC13B7101EBDAD5300AA1BBC /* celestialBodies.sqlite3 in Resources */,
 				FC13B7121EBDAD5300AA1BBC /* naif.sqlite3 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC22B2A71FF317EC002AE044 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC22B2AF1FF317EC002AE044 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1443,6 +1594,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FC22B2A41FF317EC002AE044 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC22B2C71FF32BF0002AE044 /* PeriodicTerms.swift in Sources */,
+				FC22B2CD1FF3722F002AE044 /* LunaUtil.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC22B2AD1FF317EC002AE044 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC22B2B91FF317EC002AE044 /* YinYangTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1460,6 +1628,21 @@
 			isa = PBXTargetDependency;
 			target = EFE8BF541DD86B2B000F0A79 /* Orbits */;
 			targetProxy = EFE8BF681DD86B2B000F0A79 /* PBXContainerItemProxy */;
+		};
+		FC22B2B41FF317EC002AE044 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC22B2A81FF317EC002AE044 /* YinYang */;
+			targetProxy = FC22B2B31FF317EC002AE044 /* PBXContainerItemProxy */;
+		};
+		FC22B2B61FF317EC002AE044 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
+			targetProxy = FC22B2B51FF317EC002AE044 /* PBXContainerItemProxy */;
+		};
+		FC22B2BD1FF317EC002AE044 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = FC22B2A81FF317EC002AE044 /* YinYang */;
+			targetProxy = FC22B2BC1FF317EC002AE044 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1664,6 +1847,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
@@ -1745,6 +1929,119 @@
 			};
 			name = Release;
 		};
+		FC22B2C01FF317EC002AE044 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = YinYang/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYang;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				REEXPORTED_FRAMEWORK_NAMES = "";
+				SKIP_INSTALL = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		FC22B2C11FF317EC002AE044 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = YinYang/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYang;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				REEXPORTED_FRAMEWORK_NAMES = "";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		FC22B2C21FF317EC002AE044 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = YinYangTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYangTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Debug;
+		};
+		FC22B2C31FF317EC002AE044 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = YinYangTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYangTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1780,6 +2077,24 @@
 			buildConfigurations = (
 				EFE8BF6D1DD86B2B000F0A79 /* Debug */,
 				EFE8BF6E1DD86B2B000F0A79 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC22B2C41FF317EC002AE044 /* Build configuration list for PBXNativeTarget "YinYang" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC22B2C01FF317EC002AE044 /* Debug */,
+				FC22B2C11FF317EC002AE044 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC22B2C51FF317EC002AE044 /* Build configuration list for PBXNativeTarget "YinYangTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC22B2C21FF317EC002AE044 /* Debug */,
+				FC22B2C31FF317EC002AE044 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
