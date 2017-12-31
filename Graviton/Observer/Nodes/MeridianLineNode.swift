@@ -15,8 +15,8 @@ import MathUtil
 class MeridianLineNode: LineNode {
     init(observerInfo: ObserverLocationTime, numberOfVertices: Int = 200, rawToModelCoordinateTransform: (Vector3) -> Vector3 = { $0 }) {
         let vertices = (0..<numberOfVertices).map { (index) -> SCNVector3 in
-            let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
-            let equatorialCoordinate = EquatorialCoordinate.init(horizontalCoordinate: HorizontalCoordinate.init(azimuth: 0, altitude: offset), observerInfo: observerInfo)
+            let offset = DegreeAngle(Double(index) / Double(numberOfVertices) * 360)
+            let equatorialCoordinate = EquatorialCoordinate.init(horizontalCoordinate: HorizontalCoordinate.init(azimuth: 0.0, altitude: offset), observerInfo: observerInfo)
             let position = Vector3(equatorialCoordinate: equatorialCoordinate)
             return SCNVector3(rawToModelCoordinateTransform(position))
         }

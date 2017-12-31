@@ -69,8 +69,8 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
         if let moonInfo = observerInfo[.moon(.luna)] {
             solarNode.light!.intensity = 1500
             let eq = EquatorialCoordinate(
-                rightAscension: radians(degrees: moonInfo.npRa),
-                declination: radians(degrees: moonInfo.npDec),
+                rightAscension: HourAngle(degreeAngle: DegreeAngle(moonInfo.npRa)),
+                declination: DegreeAngle(moonInfo.npDec),
                 distance: 1
             )
             let northPoleAxis = Vector3(equatorialCoordinate: eq)

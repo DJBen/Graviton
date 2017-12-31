@@ -1,7 +1,7 @@
-github "DJBen/MathUtil" ~> 0.2.0
-github "DJBen/SpaceTime" ~> 0.2.0
+github "DJBen/MathUtil" ~> 0.4.0
+github "DJBen/SpaceTime" ~> 0.3.0
 github "DJBen/KelvinColor" ~> 0.1.0
-github "DJBen/StarryNight" ~> 0.2.0
+github "DJBen/StarryNight" ~> 0.3.0
 
 github "mhergon/RealmGeoQueries" ~> 1.3
 github "stephencelis/SQLite.swift" ~> 0.11.4
