@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0900"
+   LastUpgradeVersion = "0920"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -36,6 +36,16 @@
                BlueprintIdentifier = "EF4BD3801E57E58D009D2698"
                BuildableName = "OrbitsTests.xctest"
                BlueprintName = "OrbitsTests"
+               ReferencedContainer = "container:Graviton.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "FC22B2B01FF317EC002AE044"
+               BuildableName = "YinYangTests.xctest"
+               BlueprintName = "YinYangTests"
                ReferencedContainer = "container:Graviton.xcodeproj">
             </BuildableReference>
          </TestableReference>
