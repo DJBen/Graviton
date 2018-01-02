@@ -8,14 +8,6 @@
 
 import MathUtil
 
-func wrapAngles(_ eulerAngle: (pitch: Scalar, yaw: Scalar, roll: Scalar)) -> (pitch: Scalar, yaw: Scalar, roll: Scalar) {
-    return (
-        wrapAngle(eulerAngle.pitch),
-        wrapAngle(eulerAngle.yaw),
-        wrapAngle(eulerAngle.roll)
-    )
-}
-
 extension Double {
     func cap(toRange range: Range<Double>) -> Double {
         return min(max(range.lowerBound, self), range.upperBound)

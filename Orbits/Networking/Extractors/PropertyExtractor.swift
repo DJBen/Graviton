@@ -92,12 +92,12 @@ class PropertyExtractor {
         return nil
     }
 
-    var obliquity: Double? {
+    var obliquity: DegreeAngle? {
         guard let deg = extractField(.obliquity) else { return nil }
         let matches = deg.matches(for: "([-\\d.]+)\\s*(?:deg)?")
         guard matches.count > 0 else { return nil }
         guard matches[0].count > 1 else { return nil }
-        return radians(degrees: Double(matches[0][1])!)
+        return DegreeAngle(Double(matches[0][1])!)
     }
 
     func rotationPeriod(naifId: Int, orb: Double) -> Double? {

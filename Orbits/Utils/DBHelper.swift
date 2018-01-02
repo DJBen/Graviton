@@ -8,6 +8,7 @@
 
 import SQLite
 import SpaceTime
+import MathUtil
 
 private let celestialBody = Table("celestial_body")
 private let cbId = Expression<Int64>("naifId")
@@ -96,7 +97,7 @@ class DBHelper {
     }
 
     func saveCelestialBody(_ body: CelestialBody, shouldSaveMotion: Bool) {
-        let setters: [Setter] = [cbId <- Int64(body.naifId), gmExpr <- body.gravParam, obliquityExpr <- body.obliquity, radiusExpr <- body.radius, hillSphereExpr <- body.hillSphere, rotationPeriodExpr <- body.rotationPeriod, centerBodyId <- wrapInt(body.centerBody?.naifId)]
+        let setters: [Setter] = [cbId <- Int64(body.naifId), gmExpr <- body.gravParam, obliquityExpr <- RadianAngle(degreeAngle: body.obliquity).wrappedValue, radiusExpr <- body.radius, hillSphereExpr <- body.hillSphere, rotationPeriodExpr <- body.rotationPeriod, centerBodyId <- wrapInt(body.centerBody?.naifId)]
         var nameSetter: [Setter] = []
         if NaifCatalog.name(forNaif: body.naifId) == nil {
             nameSetter = [cusName <- body.name]
@@ -113,9 +114,9 @@ class DBHelper {
         }
         func constructResult(_ result: Row) -> CelestialBody {
             if let customName = try! result.get(cusName) {
-                return CelestialBody(naifId: Int(try! result.get(cbId)), name: customName, gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: try! result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
+                return CelestialBody(naifId: Int(try! result.get(cbId)), name: customName, gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: DegreeAngle(radianAngle: RadianAngle(try! result.get(obliquityExpr))), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
             }
-            let cb = CelestialBody(naifId: Int(try! result.get(cbId)), gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: try! result.get(obliquityExpr), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
+            let cb = CelestialBody(naifId: Int(try! result.get(cbId)), gravParam: try! result.get(gmExpr), radius: try! result.get(radiusExpr), rotationPeriod: try! result.get(rotationPeriodExpr), obliquity: DegreeAngle(radianAngle: RadianAngle(try! result.get(obliquityExpr))), centerBodyNaifId: unwrapInt64(try! result.get(centerBodyId)), hillSphereRadRp: try! result.get(hillSphereExpr))
             if shouldLoadMotion {
                 cb.motion = self.loadOrbitalMotionMoment(bodyId: naifId, optimalJulianDay: JulianDay.now)
             }

@@ -13,7 +13,7 @@ extension Vector3 {
     ///
     /// - Parameter obliquity: Celestial body's obliquity
     /// - Returns: The rotated vector due to obliquity
-    public func oblique(by obliquity: Double) -> Vector3 {
-        return Matrix4(rotation: Vector4(1, 0, 0, obliquity)) * self
+    public func oblique(by obliquity: DegreeAngle) -> Vector3 {
+        return Matrix4(rotation: Vector4(1, 0, 0, RadianAngle(degreeAngle: obliquity).wrappedValue)) * self
     }
 }

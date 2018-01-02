@@ -24,7 +24,7 @@ class ObserverCameraController: CameraController {
 
     private func configureStabilizer(stabilizeCamera: Bool) {
         stabilizer.sampleTimeWindow = stabilizeCamera ? 10 / 60 : 0
-        stabilizer.angularSeparationThreshold = stabilizeCamera ? radians(degrees: 0.5) : 0
+        stabilizer.angularSeparationThreshold = DegreeAngle(stabilizeCamera ? 0.5 : 0)
     }
 
     deinit {

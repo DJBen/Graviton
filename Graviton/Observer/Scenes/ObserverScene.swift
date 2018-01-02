@@ -353,8 +353,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
         let position = Vector3(moonNode.position)
         let moonEquatorialCoord = EquatorialCoordinate(cartesian: position)
-        let obLonRad = radians(degrees: moonInfo.obLon)
-        let obLatRad = radians(degrees: moonInfo.obLat)
+        let obLonRad = RadianAngle(degreeAngle: DegreeAngle(moonInfo.obLon)).wrappedValue
+        let obLatRad = RadianAngle(degreeAngle: DegreeAngle(moonInfo.obLat)).wrappedValue
         let moonPoleAxis = Vector3(equatorialCoordinate: EquatorialCoordinate(rightAscension: HourAngle(degreeAngle: DegreeAngle(moonInfo.npRa)), declination: DegreeAngle(moonInfo.npDec), distance: 1))
         let raRot = Quaternion(axisAngle: Vector4(0, 0, 1, RadianAngle(hourAngle: moonEquatorialCoord.rightAscension).wrappedValue - obLonRad))
         let decRotAxis = Vector3(position.x, -position.y, 0).normalized()

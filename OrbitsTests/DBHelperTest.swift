@@ -57,7 +57,7 @@ class DBHelperTest: XCTestCase {
         XCTAssertEqual(c1.gravParam, c2.gravParam)
         XCTAssertEqual(c1.radius, c2.radius)
         XCTAssertEqual(c1.rotationPeriod, c2.rotationPeriod)
-        XCTAssertEqual(c1.obliquity, c2.obliquity)
+        XCTAssertEqual(c1.obliquity.wrappedValue, c2.obliquity.wrappedValue, accuracy: 1e-8)
     }
 
     private func deepEqual(_ o1: OrbitalMotion, _ o2: OrbitalMotion) {

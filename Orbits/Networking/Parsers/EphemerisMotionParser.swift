@@ -58,9 +58,9 @@ public final class EphemerisMotionParser: CommonParser, Parser {
         let components = line.components(separatedBy: ",").map { $0.trimmed() }.filter { $0.isEmpty == false }
         guard components.count == 14 else { return nil }
         if let jd = Double(components[0]), let ec = Double(components[2]), let semimajorAxis = Double(components[11]), let inclinationDeg = Double(components[4]), let loanDeg = Double(components[5]), let aopDeg = Double(components[6]), let tp = Double(components[7]) {
-            let inclination = radians(degrees: inclinationDeg)
-            let loan = radians(degrees: loanDeg)
-            let aop = radians(degrees: aopDeg)
+            let inclination = RadianAngle(degreeAngle: DegreeAngle(inclinationDeg)).wrappedValue
+            let loan = RadianAngle(degreeAngle: DegreeAngle(loanDeg)).wrappedValue
+            let aop = RadianAngle(degreeAngle: DegreeAngle(aopDeg)).wrappedValue
             let orbit = Orbit(semimajorAxis: semimajorAxis * 1000, eccentricity: ec, inclination: inclination, longitudeOfAscendingNode: loan, argumentOfPeriapsis: aop)
             let motion = OrbitalMotionMoment(orbit: orbit, gm: gm, julianDay: JulianDay(jd), timeOfPeriapsisPassage: JulianDay(tp))
             if save {
