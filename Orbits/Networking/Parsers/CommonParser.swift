@@ -33,7 +33,9 @@ public class CommonParser {
         guard components.count == 3 else { return nil }
         // TODO: calculate height regarding reference ellipsoid
         // https://en.wikipedia.org/wiki/Reference_ellipsoid
-        return CLLocation(latitude: components[1], longitude: wrapLongitude(components[0]))
+        let longitude = DegreeAngle(components[0])
+        longitude.wrapMode = .range_180
+        return CLLocation(latitude: components[1], longitude: longitude.wrappedValue)
     }
 
     func extractNameId(_ nameId: (String, String?)?) -> (String, Int)? {

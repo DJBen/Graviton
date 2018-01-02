@@ -16,7 +16,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
     public let radius: Double
     /// rotation period in hr
     public let rotationPeriod: Double
-    public let obliquity: Double
+    public let obliquity: DegreeAngle
     public let gravParam: Double
     public let hillSphereRadiusRespectToRadius: Double?
     public var hillSphere: Double? {
@@ -37,7 +37,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(String(describing: hillSphere))}"
     }
 
-    public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
+    public init(naifId: Int, name: String, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: DegreeAngle = DegreeAngle(0), centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         self.gravParam = gravParam
         self.radius = radius
         self.rotationPeriod = rotationPeriod
@@ -46,16 +46,16 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         super.init(naif: Naif(naifId: naifId), name: name, centerBodyNaifId: centerBodyNaifId)
     }
 
-    public convenience init(naifId: Int, name: String, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
+    public convenience init(naifId: Int, name: String, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: DegreeAngle = DegreeAngle(0), centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         self.init(naifId: naifId, name: name, gravParam: mass * gravConstant, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }
 
-    public convenience init(naifId: Int, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
+    public convenience init(naifId: Int, mass: Double, radius: Double, rotationPeriod: Double = 0, obliquity: DegreeAngle = DegreeAngle(0), centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         let name = NaifCatalog.name(forNaif: naifId)!
         self.init(naifId: naifId, name: name, mass: mass, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }
 
-    public convenience init(naifId: Int, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: Double = 0, centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
+    public convenience init(naifId: Int, gravParam: Double, radius: Double, rotationPeriod: Double = 0, obliquity: DegreeAngle = DegreeAngle(0), centerBodyNaifId: Int? = nil, hillSphereRadRp: Double? = nil) {
         let name = NaifCatalog.name(forNaif: naifId)!
         self.init(naifId: naifId, name: name, gravParam: gravParam, radius: radius, rotationPeriod: rotationPeriod, obliquity: obliquity, centerBodyNaifId: centerBodyNaifId, hillSphereRadRp: hillSphereRadRp)
     }

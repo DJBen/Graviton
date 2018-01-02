@@ -52,14 +52,14 @@ class RiseTransitSetRealmTest: XCTestCase {
         XCTAssertEqual(rtse!.riseAt, 10000.0)
         XCTAssertEqual(rtse!.transitAt, 10000.2)
         XCTAssertEqual(rtse!.setAt, 10000.7)
-        XCTAssertEqual(rtse!.maximumElevation, radians(degrees: 21))
+        XCTAssertEqual(rtse!.maximumElevation?.wrappedValue, 21)
         XCTAssertNotNil(RiseTransitSetElevation.load(naifId: 301, optimalJulianDay: 10001.99, site: site, timeZone: TimeZone(secondsFromGMT: 0)!))
         let rt2 = RiseTransitSetElevation.load(naifId: 301, optimalJulianDay: 30000.0, site: site, timeZone: TimeZone(secondsFromGMT: -86400/2)!)
         XCTAssertNotNil(rt2)
         XCTAssertEqual(rt2!.riseAt, 29999.6)
         XCTAssertEqual(rt2!.transitAt, 30000.1)
         XCTAssertEqual(rt2!.setAt, 30000.3)
-        XCTAssertEqual(rt2!.maximumElevation, radians(degrees: 2))
+        XCTAssertEqual(rt2!.maximumElevation?.wrappedValue, 2)
 
     }
 

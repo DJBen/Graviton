@@ -142,7 +142,7 @@ public struct Orbit: CustomStringConvertible, Equatable {
 
 func calculateMeanAnomaly(Δt time: Double, gravParam: Double, shape: Orbit.ConicSection) -> Double? {
     let a = shape.semimajorAxis
-    return wrapAngle(time * sqrt(gravParam / pow(a, 3)))
+    return RadianAngle(time * sqrt(gravParam / pow(a, 3))).wrappedValue
 }
 
 func calculateTrueAnomaly(eccentricity: Double, eccentricAnomaly: Double) -> Double {

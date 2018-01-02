@@ -17,8 +17,8 @@ class AttitudeStabilizer {
     /// When camera's angular motion exceeds this angular velocity (in radians per second),
     /// this motion sample is discarded and does not involve in smoothing calculations.
     /// The smaller this value, the smaller lagging is percepted during quick motion.
-    var angularVelocityThreshold = radians(degrees: 3)
-    var angularSeparationThreshold = radians(degrees: 0.5)
+    var angularVelocityThreshold = DegreeAngle(3)
+    var angularSeparationThreshold = DegreeAngle(0.5)
 
     private var motions = [CMDeviceMotion]()
 
@@ -48,12 +48,12 @@ class AttitudeStabilizer {
             }
             let newQuaternion = Quaternion(motion.attitude.quaternion)
             // drop out outliers
-            if abs((newQuaternion * averagedQuaternion!.inverse).toAxisAngle().w) > angularVelocityThreshold * abs(motion.timestamp - lastTimestamp!) {
+            if abs((newQuaternion * averagedQuaternion!.inverse).toAxisAngle().w) > RadianAngle(degreeAngle: angularVelocityThreshold).wrappedValue * abs(motion.timestamp - lastTimestamp!) {
                 continue
             }
             averagedQuaternion = averagedQuaternion!.interpolated(with: newQuaternion, by: 0.5)
         }
-        if abs((quaternion! * averagedQuaternion!.inverse).toAxisAngle().w) > angularSeparationThreshold {
+        if abs((quaternion! * averagedQuaternion!.inverse).toAxisAngle().w) > RadianAngle(degreeAngle: angularSeparationThreshold).wrappedValue {
             quaternion = averagedQuaternion
         }
         return quaternion!

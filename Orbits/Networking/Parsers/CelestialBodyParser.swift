@@ -72,7 +72,7 @@ public final class CelestialBodyParser: CommonParser, Parser {
         let rotRate = extractor.rotationPeriod(naifId: naifId, orb: motion.orbitalPeriod!) ?? 0
         let hsRp = extractor.hillSphere
         // Consider Mercury to have 0 obliquity
-        let obliquity = extractor.obliquity ?? 0
+        let obliquity = extractor.obliquity ?? DegreeAngle(0)
         let body = CelestialBody(naifId: naifId, gravParam: gm, radius: radius, rotationPeriod: rotRate, obliquity: obliquity, centerBodyNaifId: centerId, hillSphereRadRp: hsRp)
         body.motion = motion
         return body

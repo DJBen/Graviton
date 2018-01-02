@@ -23,7 +23,7 @@ public struct RiseTransitSetElevation: Equatable {
     public let endJd: JulianDay
 
     /// Maximum elevation in radians
-    public let maximumElevation: Double?
+    public let maximumElevation: DegreeAngle?
     public let riseAt: JulianDay?
     public let transitAt: JulianDay?
     public let setAt: JulianDay?
@@ -40,7 +40,7 @@ public struct RiseTransitSetElevation: Equatable {
         let obj = (r ?? t ?? s)!
         naif = Naif(naifId: obj.naifId)
         if let elev = t?.elevation {
-            maximumElevation = radians(degrees: elev)
+            maximumElevation = DegreeAngle(elev)
         } else {
             maximumElevation = nil
         }
