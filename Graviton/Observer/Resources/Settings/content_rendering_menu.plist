@@ -15,6 +15,16 @@
 					<key>type</key>
 					<string>toggle</string>
 					<key>text</key>
+					<string>High Precision Algorithm</string>
+					<key>image</key>
+					<string>row_icon_moon</string>
+					<key>binding</key>
+					<string>useHighPrecisionMoonAlgorithm</string>
+				</dict>
+				<dict>
+					<key>type</key>
+					<string>toggle</string>
+					<key>text</key>
 					<string>Show Moon Phase</string>
 					<key>image</key>
 					<string>row_icon_moon</string>

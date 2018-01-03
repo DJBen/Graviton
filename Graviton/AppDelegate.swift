@@ -59,7 +59,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     private func configureLogging() {
         let console = ConsoleDestination()
-        console.minLevel = .info
+        console.minLevel = .verbose
         logger.addDestination(console)
     }
 
