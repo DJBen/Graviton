@@ -85,6 +85,7 @@ struct Settings {
         case showPlanetLabel
         case showNorthPoleIndicator
         case showSouthPoleIndicator
+        case useHighPrecisionMoonAlgorithm
         case showMoonPhase
         case showEarthshine
         case showDirectionMarkers
@@ -109,6 +110,8 @@ struct Settings {
                 return showConstellationLabelDefault
             case .showPlanetLabel:
                 return showPlanetLabelDefault
+            case .useHighPrecisionMoonAlgorithm:
+                return true
             case .showMoonPhase:
                 return showMoonPhaseDefault
             case .showEarthshine:

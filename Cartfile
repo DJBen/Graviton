@@ -1,5 +1,5 @@
 github "DJBen/MathUtil" ~> 0.4.0
-github "DJBen/SpaceTime" ~> 0.3.0
+github "DJBen/SpaceTime" ~> 0.3.1
 github "DJBen/KelvinColor" ~> 0.1.0
 github "DJBen/StarryNight" ~> 0.3.0
 

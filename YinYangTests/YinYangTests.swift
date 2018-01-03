@@ -8,6 +8,7 @@
 
 import XCTest
 import SpaceTime
+import MathUtil
 @testable import YinYang
 
 class YinYangTests: XCTestCase {
@@ -33,5 +34,17 @@ class YinYangTests: XCTestCase {
         XCTAssertEqual(coord.longitude.wrappedValue, 133.162659, accuracy: accuracy)
         XCTAssertEqual(coord.latitude.wrappedValue, -3.229127, accuracy: accuracy)
         XCTAssertEqual(coord.distance, 368409.7, accuracy: 1e-1)
+    }
+
+    func testLunaUtil2() {
+        let calendar = Calendar(identifier: .gregorian)
+        let components = DateComponents(calendar: calendar, timeZone: TimeZone.init(abbreviation: "PST"), year: 2018, month: 1, day: 3, hour: 1, minute: 30, second: 4)
+        let julianDay = JulianDay(date: calendar.date(from: components)!)
+        let coord = LunaUtil.moonEclipticCoordinate(forJulianDay: julianDay)
+        let equatorial = EquatorialCoordinate.init(EclipticCoordinate: coord, julianDay: julianDay)
+        XCTAssertEqual(equatorial.rightAscension.wrappedValue, HourAngle(hour: 8, minute: 13, second: 5).wrappedValue, accuracy: 1e-3)
+        // abnormaly
+        XCTAssertEqual(equatorial.declination.wrappedValue, DegreeAngle(degree: 18, minute: 18, second: 4).wrappedValue, accuracy: 0.5)
+        XCTAssertEqual(equatorial.distance, 358780, accuracy: 1)
     }
 }
