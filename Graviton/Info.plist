@@ -2,14 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>CormorantSC-Bold.ttf</string>
-		<string>CormorantSC-Light.ttf</string>
-		<string>CormorantSC-Medium.ttf</string>
-		<string>CormorantSC-Regular.ttf</string>
-		<string>CormorantSC-SemiBold.ttf</string>
-	</array>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleExecutable</key>
@@ -25,7 +17,7 @@
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
-	<string>6</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -41,6 +33,18 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Graviton needs to perform astronomical calculations based on where you are.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Graviton needs motion data to align the rendered stars with real world night sky</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>CormorantSC-Bold.ttf</string>
+		<string>CormorantSC-Light.ttf</string>
+		<string>CormorantSC-Medium.ttf</string>
+		<string>CormorantSC-Regular.ttf</string>
+		<string>CormorantSC-SemiBold.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -64,9 +68,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>NSMotionUsageDescription</key>
-	<string>Graviton needs motion data to align the rendered stars with real world night sky</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Graviton needs to perform astronomical calculations based on where you are.</string>
 </dict>
 </plist>
