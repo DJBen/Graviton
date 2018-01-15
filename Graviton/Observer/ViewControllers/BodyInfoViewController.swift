@@ -21,6 +21,11 @@ class BodyInfoViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "infoCell")
+        tableView.tableFooterView = UIView()
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 20)
+        tableView.separatorColor = Constants.Menu.separatorColor
+        tableView.backgroundColor = UIColor.clear
+        setUpBlurredBackground()
     }
 
     private func rowForPositionSection(_ row: Int) -> Int {
@@ -45,17 +50,33 @@ class BodyInfoViewController: UITableViewController {
         return target.numberOfSections
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let sectionHeader: String
         switch target! {
         case .star:
-            return ["Position", "Designations", "Physical Properties"][section]
+            sectionHeader = ["Position", "Designations", "Physical Properties"][section]
         case .nearbyBody:
-            return ["Position", "Physical Properties"][section]
+            sectionHeader = ["Position", "Physical Properties"][section]
         }
+        let header = HeaderView()
+        header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
+        header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        header.textLabel.text = sectionHeader
+        return header
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 24
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return target.numberOfRows(in: section)
+    }
+
+    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear
+        cell.textLabel?.textColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        cell.selectionStyle = .none
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

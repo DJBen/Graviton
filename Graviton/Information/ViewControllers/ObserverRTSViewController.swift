@@ -11,7 +11,7 @@ import Orbits
 import MathUtil
 import XLPagerTabStrip
 
-class ObserverRTSViewController: UITableViewController {
+class ObserverRTSViewController: BaseTableViewController {
 
     private var rtsSubscriptionIdentifier: SubscriptionUUID!
     lazy var observerInfo = ObserverInfo()
@@ -57,8 +57,16 @@ class ObserverRTSViewController: UITableViewController {
         return ObserverInfo.sections.count
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return ObserverInfo.section(atIndex: section)
+    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let header = HeaderView()
+        header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
+        header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+        header.textLabel.text = ObserverInfo.section(atIndex: section)
+        return header
+    }
+
+    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return 24
     }
 
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -73,7 +81,8 @@ class ObserverRTSViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
-        cell.backgroundColor = UIColor.white
+        cell.backgroundColor = UIColor.black
+        cell.textLabel?.textColor = UIColor.white
     }
 }
 

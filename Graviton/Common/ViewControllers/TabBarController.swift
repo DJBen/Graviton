@@ -33,6 +33,9 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             Style.setTabBarTransparent(tabBar: tabBar)
         } else {
             Style.setTabBarNormal(tabBar: tabBar)
+            if viewController is InformationViewController {
+                tabBar.barStyle = .black
+            }
         }
     }
 }

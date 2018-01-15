@@ -14,7 +14,7 @@ protocol ObserverLocationMenuControllerDelegate: NSObjectProtocol {
     func observerLocationMenuController(_ controller: ObserverLocationMenuController, cityDidChange city: City?)
 }
 
-class ObserverLocationMenuController: MenuController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
+class ObserverLocationMenuController: ObserverTableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController:  nil)

@@ -56,12 +56,8 @@
                     <navigationItem key="navigationItem" id="X9x-vI-9Xt">
                         <barButtonItem key="backBarButtonItem" title=" " id="Goh-QV-xVi"/>
                     </navigationItem>
-                    <connections>
-                        <segue destination="UNP-hw-hxR" kind="presentation" identifier="showBodyInfo" id="g9A-CR-Odd"/>
-                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6xo-lM-HEY" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <exit id="wV2-LX-zKn" userLabel="Exit" sceneMemberID="exit"/>
             </objects>
             <point key="canvasLocation" x="974" y="768"/>
         </scene>
@@ -84,7 +80,7 @@
         <!--Observer Detail View Controller-->
         <scene sceneID="doI-7e-4C3">
             <objects>
-                <viewController id="UNP-hw-hxR" customClass="ObserverDetailViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ObserverDetailViewController" id="UNP-hw-hxR" customClass="ObserverDetailViewController" customModule="Graviton" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="bVY-eC-Qbs"/>
                         <viewControllerLayoutGuide type="bottom" id="46H-1X-gXw"/>
@@ -93,20 +89,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dKi-h6-8jv">
-                                <rect key="frame" x="0.0" y="20" width="375" height="44"/>
-                                <items>
-                                    <navigationItem title="Celestial Body Information" id="8ip-mc-Nze">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="YiP-b6-YIU">
-                                            <connections>
-                                                <segue destination="wV2-LX-zKn" kind="unwind" identifier="unwindFromBodyInfo" unwindAction="unwindFromBodyInfoFor:" id="e24-Ny-dUt"/>
-                                            </connections>
-                                        </barButtonItem>
-                                    </navigationItem>
-                                </items>
-                            </navigationBar>
                             <containerView opaque="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MGm-it-yN4">
-                                <rect key="frame" x="0.0" y="64" width="375" height="603"/>
+                                <rect key="frame" x="0.0" y="20" width="375" height="647"/>
                                 <connections>
                                     <segue destination="8Sl-3S-nnx" kind="embed" identifier="embedObserverDetail" id="twT-Wz-Wi0"/>
                                 </connections>
@@ -115,12 +99,8 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="46H-1X-gXw" firstAttribute="top" secondItem="MGm-it-yN4" secondAttribute="bottom" id="0MX-1h-1id"/>
-                            <constraint firstItem="MGm-it-yN4" firstAttribute="top" secondItem="dKi-h6-8jv" secondAttribute="bottom" id="QFc-hq-lh0"/>
-                            <constraint firstItem="MGm-it-yN4" firstAttribute="top" secondItem="dKi-h6-8jv" secondAttribute="bottom" id="cuA-Dc-CuO"/>
+                            <constraint firstItem="MGm-it-yN4" firstAttribute="top" secondItem="bVY-eC-Qbs" secondAttribute="bottom" id="47C-Fq-ZgT"/>
                             <constraint firstAttribute="trailing" secondItem="MGm-it-yN4" secondAttribute="trailing" id="hlr-vv-hFO"/>
-                            <constraint firstAttribute="trailing" secondItem="dKi-h6-8jv" secondAttribute="trailing" id="nkB-WZ-pbu"/>
-                            <constraint firstItem="dKi-h6-8jv" firstAttribute="leading" secondItem="aOa-wW-Om0" secondAttribute="leading" id="viB-b9-YLY"/>
-                            <constraint firstItem="dKi-h6-8jv" firstAttribute="top" secondItem="bVY-eC-Qbs" secondAttribute="bottom" id="xRf-l7-46t"/>
                             <constraint firstItem="MGm-it-yN4" firstAttribute="leading" secondItem="aOa-wW-Om0" secondAttribute="leading" id="y7V-SK-PBl"/>
                         </constraints>
                     </view>
@@ -138,7 +118,7 @@
                         <viewControllerLayoutGuide type="bottom" id="XmR-zv-aTv"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="NRm-Pv-1XB">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="603"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="2rv-Ho-S77" customClass="ButtonBarView" customModule="XLPagerTabStrip">
@@ -155,7 +135,7 @@
                                 <cells/>
                             </collectionView>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i6I-wa-gHt">
-                                <rect key="frame" x="0.0" y="56" width="375" height="547"/>
+                                <rect key="frame" x="0.0" y="56" width="375" height="591"/>
                             </scrollView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
