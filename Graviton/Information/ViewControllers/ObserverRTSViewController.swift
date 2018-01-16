@@ -21,7 +21,8 @@ class ObserverRTSViewController: BaseTableViewController {
         self.refreshControl = {
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(handleRefresh(target:)), for: .valueChanged)
-            refreshControl.attributedTitle = NSAttributedString(string: "Pull to reload RTS info")
+            let attributes = [NSAttributedStringKey.foregroundColor: UIColor.lightText]
+            refreshControl.attributedTitle = NSAttributedString(string: "Pull to reload RTS info", attributes: attributes)
             return refreshControl
         }()
         self.clearsSelectionOnViewWillAppear = false
