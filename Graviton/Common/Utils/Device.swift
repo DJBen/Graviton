@@ -14,7 +14,8 @@ struct Device {
         return appDelegate.window!.safeAreaInsets != UIEdgeInsets.zero
     }
 
-    /// Starting from `iOS 11.2.*`, the SceneKit seemingly does not render transparent textures.
+    /// Any version of `iOS 11.2`, breaks the SceneKit transparent texture rendering.
+    /// `iOS 11.3` or above and `iOS 11.1` are not affected.
     ///
     /// - seealso: [This](https://forums.developer.apple.com/thread/92671) apple forum thread.
     static var isSceneKitBroken: Bool {

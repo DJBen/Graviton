@@ -46,7 +46,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         guard Device.isSceneKitBroken && UIApplication.shared.canOpenURL(forumUrl) && OccationalPrompt.shouldShowPrompt(forKey: "sceneKitBrokenWarning", timeInterval: 86400) else {
             return
         }
-        let alertController = UIAlertController(title: "iOS SceneKit Bug", message: "There exists a bug on iOS 11.2 that causes transparent textures not to be rendered. As a result, some nodes will appear square-like. I am working around this issue and actively updating Graviton. Thank you for your support!", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "iOS SceneKit Bug", message: "There exists a bug on iOS 11.2 that causes transparent textures not to be rendered. As a result, some nodes will appear square-like. iOS 11.3 fixed this issue. Please update to latest system version whenever you can.", preferredStyle: .alert)
         let openForumAction = UIAlertAction(title: "See Detail", style: .default) { (_) in
             UIApplication.shared.open(forumUrl, options: [:], completionHandler: nil)
         }
