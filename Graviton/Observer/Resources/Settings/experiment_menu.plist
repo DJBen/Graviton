@@ -21,19 +21,6 @@
 				</dict>
 			</array>
 		</dict>
-		<dict>
-			<key>content</key>
-			<array>
-				<dict>
-					<key>type</key>
-					<string>toggle</string>
-					<key>text</key>
-					<string>New Camera Controller</string>
-					<key>binding</key>
-					<string>useCameraControllerV2</string>
-				</dict>
-			</array>
-		</dict>
 	</array>
 </dict>
 </plist>
