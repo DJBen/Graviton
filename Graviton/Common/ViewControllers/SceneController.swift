@@ -26,9 +26,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     lazy var rotationGR: UIRotationGestureRecognizer = UIRotationGestureRecognizer(target: self, action: #selector(rotate(sender:)))
 
-    @available(*, deprecated, message: "use SCNCameraController")
-    var legacyCameraController: CameraController?
-    var cameraController: SCNCameraController?
+    var cameraController: CameraController?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +38,8 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     }
 
     @objc func recenter(sender: UIGestureRecognizer) {
-        legacyCameraController?.slideVelocity = CGPoint()
-        legacyCameraController?.referenceSlideVelocity = CGPoint()
+        cameraController?.slideVelocity = CGPoint()
+        cameraController?.referenceSlideVelocity = CGPoint()
         SCNTransaction.begin()
         SCNTransaction.animationDuration = 0.5
         cameraModifier?.resetCamera()
@@ -49,11 +47,11 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     }
 
     func loadCameraController() {
-        legacyCameraController = CameraController()
+        cameraController = CameraController()
     }
 
     @objc func zoom(sender: UIPinchGestureRecognizer) {
-        guard let legacyCameraController = legacyCameraController else {
+        guard let legacyCameraController = cameraController else {
             return
         }
         switch sender.state {
@@ -73,7 +71,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     }
 
     @objc func pan(sender: UIPanGestureRecognizer) {
-        guard let legacyCameraController = legacyCameraController else {
+        guard let legacyCameraController = cameraController else {
             return
         }
         legacyCameraController.slideVelocity = sender.velocity(in: view).cap(to: legacyCameraController.viewSlideVelocityCap)
@@ -84,9 +82,9 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     @objc func rotate(sender: UIRotationGestureRecognizer) {
         switch sender.state {
         case .began:
-            legacyCameraController?.previousRotation = cameraModifier?.cameraNode.rotation
+            cameraController?.previousRotation = cameraModifier?.cameraNode.rotation
         case .ended:
-            legacyCameraController?.previousRotation = nil
+            cameraController?.previousRotation = nil
         default:
             break
         }
@@ -95,9 +93,9 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
     // MARK: - Scene Renderer Delegate
 
     func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
-        legacyCameraController?.handleCameraPan(atTime: time)
-        legacyCameraController?.rotation = rotationGR.rotation
-        legacyCameraController?.handleCameraRotation(atTime: time)
+        cameraController?.handleCameraPan(atTime: time)
+        cameraController?.rotation = rotationGR.rotation
+        cameraController?.handleCameraRotation(atTime: time)
     }
 }
 

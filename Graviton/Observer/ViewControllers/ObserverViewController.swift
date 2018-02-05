@@ -73,7 +73,7 @@ class ObserverViewController: SceneController {
     }
 
     var observerCameraController: ObserverCameraController {
-        return legacyCameraController as! ObserverCameraController
+        return cameraController as! ObserverCameraController
     }
 
     override func viewDidLoad() {
@@ -127,18 +127,11 @@ class ObserverViewController: SceneController {
     }
 
     override func loadCameraController() {
-        if Settings.default[.useCameraControllerV2] {
-            cameraController = SCNCameraController()
-            cameraController?.interactionMode = .orbitAngleMapping
-            cameraController?.inertiaEnabled = true
-            cameraController?.pointOfView = observerScene.cameraNode
-        } else {
-            legacyCameraController = ObserverCameraController()
-            legacyCameraController?.viewSlideVelocityCap = 500
-            legacyCameraController?.cameraNode = observerScene.cameraNode
-            legacyCameraController?.cameraInversion = .invertAll
-            configurePanSpeed()
-        }
+        cameraController = ObserverCameraController()
+        cameraController?.viewSlideVelocityCap = 500
+        cameraController?.cameraNode = observerScene.cameraNode
+        cameraController?.cameraInversion = .invertAll
+        configurePanSpeed()
     }
 
     private func setupViewElements() {
@@ -318,7 +311,7 @@ class ObserverViewController: SceneController {
 
     private func configurePanSpeed() {
         let factor = CGFloat(ObserverScene.defaultFov / observerScene.fov)
-        legacyCameraController?.viewSlideDivisor = factor * 25000
+        cameraController?.viewSlideDivisor = factor * 25000
     }
 
     @objc func updateTimestampLabel() {
@@ -347,7 +340,7 @@ class ObserverViewController: SceneController {
             return
         }
         if Timekeeper.default.isWarpActive {
-            legacyCameraController?.slideVelocity = CGPoint.zero
+            cameraController?.slideVelocity = CGPoint.zero
         } else {
             super.renderer(renderer, didRenderScene: scene, atTime: time)
         }

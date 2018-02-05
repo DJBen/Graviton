@@ -153,7 +153,7 @@ class SolarSystemViewController: SceneController {
         scnView.antialiasingMode = .none
         scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
         scnView.backgroundColor = UIColor.black
-        legacyCameraController?.cameraNode = solarSystemScene.cameraNode
+        cameraController?.cameraNode = solarSystemScene.cameraNode
     }
 
     private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {
