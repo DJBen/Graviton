@@ -24,6 +24,8 @@
 
 [Xcode 9.2](https://developer.apple.com/xcode/) is required to compile and run the project.
 
+You will need a real device to be able to see the Metal features.
+
 ### Installation
 
 This app uses [Carthage](https://github.com/Carthage/Carthage) as its dependency manager. Make sure you have installed it before running the following command.
@@ -32,8 +34,6 @@ This app uses [Carthage](https://github.com/Carthage/Carthage) as its dependency
 carthage update --platform ios
 ```
 That's all you need for bootstrapping! Now you can proceed to open the Xcode project file.
-
-**Important**: For best experience, please run with real device, especially so when testing against graphics related features.
 
 ### iOS 11.2 Bug
 

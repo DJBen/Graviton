@@ -73,4 +73,17 @@ extension RiseTransitSetElevation: ObserverLoadable {
         let results = try! realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
         return RiseTransitSetElevation(rts: Array(results), startJd: JulianDay(startJd), endJd: JulianDay(endJd))
     }
+
+    public static func clearOutdatedInfo(daysAgo days: Double = 3, sinceJulianDay julianDay: JulianDay = JulianDay.now) {
+        do {
+            let realm = try Realm()
+            let results = realm.objects(RiseTransitSetInfo.self).filter("jd < %@", julianDay.value - days)
+            try realm.write {
+                realm.delete(results)
+            }
+            logger.info("\(results.count) outdated RiseTransitSetInfo objects cleared. Criteria: JD < \(julianDay.value - days)")
+        } catch {
+            logger.warning("Failed to clear outdated RiseTransitSetInfo objects. Criteria: JD < \(julianDay.value - days). Failure reason: \(error)")
+        }
+    }
 }

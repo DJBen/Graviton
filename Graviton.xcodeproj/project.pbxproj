@@ -109,6 +109,8 @@
 		FC4D1E6E1FB44A4E00011478 /* ObserveTargetSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */; };
 		FC4D1E731FC94E3A00011478 /* InformationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E721FC94E3A00011478 /* InformationViewController.swift */; };
 		FC56169C1FDD3D92005B5702 /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC56169B1FDD3D92005B5702 /* PushAsideTransition.swift */; };
+		FC5616A41FE0F285005B5702 /* GravitonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5616A31FE0F285005B5702 /* GravitonUITests.swift */; };
+		FC5616AE1FE122C8005B5702 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5616AD1FE122C8005B5702 /* RealmManager.swift */; };
 		FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
 		FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6313171F255D8700FE23E0 /* SpaceTime.framework */; };
 		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
@@ -147,6 +149,7 @@
 		FCA930BC1E2B8EA600100706 /* NaifCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930BB1E2B8EA600100706 /* NaifCatalog.swift */; };
 		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
+		FCAA12621FE30F81008FCBC7 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA12611FE30F81008FCBC7 /* SnapshotHelper.swift */; };
 		FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */; };
 		FCB2C1311F330133002288BE /* CityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1301F330133002288BE /* CityManager.swift */; };
 		FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1331F331760002288BE /* MenuLocationCell.swift */; };
@@ -196,6 +199,9 @@
 		FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */; };
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
 		FCFCDD5B1F0B8C34009327F5 /* FakeOrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */; };
+		FCFE7E01202BBD5F00760633 /* FormattersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFE7E00202BBD5F00760633 /* FormattersTest.swift */; };
+		FCFE7E04202BC21600760633 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
+		FCFE7E2D202BC48500760633 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFE7E2C202BC48500760633 /* Logging.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
 		FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B091EA2145A00C4B006 /* Constants.swift */; };
@@ -246,6 +252,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = FC22B2A81FF317EC002AE044;
 			remoteInfo = YinYang;
+		};
+		FC5616A61FE0F285005B5702 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
+			remoteInfo = Graviton;
+		};
+		FCFE7DFB202BBC7C00760633 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EFC2C68C1D88D02F0031AA9C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = EFC2C6931D88D02F0031AA9C;
+			remoteInfo = Graviton;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -361,6 +381,10 @@
 		FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserveTargetSearchViewController.swift; sourceTree = "<group>"; };
 		FC4D1E721FC94E3A00011478 /* InformationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InformationViewController.swift; sourceTree = "<group>"; };
 		FC56169B1FDD3D92005B5702 /* PushAsideTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PushAsideTransition.swift; sourceTree = "<group>"; };
+		FC5616A11FE0F285005B5702 /* GravitonUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FC5616A31FE0F285005B5702 /* GravitonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitonUITests.swift; sourceTree = "<group>"; };
+		FC5616A51FE0F285005B5702 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FC5616AD1FE122C8005B5702 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
 		FC63130E1F255BD300FE23E0 /* MathUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MathUtil.framework; path = Carthage/Build/iOS/MathUtil.framework; sourceTree = "<group>"; };
 		FC6313171F255D8700FE23E0 /* SpaceTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpaceTime.framework; path = Carthage/Build/iOS/SpaceTime.framework; sourceTree = "<group>"; };
 		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
@@ -402,6 +426,7 @@
 		FCA930E11E2B8F5400100706 /* HorizonsTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HorizonsTest.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FCA930E21E2B8F5400100706 /* MotionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionParserTest.swift; sourceTree = "<group>"; };
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		FCAA12611FE30F81008FCBC7 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
 		FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FCB2C1301F330133002288BE /* CityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityManager.swift; sourceTree = "<group>"; };
 		FCB2C1331F331760002288BE /* MenuLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLocationCell.swift; sourceTree = "<group>"; };
@@ -455,6 +480,10 @@
 		FCFBB74E1E62CF4300624B4C /* MenuToggleCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuToggleCell.swift; sourceTree = "<group>"; };
 		FCFCDD541F00FC54009327F5 /* experiment_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = experiment_menu.plist; sourceTree = "<group>"; };
 		FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FakeOrbitalMotion.swift; sourceTree = "<group>"; };
+		FCFE7DF6202BBC7C00760633 /* GravitonTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = GravitonTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCFE7DFA202BBC7C00760633 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		FCFE7E00202BBD5F00760633 /* FormattersTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormattersTest.swift; sourceTree = "<group>"; };
+		FCFE7E2C202BC48500760633 /* Logging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logging.swift; sourceTree = "<group>"; };
 		FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = debug_menu.plist; sourceTree = "<group>"; };
 		FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IndicatorNode.swift; sourceTree = "<group>"; };
 		FCFF7B091EA2145A00C4B006 /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
@@ -516,6 +545,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FC56169E1FE0F285005B5702 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCFE7DF3202BBC7C00760633 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCFE7E04202BC21600760633 /* MathUtil.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -545,8 +589,10 @@
 				FCFBB7321E60660A00624B4C /* README.md */,
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
-				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				FC22B2AA1FF317EC002AE044 /* YinYang */,
+				FCFE7DF7202BBC7C00760633 /* GravitonTests */,
+				FC5616A21FE0F285005B5702 /* GravitonUITests */,
+				EFE8BF631DD86B2B000F0A79 /* OrbitsTests */,
 				FC22B2B71FF317EC002AE044 /* YinYangTests */,
 				EFC2C6951D88D02F0031AA9C /* Products */,
 				FC2435351E14C78C002AC626 /* Frameworks */,
@@ -561,6 +607,8 @@
 				EF4BD3811E57E58D009D2698 /* OrbitsTests.xctest */,
 				FC22B2A91FF317EC002AE044 /* YinYang.framework */,
 				FC22B2B11FF317EC002AE044 /* YinYangTests.xctest */,
+				FC5616A11FE0F285005B5702 /* GravitonUITests.xctest */,
+				FCFE7DF6202BBC7C00760633 /* GravitonTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -769,6 +817,7 @@
 				FCF2EA911EF64EA000B787F8 /* Timekeeper.swift */,
 				FCB2C1301F330133002288BE /* CityManager.swift */,
 				FC1CC2DA1EE0171F009FA252 /* CameraController.swift */,
+				FC5616AD1FE122C8005B5702 /* RealmManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -848,6 +897,16 @@
 				FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		FC5616A21FE0F285005B5702 /* GravitonUITests */ = {
+			isa = PBXGroup;
+			children = (
+				FC5616A31FE0F285005B5702 /* GravitonUITests.swift */,
+				FCAA12611FE30F81008FCBC7 /* SnapshotHelper.swift */,
+				FC5616A51FE0F285005B5702 /* Info.plist */,
+			);
+			path = GravitonUITests;
 			sourceTree = "<group>";
 		};
 		FC6913851EC14D9300F9B3B5 /* Nodes */ = {
@@ -1126,9 +1185,19 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		FCFE7DF7202BBC7C00760633 /* GravitonTests */ = {
+			isa = PBXGroup;
+			children = (
+				FCFE7E00202BBD5F00760633 /* FormattersTest.swift */,
+				FCFE7DFA202BBC7C00760633 /* Info.plist */,
+			);
+			path = GravitonTests;
+			sourceTree = "<group>";
+		};
 		FCFF7B081EA213F900C4B006 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				FCFE7E2C202BC48500760633 /* Logging.swift */,
 				FCFF7B091EA2145A00C4B006 /* Constants.swift */,
 				FC6619A91EF26CB900B670CC /* AttitudeStabilizer.swift */,
 				EFA4F0721EAAB81A005D2E0D /* Functional.swift */,
@@ -1263,6 +1332,42 @@
 			productReference = FC22B2B11FF317EC002AE044 /* YinYangTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		FC5616A01FE0F285005B5702 /* GravitonUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FC5616AA1FE0F285005B5702 /* Build configuration list for PBXNativeTarget "GravitonUITests" */;
+			buildPhases = (
+				FC56169D1FE0F285005B5702 /* Sources */,
+				FC56169E1FE0F285005B5702 /* Frameworks */,
+				FC56169F1FE0F285005B5702 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FC5616A71FE0F285005B5702 /* PBXTargetDependency */,
+			);
+			name = GravitonUITests;
+			productName = GravitonUITests;
+			productReference = FC5616A11FE0F285005B5702 /* GravitonUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		FCFE7DF5202BBC7C00760633 /* GravitonTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FCFE7DFD202BBC7C00760633 /* Build configuration list for PBXNativeTarget "GravitonTests" */;
+			buildPhases = (
+				FCFE7DF2202BBC7C00760633 /* Sources */,
+				FCFE7DF3202BBC7C00760633 /* Frameworks */,
+				FCFE7DF4202BBC7C00760633 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				FCFE7DFC202BBC7C00760633 /* PBXTargetDependency */,
+			);
+			name = GravitonTests;
+			productName = GravitonTests;
+			productReference = FCFE7DF6202BBC7C00760633 /* GravitonTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1304,6 +1409,18 @@
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
+					FC5616A01FE0F285005B5702 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EFC2C6931D88D02F0031AA9C;
+					};
+					FCFE7DF5202BBC7C00760633 = {
+						CreatedOnToolsVersion = 9.2;
+						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = 0920;
+						ProvisioningStyle = Automatic;
+						TestTargetID = EFC2C6931D88D02F0031AA9C;
+					};
 				};
 			};
 			buildConfigurationList = EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */;
@@ -1320,6 +1437,8 @@
 			projectRoot = "";
 			targets = (
 				EFC2C6931D88D02F0031AA9C /* Graviton */,
+				FCFE7DF5202BBC7C00760633 /* GravitonTests */,
+				FC5616A01FE0F285005B5702 /* GravitonUITests */,
 				EFE8BF541DD86B2B000F0A79 /* Orbits */,
 				EF4BD3801E57E58D009D2698 /* OrbitsTests */,
 				FC22B2A81FF317EC002AE044 /* YinYang */,
@@ -1403,6 +1522,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		FC22B2AF1FF317EC002AE044 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FC56169F1FE0F285005B5702 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCFE7DF4202BBC7C00760633 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1497,6 +1630,7 @@
 				FCC11FC21FD9403C00235BFF /* ObserverTitleOverlayView.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
 				FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */,
+				FCFE7E2D202BC48500760633 /* Logging.swift in Sources */,
 				FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */,
 				FCF2EA901EF633A600B787F8 /* TimeWarpVerticalBar.swift in Sources */,
 				FC959E631E9B4FEC0026B222 /* FocusingSupport.swift in Sources */,
@@ -1535,6 +1669,7 @@
 				FC959E681E9B50340026B222 /* SceneController.swift in Sources */,
 				FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */,
 				FC099E451F1AD40D00A65F73 /* Formatters.swift in Sources */,
+				FC5616AE1FE122C8005B5702 /* RealmManager.swift in Sources */,
 				FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */,
 				FCBF424D1FA5764500AAD151 /* OrbitLineNode.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
@@ -1619,6 +1754,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		FC56169D1FE0F285005B5702 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FC5616A41FE0F285005B5702 /* GravitonUITests.swift in Sources */,
+				FCAA12621FE30F81008FCBC7 /* SnapshotHelper.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FCFE7DF2202BBC7C00760633 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCFE7E01202BBD5F00760633 /* FormattersTest.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1651,6 +1803,16 @@
 			isa = PBXTargetDependency;
 			target = FC22B2A81FF317EC002AE044 /* YinYang */;
 			targetProxy = FC22B2BC1FF317EC002AE044 /* PBXContainerItemProxy */;
+		};
+		FC5616A71FE0F285005B5702 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
+			targetProxy = FC5616A61FE0F285005B5702 /* PBXContainerItemProxy */;
+		};
+		FCFE7DFC202BBC7C00760633 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = EFC2C6931D88D02F0031AA9C /* Graviton */;
+			targetProxy = FCFE7DFB202BBC7C00760633 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2054,6 +2216,109 @@
 			};
 			name = Release;
 		};
+		FC5616A81FE0F285005B5702 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GravitonUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Graviton;
+			};
+			name = Debug;
+		};
+		FC5616A91FE0F285005B5702 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GravitonUITests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Graviton;
+			};
+			name = Release;
+		};
+		FCFE7DFE202BBC7C00760633 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GravitonTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Debug;
+		};
+		FCFE7DFF202BBC7C00760633 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Carthage/Build/iOS",
+				);
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = GravitonTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Graviton.app/Graviton";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2107,6 +2372,24 @@
 			buildConfigurations = (
 				FC22B2C21FF317EC002AE044 /* Debug */,
 				FC22B2C31FF317EC002AE044 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FC5616AA1FE0F285005B5702 /* Build configuration list for PBXNativeTarget "GravitonUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FC5616A81FE0F285005B5702 /* Debug */,
+				FC5616A91FE0F285005B5702 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FCFE7DFD202BBC7C00760633 /* Build configuration list for PBXNativeTarget "GravitonTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FCFE7DFE202BBC7C00760633 /* Debug */,
+				FCFE7DFF202BBC7C00760633 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

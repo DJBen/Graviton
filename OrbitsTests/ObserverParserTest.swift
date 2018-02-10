@@ -20,7 +20,9 @@ class ObserverParserTest: XCTestCase {
         mockData = try! String(contentsOfFile: path, encoding: .utf8)
         let results = ObserverRiseTransitSetParser.default.parse(content: mockData)
         XCTAssertEqual(results.count, 20)
-        let location = CLLocation(latitude: 37.7816, longitude: wrapLongitude(237.5844))
+        let long = DegreeAngle(237.5844)
+        long.wrapMode = .range_180
+        let location = CLLocation(latitude: 37.7816, longitude: long.wrappedValue)
         let expected0 = RiseTransitSetInfo(naifId: 301, jd: 2440587.865972222, location: location, daylightFlag: " ", rtsFlag: "r", azimuth: 100.8787, elevation: -0.7645)
         let expected4 = RiseTransitSetInfo(naifId: 301, jd: 2440589.133333333, location: location, daylightFlag: "C", rtsFlag: "t", azimuth: 179.0547, elevation: 35.8295)
         let expected5 = RiseTransitSetInfo(naifId: 301, jd: 2440589.354861111, location: location, daylightFlag: "*", rtsFlag: "s", azimuth: 248.5043, elevation: -0.8843)
@@ -49,7 +51,9 @@ class ObserverParserTest: XCTestCase {
         result6.jd = 2440587.541666667
         result6.daylightFlag = "*"
         result6.rtsFlag = ""
-        result6.location = CLLocation(latitude: 37.7816, longitude: wrapLongitude(237.5844))
+        let long = DegreeAngle(237.5844)
+        long.wrapMode = .range_180
+        result6.location = CLLocation(latitude: 37.7816, longitude: long.wrappedValue)
         assertEqual(result6, results[6])
     }
 

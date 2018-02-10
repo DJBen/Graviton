@@ -74,19 +74,21 @@ class CoordinateFormatter: Formatter {
         }
         let lat = coordinate.latitude
         let long = coordinate.longitude
-        func stripNegativeSign(_ dms: DegreeMinuteSecond) -> String {
+        func stripNegativeSign(_ dms: DegreeAngle) -> String {
             if dms.value >= 0 {
-                return dms.description
+                return dms.compoundDescription
             } else {
-                var str = dms.description
+                var str = dms.compoundDescription
                 str.remove(at: str.startIndex)
                 return str
             }
         }
-        let latDms = DegreeMinuteSecond(value: lat)
-        latDms.decimalNumberFormatter = Formatters.twoDecimalPointFormatter
-        let longDms = DegreeMinuteSecond(value: long)
-        longDms.decimalNumberFormatter = Formatters.twoDecimalPointFormatter
+        let latDms = DegreeAngle(lat)
+        latDms.wrapMode = .range_180
+        latDms.compoundDecimalNumberFormatter = Formatters.twoDecimalPointFormatter
+        let longDms = DegreeAngle(long)
+        longDms.wrapMode = .range_180
+        longDms.compoundDecimalNumberFormatter = Formatters.twoDecimalPointFormatter
         let latStr = stripNegativeSign(latDms) + (lat >= 0 ? " N" : " S")
         let longStr = stripNegativeSign(longDms) + (long >= 0 ? " E" : " W")
         return "\(latStr), \(longStr)"
