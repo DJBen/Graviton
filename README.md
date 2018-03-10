@@ -18,6 +18,12 @@
 - [x] Real-time high accuracy solar system illustration. In scale.
 - [x] Detailed celestial body information. Rise, transit and set information panel for :sunny:, :first_quarter_moon_with_face: and naked-eye planets.
 
+## Screenshots
+
+| Stellarium | Planets | Metadata | Celestial body |
+| --- | --- | --- | --- |
+| ![main](https://github.com/DJBen/Graviton/raw/master/External%20Assets/screenshot-main.png) | ![planets](https://github.com/DJBen/Graviton/raw/master/External%20Assets/screenshot-planet.png) | ![rts](https://github.com/DJBen/Graviton/raw/master/External%20Assets/screenshot-rts.png) | ![celestial-body](https://github.com/DJBen/Graviton/raw/master/External%20Assets/screenshot-celestial-body.png) |
+
 ## Getting Started
 
 ### Prerequisites
