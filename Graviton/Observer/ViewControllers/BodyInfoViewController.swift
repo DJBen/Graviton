@@ -231,9 +231,11 @@ extension ObserveTarget {
 
 extension Star.Identity {
     func contentAtRow(_ row: Int) -> (String, String) {
-        return zip(["Proper Name", "Bayer-Flamsteed", "Gliese catalog", "Harvard Revised", "Henry Draper", "Hipparcos catalog"], [properName, bayerFlamsteedDesignation, gl, stringify(hrId), stringify(hdId), stringify(hipId)])
+        let titles: [String] = ["Proper Name", "Bayer-Flamsteed", "Gliese catalog", "Harvard Revised", "Henry Draper", "Hipparcos catalog"]
+        let properties: [String?] = [properName, bayerFlamsteedDesignation, gl, stringify(hrId), stringify(hdId), stringify(hipId)]
+        return (zip(titles, properties)
             .filter { $1 != nil }
-            .map { ($0, $1!) }[row]
+            .map { ($0, $1!) })[row]
     }
 }
 

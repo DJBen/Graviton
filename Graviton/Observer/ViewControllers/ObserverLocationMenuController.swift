@@ -17,7 +17,7 @@ protocol ObserverLocationMenuControllerDelegate: NSObjectProtocol {
 class ObserverLocationMenuController: ObserverTableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
 
     lazy var searchController: UISearchController = {
-        let searchController = UISearchController(searchResultsController:  nil)
+        let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
         searchController.delegate = self
         searchController.searchBar.delegate = self

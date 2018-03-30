@@ -47,7 +47,7 @@ struct ObserverInfo {
 
 extension RiseTransitSetElevation {
     var tableRows: [String] {
-        return zip(["Rises at ", "Transits at ", "Sets at "], [riseAt, transitAt, setAt]).flatMap { (str, julianDay) -> String? in
+        return zip(["Rises at ", "Transits at ", "Sets at "], [riseAt, transitAt, setAt]).compactMap { (str, julianDay) -> String? in
             if julianDay == nil { return nil }
             dateFormatter.timeZone = LocationManager.default.timeZone
             return str + dateFormatter.string(from: julianDay!.date)
