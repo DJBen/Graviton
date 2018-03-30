@@ -73,7 +73,7 @@ public final class ObserverEphemerisParser: CommonParser, Parser {
         let labels = lines[soeIndex - 2].components(separatedBy: ",").map { $0.trimmed() }
 
         func extractContent(of components: [String], for field: Field) -> String {
-            let index = field.strings.flatMap { labels.index(of: $0) }.first!
+            let index = field.strings.compactMap { labels.index(of: $0) }.first!
             return components[index]
         }
 

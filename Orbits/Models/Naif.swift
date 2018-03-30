@@ -23,7 +23,7 @@ public enum Naif: Comparable, Hashable, ExpressibleByIntegerLiteral, CustomStrin
         case pluto = 999
 
         public var moons: [Moon] {
-            return (1...98).flatMap { Moon(rawValue: $0) }
+            return (1...98).compactMap { Moon(rawValue: $0) }
         }
     }
 

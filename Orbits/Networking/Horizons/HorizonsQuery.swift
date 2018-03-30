@@ -185,7 +185,7 @@ public struct HorizonsQuery: Hashable {
         let thisMonth = calendar.date(from: monthComponents)!
         let thisMonthLittleBitLater = thisMonth.addingTimeInterval(1800)
 
-        return Array(Set<Naif>(naifs)).sorted().flatMap { (naif) -> HorizonsQuery? in
+        return Array(Set<Naif>(naifs)).sorted().compactMap { (naif) -> HorizonsQuery? in
             switch naif {
             case .majorBody(let planet):
                 return HorizonsQuery(center: String(Naif.sun.rawValue), command: planet.rawValue, tableType: .elements, startTime: thisYear, stopTime: thisYearLittleBitLater)

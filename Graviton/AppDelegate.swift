@@ -39,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
 
     private func displaySceneKitBrokenWarning() {
-        let forumUrl = URL(string:"https://forums.developer.apple.com/thread/92671")!
+        let forumUrl = URL(string: "https://forums.developer.apple.com/thread/92671")!
         guard Device.isSceneKitBroken && UIApplication.shared.canOpenURL(forumUrl) && OccationalPrompt.shouldShowPrompt(forKey: "sceneKitBrokenWarning", timeInterval: 86400) else {
             return
         }

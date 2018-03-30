@@ -93,6 +93,6 @@ public final class EphemerisMotionParser: CommonParser, Parser {
         let systemGm = systemGM(systemInfo["Keplerian GM"]?.0 ?? systemInfo["System GM"]?.0)
         let lines = breakEphemerisIntoLines(content: content)
         guard let naifId = extractNameId(systemInfo["Target body name"])?.1 else { fatalError() }
-        return lines.flatMap { self.parseEphemerisLine(naifId: naifId, gm: systemGm, line: $0, save: save) }
+        return lines.compactMap { self.parseEphemerisLine(naifId: naifId, gm: systemGm, line: $0, save: save) }
     }
 }

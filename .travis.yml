@@ -1,12 +1,13 @@
 language: objective-c
-osx_image: xcode9.2
+osx_image: xcode9.3beta
 
 cache:
   directories:
   - Carthage
 before_install:
+  - brew update
   - travis_wait 40 carthage bootstrap --platform iOS --cache-builds
 before_script:
   - swiftlint
 script:
-  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator11.2 -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.2' build test
+  - xcodebuild -scheme Graviton -project Graviton.xcodeproj -sdk iphonesimulator11.3 -destination 'platform=iOS Simulator,name=iPhone 8,OS=11.3' build test
