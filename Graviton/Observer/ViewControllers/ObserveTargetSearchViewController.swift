@@ -14,7 +14,7 @@ protocol ObserveTargetSearchViewControllerDelegate: NSObjectProtocol {
     func observeTargetViewController(_ viewController: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget)
 }
 
-class ObserveTargetSearchViewController: UITableViewController {
+class ObserveTargetSearchViewController: BaseTableViewController {
 
     private enum SearchScope {
         case all
@@ -56,7 +56,7 @@ class ObserveTargetSearchViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpBlurredBackground()
-        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "starCell")
+        tableView.register(CelestialObjectCell.self, forCellReuseIdentifier: "starCell")
         searchController.searchResultsUpdater = self
         searchController.dimsBackgroundDuringPresentation = false
         searchController.hidesNavigationBarDuringPresentation = false
@@ -93,11 +93,18 @@ class ObserveTargetSearchViewController: UITableViewController {
     }
 
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "starCell", for: indexPath)
+        let cell = CelestialObjectCell(style: .value1, reuseIdentifier: "starCell")
         let content = currentContent[indexPath.row]
         switch content {
         case .star(let star):
             cell.textLabel?.text = String(describing: star.identity)
+            cell.detailTextLabel?.text = star.identity.constellation.name
+            let suffix = String(data: star.identity.constellation.name.lowercased().replacingOccurrences(of: " ", with: "_").data(using: .ascii, allowLossyConversion: true)!, encoding: .ascii)!
+            cell.imageView?.image = UIImage(named: "icon_constellation_\(suffix)")
+            if cell.imageView?.image == nil {
+                logger.error("cannot find icon_constellation_\(suffix)")
+            }
+            cell.imageView?.contentMode = .scaleAspectFit
         case .nearbyBody(let body):
             cell.textLabel?.text = body.name
         }
@@ -106,6 +113,10 @@ class ObserveTargetSearchViewController: UITableViewController {
 
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.observeTargetViewController(self, didSelectTarget: currentContent[indexPath.row])
+    }
+
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 48
     }
 
     private func filterTargets(forSearchText searchText: String, scope: SearchScope = .all) {

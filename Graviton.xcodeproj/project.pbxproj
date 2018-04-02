@@ -150,6 +150,7 @@
 		FCA930D71E2B8F1200100706 /* PhysicalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930D51E2B8F1200100706 /* PhysicalConstants.swift */; };
 		FCA930DC1E2B8F3700100706 /* Ephemeris.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCA930DB1E2B8F3700100706 /* Ephemeris.swift */; };
 		FCAA12621FE30F81008FCBC7 /* SnapshotHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCAA12611FE30F81008FCBC7 /* SnapshotHelper.swift */; };
+		FCB0644D20721AEE009907AE /* CelestialObjectCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB0644C20721AEE009907AE /* CelestialObjectCell.swift */; };
 		FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */; };
 		FCB2C1311F330133002288BE /* CityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1301F330133002288BE /* CityManager.swift */; };
 		FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1331F331760002288BE /* MenuLocationCell.swift */; };
@@ -427,6 +428,7 @@
 		FCA930E21E2B8F5400100706 /* MotionParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionParserTest.swift; sourceTree = "<group>"; };
 		FCA930E71E2B8FEA00100706 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		FCAA12611FE30F81008FCBC7 /* SnapshotHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SnapshotHelper.swift; sourceTree = "<group>"; };
+		FCB0644C20721AEE009907AE /* CelestialObjectCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CelestialObjectCell.swift; sourceTree = "<group>"; };
 		FCB2BDBA1F2E6CED002288BE /* TabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		FCB2C1301F330133002288BE /* CityManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CityManager.swift; sourceTree = "<group>"; };
 		FCB2C1331F331760002288BE /* MenuLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLocationCell.swift; sourceTree = "<group>"; };
@@ -1133,6 +1135,7 @@
 		FCB2C1321F331726002288BE /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				FCB0644C20721AEE009907AE /* CelestialObjectCell.swift */,
 				FCB2C1331F331760002288BE /* MenuLocationCell.swift */,
 				FCC11FC11FD9403C00235BFF /* ObserverTitleOverlayView.swift */,
 			);
@@ -1690,6 +1693,7 @@
 				FC1CC2CB1EE01646009FA252 /* RiseTransitSetManager.swift in Sources */,
 				FC099E2A1F0F729E00A65F73 /* BodyInfoViewController.swift in Sources */,
 				FCE1216F200C75820069A569 /* ObserverTableViewController.swift in Sources */,
+				FCB0644D20721AEE009907AE /* CelestialObjectCell.swift in Sources */,
 				FCFBB74F1E62CF4300624B4C /* MenuToggleCell.swift in Sources */,
 				FC7096FF1EF3898700D4FA30 /* Math.swift in Sources */,
 				FC2464351FC9594100868CF0 /* RealtimeInfoViewController.swift in Sources */,
