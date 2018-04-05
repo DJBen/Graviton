@@ -15,6 +15,8 @@ import MathUtil
 
 class SolarSystemViewController: SceneController {
 
+    static let focusDistanceThreshold: CGFloat = 30
+
     var focusController: FocusingSupport?
 
     var lastRenderTime: TimeInterval!
@@ -122,11 +124,13 @@ class SolarSystemViewController: SceneController {
 
     @objc func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
-        let p = sender.location(in: scnView)
-        let hitResults = scnView.hitTest(p, options: [.boundingBoxOnly: true])
-        let objectHit = hitResults.map { $0.node }.filter { $0.name != nil && $0.name!.contains("orbit") == false }
-        if objectHit.count > 0 {
-            let node = objectHit[0]
+        let point = sender.location(in: view)
+        let distances = solarSystemScene.spheres.childNodes.map { (sphere) -> (SCNNode, CGFloat) in
+            let screenPoint = CGPoint(scnView.projectPoint(sphere.position))
+            return (sphere, point.distance(toPoint: screenPoint))
+        }.sorted { $0.1 < $1.1 }.filter { $0.1 < SolarSystemViewController.focusDistanceThreshold }
+
+        if let (node, _) = distances.first {
             SCNTransaction.begin()
             SCNTransaction.animationDuration = 0.25
             focusController?.focus(atNode: node)

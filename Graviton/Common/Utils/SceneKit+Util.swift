@@ -14,3 +14,13 @@ public let flipTextureContentsTransform: SCNMatrix4 = {
     mtx = SCNMatrix4Translate(mtx, 0.5, 0.5, 0)
     return mtx
 }()
+
+extension CGPoint {
+    init(_ vector: SCNVector3) {
+        self.init(x: CGFloat(vector.x), y: CGFloat(vector.y))
+    }
+
+    func distance(toPoint p: CGPoint) -> CGFloat {
+        return sqrt(pow(x - p.x, 2) + pow(y - p.y, 2))
+    }
+}
