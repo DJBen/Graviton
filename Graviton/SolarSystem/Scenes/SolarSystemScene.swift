@@ -30,7 +30,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private var orbitalMotions = [(OrbitalMotion, UIColor, Int)]()
     private var lineSegments = SCNNode()
-    private var spheres = SCNNode()
+    var spheres = SCNNode()
     var celestialBodies: [CelestialBody] = []
 
     var focusedNode: SCNNode?
