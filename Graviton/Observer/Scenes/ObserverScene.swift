@@ -453,48 +453,23 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
             case let .moon(m):
                 if m == Naif.Moon.luna {
                     guard let moonNode = rootNode.childNode(withName: String(m.rawValue), recursively: false) else { break }
-                    if Settings.default[.useHighPrecisionMoonAlgorithm] {
-                        let moonEclipticCoord = LunaUtil.moonEclipticCoordinate(forJulianDay: ephemeris.timestamp!)
-                        var moonEquatorialCoord = EquatorialCoordinate(EclipticCoordinate: moonEclipticCoord, julianDay: ephemeris.timestamp!)
-                        moonEquatorialCoord = EquatorialCoordinate(rightAscension: moonEquatorialCoord.rightAscension, declination: moonEquatorialCoord.declination, distance: moonEquatorialCoord.distance * 1000)
-                        let moonDisplaySize = body.radius * moonLayerRadius / moonEquatorialCoord.distance
-                        let moonZoomRatio = moonDisplaySize / body.radius
-                        (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
-                        let relativePos = Vector3.init(equatorialCoordinate: moonEquatorialCoord)
-                        let moonPosition = relativePos * moonZoomRatio
-                        precondition(moonPosition.length ~= moonLayerRadius)
-                        annotateCelestialBody(body, position: SCNVector3(moonPosition), parent: cbLabelNode, class: .sunAndMoon)
-                        moonNode.position = SCNVector3(moonPosition)
-                        let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / dynamicMagnificationFactor
-                        moonLightingNode.position = SCNVector3(hypotheticalSunPos)
-                        moonEarthshineNode.position = SCNVector3Zero
-                        moonFullLightingNode.position = SCNVector3Zero
-                        let cosAngle = hypotheticalSunPos.normalized().dot(-moonPosition.normalized())
-                        moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
-
-                        let moonPositionVector = ephemeris.observedPosition(of: ephemeris[.moon(.luna)]!, fromObserver: earth).oblique(by: earth.obliquity)
-                        let lowPrecisionCoordinate = EquatorialCoordinate(cartesian: moonPositionVector)
-                        logger.verbose("High precision Moon ephemeris algorithm yields \(moonEquatorialCoord) while low precision yields \(lowPrecisionCoordinate)")
-                        logger.verbose("Low precision moon algorithm error: \(moonEquatorialCoord.angularSeparation(from: lowPrecisionCoordinate))")
-                    } else {
-                        let relativePos = body.motion?.position ?? Vector3.zero
-                        let moonDisplaySize = body.radius * moonLayerRadius / relativePos.length
-                        let moonZoomRatio = moonDisplaySize / body.radius
-                        (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
-                        let moonPosition = relativePos * moonZoomRatio
-                        let obliquedMoonPos = moonPosition.oblique(by: earth.obliquity)
-                        precondition(obliquedMoonPos.length ~= moonLayerRadius)
-                        annotateCelestialBody(body, position: SCNVector3(obliquedMoonPos), parent: cbLabelNode, class: .sunAndMoon)
-                        moonNode.position = SCNVector3(obliquedMoonPos)
-
-                        let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / dynamicMagnificationFactor
-                        moonLightingNode.position = SCNVector3(hypotheticalSunPos)
-                        moonEarthshineNode.position = SCNVector3Zero
-                        moonFullLightingNode.position = SCNVector3Zero
-                        let cosAngle = hypotheticalSunPos.normalized().dot(-obliquedMoonPos.normalized())
-                        moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
-                    }
-
+                    let moonEclipticCoord = LunaUtil.moonEclipticCoordinate(forJulianDay: ephemeris.timestamp!)
+                    var moonEquatorialCoord = EquatorialCoordinate(EclipticCoordinate: moonEclipticCoord, julianDay: ephemeris.timestamp!)
+                    moonEquatorialCoord = EquatorialCoordinate(rightAscension: moonEquatorialCoord.rightAscension, declination: moonEquatorialCoord.declination, distance: moonEquatorialCoord.distance * 1000)
+                    let moonDisplaySize = body.radius * moonLayerRadius / moonEquatorialCoord.distance
+                    let moonZoomRatio = moonDisplaySize / body.radius
+                    (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
+                    let relativePos = Vector3.init(equatorialCoordinate: moonEquatorialCoord)
+                    let moonPosition = relativePos * moonZoomRatio
+                    precondition(moonPosition.length ~= moonLayerRadius)
+                    annotateCelestialBody(body, position: SCNVector3(moonPosition), parent: cbLabelNode, class: .sunAndMoon)
+                    moonNode.position = SCNVector3(moonPosition)
+                    let hypotheticalSunPos = obliquedSunPos * moonZoomRatio / dynamicMagnificationFactor
+                    moonLightingNode.position = SCNVector3(hypotheticalSunPos)
+                    moonEarthshineNode.position = SCNVector3Zero
+                    moonFullLightingNode.position = SCNVector3Zero
+                    let cosAngle = hypotheticalSunPos.normalized().dot(-moonPosition.normalized())
+                    moonEarthshineNode.light?.intensity = CGFloat(max(-cosAngle, 0) * 80)
                     updateMoonOrientation()
                 }
             default:
