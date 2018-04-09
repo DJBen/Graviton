@@ -40,24 +40,24 @@ class ObserverMenuController: ObserverTableViewController {
         setUpBlurredBackground()
 
         let behaviors = menu.registerAllConditionalDisabling()
-        behaviors.forEach { (behavior) in
-            let indexPath = self.menu.indexPath(for: behavior.setting)!
+        behaviors.forEach { [weak self] (behavior) in
+            let indexPath = self!.menu.indexPath(for: behavior.setting)!
             if behavior.condition == Settings.default[behavior.dependent] {
-                self.indexPathsToDisable.insert(indexPath)
+                self!.indexPathsToDisable.insert(indexPath)
             } else {
-                self.indexPathsToDisable.remove(indexPath)
+                self!.indexPathsToDisable.remove(indexPath)
             }
-            Settings.default.subscribe(setting: behavior.dependent, object: self, valueChanged: { (_, newValue) in
+            Settings.default.subscribe(setting: behavior.dependent, object: self!, valueChanged: { [weak self] (_, newValue) in
                 if behavior.condition == newValue {
-                    self.indexPathsToDisable.insert(indexPath)
+                    self!.indexPathsToDisable.insert(indexPath)
                 } else {
-                    self.indexPathsToDisable.remove(indexPath)
+                    self!.indexPathsToDisable.remove(indexPath)
                 }
-                self.tableView.reloadRows(at: [indexPath], with: .automatic)
+                self!.tableView.reloadRows(at: [indexPath], with: .automatic)
             })
-            Settings.default.subscribe(setting: behavior.setting, object: self, valueChanged: { (_, newValue) in
-                if let cell = self.tableView.cellForRow(at: indexPath) as? MenuToggleCell, cell.toggle.isEnabled == newValue {
-                    self.tableView.reloadRows(at: [indexPath], with: .automatic)
+            Settings.default.subscribe(setting: behavior.setting, object: self!, valueChanged: { [weak self] (_, newValue) in
+                if let cell = self!.tableView.cellForRow(at: indexPath) as? MenuToggleCell, cell.toggle.isEnabled == newValue {
+                    self!.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
             })
         }

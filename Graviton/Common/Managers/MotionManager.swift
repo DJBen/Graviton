@@ -59,7 +59,7 @@ class MotionManager: NSObject {
 
     func startMotionUpdate() {
         if motionManager.isDeviceMotionActive == false {
-            motionManager.startDeviceMotionUpdates(using: .xTrueNorthZVertical, to: queue) { (motion, error) in
+            motionManager.startDeviceMotionUpdates(using: .xTrueNorthZVertical, to: queue) { [weak self] (motion, error) in
                 if let error = error as? CMError {
                     if error == CMErrorTrueNorthNotAvailable {
                         // ignore
@@ -73,7 +73,7 @@ class MotionManager: NSObject {
                 }
                 if let motion = motion {
                     DispatchQueue.main.async {
-                        self.subscriptions.forEach { (_, subscription) in
+                        self!.subscriptions.forEach { (_, subscription) in
                             subscription.didUpdate?(motion)
                         }
                     }

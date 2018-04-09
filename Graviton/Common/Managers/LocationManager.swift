@@ -19,8 +19,8 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
         didSet {
             if let loc = content {
                 updateAllSubscribers(loc)
-                LocationManager.decodeTimeZone(location: loc) { (timeZone) in
-                    self.timeZone = timeZone
+                LocationManager.decodeTimeZone(location: loc) { [weak self] (timeZone) in
+                    self?.timeZone = timeZone
                 }
             } else {
                 self.timeZone = TimeZone.current

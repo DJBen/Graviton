@@ -19,8 +19,8 @@ class ObserverMenuMultipleSelectController: ObserverTableViewController {
         setUpBlurredBackground()
         title = multipleSelect.text
         tableView.register(MenuCell.self, forCellReuseIdentifier: checkableCellId)
-        Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { (_, _) in
-            self.tableView.reloadData()
+        Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { [weak self] (_, _) in
+            self!.tableView.reloadData()
         }
     }
 

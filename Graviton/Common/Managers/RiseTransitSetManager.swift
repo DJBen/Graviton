@@ -21,15 +21,15 @@ final class RiseTransitSetManager: LocationSensitiveSubscriptionManager<[Naif: R
         if isFetching { return }
         isFetching = true
         let site = ObserverSite(naif: .majorBody(.earth), location: LocationManager.default.content ?? CLLocation())
-        Horizons.shared.fetchRiseTransitSetElevation(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? RiseTransitSetManager.globalMode, update: { (dict) in
-            self.content = dict
-            for (_, sub) in self.subscriptions {
+        Horizons.shared.fetchRiseTransitSetElevation(preferredDate: requestedJd.date, observerSite: site, mode: mode ?? RiseTransitSetManager.globalMode, update: { [weak self] (dict) in
+            self!.content = dict
+            for (_, sub) in self!.subscriptions {
                 DispatchQueue.main.async {
                     sub.didLoad!(dict)
                 }
             }
-        }, complete: { (_, _) in
-            self.isFetching = false
+        }, complete: { [weak self] (_, _) in
+            self!.isFetching = false
         })
     }
 

@@ -13,14 +13,14 @@ class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
 
     init(setting: Settings.BooleanSetting) {
         super.init()
-        subscribe(setting: setting) { (_, shouldShow) in
+        subscribe(setting: setting) { [weak self] (_, shouldShow) in
             if shouldShow {
-                if self.isSetUp == false {
-                    self.setUpElement()
+                if self?.isSetUp == false {
+                    self?.setUpElement()
                 }
-                self.showElement()
+                self?.showElement()
             } else {
-                self.hideElement()
+                self?.hideElement()
             }
         }
         setUpElement()

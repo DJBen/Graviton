@@ -89,8 +89,8 @@ class ObserverViewController: SceneController {
         super.viewWillAppear(animated)
         updateTimeLabel()
         updateAntialiasingMode(Settings.default[.antialiasingMode])
-        Settings.default.subscribe(setting: .antialiasingMode, object: self) { (_, newKey) in
-            self.updateAntialiasingMode(newKey)
+        Settings.default.subscribe(setting: .antialiasingMode, object: self) { [weak self] (_, newKey) in
+            self?.updateAntialiasingMode(newKey)
         }
     }
 
