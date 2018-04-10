@@ -23,6 +23,8 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     private static let minScale: Double = 0.02
     private static let diminishStartDistance: Float = 3.3
     private static let diminishEndDistance: Float = 1.8
+    private static let sunNodeSize: CGFloat = 0.9
+    private static let planetNodeSize: CGFloat = 0.7
 
     var gestureOrientation: Quaternion {
         return Quaternion.identity
@@ -41,8 +43,8 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     var julianDay: JulianDay = JulianDay.J2000 {
         didSet {
-            orbitalMotions.forEach { (motion, color, identifier) in
-                self.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
+            orbitalMotions.forEach { [weak self] (motion, color, identifier) in
+                self?.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
             }
         }
     }
@@ -81,8 +83,8 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     }()
 
     private lazy var sunNode: SCNNode = {
-        let sun = SCNNode(geometry: SCNSphere(radius: 1.2))
-        sun.name = "10"
+        let sun = SCNNode(geometry: SCNSphere(radius: SolarSystemScene.sunNodeSize))
+        sun.name = String(Naif.sun.rawValue)
         sun.geometry!.firstMaterial = {
             let mat = SCNMaterial()
             mat.emission.contents = UIColor.white
@@ -139,9 +141,9 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
             899: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),
             999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
         ]
-        ephemeris.forEach { (body) in
+        ephemeris.forEach { [weak self] (body) in
             if let color = colors[body.naifId] {
-                self.add(body: body, color: color)
+                self?.add(body: body, color: color)
             }
         }
     }
@@ -186,7 +188,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
             planetNode.position = zoom(position: motion.position)
         } else {
-            let sphere = SCNSphere(radius: 0.85)
+            let sphere = SCNSphere(radius: SolarSystemScene.planetNodeSize)
             sphere.firstMaterial = {
                 let mat = SCNMaterial()
                 mat.diffuse.contents = color

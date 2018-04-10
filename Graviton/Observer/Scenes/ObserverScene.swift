@@ -257,13 +257,13 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         rootNode.addChildNode(focuser)
         focuser.isHidden = true
 
-        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { (notification) in
+        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { [weak self] (notification) in
             guard let coordinate = notification.userInfo?["content"] as? EquatorialCoordinate else {
                 return
             }
-            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: coordinate)))
+            self?.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: coordinate)))
         }
-        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { (notification) in
+        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { [weak self] (notification) in
             guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
                 return
             }
@@ -271,12 +271,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                 logger.error("Missing observer info")
                 return
             }
-            self.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
+            self?.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: EquatorialCoordinate(horizontalCoordinate: coordinate, observerInfo: obInfo))))
         }
 
         loadPanoramaTexture(Settings.default[.groundTexture])
-        Settings.default.subscribe(setting: .groundTexture, object: self) { (_, newValue) in
-            self.loadPanoramaTexture(newValue)
+        Settings.default.subscribe(setting: .groundTexture, object: self) { [weak self] (_, newValue) in
+            self?.loadPanoramaTexture(newValue)
         }
     }
 

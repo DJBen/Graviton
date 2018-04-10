@@ -20,8 +20,8 @@ class RealtimeInfoViewController: BaseTableViewController {
         self.clearsSelectionOnViewWillAppear = false
         let displayLink = CADisplayLink(target: self, selector: #selector(screenUpdate))
         displayLink.add(to: .main, forMode: .defaultRunLoopMode)
-        locationSubscriptionId = LocationManager.default.subscribe { (_) in
-            self.tableView.reloadData()
+        locationSubscriptionId = LocationManager.default.subscribe { [weak self] (_) in
+            self?.tableView.reloadData()
         }
     }
 
@@ -89,12 +89,12 @@ class RealtimeInfoViewController: BaseTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         let actionController = UIAlertController(title: cell.textLabel?.text, message: cell.detailTextLabel?.text, preferredStyle: .actionSheet)
-        actionController.addAction(UIAlertAction(title: "Copy to clipboard", style: .default, handler: { (_) in
+        actionController.addAction(UIAlertAction(title: "Copy to clipboard", style: .default, handler: { [weak self] (_) in
             UIPasteboard.general.string = cell.detailTextLabel?.text
-            self.tableView.deselectRow(at: indexPath, animated: true)
+            self?.tableView.deselectRow(at: indexPath, animated: true)
         }))
-        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (_) in
-            self.tableView.deselectRow(at: indexPath, animated: true)
+        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] (_) in
+            self?.tableView.deselectRow(at: indexPath, animated: true)
         }))
         present(actionController, animated: true, completion: nil)
     }

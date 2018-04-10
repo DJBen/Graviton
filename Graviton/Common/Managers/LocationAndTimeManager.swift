@@ -30,8 +30,8 @@ class ObserverLocationTimeManager: NSObject {
 
     override init() {
         super.init()
-        subId = LocationManager.default.subscribe(didUpdate: { (location) in
-            self.observerInfo = ObserverLocationTime(location: location, timestamp: self.julianDay ?? JulianDay.now)
+        subId = LocationManager.default.subscribe(didUpdate: { [weak self] (location) in
+            self?.observerInfo = ObserverLocationTime(location: location, timestamp: self!.julianDay ?? JulianDay.now)
         })
     }
 

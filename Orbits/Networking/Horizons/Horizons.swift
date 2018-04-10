@@ -249,7 +249,7 @@ public class Horizons {
         let queries = HorizonsQuery.ephemerisQuery(naifs, date: preferredDate.date).filter { (query) -> Bool in
             return query.command != Sun.sol.naifId
         }
-        fetchOnlineRawData(queries: queries) { (rawData, errors) in
+        fetchOnlineRawData(queries: queries) { [weak self] (rawData, errors) in
             if let errors = errors {
                 if cachedBodies.isEmpty {
                     complete?(nil, errors)
@@ -269,7 +269,7 @@ public class Horizons {
             if naifs.contains(Naif.sun) && bodies.first(where: { $0.naif == Naif.sun }) == nil {
                 bodies.insert(Sun.sol)
             }
-            let merged = self.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate.date)
+            let merged = self!.mergeCelestialBodies(cachedBodies, bodies, refTime: preferredDate.date)
             let eph = Ephemeris(solarSystemBodies: merged)
             update?(eph)
             complete?(eph, nil)
@@ -332,9 +332,9 @@ public class Horizons {
     }
 
     public func fetchRiseTransitSetElevation(preferredDate: Date = Date(), observerSite site: ObserverSite, naifs: [Naif] = Horizons.observerDefaultNaifs, mode: FetchMode = .preferLocal, update: (([Naif: RiseTransitSetElevation]) -> Void)? = nil, complete: (([Naif: RiseTransitSetElevation], [Error]?) -> Void)? = nil) {
-        decodeTimeZone(location: site.location) { (timeZone) in
+        decodeTimeZone(location: site.location) { [weak self] (timeZone) in
             logger.info("Requesting RTS info for \(site) within time zone \(timeZone)")
-            self.fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: timeZone, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
+            self!.fetchObserverInfo(preferredDate: preferredDate, observerSite: site, timeZone: timeZone, naifs: naifs, mode: mode, queryMethod: HorizonsQuery.rtsQueries, parser: ObserverRiseTransitSetParser.default, update: update, complete: complete)
         }
 
     }
