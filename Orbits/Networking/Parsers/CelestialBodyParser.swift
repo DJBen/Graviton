@@ -20,7 +20,7 @@ public final class CelestialBodyParser: CommonParser, Parser {
         let noHead = lines.drop(while: { $0.matches(regex: "\\*\\*\\*") == false }).dropFirst()
         let remaining = noHead.prefix(while: { $0.matches(regex: "\\*\\*\\*") == false })
         var results = [String: String]()
-        remaining.flatMap { (line) -> [(String, String)]? in
+        remaining.compactMap { (line) -> [(String, String)]? in
             guard let result = parseDoubleColumn(line) else { return nil }
             if let col2 = result.1 {
                 return [result.0, col2]

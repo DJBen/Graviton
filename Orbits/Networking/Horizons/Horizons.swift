@@ -120,7 +120,7 @@ public class Horizons {
             }
         }
 
-        let operations = queries.flatMap { (query) -> BlockOperation? in
+        let operations = queries.compactMap { (query) -> BlockOperation? in
             if query.command == Sun.sol.naifId {
                 return nil
             }
@@ -193,7 +193,7 @@ public class Horizons {
                 logger.verbose("reponse has no data: \(String(describing: response))")
             }
         }
-        let tasks = queries.flatMap { (query) -> URLSessionTask? in
+        let tasks = queries.compactMap { (query) -> URLSessionTask? in
             return URLSession.shared.dataTask(with: query.url, completionHandler: taskComplete)
         }
         tasks.enumerated().forEach { (index: Int, task: URLSessionTask) in
@@ -228,7 +228,7 @@ public class Horizons {
     ///   - complete: Block to execute upon completion
     public func fetchEphemeris(preferredDate: JulianDay = JulianDay.now, naifs: [Naif] = [Naif.sun] + Horizons.motionDefaultNaifs, mode: FetchMode = .mixed, update: ((Ephemeris) -> Void)? = nil, complete: ((Ephemeris?, [Error]?) -> Void)? = nil) {
         // load local data
-        var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.flatMap {
+        var cachedBodies = Set<CelestialBody>(mode == .onlineOnly ? [] : (naifs.compactMap {
             CelestialBody.load(naifId: $0.rawValue)
         }))
         if cachedBodies.isEmpty && mode == .localOnly {
@@ -259,7 +259,7 @@ public class Horizons {
                 }
                 return
             }
-            var bodies = Set<CelestialBody>(rawData.flatMap { (_, content) -> CelestialBody? in
+            var bodies = Set<CelestialBody>(rawData.compactMap { (_, content) -> CelestialBody? in
                 if let body = CelestialBodyParser.default.parse(content: content) {
                     body.save()
                     return body
@@ -291,7 +291,7 @@ public class Horizons {
     }
 
     private func fetchObserverInfo<T, P>(preferredDate: Date = Date(), observerSite site: ObserverSite, timeZone: TimeZone, naifs: [Naif], mode: FetchMode = .preferLocal, queryMethod: (Set<Naif>, ObserverSite, Date) -> [HorizonsQuery], parser: P, update: (([Naif: T]) -> Void)? = nil, complete: (([Naif: T], [Error]?) -> Void)? = nil) where T: ObserverLoadable, P: Parser {
-        let list: [T] = (mode == .onlineOnly ? [] : naifs.flatMap {
+        let list: [T] = (mode == .onlineOnly ? [] : naifs.compactMap {
             T.load(naifId: $0.rawValue, optimalJulianDay: JulianDay(date: preferredDate), site: site, timeZone: timeZone)
         })
         var dict = [Naif: T]()

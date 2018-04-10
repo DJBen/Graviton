@@ -19,7 +19,7 @@ public extension HorizonsQuery {
 
         /// J2000.0 astrometric right ascension and declination of target center.
         /// Adjusted for light-time. Units: HMS (HH MM SS.ff) and DMS (DD MM SS.f)
-        public static let astrometricRaAndDec = ObserverField(rawValue:  1 << 1)
+        public static let astrometricRaAndDec = ObserverField(rawValue: 1 << 1)
 
         /// Airless apparent azimuth and elevation of target center. Adjusted for light-time, the gravitational deflection of light, stellar aberration, precession and nutation. Azimuth measured North(0) -> East(90) -> South(180) -> West(270) -> North (360). Elevation is with respect to plane perpendicular to local zenith direction.
         public static let apparentAzimuthAndElevation = ObserverField(rawValue: 1 << 4)
@@ -71,7 +71,7 @@ public extension HorizonsQuery {
 
         /// Generated quantity string for JPL Horizons
         public var quantities: String {
-            return (0..<64).flatMap { 1 & rawValue >> UInt64($0) == 1 ? String($0) : nil }.joined(separator: ",")
+            return (0..<64).compactMap { 1 & rawValue >> UInt64($0) == 1 ? String($0) : nil }.joined(separator: ",")
         }
 
         public static let geocentricObserverFields: ObserverField = [

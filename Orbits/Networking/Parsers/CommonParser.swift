@@ -18,7 +18,7 @@ public class CommonParser {
         let regex = "^([^:]+):\\s([^\\{]+)(\\{[^\\}]+\\})?$"
         var results = [String: (String, String?)]()
         info.map { (i) -> [(String, String, String?)] in
-            return i.matches(for: regex).flatMap { (matches) -> (String, String, String?)? in
+            return i.matches(for: regex).compactMap { (matches) -> (String, String, String?)? in
                 guard matches.count == 4 else { return nil }
                 let m = matches.map { $0.trimmed() }
                 return (m[1], m[2], m[3].isEmpty ? nil : m[3])
@@ -29,7 +29,7 @@ public class CommonParser {
 
     func extractCoordinate(_ coord: (String, String?)?) -> CLLocation? {
         guard let coord = coord else { return nil }
-        let components = coord.0.components(separatedBy: ",").flatMap { Double($0.trimmed()) }
+        let components = coord.0.components(separatedBy: ",").compactMap { Double($0.trimmed()) }
         guard components.count == 3 else { return nil }
         // TODO: calculate height regarding reference ellipsoid
         // https://en.wikipedia.org/wiki/Reference_ellipsoid

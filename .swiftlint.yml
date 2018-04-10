@@ -15,8 +15,8 @@ excluded:
   - Carthage
   - Pods
   - OrbitsTests
-  - StarryNightTests
-  - SpaceTimeTests
+  - YinYang
+  - YinYangTests
 identifier_name:
   min_length: 1
 force_try:
