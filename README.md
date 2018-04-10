@@ -28,9 +28,9 @@
 
 ### Prerequisites
 
-[Xcode 9.2](https://developer.apple.com/xcode/) is required to compile and run the project.
+[Xcode 9.3](https://developer.apple.com/xcode/) and iOS 11.3 is recommended to run the project.
 
-You will need a real device to be able to see the Metal features.
+> Note: You need a real device to be able to see the fully rendered effects with Metal.
 
 ### Installation
 
@@ -44,11 +44,6 @@ That's all you need for bootstrapping! Now you can proceed to open the Xcode pro
 ### iOS 11.2 Bug
 
 There's an [issue](https://forums.developer.apple.com/thread/92671 ) that iOS 11.2 breaks SceneKit transparency texture. The appearance of stars will appear like squares instead of round dots. It has been fixed in iOS 11.3.
-
-
-### Simulator Limitations
-
-Simulator uses OpenGL rendering while real devices use Metal. Some graphics effect may look broken on simulators.
 
 ## Documentation
 *Placeholder*
