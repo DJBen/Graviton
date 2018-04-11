@@ -45,8 +45,21 @@ That's all you need for bootstrapping! Now you can proceed to open the Xcode pro
 
 There's an [issue](https://forums.developer.apple.com/thread/92671 ) that iOS 11.2 breaks SceneKit transparency texture. The appearance of stars will appear like squares instead of round dots. It has been fixed in iOS 11.3.
 
-## Documentation
-*Placeholder*
+## Features
+*Active development in progress; features will change without notice.*
+
+### Stellarium
+1. View the simulated night sky at your local position and local time. Find the constellations and solar system plants.
+2. Time warp to any time in the past and future to view the predicted night sky.
+3. Browse the celestial object catalog, search the desired celestial objects and inspect their physical properties.
+
+### Planets
+1. View the real-time solar system.
+2. Goes forward in time to see the motion of heaven.
+
+### Information
+1. Astronomic properties including Julian date, LST offset and more.
+2. Rise, transit and set time of the sun, the moon and all planets.
 
 Two websites are planned to be built. One includes all documentation, the other is a shiny front page for maximum appeal.
 
