@@ -70,4 +70,9 @@ struct TextStyle {
         let font = Font.constellationLabelFont(size: fontSize)
         return TextStyle.init(font: font, color: color)
     }
+
+    static func solarSystemTextStyle(fontSize: CGFloat, color: UIColor = UIColor.white) -> TextStyle {
+        let font = Font.monoLabelFont(size: fontSize)
+        return TextStyle.init(font: font, color: color)
+    }
 }

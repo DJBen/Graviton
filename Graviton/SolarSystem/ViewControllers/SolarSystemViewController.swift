@@ -14,7 +14,6 @@ import SpaceTime
 import MathUtil
 
 class SolarSystemViewController: SceneController {
-
     static let focusDistanceThreshold: CGFloat = 30
 
     var focusController: FocusingSupport?
@@ -41,10 +40,6 @@ class SolarSystemViewController: SceneController {
         return self.view as! SCNView
     }
 
-    private var sol2dScene: SolarSystemOverlayScene {
-        return self.scnView.overlaySKScene as! SolarSystemOverlayScene
-    }
-
     lazy var timeLabel: UILabel = {
         return self.defaultLabel()
     }()
@@ -60,14 +55,6 @@ class SolarSystemViewController: SceneController {
         label.font = UIFont.systemFont(ofSize: 20, weight: UIFont.Weight.light)
         return label
     }()
-
-    var velocityLabel: SKLabelNode {
-        return self.sol2dScene.velocityLabel
-    }
-
-    var distanceLabel: SKLabelNode {
-        return self.sol2dScene.distanceLabel
-    }
 
     private func defaultLabel() -> UILabel {
         let label = UILabel()
@@ -125,7 +112,7 @@ class SolarSystemViewController: SceneController {
     @objc func handleTap(sender: UITapGestureRecognizer) {
         let scnView = self.view as! SCNView
         let point = sender.location(in: view)
-        let distances = solarSystemScene.spheres.childNodes.map { (sphere) -> (SCNNode, CGFloat) in
+        let distances = solarSystemScene.celestialBodyNodes.map { (sphere) -> (SCNNode, CGFloat) in
             let screenPoint = CGPoint(scnView.projectPoint(sphere.position))
             return (sphere, point.distance(toPoint: screenPoint))
         }.sorted { $0.1 < $1.1 }.filter { $0.1 < SolarSystemViewController.focusDistanceThreshold }
@@ -154,27 +141,9 @@ class SolarSystemViewController: SceneController {
         scnView.delegate = self
         scnView.scene = solarSystemScene
         scnView.isPlaying = true
-        scnView.antialiasingMode = .none
-        scnView.overlaySKScene = SolarSystemOverlayScene(size: scnView.frame.size)
+        scnView.antialiasingMode = .multisampling2X
         scnView.backgroundColor = UIColor.black
         cameraController?.cameraNode = solarSystemScene.cameraNode
-    }
-
-    private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {
-        self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.velocityLabel.text = focusedBody.velocityString
-        self.distanceLabel.text = focusedBody.distanceString
-        self.velocityLabel.alpha = focusedNode.opacity
-        self.distanceLabel.alpha = focusedNode.opacity
-
-        let overlayPosition = scnView.project3dTo2d(focusedNode.position).point
-        let nodeSize = scnView.projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
-        let nodeHeight = nodeSize.height
-        let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
-
-        self.distanceLabel.position = newCenter
-        self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
     }
 
     private func updateAnnotations() {
@@ -185,23 +154,20 @@ class SolarSystemViewController: SceneController {
 
     override func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
         super.renderer(renderer, didRenderScene: scene, atTime: time)
-        if lastRenderTime == nil {
-            lastRenderTime = time
-        }
-        let dt: TimeInterval = time - lastRenderTime
-        lastRenderTime = time
-        let warpedDeltaTime = dt * warpControl.speed.multiplier
-        timeElapsed += warpedDeltaTime
-        let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
-        let warpedJd = JulianDay(date: warpedDate).value
-        self.solarSystemScene.julianDay = JulianDay(warpedJd)
-        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
-        guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
-            return
-        }
-        DispatchQueue.main.async {
+
+        DispatchQueue.main.async { [unowned self] in
+            if self.lastRenderTime == nil {
+                self.lastRenderTime = time
+            }
+            let dt: TimeInterval = time - self.lastRenderTime
+            self.lastRenderTime = time
+            let warpedDeltaTime = dt * self.warpControl.speed.multiplier
+            self.timeElapsed += warpedDeltaTime
+            let warpedDate = Date(timeInterval: self.timeElapsed, since: self.refTime)
+            let warpedJd = JulianDay(date: warpedDate).value
+            self.solarSystemScene.julianDay = JulianDay(warpedJd)
+            let actualTime = self.refTime.addingTimeInterval(TimeInterval(self.timeElapsed))
             self.timeLabel.text = self.dateFormatter.string(from: actualTime)
-            self.updateForFocusedNode(focusedNode, representingBody: focusedBody)
         }
     }
 }

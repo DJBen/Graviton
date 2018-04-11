@@ -32,7 +32,13 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private var orbitalMotions = [(OrbitalMotion, UIColor, Int)]()
     private var lineSegments = SCNNode()
-    var spheres = SCNNode()
+    private var spheres = SCNNode()
+    private var distanceTextNode: TrackingLabelNode?
+    private var velocityTextNode: TrackingLabelNode?
+
+    var celestialBodyNodes: [SCNNode] {
+        return spheres.childNodes + [sunNode]
+    }
     var celestialBodies: [CelestialBody] = []
 
     var focusedNode: SCNNode?
@@ -46,29 +52,32 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
             orbitalMotions.forEach { [weak self] (motion, color, identifier) in
                 self?.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
             }
+            updateLabels()
         }
     }
 
     var scale: Double = 1 {
         didSet {
+            assertMainThread()
             let cappedScale = min(max(scale, SolarSystemScene.minScale), SolarSystemScene.maxScale)
             self.scale = cappedScale
             self.camera.orthographicScale = SolarSystemScene.baseOrthographicScale / cappedScale
+            let invS = 1.0 / cappedScale
             // keep the spheres the same size
             (spheres.childNodes + [sunNode]).forEach { (sphere) in
                 // radius default is 1
-                let s = 1.0 / cappedScale
-                sphere.scale = SCNVector3(s, s, s)
+                sphere.scale = SCNVector3(invS, invS, invS)
             }
+            velocityTextNode?.scale = SCNVector3(invS, invS, invS)
 
             spheres.childNodes.forEach { (sphere) in
                 let apparentDist = (sphere.position * Float(cappedScale)).distance(sunNode.position * Float(cappedScale))
                 let ds = SolarSystemScene.diminishStartDistance
                 let de = SolarSystemScene.diminishEndDistance
-                let f = CGFloat((max(min(ds, apparentDist), de) - de) / (ds - de))
-                sphere.opacity = f
+                let factor = CGFloat((max(min(ds, apparentDist), de) - de) / (ds - de))
+                sphere.opacity = factor
                 if let orbit = lineSegments.childNode(withName: orbitIdentifier(sphere.name!), recursively: false) {
-                    orbit.opacity = f
+                    orbit.opacity = factor
                 }
             }
         }
@@ -170,20 +179,45 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         applyCameraNodeDefaultSettings(cameraNode: cameraNode)
     }
 
-    func focus(atNode node: SCNNode) {
-        if node != focusedNode {
-            cameraNode.position = node.position
-        }
-        focusedNode = node
-    }
-
     func clearScene() {
         spheres.childNodes.forEach { $0.removeFromParentNode() }
         lineSegments.childNodes.forEach { $0.removeFromParentNode() }
         orbitalMotions.removeAll()
     }
 
+    // MARK: - Focusing support
+
+    func focus(atNode node: SCNNode) {
+        assertMainThread()
+        if node != focusedNode {
+            cameraNode.position = node.position
+        }
+        focusedNode = node
+
+        if distanceTextNode == nil && velocityTextNode == nil {
+            distanceTextNode = TrackingLabelNode(string: focusedBody?.distanceString, textStyle: TextStyle.solarSystemTextStyle(fontSize: 0.7), offset: CGVector(dx: 0, dy: -1.0), behaviorOptions: [])
+            distanceTextNode?.constraints = [SCNBillboardConstraint()]
+            velocityTextNode = TrackingLabelNode(string: focusedBody?.velocityString, textStyle: TextStyle.solarSystemTextStyle(fontSize: 0.7), offset: CGVector(dx: 0, dy: -1.8), behaviorOptions: [])
+            velocityTextNode?.constraints = [SCNBillboardConstraint()]
+            rootNode.addChildNode(distanceTextNode!)
+            rootNode.addChildNode(velocityTextNode!)
+        } else {
+            updateLabels()
+        }
+
+        distanceTextNode?.position = focusedNode!.position
+        velocityTextNode?.position = focusedNode!.position
+    }
+
+    // MARK: - Private methods
+
+    private func updateLabels() {
+        distanceTextNode?.string = focusedBody?.distanceString
+        velocityTextNode?.string = focusedBody?.velocityString
+    }
+
     private func drawOrbitalMotion(motion: OrbitalMotion, color: UIColor, identifier: Int) {
+        assertMainThread()
         motion.julianDay = julianDay
         if let planetNode = spheres.childNode(withName: String(identifier), recursively: false) {
             planetNode.position = zoom(position: motion.position)

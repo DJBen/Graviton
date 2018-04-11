@@ -11,6 +11,12 @@ import SceneKit
 import MathUtil
 
 class TrackingLabelNode: SCNNode {
+    struct BehaviorOptions: OptionSet {
+        let rawValue: Int
+
+        static let fadeNearEdge = BehaviorOptions(rawValue: 1 << 0)
+        static let `default`: BehaviorOptions = [.fadeNearEdge]
+    }
 
     private static let surfaceShader: String = {
         let path = Bundle.main.path(forResource: "tracking_label.surface", ofType: "shader")!
@@ -41,7 +47,7 @@ class TrackingLabelNode: SCNNode {
         }
     }
 
-    init(string: String?, textStyle: TextStyle? = nil, offset: CGVector = CGVector.zero) {
+    init(string: String?, textStyle: TextStyle? = nil, offset: CGVector = CGVector.zero, behaviorOptions: BehaviorOptions = .default) {
         self.offset = offset
         super.init()
         let style = textStyle ?? TextStyle.defaultTextStyle(fontSize: 0.8)
@@ -57,10 +63,11 @@ class TrackingLabelNode: SCNNode {
         let material = text.firstMaterial!
         material.diffuse.contents = style.color
         material.locksAmbientWithDiffuse = true
-        material.shaderModifiers = [
-            .geometry: TrackingLabelNode.geometryShader,
-            .surface: TrackingLabelNode.surfaceShader
-        ]
+        var shaderModifiers: [SCNShaderModifierEntryPoint: String] = [.geometry: TrackingLabelNode.geometryShader]
+        if behaviorOptions.contains(.fadeNearEdge) {
+            shaderModifiers[.surface] = TrackingLabelNode.surfaceShader
+        }
+        material.shaderModifiers = shaderModifiers
         material.setValue(offset.dx, forKeyPath: "horizontalOffset")
         material.setValue(offset.dy, forKeyPath: "verticalOffset")
     }

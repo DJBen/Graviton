@@ -140,7 +140,6 @@
 		FC959E6D1E9B50CE0026B222 /* TrackingLabelNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E6B1E9B50CE0026B222 /* TrackingLabelNode.swift */; };
 		FC959E711E9B51420026B222 /* SolarSystemScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E701E9B51420026B222 /* SolarSystemScene.swift */; };
 		FC959E731E9B514C0026B222 /* SolarSystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E721E9B514C0026B222 /* SolarSystemViewController.swift */; };
-		FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E741E9B51700026B222 /* SolarSystemOverlayScene.swift */; };
 		FC959E781E9B534C0026B222 /* ObserverSceneElement.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E771E9B534C0026B222 /* ObserverSceneElement.swift */; };
 		FC959E7D1E9CB8060026B222 /* BooleanFlaggedNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */; };
 		FC998DAD1E2B996600E0BFFF /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC998DAC1E2B996600E0BFFF /* Formatters.swift */; };
@@ -415,7 +414,6 @@
 		FC959E6B1E9B50CE0026B222 /* TrackingLabelNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackingLabelNode.swift; sourceTree = "<group>"; };
 		FC959E701E9B51420026B222 /* SolarSystemScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemScene.swift; sourceTree = "<group>"; };
 		FC959E721E9B514C0026B222 /* SolarSystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = SolarSystemViewController.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		FC959E741E9B51700026B222 /* SolarSystemOverlayScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SolarSystemOverlayScene.swift; sourceTree = "<group>"; };
 		FC959E771E9B534C0026B222 /* ObserverSceneElement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverSceneElement.swift; sourceTree = "<group>"; };
 		FC959E7C1E9CB8060026B222 /* BooleanFlaggedNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BooleanFlaggedNode.swift; sourceTree = "<group>"; };
 		FC998DAC1E2B996600E0BFFF /* Formatters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
@@ -1073,7 +1071,6 @@
 			isa = PBXGroup;
 			children = (
 				FC959E701E9B51420026B222 /* SolarSystemScene.swift */,
-				FC959E741E9B51700026B222 /* SolarSystemOverlayScene.swift */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -1628,7 +1625,6 @@
 				EFA4F0731EAAB81A005D2E0D /* Functional.swift in Sources */,
 				FC172B261ED27BBA008BF615 /* BooleanFlaggedLight.swift in Sources */,
 				FC959E6C1E9B50CE0026B222 /* SphereInteriorNode.swift in Sources */,
-				FC959E751E9B51700026B222 /* SolarSystemOverlayScene.swift in Sources */,
 				FC18E1B61EF613E30061C2F6 /* ObserverOverlayScene.swift in Sources */,
 				FCC11FC21FD9403C00235BFF /* ObserverTitleOverlayView.swift in Sources */,
 				EF48518A1D91EB8D00737CE4 /* CelestialNode.swift in Sources */,
