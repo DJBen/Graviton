@@ -6,11 +6,10 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SpaceTime
+import UIKit
 
 class ObserverLocationTimeManager: NSObject {
-
     static let `default` = ObserverLocationTimeManager()
     var subId: SubscriptionUUID!
     private(set) var observerInfo: ObserverLocationTime?
@@ -30,7 +29,7 @@ class ObserverLocationTimeManager: NSObject {
 
     override init() {
         super.init()
-        subId = LocationManager.default.subscribe(didUpdate: { [weak self] (location) in
+        subId = LocationManager.default.subscribe(didUpdate: { [weak self] location in
             self?.observerInfo = ObserverLocationTime(location: location, timestamp: self!.julianDay ?? JulianDay.now)
         })
     }

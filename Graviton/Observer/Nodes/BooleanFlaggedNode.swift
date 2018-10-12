@@ -6,14 +6,13 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
-
     init(setting: Settings.BooleanSetting) {
         super.init()
-        subscribe(setting: setting) { [weak self] (_, shouldShow) in
+        subscribe(setting: setting) { [weak self] _, shouldShow in
             if shouldShow {
                 if self?.isSetUp == false {
                     self?.setUpElement()
@@ -35,7 +34,7 @@ class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
         unsubscribeFromSetting()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -48,6 +47,7 @@ class BooleanFlaggedNode: SCNNode, ObserverSceneElement {
     }
 
     // MARK: ObserverSceneElement
+
     var isSetUp: Bool {
         fatalError("isSetUp is not implemented")
     }

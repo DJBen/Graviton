@@ -6,13 +6,12 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SpriteKit
 import Orbits
+import SpriteKit
 import StarryNight
+import UIKit
 
 class ObserverOverlayScene: SKScene {
-
     private lazy var timeWarpBar: TimeWarpVerticalBar = {
         let bar = TimeWarpVerticalBar()
         return bar
@@ -38,7 +37,7 @@ class ObserverOverlayScene: SKScene {
         layoutSceneElements()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

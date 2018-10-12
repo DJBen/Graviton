@@ -6,21 +6,20 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import MathUtil
 import SpaceTime
+import UIKit
 import XLPagerTabStrip
 
 class RealtimeInfoViewController: BaseTableViewController {
-
     var locationSubscriptionId: SubscriptionUUID!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.clearsSelectionOnViewWillAppear = false
+        clearsSelectionOnViewWillAppear = false
         let displayLink = CADisplayLink(target: self, selector: #selector(screenUpdate))
         displayLink.add(to: .main, forMode: .defaultRunLoopMode)
-        locationSubscriptionId = LocationManager.default.subscribe { [weak self] (_) in
+        locationSubscriptionId = LocationManager.default.subscribe { [weak self] _ in
             self?.tableView.reloadData()
         }
     }
@@ -41,12 +40,12 @@ class RealtimeInfoViewController: BaseTableViewController {
             cell.detailTextLabel?.text = Formatters.julianDayFormatter.string(from: jdValue)
         }
         if let cell = tableView.cellForRow(at: IndexPath(row: 2, section: 0)) {
-            let sidTime = SiderealTime.init(julianDay: julianDay)
+            let sidTime = SiderealTime(julianDay: julianDay)
             cell.detailTextLabel?.text = String(describing: sidTime)
         }
         if let location = LocationManager.default.content {
             let locTime = ObserverLocationTime(location: location, timestamp: julianDay)
-            let sidTime = SiderealTime.init(observerLocationTime: locTime)
+            let sidTime = SiderealTime(observerLocationTime: locTime)
 
             if let cell = tableView.cellForRow(at: IndexPath(row: 3, section: 0)) {
                 cell.detailTextLabel?.text = String(describing: sidTime)
@@ -59,15 +58,15 @@ class RealtimeInfoViewController: BaseTableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return LocationManager.default.content == nil ? 3 : 5
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "realtimeInfoCell")
         switch indexPath.row {
         case 0:
@@ -89,17 +88,17 @@ class RealtimeInfoViewController: BaseTableViewController {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell = tableView.cellForRow(at: indexPath)!
         let actionController = UIAlertController(title: cell.textLabel?.text, message: cell.detailTextLabel?.text, preferredStyle: .actionSheet)
-        actionController.addAction(UIAlertAction(title: "Copy to clipboard", style: .default, handler: { [weak self] (_) in
+        actionController.addAction(UIAlertAction(title: "Copy to clipboard", style: .default, handler: { [weak self] _ in
             UIPasteboard.general.string = cell.detailTextLabel?.text
             self?.tableView.deselectRow(at: indexPath, animated: true)
         }))
-        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] (_) in
+        actionController.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { [weak self] _ in
             self?.tableView.deselectRow(at: indexPath, animated: true)
         }))
         present(actionController, animated: true, completion: nil)
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         cell.backgroundColor = UIColor.black
         cell.textLabel?.textColor = UIColor.white
         cell.detailTextLabel?.textColor = UIColor.lightText
@@ -109,7 +108,7 @@ class RealtimeInfoViewController: BaseTableViewController {
 // MARK: - Info provider
 
 extension RealtimeInfoViewController: IndicatorInfoProvider {
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+    func indicatorInfo(for _: PagerTabStripViewController) -> IndicatorInfo {
         return "Astronomy Info"
     }
 }

@@ -8,6 +8,4 @@
 
 import UIKit
 
-class SolarSystemNavigationController: UINavigationController {
-
-}
+class SolarSystemNavigationController: UINavigationController {}

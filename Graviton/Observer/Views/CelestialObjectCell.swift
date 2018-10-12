@@ -9,7 +9,6 @@
 import UIKit
 
 class CelestialObjectCell: UITableViewCell {
-
     var textLabelLeftInset: CGFloat = 60
     var secondaryLabelRightInset: CGFloat = 25
     var secondaryLabelWidth: CGFloat = 120
@@ -24,7 +23,7 @@ class CelestialObjectCell: UITableViewCell {
         setupView()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

@@ -6,11 +6,11 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
-import SpaceTime
 import MathUtil
+import Orbits
+import SceneKit
+import SpaceTime
+import UIKit
 
 class CelestialBodyScene: SCNScene, CameraResponsive {
     static let defaultFov: Double = 30
@@ -60,11 +60,12 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
         celestialNode.addChildNode(solarNode)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Observer Update
+
     func updateObserverInfo(_ observerInfo: [Naif: CelestialBodyObserverInfo]) {
         if let moonInfo = observerInfo[.moon(.luna)] {
             solarNode.light!.intensity = 1500
@@ -75,10 +76,10 @@ class CelestialBodyScene: SCNScene, CameraResponsive {
             )
             let northPoleAxis = Vector3(equatorialCoordinate: eq)
             precondition(northPoleAxis.length ~= 1, "North pole axis should be normalized")
-            let rotation = Quaternion.init(alignVector: Vector3(0, 1, 0), with: northPoleAxis)
-            let latRot = Quaternion.init(axisAngle: Vector4(0, 0, 1, -radians(degrees: moonInfo.obLon)))
+            let rotation = Quaternion(alignVector: Vector3(0, 1, 0), with: northPoleAxis)
+            let latRot = Quaternion(axisAngle: Vector4(0, 0, 1, -radians(degrees: moonInfo.obLon)))
             celestialNode.orientation = SCNQuaternion(latRot * rotation)
-            celestialNode.pivot = SCNMatrix4(Matrix4.init(rotation: Vector4(1, 0, 0, Double.pi / 2)))
+            celestialNode.pivot = SCNMatrix4(Matrix4(rotation: Vector4(1, 0, 0, Double.pi / 2)))
             let slXRot = -radians(degrees: moonInfo.slLat.value!)
             let slYRot = radians(degrees: moonInfo.slLon.value!)
             var slMat = Matrix4(rotation: Vector4(1, 0, 0, slXRot))

@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import RealmSwift
 import Orbits
+import RealmSwift
 
 class RealmManager {
     static let `default` = RealmManager()
@@ -27,7 +27,8 @@ class RealmManager {
                     // Realm will automatically detect new properties and removed properties
                     // And will update the schema on disk automatically
                 }
-        })
+            }
+        )
 
         // Tell Realm to use this new configuration object for the default Realm
         Realm.Configuration.defaultConfiguration = config

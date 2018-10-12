@@ -6,11 +6,10 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 class BooleanFlaggedLight: SCNLight, ObserverSceneElement {
-
     private var onConfig: (SCNLight) -> Void
     private var offConfig: (SCNLight) -> Void
 
@@ -18,7 +17,7 @@ class BooleanFlaggedLight: SCNLight, ObserverSceneElement {
         self.onConfig = onConfig
         self.offConfig = offConfig
         super.init()
-        subscribe(setting: setting) { [weak self] (_, shouldShow) in
+        subscribe(setting: setting) { [weak self] _, shouldShow in
             if shouldShow {
                 if self?.isSetUp == false {
                     self?.setUpElement()
@@ -40,7 +39,7 @@ class BooleanFlaggedLight: SCNLight, ObserverSceneElement {
         unsubscribeFromSetting()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -53,19 +52,20 @@ class BooleanFlaggedLight: SCNLight, ObserverSceneElement {
     }
 
     // MARK: - Observer Scene Element
+
     var isSetUp: Bool {
         return true
     }
 
     func showElement() {
-        self.onConfig(self)
+        onConfig(self)
     }
 
     func hideElement() {
-        self.offConfig(self)
+        offConfig(self)
     }
 
-    func setUpElement() { }
+    func setUpElement() {}
 
-    func removeElement() { }
+    func removeElement() {}
 }

@@ -10,7 +10,6 @@ import UIKit
 import XLPagerTabStrip
 
 class InformationViewController: UIViewController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         navigationController?.navigationBar.barStyle = .black
@@ -21,7 +20,7 @@ class InformationViewController: UIViewController {
         super.viewWillAppear(animated)
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         if segue.identifier == "embedInformation" {
             _ = segue.destination as! InformationInnerViewController
         }
@@ -29,7 +28,6 @@ class InformationViewController: UIViewController {
 }
 
 class InformationInnerViewController: ButtonBarPagerTabStripViewController {
-
     override func viewDidLoad() {
         settings.style.selectedBarBackgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
         settings.style.buttonBarBackgroundColor = UIColor.black
@@ -40,7 +38,8 @@ class InformationInnerViewController: ButtonBarPagerTabStripViewController {
     }
 
     // MARK: - PagerTabStripDataSource
-    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+
+    override func viewControllers(for _: PagerTabStripViewController) -> [UIViewController] {
         let rtsInfo = ObserverRTSViewController(style: .plain)
         let realtimeInfo = RealtimeInfoViewController(style: .plain)
         return [realtimeInfo, rtsInfo]

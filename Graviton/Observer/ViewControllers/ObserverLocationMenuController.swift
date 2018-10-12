@@ -15,7 +15,6 @@ protocol ObserverLocationMenuControllerDelegate: NSObjectProtocol {
 }
 
 class ObserverLocationMenuController: ObserverTableViewController, UISearchControllerDelegate, UISearchResultsUpdating, UISearchBarDelegate {
-
     lazy var searchController: UISearchController = {
         let searchController = UISearchController(searchResultsController: nil)
         searchController.searchResultsUpdater = self
@@ -31,6 +30,7 @@ class ObserverLocationMenuController: ObserverTableViewController, UISearchContr
     var dataSource: [City] {
         return citySubset ?? cities
     }
+
     weak var delegate: ObserverLocationMenuControllerDelegate?
     var selectedCity: City?
 
@@ -51,20 +51,20 @@ class ObserverLocationMenuController: ObserverTableViewController, UISearchContr
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return dataSource.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         cell.backgroundColor = UIColor.clear
         (cell as! MenuLocationCell).textLabelLeftInset = 21
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let city = dataSource[indexPath.row]
         let cell = MenuLocationCell(style: .subtitle, reuseIdentifier: cityCellId)
         cell.textLabel?.text = city.name
@@ -98,7 +98,7 @@ class ObserverLocationMenuController: ObserverTableViewController, UISearchContr
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 60
     }
 
@@ -110,5 +110,4 @@ class ObserverLocationMenuController: ObserverTableViewController, UISearchContr
         }
         tableView.reloadData()
     }
-
 }

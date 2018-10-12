@@ -6,15 +6,14 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import StarryNight
+import MathUtil
 import Orbits
 import SpaceTime
-import MathUtil
+import StarryNight
+import UIKit
 import XLPagerTabStrip
 
 class BodyInfoViewController: UITableViewController {
-
     var target: ObserveTarget!
     var ephemerisId: SubscriptionUUID!
 
@@ -46,11 +45,11 @@ class BodyInfoViewController: UITableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return target.numberOfSections
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let sectionHeader: String
         switch target! {
         case .star:
@@ -65,21 +64,21 @@ class BodyInfoViewController: UITableViewController {
         return header
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
         return 24
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return target.numberOfRows(in: section)
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.textColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         cell.selectionStyle = .none
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .value1, reuseIdentifier: "infoCell")
         configureSharedPosition(forCell: cell, atIndexPath: indexPath)
         switch target! {
@@ -176,7 +175,7 @@ class BodyInfoViewController: UITableViewController {
 // MARK: - Info provider
 
 extension BodyInfoViewController: IndicatorInfoProvider {
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+    func indicatorInfo(for _: PagerTabStripViewController) -> IndicatorInfo {
         switch target! {
         case .star:
             return "Star Info"

@@ -6,14 +6,14 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
 import MathUtil
+import Orbits
+import SceneKit
+import UIKit
 
 class CelestialEquatorLineNode: LineNode {
     init(earth: CelestialBody, numberOfVertices: Int = 200, rawToModelCoordinateTransform: (Vector3) -> Vector3 = { $0 }) {
-        let vertices: [SCNVector3] = Array(0..<numberOfVertices).map { index in
+        let vertices: [SCNVector3] = Array(0 ..< numberOfVertices).map { index in
             let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
             let (position, _) = earth.motion!.stateVectors(fromTrueAnomaly: offset)
             return SCNVector3(rawToModelCoordinateTransform(-position))
@@ -22,7 +22,7 @@ class CelestialEquatorLineNode: LineNode {
         name = "celestial equator"
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

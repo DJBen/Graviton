@@ -6,20 +6,19 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import SpriteKit
-import Orbits
-import StarryNight
-import SpaceTime
-import MathUtil
 import CoreImage
 import CoreMedia
+import MathUtil
+import Orbits
+import SceneKit
+import SpaceTime
+import SpriteKit
+import StarryNight
+import UIKit
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
 class ObserverViewController: SceneController {
-
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
@@ -57,7 +56,7 @@ class ObserverViewController: SceneController {
     }()
 
     private var scnView: SCNView {
-        return self.view as! SCNView
+        return view as! SCNView
     }
 
     var target: ObserveTarget? {
@@ -79,7 +78,7 @@ class ObserverViewController: SceneController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewElements()
-        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: self.ephemerisDidUpdate(ephemeris:))
+        ephemerisSubscriptionIdentifier = EphemerisManager.default.subscribe(mode: .interval(10), didLoad: observerScene.ephemerisDidLoad(ephemeris:), didUpdate: ephemerisDidUpdate(ephemeris:))
         observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
@@ -89,7 +88,7 @@ class ObserverViewController: SceneController {
         super.viewWillAppear(animated)
         updateTimeLabel()
         updateAntialiasingMode(Settings.default[.antialiasingMode])
-        Settings.default.subscribe(setting: .antialiasingMode, object: self) { [weak self] (_, newKey) in
+        Settings.default.subscribe(setting: .antialiasingMode, object: self) { [weak self] _, newKey in
             self?.updateAntialiasingMode(newKey)
         }
     }
@@ -140,7 +139,7 @@ class ObserverViewController: SceneController {
         navigationItem.leftBarButtonItem = gyroItem
         navigationItem.titleView = titleBlurView
         let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped(sender:)))
-        let searchItem = UIBarButtonItem.init(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
+        let searchItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
         navigationItem.rightBarButtonItems = [settingItem, searchItem]
 
         titleOverlayView.translatesAutoresizingMaskIntoConstraints = false
@@ -149,7 +148,7 @@ class ObserverViewController: SceneController {
             [
                 titleOverlayView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
                 titleOverlayView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                titleOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+                titleOverlayView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             ]
         )
         hideTitleOverlay()
@@ -176,29 +175,29 @@ class ObserverViewController: SceneController {
         let ephemeris = EphemerisManager.default.content(for: ephemerisSubscriptionIdentifier)!
         let coordinate: Vector3
         switch target {
-        case .nearbyBody(let body):
+        case let .nearbyBody(body):
             coordinate = ephemeris.observedPosition(of: body as! CelestialBody, fromObserver: ephemeris[.majorBody(.earth)]!)
-        case .star(let star):
+        case let .star(star):
             coordinate = star.physicalInfo.coordinate
         }
-        self.observerScene.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: coordinate))
+        observerScene.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: coordinate))
     }
 
     private var titleOverlayHeightConstraint: NSLayoutConstraint?
 
     private func animateOverlayTitle(heightConstant: CGFloat) {
         if let prevConstraint = self.titleOverlayHeightConstraint {
-            self.titleOverlayView.removeConstraint(prevConstraint)
+            titleOverlayView.removeConstraint(prevConstraint)
         }
-        self.titleOverlayHeightConstraint = self.titleOverlayView.heightAnchor.constraint(equalToConstant: heightConstant)
-        self.titleOverlayView.addConstraint(self.titleOverlayHeightConstraint!)
+        titleOverlayHeightConstraint = titleOverlayView.heightAnchor.constraint(equalToConstant: heightConstant)
+        titleOverlayView.addConstraint(titleOverlayHeightConstraint!)
         UIView.animate(withDuration: 0.25, delay: 0, usingSpringWithDamping: 1.0, initialSpringVelocity: 0, options: [], animations: {
             self.view.layoutIfNeeded()
         }, completion: nil)
     }
 
     private func showTitleOverlay(target: ObserveTarget) {
-        self.titleOverlayView.title = String(describing: target)
+        titleOverlayView.title = String(describing: target)
         animateOverlayTitle(heightConstant: view.safeAreaInsets.bottom + 60)
     }
 
@@ -211,35 +210,35 @@ class ObserverViewController: SceneController {
             return
         }
         switch target {
-        case .nearbyBody(let closeBody):
+        case let .nearbyBody(closeBody):
             observerScene.focus(atCelestialBody: closeBody as! CelestialBody)
-        case .star(let star):
+        case let .star(star):
             observerScene.focus(atStar: star)
         }
     }
 
     // MARK: - Button handling
 
-    @objc func menuButtonTapped(sender: UIButton) {
+    @objc func menuButtonTapped(sender _: UIButton) {
         let menuController = ObserverMenuController(style: .plain)
         menuController.menu = Menu.main
         let navigationController = UINavigationController(rootViewController: menuController)
         navigationController.modalPresentationStyle = .overCurrentContext
         navigationController.delegate = self
-        self.tabBarController?.present(navigationController, animated: true, completion: nil)
+        tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
-    @objc func gyroButtonTapped(sender: UIBarButtonItem) {
+    @objc func gyroButtonTapped(sender _: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
     }
 
-    @objc func searchButtonTapped(sender: UIBarButtonItem) {
+    @objc func searchButtonTapped(sender _: UIBarButtonItem) {
         let targetSearchController = ObserveTargetSearchViewController(style: .plain)
         targetSearchController.delegate = self
         targetSearchController.ephemerisSubscriptionId = ephemerisSubscriptionIdentifier
         let navigationController = UINavigationController(rootViewController: targetSearchController)
         navigationController.modalPresentationStyle = .overCurrentContext
-        self.tabBarController?.present(navigationController, animated: true, completion: nil)
+        tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
     // MARK: - Gesture handling
@@ -251,9 +250,9 @@ class ObserverViewController: SceneController {
             timeWarpSpeed = nil
             return
         }
-        let location = sender.location(in: self.view)
+        let location = sender.location(in: view)
         if Timekeeper.default.isWarpActive && CGRect(x: view.bounds.width - 44, y: 0, width: 44, height: view.bounds.height).contains(location) {
-            let percentage = Double((view.bounds.height / 2 - sender.location(in: self.view).y) / (view.bounds.height / 2))
+            let percentage = Double((view.bounds.height / 2 - sender.location(in: view).y) / (view.bounds.height / 2))
             let warpSpeed = percentage >= 0 ? exp(percentage * 16) : -exp(-percentage * 16)
             timeWarpSpeed = warpSpeed
         } else {
@@ -275,7 +274,7 @@ class ObserverViewController: SceneController {
         }
     }
 
-    @objc func toggleTimeWarp(sender: UIBarButtonItem) {
+    @objc func toggleTimeWarp(sender _: UIBarButtonItem) {
         guard Settings.default[.enableTimeWarp] else { return }
         Timekeeper.default.isWarpActive = !Timekeeper.default.isWarpActive
         logger.verbose("Time warp toggled \(Timekeeper.default.isWarpActive)")
@@ -319,10 +318,10 @@ class ObserverViewController: SceneController {
         titleButton.setTitle(Formatters.dateFormatter.string(from: requestTimestamp.date), for: .normal)
     }
 
-    func ephemerisDidUpdate(ephemeris: Ephemeris) {
+    func ephemerisDidUpdate(ephemeris _: Ephemeris) {
         assertMainThread()
         if let observerInfo = ObserverLocationTimeManager.default.observerInfo {
-            self.observerCameraController.orientCameraNode(observerInfo: observerInfo)
+            observerCameraController.orientCameraNode(observerInfo: observerInfo)
             observerScene.updateStellarContent(observerInfo: observerInfo)
         }
     }
@@ -353,8 +352,9 @@ class ObserverViewController: SceneController {
 }
 
 // MARK: - Star search view controller delegate
+
 extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
-    func observeTargetViewController(_ viewController: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget) {
+    func observeTargetViewController(_: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget) {
         dismiss(animated: true, completion: nil)
         self.target = target
         center(atTarget: self.target!)
@@ -362,7 +362,7 @@ extension ObserverViewController: ObserveTargetSearchViewControllerDelegate {
 }
 
 extension ObserverViewController: ObserverTitleOverlayViewDelegate {
-    func titleOverlayTapped(view: ObserverTitleOverlayView) {
+    func titleOverlayTapped(view _: ObserverTitleOverlayView) {
         guard let detailVc = storyboard?.instantiateViewController(withIdentifier: "ObserverDetailViewController") as? ObserverDetailViewController else {
             return
         }
@@ -375,19 +375,19 @@ extension ObserverViewController: ObserverTitleOverlayViewDelegate {
         tabBarController?.present(navigationController, animated: true, completion: nil)
     }
 
-    func titleOverlayFocusTapped(view: ObserverTitleOverlayView) {
-        center(atTarget: self.target!)
+    func titleOverlayFocusTapped(view _: ObserverTitleOverlayView) {
+        center(atTarget: target!)
     }
 }
 
 extension ObserverViewController: UINavigationControllerDelegate {
-    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    func navigationController(_: UINavigationController, animationControllerFor operation: UINavigationControllerOperation, from _: UIViewController, to _: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return PushAsideTransition(presenting: operation == .push)
     }
 }
 
 extension ObserverViewController: ObserverDetailViewControllerDelegate {
-    func observerDetailViewController(viewController: ObserverDetailViewController, dismissTapped sender: UIButton) {
+    func observerDetailViewController(viewController: ObserverDetailViewController, dismissTapped _: UIButton) {
         dismiss(animated: true, completion: nil)
         target = viewController.target
         focusAtTarget()

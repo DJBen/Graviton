@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import QuartzCore
 import SpaceTime
+import UIKit
 
 private let buttonCellId = "buttonCell"
 private let detailCellId = "detailCell"
@@ -17,7 +17,6 @@ private let locationCellId = "locationCell"
 private let headerFooterId = "headerFooter"
 
 class ObserverMenuController: ObserverTableViewController {
-
     var menu: Menu!
 
     private var locationSubId: SubscriptionUUID!
@@ -33,21 +32,21 @@ class ObserverMenuController: ObserverTableViewController {
         tableView.register(MenuButtonCell.self, forCellReuseIdentifier: buttonCellId)
         tableView.register(MenuLocationCell.self, forCellReuseIdentifier: locationCellId)
 
-        locationSubId = LocationManager.default.subscribe(didUpdate: { [weak self] (_) in
+        locationSubId = LocationManager.default.subscribe(didUpdate: { [weak self] _ in
             self?.tableView.reloadRows(at: self!.menu.indexPathsNeedsReloadUponLocationUpdate, with: .none)
         })
 
         setUpBlurredBackground()
 
         let behaviors = menu.registerAllConditionalDisabling()
-        behaviors.forEach { [weak self] (behavior) in
+        behaviors.forEach { [weak self] behavior in
             let indexPath = self!.menu.indexPath(for: behavior.setting)!
             if behavior.condition == Settings.default[behavior.dependent] {
                 self!.indexPathsToDisable.insert(indexPath)
             } else {
                 self!.indexPathsToDisable.remove(indexPath)
             }
-            Settings.default.subscribe(setting: behavior.dependent, object: self!, valueChanged: { [weak self] (_, newValue) in
+            Settings.default.subscribe(setting: behavior.dependent, object: self!, valueChanged: { [weak self] _, newValue in
                 if behavior.condition == newValue {
                     self!.indexPathsToDisable.insert(indexPath)
                 } else {
@@ -55,7 +54,7 @@ class ObserverMenuController: ObserverTableViewController {
                 }
                 self!.tableView.reloadRows(at: [indexPath], with: .automatic)
             })
-            Settings.default.subscribe(setting: behavior.setting, object: self!, valueChanged: { [weak self] (_, newValue) in
+            Settings.default.subscribe(setting: behavior.setting, object: self!, valueChanged: { [weak self] _, newValue in
                 if let cell = self!.tableView.cellForRow(at: indexPath) as? MenuToggleCell, cell.toggle.isEnabled == newValue {
                     self!.tableView.reloadRows(at: [indexPath], with: .automatic)
                 }
@@ -78,7 +77,7 @@ class ObserverMenuController: ObserverTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if let volatileIndexPaths = self.menu?.volatileIndexPaths {
-            self.tableView.reloadRows(at: volatileIndexPaths, with: .none)
+            tableView.reloadRows(at: volatileIndexPaths, with: .none)
         }
     }
 
@@ -88,12 +87,13 @@ class ObserverMenuController: ObserverTableViewController {
         }
     }
 
-    @objc func doneButtonTapped(sender: UIBarButtonItem) {
+    @objc func doneButtonTapped(sender _: UIBarButtonItem) {
         CityManager.default.currentlyLocatedCity = selectedCity
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Menu delivered actions
+
     @objc func jumpToCelestialPoint(_ userInfo: Any?) {
         guard let dict = userInfo as? [String: Double] else { fatalError() }
         let coordinate = EquatorialCoordinate(dictionary: dict)
@@ -110,15 +110,15 @@ class ObserverMenuController: ObserverTableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return menu.sections.count
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return menu.sections[section].items.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         cell.backgroundColor = UIColor.clear
         if let menuCell = cell as? MenuCell {
@@ -159,8 +159,8 @@ class ObserverMenuController: ObserverTableViewController {
             buttonCell.button.setTitle(item.text, for: .normal)
             buttonCell.key = key
             buttonCell.userInfo = info
-            buttonCell.handler = { [weak self] (key, userInfo) in
-                self?.performSelector(onMainThread: Selector.init(key + ":"), with: info, waitUntilDone: false)
+            buttonCell.handler = { [weak self] key, _ in
+                self?.performSelector(onMainThread: Selector(key + ":"), with: info, waitUntilDone: false)
             }
         case let .external(identifier, _):
             if identifier == "location" {
@@ -176,7 +176,7 @@ class ObserverMenuController: ObserverTableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         let item = menu[indexPath]
         if case let .detail(submenu) = item.type {
             // transition to submenu
@@ -196,7 +196,7 @@ class ObserverMenuController: ObserverTableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if menu.sections[section].name != nil {
             return 24
         } else {
@@ -204,7 +204,7 @@ class ObserverMenuController: ObserverTableViewController {
         }
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderView()
         header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
         header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -212,7 +212,7 @@ class ObserverMenuController: ObserverTableViewController {
         return header
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         let item = menu[indexPath]
         switch item.type {
         case let .external(identifier, _) where identifier == "location":
@@ -224,7 +224,7 @@ class ObserverMenuController: ObserverTableViewController {
 }
 
 extension ObserverMenuController: ObserverLocationMenuControllerDelegate {
-    func observerLocationMenuController(_ controller: ObserverLocationMenuController, cityDidChange city: City?) {
+    func observerLocationMenuController(_: ObserverLocationMenuController, cityDidChange city: City?) {
         selectedCity = city
     }
 }

@@ -42,6 +42,7 @@ enum SnapshotError: Error, CustomDebugStringConvertible {
     case cannotDetectUser
     case cannotFindHomeDirectory
     case cannotFindSimulatorHomeDirectory
+    // swiftlint:disable identifier_name
     case cannotAccessSimulatorHomeDirectory(String)
 
     var debugDescription: String {

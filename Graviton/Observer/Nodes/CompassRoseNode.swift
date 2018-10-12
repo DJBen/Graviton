@@ -6,14 +6,13 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import MathUtil
 import CoreLocation
+import MathUtil
+import SceneKit
+import UIKit
 
 extension ObserverScene {
     class CompassRoseNode: BooleanFlaggedNode {
-
         let radius: Double
         let sideLength: Double
 
@@ -33,7 +32,7 @@ extension ObserverScene {
             name = "direction marker"
         }
 
-        required init?(coder aDecoder: NSCoder) {
+        required init?(coder _: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
 
@@ -64,19 +63,19 @@ extension ObserverScene {
         }
 
         func updatePositionAndAttitude() {
-            zenithNode.position = SCNVector3(self.ecefToNedOrientation * Vector3(0, 0, -1) * radius)
-            zenithNode.orientation = SCNQuaternion(self.ecefToNedOrientation * Quaternion(axisAngle: Vector4(0, 0, 1, -Double.pi / 2)))
-            nadirNode.position = SCNVector3(self.ecefToNedOrientation * Vector3(0, 0, 1) * radius)
-            nadirNode.orientation = SCNQuaternion(self.ecefToNedOrientation * Quaternion(axisAngle: Vector4(1, 0, 0, Double.pi)) * Quaternion(axisAngle: Vector4(0, 0, 1, Double.pi / 2)))
+            zenithNode.position = SCNVector3(ecefToNedOrientation * Vector3(0, 0, -1) * radius)
+            zenithNode.orientation = SCNQuaternion(ecefToNedOrientation * Quaternion(axisAngle: Vector4(0, 0, 1, -Double.pi / 2)))
+            nadirNode.position = SCNVector3(ecefToNedOrientation * Vector3(0, 0, 1) * radius)
+            nadirNode.orientation = SCNQuaternion(ecefToNedOrientation * Quaternion(axisAngle: Vector4(1, 0, 0, Double.pi)) * Quaternion(axisAngle: Vector4(0, 0, 1, Double.pi / 2)))
         }
 
         func updateTransparency(withCameraOrientation cameraOrientation: Quaternion) {
-            let realCamOrientation = self.ecefToNedOrientation.inverse * cameraOrientation
+            let realCamOrientation = ecefToNedOrientation.inverse * cameraOrientation
             let cameraNadirAngle = (realCamOrientation * Vector3(1, 0, 0)).angularSeparation(from: Vector3(0, 0, 1))
             let cameraZenithAngle = (realCamOrientation * Vector3(1, 0, 0)).angularSeparation(from: Vector3(0, 0, -1))
             let interp = Easing(easingMethod: .quadraticEaseOut, startValue: 1, endValue: 0)
-            nadirNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraNadirAngle.cap(to: 0...0.6) * (1 / 0.6)))
-            zenithNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraZenithAngle.cap(to: 0...0.6) * (1 / 0.6)))
+            nadirNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraNadirAngle.cap(to: 0 ... 0.6) * (1 / 0.6)))
+            zenithNode.geometry?.firstMaterial?.transparency = CGFloat(interp.value(at: cameraZenithAngle.cap(to: 0 ... 0.6) * (1 / 0.6)))
         }
 
         // MARK: - ObserverSceneElement

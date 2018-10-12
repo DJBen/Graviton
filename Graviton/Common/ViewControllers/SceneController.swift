@@ -6,12 +6,11 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
 import MathUtil
+import SceneKit
+import UIKit
 
 class SceneController: UIViewController, SCNSceneRendererDelegate {
-
     var cameraModifier: CameraResponsive?
 
     lazy var pan: UIPanGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(pan(sender:)))
@@ -37,7 +36,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
         view.addGestureRecognizer(rotationGR)
     }
 
-    @objc func recenter(sender: UIGestureRecognizer) {
+    @objc func recenter(sender _: UIGestureRecognizer) {
         cameraController?.slideVelocity = CGPoint()
         cameraController?.referenceSlideVelocity = CGPoint()
         SCNTransaction.begin()
@@ -92,7 +91,7 @@ class SceneController: UIViewController, SCNSceneRendererDelegate {
 
     // MARK: - Scene Renderer Delegate
 
-    func renderer(_ renderer: SCNSceneRenderer, didRenderScene scene: SCNScene, atTime time: TimeInterval) {
+    func renderer(_: SCNSceneRenderer, didRenderScene _: SCNScene, atTime time: TimeInterval) {
         cameraController?.handleCameraPan(atTime: time)
         cameraController?.rotation = rotationGR.rotation
         cameraController?.handleCameraRotation(atTime: time)

@@ -6,11 +6,11 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import SpaceTime
 import CoreLocation
 import MathUtil
+import SceneKit
+import SpaceTime
+import UIKit
 
 extension ObserverScene {
     class DirectionMarkerNode: BooleanFlaggedNode {
@@ -49,13 +49,13 @@ extension ObserverScene {
             func markerTransform(pitch: Double, yaw: Double, roll: Double) -> Quaternion {
                 switch self {
                 case .north:
-                    return Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion.init(pitch: 0, yaw: yaw, roll: roll)
+                    return Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion(pitch: 0, yaw: yaw, roll: roll)
                 case .west:
-                    return .identity * Quaternion.init(pitch: pitch, yaw: 0, roll: roll)
+                    return .identity * Quaternion(pitch: pitch, yaw: 0, roll: roll)
                 case .south:
-                    return Quaternion(pitch: 0, yaw: 0, roll: -Double.pi / 2) * Quaternion.init(pitch: 0, yaw: yaw, roll: roll)
+                    return Quaternion(pitch: 0, yaw: 0, roll: -Double.pi / 2) * Quaternion(pitch: 0, yaw: yaw, roll: roll)
                 case .east:
-                    return Quaternion(pitch: 0, yaw: Double.pi, roll: 0) * Quaternion.init(pitch: pitch, yaw: 0, roll: roll)
+                    return Quaternion(pitch: 0, yaw: Double.pi, roll: 0) * Quaternion(pitch: pitch, yaw: 0, roll: roll)
                 }
             }
         }
@@ -68,7 +68,7 @@ extension ObserverScene {
                 super.init()
             }
 
-            required init?(coder aDecoder: NSCoder) {
+            required init?(coder _: NSCoder) {
                 fatalError("init(coder:) has not been implemented")
             }
         }
@@ -78,11 +78,11 @@ extension ObserverScene {
 
         var observerLocationTime: ObserverLocationTime = ObserverLocationTime() {
             didSet {
-                let ecefToNed = Quaternion(rotationMatrix: self.observerLocationTime.localViewTransform)
-                self.childNodes.forEach { (node) in
+                let ecefToNed = Quaternion(rotationMatrix: observerLocationTime.localViewTransform)
+                childNodes.forEach { node in
                     let markerNode = node as! MarkerNode
                     node.position = SCNVector3(ecefToNed * markerNode.marker.unitPosition * radius)
-                    var orientation = Quaternion.init(lookAt: Vector3.zero, from: Vector3(node.position))
+                    var orientation = Quaternion(lookAt: Vector3.zero, from: Vector3(node.position))
                     let (pitch, yaw, roll) = (ecefToNed.inverse * orientation).toPitchYawRoll()
                     orientation = ecefToNed * markerNode.marker.markerTransform(pitch: pitch, yaw: yaw, roll: roll)
                     node.orientation = SCNQuaternion(orientation)
@@ -97,7 +97,7 @@ extension ObserverScene {
             name = "direction marker"
         }
 
-        required init?(coder aDecoder: NSCoder) {
+        required init?(coder _: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
 

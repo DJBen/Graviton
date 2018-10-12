@@ -6,26 +6,25 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import Orbits
 import MathUtil
+import Orbits
+import UIKit
 import XLPagerTabStrip
 
 class ObserverRTSViewController: BaseTableViewController {
-
     private var rtsSubscriptionIdentifier: SubscriptionUUID!
     lazy var observerInfo = ObserverInfo()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.refreshControl = {
+        refreshControl = {
             let refreshControl = UIRefreshControl()
             refreshControl.addTarget(self, action: #selector(handleRefresh(target:)), for: .valueChanged)
             let attributes = [NSAttributedStringKey.foregroundColor: UIColor.lightText]
             refreshControl.attributedTitle = NSAttributedString(string: "Pull to reload RTS info", attributes: attributes)
             return refreshControl
         }()
-        self.clearsSelectionOnViewWillAppear = false
+        clearsSelectionOnViewWillAppear = false
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "informationCell")
         rtsSubscriptionIdentifier = RiseTransitSetManager.default.subscribe(didLoad: updateRiseTransitSetInfo)
         refreshControl?.addTarget(self, action: #selector(handleRefresh(target:)), for: .valueChanged)
@@ -35,14 +34,14 @@ class ObserverRTSViewController: BaseTableViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         refreshControl?.beginRefreshing()
-        handleRefresh(target: self.refreshControl!)
+        handleRefresh(target: refreshControl!)
     }
 
     deinit {
         RiseTransitSetManager.default.unsubscribe(rtsSubscriptionIdentifier)
     }
 
-    @objc func handleRefresh(target: UIRefreshControl) {
+    @objc func handleRefresh(target _: UIRefreshControl) {
         RiseTransitSetManager.default.fetch()
     }
 
@@ -54,11 +53,11 @@ class ObserverRTSViewController: BaseTableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return ObserverInfo.sections.count
     }
 
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+    override func tableView(_: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = HeaderView()
         header.backgroundColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.3031194982)
         header.textLabel.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
@@ -66,11 +65,11 @@ class ObserverRTSViewController: BaseTableViewController {
         return header
     }
 
-    override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+    override func tableView(_: UITableView, heightForHeaderInSection _: Int) -> CGFloat {
         return 24
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection section: Int) -> Int {
         return observerInfo.riseTransitSetElevationInfo(forSection: section)?.tableRows.count ?? 0
     }
 
@@ -81,7 +80,7 @@ class ObserverRTSViewController: BaseTableViewController {
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         cell.backgroundColor = UIColor.black
         cell.textLabel?.textColor = UIColor.white
     }
@@ -90,7 +89,7 @@ class ObserverRTSViewController: BaseTableViewController {
 // MARK: - Info provider
 
 extension ObserverRTSViewController: IndicatorInfoProvider {
-    func indicatorInfo(for pagerTabStripController: PagerTabStripViewController) -> IndicatorInfo {
+    func indicatorInfo(for _: PagerTabStripViewController) -> IndicatorInfo {
         return "Rise-Transit-Set"
     }
 }

@@ -6,15 +6,15 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import CoreMotion
+import UIKit
 
 class MotionManager: NSObject {
     typealias SubscriptionBlock = (CMDeviceMotion) -> Void
 
     static let `default` = MotionManager()
     private let motionManager = CMMotionManager()
-    private let queue = OperationQueue.init()
+    private let queue = OperationQueue()
 
     class Subscription {
         let identifier: SubscriptionUUID
@@ -59,7 +59,7 @@ class MotionManager: NSObject {
 
     func startMotionUpdate() {
         if motionManager.isDeviceMotionActive == false {
-            motionManager.startDeviceMotionUpdates(using: .xTrueNorthZVertical, to: queue) { [weak self] (motion, error) in
+            motionManager.startDeviceMotionUpdates(using: .xTrueNorthZVertical, to: queue) { [weak self] motion, error in
                 if let error = error as? CMError {
                     if error == CMErrorTrueNorthNotAvailable {
                         // ignore
@@ -73,7 +73,7 @@ class MotionManager: NSObject {
                 }
                 if let motion = motion {
                     DispatchQueue.main.async {
-                        self!.subscriptions.forEach { (_, subscription) in
+                        self!.subscriptions.forEach { _, subscription in
                             subscription.didUpdate?(motion)
                         }
                     }

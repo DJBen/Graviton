@@ -6,16 +6,16 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
-import StarryNight
-import YinYang
-import SpaceTime
+import CoreLocation
 import KelvinColor
 import MathUtil
-import CoreLocation
 import OpenGLES
+import Orbits
+import SceneKit
+import SpaceTime
+import StarryNight
+import UIKit
+import YinYang
 
 private let milkywayLayerRadius: Double = 50
 private let auxillaryLineLayerRadius: Double = 25
@@ -30,7 +30,6 @@ private let sunLayerRadius: Double = 8
 private let largeBodyScene = SCNScene(named: "art.scnassets/large_bodies.scn")!
 
 class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
-
     struct VisibilityCategory: OptionSet {
         let rawValue: Int
         static let none = VisibilityCategory(rawValue: 0)
@@ -82,8 +81,8 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     var scale: Double = 1 {
         didSet {
             let cappedScale = min(max(scale, ObserverScene.minScale), ObserverScene.maxScale)
-            self.scale = cappedScale
-            self.camera.fieldOfView = CGFloat(self.fov)
+            scale = cappedScale
+            camera.fieldOfView = CGFloat(fov)
             updateForZoomChanges()
         }
     }
@@ -97,12 +96,12 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                 fatalError("fov must be greater than 0")
             }
             let cappedFov = min(max(newValue, ObserverScene.minFov), ObserverScene.maxFov)
-            self.scale = exp2(log(ObserverScene.defaultFov / cappedFov) / log(ObserverScene.fovExpBase))
+            scale = exp2(log(ObserverScene.defaultFov / cappedFov) / log(ObserverScene.fovExpBase))
         }
     }
 
     private var dynamicMagnificationFactor: Double {
-        let easing = Easing.init(startValue: 1, endValue: ObserverScene.maxMagnification)
+        let easing = Easing(startValue: 1, endValue: ObserverScene.maxMagnification)
         let fovPercentage = (fov - ObserverScene.minFov) / (ObserverScene.maxFov - ObserverScene.minFov)
         return easing.value(at: fovPercentage)
     }
@@ -115,7 +114,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     private var meridianNode: MeridianLineNode?
 
     private lazy var milkyWayNode: SCNNode = {
-        let node = SphereInteriorNode.init(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
+        let node = SphereInteriorNode(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
         node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
         node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
         node.opacity = 0.3
@@ -158,10 +157,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }()
 
     lazy var moonEarthshineNode: SCNNode = {
-        let light = BooleanFlaggedLight.init(setting: .showEarthshine, on: { (light) in
+        let light = BooleanFlaggedLight(setting: .showEarthshine, on: { light in
             light.type = .omni
             light.categoryBitMask = VisibilityCategory.moon.rawValue
-        }, off: { (light) in
+        }, off: { light in
             light.categoryBitMask = VisibilityCategory.none.rawValue
         })
         let node = SCNNode()
@@ -177,9 +176,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }()
 
     lazy var moonLightingNode: SCNNode = {
-        let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
+        let light = BooleanFlaggedLight(setting: .showMoonPhase, on: { light in
             light.intensity = 1000
-        }, off: { (light) in
+        }, off: { light in
             light.intensity = 0
         })
         light.type = .omni
@@ -191,9 +190,9 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }()
 
     lazy var moonFullLightingNode: SCNNode = {
-        let light = BooleanFlaggedLight.init(setting: .showMoonPhase, on: { (light) in
+        let light = BooleanFlaggedLight(setting: .showMoonPhase, on: { light in
             light.intensity = 0
-        }, off: { (light) in
+        }, off: { light in
             light.intensity = 1000
         })
         light.type = .omni
@@ -218,7 +217,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         node.categoryBitMask = VisibilityCategory.moon.rawValue
         node.pivot = SCNMatrix4(
             Matrix4(rotation: Vector4(0, 1, 0, Double.pi / 2)) *
-            Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2))
+                Matrix4(rotation: Vector4(1, 0, 0, -Double.pi / 2))
         )
         return node
     }()
@@ -257,13 +256,13 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         rootNode.addChildNode(focuser)
         focuser.isHidden = true
 
-        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { [weak self] (notification) in
+        jumpToCelestialPointObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToCelestialPoint"), object: nil, queue: OperationQueue.main) { [weak self] notification in
             guard let coordinate = notification.userInfo?["content"] as? EquatorialCoordinate else {
                 return
             }
             self?.cameraNode.orientation = SCNQuaternion(Quaternion(alignVector: Vector3(1, 0, 0), with: Vector3(equatorialCoordinate: coordinate)))
         }
-        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { [weak self] (notification) in
+        jumpToDirectionObserver = NotificationCenter.default.addObserver(forName: NSNotification.Name(rawValue: "jumpToDirection"), object: nil, queue: OperationQueue.main) { [weak self] notification in
             guard let coordinate = notification.userInfo?["content"] as? HorizontalCoordinate else {
                 return
             }
@@ -275,7 +274,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         }
 
         loadPanoramaTexture(Settings.default[.groundTexture])
-        Settings.default.subscribe(setting: .groundTexture, object: self) { [weak self] (_, newValue) in
+        Settings.default.subscribe(setting: .groundTexture, object: self) { [weak self] _, newValue in
             self?.loadPanoramaTexture(newValue)
         }
     }
@@ -285,7 +284,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         NotificationCenter.default.removeObserver(jumpToDirectionObserver)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -341,6 +340,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Observer Update
+
     func observerInfoUpdate(observerInfo: [Naif: CelestialBodyObserverInfo]) {
         if observerInfo[.moon(.luna)] != nil {
             updateMoonOrientation()
@@ -361,13 +361,14 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         let decRotAxis = Vector3(position.x, -position.y, 0).normalized()
         let decRot = Quaternion(axisAngle: Vector4(decRotAxis, w: RadianAngle(degreeAngle: moonEquatorialCoord.declination).wrappedValue - obLatRad))
         let rotatedAxis = raRot * decRot * moonPoleAxis
-        let parallanticAngleRot = Quaternion.init(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
+        let parallanticAngleRot = Quaternion(alignVector: decRot * Vector3(0, 0, 1), with: rotatedAxis)
         let moonOrientation = parallanticAngleRot * raRot * decRot
         moonNode.orientation = SCNQuaternion(moonOrientation)
     }
 
     // MARK: - Location Update
-    func updateLocation(location: CLLocation) {
+
+    func updateLocation(location _: CLLocation) {
         guard let observerInfo = ObserverLocationTimeManager.default.observerInfo else {
             logger.debug("observer info not ready")
             return
@@ -401,6 +402,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     }
 
     // MARK: - Ephemeris Update
+
     func ephemerisDidLoad(ephemeris: Ephemeris) {
         drawAuxillaryLines(ephemeris: ephemeris)
         drawPlanetsAndMoon(ephemeris: ephemeris)
@@ -436,7 +438,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         sunNode.constraints = [SCNBillboardConstraint()]
         let earthPos = earth.position!
         annotateCelestialBody(Sun.sol, position: SCNVector3(obliquedSunPos), parent: cbLabelNode, class: .sunAndMoon)
-        ephemeris.forEach { (body) in
+        ephemeris.forEach { body in
             switch body.naif {
             case let .majorBody(mb):
                 switch mb {
@@ -459,7 +461,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
                     let moonDisplaySize = body.radius * moonLayerRadius / moonEquatorialCoord.distance
                     let moonZoomRatio = moonDisplaySize / body.radius
                     (moonNode.geometry as! SCNSphere).radius = CGFloat(moonDisplaySize * dynamicMagnificationFactor)
-                    let relativePos = Vector3.init(equatorialCoordinate: moonEquatorialCoord)
+                    let relativePos = Vector3(equatorialCoordinate: moonEquatorialCoord)
                     let moonPosition = relativePos * moonZoomRatio
                     precondition(moonPosition.length ~= moonLayerRadius)
                     annotateCelestialBody(body, position: SCNVector3(moonPosition), parent: cbLabelNode, class: .sunAndMoon)
@@ -523,7 +525,7 @@ private extension ObserverScene {
     }
 
     private func drawPlanetsAndMoon(ephemeris: Ephemeris) {
-        ephemeris.forEach { (body) in
+        ephemeris.forEach { body in
             guard rootNode.childNode(withName: String(body.naifId), recursively: false) == nil else { return }
             var diffuse: UIImage?
             switch body.naif {
@@ -675,7 +677,7 @@ private extension ObserverScene {
             let mat = SCNMaterial()
             mat.transparent.contents = #imageLiteral(resourceName: "star16x16")
             mat.locksAmbientWithDiffuse = true
-            mat.diffuse.contents = UIColor.init(temperature: spect.temperature)
+            mat.diffuse.contents = UIColor(temperature: spect.temperature)
             mat.selfIllumination.contents = UIColor.gray
             starMaterials[index] = mat
             return mat
@@ -701,7 +703,7 @@ private extension ObserverScene {
             let starNode = SCNNode(geometry: plane)
             let coord = star.physicalInfo.coordinate.normalized() * starLayerRadius
             starNode.position = SCNVector3(coord)
-            starNode.orientation = SCNQuaternion(Quaternion.init(lookAt: Vector3.zero, from: Vector3(starNode.position)))
+            starNode.orientation = SCNQuaternion(Quaternion(lookAt: Vector3.zero, from: Vector3(starNode.position)))
             starNode.name = String(star.identity.id)
             starNode.categoryBitMask = VisibilityCategory.nonMoon.rawValue
             rootNode.addChildNode(starNode)
@@ -713,8 +715,8 @@ private extension ObserverScene {
 
 private extension ObserverScene {
     private func loadPanoramaTexture(_ key: String) {
-        self.panoramaNode.isHidden = key == "none"
-        let material = self.panoramaNode.geometry?.firstMaterial
+        panoramaNode.isHidden = key == "none"
+        let material = panoramaNode.geometry?.firstMaterial
         switch key {
         case "citySilhoulette":
             material?.transparencyMode = .aOne
@@ -758,8 +760,8 @@ private extension ObserverScene {
         rootNode.addChildNode(conLabelNode)
     }
 
-    private func annotateCelestialBody(_ body: CelestialBody, position: SCNVector3, parent: SCNNode, `class`: AnnotationClass) {
-        func offset(`class`: AnnotationClass) -> CGVector {
+    private func annotateCelestialBody(_ body: CelestialBody, position: SCNVector3, parent: SCNNode, class: AnnotationClass) {
+        func offset(class: AnnotationClass) -> CGVector {
             switch `class` {
             case .sunAndMoon:
                 return CGVector(dx: 0, dy: -1.2)

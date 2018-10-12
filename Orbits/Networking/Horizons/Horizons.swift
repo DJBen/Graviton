@@ -13,6 +13,10 @@ import CoreLocation
 // Example request
 // http://ssd.jpl.nasa.gov/horizons_batch.cgi?batch=1&CENTER='SUN'&COMMAND='399'&MAKE_EPHEM='YES'%20&TABLE_TYPE='elements'&START_TIME='2017-01-01'&STOP_TIME='2017-01-02'&STEP_SIZE='1'&QUANTITIES='1,9,20,23,24'&CSV_FORMAT='YES'
 
+public enum NetworkRequestError: Error {
+    case wrongPageError
+}
+
 public class Horizons {
     public static let shared: Horizons = {
         return Horizons()
@@ -186,8 +190,13 @@ public class Horizons {
                         logger.verbose("stop retrying: \(url)")
                     }
                 default:
-                    rawData[url.naifId!] = utf8String
-                    logger.verbose("complete: \(url) - \(d)")
+                    if let naifId = url.naifId {
+                        rawData[naifId] = utf8String
+                        logger.verbose("complete: \(url) - \(d)")
+                    } else {
+                        logger.error("error finding which naif id the query corresponds to")
+                        errors.append(NetworkRequestError.wrongPageError)
+                    }
                 }
             } else {
                 logger.verbose("reponse has no data: \(String(describing: response))")

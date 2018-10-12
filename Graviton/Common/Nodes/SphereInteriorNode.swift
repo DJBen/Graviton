@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 class SphereInteriorNode: SCNNode {
     var sphere: SCNSphere {
@@ -30,7 +30,7 @@ class SphereInteriorNode: SCNNode {
         pivot = SCNMatrix4Scale(mtx, -1, 1, 1)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

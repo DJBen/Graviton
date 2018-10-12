@@ -9,7 +9,6 @@
 import UIKit
 
 class MenuCell: UITableViewCell {
-
     var textLabelLeftInset: CGFloat = 60
 
     override func awakeFromNib() {
@@ -22,7 +21,7 @@ class MenuCell: UITableViewCell {
         setupView()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 

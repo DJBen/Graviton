@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import Orbits
+import UIKit
 
 private let dateFormatter: DateFormatter = {
     let formatter = DateFormatter()

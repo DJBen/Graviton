@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import SceneKit
 import MathUtil
+import SceneKit
 
 /// Conformers of this protocol make changes to the camera
 protocol CameraResponsive {

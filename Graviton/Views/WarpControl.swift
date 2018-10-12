@@ -9,7 +9,6 @@
 import UIKit
 
 struct WarpSpeed: CustomStringConvertible {
-
     private var mIndex: Int = 0
 
     var multiplier: Double {
@@ -28,7 +27,7 @@ struct WarpSpeed: CustomStringConvertible {
 
     static let speeds = [1, 5, 10, 100, 1000, 3600, 3600 * 6, 86400, 86400 * 15, 86400 * 90, 86400 * 365, 86400 * 3650]
     static let descriptions = [
-        "1x", "5x", "10x", "100x", "1000x", "1s=1h", "1s=6h", "1s=1d", "1s=15d", "1s=3m", "1s=1y", "1s=10y"
+        "1x", "5x", "10x", "100x", "1000x", "1s=1h", "1s=6h", "1s=1d", "1s=15d", "1s=3m", "1s=1y", "1s=10y",
     ]
 
     mutating func next() {
@@ -41,7 +40,6 @@ struct WarpSpeed: CustomStringConvertible {
 }
 
 class WarpControl: UIControl {
-
     var speed: WarpSpeed = WarpSpeed()
 
     lazy var speedButton: UIButton = {
@@ -68,11 +66,11 @@ class WarpControl: UIControl {
         setup()
     }
 
-    @objc func buttonTapped(sender: UIButton) {
+    @objc func buttonTapped(sender _: UIButton) {
         speed.next()
-        self.sendActions(for: .touchUpInside)
-        self.speedButton.setTitle(self.speed.description, for: .normal)
-        self.sendActions(for: .valueChanged)
+        sendActions(for: .touchUpInside)
+        speedButton.setTitle(speed.description, for: .normal)
+        sendActions(for: .valueChanged)
     }
 
     private func setup() {
@@ -81,9 +79,8 @@ class WarpControl: UIControl {
             speedButton.topAnchor.constraint(equalTo: topAnchor),
             speedButton.bottomAnchor.constraint(equalTo: bottomAnchor),
             speedButton.trailingAnchor.constraint(equalTo: trailingAnchor),
-            speedButton.leadingAnchor.constraint(equalTo: leadingAnchor)
+            speedButton.leadingAnchor.constraint(equalTo: leadingAnchor),
         ]
         addConstraints(constraints)
     }
-
 }

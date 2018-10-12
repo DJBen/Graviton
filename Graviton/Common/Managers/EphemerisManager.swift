@@ -6,12 +6,11 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import Orbits
 import SpaceTime
+import UIKit
 
 final class EphemerisManager: SubscriptionManager<Ephemeris> {
-
     static var globalMode: Horizons.FetchMode = .mixed
 
     static let `default` = EphemerisManager()
@@ -38,7 +37,7 @@ final class EphemerisManager: SubscriptionManager<Ephemeris> {
 
     override func subscribe(mode: SubscriptionManager<Ephemeris>.RefreshMode, didLoad: SubscriptionBlock?, didUpdate: SubscriptionBlock?) -> SubscriptionUUID {
         let uuid = SubscriptionUUID()
-        subscriptions[uuid] = SubscriptionManager<Ephemeris>.Subscription(identifier: uuid, mode: mode, content: self.content?.copy() as? Ephemeris, didLoad: didLoad, didUpdate: didUpdate)
+        subscriptions[uuid] = SubscriptionManager<Ephemeris>.Subscription(identifier: uuid, mode: mode, content: content?.copy() as? Ephemeris, didLoad: didLoad, didUpdate: didUpdate)
         if let eph = content {
             didLoad?(eph)
         }

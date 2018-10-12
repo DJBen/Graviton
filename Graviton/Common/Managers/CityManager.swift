@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SQLite
 import CoreLocation
+import SQLite
+import UIKit
 
 private let conn = try! Connection(Bundle.main.path(forResource: "cities", ofType: "sqlite3")!)
 private let cities = Table("cities")
@@ -41,7 +41,7 @@ struct City: Equatable {
         return try! conn.pluck(usStates.select(usStatesAbbrev).where(province == usStatesName))?.get(usStatesAbbrev)
     }
 
-    static func ==(lhs: City, rhs: City) -> Bool {
+    static func == (lhs: City, rhs: City) -> Bool {
         return lhs.name == rhs.name && lhs.province == rhs.province && lhs.country == rhs.country
     }
 }
@@ -53,7 +53,7 @@ class CityManager {
     var currentlyLocatedCity: City? {
         didSet {
             if let city = currentlyLocatedCity {
-                let location = CLLocation.init(latitude: city.coordinate.latitude, longitude: city.coordinate.longitude)
+                let location = CLLocation(latitude: city.coordinate.latitude, longitude: city.coordinate.longitude)
                 LocationManager.default.locationOverride = location
             } else {
                 LocationManager.default.locationOverride = nil
@@ -65,7 +65,7 @@ class CityManager {
         let filterClause = substr == nil ? citiesPop >= minimumPopulation : citiesPop >= minimumPopulation && citiesName.like("%\(substr!)%")
         let query = cities.select(citiesLat, citiesLng, citiesName, citiesCountry, citiesProvince, citiesIso2, citiesIso3).filter(filterClause).order(citiesName)
         return try! conn.prepare(query).map { (row) -> City in
-            return City(coordinate: CLLocationCoordinate2D.init(latitude: try! row.get(citiesLat), longitude: try! row.get(citiesLng)), name: try! row.get(citiesName), country: try! row.get(citiesCountry), province: try! row.get(citiesProvince), iso2: try! row.get(citiesIso2), iso3: try! row.get(citiesIso3))
+            City(coordinate: CLLocationCoordinate2D(latitude: try! row.get(citiesLat), longitude: try! row.get(citiesLng)), name: try! row.get(citiesName), country: try! row.get(citiesCountry), province: try! row.get(citiesProvince), iso2: try! row.get(citiesIso2), iso3: try! row.get(citiesIso3))
         }
     }
 }

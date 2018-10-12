@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
 import MathUtil
+import SceneKit
+import UIKit
 
 class CameraController: NSObject {
     struct Invert: OptionSet {
@@ -82,7 +82,7 @@ class CameraController: NSObject {
         decelerateCamera(atTime: time)
     }
 
-    func handleCameraRotation(atTime time: TimeInterval) {
+    func handleCameraRotation(atTime _: TimeInterval) {
         guard let cameraNode = cameraNode, let oldRot = previousRotation else { return }
         var rot: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(oldRot.w, oldRot.x, oldRot.y, oldRot.z)
         var rotZ: GLKQuaternion = GLKQuaternionMakeWithAngleAndAxis(Float(rotation), 0, 0, 1)

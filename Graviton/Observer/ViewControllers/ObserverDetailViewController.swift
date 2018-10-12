@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import StarryNight
 import Orbits
+import StarryNight
+import UIKit
 import XLPagerTabStrip
 
 protocol ObserverDetailViewControllerDelegate: NSObjectProtocol {
@@ -42,7 +42,7 @@ class ObserverDetailViewController: UIViewController {
         return Device.isiPhoneX == false
     }
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    override func prepare(for segue: UIStoryboardSegue, sender _: Any?) {
         if segue.identifier == "embedObserverDetail" {
             let innerVc = segue.destination as! ObserverDetailInnerViewController
             innerVc.target = target
@@ -69,7 +69,8 @@ class ObserverDetailInnerViewController: ButtonBarPagerTabStripViewController {
     }
 
     // MARK: - PagerTabStripDataSource
-    override func viewControllers(for pagerTabStripController: PagerTabStripViewController) -> [UIViewController] {
+
+    override func viewControllers(for _: PagerTabStripViewController) -> [UIViewController] {
         let bodyInfo = BodyInfoViewController(style: .plain)
         bodyInfo.target = target
         bodyInfo.ephemerisId = ephemerisId

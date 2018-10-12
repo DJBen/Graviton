@@ -8,6 +8,4 @@
 
 import UIKit
 
-class ObserverNavigationController: UINavigationController {
-
-}
+class ObserverNavigationController: UINavigationController {}

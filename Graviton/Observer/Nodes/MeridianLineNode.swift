@@ -6,17 +6,17 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
+import MathUtil
+import Orbits
 import SceneKit
 import SpaceTime
-import Orbits
-import MathUtil
+import UIKit
 
 class MeridianLineNode: LineNode {
     init(observerInfo: ObserverLocationTime, numberOfVertices: Int = 200, rawToModelCoordinateTransform: (Vector3) -> Vector3 = { $0 }) {
-        let vertices = (0..<numberOfVertices).map { (index) -> SCNVector3 in
+        let vertices = (0 ..< numberOfVertices).map { (index) -> SCNVector3 in
             let offset = DegreeAngle(Double(index) / Double(numberOfVertices) * 360)
-            let equatorialCoordinate = EquatorialCoordinate.init(horizontalCoordinate: HorizontalCoordinate.init(azimuth: 0.0, altitude: offset), observerInfo: observerInfo)
+            let equatorialCoordinate = EquatorialCoordinate(horizontalCoordinate: HorizontalCoordinate(azimuth: 0.0, altitude: offset), observerInfo: observerInfo)
             let position = Vector3(equatorialCoordinate: equatorialCoordinate)
             return SCNVector3(rawToModelCoordinateTransform(position))
         }
@@ -24,7 +24,7 @@ class MeridianLineNode: LineNode {
         name = "meridian"
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

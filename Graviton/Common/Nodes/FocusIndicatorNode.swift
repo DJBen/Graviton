@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 class FocusIndicatorNode: SCNNode {
     private static let geometryShader: String = {
@@ -27,12 +27,12 @@ class FocusIndicatorNode: SCNNode {
         setupElements()
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
     private func setupElements() {
-        lineNodes = (0..<4).map { (index) -> SCNNode in
+        lineNodes = (0 ..< 4).map { (index) -> SCNNode in
             let angle = Double(index) * Double.pi / 2
             return generateLineNode(rotation: angle)
         }
@@ -45,7 +45,7 @@ class FocusIndicatorNode: SCNNode {
         mat.diffuse.contents = color
         mat.locksAmbientWithDiffuse = true
         mat.shaderModifiers = [
-            .geometry: FocusIndicatorNode.geometryShader
+            .geometry: FocusIndicatorNode.geometryShader,
         ]
         mat.setValue(radius, forKeyPath: "radius")
         line.firstMaterial = mat

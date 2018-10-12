@@ -24,7 +24,7 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
         super.init()
     }
 
-    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
+    func transitionDuration(using _: UIViewControllerContextTransitioning?) -> TimeInterval {
         return 0.4
     }
 
@@ -45,10 +45,10 @@ class PushAsideTransition: NSObject, UIViewControllerAnimatedTransitioning {
         container.addSubview(pushedInView)
         container.addSubview(pushedOutView)
 
-        UIView.animate(withDuration: self.transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 2.0, options: [.curveEaseInOut], animations: {
+        UIView.animate(withDuration: transitionDuration(using: transitionContext), delay: 0.0, usingSpringWithDamping: 0.9, initialSpringVelocity: 2.0, options: [.curveEaseInOut], animations: {
             pushedInView.frame = pushedInFinalFrame
             pushedOutView.frame = pushedOutFinalFrame
-        }, completion: { (_) in
+        }, completion: { _ in
             let canceled = transitionContext.transitionWasCancelled
             transitionContext.completeTransition(!canceled)
         })

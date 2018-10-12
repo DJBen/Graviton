@@ -6,16 +6,15 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import StarryNight
 import Orbits
+import StarryNight
+import UIKit
 
 protocol ObserveTargetSearchViewControllerDelegate: NSObjectProtocol {
     func observeTargetViewController(_ viewController: ObserveTargetSearchViewController, didSelectTarget target: ObserveTarget)
 }
 
 class ObserveTargetSearchViewController: BaseTableViewController {
-
     private enum SearchScope {
         case all
     }
@@ -73,30 +72,30 @@ class ObserveTargetSearchViewController: BaseTableViewController {
         return Device.isiPhoneX == false
     }
 
-    @objc func doneButtonTapped(sender: UIBarButtonItem) {
+    @objc func doneButtonTapped(sender _: UIBarButtonItem) {
         navigationController?.dismiss(animated: true, completion: nil)
     }
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return currentContent.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         cell.backgroundColor = UIColor.clear
         cell.textLabel?.textColor = UIColor.white
     }
 
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    override func tableView(_: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = CelestialObjectCell(style: .value1, reuseIdentifier: "starCell")
         let content = currentContent[indexPath.row]
         switch content {
-        case .star(let star):
+        case let .star(star):
             cell.textLabel?.text = String(describing: star.identity)
             cell.detailTextLabel?.text = star.identity.constellation.name
             let suffix = String(data: star.identity.constellation.name.lowercased().replacingOccurrences(of: " ", with: "_").data(using: .ascii, allowLossyConversion: true)!, encoding: .ascii)!
@@ -105,21 +104,21 @@ class ObserveTargetSearchViewController: BaseTableViewController {
                 logger.error("cannot find icon_constellation_\(suffix)")
             }
             cell.imageView?.contentMode = .scaleAspectFit
-        case .nearbyBody(let body):
+        case let .nearbyBody(body):
             cell.textLabel?.text = body.name
         }
         return cell
     }
 
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.observeTargetViewController(self, didSelectTarget: currentContent[indexPath.row])
     }
 
-    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    override func tableView(_: UITableView, heightForRowAt _: IndexPath) -> CGFloat {
         return 48
     }
 
-    private func filterTargets(forSearchText searchText: String, scope: SearchScope = .all) {
+    private func filterTargets(forSearchText searchText: String, scope _: SearchScope = .all) {
         let filteredStars = Star.matches(name: searchText).map { ObserveTarget.star($0) }
         let filteredNearbyTargets = nearbyBodies.filter { (target) -> Bool in
             if case let .nearbyBody(body) = target {
@@ -134,12 +133,13 @@ class ObserveTargetSearchViewController: BaseTableViewController {
 
 extension ObserveTargetSearchViewController: UISearchBarDelegate {
     // MARK: - UISearchBar Delegate
-    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
-    }
+
+    func searchBar(_: UISearchBar, selectedScopeButtonIndexDidChange _: Int) {}
 }
 
 extension ObserveTargetSearchViewController: UISearchResultsUpdating {
     // MARK: - UISearchResultsUpdating Delegate
+
     func updateSearchResults(for searchController: UISearchController) {
         filterTargets(forSearchText: searchController.searchBar.text!, scope: .all)
     }

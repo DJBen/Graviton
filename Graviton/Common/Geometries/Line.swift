@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
 import MathUtil
+import SceneKit
+import UIKit
 
 private struct LineMode {
     enum Fill {
@@ -23,9 +23,9 @@ private struct LineMode {
         let final: (Int) -> Int = closes ? { $0 } : { $0 - 1 }
         switch fill {
         case .solid:
-            return { index -> [CInt] in (0...final(index)).map { CInt($0 % index) } }
+            return { index -> [CInt] in (0 ... final(index)).map { CInt($0 % index) } }
         case .dashed:
-            return { index -> [CInt] in (0...final(index)).map { CInt($0 % index) } }
+            return { index -> [CInt] in (0 ... final(index)).map { CInt($0 % index) } }
         }
     }
 }
@@ -50,7 +50,7 @@ extension SCNGeometry {
 
     static func dottedLine(vertices: [SCNVector3]) -> SCNGeometry {
         func generateIndex(_ numberOfSegments: Int) -> [CInt] {
-            return (0...(numberOfSegments * 2)).map { CInt($0 % (numberOfSegments * 2)) }
+            return (0 ... (numberOfSegments * 2)).map { CInt($0 % (numberOfSegments * 2)) }
         }
         func extendVertices(_ vertices: [SCNVector3]) -> [SCNVector3] {
             let diffs = vertices.enumerated().map { (index, vertex) -> SCNVector3 in

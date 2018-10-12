@@ -20,7 +20,7 @@ extension SCNView {
         let vp = projectPoint(position)
         let viewPosition = CGPoint(x: CGFloat(vp.x), y: CGFloat(vp.y))
         let visible = vp.z > 0 && vp.z < 1
-        return PointAndVisibility.init(point: overlaySKScene!.convertPoint(fromView: viewPosition), visible: visible)
+        return PointAndVisibility(point: overlaySKScene!.convertPoint(fromView: viewPosition), visible: visible)
     }
 
     @available(*, deprecated)

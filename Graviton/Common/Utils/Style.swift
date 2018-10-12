@@ -57,17 +57,17 @@ struct TextStyle {
     static func defaultTextStyle(fontSize: CGFloat) -> TextStyle {
         let font = Font.defaultLabelFont(size: fontSize)
         let color = UIColor.white
-        return TextStyle.init(font: font, color: color)
+        return TextStyle(font: font, color: color)
     }
 
     static func constellationLabelTextStyle(fontSize: CGFloat) -> TextStyle {
         let font = Font.constellationLabelFont(size: fontSize)
         let color = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)
-        return TextStyle.init(font: font, color: color, textTransform: { $0.capitalized })
+        return TextStyle(font: font, color: color, textTransform: { $0.capitalized })
     }
 
     static func nearStellarBodyTextStyle(fontSize: CGFloat, color: UIColor = #colorLiteral(red: 0.8840664029, green: 0.9701823592, blue: 0.899977088, alpha: 0.8)) -> TextStyle {
         let font = Font.constellationLabelFont(size: fontSize)
-        return TextStyle.init(font: font, color: color)
+        return TextStyle(font: font, color: color)
     }
 }

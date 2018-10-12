@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SpaceTime
+import UIKit
 
 class Timekeeper: LiteSubscriptionManager<JulianDay> {
     static var now: Date {

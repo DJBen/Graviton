@@ -10,7 +10,6 @@ import UIKit
 
 private let checkableCellId = "checkableCell"
 class ObserverMenuMultipleSelectController: ObserverTableViewController {
-
     var multipleSelect: MultipleSelect!
 
     override func viewDidLoad() {
@@ -19,7 +18,7 @@ class ObserverMenuMultipleSelectController: ObserverTableViewController {
         setUpBlurredBackground()
         title = multipleSelect.text
         tableView.register(MenuCell.self, forCellReuseIdentifier: checkableCellId)
-        Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { [weak self] (_, _) in
+        Settings.default.subscribe(settings: [.groundTexture, .antialiasingMode], object: self) { [weak self] _, _ in
             self!.tableView.reloadData()
         }
     }
@@ -36,15 +35,15 @@ class ObserverMenuMultipleSelectController: ObserverTableViewController {
 
     // MARK: - Table view data source
 
-    override func numberOfSections(in tableView: UITableView) -> Int {
+    override func numberOfSections(in _: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func tableView(_: UITableView, numberOfRowsInSection _: Int) -> Int {
         return multipleSelect.options.count
     }
 
-    override func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(_: UITableView, willDisplay cell: UITableViewCell, forRowAt _: IndexPath) {
         if let menuCell = cell as? MenuCell {
             menuCell.textLabelLeftInset = 21
         }

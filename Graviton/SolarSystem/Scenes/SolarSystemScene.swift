@@ -6,18 +6,18 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
-import SpaceTime
 import MathUtil
+import Orbits
+import SceneKit
+import SpaceTime
+import UIKit
 
 class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
-
     private static let orbitLineShader: String = {
         let path = Bundle.main.path(forResource: "orbit_line.surface", ofType: "shader")!
         return try! String(contentsOfFile: path, encoding: .utf8)
     }()
+
     private static let baseOrthographicScale: Double = 25
     private static let maxScale: Double = 100
     private static let minScale: Double = 0.02
@@ -43,7 +43,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     var julianDay: JulianDay = JulianDay.J2000 {
         didSet {
-            orbitalMotions.forEach { [weak self] (motion, color, identifier) in
+            orbitalMotions.forEach { [weak self] motion, color, identifier in
                 self?.drawOrbitalMotion(motion: motion, color: color, identifier: identifier)
             }
         }
@@ -52,16 +52,16 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
     var scale: Double = 1 {
         didSet {
             let cappedScale = min(max(scale, SolarSystemScene.minScale), SolarSystemScene.maxScale)
-            self.scale = cappedScale
-            self.camera.orthographicScale = SolarSystemScene.baseOrthographicScale / cappedScale
+            scale = cappedScale
+            camera.orthographicScale = SolarSystemScene.baseOrthographicScale / cappedScale
             // keep the spheres the same size
-            (spheres.childNodes + [sunNode]).forEach { (sphere) in
+            (spheres.childNodes + [sunNode]).forEach { sphere in
                 // radius default is 1
                 let s = 1.0 / cappedScale
                 sphere.scale = SCNVector3(s, s, s)
             }
 
-            spheres.childNodes.forEach { (sphere) in
+            spheres.childNodes.forEach { sphere in
                 let apparentDist = (sphere.position * Float(cappedScale)).distance(sunNode.position * Float(cappedScale))
                 let ds = SolarSystemScene.diminishStartDistance
                 let de = SolarSystemScene.diminishEndDistance
@@ -95,7 +95,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         return sun
     }()
 
-    lazy private(set) var cameraNode: SCNNode = {
+    private(set) lazy var cameraNode: SCNNode = {
         let node = SCNNode()
         node.camera = self.camera
         self.applyCameraNodeDefaultSettings(cameraNode: node)
@@ -124,7 +124,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
         celestialBodies.append(Sun.sol)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -139,18 +139,16 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
             699: #colorLiteral(red: 0.5058823824, green: 0.3372549117, blue: 0.06666667014, alpha: 1),
             799: #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1),
             899: #colorLiteral(red: 0.1764705926, green: 0.4980392158, blue: 0.7568627596, alpha: 1),
-            999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1)
+            999: #colorLiteral(red: 0.6000000238, green: 0.6000000238, blue: 0.6000000238, alpha: 1),
         ]
-        ephemeris.forEach { [weak self] (body) in
+        ephemeris.forEach { [weak self] body in
             if let color = colors[body.naifId] {
                 self?.add(body: body, color: color)
             }
         }
     }
 
-    func ephemerisDidUpdate(ephemeris: Ephemeris) {
-
-    }
+    func ephemerisDidUpdate(ephemeris _: Ephemeris) {}
 
     func add(body: CelestialBody, color: UIColor) {
         celestialBodies.append(body)
@@ -160,7 +158,7 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private func applyCameraNodeDefaultSettings(cameraNode: SCNNode) {
         cameraNode.position = SCNVector3()
-        cameraNode.pivot = SCNMatrix4MakeTranslation(0, 0, -100000)
+        cameraNode.pivot = SCNMatrix4MakeTranslation(0, 0, -100_000)
         cameraNode.rotation = SCNVector4()
         scale = 1
     }
@@ -202,12 +200,12 @@ class SolarSystemScene: SCNScene, CameraResponsive, FocusingSupport {
 
         func addNode(identifier: String) -> SCNNode {
             let numberOfVertices: Int = 100
-            let vertices = (0..<numberOfVertices).map { index -> SCNVector3 in
+            let vertices = (0 ..< numberOfVertices).map { index -> SCNVector3 in
                 let offset = Double(index) / Double(numberOfVertices) * Double.pi * 2
                 return zoom(position: motion.unrotatedStateVectors(fromTrueAnomaly: offset).0)
             }
             var indices = [CInt]()
-            for i in 0..<(numberOfVertices - 1) {
+            for i in 0 ..< (numberOfVertices - 1) {
                 indices.append(CInt(i))
                 indices.append(CInt(i + 1))
             }

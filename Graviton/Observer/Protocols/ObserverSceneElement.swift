@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 /// Protocol node or a group of similarly behaved node in the observer scene
 /// with settings support

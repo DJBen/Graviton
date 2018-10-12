@@ -6,20 +6,19 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
 import MathUtil
+import Orbits
+import SceneKit
+import UIKit
 
 class CelestialBodyNode: SCNNode {
-
     init(naif: Naif) {
         super.init()
         geometry = naif.geometry
         name = String(naif.rawValue)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }
@@ -36,7 +35,7 @@ private extension Naif {
         switch self {
         case .moon(.luna):
             mat.diffuse.contents = #imageLiteral(resourceName: "moon_texture")
-//            mat.normal.contents = #imageLiteral(resourceName: "moon_normal")
+        //            mat.normal.contents = #imageLiteral(resourceName: "moon_normal")
         default:
             fatalError("Unsupported celestial body")
         }

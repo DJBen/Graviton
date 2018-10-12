@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import CoreLocation
 import MathUtil
+import UIKit
 
 struct Formatters {
     private static let utcDateFormatter: DateFormatter = {

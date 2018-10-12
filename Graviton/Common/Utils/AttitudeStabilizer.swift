@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import CoreMotion
 import MathUtil
+import UIKit
 
 class AttitudeStabilizer {
     // Number of samples involved in smoothing calculation. The greater this value, the smoother the camera, the greater the lag.

@@ -51,7 +51,7 @@ class LiteSubscriptionManager<T>: NSObject {
     }
 
     func updateAllSubscribers(_ content: T) {
-        for (_, sub) in self.subscriptions {
+        for (_, sub) in subscriptions {
             DispatchQueue.main.async {
                 sub.didUpdate?(content)
             }

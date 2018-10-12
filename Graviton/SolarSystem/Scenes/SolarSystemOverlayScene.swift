@@ -6,16 +6,16 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SpriteKit
+import UIKit
 
 class SolarSystemOverlayScene: SKScene {
     lazy var velocityLabel: SKLabelNode = {
-        return self.monoLabel()
+        self.monoLabel()
     }()
 
     lazy var distanceLabel: SKLabelNode = {
-        return self.monoLabel()
+        self.monoLabel()
     }()
 
     private func monoLabel() -> SKLabelNode {
@@ -33,7 +33,7 @@ class SolarSystemOverlayScene: SKScene {
         addChild(distanceLabel)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

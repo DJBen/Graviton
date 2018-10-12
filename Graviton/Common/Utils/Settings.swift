@@ -30,7 +30,6 @@ typealias BooleanSettingBlock = (Bool, Bool) -> Void
 typealias SelectionSettingBlock = (String, String) -> Void
 
 struct Settings {
-
     struct BooleanDisableBehavior {
         let setting: BooleanSetting
         let dependent: BooleanSetting
@@ -53,7 +52,7 @@ struct Settings {
     }
 
     static var `default`: Settings = {
-        return Settings()
+        Settings()
     }()
 
     private var booleanSubscriptions = [BooleanSubscription]()
@@ -162,6 +161,7 @@ struct Settings {
             case all
             case none
         }
+
         case constellationLineMode
     }
 

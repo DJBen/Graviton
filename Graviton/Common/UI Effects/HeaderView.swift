@@ -33,7 +33,7 @@ class HeaderView: UIView {
             textLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             textLabel.topAnchor.constraint(equalTo: topAnchor),
             textLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            textLabel.trailingAnchor.constraint(equalTo: trailingAnchor)
+            textLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
         ])
     }
 }

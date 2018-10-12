@@ -26,7 +26,7 @@ enum MenuParseError: Error {
 struct Menu {
     static var main: Menu = {
         let path = Bundle.main.path(forResource: "main_menu", ofType: "plist")!
-        return try! Menu.init(filePath: path)
+        return try! Menu(filePath: path)
     }()
 
     let title: String?
@@ -38,9 +38,9 @@ struct Menu {
         }
         var sections = [Section]()
         for rawSection in rawSections {
-            sections.append(try Section.init(rawSection: rawSection))
+            sections.append(try Section(rawSection: rawSection))
         }
-        self.title = rawMenu["title"] as? String
+        title = rawMenu["title"] as? String
         self.sections = sections
     }
 
@@ -49,8 +49,8 @@ struct Menu {
     /// - Returns: A list of settings to observe
     func registerAllConditionalDisabling() -> [Settings.BooleanDisableBehavior] {
         var behaviors: [Settings.BooleanDisableBehavior] = []
-        sections.forEach { (section) in
-            section.items.forEach { (item) in
+        sections.forEach { section in
+            section.items.forEach { item in
                 if case let .toggle(_, behavior) = item.type {
                     if let behavior = behavior {
                         Settings.default.addConditionalDisabling(behavior)
@@ -82,7 +82,7 @@ struct Section {
         name = rawSection["section"] as? String
         var items = [MenuItem]()
         for rawItem in sectionContent {
-            items.append(try MenuItem.init(rawItem: rawItem))
+            items.append(try MenuItem(rawItem: rawItem))
         }
         self.items = items
     }
@@ -95,7 +95,7 @@ struct MultipleSelect {
 
     var selectedIndex: Int {
         let key = Settings.default[setting]
-        return options.index(where: { $0.0 == key})!
+        return options.index(where: { $0.0 == key })!
     }
 
     var selection: (String, String) {
@@ -129,6 +129,7 @@ struct MenuItem {
         case multipleSelect(MultipleSelect)
         case external(String, ExternalRowDetails)
     }
+
     let text: String?
     let type: Type
     let image: UIImage?
@@ -139,7 +140,7 @@ struct MenuItem {
             guard let text = rawItem["text"] as? String else { throw MenuParseError.missingMenuText }
             self.text = text
         } else {
-            self.text = nil
+            text = nil
         }
         switch type {
         case "detail":
@@ -202,7 +203,7 @@ extension Menu {
         for (i, section) in sections.enumerated() {
             for (j, item) in section.items.enumerated() {
                 if condition(item) {
-                    indexPaths.append(IndexPath.init(row: j, section: i))
+                    indexPaths.append(IndexPath(row: j, section: i))
                 }
             }
         }
@@ -214,7 +215,7 @@ extension Menu {
             for (j, item) in section.items.enumerated() {
                 if case let .toggle(field, _) = item.type {
                     if field == setting {
-                        return IndexPath.init(row: j, section: i)
+                        return IndexPath(row: j, section: i)
                     }
                 }
             }
@@ -223,7 +224,7 @@ extension Menu {
     }
 
     var indexPathsNeedsReloadUponLocationUpdate: [IndexPath] {
-        return filterIndexPath { (item) in
+        return filterIndexPath { item in
             if case let .external(_, detail) = item.type {
                 if detail.reloadUponLocationUpdate {
                     return true
@@ -234,7 +235,7 @@ extension Menu {
     }
 
     var volatileIndexPaths: [IndexPath] {
-        return filterIndexPath { (item) in
+        return filterIndexPath { item in
             if case let .external(_, detail) = item.type {
                 if detail.volatile {
                     return true
@@ -248,7 +249,7 @@ extension Menu {
 extension MultipleSelect {
     func indexPath(for key: String) -> IndexPath? {
         if let index = options.index(where: { $0.0 == key }) {
-            return IndexPath.init(row: index, section: 0)
+            return IndexPath(row: index, section: 0)
         }
         return nil
     }

@@ -6,15 +6,14 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SpriteKit
-import SceneKit
-import Orbits
-import SpaceTime
 import MathUtil
+import Orbits
+import SceneKit
+import SpaceTime
+import SpriteKit
+import UIKit
 
 class SolarSystemViewController: SceneController {
-
     static let focusDistanceThreshold: CGFloat = 30
 
     var focusController: FocusingSupport?
@@ -38,15 +37,15 @@ class SolarSystemViewController: SceneController {
     private var ephemerisSubscriptionId: SubscriptionUUID!
 
     private var scnView: SCNView {
-        return self.view as! SCNView
+        return view as! SCNView
     }
 
     private var sol2dScene: SolarSystemOverlayScene {
-        return self.scnView.overlaySKScene as! SolarSystemOverlayScene
+        return scnView.overlaySKScene as! SolarSystemOverlayScene
     }
 
     lazy var timeLabel: UILabel = {
-        return self.defaultLabel()
+        self.defaultLabel()
     }()
 
     lazy var warpControl: WarpControl = {
@@ -62,11 +61,11 @@ class SolarSystemViewController: SceneController {
     }()
 
     var velocityLabel: SKLabelNode {
-        return self.sol2dScene.velocityLabel
+        return sol2dScene.velocityLabel
     }
 
     var distanceLabel: SKLabelNode {
-        return self.sol2dScene.distanceLabel
+        return sol2dScene.distanceLabel
     }
 
     private func defaultLabel() -> UILabel {
@@ -98,7 +97,7 @@ class SolarSystemViewController: SceneController {
         updateFocusedNodeLabel()
         let tapGR = UITapGestureRecognizer(target: self, action: #selector(handleTap(sender:)))
         tapGR.require(toFail: doubleTap)
-        self.view.addGestureRecognizer(tapGR)
+        view.addGestureRecognizer(tapGR)
         ephemerisSubscriptionId = EphemerisManager.default.subscribe(mode: .realtime, didLoad: solarSystemScene.ephemerisDidLoad(ephemeris:), didUpdate: solarSystemScene.ephemerisDidUpdate(ephemeris:))
     }
 
@@ -123,7 +122,7 @@ class SolarSystemViewController: SceneController {
     }
 
     @objc func handleTap(sender: UITapGestureRecognizer) {
-        let scnView = self.view as! SCNView
+        let scnView = view as! SCNView
         let point = sender.location(in: view)
         let distances = solarSystemScene.spheres.childNodes.map { (sphere) -> (SCNNode, CGFloat) in
             let screenPoint = CGPoint(scnView.projectPoint(sphere.position))
@@ -140,7 +139,7 @@ class SolarSystemViewController: SceneController {
     }
 
     private func setupViewElements() {
-        let scnView = self.view as! SCNView
+        let scnView = view as! SCNView
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         navigationItem.titleView = timeLabel
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: warpControl)
@@ -148,7 +147,7 @@ class SolarSystemViewController: SceneController {
         scnView.addConstraints(
             [
                 focusedObjectLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
-                focusedObjectLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor)
+                focusedObjectLabel.centerXAnchor.constraint(equalTo: scnView.centerXAnchor),
             ]
         )
         scnView.delegate = self
@@ -161,25 +160,23 @@ class SolarSystemViewController: SceneController {
     }
 
     private func updateForFocusedNode(_ focusedNode: SCNNode, representingBody focusedBody: Body) {
-        self.velocityLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.distanceLabel.isHidden = self.focusedObjectLabel.text == "Sun"
-        self.velocityLabel.text = focusedBody.velocityString
-        self.distanceLabel.text = focusedBody.distanceString
-        self.velocityLabel.alpha = focusedNode.opacity
-        self.distanceLabel.alpha = focusedNode.opacity
+        velocityLabel.isHidden = focusedObjectLabel.text == "Sun"
+        distanceLabel.isHidden = focusedObjectLabel.text == "Sun"
+        velocityLabel.text = focusedBody.velocityString
+        distanceLabel.text = focusedBody.distanceString
+        velocityLabel.alpha = focusedNode.opacity
+        distanceLabel.alpha = focusedNode.opacity
 
         let overlayPosition = scnView.project3dTo2d(focusedNode.position).point
         let nodeSize = scnView.projectedSize(of: focusedNode) * CGFloat(focusedNode.scale.x)
         let nodeHeight = nodeSize.height
         let newCenter = overlayPosition - CGVector(dx: 0, dy: velocityLabel.frame.size.height / 2 + nodeHeight)
 
-        self.distanceLabel.position = newCenter
-        self.velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
+        distanceLabel.position = newCenter
+        velocityLabel.position = newCenter - CGVector(dx: 0, dy: distanceLabel.frame.size.height)
     }
 
-    private func updateAnnotations() {
-
-    }
+    private func updateAnnotations() {}
 
     // MARK: - Scene Renderer Delegate
 
@@ -194,8 +191,8 @@ class SolarSystemViewController: SceneController {
         timeElapsed += warpedDeltaTime
         let warpedDate = Date(timeInterval: timeElapsed, since: refTime)
         let warpedJd = JulianDay(date: warpedDate).value
-        self.solarSystemScene.julianDay = JulianDay(warpedJd)
-        let actualTime = self.refTime.addingTimeInterval(TimeInterval(timeElapsed))
+        solarSystemScene.julianDay = JulianDay(warpedJd)
+        let actualTime = refTime.addingTimeInterval(TimeInterval(timeElapsed))
         guard let focusedNode = focusController?.focusedNode, let focusedBody = self.solarSystemScene.focusedBody else {
             return
         }

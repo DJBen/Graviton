@@ -6,10 +6,10 @@
 //  Copyright © 2016 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
-import Orbits
 import MathUtil
+import Orbits
+import SceneKit
+import UIKit
 
 class CelestialNode: SCNNode {
     let body: CelestialBody
@@ -41,7 +41,7 @@ class CelestialNode: SCNNode {
         self.body = body
         super.init()
         self.geometry = geometry
-        self.eulerAngles = originalEulerAngles + offsetAngles + tilt
+        eulerAngles = originalEulerAngles + offsetAngles + tilt
     }
 
     convenience init(body: CelestialBody, sphereMaterial: SCNMaterial) {
@@ -50,7 +50,7 @@ class CelestialNode: SCNNode {
         self.init(body: body, geometry: sphere)
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 }

@@ -9,7 +9,6 @@
 import UIKit
 
 class TabBarController: UITabBarController, UITabBarControllerDelegate {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         delegate = self
@@ -21,7 +20,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
 
     // MARK: - Tab bar controller delegate
 
-    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+    func tabBarController(_: UITabBarController, didSelect viewController: UIViewController) {
         guard let navigationController = viewController as? UINavigationController else {
             return
         }

@@ -6,11 +6,11 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
 import CoreMotion
-import SpaceTime
 import MathUtil
+import SceneKit
+import SpaceTime
+import UIKit
 
 class ObserverCameraController: CameraController {
     private var stabilizer = AttitudeStabilizer()
@@ -44,7 +44,7 @@ class ObserverCameraController: CameraController {
         } else if pitch < -0.97 * Double.pi / 2 && pitch > -Double.pi {
             pitch = -0.97 * Double.pi / 2
         }
-        let derolledRot = lastApplied * Quaternion.init(pitch: pitch, yaw: yaw, roll: 0)
+        let derolledRot = lastApplied * Quaternion(pitch: pitch, yaw: yaw, roll: 0)
         let movement = controlSpaceTransform * Quaternion(pitch: cameraYaw * cos(pitch), yaw: -cameraPitch, roll: 0)
         cameraNode.orientation = SCNQuaternion(derolledRot * movement)
     }
@@ -57,7 +57,7 @@ class ObserverCameraController: CameraController {
         decelerateCamera(atTime: time)
     }
 
-    override func handleCameraRotation(atTime time: TimeInterval) {
+    override func handleCameraRotation(atTime _: TimeInterval) {
         // disable
     }
 
@@ -71,5 +71,4 @@ class ObserverCameraController: CameraController {
         let final = Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * eulerSpace
         cameraNode?.orientation = SCNQuaternion(quat * final)
     }
-
 }

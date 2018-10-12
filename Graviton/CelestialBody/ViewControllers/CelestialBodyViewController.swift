@@ -6,13 +6,13 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 class CelestialBodyViewController: SceneController {
     private lazy var cbScene = CelestialBodyScene()
     private var scnView: SCNView {
-        return self.view as! SCNView
+        return view as! SCNView
     }
 
     private var obsSubscriptionIdentifier: SubscriptionUUID!

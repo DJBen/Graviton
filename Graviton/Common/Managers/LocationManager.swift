@@ -6,24 +6,23 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import CoreLocation
+import UIKit
 
 typealias LocationRequestResultBlock = () -> Void
 
 class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDelegate {
-
     static let `default` = LocationManager()
 
     var locationOverride: CLLocation? {
         didSet {
             if let loc = content {
                 updateAllSubscribers(loc)
-                LocationManager.decodeTimeZone(location: loc) { [weak self] (timeZone) in
+                LocationManager.decodeTimeZone(location: loc) { [weak self] timeZone in
                     self?.timeZone = timeZone
                 }
             } else {
-                self.timeZone = TimeZone.current
+                timeZone = TimeZone.current
             }
         }
     }
@@ -43,7 +42,7 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
 
     public static func decodeTimeZone(location: CLLocation, completion: @escaping (TimeZone) -> Void) {
         let geocoder = CLGeocoder()
-        geocoder.reverseGeocodeLocation(location) { (placemarks, error) in
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
             let timeZone: TimeZone
             if let pm = placemarks?.first {
                 timeZone = pm.timeZone ?? TimeZone.current
@@ -72,7 +71,8 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
     }
 
     // MARK: - Location Manager Delegate
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+
+    func locationManager(_: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
         switch status {
         case .authorizedAlways, .authorizedWhenInUse:
             locationManager.startUpdatingLocation()
@@ -81,7 +81,7 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
         }
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+    func locationManager(_: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
         guard locationOverride == nil else {
             logger.warning("location updated to \(location) but has been overridden with \(locationOverride!)")
@@ -91,7 +91,7 @@ class LocationManager: LiteSubscriptionManager<CLLocation>, CLLocationManagerDel
         updateAllSubscribers(location)
     }
 
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+    func locationManager(_: CLLocationManager, didFailWithError error: Error) {
         logger.error(error)
     }
 }

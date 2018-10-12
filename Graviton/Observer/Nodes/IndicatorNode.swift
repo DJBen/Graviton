@@ -6,8 +6,8 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
 import SceneKit
+import UIKit
 
 extension ObserverScene {
     class IndicatorNode: BooleanFlaggedNode {
@@ -26,11 +26,11 @@ extension ObserverScene {
             super.init(setting: setting)
         }
 
-        required init?(coder aDecoder: NSCoder) {
+        required init?(coder _: NSCoder) {
             fatalError("init(coder:) has not been implemented")
         }
 
-        override func setUpElement() { }
+        override func setUpElement() {}
 
         override func showElement() {
             indicatorNode.constraints = [SCNBillboardConstraint()]

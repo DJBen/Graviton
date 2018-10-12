@@ -14,7 +14,6 @@ protocol ObserverTitleOverlayViewDelegate: NSObjectProtocol {
 }
 
 class ObserverTitleOverlayView: UIView {
-
     private lazy var blurEffect = UIBlurEffect(style: .dark)
 
     private lazy var blurEffectView: UIVisualEffectView = {
@@ -72,20 +71,20 @@ class ObserverTitleOverlayView: UIView {
             [
                 titleButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 60),
                 titleButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -60),
-                titleButton.topAnchor.constraint(equalTo: topAnchor)
+                titleButton.topAnchor.constraint(equalTo: topAnchor),
             ]
         )
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("Not implemented")
     }
 
-    @objc func buttonTapped(sender: UIButton) {
+    @objc func buttonTapped(sender _: UIButton) {
         delegate?.titleOverlayTapped(view: self)
     }
 
-    @objc func focusTapped(sender: UIButton) {
+    @objc func focusTapped(sender _: UIButton) {
         delegate?.titleOverlayFocusTapped(view: self)
     }
 }

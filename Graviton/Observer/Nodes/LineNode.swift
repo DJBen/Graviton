@@ -6,9 +6,9 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
-import UIKit
-import SceneKit
 import MathUtil
+import SceneKit
+import UIKit
 
 class LineNode: BooleanFlaggedNode {
     enum Style {
@@ -36,7 +36,7 @@ class LineNode: BooleanFlaggedNode {
         categoryBitMask = ObserverScene.VisibilityCategory.nonMoon.rawValue
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder _: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -50,6 +50,7 @@ class LineNode: BooleanFlaggedNode {
     }
 
     // MARK: - ObserverSceneElement
+
     override func setUpElement() {
         drawLine()
     }
