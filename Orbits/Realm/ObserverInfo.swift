@@ -10,7 +10,7 @@ import RealmSwift
 import SpaceTime
 import CoreLocation
 
-public class ObserverInfo: Object {
+public class ObserverInfo: RealmSwift.Object {
     /// Distance tolerance in meters:
     /// records within radius will be regarded
     /// as referring to the same place.

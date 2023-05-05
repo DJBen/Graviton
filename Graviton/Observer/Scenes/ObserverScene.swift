@@ -7,7 +7,6 @@
 //
 
 import CoreLocation
-import KelvinColor
 import MathUtil
 import OpenGLES
 import Orbits

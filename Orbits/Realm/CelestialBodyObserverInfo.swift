@@ -6,6 +6,7 @@
 //  Copyright © 2017 Ben Lu. All rights reserved.
 //
 
+import Realm
 import RealmSwift
 import SpaceTime
 
@@ -41,7 +42,8 @@ extension CelestialBodyObserverInfo: ObserverLoadable {
         let realm = try! Realm()
         let jdStart = julianDay - 60 * 30
         let jdEnd = julianDay + 60 * 30
-        let results = try! realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
+        let results = try! realm.objects(CelestialBodyObserverInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, jdStart.value, jdEnd.value)
+//            .filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: true)
         let info = Array(results)
         guard info.isEmpty == false else { return nil }
         return info.reduce(info[0]) { (r1, r2) -> CelestialBodyObserverInfo in

@@ -3,11 +3,28 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EF281F941F061C66003CB4A3 /* Regex.framework */; };
+		0F37D43F2A0495CF0053422A /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D43E2A0495CF0053422A /* Realm */; };
+		0F37D4412A0495CF0053422A /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D4402A0495CF0053422A /* RealmSwift */; };
+		0F37D4472A0496650053422A /* MathUtil in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D4462A0496650053422A /* MathUtil */; };
+		0F37D4492A0496AB0053422A /* MathUtil in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D4482A0496AB0053422A /* MathUtil */; };
+		0F37D44B2A0496B70053422A /* MathUtil in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D44A2A0496B70053422A /* MathUtil */; };
+		0F37D44D2A0496C60053422A /* StarryNight in Frameworks */ = {isa = PBXBuildFile; productRef = 0F37D44C2A0496C60053422A /* StarryNight */; };
+		0F37D4502A0496F80053422A /* KelvinColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F37D44F2A0496F80053422A /* KelvinColor.swift */; };
+		0FB94D602A0498F700C52C69 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0FB94D5F2A0498F700C52C69 /* RealmSwift */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0FB94D622A04991700C52C69 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 0FB94D612A04991700C52C69 /* Realm */; settings = {ATTRIBUTES = (Weak, ); }; };
+		0FBEA65A2A047DBC00E4E34B /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6592A047DBC00E4E34B /* SQLite */; };
+		0FBEA6712A048A9F00E4E34B /* OrderedSet in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6702A048A9F00E4E34B /* OrderedSet */; };
+		0FBEA67C2A048AFA00E4E34B /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA67B2A048AFA00E4E34B /* SQLite */; };
+		0FBEA67E2A048B0200E4E34B /* OrderedSet in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA67D2A048B0200E4E34B /* OrderedSet */; };
+		0FBEA6802A048B5C00E4E34B /* SpaceTime in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA67F2A048B5C00E4E34B /* SpaceTime */; };
+		0FBEA6832A048CF100E4E34B /* XLPagerTabStrip in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6822A048CF100E4E34B /* XLPagerTabStrip */; };
+		0FBEA6852A048D0800E4E34B /* SpaceTime in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6842A048D0800E4E34B /* SpaceTime */; };
+		0FBEA6882A048D2500E4E34B /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6872A048D2500E4E34B /* SwiftyBeaver */; };
+		0FBEA68A2A048D2F00E4E34B /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = 0FBEA6892A048D2F00E4E34B /* SwiftyBeaver */; };
 		EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67931EF9D0C700C95AC3 /* Kepler.swift */; };
 		EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
@@ -37,8 +54,6 @@
 		EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */; };
 		EFCCF3EB1EB1741900E49A38 /* Line.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFCCF3EA1EB1741900E49A38 /* Line.swift */; };
 		EFCCF3ED1EB17E1300E49A38 /* focus_indicator.geometry.shader in Resources */ = {isa = PBXBuildFile; fileRef = EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */; };
-		EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
-		EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */; };
 		EFDC5C341E3E1E7C00A08EB2 /* Naif.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */; };
 		EFE8BF671DD86B2B000F0A79 /* Orbits.h in Headers */ = {isa = PBXBuildFile; fileRef = EFE8BF571DD86B2B000F0A79 /* Orbits.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */; };
@@ -46,7 +61,6 @@
 		EFE8BF7C1DD86B38000F0A79 /* Orbit.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFE8BF771DD86B38000F0A79 /* Orbit.swift */; };
 		EFFF66D41E9F21700076BE4A /* CelestialEquatorLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */; };
 		EFFFB27C1EA0608A0023C93B /* EclipticLineNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */; };
-		FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */; };
 		FC099E271F0F5A6400A65F73 /* ObserverDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */; };
 		FC099E2A1F0F729E00A65F73 /* BodyInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */; };
 		FC099E331F1743C600A65F73 /* CormorantSC-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */; };
@@ -88,7 +102,6 @@
 		FC1CC2D61EE016CC009FA252 /* UINavigationBar+Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2D51EE016CC009FA252 /* UINavigationBar+Config.swift */; };
 		FC1CC2DB1EE0171F009FA252 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DA1EE0171F009FA252 /* CameraController.swift */; };
 		FC1CC2DE1EE01F92009FA252 /* ObserverCameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC1CC2DD1EE01F92009FA252 /* ObserverCameraController.swift */; };
-		FC1D03D01F8CC71300BBCCB8 /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC582A1F8CC511008860BB /* GeoQueries.framework */; };
 		FC22B2A31FF24965002AE044 /* focus_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC22B2A21FF24965002AE044 /* focus_menu.plist */; };
 		FC22B2B21FF317EC002AE044 /* YinYang.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC22B2A91FF317EC002AE044 /* YinYang.framework */; };
 		FC22B2B91FF317EC002AE044 /* YinYangTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2B81FF317EC002AE044 /* YinYangTests.swift */; };
@@ -97,13 +110,10 @@
 		FC22B2BF1FF317EC002AE044 /* YinYang.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = FC22B2A91FF317EC002AE044 /* YinYang.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		FC22B2C71FF32BF0002AE044 /* PeriodicTerms.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2C61FF32BF0002AE044 /* PeriodicTerms.swift */; };
 		FC22B2CD1FF3722F002AE044 /* LunaUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC22B2CC1FF3722F002AE044 /* LunaUtil.swift */; };
-		FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC24353D1E15D80D002AC626 /* OrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */; };
-		FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC2435391E14C81A002AC626 /* SQLite.framework */; };
 		FC2435401E15E895002AC626 /* OrbitalMotionMoment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */; };
 		FC2464351FC9594100868CF0 /* RealtimeInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC2464341FC9594100868CF0 /* RealtimeInfoViewController.swift */; };
 		FC38ED1D1F417A9C00E9EEC9 /* Assertions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */; };
-		FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */; };
 		FC44EADD1EBDC18500241BF9 /* RiseTransitSetInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */; };
 		FC4D1E6A1FAFFAB700011478 /* ObserveTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */; };
 		FC4D1E6E1FB44A4E00011478 /* ObserveTargetSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */; };
@@ -111,8 +121,6 @@
 		FC56169C1FDD3D92005B5702 /* PushAsideTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC56169B1FDD3D92005B5702 /* PushAsideTransition.swift */; };
 		FC5616A41FE0F285005B5702 /* GravitonUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5616A31FE0F285005B5702 /* GravitonUITests.swift */; };
 		FC5616AE1FE122C8005B5702 /* RealmManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC5616AD1FE122C8005B5702 /* RealmManager.swift */; };
-		FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
-		FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC6313171F255D8700FE23E0 /* SpaceTime.framework */; };
 		FC65E78A1EE2B22E00393997 /* direction_marker_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */; };
 		FC65E78C1EE2B34100393997 /* direction_celestial_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */; };
 		FC65E78E1EE2B55500393997 /* MenuButtonCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */; };
@@ -156,7 +164,6 @@
 		FCB2C1341F331760002288BE /* MenuLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1331F331760002288BE /* MenuLocationCell.swift */; };
 		FCB2C1361F3323AB002288BE /* ObserverLocationMenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */; };
 		FCB2C13A1F35D321002288BE /* cities.sqlite3 in Resources */ = {isa = PBXBuildFile; fileRef = FCB2C1371F35AC5E002288BE /* cities.sqlite3 */; };
-		FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */; };
 		FCB2C13E1F3FE050002288BE /* Orbits.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCB2C13D1F3FE050002288BE /* Orbits.swift */; };
 		FCB365A81EB8565C00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A71EB8565C00027E82 /* Textures.xcassets */; };
 		FCB365AA1EB857FC00027E82 /* Textures.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FCB365A91EB857FC00027E82 /* Textures.xcassets */; };
@@ -165,7 +172,6 @@
 		FCC50D3B1EE69CD7009045AC /* LocationAndTimeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */; };
 		FCCB89561EEE043300F1539E /* MotionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89551EEE043300F1539E /* MotionManager.swift */; };
 		FCCB89581EEE112E00F1539E /* LiteSubscriptionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */; };
-		FCCF5B4F1EBEC9F800B8004E /* Realm.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCCF5B4D1EBEC9F800B8004E /* Realm.framework */; };
 		FCCF5B521EBEE99200B8004E /* ObserverParserTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B511EBEE99200B8004E /* ObserverParserTest.swift */; };
 		FCCF5B551EBF12C500B8004E /* CelestialBodyObserverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B531EBF12C500B8004E /* CelestialBodyObserverInfo.swift */; };
 		FCCF5B591EBF152000B8004E /* ObserverInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCCF5B571EBF152000B8004E /* ObserverInfo.swift */; };
@@ -185,7 +191,6 @@
 		FCE5B94A200A034F00B46B4B /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE5B949200A034F00B46B4B /* HeaderView.swift */; };
 		FCE9DB861F8F504E008631DC /* Device.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCE9DB851F8F504E008631DC /* Device.swift */; };
 		FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */; };
-		FCEC582C1F8CC524008860BB /* GeoQueries.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FCEC582A1F8CC511008860BB /* GeoQueries.framework */; };
 		FCEDA6081EBFB8D5005C7BFF /* RiseTransitSetElevation.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */; };
 		FCEDA60A1EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6091EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift */; };
 		FCEDA6141EC04B07005C7BFF /* CelestialBodyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCEDA6131EC04B07005C7BFF /* CelestialBodyViewController.swift */; };
@@ -201,7 +206,6 @@
 		FCFCDD551F00FC54009327F5 /* experiment_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFCDD541F00FC54009327F5 /* experiment_menu.plist */; };
 		FCFCDD5B1F0B8C34009327F5 /* FakeOrbitalMotion.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFCDD5A1F0B8C34009327F5 /* FakeOrbitalMotion.swift */; };
 		FCFE7E01202BBD5F00760633 /* FormattersTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFE7E00202BBD5F00760633 /* FormattersTest.swift */; };
-		FCFE7E04202BC21600760633 /* MathUtil.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FC63130E1F255BD300FE23E0 /* MathUtil.framework */; };
 		FCFE7E2D202BC48500760633 /* Logging.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFE7E2C202BC48500760633 /* Logging.swift */; };
 		FCFF7B051EA0B0DE00C4B006 /* debug_menu.plist in Resources */ = {isa = PBXBuildFile; fileRef = FCFF7B041EA0B0DE00C4B006 /* debug_menu.plist */; };
 		FCFF7B071EA0B70C00C4B006 /* IndicatorNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCFF7B061EA0B70C00C4B006 /* IndicatorNode.swift */; };
@@ -286,7 +290,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		EF281F941F061C66003CB4A3 /* Regex.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Regex.framework; path = Carthage/Build/iOS/Regex.framework; sourceTree = "<group>"; };
+		0F37D44E2A0496F80053422A /* KelvinColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KelvinColor.h; sourceTree = "<group>"; };
+		0F37D44F2A0496F80053422A /* KelvinColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KelvinColor.swift; sourceTree = "<group>"; };
+		0FBEA66C2A0484C900E4E34B /* MathUtil */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = MathUtil; sourceTree = "<group>"; };
+		0FBEA66D2A04856700E4E34B /* SpaceTime */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = SpaceTime; sourceTree = "<group>"; };
+		0FBEA66E2A0485EE00E4E34B /* StarryNight */ = {isa = PBXFileReference; lastKnownFileType = wrapper; path = StarryNight; sourceTree = "<group>"; };
+		0FBEA68D2A048ECB00E4E34B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
 		EF2A67931EF9D0C700C95AC3 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassRoseNode.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
@@ -313,7 +322,6 @@
 		EFCCF3E61EB16EA200E49A38 /* FocusIndicatorNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FocusIndicatorNode.swift; sourceTree = "<group>"; };
 		EFCCF3EA1EB1741900E49A38 /* Line.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Line.swift; sourceTree = "<group>"; };
 		EFCCF3EC1EB17E1300E49A38 /* focus_indicator.geometry.shader */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = focus_indicator.geometry.shader; path = Graviton/Common/Shaders/focus_indicator.geometry.shader; sourceTree = SOURCE_ROOT; };
-		EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OrderedSet.framework; path = Carthage/Build/iOS/OrderedSet.framework; sourceTree = "<group>"; };
 		EFDC5C331E3E1E7C00A08EB2 /* Naif.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Naif.swift; sourceTree = "<group>"; };
 		EFDC5C361E3E3E0400A08EB2 /* EphemerisTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EphemerisTest.swift; sourceTree = "<group>"; };
 		EFE8BF551DD86B2B000F0A79 /* Orbits.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Orbits.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -323,7 +331,6 @@
 		EFE8BF771DD86B38000F0A79 /* Orbit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = Orbit.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		EFFF66D31E9F21700076BE4A /* CelestialEquatorLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialEquatorLineNode.swift; sourceTree = "<group>"; };
 		EFFFB27B1EA0608A0023C93B /* EclipticLineNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EclipticLineNode.swift; sourceTree = "<group>"; };
-		FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XLPagerTabStrip.framework; path = Carthage/Build/iOS/XLPagerTabStrip.framework; sourceTree = "<group>"; };
 		FC099E261F0F5A6400A65F73 /* ObserverDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverDetailViewController.swift; sourceTree = "<group>"; };
 		FC099E291F0F729E00A65F73 /* BodyInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BodyInfoViewController.swift; sourceTree = "<group>"; };
 		FC099E2D1F1743C600A65F73 /* CormorantSC-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "CormorantSC-Bold.ttf"; sourceTree = "<group>"; };
@@ -371,12 +378,10 @@
 		FC22B2BA1FF317EC002AE044 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC22B2C61FF32BF0002AE044 /* PeriodicTerms.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeriodicTerms.swift; sourceTree = "<group>"; };
 		FC22B2CC1FF3722F002AE044 /* LunaUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LunaUtil.swift; sourceTree = "<group>"; };
-		FC2435391E14C81A002AC626 /* SQLite.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SQLite.framework; path = Carthage/Build/iOS/SQLite.framework; sourceTree = "<group>"; };
 		FC24353C1E15D80D002AC626 /* OrbitalMotion.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = OrbitalMotion.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		FC24353F1E15E895002AC626 /* OrbitalMotionMoment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OrbitalMotionMoment.swift; sourceTree = "<group>"; };
 		FC2464341FC9594100868CF0 /* RealtimeInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealtimeInfoViewController.swift; sourceTree = "<group>"; };
 		FC38ED1C1F417A9C00E9EEC9 /* Assertions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Assertions.swift; sourceTree = "<group>"; };
-		FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = RealmSwift.framework; path = Carthage/Build/iOS/RealmSwift.framework; sourceTree = "<group>"; };
 		FC44EADC1EBDC18500241BF9 /* RiseTransitSetInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetInfo.swift; sourceTree = "<group>"; };
 		FC4D1E691FAFFAB700011478 /* ObserveTarget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObserveTarget.swift; sourceTree = "<group>"; };
 		FC4D1E6D1FB44A4E00011478 /* ObserveTargetSearchViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserveTargetSearchViewController.swift; sourceTree = "<group>"; };
@@ -386,8 +391,6 @@
 		FC5616A31FE0F285005B5702 /* GravitonUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GravitonUITests.swift; sourceTree = "<group>"; };
 		FC5616A51FE0F285005B5702 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		FC5616AD1FE122C8005B5702 /* RealmManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RealmManager.swift; sourceTree = "<group>"; };
-		FC63130E1F255BD300FE23E0 /* MathUtil.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MathUtil.framework; path = Carthage/Build/iOS/MathUtil.framework; sourceTree = "<group>"; };
-		FC6313171F255D8700FE23E0 /* SpaceTime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SpaceTime.framework; path = Carthage/Build/iOS/SpaceTime.framework; sourceTree = "<group>"; };
 		FC65E7891EE2B22E00393997 /* direction_marker_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_marker_menu.plist; sourceTree = "<group>"; };
 		FC65E78B1EE2B34100393997 /* direction_celestial_menu.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = direction_celestial_menu.plist; sourceTree = "<group>"; };
 		FC65E78D1EE2B55500393997 /* MenuButtonCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuButtonCell.swift; sourceTree = "<group>"; };
@@ -434,7 +437,6 @@
 		FCB2C1331F331760002288BE /* MenuLocationCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuLocationCell.swift; sourceTree = "<group>"; };
 		FCB2C1351F3323AB002288BE /* ObserverLocationMenuController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverLocationMenuController.swift; sourceTree = "<group>"; };
 		FCB2C1371F35AC5E002288BE /* cities.sqlite3 */ = {isa = PBXFileReference; lastKnownFileType = file; path = cities.sqlite3; sourceTree = "<group>"; };
-		FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftyBeaver.framework; path = Carthage/Build/iOS/SwiftyBeaver.framework; sourceTree = "<group>"; };
 		FCB2C13D1F3FE050002288BE /* Orbits.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Orbits.swift; sourceTree = "<group>"; };
 		FCB365A71EB8565C00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
 		FCB365A91EB857FC00027E82 /* Textures.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Textures.xcassets; sourceTree = "<group>"; };
@@ -445,7 +447,6 @@
 		FCC50D3A1EE69CD7009045AC /* LocationAndTimeManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationAndTimeManager.swift; sourceTree = "<group>"; };
 		FCCB89551EEE043300F1539E /* MotionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MotionManager.swift; sourceTree = "<group>"; };
 		FCCB89571EEE112E00F1539E /* LiteSubscriptionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LiteSubscriptionManager.swift; sourceTree = "<group>"; };
-		FCCF5B4D1EBEC9F800B8004E /* Realm.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Realm.framework; path = Carthage/Build/iOS/Realm.framework; sourceTree = "<group>"; };
 		FCCF5B511EBEE99200B8004E /* ObserverParserTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverParserTest.swift; sourceTree = "<group>"; };
 		FCCF5B531EBF12C500B8004E /* CelestialBodyObserverInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyObserverInfo.swift; sourceTree = "<group>"; };
 		FCCF5B571EBF152000B8004E /* ObserverInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObserverInfo.swift; sourceTree = "<group>"; };
@@ -465,7 +466,6 @@
 		FCE5B949200A034F00B46B4B /* HeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		FCE9DB851F8F504E008631DC /* Device.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Device.swift; sourceTree = "<group>"; };
 		FCEC58281F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewController+BlurredBackground.swift"; sourceTree = "<group>"; };
-		FCEC582A1F8CC511008860BB /* GeoQueries.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GeoQueries.framework; path = Carthage/Build/iOS/GeoQueries.framework; sourceTree = "<group>"; };
 		FCEDA6071EBFB8D5005C7BFF /* RiseTransitSetElevation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetElevation.swift; sourceTree = "<group>"; };
 		FCEDA6091EBFC24E005C7BFF /* RiseTransitSetRealmTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RiseTransitSetRealmTest.swift; sourceTree = "<group>"; };
 		FCEDA6131EC04B07005C7BFF /* CelestialBodyViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CelestialBodyViewController.swift; sourceTree = "<group>"; };
@@ -500,7 +500,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				EF4BD3B61E57E6DF009D2698 /* Orbits.framework in Frameworks */,
-				EFCCF4061EB7D86A00E49A38 /* OrderedSet.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -508,15 +507,16 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FC63130F1F255BD300FE23E0 /* MathUtil.framework in Frameworks */,
-				FC1D03D01F8CC71300BBCCB8 /* GeoQueries.framework in Frameworks */,
-				FC6313181F255D8700FE23E0 /* SpaceTime.framework in Frameworks */,
-				EF281F951F061C66003CB4A3 /* Regex.framework in Frameworks */,
-				FC099E251F0F59B000A65F73 /* XLPagerTabStrip.framework in Frameworks */,
+				0FBEA6712A048A9F00E4E34B /* OrderedSet in Frameworks */,
+				0FBEA6832A048CF100E4E34B /* XLPagerTabStrip in Frameworks */,
 				FC22B2BE1FF317EC002AE044 /* YinYang.framework in Frameworks */,
 				EFE8BF6A1DD86B2B000F0A79 /* Orbits.framework in Frameworks */,
-				FCB2C13C1F3FD99E002288BE /* SwiftyBeaver.framework in Frameworks */,
-				FC24353B1E14C849002AC626 /* SQLite.framework in Frameworks */,
+				0F37D43F2A0495CF0053422A /* Realm in Frameworks */,
+				0FBEA65A2A047DBC00E4E34B /* SQLite in Frameworks */,
+				0F37D4412A0495CF0053422A /* RealmSwift in Frameworks */,
+				0F37D4472A0496650053422A /* MathUtil in Frameworks */,
+				0F37D44D2A0496C60053422A /* StarryNight in Frameworks */,
+				0FBEA6882A048D2500E4E34B /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -524,11 +524,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCCF5B4F1EBEC9F800B8004E /* Realm.framework in Frameworks */,
-				FC24353E1E15E55D002AC626 /* SQLite.framework in Frameworks */,
-				FCEC582C1F8CC524008860BB /* GeoQueries.framework in Frameworks */,
-				FC44EAD91EBDBF2300241BF9 /* RealmSwift.framework in Frameworks */,
-				EFCCF4051EB7D86400E49A38 /* OrderedSet.framework in Frameworks */,
+				0FB94D602A0498F700C52C69 /* RealmSwift in Frameworks */,
+				0F37D44B2A0496B70053422A /* MathUtil in Frameworks */,
+				0FBEA67C2A048AFA00E4E34B /* SQLite in Frameworks */,
+				0FBEA67E2A048B0200E4E34B /* OrderedSet in Frameworks */,
+				0FBEA6852A048D0800E4E34B /* SpaceTime in Frameworks */,
+				0FB94D622A04991700C52C69 /* Realm in Frameworks */,
+				0FBEA68A2A048D2F00E4E34B /* SwiftyBeaver in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -536,6 +538,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0F37D4492A0496AB0053422A /* MathUtil in Frameworks */,
+				0FBEA6802A048B5C00E4E34B /* SpaceTime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -558,7 +562,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FCFE7E04202BC21600760633 /* MathUtil.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -588,6 +591,9 @@
 		EFC2C68B1D88D02F0031AA9C = {
 			isa = PBXGroup;
 			children = (
+				0FBEA66E2A0485EE00E4E34B /* StarryNight */,
+				0FBEA66D2A04856700E4E34B /* SpaceTime */,
+				0FBEA66C2A0484C900E4E34B /* MathUtil */,
 				FCFBB7321E60660A00624B4C /* README.md */,
 				EFC2C6961D88D02F0031AA9C /* Graviton */,
 				EFE8BF561DD86B2B000F0A79 /* Orbits */,
@@ -618,6 +624,8 @@
 		EFC2C6961D88D02F0031AA9C /* Graviton */ = {
 			isa = PBXGroup;
 			children = (
+				0F37D44E2A0496F80053422A /* KelvinColor.h */,
+				0F37D44F2A0496F80053422A /* KelvinColor.swift */,
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,
 				FC7D61F41E9B47D400BEA5BE /* Common */,
 				FC7D61E01E9B45EC00BEA5BE /* SolarSystem */,
@@ -868,17 +876,8 @@
 		FC2435351E14C78C002AC626 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				FCEC582A1F8CC511008860BB /* GeoQueries.framework */,
-				FCB2C13B1F3FD99E002288BE /* SwiftyBeaver.framework */,
-				FC6313171F255D8700FE23E0 /* SpaceTime.framework */,
-				FC63130E1F255BD300FE23E0 /* MathUtil.framework */,
-				FC099E241F0F59B000A65F73 /* XLPagerTabStrip.framework */,
-				EF281F941F061C66003CB4A3 /* Regex.framework */,
-				FCCF5B4D1EBEC9F800B8004E /* Realm.framework */,
-				FC44EAD81EBDBF2300241BF9 /* RealmSwift.framework */,
-				EFCCF4031EB7D84A00E49A38 /* OrderedSet.framework */,
+				0FBEA68D2A048ECB00E4E34B /* CoreFoundation.framework */,
 				FCA930E71E2B8FEA00100706 /* XCTest.framework */,
-				FC2435391E14C81A002AC626 /* SQLite.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1266,8 +1265,6 @@
 				EFC2C6911D88D02F0031AA9C /* Frameworks */,
 				EFC2C6921D88D02F0031AA9C /* Resources */,
 				EFE8BF6F1DD86B2B000F0A79 /* Embed Frameworks */,
-				FC2435381E14C7A9002AC626 /* Copy Carthage Frameworks */,
-				EF6FB1291EBBF14A00BCD215 /* Swift Lint */,
 			);
 			buildRules = (
 			);
@@ -1276,6 +1273,16 @@
 				FC22B2BD1FF317EC002AE044 /* PBXTargetDependency */,
 			);
 			name = Graviton;
+			packageProductDependencies = (
+				0FBEA6592A047DBC00E4E34B /* SQLite */,
+				0FBEA6702A048A9F00E4E34B /* OrderedSet */,
+				0FBEA6822A048CF100E4E34B /* XLPagerTabStrip */,
+				0FBEA6872A048D2500E4E34B /* SwiftyBeaver */,
+				0F37D43E2A0495CF0053422A /* Realm */,
+				0F37D4402A0495CF0053422A /* RealmSwift */,
+				0F37D4462A0496650053422A /* MathUtil */,
+				0F37D44C2A0496C60053422A /* StarryNight */,
+			);
 			productName = Graviton;
 			productReference = EFC2C6941D88D02F0031AA9C /* Graviton.app */;
 			productType = "com.apple.product-type.application";
@@ -1294,6 +1301,15 @@
 			dependencies = (
 			);
 			name = Orbits;
+			packageProductDependencies = (
+				0FBEA67B2A048AFA00E4E34B /* SQLite */,
+				0FBEA67D2A048B0200E4E34B /* OrderedSet */,
+				0FBEA6842A048D0800E4E34B /* SpaceTime */,
+				0FBEA6892A048D2F00E4E34B /* SwiftyBeaver */,
+				0F37D44A2A0496B70053422A /* MathUtil */,
+				0FB94D5F2A0498F700C52C69 /* RealmSwift */,
+				0FB94D612A04991700C52C69 /* Realm */,
+			);
 			productName = Orbits;
 			productReference = EFE8BF551DD86B2B000F0A79 /* Orbits.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1312,6 +1328,10 @@
 			dependencies = (
 			);
 			name = YinYang;
+			packageProductDependencies = (
+				0FBEA67F2A048B5C00E4E34B /* SpaceTime */,
+				0F37D4482A0496AB0053422A /* MathUtil */,
+			);
 			productName = YinYang;
 			productReference = FC22B2A91FF317EC002AE044 /* YinYang.framework */;
 			productType = "com.apple.product-type.framework";
@@ -1377,38 +1397,38 @@
 		EFC2C68C1D88D02F0031AA9C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = "Ben Lu";
 				TargetAttributes = {
 					EF4BD3801E57E58D009D2698 = {
 						CreatedOnToolsVersion = 8.2.1;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
 					EFC2C6931D88D02F0031AA9C = {
 						CreatedOnToolsVersion = 8.0;
-						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0900;
-						ProvisioningStyle = Manual;
+						LastSwiftMigration = "";
 					};
 					EFE8BF541DD86B2B000F0A79 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 					};
 					FC22B2A81FF317EC002AE044 = {
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 					};
 					FC22B2B01FF317EC002AE044 = {
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = 52RD2GH5DP;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
@@ -1420,7 +1440,7 @@
 					FCFE7DF5202BBC7C00760633 = {
 						CreatedOnToolsVersion = 9.2;
 						DevelopmentTeam = 52RD2GH5DP;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = "";
 						ProvisioningStyle = Automatic;
 						TestTargetID = EFC2C6931D88D02F0031AA9C;
 					};
@@ -1428,13 +1448,20 @@
 			};
 			buildConfigurationList = EFC2C68F1D88D02F0031AA9C /* Build configuration list for PBXProject "Graviton" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
+			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
 			);
 			mainGroup = EFC2C68B1D88D02F0031AA9C;
+			packageReferences = (
+				0FBEA6582A047DBC00E4E34B /* XCRemoteSwiftPackageReference "SQLite" */,
+				0FBEA66F2A048A9F00E4E34B /* XCRemoteSwiftPackageReference "OrderedSet" */,
+				0FBEA6812A048CF100E4E34B /* XCRemoteSwiftPackageReference "XLPagerTabStrip" */,
+				0FBEA6862A048D2500E4E34B /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
+				0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */,
+			);
 			productRefGroup = EFC2C6951D88D02F0031AA9C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -1547,49 +1574,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		EF6FB1291EBBF14A00BCD215 /* Swift Lint */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Swift Lint";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
-		};
-		FC2435381E14C7A9002AC626 /* Copy Carthage Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/SQLite.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/OrderedSet.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/RealmSwift.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Realm.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/Regex.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/XLPagerTabStrip.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/MathUtil.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SpaceTime.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/SwiftyBeaver.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/KelvinColor.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/StarryNight.framework",
-				"$(SRCROOT)/Carthage/Build/iOS/GeoQueries.framework",
-			);
-			name = "Copy Carthage Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "/usr/local/bin/carthage copy-frameworks\n";
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		EF4BD37D1E57E58D009D2698 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -1675,6 +1659,7 @@
 				FC5616AE1FE122C8005B5702 /* RealmManager.swift in Sources */,
 				FCEC58291F8CA8E3008860BB /* UITableViewController+BlurredBackground.swift in Sources */,
 				FCBF424D1FA5764500AAD151 /* OrbitLineNode.swift in Sources */,
+				0F37D4502A0496F80053422A /* KelvinColor.swift in Sources */,
 				FCFF7B111EA2145A00C4B006 /* Constants.swift in Sources */,
 				EFCCF3E71EB16EA200E49A38 /* FocusIndicatorNode.swift in Sources */,
 				FCB2BDBB1F2E6CED002288BE /* TabBarController.swift in Sources */,
@@ -1850,8 +1835,12 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = OrbitsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1870,8 +1859,12 @@
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = OrbitsTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.OrbitsTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1884,6 +1877,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1904,6 +1898,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1929,7 +1924,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1943,6 +1938,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
@@ -1963,6 +1959,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -1982,10 +1979,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -1997,21 +1995,26 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DEVELOPMENT_TEAM = 97W534LVQV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Graviton",
 				);
 				INFOPLIST_FILE = Graviton/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.enigmalabs.graviton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "afdfc92c-54ac-4ba2-9e72-54838ee536fd";
-				PROVISIONING_PROFILE_SPECIFIER = "match Development com.Square.sihao.Graviton";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -2027,22 +2030,26 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
-				DEVELOPMENT_TEAM = 52RD2GH5DP;
+				DEVELOPMENT_TEAM = 97W534LVQV;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
+					"$(PROJECT_DIR)/Graviton",
 				);
 				INFOPLIST_FILE = Graviton/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Graviton;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.enigmalabs.graviton;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "1d2dc78b-a0db-4d26-8304-aba7f8a3422c";
-				PROVISIONING_PROFILE_SPECIFIER = "match AppStore com.Square.sihao.Graviton";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Graviton/Graviton-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
@@ -2055,22 +2062,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = 52RD2GH5DP;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 8;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Orbits/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Orbits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2093,14 +2106,21 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 8;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/Carthage/Build/iOS",
 				);
 				INFOPLIST_FILE = Orbits/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu99 gnu++11";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Square.sihao.Orbits;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -2118,8 +2138,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
@@ -2127,12 +2146,19 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 8;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = YinYang/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYang;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
@@ -2152,8 +2178,7 @@
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
 				CLANG_ENABLE_MODULES = YES;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 8;
 				DEFINES_MODULE = YES;
@@ -2161,12 +2186,19 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 8;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				ENABLE_MODULE_VERIFIER = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = YinYang/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				MODULE_VERIFIER_SUPPORTED_LANGUAGES = "objective-c objective-c++";
+				MODULE_VERIFIER_SUPPORTED_LANGUAGE_STANDARDS = "gnu11 gnu++14";
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYang;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				REEXPORTED_FRAMEWORK_NAMES = "";
@@ -2191,8 +2223,12 @@
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = YinYangTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYangTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2214,8 +2250,12 @@
 				FRAMEWORK_SEARCH_PATHS = "$(PROJECT_DIR)/Carthage/Build/iOS";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = YinYangTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.YinYangTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2236,8 +2276,12 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GravitonUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2260,8 +2304,12 @@
 				DEVELOPMENT_TEAM = "";
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GravitonUITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
@@ -2289,8 +2337,12 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GravitonTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -2317,8 +2369,12 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = GravitonTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.squareup.sihao.GravitonTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.0;
@@ -2403,6 +2459,131 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-cocoa.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 10.0.0;
+			};
+		};
+		0FBEA6582A047DBC00E4E34B /* XCRemoteSwiftPackageReference "SQLite" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stephencelis/SQLite.swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.14.1;
+			};
+		};
+		0FBEA66F2A048A9F00E4E34B /* XCRemoteSwiftPackageReference "OrderedSet" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Weebly/OrderedSet";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		0FBEA6812A048CF100E4E34B /* XCRemoteSwiftPackageReference "XLPagerTabStrip" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nk-5/XLPagerTabStrip/";
+			requirement = {
+				branch = support_spm;
+				kind = branch;
+			};
+		};
+		0FBEA6862A048D2500E4E34B /* XCRemoteSwiftPackageReference "SwiftyBeaver" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftyBeaver/SwiftyBeaver";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		0F37D43E2A0495CF0053422A /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		0F37D4402A0495CF0053422A /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		0F37D4462A0496650053422A /* MathUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MathUtil;
+		};
+		0F37D4482A0496AB0053422A /* MathUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MathUtil;
+		};
+		0F37D44A2A0496B70053422A /* MathUtil */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = MathUtil;
+		};
+		0F37D44C2A0496C60053422A /* StarryNight */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = StarryNight;
+		};
+		0FB94D5F2A0498F700C52C69 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = RealmSwift;
+		};
+		0FB94D612A04991700C52C69 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0F37D43D2A0495CF0053422A /* XCRemoteSwiftPackageReference "realm-cocoa" */;
+			productName = Realm;
+		};
+		0FBEA6592A047DBC00E4E34B /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA6582A047DBC00E4E34B /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+		0FBEA6702A048A9F00E4E34B /* OrderedSet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA66F2A048A9F00E4E34B /* XCRemoteSwiftPackageReference "OrderedSet" */;
+			productName = OrderedSet;
+		};
+		0FBEA67B2A048AFA00E4E34B /* SQLite */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA6582A047DBC00E4E34B /* XCRemoteSwiftPackageReference "SQLite" */;
+			productName = SQLite;
+		};
+		0FBEA67D2A048B0200E4E34B /* OrderedSet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA66F2A048A9F00E4E34B /* XCRemoteSwiftPackageReference "OrderedSet" */;
+			productName = OrderedSet;
+		};
+		0FBEA67F2A048B5C00E4E34B /* SpaceTime */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SpaceTime;
+		};
+		0FBEA6822A048CF100E4E34B /* XLPagerTabStrip */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA6812A048CF100E4E34B /* XCRemoteSwiftPackageReference "XLPagerTabStrip" */;
+			productName = XLPagerTabStrip;
+		};
+		0FBEA6842A048D0800E4E34B /* SpaceTime */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = SpaceTime;
+		};
+		0FBEA6872A048D2500E4E34B /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA6862A048D2500E4E34B /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+		0FBEA6892A048D2F00E4E34B /* SwiftyBeaver */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 0FBEA6862A048D2500E4E34B /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
+			productName = SwiftyBeaver;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = EFC2C68C1D88D02F0031AA9C /* Project object */;
 }

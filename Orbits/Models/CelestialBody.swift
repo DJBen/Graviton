@@ -31,7 +31,7 @@ open class CelestialBody: Body, BoundedByGravity, CustomStringConvertible, Compa
         return gravParam / gravConstant * 10e8
     }
 
-    public let satellites = OrderedSet<Body>()
+    public var satellites = OrderedSet<Body>()
 
     public var description: String {
         return "CelestialBody: { naif: \(naifId), name: \(name), radius(m): \(radius), rotationPeriod(s): \(rotationPeriod), obliquity(radians): \(obliquity), gm: \(gravParam), hillSphere(m): \(String(describing: hillSphere))}"

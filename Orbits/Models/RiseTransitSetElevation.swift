@@ -10,7 +10,6 @@ import SpaceTime
 import MathUtil
 import RealmSwift
 import CoreLocation
-import GeoQueries
 
 /// This structure embeds the rise-transit-set info along with
 /// maximum elevation in a sliding window that spans a day
@@ -70,7 +69,10 @@ extension RiseTransitSetElevation: ObserverLoadable {
         let deltaT = Double(timeZone.secondsFromGMT()) / 86400
         let startJd = modf(julianDay.value).0 + deltaT
         let endJd = modf(julianDay.value).0 + 1 + deltaT
-        let results = try! realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd).filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
+        let results = try! realm.objects(RiseTransitSetInfo.self).filter("naifId == %@ AND jd BETWEEN {%@, %@}", naifId, startJd, endJd)
+
+//
+//            .filterGeoRadius(center: site.location.coordinate, radius: ObserverInfo.distanceTolerance, sortAscending: false)
         return RiseTransitSetElevation(rts: Array(results), startJd: JulianDay(startJd), endJd: JulianDay(endJd))
     }
 
