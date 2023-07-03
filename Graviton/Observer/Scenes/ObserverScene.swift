@@ -114,7 +114,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
 
     private lazy var milkyWayNode: SCNNode = {
         let node = SphereInteriorNode(radius: milkywayLayerRadius, textureLongitudeOffset: -Double.pi / 2)
-        node.sphere.firstMaterial!.diffuse.contents = #imageLiteral(resourceName: "milkyway.png")
+        node.sphere.firstMaterial!.diffuse.contents = UIImage(named: "milkyway")
         node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
         node.opacity = 0.3
         node.categoryBitMask = VisibilityCategory.nonMoon.rawValue
@@ -124,7 +124,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
     lazy var panoramaNode: SCNNode = {
         let node = SphereInteriorNode(radius: landscapeLayerRadius)
         node.sphere.firstMaterial!.diffuse.contents = UIColor.white
-        node.sphere.firstMaterial!.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+        node.sphere.firstMaterial!.transparent.contents = UIImage(named: "debug_sphere_directions_transparency")
         node.sphere.firstMaterial!.transparent.contentsTransform = flipTextureContentsTransform
         node.sphere.firstMaterial!.isDoubleSided = true
         node.sphere.firstMaterial!.locksAmbientWithDiffuse = true
@@ -719,15 +719,15 @@ private extension ObserverScene {
         switch key {
         case "citySilhoulette":
             material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "panorama_city_silhoulette")
+            material?.transparent.contents = UIImage(named: "panorama_city_silhoulette")
             material?.diffuse.contents = UIColor.lightGray.withAlphaComponent(0.3)
         case "debugNode":
             material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "debug_sphere_directions_transparency")
+            material?.transparent.contents = UIImage(named: "debug_sphere_directions_transparency")
             material?.diffuse.contents = UIColor.white
         case "silverMountain":
             material?.transparencyMode = .aOne
-            material?.transparent.contents = #imageLiteral(resourceName: "mounain_panorama")
+            material?.transparent.contents = UIImage(named: "mountain_panorama")
             material?.diffuse.contents = UIColor.white
         case "none":
             break
