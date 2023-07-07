@@ -59,4 +59,11 @@ enum StarryNight {
         static let fullBorders = Table("constellation_borders")
         static let dbOppoCon = Expression<String>("opposite_con")
     }
+    
+    enum StarAngles {
+        static let table = Table("star_angles")
+        static let star1Hr = Expression<Int?>("star1_hr")
+        static let star2Hr = Expression<Int?>("star2_hr")
+        static let cosine_dist = Expression<Double>("cosine_dist")
+    }
 }
