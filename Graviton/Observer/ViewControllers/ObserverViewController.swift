@@ -15,16 +15,22 @@ import SpaceTime
 import SpriteKit
 import StarryNight
 import UIKit
+import AVFoundation
+import Photos
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
-class ObserverViewController: SceneController {
+class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var timeWarpSpeed: Double?
+    
+    private var captureSession: AVCaptureSession!
+    private var stillImageOutput: AVCapturePhotoOutput!
+    private var initCam = false;
 
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -82,6 +88,58 @@ class ObserverViewController: SceneController {
         observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
+        
+        captureSession = AVCaptureSession()
+        stillImageOutput = AVCapturePhotoOutput()
+        
+        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTelephotoCamera, .builtInUltraWideCamera, .builtInTrueDepthCamera], mediaType: .video, position: .back).devices
+        
+        var device: AVCaptureDevice? = nil;
+        for d in devices {
+            if d.isExposureModeSupported(.custom) {
+                print("\(d.localizedName) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
+                self.initCam = true;
+                device = d
+                break;
+            } else if d.isExposureModeSupported(.autoExpose) {
+                print("\(d.localizedName) supports auto exposure mode")
+            } else {
+                print("\(d.localizedName) does not support auto exposure mode")
+            }
+        }
+        
+        guard let device = device else {
+            return
+        }
+        
+        let input = (try? AVCaptureDeviceInput(device: device))!
+        
+//        guard let backCamera = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back),
+//                  let input = try? AVCaptureDeviceInput(device: backCamera) else {
+//                return
+//            }
+        
+//        do {
+//            try backCamera.lockForConfiguration()
+//            backCamera.setExposureModeCustom(duration: CMTimeMakeWithSeconds(1, 30), iso: backCamera.iso, completionHandler: nil)
+//            backCamera.unlockForConfiguration()
+//        } catch {
+//            debugPrint(error)
+//        }
+        
+        try! device.lockForConfiguration()
+        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
+        device.unlockForConfiguration()
+        
+        captureSession.beginConfiguration()
+        
+        captureSession.sessionPreset = .photo
+        captureSession.addInput(input)
+        captureSession.addOutput(stillImageOutput)
+        
+        captureSession.commitConfiguration()
+        
+        captureSession.startRunning()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -136,7 +194,8 @@ class ObserverViewController: SceneController {
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let gyroItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
-        navigationItem.leftBarButtonItem = gyroItem
+        let startrackerItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(startrackerButtonTapped(sender:)))
+        navigationItem.leftBarButtonItems = [gyroItem, startrackerItem]
         navigationItem.titleView = titleBlurView
         let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped(sender:)))
         let searchItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
@@ -230,6 +289,10 @@ class ObserverViewController: SceneController {
 
     @objc func gyroButtonTapped(sender _: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
+    }
+    
+    @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
+        capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {
@@ -349,6 +412,40 @@ class ObserverViewController: SceneController {
         configurePanSpeed()
         observerScene.rendererUpdate()
     }
+    
+    // MARK: - Capture Photo functions
+    
+    func capturePhoto() {
+        let settings = AVCapturePhotoSettings()
+//        settings.isDepthDataDeliveryEnabled = true
+//        settings.isDepthDataFiltered = false
+        //let enabled = self.stillImageOutput.isCameraCalibrationDataDeliverySupported
+//        let enabled = settings.isCameraCalibrationDataDeliverySupported
+//        settings.isCameraCalibrationDataDeliveryEnabled = true
+//        settings.isCameraIntrinsicMatrixDeliveryEnabled
+        //stillImageOutput.connection(with: .video)?.isCameraIntrinsicMatrixDeliveryEnabled = true;
+        
+//        settings.exposureDuration = CMTimeMakeWithSeconds(3, 1000) // 3 seconds
+        //settings.isAutoStillImageStabilizationEnabled = true // Enable image stabilization
+        //settings.isHighResolutionPhotoEnabled = true // Enable high resolution
+        stillImageOutput.capturePhoto(with: settings, delegate: self)
+    }
+
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        guard let imageData = photo.fileDataRepresentation() else { return }
+        let cc = photo.cameraCalibrationData?.intrinsicMatrix;
+
+        // TODO: add metadata so we know it came from Graviton?
+        // Even better, manage a small photo library so we can debug bad startracker photos.
+
+        PHPhotoLibrary.requestAuthorization { status in
+            if status == .authorized {
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAsset(from: UIImage(data: imageData)!)
+                }, completionHandler: nil)
+            }
+        }
+    }
 }
 
 // MARK: - Star search view controller delegate
@@ -393,3 +490,4 @@ extension ObserverViewController: ObserverDetailViewControllerDelegate {
         focusAtTarget()
     }
 }
+
