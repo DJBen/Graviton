@@ -1,2 +1,2 @@
-CREATE TABLE star_angles AS SELECT A.hr as star1_hr, B.hr as star2_hr, A.x/A.dist * B.x/B.dist + A.y/A.dist + B.y/B.dist + A.z/A.dist * B.z/B.dist as cosine_dist FROM stars_7 A, stars_7 B WHERE A.hr != B.hr AND A.hr!="" AND B.hr!="" AND A.x IS NOT NULL and B.x IS NOT NULL AND A.y IS NOT NULL aND B.y IS NOT NULL AND A.z IS NOT NULL AND B.z IS NOT NULL AND A.dist != 0 and B.dist != 0 AND A.mag < 4 AND B.mag < 4;
-
+CREATE TABLE star_angles (star1_hr INTEGER, star2_hr INTEGER, dot_prod REAL, PRIMARY KEY(star1_hr, star2_hr));
+INSERT INTO star_angles (star1_hr, star2_hr, dot_prod) SELECT A.hr as star1_hr, B.hr as star2_hr, A.x/A.dist * B.x/B.dist + A.y/A.dist * B.y/B.dist + A.z/A.dist * B.z/B.dist as dot_prod FROM stars_7 A, stars_7 B WHERE A.hr != B.hr AND A.hr!="" AND B.hr!="" AND A.x IS NOT NULL and B.x IS NOT NULL AND A.y IS NOT NULL aND B.y IS NOT NULL AND A.z IS NOT NULL;

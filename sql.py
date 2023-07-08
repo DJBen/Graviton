@@ -57,7 +57,9 @@ for row in rows:
         VALUES (?, ?, ?)
     ''', (star1_hr, star2_hr, theta))
 
-# CREATE INDEX angle_index ON star_angles(angle);
+conn.execute('''
+    CREATE INDEX angle_index ON star_angles(angle);
+''')
 
 # Close the connection to the database
 conn.commit()
