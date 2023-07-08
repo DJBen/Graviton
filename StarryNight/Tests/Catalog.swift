@@ -13,9 +13,9 @@ import SpaceTime
 import MathUtil
 
 class CatalogTest: XCTestCase {
-    func testConstellationQuery() {
-        let starCatalog = StarCatalog()
-        print(starCatalog.star_angles[0])
+    func testGetMatches() {
+        let matches = get_matches(angle: 0.52359, angle_delta: 0.1)
+        XCTAssertNotNil(matches)
     }
 }
 

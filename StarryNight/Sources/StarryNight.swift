@@ -64,6 +64,6 @@ enum StarryNight {
         static let table = Table("star_angles")
         static let star1Hr = Expression<Int?>("star1_hr")
         static let star2Hr = Expression<Int?>("star2_hr")
-        static let cosine_dist = Expression<Double>("cosine_dist")
+        static let angle = Expression<Double>("angle")
     }
 }

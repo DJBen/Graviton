@@ -10,27 +10,26 @@ import Foundation
 import SpaceTime
 import SQLite
 
-public class StarCatalog {
-    public var star_angles: [StarAngle] = [];
-    
-    public init() {
-        do {
-            let rows = try StarryNight.db.prepare(StarryNight.StarAngles.table)
-            self.star_angles = rows.compactMap { StarAngle(row: $0) }
-        } catch {
-            print("SQLite operation failed: \(error)")
-        }
+public func get_matches(angle: Double, angle_delta: Double) -> [StarAngle]? {
+    let query = StarryNight.StarAngles.table.filter(StarryNight.StarAngles.angle < angle + angle_delta && StarryNight.StarAngles.angle > angle - angle_delta)
+    do {
+        let rows = try StarryNight.db.prepare(query)
+        let star_angles = rows.compactMap { StarAngle(row: $0) }
+        return star_angles
+    } catch {
+        print("SQLite operation failed: \(error)")
+        return nil
     }
 }
 
 public struct StarAngle {
-    public let star1Hr: Int
-    public let star2Hr: Int
-    public let cosine_dist: Double
+    public let star1: Star
+    public let star2: Star
+    public let angle: Double
     
     public init(row: Row) {
-        self.star1Hr = try! row.get(StarryNight.StarAngles.star1Hr)!
-        self.star2Hr = try! row.get(StarryNight.StarAngles.star2Hr)!
-        self.cosine_dist = try! row.get(StarryNight.StarAngles.cosine_dist)
+        self.star1 = Star.hr(try! row.get(StarryNight.StarAngles.star1Hr)!)!
+        self.star2 = Star.hr(try! row.get(StarryNight.StarAngles.star2Hr)!)!
+        self.angle = try! row.get(StarryNight.StarAngles.angle)
     }
 }
