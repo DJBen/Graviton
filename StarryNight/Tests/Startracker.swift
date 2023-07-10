@@ -13,7 +13,7 @@ import SpaceTime
 import MathUtil
 
 class StartrackerTest: XCTestCase {
-    func testStarMatching() {
+    func testStarAngleMatching() {
         // The following are stars in the Big Dipper. We will test that under
         // arbitrary rotation, we can match to them. The coordinates themselves
         // from the sqlite3 catalog.
@@ -38,5 +38,28 @@ class StartrackerTest: XCTestCase {
         XCTAssertEqual(sm.star2, Star.hr(4301)!)
         XCTAssertEqual(sm.star3, Star.hr(5191)!)
     }
+    
+    func testStarMatching() {
+        let path = Bundle.module.path(forResource: "img", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let locs = image.getStarLocations()
+        print()
+        
+//        let startTime = Date()
+//        for y in 0...100 {
+//            for x in 0...100 {
+////                let startTime = Date()
+//                let c = image.getPixelColor(pos: CGPoint(x: x, y: y))
+////                let endTime = Date()
+////                let timeInterval: Double = endTime.timeIntervalSince(startTime)
+////                print("Time taken: \(timeInterval) seconds")
+//            }
+//        }
+//        let endTime = Date()
+//        let timeInterval: Double = endTime.timeIntervalSince(startTime)
+//        print("Time taken: \(timeInterval) seconds")
+    }
 }
+
 

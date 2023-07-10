@@ -584,13 +584,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		910B954F2A58922F006C0244 /* Startracker */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Startracker;
-			sourceTree = "<group>";
-		};
 		EF4851881D91E6C800737CE4 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -645,7 +638,6 @@
 		EFC2C6961D88D02F0031AA9C /* Graviton */ = {
 			isa = PBXGroup;
 			children = (
-				910B954F2A58922F006C0244 /* Startracker */,
 				0F37D44E2A0496F80053422A /* KelvinColor.h */,
 				0F37D44F2A0496F80053422A /* KelvinColor.swift */,
 				EFC2C6971D88D02F0031AA9C /* AppDelegate.swift */,

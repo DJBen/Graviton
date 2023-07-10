@@ -428,6 +428,8 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 //        settings.exposureDuration = CMTimeMakeWithSeconds(3, 1000) // 3 seconds
         //settings.isAutoStillImageStabilizationEnabled = true // Enable image stabilization
         //settings.isHighResolutionPhotoEnabled = true // Enable high resolution
+//        settings.isCameraCalibrationDataDeliveryEnabled = true;
+//        settings.isDualCameraDualPhotoDeliveryEnabled = true;
         stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
 
