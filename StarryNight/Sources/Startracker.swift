@@ -8,9 +8,124 @@
 import Foundation
 import MathUtil
 import UIKit
+import LASwift
 
-public func do_startrack(image: UIImage) {
+public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
+    var starLocs = image.getStarLocations()
+    var starGen = SeededGenerator(seed: 7)
+    starLocs.shuffle(using: &starGen)
+    let chosenStarLocs = starLocs.prefix(50)
     
+    var starCombos: [(Int, Int, Int)] = []
+    for i in 0..<chosenStarLocs.count {
+        for j in (i + 1)..<chosenStarLocs.count {
+            for k in (j + 1)..<chosenStarLocs.count {
+                starCombos.append((i,j,k))
+            }
+        }
+    }
+    var starComboGen = SeededGenerator(seed: 7)
+    starCombos.shuffle(using: &starComboGen)
+    
+    let angle_thresh = 0.017453 // 1 degree of tolerance
+    let width = Int(image.size.width.rounded())
+    let height = Int(image.size.height.rounded())
+    let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+    for (i, j, k) in starCombos {
+        let star1 = pix2ray.pix2Ray(pix: chosenStarLocs[i])
+        let star2 = pix2ray.pix2Ray(pix: chosenStarLocs[j])
+        let star3 = pix2ray.pix2Ray(pix: chosenStarLocs[k])
+        let all_sm = find_all_star_matches(star_coord1: star1, star_coord2: star2, star_coord3: star3, angle_thresh: angle_thresh)
+        for sm in all_sm {
+            let T_CR = solveWahba(star1Cam: star1, star1Catalog: sm.star1.physicalInfo.coordinate, star2Cam: star2, star2Catalog: sm.star2.physicalInfo.coordinate, star3Cam: star3, star3Catalog: sm.star3.physicalInfo.coordinate)
+            if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_CR: T_CR, angle_thresh: angle_thresh) {
+                print("FOUND ATTITUDE \(T_CR)")
+                return T_CR
+            }
+        }
+    }
+    return nil
+}
+
+func solveWahba(star1Cam: Vector3, star1Catalog: Vector3, star2Cam: Vector3, star2Catalog: Vector3, star3Cam: Vector3, star3Catalog: Vector3) -> Matrix {
+    var B = Matrix(3, 3, 0.0)
+    
+    let s1Cam = star1Cam.toMatrix()
+    let s1Cat = star1Catalog.toMatrix()
+    B = B + s1Cam * s1Cat.T
+    
+    let s2Cam = star2Cam.toMatrix()
+    let s2Cat = star2Catalog.toMatrix()
+    B = B + s2Cam * s2Cat.T
+    
+    let s3Cam = star3Cam.toMatrix()
+    let s3Cat = star3Catalog.toMatrix()
+    B = B + s3Cam * s3Cat.T
+    
+    let (U, _, V) = svd(B)
+    return U * diag([1, 1, det(U) * det(V)]) * V.T
+}
+
+func testAttitude(starLocs: ArraySlice<(Int, Int)>, pix2Ray: Pix2Ray, T_CR: Matrix, angle_thresh: Double) -> Bool {
+    let T_RC = T_CR.T
+    var matched_stars = 0
+    let expected_matched_stars = Int(0.9 * Double(starLocs.count))
+    for sloc in starLocs {
+        let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
+        let _sray_R = T_RC * sray_C
+        let sray_R = Vector3(_sray_R[0,0], _sray_R[1, 0], _sray_R[2, 0])
+        let nearest_star = Star.closest(to: sray_R)
+        guard let nearest_star = nearest_star else {
+            continue
+        }
+        let ang_dist = nearest_star.physicalInfo.coordinate.angularSeparation(from: sray_R)
+        if abs(ang_dist) < angle_thresh {
+            matched_stars += 1
+        }
+    }
+    return matched_stars >= expected_matched_stars
+}
+
+extension Vector3 {
+    func toMatrix() -> Matrix {
+        let m = Matrix(3, 1, 0)
+        m[0,0] = self.x
+        m[1,0] = self.y
+        m[2,0] = self.z
+        return m
+    }
+}
+
+struct SeededGenerator: RandomNumberGenerator {
+    let seed: Int
+
+    init(seed: Int) {
+        self.seed = seed
+    }
+
+    func next() -> UInt64 {
+        var rng = SystemRandomNumberGenerator()
+        var next = rng.next()
+        next ^= UInt64(seed)
+        return next
+    }
+}
+
+class Pix2Ray {
+    let intrinsics_inv: Matrix
+    
+    init(focalLength: Double, cx: Double, cy: Double) {
+        self.intrinsics_inv = Matrix([
+            Vector([1.0/focalLength, 0.0, -cx/focalLength]),
+            Vector([0.0, 1.0/focalLength, -cy/focalLength]),
+            Vector([0.0, 0.0, 1.0])
+        ])
+    }
+    
+    func pix2Ray(pix: (Int, Int)) -> Vector3 {
+        let ray = self.intrinsics_inv * Matrix(Vector([Double(pix.0), Double(pix.1), 1.0]))
+        return Vector3(ray[0,0], ray[1,0], ray[2,0]).normalized()
+    }
 }
 
 extension UIImage {

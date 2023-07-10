@@ -25,7 +25,11 @@ let package = Package(
         .package(
             url: "https://github.com/sharplet/Regex",
             from: Version(2, 0, 0)
-        )
+        ),
+        .package(
+            url: "https://github.com/AlexanderTar/LASwift",
+            from: Version(0, 3, 2)
+        ),
     ],
     targets: [
         .target(
@@ -36,6 +40,7 @@ let package = Package(
                 "SpaceTime",
                 .product(name: "SQLite", package: "SQLite.swift"),
                 "SwiftyBeaver",
+                "LASwift",
             ],
             path: "Sources",
             resources: [.process("Resources")]

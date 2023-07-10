@@ -11,7 +11,7 @@ import SpaceTime
 import SQLite
 
 public func get_matches(angle: Double, angle_delta: Double) -> [StarAngle]? {
-    let query = StarryNight.StarAngles.table.filter(StarryNight.StarAngles.angle < angle + angle_delta && StarryNight.StarAngles.angle > angle - angle_delta)
+    let query = StarryNight.StarAngles.table.filter(StarryNight.StarAngles.angle < angle + angle_delta/2 && StarryNight.StarAngles.angle > angle - angle_delta/2)
     do {
         let rows = try StarryNight.db.prepare(query)
         let star_angles = rows.compactMap { StarAngle(row: $0) }
