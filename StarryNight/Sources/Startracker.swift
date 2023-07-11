@@ -27,7 +27,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starComboGen = SeededGenerator(seed: 7)
     starCombos.shuffle(using: &starComboGen)
     
-    let angle_thresh = 0.017453 // 1 degree of tolerance
+    let angle_thresh = 0.001 //0.017453 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
