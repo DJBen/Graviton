@@ -51,30 +51,48 @@ class StartrackerTest: XCTestCase {
         XCTAssertEqual(sm.star3, Star.hr(5191)!)
     }
     
-    func testDoStartrack() {
-        let path = Bundle.module.path(forResource: "img", ofType: "png")!
+    func testDoStartrackEasy() {
+        let path = Bundle.module.path(forResource: "img_easy", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
-        let T_CR = doStartrack(image: image, focalLength: 600)!
-        let expected_T_CR = Matrix([
+        // Transform from reference (R) to Camera (C)
+        let T_C_R = doStartrack(image: image, focalLength: 600)!
+        let expected_T_C_R = Matrix([
             Vector([-0.14007684, -0.66341395, 0.73502409]),
             Vector([-0.56401402, -0.5566704, -0.60992316]),
             Vector([ 0.81379768, -0.5, -0.29619813])
         ])
-        
-        // rough check to make sure solution is close
-        // a more interpretable test might convert to axis-angle
-        // and test that the axis of rotation is close and the
-        // amount of rotation is close
-        let diff = T_CR - expected_T_CR
-        var score = 0.0
-        for i in 0..<diff.rows {
-            for j in 0..<diff.cols {
-                score += abs(diff[i,j])
-            }
-        }
-        XCTAssertTrue(score <= 0.01)
+        testRotationEqual(expected: expected_T_C_R, actual: T_C_R, tol: 0.01)
     }
+    
+    func testDoStartrackHard() {
+        let path = Bundle.module.path(forResource: "img_hard", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        // Transform from reference (R) to Camera (C)
+        let T_C_R = doStartrack(image: image, focalLength: 600)!
+        let expected_T_C_R = Matrix([
+            Vector([-0.78171649, 0.17101007, 0.599729]),
+            Vector([0.599729, 0.46984631, 0.6477419]),
+            Vector([-0.17101007, 0.8660254, -0.46984631])
+        ])
+        testRotationEqual(expected: expected_T_C_R, actual: T_C_R, tol: 0.02)
+    }
+}
+
+func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {
+    // rough check to make sure solution is close
+    // a more interpretable test might convert to axis-angle
+    // and test that the axis of rotation is close and the
+    // amount of rotation is close
+    let diff = actual - expected
+    var score = 0.0
+    for i in 0..<diff.rows {
+        for j in 0..<diff.cols {
+            score += abs(diff[i,j])
+        }
+    }
+    XCTAssertTrue(score <= tol)
 }
 
 

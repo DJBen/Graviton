@@ -21,9 +21,9 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     
     // Generate random combinations of 3 stars to test.
     var starCombos: [(Int, Int, Int)] = []
-    for i in 0..<starLocs.count {
-        for j in i + 1..<starLocs.count {
-            for k in j + 1..<starLocs.count {
+    for i in 0..<chosenStarLocs.count {
+        for j in i + 1..<chosenStarLocs.count {
+            for k in j + 1..<chosenStarLocs.count {
                 starCombos.append((i, j, k))
             }
         }
@@ -47,9 +47,10 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
         let timeInterval: Double = end.timeIntervalSince(start)
         print("Total time taken to find matches: \(timeInterval) seconds")
         for sm in all_sm {
-            let T_CR = solveWahba(star1Cam: star1, star1Catalog: sm.star1.physicalInfo.coordinate, star2Cam: star2, star2Catalog: sm.star2.physicalInfo.coordinate, star3Cam: star3, star3Catalog: sm.star3.physicalInfo.coordinate)
-            if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_CR: T_CR, angleDelta: angleDelta) {
-                return T_CR
+            // Transformation from Reference (R) to Camera (C)
+            let T_C_R = solveWahba(star1Cam: star1, star1Catalog: sm.star1.physicalInfo.coordinate, star2Cam: star2, star2Catalog: sm.star2.physicalInfo.coordinate, star3Cam: star3, star3Catalog: sm.star3.physicalInfo.coordinate)
+            if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
+                return T_C_R
             }
         }
     }
@@ -75,15 +76,15 @@ func solveWahba(star1Cam: Vector3, star1Catalog: Vector3, star2Cam: Vector3, sta
     return U * diag([1, 1, det(U) * det(V)]) * V.T
 }
 
-func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_CR: Matrix, angleDelta: Double) -> Bool {
-    let T_RC = T_CR.T
+func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
+    let T_R_C = T_C_R.T
     var matched_stars = 0
     let required_matched_stars = Int(0.9 * Double(starLocs.count))
     let max_unmatched_stars = starLocs.count - required_matched_stars
     var num_unmatched_stars = 0
     for sloc in starLocs {
         let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
-        let sray_R = (T_RC * sray_C).toVector3()
+        let sray_R = (T_R_C * sray_C).toVector3()
         let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angleDelta))
         if nearest_star == nil {
             // We failed to match this star
