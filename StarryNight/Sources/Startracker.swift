@@ -12,8 +12,8 @@ import LASwift
 
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starLocs = image.getStarLocations()
-    var starGen = SeededGenerator(seed: 7)
-    starLocs.shuffle(using: &starGen)
+//    var starGen = SeededGenerator(seed: 7)
+//    starLocs.shuffle(using: &starGen)
     let chosenStarLocs = starLocs.prefix(50)
     
     var starCombos: [(Int, Int, Int)] = []
@@ -24,10 +24,10 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
             }
         }
     }
-    var starComboGen = SeededGenerator(seed: 7)
-    starCombos.shuffle(using: &starComboGen)
+//    var starComboGen = SeededGenerator(seed: 7)
+//    starCombos.shuffle(using: &starComboGen)
     
-    let angle_thresh = 0.001 //0.017453 // 1 degree of tolerance
+    let angle_thresh = 0.005 //0.017453 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
@@ -93,6 +93,13 @@ extension Vector3 {
         m[1,0] = self.y
         m[2,0] = self.z
         return m
+    }
+}
+
+extension Matrix {
+    func toVector3() -> Vector3 {
+        assert(self.rows == 3 && self.cols == 1)
+        return Vector3(self[0,0], self[1,0], self[2,0])
     }
 }
 

@@ -11,6 +11,7 @@ import XCTest
 @testable import StarryNight
 import SpaceTime
 import MathUtil
+import LASwift
 
 class StartrackerTest: XCTestCase {
     func testStarAngleMatching() {
@@ -27,11 +28,20 @@ class StartrackerTest: XCTestCase {
         // Star 3: https://in-the-sky.org/data/object.php?id=TYC3467-1257-1
         let s3_coord = Vector3(-18.529548/31.8674, -9.394541/31.8674, 24.164506/31.8674)
         
-        // TODO: add rotation for these
+        let rotation = Matrix([
+            Vector([0.66341395, -0.73502409, -0.14007684]),
+            Vector([0.5566704, 0.60992316, -0.56401402]),
+            Vector([0.5, 0.29619813, 0.81379768]),
+        ])
+        
+        let s1 = (rotation * s1_coord.toMatrix()).toVector3()
+        let s2 = (rotation * s2_coord.toMatrix()).toVector3()
+        let s3 = (rotation * s3_coord.toMatrix()).toVector3()
+        
         // Extremely tight so that only one answer comes out. The real startracker will also solve the Wahba problem
         // and check alignment to observations.
         let angle_thresh = 0.001
-        let all_sm = find_all_star_matches(star_coord1: s1_coord, star_coord2: s2_coord, star_coord3: s3_coord, angle_thresh: angle_thresh)
+        let all_sm = find_all_star_matches(star_coord1: s1, star_coord2: s2, star_coord3: s3, angle_thresh: angle_thresh)
         XCTAssertFalse(all_sm.isEmpty)
         XCTAssertTrue(all_sm.count == 1)
         let sm = all_sm.first!;
@@ -47,8 +57,8 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let locs = image.getStarLocations()
         // (hr, v, u)
-        let expectedLocs = [(8308, 465, 19), (3185, 795, 19), (7417, 931, 24), (2948, 896, 29), (8558, 294, 38), (3748, 495, 59), (7906, 651, 64), (8698, 181, 73), (8414, 351, 81), (7635, 776, 87), (3845, 421, 110), (8131, 500, 110), (4359, 62, 121), (4133, 228, 124), (8709, 125, 157), (4357, 30, 180), (3665, 457, 181), (8232, 400, 184), (3982, 276, 188), (8812, 42, 194), (3314, 602, 199), (7557, 716, 207), (3852, 353, 209), (2970, 744, 216), (7235, 877, 229), (4057, 199, 248), (8322, 303, 257), (3482, 492, 258), (7710, 604, 263), (7570, 658, 277), (7950, 472, 283), (7377, 738, 302), (8728, 26, 309), (3249, 540, 327), (3873, 259, 331), (8204, 311, 343), (2943, 647, 353), (7754, 516, 354), (3461, 426, 363), (2356, 936, 368), (7236, 730, 409), (8353, 147, 468), (3705, 243, 471), (6869, 875, 487), (2763, 618, 492), (7340, 601, 496), (6973, 788, 506), (2985, 507, 515), (4033, 43, 519), (2484, 724, 527)]
-        //XCTAssertEqual(locs.count, expectedLocs.count)
+        let expectedLocs = [(8450, 650, 67), (8698, 455, 84), (8308, 734, 95), (8518, 562, 102), (8892, 298, 122), (8709, 386, 143), (8131, 740, 194), (7882, 927, 207), (8232, 612, 236), (8278, 506, 292), (8204, 479, 356), (7950, 652, 356), (8820, 112, 361), (7602, 928, 380), (7710, 806, 388), (8556, 200, 403), (8353, 310, 410), (7570, 869, 427), (7754, 674, 445), (8425, 196, 466)]
+        XCTAssertEqual(locs.count, expectedLocs.count)
         for i in 0..<locs.count {
             let l = locs[i]
             let e = expectedLocs[i]
@@ -58,13 +68,24 @@ class StartrackerTest: XCTestCase {
     }
     
     func testDoStartrack() {
-//        let starLocs = [(453, 2025), (1265, 965), (2158, 2873)]
-//        let attitude = findAttitude(starLocs: starLocs)
         let path = Bundle.module.path(forResource: "img", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
-        let T_CR = doStartrack(image: image, focalLength: 900)
-        XCTAssertNotNil(T_CR)
+        let T_CR = doStartrack(image: image, focalLength: 600)!
+        let expected_T_CR = Matrix([
+            Vector([-0.14007684, -0.66341395, 0.73502409]),
+            Vector([-0.56401402, -0.5566704, -0.60992316]),
+            Vector([ 0.81379768, -0.5, -0.29619813])
+        ])
+        let diff = T_CR - expected_T_CR
+        var score = 0.0
+        for i in 0..<diff.rows {
+            for j in 0..<diff.cols {
+                score += pow(diff[i,j], 2)
+            }
+        }
+        // heuristic to make sure solution is close
+        XCTAssertTrue(score <= 0.001)
     }
 }
 
