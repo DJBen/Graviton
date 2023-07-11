@@ -77,6 +77,11 @@ class StartrackerTest: XCTestCase {
             Vector([-0.56401402, -0.5566704, -0.60992316]),
             Vector([ 0.81379768, -0.5, -0.29619813])
         ])
+        
+        // rough check to make sure solution is close
+        // a more interpretable test might convert to axis-angle
+        // and test that the axis of rotation is close and the
+        // amount of rotation is close
         let diff = T_CR - expected_T_CR
         var score = 0.0
         for i in 0..<diff.rows {
@@ -84,7 +89,6 @@ class StartrackerTest: XCTestCase {
                 score += pow(diff[i,j], 2)
             }
         }
-        // heuristic to make sure solution is close
         XCTAssertTrue(score <= 0.001)
     }
 }

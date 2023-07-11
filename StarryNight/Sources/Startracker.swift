@@ -27,7 +27,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
 //    var starComboGen = SeededGenerator(seed: 7)
 //    starCombos.shuffle(using: &starComboGen)
     
-    let angle_thresh = 0.005 //0.017453 // 1 degree of tolerance
+    let angle_thresh = 0.0349066 // 0.005 //0.017453 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
@@ -74,14 +74,11 @@ func testAttitude(starLocs: ArraySlice<(Int, Int)>, pix2Ray: Pix2Ray, T_CR: Matr
         let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
         let _sray_R = T_RC * sray_C
         let sray_R = Vector3(_sray_R[0,0], _sray_R[1, 0], _sray_R[2, 0])
-        let nearest_star = Star.closest(to: sray_R)
+        let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angle_thresh))
         guard let nearest_star = nearest_star else {
             continue
         }
-        let ang_dist = nearest_star.physicalInfo.coordinate.angularSeparation(from: sray_R)
-        if abs(ang_dist) < angle_thresh {
-            matched_stars += 1
-        }
+        matched_stars += 1
     }
     return matched_stars >= expected_matched_stars
 }
