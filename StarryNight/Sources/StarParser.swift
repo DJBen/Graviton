@@ -65,7 +65,6 @@ extension UIImage {
         
         let items = hasAlpha ? 4 : 3
         
-        let startTime = Date()
         var stars: [StarLocation] = []
         
         let width = Int(image.size.width.rounded())
@@ -75,16 +74,19 @@ extension UIImage {
         let MIN_PIX_FOR_STAR = 6
         let MAX_PIX_FOR_STAR = 1000
         
+        let startTime = Date()
         for y in 0..<height {
             for x in 0..<width {
-                let posData = pix2Pos(y: y, x: x, width: width, idx_value: grayscale_idx, num_channels: items)
                 let posVis = pix2Pos(y: y, x: x, width: width, idx_value: 0, num_channels: 1)
+                if visited[posVis] {
+                    continue
+                }
+                visited[posVis] = true
+                let posData = pix2Pos(y: y, x: x, width: width, idx_value: grayscale_idx, num_channels: items)
                 let dataVal = data[posData]
-                let isVisited = visited[posVis]
-                if dataVal > STAR_PIX_THRESH && !isVisited {
+                if dataVal > STAR_PIX_THRESH {
                     var pixels: [(Int, Int)] = [(x, y)]
                     var stack: [(Int, Int)] = [(x, y)]
-                    visited[posVis] = true
                     
                     // Run flood fill
                     while let (x, y) = stack.popLast() {
@@ -94,12 +96,18 @@ extension UIImage {
                                 let ny = y + dy
                                 let nxPosData = pix2Pos(y: ny, x: nx, width: width, idx_value: grayscale_idx, num_channels: items)
                                 let nxPosVis = pix2Pos(y: ny, x: nx, width: width, idx_value: 0, num_channels: 1)
-                                if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxPosVis] && data[nxPosData] > STAR_PIX_THRESH {
+                                if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxPosVis] {
                                     visited[nxPosVis] = true
-                                    pixels.append((nx, ny))
-                                    stack.append((nx, ny))
+                                    if data[nxPosData] > STAR_PIX_THRESH {
+                                        pixels.append((nx, ny))
+                                        stack.append((nx, ny))
+                                    }
                                 }
                             }
+                        }
+                        // bail early if we have filled too many regions
+                        if stack.count > MAX_PIX_FOR_STAR {
+                            break
                         }
                     }
                     
@@ -118,7 +126,7 @@ extension UIImage {
         }
         let endTime = Date()
         let timeInterval: Double = endTime.timeIntervalSince(startTime)
-        print("Total time taken: \(timeInterval) seconds")
+        print("Total time for flood-fill: \(timeInterval) seconds")
         return stars
     }
 }

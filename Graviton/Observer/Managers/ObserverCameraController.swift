@@ -15,6 +15,9 @@ import UIKit
 class ObserverCameraController: CameraController {
     private var stabilizer = AttitudeStabilizer()
     private var lastApplied: Quaternion = .identity
+    private var stQuat: Quaternion? = nil
+    private var stDeviceMotionOffset: Quaternion? = nil
+    private var saveDeviceMotionOffset: Bool = false
 
     override init() {
         super.init()
@@ -30,11 +33,20 @@ class ObserverCameraController: CameraController {
     deinit {
         Settings.default.unsubscribe(object: self)
     }
+    
+    func setStartrackerOrientation(stQuat: Quaternion) {
+        self.stQuat = stQuat
+    }
+    
+    func requestSaveDeviceOrientationForStartracker() {
+        self.saveDeviceMotionOffset = true
+    }
 
     func orientCameraNode(observerInfo: ObserverLocationTime = ObserverLocationTime()) {
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
-        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
+        let cnRot = cameraNode.rotation
+        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cnRot))
         let controlSpaceTransform = Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
         lastApplied = quat * controlSpaceTransform
         var (pitch, yaw, _) = rot.toPitchYawRoll()
@@ -69,6 +81,19 @@ class ObserverCameraController: CameraController {
         let transform = Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * Quaternion(axisAngle: Vector4(0, 1, 0, Double.pi / 2))
         let eulerSpace = transform.inverse * stabilizer.smoothedQuaternion * transform
         let final = Quaternion(pitch: 0, yaw: 0, roll: Double.pi / 2) * Quaternion(pitch: Double.pi / 2, yaw: 0, roll: 0) * eulerSpace
-        cameraNode?.orientation = SCNQuaternion(quat * final)
+        var orientation = quat * final
+        if self.saveDeviceMotionOffset {
+            self.stDeviceMotionOffset = orientation
+            self.saveDeviceMotionOffset = false
+        }
+        if self.stQuat != nil {
+            // Redefine the orientation as a rotation with respect to the Startracker-determined quaternion
+            // The offset cancels whatever the device thought the quaternion was. Whatever delta rotation
+            // the device thinks we did since the Startracker quaternion is then applied to the Startracker
+            // quaternion
+            orientation = orientation * self.stDeviceMotionOffset!.inverse * self.stQuat!
+            let x = 1
+        }
+        cameraNode?.orientation = SCNQuaternion(orientation)
     }
 }

@@ -10,7 +10,6 @@ import MathUtil
 import UIKit
 import LASwift
 
-// TODO: make star search random
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starLocs = getStarLocations(img: image)
     
@@ -31,7 +30,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starCombosRng = SeededGenerator(seed: 7)
     starCombos.shuffle(using: &starCombosRng)
     
-    let maxStarCombosToTry = 100 // only try this many before bailing
+    let maxStarCombosToTry = 20 // only try this many before bailing
     let angleDelta = 0.017453 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
@@ -163,24 +162,6 @@ public func findStarMatches(star1Coord: Vector3, star2Coord: Vector3, star3Coord
             }
         }
     }
-//    for sm in s1s2Matches {
-//        // Assume star1 corresponds to the first star in the star pair
-//        let s3Opts1 = findS3(s1: sm.star1, s2: sm.star2, s1s3List: s1s3Matches, s2s3List: s2s3Matches)
-//        if s3Opts1.count > 0 {
-//            for s3 in s3Opts1 {
-//                star_matches.append(StarMatch(star1: sm.star1, star2: sm.star2, star3: s3))
-//            }
-//        }
-//
-//        // Assume star1 corresponds to the second star in the star pair
-//        let s3Opts2 = findS3(s1: sm.star2, s2: sm.star1, s1s3List: s1s3Matches, s2s3List: s2s3Matches)
-//        if s3Opts2.count > 0 {
-//            for s3 in s3Opts2 {
-//                star_matches.append(StarMatch(star1: sm.star2, star2: sm.star1, star3: s3))
-//            }
-//        }
-//    }
-    
     return star_matches
 }
 
@@ -193,29 +174,6 @@ func findS3(s1: Star, s2: Star, s1s3Stars: [Star:Set<Star>], s2s3Stars: [Star:Se
         return Set()
     }
     return s1s3Cands.intersection(s2s3Cands)
-//    var s3_cands: [Star] = []
-//    for sm in s1s3List {
-//        if sm.star1 == s1 {
-//            s3_cands.append(sm.star2)
-//        } else if sm.star2 == s1 {
-//            s3_cands.append(sm.star1)
-//        }
-//    }
-//    if s3_cands.count == 0 {
-//        return [];
-//    }
-//
-//    var s3_matches: [Star] = [];
-//    for sm in s2s3List {
-//        // check if any (s2,s3) pair is consistent with our s3 candidates
-//        if (sm.star1 == s2 && s3_cands.contains(sm.star2)) {
-//            s3_matches.append(sm.star2)
-//        }
-//        else if (sm.star2 == s2 && s3_cands.contains(sm.star1)) {
-//            s3_matches.append(sm.star1)
-//        }
-//    }
-//    return s3_matches
 }
 
 public struct StarMatch {

@@ -16,7 +16,6 @@ import LASwift
 class StarParserTest: XCTestCase {
     func testStarMatchingEasy() {
         let path = Bundle.module.path(forResource: "img_easy", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let locs = image.getStarLocations()
         // (hr, v, u)
@@ -32,7 +31,6 @@ class StarParserTest: XCTestCase {
     
     func testStarMatchingHard() {
         let path = Bundle.module.path(forResource: "img_hard", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let locs = image.getStarLocations()
         // (hr, v, u)
@@ -45,6 +43,13 @@ class StarParserTest: XCTestCase {
             XCTAssertEqual(a.v, Double(e.2), accuracy: 0.001)
         }
     }
+    
+//    func testNoStar() {
+//        let path = Bundle.module.path(forResource: "img_nostar", ofType: "jpg")!
+//        let image = UIImage(contentsOfFile: path)!
+//        let locs = image.getStarLocations()
+//        print()
+//    }
 }
 
 

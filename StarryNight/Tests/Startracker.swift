@@ -78,6 +78,15 @@ class StartrackerTest: XCTestCase {
         ])
         testRotationEqual(expected: expected_T_C_R, actual: T_C_R, tol: 0.02)
     }
+    
+    func testDoStartrackReal() {
+        let path = Bundle.module.path(forResource: "img_test", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        // Transform from reference (R) to Camera (C)
+        let T_C_R = doStartrack(image: image, focalLength: 2250)!
+        print()
+    }
 }
 
 func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {

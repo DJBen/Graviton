@@ -31,6 +31,8 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private var captureSession: AVCaptureSession!
     private var stillImageOutput: AVCapturePhotoOutput!
     private var initCam = false;
+    private var captureFOV: Double = 0.0;
+    private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .large)
 
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -114,19 +116,12 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         
         let input = (try? AVCaptureDeviceInput(device: device))!
         
-//        guard let backCamera = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back),
-//                  let input = try? AVCaptureDeviceInput(device: backCamera) else {
-//                return
-//            }
+        self.captureFOV = Double(device.activeFormat.videoFieldOfView)
+        if self.captureFOV == 0 {
+            print("Could not get FOV from camera. Startracking will not work.")
+        }
         
-//        do {
-//            try backCamera.lockForConfiguration()
-//            backCamera.setExposureModeCustom(duration: CMTimeMakeWithSeconds(1, 30), iso: backCamera.iso, completionHandler: nil)
-//            backCamera.unlockForConfiguration()
-//        } catch {
-//            debugPrint(error)
-//        }
-        
+        // Increase exposure time
         try! device.lockForConfiguration()
         device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
         device.unlockForConfiguration()
@@ -139,7 +134,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         
         captureSession.commitConfiguration()
         
-        captureSession.startRunning()
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -292,6 +289,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
+        print("tapped")
+        MotionManager.default.startMotionUpdate()
+        observerCameraController.requestSaveDeviceOrientationForStartracker()
+        observerCameraController.setStartrackerOrientation(stQuat: Quaternion(0, 0, 0, 1))
         capturePhoto()
     }
 
@@ -416,36 +417,32 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     // MARK: - Capture Photo functions
     
     func capturePhoto() {
+        self.activityIndicator.startAnimating()
+        self.captureSession.startRunning()
         let settings = AVCapturePhotoSettings()
-//        settings.isDepthDataDeliveryEnabled = true
-//        settings.isDepthDataFiltered = false
-        //let enabled = self.stillImageOutput.isCameraCalibrationDataDeliverySupported
-//        let enabled = settings.isCameraCalibrationDataDeliverySupported
-//        settings.isCameraCalibrationDataDeliveryEnabled = true
-//        settings.isCameraIntrinsicMatrixDeliveryEnabled
-        //stillImageOutput.connection(with: .video)?.isCameraIntrinsicMatrixDeliveryEnabled = true;
-        
-//        settings.exposureDuration = CMTimeMakeWithSeconds(3, 1000) // 3 seconds
-        //settings.isAutoStillImageStabilizationEnabled = true // Enable image stabilization
-        //settings.isHighResolutionPhotoEnabled = true // Enable high resolution
-//        settings.isCameraCalibrationDataDeliveryEnabled = true;
-//        settings.isDualCameraDualPhotoDeliveryEnabled = true;
         stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        self.captureSession.stopRunning()
         guard let imageData = photo.fileDataRepresentation() else { return }
-        let cc = photo.cameraCalibrationData?.intrinsicMatrix;
 
-        // TODO: add metadata so we know it came from Graviton?
-        // Even better, manage a small photo library so we can debug bad startracker photos.
-
+        let image = UIImage(data: imageData)!
+        let width = Double(image.size.width.rounded())
+        let focalLength = 1.0 / tan(self.captureFOV/2) * width / 2
+        // let T_C_R = doStartrack(image: image, focalLength: focalLength)
+        
+        // TODO: save somewhere besides photo library? This was convenient and nice for debugging
         PHPhotoLibrary.requestAuthorization { status in
             if status == .authorized {
                 PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAsset(from: UIImage(data: imageData)!)
+                    PHAssetChangeRequest.creationRequestForAsset(from: image)
                 }, completionHandler: nil)
             }
+        }
+        
+        DispatchQueue.main.async {
+            self.activityIndicator.stopAnimating()
         }
     }
 }

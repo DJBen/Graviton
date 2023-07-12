@@ -2,7 +2,6 @@
 Creates synthetic images of the stars for testing.
 """
 
-import argparse
 from enum import Enum
 import pathlib
 import sqlite3
@@ -12,7 +11,7 @@ import click
 from matplotlib import pyplot as plt
 from scipy.spatial.transform import Rotation
 import numpy as np
-
+from PIL import Image, ImageDraw
 
 CURRENT_DIR = pathlib.Path(__file__).parent
 
@@ -81,8 +80,11 @@ def get_star_vecs():
     cursor = conn.cursor()
 
     cursor.execute(
+        # """
+        # SELECT hr,x,y,z,dist FROM stars_7 WHERE hr!='' AND mag<4;
+        # """
         """
-        SELECT hr,x,y,z,dist FROM stars_7 WHERE hr!='' AND mag<4;
+        SELECT hr,x,y,z,dist FROM stars_7 WHERE hr=74 OR hr=188 AND mag<4;
         """
     )
 
@@ -91,7 +93,7 @@ def get_star_vecs():
     return rows
 
 
-def create_synthetic_img(image_type: ImageType):
+def create_synthetic_img(image_type: ImageType, annotate: bool):
     """
     Creates a synthetic image using stars from the catalog
     """
@@ -100,7 +102,8 @@ def create_synthetic_img(image_type: ImageType):
     # Transformation from Catalog Camera (Cc) to Synthetic Camera (Sc)
     if image_type == ImageType.EASY:
         np.random.seed(7)
-        T_Sc_Cc = Rotation.from_euler("xyz", [20, -30, 40], degrees=True).as_matrix()
+        # T_Sc_Cc = Rotation.from_euler("xyz", [20, -30, 40], degrees=True).as_matrix()
+        T_Sc_Cc = np.eye(3)
     elif image_type == ImageType.HARD:
         np.random.seed(13)
         T_Sc_Cc = Rotation.from_euler("xyz", [-70, 120, 70], degrees=True).as_matrix()
@@ -145,7 +148,9 @@ def create_synthetic_img(image_type: ImageType):
     for row in rows:
         hr, x, y, z, dist = row
         star_ray = np.array([x, y, z]) / dist
+        print("HR", hr, star_ray)
         star_ray = T_Cc_C @ star_ray
+        print("REPROJ CAM", star_ray)
         cp = can_project_star_onto_cam(star_ray)
         if cp:
             projectable_stars.append((hr, star_ray))
@@ -169,7 +174,7 @@ def create_synthetic_img(image_type: ImageType):
         if len(chosen_stars) == stars_to_pick:
             break
 
-    assert len(chosen_stars) == stars_to_pick
+    # assert len(chosen_stars) == stars_to_pick
 
     img = np.zeros((img_height, img_width, 3), dtype=np.uint8)
     all_star_locs = []
@@ -181,6 +186,15 @@ def create_synthetic_img(image_type: ImageType):
     savepath = "synthetic_img.png"
     print(f"Saving image to {savepath}")
     plt.imsave(savepath, img)
+
+    if annotate:
+        pil_img = Image.fromarray(img)
+        draw = ImageDraw.Draw(pil_img)
+        for hr, u, v in all_star_locs:
+            draw.text((u, v), f"HR {hr}", fill="red")
+        savepath = "annotated_synthetic_img.png"
+        print(f"Saving annotated image to {savepath}")
+        pil_img.save(savepath)
 
     # Sort these in line-scan order
     all_star_locs.sort(key=lambda x: x[2] * img_width + x[1])
@@ -195,7 +209,7 @@ def create_synthetic_img(image_type: ImageType):
 @click.argument("image_type", type=click.Choice([e.name for e in ImageType], case_sensitive=False))
 def main(image_type: str):
     image_type = ImageType[image_type.upper()]
-    create_synthetic_img(image_type)
+    create_synthetic_img(image_type, True)
 
 
 if __name__ == "__main__":
