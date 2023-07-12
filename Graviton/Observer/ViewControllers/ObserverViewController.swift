@@ -33,6 +33,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private var initCam = false;
     private var captureFOV: Double = 0.0;
     private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .large)
+    private var activityLabel: UILabel = UILabel()
 
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -174,6 +175,18 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
+        self.activityLabel.text = "Taking a long-exposure photo, hold steady"
+        self.activityLabel.textAlignment = .center
+        self.activityLabel.font = UIFont.systemFont(ofSize: 20)
+        
+        // Position label below the activity indicator
+        self.activityLabel.isHidden = true
+        self.activityLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.activityLabel)
+        NSLayoutConstraint.activate([
+            self.activityLabel.centerXAnchor.constraint(equalTo: self.activityIndicator.centerXAnchor),
+            self.activityLabel.topAnchor.constraint(equalTo: self.activityIndicator.bottomAnchor, constant: 20)
+        ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -454,19 +467,15 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     // MARK: - Capture Photo functions
-    private var start: Date? = nil
-    
     func capturePhoto() {
+        // TODO: add text that we are done taking photo
         self.activityIndicator.startAnimating()
+        self.activityLabel.isHidden = false
         let settings = AVCapturePhotoSettings()
-        self.start = Date()
         stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        let end = Date()
-        let timeInterval: Double = end.timeIntervalSince(start!)
-        print("Total time taken to take photo: \(timeInterval) seconds")
         guard let imageData = photo.fileDataRepresentation() else { return }
 
         let image = UIImage(data: imageData)!
@@ -485,6 +494,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         
         DispatchQueue.main.async {
             self.activityIndicator.stopAnimating()
+            self.activityLabel.isHidden = true
         }
     }
 }
