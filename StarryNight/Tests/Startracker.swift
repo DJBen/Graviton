@@ -84,7 +84,7 @@ class StartrackerTest: XCTestCase {
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         // Transform from reference (R) to Camera (C)
-        let T_C_R = doStartrack(image: image, focalLength: 2250)!
+        let T_C_R = doStartrack(image: image, focalLength: 2267.88)!
         print()
     }
 }

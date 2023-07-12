@@ -143,8 +143,18 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
     # This matrix makes it possible to operate in camera spaces
     # starting with a camera placed at the same origin/orientation
     # as the catalog.
-    T_Cc_C = np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]])
-    assert np.linalg.det(T_Cc_C) == 1
+    # T_Cc_C = np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]])
+    print("BAD ROT")
+    T_Cc_C = Rotation.from_matrix(
+        np.array(
+            [
+                [0.12171121282206947, -0.80585917211361047, -0.57946300606142942],
+                [-0.978818298806985, -0.19427610236218537, 0.064587413414358683],
+                [-0.16462417378374436, 0.55932798139492823, -0.81243528396709552],
+            ]
+        )
+    ).as_matrix()
+    assert abs(np.linalg.det(T_Cc_C) - 1) < 1e-4
     for row in rows:
         hr, x, y, z, dist = row
         star_ray = np.array([x, y, z]) / dist

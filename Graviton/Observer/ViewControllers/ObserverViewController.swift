@@ -94,29 +94,39 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         captureSession = AVCaptureSession()
         stillImageOutput = AVCapturePhotoOutput()
         
-        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTelephotoCamera, .builtInUltraWideCamera, .builtInTrueDepthCamera], mediaType: .video, position: .back).devices
+//        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTelephotoCamera, .builtInUltraWideCamera, .builtInTrueDepthCamera], mediaType: .video, position: .back).devices
         
-        var device: AVCaptureDevice? = nil;
-        for d in devices {
-            if d.isExposureModeSupported(.custom) {
-                print("\(d.localizedName) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
-                self.initCam = true;
-                device = d
-                break;
-            } else if d.isExposureModeSupported(.autoExpose) {
-                print("\(d.localizedName) supports auto exposure mode")
-            } else {
-                print("\(d.localizedName) does not support auto exposure mode")
-            }
-        }
+//        var device: AVCaptureDevice? = nil;
+//        for d in devices {
+//            if d.isExposureModeSupported(.custom) {
+//                print("\(d.localizedName) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
+//                self.initCam = true;
+//                device = d
+//                break;
+//            } else if d.isExposureModeSupported(.autoExpose) {
+//                print("\(d.localizedName) supports auto exposure mode")
+//            } else {
+//                print("\(d.localizedName) does not support auto exposure mode")
+//            }
+//        }
+        
+        
+//        guard let device = device else {
+//            return
+//        }
+        
+        let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         
         guard let device = device else {
             return
         }
         
-        let input = (try? AVCaptureDeviceInput(device: device))!
         
+        
+        let input = (try? AVCaptureDeviceInput(device: device))!
+                
         self.captureFOV = Double(device.activeFormat.videoFieldOfView)
+        self.captureFOV = Double(device.activeFormat.geometricDistortionCorrectedVideoFieldOfView)
         if self.captureFOV == 0 {
             print("Could not get FOV from camera. Startracking will not work.")
         }
@@ -291,8 +301,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
         print("tapped")
         MotionManager.default.startMotionUpdate()
-        observerCameraController.requestSaveDeviceOrientationForStartracker()
-        observerCameraController.setStartrackerOrientation(stQuat: Quaternion(0, 0, 0, 1))
+        //observerCameraController.requestSaveDeviceOrientationForStartracker()
+        //observerCameraController.setStartrackerOrientation(stQuat: Quaternion(0, 0, 0, 1))
+//        let q = Quaternion(0.72945572, -0.61164695, -0.25501451, 0.16955812)
+//        observerCameraController.setStartrackerOrientation(stQuat: q)
         capturePhoto()
     }
 
@@ -429,6 +441,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 
         let image = UIImage(data: imageData)!
         let width = Double(image.size.width.rounded())
+        let ldc = photo.cameraCalibrationData!.lensDistortionCenter
+        let ldlt = photo.cameraCalibrationData!.lensDistortionLookupTable
+        let im = photo.cameraCalibrationData!.intrinsicMatrix
         let focalLength = 1.0 / tan(self.captureFOV/2) * width / 2
         // let T_C_R = doStartrack(image: image, focalLength: focalLength)
         

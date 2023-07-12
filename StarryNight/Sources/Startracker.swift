@@ -13,6 +13,10 @@ import LASwift
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starLocs = getStarLocations(img: image)
     
+    for sl in starLocs {
+        print("[\(sl.u), \(sl.v)],")
+    }
+        
     // Restrict the search-space to 20 stars to avoid generating too many combinations
     var starLocsRng = SeededGenerator(seed: 7)
     starLocs.shuffle(using: &starLocsRng)
@@ -31,7 +35,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     starCombos.shuffle(using: &starCombosRng)
     
     let maxStarCombosToTry = 20 // only try this many before bailing
-    let angleDelta = 0.017453 // 1 degree of tolerance
+    let angleDelta = 0.017453 * 2 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
@@ -78,7 +82,7 @@ func solveWahba(star1Cam: Vector3, star1Catalog: Vector3, star2Cam: Vector3, sta
 func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
     let T_R_C = T_C_R.T
     var matched_stars = 0
-    let required_matched_stars = Int(0.9 * Double(starLocs.count))
+    let required_matched_stars = Int(0.75 * Double(starLocs.count))
     let max_unmatched_stars = starLocs.count - required_matched_stars
     var num_unmatched_stars = 0
     for sloc in starLocs {
