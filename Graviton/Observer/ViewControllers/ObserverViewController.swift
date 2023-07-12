@@ -94,12 +94,20 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         captureSession = AVCaptureSession()
         stillImageOutput = AVCapturePhotoOutput()
         
-//        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [.builtInWideAngleCamera, .builtInDualCamera, .builtInTelephotoCamera, .builtInUltraWideCamera, .builtInTrueDepthCamera], mediaType: .video, position: .back).devices
-        
+//        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [
+//            //.builtInWideAngleCamera,
+//            .builtInDualCamera,
+//            .builtInTelephotoCamera,
+//            .builtInUltraWideCamera,
+//        ],
+//           mediaType: .video,
+//           position: .back
+//        ).devices
+//
 //        var device: AVCaptureDevice? = nil;
 //        for d in devices {
 //            if d.isExposureModeSupported(.custom) {
-//                print("\(d.localizedName) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
+//                print("\(d.deviceType) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
 //                self.initCam = true;
 //                device = d
 //                break;
@@ -121,19 +129,24 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             return
         }
         
-        
-        
         let input = (try? AVCaptureDeviceInput(device: device))!
                 
         self.captureFOV = Double(device.activeFormat.videoFieldOfView)
-        self.captureFOV = Double(device.activeFormat.geometricDistortionCorrectedVideoFieldOfView)
         if self.captureFOV == 0 {
             print("Could not get FOV from camera. Startracking will not work.")
         }
         
         // Increase exposure time
         try! device.lockForConfiguration()
-        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
+        //device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
+        // Increase exposure duration
+        //let currentDuration = device.exposureDuration
+        //let newDuration = CMTimeMultiplyByFloat64(currentDuration, 50.0) // Double current exposure duration
+        //device.setExposureModeCustom(duration: newDuration, iso: AVCaptureDevice.currentISO)
+        let newDuration = CMTimeMakeWithSeconds(1, 1)
+        let minISO = device.activeFormat.minISO
+        print("\(device.activeFormat.minExposureDuration), \(device.activeFormat.maxExposureDuration)")
+        device.setExposureModeCustom(duration: newDuration, iso: minISO)
         device.unlockForConfiguration()
         
         captureSession.beginConfiguration()
@@ -427,23 +440,25 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     // MARK: - Capture Photo functions
+    private var start: Date? = nil
     
     func capturePhoto() {
         self.activityIndicator.startAnimating()
         self.captureSession.startRunning()
         let settings = AVCapturePhotoSettings()
+        self.start = Date()
         stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        let end = Date()
+        let timeInterval: Double = end.timeIntervalSince(start!)
+        print("Total time taken to take photo: \(timeInterval) seconds")
         self.captureSession.stopRunning()
         guard let imageData = photo.fileDataRepresentation() else { return }
 
         let image = UIImage(data: imageData)!
         let width = Double(image.size.width.rounded())
-        let ldc = photo.cameraCalibrationData!.lensDistortionCenter
-        let ldlt = photo.cameraCalibrationData!.lensDistortionLookupTable
-        let im = photo.cameraCalibrationData!.intrinsicMatrix
         let focalLength = 1.0 / tan(self.captureFOV/2) * width / 2
         // let T_C_R = doStartrack(image: image, focalLength: focalLength)
         
