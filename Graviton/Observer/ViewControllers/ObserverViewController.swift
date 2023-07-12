@@ -136,27 +136,41 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             print("Could not get FOV from camera. Startracking will not work.")
         }
         
-        // Increase exposure time
+//        // Increase exposure time
+//        try! device.lockForConfiguration()
+//        //device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
+//        // Increase exposure duration
+//        //let currentDuration = device.exposureDuration
+//        //let newDuration = CMTimeMultiplyByFloat64(currentDuration, 50.0) // Double current exposure duration
+//        //device.setExposureModeCustom(duration: newDuration, iso: AVCaptureDevice.currentISO)
+//        let newDuration = CMTimeMakeWithSeconds(1, 1)
+//        let minISO = device.activeFormat.minISO
+//        print("\(device.activeFormat.minExposureDuration), \(device.activeFormat.maxExposureDuration)")
+//        device.setExposureModeCustom(duration: newDuration, iso: minISO)
+//        device.unlockForConfiguration()
+//
+//        captureSession.beginConfiguration()
+//
+//        captureSession.sessionPreset = .photo
+//        captureSession.addInput(input)
+//        captureSession.addOutput(stillImageOutput)
+//
+//        captureSession.commitConfiguration()
+        
         try! device.lockForConfiguration()
-        //device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
-        // Increase exposure duration
-        //let currentDuration = device.exposureDuration
-        //let newDuration = CMTimeMultiplyByFloat64(currentDuration, 50.0) // Double current exposure duration
-        //device.setExposureModeCustom(duration: newDuration, iso: AVCaptureDevice.currentISO)
-        let newDuration = CMTimeMakeWithSeconds(1, 1)
-        let minISO = device.activeFormat.minISO
-        print("\(device.activeFormat.minExposureDuration), \(device.activeFormat.maxExposureDuration)")
-        device.setExposureModeCustom(duration: newDuration, iso: minISO)
+        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
         device.unlockForConfiguration()
-        
+
         captureSession.beginConfiguration()
-        
+
         captureSession.sessionPreset = .photo
         captureSession.addInput(input)
         captureSession.addOutput(stillImageOutput)
-        
+
         captureSession.commitConfiguration()
-        
+
+        captureSession.startRunning()
+
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         view.addSubview(activityIndicator)
@@ -444,7 +458,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     
     func capturePhoto() {
         self.activityIndicator.startAnimating()
-        self.captureSession.startRunning()
         let settings = AVCapturePhotoSettings()
         self.start = Date()
         stillImageOutput.capturePhoto(with: settings, delegate: self)
@@ -454,7 +467,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         let end = Date()
         let timeInterval: Double = end.timeIntervalSince(start!)
         print("Total time taken to take photo: \(timeInterval) seconds")
-        self.captureSession.stopRunning()
         guard let imageData = photo.fileDataRepresentation() else { return }
 
         let image = UIImage(data: imageData)!
