@@ -58,7 +58,9 @@ class ObserverCameraController: CameraController {
         }
         let derolledRot = lastApplied * Quaternion(pitch: pitch, yaw: yaw, roll: 0)
         let movement = controlSpaceTransform * Quaternion(pitch: cameraYaw * cos(pitch), yaw: -cameraPitch, roll: 0)
-        cameraNode.orientation = SCNQuaternion(derolledRot * movement)
+        //]cameraNode.orientation = SCNQuaternion(derolledRot * movement)
+        //cameraNode.orientation = SCNQuaternion(0, 0, 0, 1)
+        print("cn \(cameraNode.orientation)")
     }
 
     override func handleCameraPan(atTime time: TimeInterval) {
@@ -91,8 +93,9 @@ class ObserverCameraController: CameraController {
             // The offset cancels whatever the device thought the quaternion was. Whatever delta rotation
             // the device thinks we did since the Startracker quaternion is then applied to the Startracker
             // quaternion
-            orientation = orientation * self.stDeviceMotionOffset!.inverse * self.stQuat!
-            let x = 1
+            //orientation = orientation * self.stDeviceMotionOffset!.inverse * self.stQuat!
+            // TODO: go back to above!
+            orientation = self.stQuat!
         }
         cameraNode?.orientation = SCNQuaternion(orientation)
     }

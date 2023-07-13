@@ -45,8 +45,9 @@ class ImageType(Enum):
             assert sv >= 0
             assert lv < img.shape[0]
             slc = img[sv:lv, su:lu]
-            if (slc > 250).any():
-                raise DrawStarException
+            # TODO: bring back
+            # if (slc > 250).any():
+            #     raise DrawStarException
             img[sv:lv, su:lu] = 255
 
         star_size = 5
@@ -80,11 +81,8 @@ def get_star_vecs():
     cursor = conn.cursor()
 
     cursor.execute(
-        # """
-        # SELECT hr,x,y,z,dist FROM stars_7 WHERE hr!='' AND mag<4;
-        # """
         """
-        SELECT hr,x,y,z,dist FROM stars_7 WHERE hr=74 OR hr=188 AND mag<4;
+        SELECT hr,x,y,z,dist FROM stars_7 WHERE hr!='' AND mag<4;
         """
     )
 
@@ -99,11 +97,56 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
     """
     rows = get_star_vecs()
 
-    # Transformation from Catalog Camera (Cc) to Synthetic Camera (Sc)
+    # TOOD: doc better
+    # Transformation from Ref0 (C) to Camera Catalog (Cc)
+    # The catalog follows the Equatorial coordinate system. Cameras
+    # should have +x being horizontal to the right, +y being vertical
+    # and downwards, and +z point out of the camera to the scene.
+    # This matrix makes it possible to operate in camera spaces
+    # starting with a camera placed at the same origin/orientation
+    # as the catalog.
+    T_Cam0_Ref0 = np.array(
+        [[0, -1, 0], [0, 0, -1], [1, 0, 0]],
+    )
+    assert abs(np.linalg.det(T_Cam0_Ref0) - 1) < 1e-4
+
+    # Transformation from Synthetic Camera (SCam) to Catalog Camera (Cam)
     if image_type == ImageType.EASY:
         np.random.seed(7)
         # T_Sc_Cc = Rotation.from_euler("xyz", [20, -30, 40], degrees=True).as_matrix()
-        T_Sc_Cc = np.eye(3)
+        # T_Sc_Cc = Rotation.from_quat([0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
+        # big_dipper_answer = np.array(
+        #     [
+        #         0.54617137383538428,
+        #         0.55726711295433295,
+        #         0.62542001504773703,
+        #         -0.51466885365450366,
+        #         0.81231345012273837,
+        #         -0.27434071850100983,
+        #         -0.66091815036411794,
+        #         -0.17204715507451801,
+        #         0.73047037924205882,
+        #     ]
+        # ).reshape(3, 3)
+        # T_Sc_Cc = T_Cc_C.T @ big_dipper_answer
+        # T_Sc_Cc = np.array(
+        #     [
+        #         -0.66091815036411794,
+        #         -0.17204715507451801,
+        #         0.73047037924205882,
+        #         -0.54617137383538428,
+        #         -0.55726711295433295,
+        #         -0.62542001504773703,
+        #         0.51466885365450366,
+        #         -0.81231345012273837,
+        #         0.27434071850100983,
+        #     ]
+        # ).reshape(3, 3)
+        # T_Sc_Cc = np.eye(3)
+
+        T_total = Rotation.from_quat([-0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
+        T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
+
     elif image_type == ImageType.HARD:
         np.random.seed(13)
         T_Sc_Cc = Rotation.from_euler("xyz", [-70, 120, 70], degrees=True).as_matrix()
@@ -111,14 +154,21 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
         raise ValueError(f"Unknown image type {image_type}")
 
     # TODO: make these command-line args?
-    img_width = 960
-    img_height = 540
-    focal_length = 600  # in pixels
+    # img_width = 960
+    # img_height = 540
+    # focal_length = 600  # in pixels
+    vfov = 77.8775 * np.pi / 180
+    focal_length = 600
+    img_height = np.tan(vfov / 2) * focal_length * 2
+    img_width = img_height / 2
+    img_height = int(img_height)
+    img_width = int(img_width)
+    print(img_height, img_width)
 
     intrinsics_mtx = np.array([[focal_length, 0, img_width // 2], [0, focal_length, img_height // 2], [0, 0, 1]])
 
     def can_project_star_onto_cam(star_ray):
-        cam_ray = T_Sc_Cc @ star_ray
+        cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
         if cam_ray[-1] < 0:
             # must have +z
             return False
@@ -130,42 +180,27 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
         )
 
     def project_star_onto_cam(star_ray):
-        cam_ray = T_Sc_Cc @ star_ray
+        cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
         cam_ray = cam_ray / cam_ray[-1]
         pix_ray = intrinsics_mtx @ cam_ray
         return round(pix_ray[0]), round(pix_ray[1])
 
     projectable_stars = []
-    # Transformation from Catalog (C) to Camera Catalog (Cc)
-    # The catalog follows the Equatorial coordinate system. Cameras
-    # should have +x being horizontal to the right, +y being vertical
-    # and downwards, and +z point out of the camera to the scene.
-    # This matrix makes it possible to operate in camera spaces
-    # starting with a camera placed at the same origin/orientation
-    # as the catalog.
-    # T_Cc_C = np.array([[0, -1, 0], [0, 0, -1], [1, 0, 0]])
-    print("BAD ROT")
-    T_Cc_C = Rotation.from_matrix(
-        np.array(
-            [
-                [0.12171121282206947, -0.80585917211361047, -0.57946300606142942],
-                [-0.978818298806985, -0.19427610236218537, 0.064587413414358683],
-                [-0.16462417378374436, 0.55932798139492823, -0.81243528396709552],
-            ]
-        )
-    ).as_matrix()
-    assert abs(np.linalg.det(T_Cc_C) - 1) < 1e-4
     for row in rows:
         hr, x, y, z, dist = row
         star_ray = np.array([x, y, z]) / dist
-        print("HR", hr, star_ray)
-        star_ray = T_Cc_C @ star_ray
-        print("REPROJ CAM", star_ray)
         cp = can_project_star_onto_cam(star_ray)
         if cp:
             projectable_stars.append((hr, star_ray))
 
-    stars_to_pick = 20
+        if hr == 188:
+            arr = np.array([x, y, z]) / dist
+            arr2 = T_SCam_Cam @ T_Cam0_Ref0 @ arr
+            print("Hr188", cp, arr, arr2)
+        # if hr == 4554:
+        #     print("HR 4554 CP", cp)
+
+    stars_to_pick = 50
     print(f"Can project {len(projectable_stars)} stars out of {len(rows)}. Choosing at most {stars_to_pick}.")
 
     np.random.shuffle(projectable_stars)
@@ -176,9 +211,9 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
         for cs_hr, cs_star_ray in chosen_stars:
             dp = np.dot(ps_star_ray, cs_star_ray)
             theta = np.arccos(dp)
-            if theta < 5 * np.pi / 180:  # check 5 degrees apart
-                is_apart = False
-                break
+            # if theta < 5 * np.pi / 180:  # check 5 degrees apart
+            #     is_apart = False
+            #     break
         if is_apart:
             chosen_stars.append((ps_hr, ps_star_ray))
         if len(chosen_stars) == stars_to_pick:
@@ -212,7 +247,17 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
     # Use the following in any Swift unit-test
     print("Star locations (hr, u, v):\n", all_star_locs)
 
-    print("Camera attitude:\n", T_Sc_Cc @ T_Cc_C)
+    # Convert the rotation into the orientation that one can plug into the
+    # camera node orientation in Swift.
+    # This defines the full rotation in the reference catalog coordinate system
+    # of the camera
+    cmtx = T_Cam0_Ref0.T @ T_SCam_Cam @ T_Cam0_Ref0
+    # We invert the matrix here because Swift seems to want use to provide
+    # the transform T_R_C (go from camera to reference)
+    swift_mtx = Rotation.from_matrix(cmtx.T)
+    swift_rmtx = swift_mtx.as_matrix()
+    swift_quat = swift_mtx.as_quat()
+    print(f"Camera orientation in Swift:\n{swift_rmtx}\n{swift_quat}")
 
 
 @click.command

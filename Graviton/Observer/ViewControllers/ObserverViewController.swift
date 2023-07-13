@@ -31,7 +31,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private var captureSession: AVCaptureSession!
     private var stillImageOutput: AVCapturePhotoOutput!
     private var initCam = false;
-    private var captureFOV: Double = 0.0;
+    private var captureFOV: RadianAngle = 0.0;
     private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .large)
     private var activityLabel: UILabel = UILabel()
 
@@ -131,9 +131,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         }
         
         let input = (try? AVCaptureDeviceInput(device: device))!
-                
-        self.captureFOV = Double(device.activeFormat.videoFieldOfView)
-        if self.captureFOV == 0 {
+        
+        self.captureFOV = RadianAngle(degreeAngle: DegreeAngle(floatLiteral: Double(device.activeFormat.videoFieldOfView)))
+        if self.captureFOV.value == 0 {
             print("Could not get FOV from camera. Startracking will not work.")
         }
         
@@ -159,6 +159,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 //        captureSession.commitConfiguration()
         
         try! device.lockForConfiguration()
+        // TODO: consider doing this
+//        let format = device.formats.first(where: { CMVideoFormatDescriptionGetDimensions($0.formatDescription).width == 1920 && CMVideoFormatDescriptionGetDimensions($0.formatDescription).height == 1080 })!
+//        device.activeFormat = format
         device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
         device.unlockForConfiguration()
 
@@ -341,11 +344,12 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
         print("tapped")
         MotionManager.default.startMotionUpdate()
-        //observerCameraController.requestSaveDeviceOrientationForStartracker()
-        //observerCameraController.setStartrackerOrientation(stQuat: Quaternion(0, 0, 0, 1))
-//        let q = Quaternion(0.72945572, -0.61164695, -0.25501451, 0.16955812)
-//        observerCameraController.setStartrackerOrientation(stQuat: q)
-        capturePhoto()
+        observerCameraController.requestSaveDeviceOrientationForStartracker()
+        //let q = Quaternion(0.3943375, -0.45533238, 0.78938678, -0.11848571)
+        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
+        //let q = Quaternion(0, 0, 0, 1)
+        observerCameraController.setStartrackerOrientation(stQuat: q)
+        //capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {
@@ -480,7 +484,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 
         let image = UIImage(data: imageData)!
         let width = Double(image.size.width.rounded())
-        let focalLength = 1.0 / tan(self.captureFOV/2) * width / 2
+        let focalLength = 1.0 / tan(self.captureFOV / 2) * width / 2
         // let T_C_R = doStartrack(image: image, focalLength: focalLength)
         
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
