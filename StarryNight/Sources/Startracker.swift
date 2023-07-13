@@ -59,6 +59,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+    let start = Date()
     for (i, j, k) in starCombos.prefix(maxStarCombosToTry) {
         let smIt = findStarMatches(
             starLocs: chosenStarLocs,
@@ -69,6 +70,9 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
         while let sm = smIt.next() {
             let T_C_R = solveWahba(rvs: sm.toRVs())
             if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
+                let end = Date()
+                let dt = end.timeIntervalSince(start)
+                print("Find best time \(dt)")
                 // Note that we currently solved the problem in the local camera reference frame, where:
                 // +x is horizontal and to the right
                 // +y is vertical and down
@@ -122,19 +126,15 @@ func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: M
         let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
         let sray_R = (T_R_C * sray_C).toVector3()
         let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angleDelta))
-//        if nearest_star == nil {
-//            // We failed to match this star
-//            num_unmatched_stars += 1
-//            if num_unmatched_stars >= max_unmatched_stars {
-//                return false
-//            }
-//        }
-        if nearest_star != nil {
-            matched_stars += 1
+        if nearest_star == nil {
+            // We failed to match this star
+            num_unmatched_stars += 1
+            if num_unmatched_stars >= max_unmatched_stars {
+                return false
+            }
         }
     }
-    print("Matched \(matched_stars) stars")
-    return matched_stars >= required_matched_stars
+    return true
 }
 
 extension Vector3 {

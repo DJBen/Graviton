@@ -10,6 +10,7 @@ import sqlite3
 CURRENT_DIR = pathlib.Path(__file__).parent
 
 
+# TODO: cap at 80 FOV
 def create_star_angle_table():
     conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
     cursor = conn.cursor()
