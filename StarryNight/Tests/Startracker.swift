@@ -16,6 +16,7 @@ import LASwift
 class StartrackerTest: XCTestCase {
     func testStarAngleMatching() {
         // The following was created by using the `create_synthetic_img.py` script
+        let catalog = Catalog()
         
         let starLocs = [
             StarLocation(u: 237, v: 394), // HR: 5191
@@ -29,7 +30,7 @@ class StartrackerTest: XCTestCase {
         // Extremely tight so that only one answer comes out. The real startracker will also solve the Wahba problem
         // and check alignment to observations.
         let angleDelta = 0.002
-        let allSMIt = findStarMatches(starLocs: chosenStarLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta)
+        let allSMIt = findStarMatches(starLocs: chosenStarLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta, catalog: catalog)
         let allSM = Array(allSMIt)
         XCTAssertFalse(allSM.isEmpty)
         XCTAssertTrue(allSM.count == 1)

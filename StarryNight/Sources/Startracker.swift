@@ -11,6 +11,7 @@ import UIKit
 import LASwift
 
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
+    let catalog = Catalog()
     var starLocs = getStarLocations(img: image)
 
 //     Restrict the search-space to 20 stars to avoid generating too many combinations
@@ -30,30 +31,6 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starCombosRng = SeededGenerator(seed: 7)
     starCombos.shuffle(using: &starCombosRng)
     
-//    print("USING FIXED")
-//    var starLocs = [
-//            StarLocation(u: 1347.0, v: 358.5),
-//            StarLocation(u: 3356.12, v: 408.14),
-//            StarLocation(u: 538.6857142857143, v: 600.1142857142858),
-//            StarLocation(u: 1267.8333333333333, v: 715.4166666666666),
-//            StarLocation(u: 2746.8, v: 737.2666666666667),
-//            StarLocation(u: 1956.3030303030303, v: 1055.7575757575758),
-//            StarLocation(u: 95.84848484848484, v: 1089.310606060606),
-//            StarLocation(u: 2297.3333333333335, v: 1145.0833333333333),
-//            StarLocation(u: 2298.0, v: 1156.0),
-//            StarLocation(u: 2432.3617021276596, v: 1346.468085106383),
-//            StarLocation(u: 141.69230769230768, v: 1407.0),
-//            StarLocation(u: 2621.0, v: 1569.6666666666667),
-//            StarLocation(u: 1568.6923076923076, v: 1714.6923076923076),
-//            StarLocation(u: 2565.44, v: 1808.08),
-//            StarLocation(u: 3176.4565217391305, v: 1799.7608695652175),
-//            StarLocation(u: 2969.1935483870966, v: 2029.5483870967741),
-//            StarLocation(u: 2348.4285714285716, v: 2051.714285714286),
-//            StarLocation(u: 2443.1052631578946, v: 2449.4210526315787),
-//    ]
-//    let chosenStarLocs = starLocs.prefix(20)
-//    let starCombos = [(5, 13, 14)]
-    
     let maxStarCombosToTry = 20 // only try this many before bailing
     let angleDelta = 0.017453 * 2 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
@@ -65,7 +42,8 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
             starLocs: chosenStarLocs,
             pix2ray: pix2ray,
             curIndices: (i, j, k),
-            angleDelta: angleDelta
+            angleDelta: angleDelta,
+            catalog: catalog
         )
         while let sm = smIt.next() {
             let T_C_R = solveWahba(rvs: sm.toRVs())
@@ -118,7 +96,6 @@ func solveWahba(rvs: [RotatedVector]) -> Matrix {
 
 func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
     let T_R_C = T_C_R.T
-    var matched_stars = 0
     let required_matched_stars = Int(0.75 * Double(starLocs.count))
     let max_unmatched_stars = starLocs.count - required_matched_stars
     var num_unmatched_stars = 0
@@ -179,7 +156,8 @@ func findStarMatches(
     starLocs: ArraySlice<StarLocation>,
     pix2ray: Pix2Ray,
     curIndices: (Int, Int, Int),
-    angleDelta: Double
+    angleDelta: Double,
+    catalog: Catalog
 ) -> AnyIterator<TriangleStarMatch> {
     let star1Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.0])
     let star2Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.1])
@@ -189,9 +167,16 @@ func findStarMatches(
     let thetaS1S3 = acos(star1Coord.dot(star3Coord))
     let thetaS2S3 = acos(star2Coord.dot(star3Coord))
     
-    let s1s2Matches = getMatches(angle: thetaS1S2, angleDelta: angleDelta)!
-    let s1s3Matches = getMatches(angle: thetaS1S3, angleDelta: angleDelta)!
-    let s2s3Matches = getMatches(angle: thetaS2S3, angleDelta: angleDelta)!
+    let start = Date()
+//    let s1s2Matches = getMatches(angle: thetaS1S2, angleDelta: angleDelta)!
+//    let s1s3Matches = getMatches(angle: thetaS1S3, angleDelta: angleDelta)!
+//    let s2s3Matches = getMatches(angle: thetaS2S3, angleDelta: angleDelta)!
+    let s1s2Matches = catalog.getMatches(angle: thetaS1S2, angleDelta: angleDelta)
+    let s1s3Matches = catalog.getMatches(angle: thetaS1S3, angleDelta: angleDelta)
+    let s2s3Matches = catalog.getMatches(angle: thetaS2S3, angleDelta: angleDelta)
+    let end = Date()
+    let dt = end.timeIntervalSince(start)
+    print("dt \(dt)")
     
     var s1s2MatchesIterator = s1s2Matches.makeIterator()
     var star1MatchesIterator: Set<Star>.Iterator? = nil
