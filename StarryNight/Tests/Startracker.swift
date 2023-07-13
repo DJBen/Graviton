@@ -15,40 +15,28 @@ import LASwift
 
 class StartrackerTest: XCTestCase {
     func testStarAngleMatching() {
-        // The following are stars in the Big Dipper. We will test that under
-        // arbitrary rotation, we can match to them. The coordinates themselves
-        // from the sqlite3 catalog.
+        // The following was created by using the `create_synthetic_img.py` script
         
-        // Star 1: https://in-the-sky.org/data/object.php?id=TYC3845-1190-1
-        let s1Coord = Vector3(-13.775959/25.31, -3.309169/25.31, 20.972944/25.31)
-        
-        // Star 2: https://in-the-sky.org/data/object.php?id=TYC4146-1274-1
-        let s2Coord = Vector3(-17.298705/37.679, 4.33488/37.679, 33.191332/37.679)
-        
-        // Star 3: https://in-the-sky.org/data/object.php?id=TYC3467-1257-1
-        let s3Coord = Vector3(-18.529548/31.8674, -9.394541/31.8674, 24.164506/31.8674)
-        
-        // A random rotation matrix
-        let rotation = Matrix([
-            Vector([0.66341395, -0.73502409, -0.14007684]),
-            Vector([0.5566704, 0.60992316, -0.56401402]),
-            Vector([0.5, 0.29619813, 0.81379768]),
-        ])
-        
-        let s1 = (rotation * s1Coord.toMatrix()).toVector3()
-        let s2 = (rotation * s2Coord.toMatrix()).toVector3()
-        let s3 = (rotation * s3Coord.toMatrix()).toVector3()
+        let starLocs = [
+            StarLocation(u: 237, v: 394), // HR: 5191
+            StarLocation(u: 332, v: 452), // HR: 4905
+            StarLocation(u: 358, v: 543), // HR: 4554
+            StarLocation(u: 161, v: 525), // HR: 4915
+        ]
+        let pix2ray = Pix2Ray(focalLength: 600, cx: 484/2, cy: 969/2)
+        let chosenStarLocs = starLocs.prefix(4)
         
         // Extremely tight so that only one answer comes out. The real startracker will also solve the Wahba problem
         // and check alignment to observations.
-        let angleDelta = 0.001
-        let allSM = findStarMatches(star1Coord: s1, star2Coord: s2, star3Coord: s3, angleDelta: angleDelta)
+        let angleDelta = 0.002
+        let allSMIt = findStarMatches(starLocs: chosenStarLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta)
+        let allSM = Array(allSMIt)
         XCTAssertFalse(allSM.isEmpty)
         XCTAssertTrue(allSM.count == 1)
         let sm = allSM.first!;
-        XCTAssertEqual(sm.star1, Star.hr(4905)!)
-        XCTAssertEqual(sm.star2, Star.hr(4301)!)
-        XCTAssertEqual(sm.star3, Star.hr(5191)!)
+        XCTAssertEqual(sm.star1.star, Star.hr(5191)!)
+        XCTAssertEqual(sm.star2.star, Star.hr(4905)!)
+        XCTAssertEqual(sm.star3.star, Star.hr(4915)!)
     }
     
     func testDoStartrackEasy() {

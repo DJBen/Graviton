@@ -11,48 +11,48 @@ import UIKit
 import LASwift
 
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
-//    var starLocs = getStarLocations(img: image)
-//
-////     Restrict the search-space to 20 stars to avoid generating too many combinations
-//    var starLocsRng = SeededGenerator(seed: 7)
-//    starLocs.shuffle(using: &starLocsRng)
-//    let chosenStarLocs = starLocs.prefix(20)
-//
-////     Generate random combinations of 3 stars to test.
-//    var starCombos: [(Int, Int, Int)] = []
-//    for i in 0..<chosenStarLocs.count {
-//        for j in i + 1..<chosenStarLocs.count {
-//            for k in j + 1..<chosenStarLocs.count {
-//                starCombos.append((i, j, k))
-//            }
-//        }
-//    }
-//    var starCombosRng = SeededGenerator(seed: 7)
-//    starCombos.shuffle(using: &starCombosRng)
-    
-    print("USING FIXED")
-    var starLocs = [
-            StarLocation(u: 1347.0, v: 358.5),
-            StarLocation(u: 3356.12, v: 408.14),
-            StarLocation(u: 538.6857142857143, v: 600.1142857142858),
-            StarLocation(u: 1267.8333333333333, v: 715.4166666666666),
-            StarLocation(u: 2746.8, v: 737.2666666666667),
-            StarLocation(u: 1956.3030303030303, v: 1055.7575757575758),
-            StarLocation(u: 95.84848484848484, v: 1089.310606060606),
-            StarLocation(u: 2297.3333333333335, v: 1145.0833333333333),
-            StarLocation(u: 2298.0, v: 1156.0),
-            StarLocation(u: 2432.3617021276596, v: 1346.468085106383),
-            StarLocation(u: 141.69230769230768, v: 1407.0),
-            StarLocation(u: 2621.0, v: 1569.6666666666667),
-            StarLocation(u: 1568.6923076923076, v: 1714.6923076923076),
-            StarLocation(u: 2565.44, v: 1808.08),
-            StarLocation(u: 3176.4565217391305, v: 1799.7608695652175),
-            StarLocation(u: 2969.1935483870966, v: 2029.5483870967741),
-            StarLocation(u: 2348.4285714285716, v: 2051.714285714286),
-            StarLocation(u: 2443.1052631578946, v: 2449.4210526315787),
-    ]
+    var starLocs = getStarLocations(img: image)
+
+//     Restrict the search-space to 20 stars to avoid generating too many combinations
+    var starLocsRng = SeededGenerator(seed: 7)
+    starLocs.shuffle(using: &starLocsRng)
     let chosenStarLocs = starLocs.prefix(20)
-    let starCombos = [(5, 13, 14)]
+
+//     Generate random combinations of 3 stars to test.
+    var starCombos: [(Int, Int, Int)] = []
+    for i in 0..<chosenStarLocs.count {
+        for j in i + 1..<chosenStarLocs.count {
+            for k in j + 1..<chosenStarLocs.count {
+                starCombos.append((i, j, k))
+            }
+        }
+    }
+    var starCombosRng = SeededGenerator(seed: 7)
+    starCombos.shuffle(using: &starCombosRng)
+    
+//    print("USING FIXED")
+//    var starLocs = [
+//            StarLocation(u: 1347.0, v: 358.5),
+//            StarLocation(u: 3356.12, v: 408.14),
+//            StarLocation(u: 538.6857142857143, v: 600.1142857142858),
+//            StarLocation(u: 1267.8333333333333, v: 715.4166666666666),
+//            StarLocation(u: 2746.8, v: 737.2666666666667),
+//            StarLocation(u: 1956.3030303030303, v: 1055.7575757575758),
+//            StarLocation(u: 95.84848484848484, v: 1089.310606060606),
+//            StarLocation(u: 2297.3333333333335, v: 1145.0833333333333),
+//            StarLocation(u: 2298.0, v: 1156.0),
+//            StarLocation(u: 2432.3617021276596, v: 1346.468085106383),
+//            StarLocation(u: 141.69230769230768, v: 1407.0),
+//            StarLocation(u: 2621.0, v: 1569.6666666666667),
+//            StarLocation(u: 1568.6923076923076, v: 1714.6923076923076),
+//            StarLocation(u: 2565.44, v: 1808.08),
+//            StarLocation(u: 3176.4565217391305, v: 1799.7608695652175),
+//            StarLocation(u: 2969.1935483870966, v: 2029.5483870967741),
+//            StarLocation(u: 2348.4285714285716, v: 2051.714285714286),
+//            StarLocation(u: 2443.1052631578946, v: 2449.4210526315787),
+//    ]
+//    let chosenStarLocs = starLocs.prefix(20)
+//    let starCombos = [(5, 13, 14)]
     
     let maxStarCombosToTry = 20 // only try this many before bailing
     let angleDelta = 0.017453 * 2 // 1 degree of tolerance
@@ -60,20 +60,14 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
     for (i, j, k) in starCombos.prefix(maxStarCombosToTry) {
-        let star1 = pix2ray.pix2Ray(pix: chosenStarLocs[i])
-        let star2 = pix2ray.pix2Ray(pix: chosenStarLocs[j])
-        let star3 = pix2ray.pix2Ray(pix: chosenStarLocs[k])
-        let start = Date()
-        // can take up to a second
-        let all_sm = findStarMatches(star1Coord: star1, star2Coord: star2, star3Coord: star3, angleDelta: angleDelta)
-        let end = Date()
-        let timeInterval: Double = end.timeIntervalSince(start)
-        print("Total time taken to find matches: \(timeInterval) seconds")
-        for sm in all_sm {
-            if (sm.star1.identity.hrId != 5191) {
-                continue
-            }
-            let T_C_R = solveWahba(star1Cam: star1, star1Catalog: sm.star1.physicalInfo.coordinate, star2Cam: star2, star2Catalog: sm.star2.physicalInfo.coordinate, star3Cam: star3, star3Catalog: sm.star3.physicalInfo.coordinate)
+        let smIt = findStarMatches(
+            starLocs: chosenStarLocs,
+            pix2ray: pix2ray,
+            curIndices: (i, j, k),
+            angleDelta: angleDelta
+        )
+        while let sm = smIt.next() {
+            let T_C_R = solveWahba(rvs: sm.toRVs())
             if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
                 // Note that we currently solved the problem in the local camera reference frame, where:
                 // +x is horizontal and to the right
@@ -107,21 +101,13 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     return nil
 }
 
-func solveWahba(star1Cam: Vector3, star1Catalog: Vector3, star2Cam: Vector3, star2Catalog: Vector3, star3Cam: Vector3, star3Catalog: Vector3) -> Matrix {
+func solveWahba(rvs: [RotatedVector]) -> Matrix {
     var B = Matrix(3, 3, 0.0)
-    
-    let s1Cam = star1Cam.toMatrix()
-    let s1Cat = star1Catalog.toMatrix()
-    B = B + s1Cam * s1Cat.T
-    
-    let s2Cam = star2Cam.toMatrix()
-    let s2Cat = star2Catalog.toMatrix()
-    B = B + s2Cam * s2Cat.T
-    
-    let s3Cam = star3Cam.toMatrix()
-    let s3Cat = star3Catalog.toMatrix()
-    B = B + s3Cam * s3Cat.T
-    
+    for rv in rvs {
+        let cam = rv.cam.toMatrix()
+        let cat = rv.catalog.toMatrix()
+        B = B + cam * cat.T
+    }
     let (U, _, V) = svd(B)
     return U * diag([1, 1, det(U) * det(V)]) * V.T
 }
@@ -189,39 +175,103 @@ class Pix2Ray {
 /// 1) Compute pairwise angles between all star pairs
 /// 2) Search catalog for star pairs that have the same pairwise angle (within +/- `angleDelta/2` tolerance)
 /// 3) Find all matches that satisfy each pairwise angle constraint
-public func findStarMatches(star1Coord: Vector3, star2Coord: Vector3, star3Coord: Vector3, angleDelta: Double) -> [StarMatch] {
+func findStarMatches(
+    starLocs: ArraySlice<StarLocation>,
+    pix2ray: Pix2Ray,
+    curIndices: (Int, Int, Int),
+    angleDelta: Double
+) -> AnyIterator<TriangleStarMatch> {
+    let star1Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.0])
+    let star2Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.1])
+    let star3Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.2])
+    
     let thetaS1S2 = acos(star1Coord.dot(star2Coord))
     let thetaS1S3 = acos(star1Coord.dot(star3Coord))
     let thetaS2S3 = acos(star2Coord.dot(star3Coord))
+    
     let s1s2Matches = getMatches(angle: thetaS1S2, angleDelta: angleDelta)!
     let s1s3Matches = getMatches(angle: thetaS1S3, angleDelta: angleDelta)!
     let s2s3Matches = getMatches(angle: thetaS2S3, angleDelta: angleDelta)!
     
-    var star_matches: [StarMatch] = [];
-    for (star1, star1Matches) in s1s2Matches {
-        for star2 in star1Matches {
-            if (star1.identity.hrId == 4554) && (star2.identity.hrId == 5191) {
-                print()
-            }
-            // Assume star1 corresponds to the first star in the star pair
-            let s3Opts1 = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
-            if s3Opts1.count > 0 {
-                for s3 in s3Opts1 {
-                    star_matches.append(StarMatch(star1: star1, star2: star2, star3: s3))
-                }
-            }
+    var s1s2MatchesIterator = s1s2Matches.makeIterator()
+    var star1MatchesIterator: Set<Star>.Iterator? = nil
+    var s3OptsIterator: Set<Star>.Iterator? = nil
     
-            // Assume star1 corresponds to the second star in the star pair
-            let s3Opts2 = findS3(s1: star2, s2: star1, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
-            if s3Opts2.count > 0 {
-                for s3 in s3Opts2 {
-                    star_matches.append(StarMatch(star1: star2, star2: star1, star3: s3))
-                }
+    return AnyIterator {
+        while let (star1, star1Matches) = s1s2MatchesIterator.next() {
+            if star1MatchesIterator == nil {
+                star1MatchesIterator = star1Matches.makeIterator()
             }
+
+            while let star2 = star1MatchesIterator?.next() {
+                if s3OptsIterator == nil {
+                    let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
+                    s3OptsIterator = s3Opts.makeIterator()
+                }
+
+                while let star3 = s3OptsIterator?.next() {
+                    return TriangleStarMatch(
+                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.physicalInfo.coordinate.normalized())),
+                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.physicalInfo.coordinate.normalized())),
+                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.physicalInfo.coordinate.normalized()))
+                    )
+//                    if let (star4, star4Coord) = verifyStarMatch(sm: TriangleStarMatch(star1: star1, star2: star2, star3: star3), starLocs: starLocs, pix2ray: pix2ray, curIndices: curIndices, star1Coord: star1Coord, star2Coord: star2Coord, star3Coord: star3Coord, angleDelta: angleDelta) {
+//                        return PyramidStarMatch(
+//                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.physicalInfo.coordinate.normalized())),
+//                            star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.physicalInfo.coordinate.normalized())),
+//                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.physicalInfo.coordinate.normalized())),
+//                            star4: StarEntry(star: star4, vec: RotatedVector(cam: star4Coord, catalog: star4.physicalInfo.coordinate.normalized()))
+//                        )
+//                    }
+                }
+                s3OptsIterator = nil
+            }
+            star1MatchesIterator = nil
         }
+        return nil
     }
-    return star_matches
 }
+
+/// Verifies a StarMatch by finding a 4th star that has consistent pairwise angles
+//func verifyStarMatch(
+//    sm: TriangleStarMatch,
+//    starLocs: ArraySlice<StarLocation>,
+//    pix2ray: Pix2Ray,
+//    curIndices: (Int, Int, Int),
+//    star1Coord: Vector3,
+//    star2Coord: Vector3,
+//    star3Coord: Vector3,
+//    angleDelta: Double
+//) -> (Star, Vector3)? {
+//    for i in 0..<starLocs.count {
+//        if i == curIndices.0 || i == curIndices.1 || i == curIndices.2 {
+//            continue
+//        }
+//        let star4Coord = pix2ray.pix2Ray(pix: starLocs[i])
+//
+//        let thetaS1S4 = acos(star4Coord.dot(star1Coord))
+//        let thetaS2S4 = acos(star4Coord.dot(star2Coord))
+//        let thetaS3S4 = acos(star4Coord.dot(star3Coord))
+//        let s1s4Matches = getMatches(angle: thetaS1S4, angleDelta: angleDelta)!
+//        let s2s4Matches = getMatches(angle: thetaS2S4, angleDelta: angleDelta)!
+//        let s3s4Matches = getMatches(angle: thetaS3S4, angleDelta: angleDelta)!
+//        guard let s1s4Matches = s1s4Matches[sm.star1] else {
+//            continue
+//        }
+//        guard let s2s4Matches = s2s4Matches[sm.star2] else {
+//            continue
+//        }
+//        guard let s3s4Matches = s3s4Matches[sm.star3] else {
+//            continue
+//        }
+//        let s4Cands = s1s4Matches.intersection(s2s4Matches).intersection(s3s4Matches)
+//        if s4Cands.count != 1 {
+//            continue
+//        }
+//        return (s4Cands.first!, star4Coord)
+//    }
+//    return nil
+//}
 
 /// Finds all 3rd stars that are consistent with the choices for star1 and star2.
 func findS3(s1: Star, s2: Star, s1s3Stars: [Star:Set<Star>], s2s3Stars: [Star:Set<Star>]) -> Set<Star> {
@@ -234,14 +284,51 @@ func findS3(s1: Star, s2: Star, s1s3Stars: [Star:Set<Star>], s2s3Stars: [Star:Se
     return s1s3Cands.intersection(s2s3Cands)
 }
 
-public struct StarMatch {
-    let star1: Star
-    let star2: Star
-    let star3: Star
+public struct TriangleStarMatch {
+    let star1: StarEntry
+    let star2: StarEntry
+    let star3: StarEntry
     
-    init(star1: Star, star2: Star, star3: Star) {
+    init(star1: StarEntry, star2: StarEntry, star3: StarEntry) {
         self.star1 = star1
         self.star2 = star2
         self.star3 = star3
+    }
+    
+    func toRVs() -> [RotatedVector] {
+        return [self.star1.vec, self.star2.vec, self.star3.vec]
+    }
+}
+
+public struct PyramidStarMatch {
+    let star1: StarEntry
+    let star2: StarEntry
+    let star3: StarEntry
+    let star4: StarEntry
+    
+    init(star1: StarEntry, star2: StarEntry, star3: StarEntry, star4: StarEntry) {
+        self.star1 = star1
+        self.star2 = star2
+        self.star3 = star3
+        self.star4 = star4
+    }
+    
+    func toRVs() -> [RotatedVector] {
+        return [self.star1.vec, self.star2.vec, self.star3.vec, self.star4.vec]
+    }
+}
+
+public struct StarEntry {
+    let star: Star
+    let vec: RotatedVector
+}
+
+public struct RotatedVector {
+    let cam: Vector3
+    let catalog: Vector3
+    
+    init(cam: Vector3, catalog: Vector3) {
+        self.cam = cam
+        self.catalog = catalog
     }
 }
