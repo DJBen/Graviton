@@ -14,23 +14,8 @@ import Collections
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let catalog = Catalog()
     var starLocs = getStarLocations(img: image)
-
-//     Restrict the search-space to 20 stars to avoid generating too many combinations
-    var starLocsRng = SeededGenerator(seed: 7)
-    starLocs.shuffle(using: &starLocsRng)
-    let chosenStarLocs = starLocs.prefix(20)
-
-//     Generate random combinations of 3 stars to test.
-    var starCombos: [(Int, Int, Int)] = []
-    for i in 0..<chosenStarLocs.count {
-        for j in i + 1..<chosenStarLocs.count {
-            for k in j + 1..<chosenStarLocs.count {
-                starCombos.append((i, j, k))
-            }
-        }
-    }
-    var starCombosRng = SeededGenerator(seed: 7)
-    starCombos.shuffle(using: &starCombosRng)
+    var rng = SeededGenerator(seed: 7)
+    starLocs.shuffle(using: &rng)
     
     let maxStarCombosToTry = 500 // only try this many before bailing
     let angleDelta = 0.017453 * 2 // 1 degree of tolerance
@@ -38,9 +23,10 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
     
-    for (i, j, k) in starCombos.prefix(maxStarCombosToTry) {
+    let gen = starLocsGenerator(n: starLocs.count)
+    for (i, j, k) in gen {
         let smIt = findStarMatches(
-            starLocs: chosenStarLocs,
+            starLocs: starLocs,
             pix2ray: pix2ray,
             curIndices: (i, j, k),
             angleDelta: angleDelta,
@@ -48,7 +34,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
         )
         while let sm = smIt.next() {
             let T_C_R = solveWahba(rvs: sm.toRVs())
-            if testAttitude(catalog: catalog, starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
+            if testAttitude(catalog: catalog, starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
                 // Note that we currently solved the problem in the local camera reference frame, where:
                 // +x is horizontal and to the right
                 // +y is vertical and down
@@ -81,6 +67,36 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     return nil
 }
 
+/// An iterator that returns the next star combination to try using the indexing algorithm in https://onlinelibrary.wiley.com/doi/abs/10.1002/j.2161-4296.2004.tb00349.x
+/// There are two objectives:
+/// 1) Avoid sampling the same stars (which might be false positives)
+/// 2) Avoid generating all combinations (which can be expensive as it is N choose 3) if they are not needed.
+public func starLocsGenerator(n: Int) -> AnyIterator<(Int, Int, Int)> {
+    assert(n >= 3)
+    // NOTE: The implementation below just copies the 1-based indexing from the paper, then corrects it
+    // when returning a result
+    var dj = 1
+    var dk = 1
+    var i = 1
+    return AnyIterator {
+        if dj == n - 1 {
+            return nil
+        }
+        let result = (i - 1, i + dj - 1, i + dj + dk - 1)
+        i += 1
+        if i == n - dj - dk + 1 {
+            i = 1
+            dk += 1
+            if dk == n - dj {
+                i = 1
+                dk = 1
+                dj += 1
+            }
+        }
+        return result
+    }
+}
+
 func solveWahba(rvs: [RotatedVector]) -> Matrix {
     var B = Matrix(3, 3, 0.0)
     for rv in rvs {
@@ -92,7 +108,7 @@ func solveWahba(rvs: [RotatedVector]) -> Matrix {
     return U * diag([1, 1, det(U) * det(V)]) * V.T
 }
 
-func testAttitude(catalog: Catalog, starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
+func testAttitude(catalog: Catalog, starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
     let T_R_C = T_C_R.T
     let required_matched_stars = Int(0.85 * Double(starLocs.count))
     let max_unmatched_stars = starLocs.count - required_matched_stars
@@ -151,7 +167,7 @@ class Pix2Ray {
 /// 2) Search catalog for star pairs that have the same pairwise angle (within +/- `angleDelta/2` tolerance)
 /// 3) Find all matches that satisfy each pairwise angle constraint
 func findStarMatches(
-    starLocs: ArraySlice<StarLocation>,
+    starLocs: [StarLocation],
     pix2ray: Pix2Ray,
     curIndices: (Int, Int, Int),
     angleDelta: Double,
@@ -181,10 +197,7 @@ func findStarMatches(
 
             while let star2 = star1MatchesIterator?.next() {
                 if s3OptsIterator == nil {
-                    let start = Date()
                     let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
-                    let end = Date()
-                    let dt = end.timeIntervalSince(start)
                     s3OptsIterator = s3Opts.makeIterator()
                 }
 

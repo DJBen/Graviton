@@ -14,6 +14,68 @@ import MathUtil
 import LASwift
 
 class StartrackerTest: XCTestCase {
+    /// Explicitly tests the somewhat complex index generation logic for correctness
+    func testStarLocationGeneratorEasy() {
+        let gen = starLocsGenerator(n: 5)
+        let expectedLocs = [
+            (0, 1, 2),
+            (1, 2, 3),
+            (2, 3, 4),
+            (0, 1, 3),
+            (1, 2, 4),
+            (0, 1, 4),
+            (0, 2, 3),
+            (1, 3, 4),
+            (0, 2, 4),
+            (0, 3, 4)
+        ]
+        var eGen = expectedLocs.makeIterator()
+        for (i, j, k) in gen {
+            let (eI, eJ, eK) = eGen.next()!
+            XCTAssertTrue(i == eI)
+            XCTAssertTrue(j == eJ)
+            XCTAssertTrue(k == eK)
+        }
+        XCTAssertNil(eGen.next())
+    }
+    
+    /// Tests the somewhat complex index generation logic to make sure it does not skip any
+    /// indices on a "large" number of stars
+    func testStarLocationGeneratorHard() {
+        let n = 10
+        let gen = starLocsGenerator(n: n)
+        var allLocs: [(Int, Int, Int)] = []
+        for (i, j, k) in gen {
+            allLocs.append((i, j, k))
+        }
+        allLocs.sort { (loc1, loc2) -> Bool in
+            if loc1.0 != loc2.0 {
+                return loc1.0 < loc2.0
+            } else if loc1.1 != loc2.1 {
+                return loc1.1 < loc2.1
+            } else {
+                return loc1.2 < loc2.2
+            }
+        }
+        
+        var allLocsIt = allLocs.makeIterator()
+        
+        // These are the order of indices we expect post sorting
+        // This is a completeness check to make sure we did not miss any combinations
+        for i in 0..<n {
+            for j in i + 1..<n {
+                for k in j + 1..<n {
+                    let (itI, itJ, itK) = allLocsIt.next()!
+                    XCTAssertTrue(i == itI)
+                    XCTAssertTrue(j == itJ)
+                    XCTAssertTrue(k == itK)
+                }
+            }
+        }
+        // make sure iterator is finished
+        XCTAssertNil(allLocsIt.next())
+    }
+    
     func testStarAngleMatching() {
         // The following was created by using the `create_synthetic_img.py` script
         let catalog = Catalog()
@@ -25,12 +87,11 @@ class StartrackerTest: XCTestCase {
             StarLocation(u: 161, v: 525), // HR: 4915
         ]
         let pix2ray = Pix2Ray(focalLength: 600, cx: 484/2, cy: 969/2)
-        let chosenStarLocs = starLocs.prefix(4)
         
         // Extremely tight so that only one answer comes out. The real startracker will also solve the Wahba problem
         // and check alignment to observations.
         let angleDelta = 0.002
-        let allSMIt = findStarMatches(starLocs: chosenStarLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta, catalog: catalog)
+        let allSMIt = findStarMatches(starLocs: starLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta, catalog: catalog)
         let allSM = Array(allSMIt)
         XCTAssertFalse(allSM.isEmpty)
         XCTAssertTrue(allSM.count == 1)
