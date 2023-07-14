@@ -349,7 +349,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
         //let q = Quaternion(0, 0, 0, 1)
         observerCameraController.setStartrackerOrientation(stQuat: q)
-        //capturePhoto()
+        capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {

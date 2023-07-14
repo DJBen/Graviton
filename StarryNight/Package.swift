@@ -34,6 +34,10 @@ let package = Package(
               url: "https://github.com/apple/swift-collections",
               from: Version(1, 0, 0)
         ),
+        .package(
+            url: "https://github.com/Bersaelor/KDTree",
+            from: Version(1, 4, 1)
+        ),
     ],
     targets: [
         .target(
@@ -45,7 +49,8 @@ let package = Package(
                 .product(name: "SQLite", package: "SQLite.swift"),
                 "SwiftyBeaver",
                 "LASwift",
-                .product(name: "Collections", package: "swift-collections")
+                .product(name: "Collections", package: "swift-collections"),
+                "KDTree"
             ],
             path: "Sources",
             resources: [.process("Resources")]

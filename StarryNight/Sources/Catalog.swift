@@ -11,19 +11,24 @@ import SpaceTime
 import SQLite
 import MathUtil
 import Collections
+import KDTree
 
 public class Catalog {
     let kvector: KVector<StarAngle>
+    let kdtree: KDTree<MinimalStar>
     
     init() {
         let start = Date()
         let query = StarryNight.StarAngles.table
+        var uniqueStars: OrderedSet<MinimalStar> = OrderedSet()
         do {
             let rows = try StarryNight.db.prepare(query)
             var angles: [(Double, StarAngle)] = []
             for row in rows {
                 let sa = StarAngle(row: row)
                 angles.append((sa.angle, sa))
+                uniqueStars.append(sa.star1)
+                uniqueStars.append(sa.star2)
             }
             self.kvector = KVector(data: &angles)
         } catch {
@@ -33,6 +38,9 @@ public class Catalog {
         }
         let end = Date()
         let dt = end.timeIntervalSince(start)
+        
+        self.kdtree = KDTree(values: uniqueStars.elements)
+        
         print("catalog time \(dt)")
     }
     
@@ -55,6 +63,22 @@ public class Catalog {
         }
         return starAngles
     }
+    
+    /// Search database for nearby stars
+    public func findNearbyStars(coord: Vector3, angleDelta: Double) -> MinimalStar? {
+        let maxDist = tan(angleDelta)
+        let ms = MinimalStar(hr: 0, coord: coord)
+        let nearest = self.kdtree.nearest(to: ms, maxDistance: maxDist)
+        guard let nearest = nearest else {
+            return nil
+        }
+        let angle = acos(nearest.normalized_coord.dot(ms.normalized_coord))
+        if angle < angleDelta {
+            return nearest
+        } else {
+            return nil
+        }
+    }
 }
 
 public struct StarAngle {
@@ -73,13 +97,14 @@ public struct StarAngle {
     }
 }
 
-public struct MinimalStar: Hashable, Equatable {
+public struct MinimalStar: Hashable, Equatable, KDTreePoint {
     let hr: Int
-    let coord: Vector3
+    // Normalized 3D coordinated
+    let normalized_coord: Vector3
     
     public init(hr: Int, coord: Vector3) {
         self.hr = hr
-        self.coord = coord
+        self.normalized_coord = coord.normalized()
     }
     
     public func hash(into hasher: inout Hasher) {
@@ -88,6 +113,26 @@ public struct MinimalStar: Hashable, Equatable {
     
     public static func ==(lhs: MinimalStar, rhs: MinimalStar) -> Bool {
         return lhs.hr == rhs.hr
+    }
+    
+    // Implement KDTreePoint
+    public static var dimensions: Int {
+        3
+    }
+    
+    public func kdDimension(_ dimension: Int) -> Double {
+        if dimension == 0 {
+            return self.normalized_coord.x
+        } else if dimension == 1{
+            return self.normalized_coord.y
+        } else if dimension == 2 {
+            return self.normalized_coord.z
+        }
+        fatalError("Startracker KDTree cannot query dimension \(dimension)")
+    }
+    
+    public func squaredDistance(to otherPoint: Self) -> Double {
+        return pow(self.normalized_coord.x - otherPoint.normalized_coord.x, 2) + pow(self.normalized_coord.y - otherPoint.normalized_coord.y, 2) + pow(self.normalized_coord.z - otherPoint.normalized_coord.z, 2)
     }
 }
 

@@ -32,12 +32,16 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     var starCombosRng = SeededGenerator(seed: 7)
     starCombos.shuffle(using: &starCombosRng)
     
-    let maxStarCombosToTry = 20 // only try this many before bailing
+    let maxStarCombosToTry = 500 // only try this many before bailing
     let angleDelta = 0.017453 * 2 // 1 degree of tolerance
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
     let start = Date()
+    
+    var timeSolve: Double = 0
+    var timeTest: Double = 0
+    var timeIt: Double = 0
     for (i, j, k) in starCombos.prefix(maxStarCombosToTry) {
         let smIt = findStarMatches(
             starLocs: chosenStarLocs,
@@ -46,12 +50,28 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
             angleDelta: angleDelta,
             catalog: catalog
         )
+        var itStart = Date()
         while let sm = smIt.next() {
+            let itEnd = Date()
+            let dtIt = itEnd.timeIntervalSince(itStart)
+            timeIt += dtIt
+            
+            let startSolve = Date()
             let T_C_R = solveWahba(rvs: sm.toRVs())
-            if testAttitude(starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
+            let endSolve = Date()
+            let dtSolve = endSolve.timeIntervalSince(startSolve)
+            timeSolve += dtSolve
+            
+            let startTest = Date()
+            let isGood = testAttitude(catalog: catalog, starLocs: chosenStarLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+            let endTest = Date()
+            let dtTest = endTest.timeIntervalSince(startTest)
+            timeTest += dtTest
+            
+            if isGood {
                 let end = Date()
                 let dt = end.timeIntervalSince(start)
-                print("Find best time \(dt)")
+                print("Find best time \(dt). Solve time \(timeSolve) Test time \(timeTest) It time \(dtIt)")
                 // Note that we currently solved the problem in the local camera reference frame, where:
                 // +x is horizontal and to the right
                 // +y is vertical and down
@@ -79,6 +99,7 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
                 // Swift wants us to use T_Ref_Cam as the camera orientation
                 return T_Cam_Ref.T
             }
+            itStart = Date()
         }
     }
     return nil
@@ -95,7 +116,7 @@ func solveWahba(rvs: [RotatedVector]) -> Matrix {
     return U * diag([1, 1, det(U) * det(V)]) * V.T
 }
 
-func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
+func testAttitude(catalog: Catalog, starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
     let T_R_C = T_C_R.T
     let required_matched_stars = Int(0.75 * Double(starLocs.count))
     let max_unmatched_stars = starLocs.count - required_matched_stars
@@ -103,8 +124,10 @@ func testAttitude(starLocs: ArraySlice<StarLocation>, pix2Ray: Pix2Ray, T_C_R: M
     for sloc in starLocs {
         let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
         let sray_R = (T_R_C * sray_C).toVector3()
-        let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angleDelta))
-        if nearest_star == nil {
+        let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
+        // BOTTLENECK
+//        let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angleDelta))
+        if nearestStar == nil {
             // We failed to match this star
             num_unmatched_stars += 1
             if num_unmatched_stars >= max_unmatched_stars {
@@ -180,6 +203,8 @@ func findStarMatches(
     var star1MatchesIterator: OrderedSet<MinimalStar>.Iterator? = nil
     var s3OptsIterator: OrderedSet<MinimalStar>.Iterator? = nil
     
+    var timeFindS3: Double = 0
+    var timeTSM: Double = 0
     return AnyIterator {
         while let (star1, star1Matches) = s1s2MatchesIterator.next() {
             if star1MatchesIterator == nil {
@@ -188,16 +213,25 @@ func findStarMatches(
 
             while let star2 = star1MatchesIterator?.next() {
                 if s3OptsIterator == nil {
+                    let start = Date()
                     let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
+                    let end = Date()
+                    let dt = end.timeIntervalSince(start)
+                    timeFindS3 += dt
                     s3OptsIterator = s3Opts.makeIterator()
                 }
 
                 while let star3 = s3OptsIterator?.next() {
-                    return TriangleStarMatch(
-                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.coord.normalized())),
-                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.coord.normalized())),
-                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.coord.normalized()))
+                    let start = Date()
+                    let tsm = TriangleStarMatch(
+                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
                     )
+                    let end = Date()
+                    let dt = end.timeIntervalSince(start)
+                    timeTSM += dt
+                    return tsm
 //                    if let (star4, star4Coord) = verifyStarMatch(sm: TriangleStarMatch(star1: star1, star2: star2, star3: star3), starLocs: starLocs, pix2ray: pix2ray, curIndices: curIndices, star1Coord: star1Coord, star2Coord: star2Coord, star3Coord: star3Coord, angleDelta: angleDelta) {
 //                        return PyramidStarMatch(
 //                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.physicalInfo.coordinate.normalized())),
@@ -211,6 +245,7 @@ func findStarMatches(
             }
             star1MatchesIterator = nil
         }
+        print("Time finding s3 \(timeFindS3). TSM \(timeTSM)")
         return nil
     }
 }

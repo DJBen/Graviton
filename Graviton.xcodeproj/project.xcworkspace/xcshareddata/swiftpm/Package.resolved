@@ -19,6 +19,15 @@
       }
     },
     {
+      "identity" : "kdtree",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/Bersaelor/KDTree",
+      "state" : {
+        "revision" : "490df2848e3f497bdc2edf61667f4ab669cff26e",
+        "version" : "1.4.1"
+      }
+    },
+    {
       "identity" : "laswift",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AlexanderTar/LASwift",
