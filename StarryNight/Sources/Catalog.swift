@@ -20,7 +20,7 @@ public class Catalog {
     init() {
         let start = Date()
         let query = StarryNight.StarAngles.table
-        var uniqueStars: OrderedSet<MinimalStar> = OrderedSet()
+        var uniqueStars: DeterministicSet<MinimalStar> = DeterministicSet()
         do {
             let rows = try StarryNight.db.prepare(query)
             var angles: [(Double, StarAngle)] = []
@@ -39,25 +39,25 @@ public class Catalog {
         let end = Date()
         let dt = end.timeIntervalSince(start)
         
-        self.kdtree = KDTree(values: uniqueStars.elements)
+        self.kdtree = KDTree(values: uniqueStars.arrayRepresentation())
         
         print("catalog time \(dt)")
     }
     
     /// Search database for star pairs that have the given pairwise angle (within +/- `angleDelta` tolerance)
-    public func getMatches(angle: Double, angleDelta: Double) -> [MinimalStar:OrderedSet<MinimalStar>] {
+    public func getMatches(angle: Double, angleDelta: Double) -> OrderedDictionary<MinimalStar, DeterministicSet<MinimalStar>> {
         let res = self.kvector.getData(lower: angle - angleDelta, upper: angle + angleDelta)
         
-        var starAngles: [MinimalStar:OrderedSet<MinimalStar>] = [:]
+        var starAngles: OrderedDictionary<MinimalStar, DeterministicSet<MinimalStar>> = OrderedDictionary()
         for (_, sa) in res {
             // Insert for both stars as it could be queried either way
             if starAngles[sa.star1] == nil {
-                starAngles[sa.star1] = OrderedSet()
+                starAngles[sa.star1] = DeterministicSet()
             }
             starAngles[sa.star1]!.append(sa.star2)
             
             if starAngles[sa.star2] == nil {
-                starAngles[sa.star2] = OrderedSet()
+                starAngles[sa.star2] = DeterministicSet()
             }
             starAngles[sa.star2]!.append(sa.star1)
         }

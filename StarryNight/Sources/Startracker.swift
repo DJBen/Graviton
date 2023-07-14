@@ -37,7 +37,6 @@ public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let width = Int(image.size.width.rounded())
     let height = Int(image.size.height.rounded())
     let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-    let start = Date()
     
     for (i, j, k) in starCombos.prefix(maxStarCombosToTry) {
         let smIt = findStarMatches(
@@ -102,8 +101,6 @@ func testAttitude(catalog: Catalog, starLocs: ArraySlice<StarLocation>, pix2Ray:
         let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
         let sray_R = (T_R_C * sray_C).toVector3()
         let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
-        // BOTTLENECK
-//        let nearest_star = Star.closest(to: sray_R, maximumMagnitude: 4.0, maximumAngularDistance: RadianAngle(angleDelta))
         if nearestStar == nil {
             // We failed to match this star
             num_unmatched_stars += 1
@@ -173,8 +170,8 @@ func findStarMatches(
     let s2s3Matches = catalog.getMatches(angle: thetaS2S3, angleDelta: angleDelta)
     
     var s1s2MatchesIterator = s1s2Matches.makeIterator()
-    var star1MatchesIterator: OrderedSet<MinimalStar>.Iterator? = nil
-    var s3OptsIterator: OrderedSet<MinimalStar>.Iterator? = nil
+    var star1MatchesIterator: DeterministicSet<MinimalStar>.Iterator? = nil
+    var s3OptsIterator: DeterministicSet<MinimalStar>.Iterator? = nil
 
     return AnyIterator {
         while let (star1, star1Matches) = s1s2MatchesIterator.next() {
@@ -257,12 +254,12 @@ func findStarMatches(
 //}
 
 /// Finds all 3rd stars that are consistent with the choices for star1 and star2.
-func findS3(s1: MinimalStar, s2: MinimalStar, s1s3Stars: [MinimalStar:OrderedSet<MinimalStar>], s2s3Stars: [MinimalStar:OrderedSet<MinimalStar>]) -> OrderedSet<MinimalStar> {
+func findS3(s1: MinimalStar, s2: MinimalStar, s1s3Stars: OrderedDictionary<MinimalStar, DeterministicSet<MinimalStar>>, s2s3Stars: OrderedDictionary<MinimalStar, DeterministicSet<MinimalStar>>) -> DeterministicSet<MinimalStar> {
     guard let s1s3Cands = s1s3Stars[s1] else {
-        return OrderedSet()
+        return DeterministicSet()
     }
     guard let s2s3Cands = s2s3Stars[s2] else {
-        return OrderedSet()
+        return DeterministicSet()
     }
     return s1s3Cands.intersection(s2s3Cands)
 }

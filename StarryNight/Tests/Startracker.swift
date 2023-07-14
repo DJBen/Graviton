@@ -95,6 +95,7 @@ func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {
             score += abs(diff[i,j])
         }
     }
+    print("SCORE \(score)")
     XCTAssertTrue(score <= tol)
 }
 

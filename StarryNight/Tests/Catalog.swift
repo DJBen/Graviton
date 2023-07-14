@@ -16,9 +16,28 @@ import LASwift
 class CatalogTest: XCTestCase {
     func testGetMatches() {
         let catalog = Catalog()
-        let matches = catalog.getMatches(angle: 0.52359, angleDelta: 0.1)
-        XCTAssertNotNil(matches)
-        XCTAssertTrue(matches.keys.count > 0)
+        let matches = catalog.getMatches(angle: 0.101, angleDelta: 0.0005)
+        // The result should be deterministic and was observed to have this order
+        // The actual values were made sure to be consistent with the database
+        let expectedMatches: [(Int, Int)] = [
+            (4257, 4390),
+            (4390, 4257),
+            (8414, 8558),
+            (8558, 8414),
+            (5812, 5944),
+            (5944, 5812),
+            (429, 440),
+            (440, 429),
+            (3445, 3634),
+            (3634, 3445),
+            (5089, 5248),
+            (5248, 5089),
+        ]
+        for ((aS1, aS1Matches), (eS1, eMatch)) in zip(matches, expectedMatches) {
+            XCTAssertEqual(aS1.hr, eS1)
+            XCTAssertTrue(aS1Matches.count == 1)
+            XCTAssertTrue(aS1Matches.arrayRepresentation()[0].hr == eMatch)
+        }
     }
     
     func testGetNearbyStars() {

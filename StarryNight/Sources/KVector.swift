@@ -75,7 +75,7 @@ public class KVector<T> {
         var start: Int? = nil
         var end: Int? = nil
         for i in kstart...kend {
-            if start == nil && self.data[i].0 >= lower {
+            if start == nil && self.data[i].0 > lower {
                 start = i
             }
             
