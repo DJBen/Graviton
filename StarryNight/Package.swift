@@ -30,6 +30,10 @@ let package = Package(
             url: "https://github.com/AlexanderTar/LASwift",
             from: Version(0, 3, 2)
         ),
+        .package(
+              url: "https://github.com/apple/swift-collections",
+              from: Version(1, 0, 0)
+        ),
     ],
     targets: [
         .target(
@@ -41,6 +45,7 @@ let package = Package(
                 .product(name: "SQLite", package: "SQLite.swift"),
                 "SwiftyBeaver",
                 "LASwift",
+                .product(name: "Collections", package: "swift-collections")
             ],
             path: "Sources",
             resources: [.process("Resources")]

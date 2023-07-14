@@ -39,6 +39,11 @@ public class KVector<T> {
     }
     
     public func getData(lower: Double, upper: Double) -> ArraySlice<(Double,T)> {
+        assert(lower <= upper)
+        if lower > self.data[self.data.count - 1].0 || upper < self.data[0].0 {
+            return ArraySlice<(Double,T)>([])
+        }
+        
         var jl = 0
         if lower > self.data[0].0 {
             jl = Int(floor((lower - self.q) / self.m))
@@ -46,7 +51,7 @@ public class KVector<T> {
         
         var ju = self.data.count - 1
         if upper < self.data[self.data.count - 1].0 {
-            ju = Int(ceil((upper-self.q) / self.m))
+            ju = Int(ceil((upper - self.q) / self.m))
         }
         
         let kstart = self.kVector[jl]

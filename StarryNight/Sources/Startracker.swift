@@ -9,6 +9,7 @@ import Foundation
 import MathUtil
 import UIKit
 import LASwift
+import Collections
 
 public func doStartrack(image: UIImage, focalLength: Double) -> Matrix? {
     let catalog = Catalog()
@@ -168,9 +169,6 @@ func findStarMatches(
     let thetaS2S3 = acos(star2Coord.dot(star3Coord))
     
     let start = Date()
-//    let s1s2Matches = getMatches(angle: thetaS1S2, angleDelta: angleDelta)!
-//    let s1s3Matches = getMatches(angle: thetaS1S3, angleDelta: angleDelta)!
-//    let s2s3Matches = getMatches(angle: thetaS2S3, angleDelta: angleDelta)!
     let s1s2Matches = catalog.getMatches(angle: thetaS1S2, angleDelta: angleDelta)
     let s1s3Matches = catalog.getMatches(angle: thetaS1S3, angleDelta: angleDelta)
     let s2s3Matches = catalog.getMatches(angle: thetaS2S3, angleDelta: angleDelta)
@@ -179,8 +177,8 @@ func findStarMatches(
     print("dt \(dt)")
     
     var s1s2MatchesIterator = s1s2Matches.makeIterator()
-    var star1MatchesIterator: Set<Star>.Iterator? = nil
-    var s3OptsIterator: Set<Star>.Iterator? = nil
+    var star1MatchesIterator: OrderedSet<MinimalStar>.Iterator? = nil
+    var s3OptsIterator: OrderedSet<MinimalStar>.Iterator? = nil
     
     return AnyIterator {
         while let (star1, star1Matches) = s1s2MatchesIterator.next() {
@@ -196,9 +194,9 @@ func findStarMatches(
 
                 while let star3 = s3OptsIterator?.next() {
                     return TriangleStarMatch(
-                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.physicalInfo.coordinate.normalized())),
-                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.physicalInfo.coordinate.normalized())),
-                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.physicalInfo.coordinate.normalized()))
+                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.coord.normalized())),
+                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.coord.normalized())),
+                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.coord.normalized()))
                     )
 //                    if let (star4, star4Coord) = verifyStarMatch(sm: TriangleStarMatch(star1: star1, star2: star2, star3: star3), starLocs: starLocs, pix2ray: pix2ray, curIndices: curIndices, star1Coord: star1Coord, star2Coord: star2Coord, star3Coord: star3Coord, angleDelta: angleDelta) {
 //                        return PyramidStarMatch(
@@ -259,12 +257,12 @@ func findStarMatches(
 //}
 
 /// Finds all 3rd stars that are consistent with the choices for star1 and star2.
-func findS3(s1: Star, s2: Star, s1s3Stars: [Star:Set<Star>], s2s3Stars: [Star:Set<Star>]) -> Set<Star> {
+func findS3(s1: MinimalStar, s2: MinimalStar, s1s3Stars: [MinimalStar:OrderedSet<MinimalStar>], s2s3Stars: [MinimalStar:OrderedSet<MinimalStar>]) -> OrderedSet<MinimalStar> {
     guard let s1s3Cands = s1s3Stars[s1] else {
-        return Set()
+        return OrderedSet()
     }
     guard let s2s3Cands = s2s3Stars[s2] else {
-        return Set()
+        return OrderedSet()
     }
     return s1s3Cands.intersection(s2s3Cands)
 }
@@ -304,7 +302,7 @@ public struct PyramidStarMatch {
 }
 
 public struct StarEntry {
-    let star: Star
+    let star: MinimalStar
     let vec: RotatedVector
 }
 

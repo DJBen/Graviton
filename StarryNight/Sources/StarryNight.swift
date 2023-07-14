@@ -65,5 +65,11 @@ enum StarryNight {
         static let star1Hr = Expression<Int?>("star1_hr")
         static let star2Hr = Expression<Int?>("star2_hr")
         static let angle = Expression<Double>("angle")
+        static let star1_x = Expression<Double>("star1_x")
+        static let star1_y = Expression<Double>("star1_y")
+        static let star1_z = Expression<Double>("star1_z")
+        static let star2_x = Expression<Double>("star2_x")
+        static let star2_y = Expression<Double>("star2_y")
+        static let star2_z = Expression<Double>("star2_z")
     }
 }

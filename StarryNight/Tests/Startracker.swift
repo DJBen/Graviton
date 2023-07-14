@@ -35,9 +35,9 @@ class StartrackerTest: XCTestCase {
         XCTAssertFalse(allSM.isEmpty)
         XCTAssertTrue(allSM.count == 1)
         let sm = allSM.first!;
-        XCTAssertEqual(sm.star1.star, Star.hr(5191)!)
-        XCTAssertEqual(sm.star2.star, Star.hr(4905)!)
-        XCTAssertEqual(sm.star3.star, Star.hr(4915)!)
+        XCTAssertEqual(sm.star1.star.hr, 5191)
+        XCTAssertEqual(sm.star2.star.hr, 4905)
+        XCTAssertEqual(sm.star3.star.hr, 4915)
     }
     
     func testDoStartrackEasy() {

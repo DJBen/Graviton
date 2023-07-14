@@ -10,29 +10,25 @@ import Foundation
 import SpaceTime
 import SQLite
 import MathUtil
+import Collections
 
 public class Catalog {
-    let kvector: KVector<(Star, Star)>
+    let kvector: KVector<StarAngle>
     
     init() {
         let start = Date()
         let query = StarryNight.StarAngles.table
         do {
             let rows = try StarryNight.db.prepare(query)
-            var angles: [(Double, (Star, Star))] = []
+            var angles: [(Double, StarAngle)] = []
             for row in rows {
-                // TODO: not load everything
-//                let star1 = MinimalStar(hr: try! row.get(StarryNight.StarAngles.star1Hr)!)
-//                let star2 = MinimalStar(hr: try! row.get(StarryNight.StarAngles.star2Hr)!)
-                let star1 = Star.hr(try! row.get(StarryNight.StarAngles.star1Hr)!)!
-                let star2 = Star.hr(try! row.get(StarryNight.StarAngles.star2Hr)!)!
-                let angle = try! row.get(StarryNight.StarAngles.angle)
-                angles.append((angle, (star1, star2)))
+                let sa = StarAngle(row: row)
+                angles.append((sa.angle, sa))
             }
             self.kvector = KVector(data: &angles)
         } catch {
             print("SQLite operation failed: \(error)")
-            var data: [(Double, (Star, Star))] = []
+            var data: [(Double, StarAngle)] = []
             self.kvector = KVector(data: &data)
         }
         let end = Date()
@@ -40,26 +36,62 @@ public class Catalog {
         print("catalog time \(dt)")
     }
     
-    public func getMatches(angle: Double, angleDelta: Double) -> [Star:Set<Star>] {
+    /// Search database for star pairs that have the given pairwise angle (within +/- `angleDelta` tolerance)
+    public func getMatches(angle: Double, angleDelta: Double) -> [MinimalStar:OrderedSet<MinimalStar>] {
         let res = self.kvector.getData(lower: angle - angleDelta, upper: angle + angleDelta)
         
-        var starAngles: [Star:Set<Star>] = [:]
-        for (_, (star1, star2)) in res {
+        var starAngles: [MinimalStar:OrderedSet<MinimalStar>] = [:]
+        for (_, sa) in res {
             // Insert for both stars as it could be queried either way
-            if starAngles[star1] == nil {
-                starAngles[star1] = Set()
+            if starAngles[sa.star1] == nil {
+                starAngles[sa.star1] = OrderedSet()
             }
-            starAngles[star1]!.insert(star2)
+            starAngles[sa.star1]!.append(sa.star2)
             
-            if starAngles[star2] == nil {
-                starAngles[star2] = Set()
+            if starAngles[sa.star2] == nil {
+                starAngles[sa.star2] = OrderedSet()
             }
-            starAngles[star2]!.insert(star1)
+            starAngles[sa.star2]!.append(sa.star1)
         }
         return starAngles
     }
 }
 
+public struct StarAngle {
+    let star1: MinimalStar
+    let star2: MinimalStar
+    let angle: Double
+    
+    public init(row: Row) {
+        let star1_hr = try! row.get(StarryNight.StarAngles.star1Hr)!
+        let star2_hr = try! row.get(StarryNight.StarAngles.star2Hr)!
+        self.angle = try! row.get(StarryNight.StarAngles.angle)
+        let star1_coord = Vector3(try! row.get(StarryNight.StarAngles.star1_x), try! row.get(StarryNight.StarAngles.star1_y), try! row.get(StarryNight.StarAngles.star1_z))
+        let star2_coord = Vector3(try! row.get(StarryNight.StarAngles.star2_x), try! row.get(StarryNight.StarAngles.star2_y), try! row.get(StarryNight.StarAngles.star2_z))
+        self.star1 = MinimalStar(hr: star1_hr, coord: star1_coord)
+        self.star2 = MinimalStar(hr: star2_hr, coord: star2_coord)
+    }
+}
+
+public struct MinimalStar: Hashable, Equatable {
+    let hr: Int
+    let coord: Vector3
+    
+    public init(hr: Int, coord: Vector3) {
+        self.hr = hr
+        self.coord = coord
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(self.hr)
+    }
+    
+    public static func ==(lhs: MinimalStar, rhs: MinimalStar) -> Bool {
+        return lhs.hr == rhs.hr
+    }
+}
+
+// for testing...
 public func getAllStarAngles(lower: Double, upper: Double) -> [(Double, (Star, Star))] {
     var actual: [(Double, (Star, Star))] = []
     let query = StarryNight.StarAngles.table.filter(
@@ -68,65 +100,10 @@ public func getAllStarAngles(lower: Double, upper: Double) -> [(Double, (Star, S
     )
     let rows = try! StarryNight.db.prepare(query)
     for row in rows {
-//        let star1 = MinimalStar(hr: try! row.get(StarryNight.StarAngles.star1Hr)!)
-//        let star2 = MinimalStar(hr: try! row.get(StarryNight.StarAngles.star2Hr)!)
         let star1 = Star.hr(try! row.get(StarryNight.StarAngles.star1Hr)!)!
         let star2 = Star.hr(try! row.get(StarryNight.StarAngles.star2Hr)!)!
         let angle = try! row.get(StarryNight.StarAngles.angle)
         actual.append((angle, (star1, star2)))
     }
     return actual
-}
-
-//public struct MinimalStar {
-//    let hr: Int
-//    let coordinate: Vector3
-//
-//    init(hr: Int) {
-//        let query = StarryNight.Stars.table.filter(StarryNight.Stars.dbHr == hr)
-//        let row = try! StarryNight.db.pluck(query)!
-//        self.hr = hr
-//        self.coordinate = Vector3(try! row.get(StarryNight.Stars.dbX), try! row.get(StarryNight.Stars.dbY), try! row.get(StarryNight.Stars.dbZ))
-//    }
-//}
-
-/// Search database for star pairs that have the given pairwise angle (within +/- `angleDelta` tolerance)
-public func getMatches(angle: Double, angleDelta: Double) -> [Star:Set<Star>]? {
-    let query = StarryNight.StarAngles.table.filter(
-        StarryNight.StarAngles.angle < angle + angleDelta &&
-        StarryNight.StarAngles.angle > angle - angleDelta
-    )
-    do {
-        let start = Date()
-        let rows = try StarryNight.db.prepare(query)
-        let end = Date()
-        let dt = end.timeIntervalSince(start)
-        print("prepare \(dt)")
-        var starAngles: [Star:Set<Star>] = [:]
-        
-        var allQueries: Double = 0
-        for row in rows {
-            let start = Date()
-            let star1 = Star.hr(try! row.get(StarryNight.StarAngles.star1Hr)!)!
-            let star2 = Star.hr(try! row.get(StarryNight.StarAngles.star2Hr)!)!
-            let end = Date()
-            allQueries += end.timeIntervalSince(start)
-            
-            // Insert for both stars as it could be queried either way
-            if starAngles[star1] == nil {
-                starAngles[star1] = Set()
-            }
-            starAngles[star1]?.insert(star2)
-            
-            if starAngles[star2] == nil {
-                starAngles[star2] = Set()
-            }
-            starAngles[star2]?.insert(star1)
-        }
-        print("prepareAQ \(allQueries)")
-        return starAngles
-    } catch {
-        print("SQLite operation failed: \(error)")
-        return nil
-    }
 }
