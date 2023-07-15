@@ -80,54 +80,66 @@ extension UIImage {
         // Skips to speed-up star searching
         let SKIP_STEP = 3
         
+        let starLock = NSLock()
         let startTime = Date()
-        for y in stride(from: 0, to: height, by: SKIP_STEP) {
+        DispatchQueue.concurrentPerform(iterations: height/SKIP_STEP) { i in
+            let y = i * SKIP_STEP
             for x in stride(from: 0, to: width, by: SKIP_STEP) {
                 let posVis = pix2Pos(y: y, x: x, width: width, idx_value: 0, num_channels: 1)
                 if visited[posVis] {
                     continue
                 }
-                visited[posVis] = true
                 let posData = pix2Pos(y: y, x: x, width: width, idx_value: grayscale_idx, num_channels: items)
                 let dataVal = data[posData]
-                if dataVal > STAR_PIX_THRESH {
-                    var pixels: [(Int, Int)] = [(x, y)]
-                    var stack: [(Int, Int)] = [(x, y)]
+                if dataVal < STAR_PIX_THRESH {
+                    visited[posVis] = true
+                    continue
+                }
+                starLock.lock()
+                if visited[posVis] {
+                    // another thread already filled this, so just continue
+                    starLock.unlock()
+                    continue
+                }
+                
+                visited[posVis] = true
+                var pixels: [(Int, Int)] = [(x, y)]
+                var stack: [(Int, Int)] = [(x, y)]
 
-                    // Run flood fill
-                    while let (x, y) = stack.popLast() {
-                        for dx in [-1, 1] {
-                            for dy in [-1, 1] {
-                                let nx = x + dx
-                                let ny = y + dy
-                                let nxPosData = pix2Pos(y: ny, x: nx, width: width, idx_value: grayscale_idx, num_channels: items)
-                                let nxPosVis = pix2Pos(y: ny, x: nx, width: width, idx_value: 0, num_channels: 1)
-                                if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxPosVis] {
-                                    visited[nxPosVis] = true
-                                    if data[nxPosData] > STAR_PIX_THRESH {
-                                        pixels.append((nx, ny))
-                                        stack.append((nx, ny))
-                                    }
+                // Run flood fill
+                while let (x, y) = stack.popLast() {
+                    for dx in [-1, 1] {
+                        for dy in [-1, 1] {
+                            let nx = x + dx
+                            let ny = y + dy
+                            let nxPosData = pix2Pos(y: ny, x: nx, width: width, idx_value: grayscale_idx, num_channels: items)
+                            let nxPosVis = pix2Pos(y: ny, x: nx, width: width, idx_value: 0, num_channels: 1)
+                            if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxPosVis] {
+                                visited[nxPosVis] = true
+                                if data[nxPosData] > STAR_PIX_THRESH {
+                                    pixels.append((nx, ny))
+                                    stack.append((nx, ny))
                                 }
                             }
                         }
-                        // bail early if we have filled too many regions
-                        if stack.count > MAX_PIX_FOR_STAR {
-                            break
-                        }
                     }
-
-                    if pixels.count < MIN_PIX_FOR_STAR || pixels.count > MAX_PIX_FOR_STAR {
-                        continue
+                    // bail early if we have filled too many regions
+                    if stack.count > MAX_PIX_FOR_STAR {
+                        break
                     }
-                    // Calculate the centroid of the filled area
-                    let sum = pixels.reduce((0, 0)) { ($0.0 + $1.0, $0.1 + $1.1) }
-                    let centroid = (Double(sum.0) / Double(pixels.count), Double(sum.1) / Double(pixels.count))
-                    stars.append(StarLocation(
-                        u: centroid.0,
-                        v: centroid.1
-                    ))
                 }
+                
+                starLock.unlock()
+                if pixels.count < MIN_PIX_FOR_STAR || pixels.count > MAX_PIX_FOR_STAR {
+                    continue
+                }
+                // Calculate the centroid of the filled area
+                let sum = pixels.reduce((0, 0)) { ($0.0 + $1.0, $0.1 + $1.1) }
+                let centroid = (Double(sum.0) / Double(pixels.count), Double(sum.1) / Double(pixels.count))
+                stars.append(StarLocation(
+                    u: centroid.0,
+                    v: centroid.1
+                ))
             }
         }
         let endTime = Date()
