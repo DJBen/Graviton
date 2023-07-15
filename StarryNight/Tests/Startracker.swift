@@ -133,14 +133,15 @@ class StartrackerTest: XCTestCase {
         let path = Bundle.module.path(forResource: "img_test", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
-        // Transform from reference (R) to Camera (C)
-        let T_C_R = doStartrack(image: image, focalLength: 2852.574)!
+        // Transform from camera (C) to reference (R)
+        // This can directly be set (after quaternion conversion) as the camera orientation
+        let T_R_C = doStartrack(image: image, focalLength: 2852.574)!
         let expected = Matrix([
             Vector([-0.650, -0.565, 0.509]),
             Vector([-0.146, -0.564, -0.813]),
             Vector([0.746, -0.602, 0.284])
         ])
-        testRotationEqual(expected: expected, actual: T_C_R, tol: 0.1)
+        testRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
     }
 }
 

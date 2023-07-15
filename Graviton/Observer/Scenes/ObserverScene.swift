@@ -40,7 +40,7 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
 
-    static let defaultFov: Double = 50
+    static let defaultFov: Double = 70.29109 //50 // TODO: match camera FOV?
     /// Determines how fast zooming changes fov; the greater this number, the faster
     private static let fovExpBase: Double = 1.25
     private static let maxFov: Double = 120

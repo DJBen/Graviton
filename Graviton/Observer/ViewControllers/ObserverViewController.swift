@@ -17,6 +17,7 @@ import StarryNight
 import UIKit
 import AVFoundation
 import Photos
+import LASwift
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
@@ -349,7 +350,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
         //let q = Quaternion(0, 0, 0, 1)
         observerCameraController.setStartrackerOrientation(stQuat: q)
-        capturePhoto()
+        //capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {
@@ -483,9 +484,27 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         guard let imageData = photo.fileDataRepresentation() else { return }
 
         let image = UIImage(data: imageData)!
+        
+        // Typically the FOV is associated with height because that is the longer side on phones
+        // Below just assumes the longer side is the one we got an FOV for
         let width = Double(image.size.width.rounded())
-        let focalLength = 1.0 / tan(self.captureFOV / 2) * width / 2
-        // let T_C_R = doStartrack(image: image, focalLength: focalLength)
+        let height = Double(image.size.height.rounded())
+        let fovSide = max(width, height)
+        let focalLength = 1.0 / tan(self.captureFOV / 2) * fovSide / 2
+        let T_R_C = doStartrack(image: image, focalLength: focalLength)
+        
+        if T_R_C == nil {
+            DispatchQueue.main.async {
+                let alertController = UIAlertController(title: "Error", message: "Star tracking failed", preferredStyle: .alert)
+                let okAction = UIAlertAction(title: "OK", style: .default)
+                alertController.addAction(okAction)
+                self.present(alertController, animated: true, completion: nil)
+            }
+        } else {
+            // Successful Startrack!
+            let stQuat = Quaternion(rotationMatrix: T_R_C!.toMatrix4())
+            observerCameraController.setStartrackerOrientation(stQuat: stQuat)
+        }
         
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
         PHPhotoLibrary.requestAuthorization { status in
@@ -500,6 +519,34 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             self.activityIndicator.stopAnimating()
             self.activityLabel.isHidden = true
         }
+    }
+    
+    /// Show an error when Startracking fails
+    func showError() {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Error", message: "Star tracking failed", preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension Matrix {
+    /// Converts from an LASwift Matrix to a VectorMath Matrix4 (therefore having no translation, only rotation)
+    func toMatrix4() -> Matrix4 {
+        var m4 = Matrix4.identity
+        m4.m11 = self[0,0]
+        m4.m12 = self[0,1]
+        m4.m13 = self[0,2]
+        
+        m4.m21 = self[1,0]
+        m4.m22 = self[1,1]
+        m4.m23 = self[1,2]
+        
+        m4.m31 = self[2,0]
+        m4.m32 = self[2,1]
+        m4.m33 = self[2,2]
     }
 }
 

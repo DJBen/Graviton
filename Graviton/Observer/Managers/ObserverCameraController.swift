@@ -58,9 +58,7 @@ class ObserverCameraController: CameraController {
         }
         let derolledRot = lastApplied * Quaternion(pitch: pitch, yaw: yaw, roll: 0)
         let movement = controlSpaceTransform * Quaternion(pitch: cameraYaw * cos(pitch), yaw: -cameraPitch, roll: 0)
-        //]cameraNode.orientation = SCNQuaternion(derolledRot * movement)
-        //cameraNode.orientation = SCNQuaternion(0, 0, 0, 1)
-        print("cn \(cameraNode.orientation)")
+        cameraNode.orientation = SCNQuaternion(derolledRot * movement)
     }
 
     override func handleCameraPan(atTime time: TimeInterval) {
@@ -89,13 +87,15 @@ class ObserverCameraController: CameraController {
             self.saveDeviceMotionOffset = false
         }
         if self.stQuat != nil {
-            // Redefine the orientation as a rotation with respect to the Startracker-determined quaternion
-            // The offset cancels whatever the device thought the quaternion was. Whatever delta rotation
-            // the device thinks we did since the Startracker quaternion is then applied to the Startracker
-            // quaternion
-            //orientation = orientation * self.stDeviceMotionOffset!.inverse * self.stQuat!
-            // TODO: go back to above!
-            orientation = self.stQuat!
+            // We need to provide T_R_M_\hat{j}, which is the Startracker-corrected orientation at time j (the current time)
+            // We have:
+            // - T_R_M_\hat{i} (aka self.stQuat). This is the Startracker-determined orientation at time i (when the photo was taken)
+            // - T_R_M_i (aka self.stDeviceMotionOffset) This is the Motion-manager determined orientation at time i
+            // - T_R_M_j (aka `orientation`). This is the Motion-managed determined orientation at time j
+            // We need to solve: T_R_M_\hat{j} = T_R_M_\hat{i} * T_M_i_M_j
+            // Note that T_M_i_M_j = T_M_i_R * T_R_M_j
+            // We already know T_R_M_j. T_M_i_R = T_R_M_i.inverse. Hence we know all quantities!
+            orientation = self.stQuat! * self.stDeviceMotionOffset!.inverse * orientation
         }
         cameraNode?.orientation = SCNQuaternion(orientation)
     }
