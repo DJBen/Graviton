@@ -29,6 +29,8 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var timeWarpSpeed: Double?
     
+    // Stratracker-related things
+    private var st: StarTracker!
     private var captureSession: AVCaptureSession!
     private var stillImageOutput: AVCapturePhotoOutput!
     private var initCam = false;
@@ -93,6 +95,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
         
+        self.st = StarTracker()
         captureSession = AVCaptureSession()
         stillImageOutput = AVCapturePhotoOutput()
         
@@ -347,10 +350,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         MotionManager.default.startMotionUpdate()
         observerCameraController.requestSaveDeviceOrientationForStartracker()
         //let q = Quaternion(0.3943375, -0.45533238, 0.78938678, -0.11848571)
-        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
-        //let q = Quaternion(0, 0, 0, 1)
-        observerCameraController.setStartrackerOrientation(stQuat: q)
-        //capturePhoto()
+//        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
+//        observerCameraController.setStartrackerOrientation(stQuat: q)
+        capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {
@@ -489,21 +491,17 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         // Below just assumes the longer side is the one we got an FOV for
         let width = Double(image.size.width.rounded())
         let height = Double(image.size.height.rounded())
-        let fovSide = max(width, height)
-        let focalLength = 1.0 / tan(self.captureFOV / 2) * fovSide / 2
-        let T_R_C = doStartrack(image: image, focalLength: focalLength)
-        
-        if T_R_C == nil {
-            DispatchQueue.main.async {
-                let alertController = UIAlertController(title: "Error", message: "Star tracking failed", preferredStyle: .alert)
-                let okAction = UIAlertAction(title: "OK", style: .default)
-                alertController.addAction(okAction)
-                self.present(alertController, animated: true, completion: nil)
-            }
-        } else {
-            // Successful Startrack!
-            let stQuat = Quaternion(rotationMatrix: T_R_C!.toMatrix4())
-            observerCameraController.setStartrackerOrientation(stQuat: stQuat)
+        let sizeFOVSide = max(width, height)
+        let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
+        let stResult = self.st.track(image: image, focalLength: focalLength)
+        switch stResult {
+            case .success(let T_R_C):
+                print("Successfully Startracked! Result:\n\(T_R_C)")
+                let stQuat = Quaternion(rotationMatrix: T_R_C.toMatrix4())
+                observerCameraController.setStartrackerOrientation(stQuat: stQuat)
+            case .failure(let stError):
+                print("Startracking failed: \(stError)")
+                self.showStartrackError(error: stError)
         }
         
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
@@ -522,9 +520,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     /// Show an error when Startracking fails
-    func showError() {
+    func showStartrackError(error: StarTrackError) {
         DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Error", message: "Star tracking failed", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Startracking Error", message: "Star tracking failed: \(error.description)", preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
@@ -547,6 +545,7 @@ extension Matrix {
         m4.m31 = self[2,0]
         m4.m32 = self[2,1]
         m4.m33 = self[2,2]
+        return m4
     }
 }
 
