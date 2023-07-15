@@ -166,7 +166,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         // TODO: consider doing this
 //        let format = device.formats.first(where: { CMVideoFormatDescriptionGetDimensions($0.formatDescription).width == 1920 && CMVideoFormatDescriptionGetDimensions($0.formatDescription).height == 1080 })!
 //        device.activeFormat = format
-        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
+        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: 2000, completionHandler: nil) // AVCaptureDevice.currentISO
         device.unlockForConfiguration()
 
         captureSession.beginConfiguration()
@@ -176,8 +176,11 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         captureSession.addOutput(stillImageOutput)
 
         captureSession.commitConfiguration()
-
-        captureSession.startRunning()
+        
+        // TODO: move later?
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self!.captureSession.startRunning()
+        }
 
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
@@ -346,7 +349,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
-        print("tapped")
+        print("tapped Startrack button")
         MotionManager.default.startMotionUpdate()
         observerCameraController.requestSaveDeviceOrientationForStartracker()
         //let q = Quaternion(0.3943375, -0.45533238, 0.78938678, -0.11848571)
@@ -487,6 +490,19 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 
         let image = UIImage(data: imageData)!
         
+        let saveStart = Date()
+        // TODO: save somewhere besides photo library? This was convenient and nice for debugging
+        PHPhotoLibrary.requestAuthorization { status in
+            if status == .authorized {
+                PHPhotoLibrary.shared().performChanges({
+                    PHAssetChangeRequest.creationRequestForAsset(from: image)
+                }, completionHandler: nil)
+            }
+        }
+        let saveEnd = Date()
+        let dtSave = saveEnd.timeIntervalSince(saveStart)
+        print("Time to save to startracker photo to library: \(dtSave)")
+        
         // Typically the FOV is associated with height because that is the longer side on phones
         // Below just assumes the longer side is the one we got an FOV for
         let width = Double(image.size.width.rounded())
@@ -502,15 +518,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             case .failure(let stError):
                 print("Startracking failed: \(stError)")
                 self.showStartrackError(error: stError)
-        }
-        
-        // TODO: save somewhere besides photo library? This was convenient and nice for debugging
-        PHPhotoLibrary.requestAuthorization { status in
-            if status == .authorized {
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-                }, completionHandler: nil)
-            }
         }
         
         DispatchQueue.main.async {

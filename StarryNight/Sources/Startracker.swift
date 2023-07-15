@@ -37,7 +37,7 @@ public class StarTracker {
         var starLocs = getStarLocations(img: image)
         let e = Date()
         let dtGSL = e.timeIntervalSince(s)
-        print("Get star locs time: \(dtGSL)")
+        print("Get star locs time: \(dtGSL). Num stars: \(starLocs.count)")
         
         let minStars = 10
         if starLocs.count < minStars {
@@ -46,7 +46,7 @@ public class StarTracker {
         var rng = SeededGenerator(seed: 7)
         starLocs.shuffle(using: &rng)
         
-        let maxStarCombosToTry = 100 // only try this many before bailing
+        let maxStarCombosToTry = 25 // only try this many before bailing
         let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
@@ -57,7 +57,7 @@ public class StarTracker {
         for (itrCount, (i, j, k)) in gen.enumerated() {
             let eIter = Date()
             let dtIter = eIter.timeIntervalSince(sItr)
-            print("Itr time: \(dtIter)")
+            //print("Itr time: \(dtIter)")
             if itrCount == maxStarCombosToTry {
                 return .failure(StarTrackError.noGoodMatches)
             }

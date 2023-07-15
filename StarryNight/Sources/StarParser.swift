@@ -34,7 +34,11 @@ extension UIImage {
     ///         we then calculate the centroid of all the pixels and report that as a single `StarLocation`.
     ///     c) Continue searching for other stars in the image.
     func getStarLocations() -> [StarLocation] {
+        let s = Date()
         let image = convertToGrayscale(self)!
+        let e = Date()
+        let dtGs = e.timeIntervalSince(s)
+        print("Time spent converting to grayscale: \(dtGs)")
         let cgImg = image.cgImage!;
         let pixelData = cgImg.dataProvider?.data!
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
@@ -73,10 +77,12 @@ extension UIImage {
         let STAR_PIX_THRESH = 230
         let MIN_PIX_FOR_STAR = 6
         let MAX_PIX_FOR_STAR = 1000
+        // Skips to speed-up star searching
+        let SKIP_STEP = 3
         
         let startTime = Date()
-        for y in 0..<height {
-            for x in 0..<width {
+        for y in stride(from: 0, to: height, by: SKIP_STEP) {
+            for x in stride(from: 0, to: width, by: SKIP_STEP) {
                 let posVis = pix2Pos(y: y, x: x, width: width, idx_value: 0, num_channels: 1)
                 if visited[posVis] {
                     continue
@@ -87,11 +93,11 @@ extension UIImage {
                 if dataVal > STAR_PIX_THRESH {
                     var pixels: [(Int, Int)] = [(x, y)]
                     var stack: [(Int, Int)] = [(x, y)]
-                    
+
                     // Run flood fill
                     while let (x, y) = stack.popLast() {
-                        for dx in -1...1 {
-                            for dy in -1...1 {
+                        for dx in [-1, 1] {
+                            for dy in [-1, 1] {
                                 let nx = x + dx
                                 let ny = y + dy
                                 let nxPosData = pix2Pos(y: ny, x: nx, width: width, idx_value: grayscale_idx, num_channels: items)
@@ -110,7 +116,7 @@ extension UIImage {
                             break
                         }
                     }
-                    
+
                     if pixels.count < MIN_PIX_FOR_STAR || pixels.count > MAX_PIX_FOR_STAR {
                         continue
                     }
