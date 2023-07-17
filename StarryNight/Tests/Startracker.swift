@@ -128,7 +128,7 @@ class StartrackerTest: XCTestCase {
 //        testRotationEqual(expected: expected_T_C_R, actual: T_C_R, tol: 0.02)
     }
     
-    func testDoStartrackReal() {
+    func testDoStartrackIPhoneCam() {
         let path = Bundle.module.path(forResource: "img_test", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
@@ -138,6 +138,20 @@ class StartrackerTest: XCTestCase {
             Vector([-0.650, -0.565, 0.509]),
             Vector([-0.146, -0.564, -0.813]),
             Vector([0.746, -0.602, 0.284])
+        ])
+        testRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
+    }
+    
+    func testDoStartrackReal() {
+        let path = Bundle.module.path(forResource: "img_real", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let T_R_C = try! st.track(image: image, focalLength: 2863.6363).get()
+        let expected = Matrix([
+            Vector([-0.429, -0.637, 0.639]),
+            Vector([-0.205, -0.620, -0.757]),
+            Vector([0.880, -0.456, 0.135])
         ])
         testRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
     }

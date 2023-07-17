@@ -486,17 +486,45 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        guard let imageData = photo.fileDataRepresentation() else { return }
+        guard let imageData = photo.fileDataRepresentation() else {
+            return
+        }
 
         let image = UIImage(data: imageData)!
         
         let saveStart = Date()
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
-        PHPhotoLibrary.requestAuthorization { status in
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
             if status == .authorized {
-                PHPhotoLibrary.shared().performChanges({
-                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-                }, completionHandler: nil)
+//                PHPhotoLibrary.shared().performChanges({
+//                    PHAssetChangeRequest.creationRequestForAsset(from: image)
+//                }, completionHandler: nil)
+                
+                guard let data = UIImagePNGRepresentation(image) else {
+                    return
+                }
+
+                let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                let temporaryFilename = ProcessInfo().globallyUniqueString
+                let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent("\(temporaryFilename).png")
+
+                do {
+                    try data.write(to: temporaryFileURL)
+                    PHPhotoLibrary.shared().performChanges({
+                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: temporaryFileURL)
+                    }, completionHandler: { success, error in
+                        if !success {
+                            print("Error adding image to Photo Library: \(String(describing: error))")
+                        }
+                        do {
+                            try FileManager.default.removeItem(at: temporaryFileURL)
+                        } catch {
+                            print("Error removing temporary file: \(error)")
+                        }
+                    })
+                } catch {
+                    print("Error writing PNG data to file: \(error)")
+                }
             }
         }
         let saveEnd = Date()

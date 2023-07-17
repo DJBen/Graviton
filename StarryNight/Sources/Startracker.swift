@@ -39,14 +39,18 @@ public class StarTracker {
         let dtGSL = e.timeIntervalSince(s)
         print("Get star locs time: \(dtGSL). Num stars: \(starLocs.count)")
         
-        let minStars = 10
+        for sl in starLocs {
+            print("(\(sl.u),\(sl.v)),")
+        }
+        
+        let minStars = 8
         if starLocs.count < minStars {
             return .failure(StarTrackError.tooFewStars(starLocs.count))
         }
         var rng = SeededGenerator(seed: 7)
         starLocs.shuffle(using: &rng)
         
-        let maxStarCombosToTry = 25 // only try this many before bailing
+        let maxStarCombosToTry = 50 // only try this many before bailing
         let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())

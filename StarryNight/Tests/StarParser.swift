@@ -44,12 +44,12 @@ class StarParserTest: XCTestCase {
         }
     }
     
-//    func testNoStar() {
-//        let path = Bundle.module.path(forResource: "img_nostar", ofType: "jpg")!
-//        let image = UIImage(contentsOfFile: path)!
-//        let locs = image.getStarLocations()
-//        print()
-//    }
+    func testCloud() {
+        let path = Bundle.module.path(forResource: "img_cloud", ofType: "png")!
+        let image = UIImage(contentsOfFile: path)!
+        let locs = image.getStarLocations()
+        XCTAssertEqual(locs.count, 0)
+    }
 }
 
 
