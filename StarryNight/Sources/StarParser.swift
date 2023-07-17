@@ -48,7 +48,7 @@ extension UIImage {
         var visited = Array(repeating: false, count: width * height)
         let MIN_PIX_FOR_STAR = 16
         let MAX_PIX_FOR_STAR = 1000
-        let STAR_PIX_THRESH = 180
+        let STAR_PIX_THRESH = 150
         // Skips to speed-up star searching
         let SKIP_STEP = 1 // 3
         
@@ -78,6 +78,7 @@ extension UIImage {
                 visited[visIdx] = true
                 var pixels: [(Int, Int)] = [(x, y)]
                 var stack: [(Int, Int)] = [(x, y)]
+                var sumRGB: UInt32 = 0
 
                 // Run flood fill
                 while let (x, y) = stack.popLast() {
@@ -93,6 +94,8 @@ extension UIImage {
                                 if nxDataVal > STAR_PIX_THRESH {
                                     pixels.append((nx, ny))
                                     stack.append((nx, ny))
+                                    // TODO: handle overflow case better?
+                                    sumRGB += UInt32(nxDataVal)
                                 }
                             }
                         }
@@ -128,11 +131,14 @@ extension UIImage {
                     }
                 }
                 
+                let centroid = (Double(sum.0) / Double(pixels.count), Double(sum.1) / Double(pixels.count))
+                let avgStarVal = UInt8(sumRGB / UInt32(pixels.count))
+                
                 // check 4 corners are dark, otherwise this might be a cloud or some other bright object
-                // blows out the bounding rectangle of the star by 5 pixels to give proper space for the image to dark
-                let expandWindow = 5
-                // If the pixel value drops by 30, its considered sufficiently "darker"
-                let darkDelta = 30
+                // blows out the bounding rectangle of the star by `expandWindow` pixels to give proper space for the image to dark
+                let expandWindow = 30
+                // The pixel value must drop this much for the image to be considered "dark"
+                let darkDelta: UInt8 = 20
                 minX = max(0, minX - expandWindow)
                 maxX = min(width - 1, maxX + expandWindow)
                 minY = max(0, minY - 5)
@@ -150,13 +156,11 @@ extension UIImage {
                     let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, num_channels: items))
                     let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, num_channels: items))
                     let avg = (posData0 / 4 + posData1 / 4 + posData2 / 4 + posData3 / 4)
-                    if avg > STAR_PIX_THRESH - darkDelta {
+                    if avg > avgStarVal - darkDelta {
                         passed = false
                         break
                     }
                 }
-
-                let centroid = (Double(sum.0) / Double(pixels.count), Double(sum.1) / Double(pixels.count))
                 if !passed {
                     print("Skipping possible star at \(centroid) because its shape did not look like a star")
                     continue

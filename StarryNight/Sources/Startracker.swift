@@ -51,7 +51,7 @@ public class StarTracker {
         starLocs.shuffle(using: &rng)
         
         let maxStarCombosToTry = 50 // only try this many before bailing
-        let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
+        let angleDelta = 0.017453 * 3 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
