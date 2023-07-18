@@ -199,6 +199,8 @@ class StartrackerTest: XCTestCase {
 //        testRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
 //    }
 //
+    
+    // TODO: add metric on reprojection error on big dipper stars
     func testDoStartrackReal() {
         let path = Bundle.module.path(forResource: "img_real", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
