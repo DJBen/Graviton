@@ -177,10 +177,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 
         captureSession.commitConfiguration()
         
-//        // TODO: move later?
-//        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-//            self!.captureSession.startRunning()
-//        }
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self!.captureSession.startRunning()
+            print("Started capture session!")
+        }
 
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
@@ -350,9 +350,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
         print("tapped Startrack button")
-        //let q = Quaternion(0.3943375, -0.45533238, 0.78938678, -0.11848571)
-//        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
-//        observerCameraController.setStartrackerOrientation(stQuat: q)
         capturePhoto()
     }
 
@@ -476,41 +473,37 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     
     // MARK: - Capture Photo functions
     func capturePhoto() {
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            let currentTime = DispatchTime.now()
-            print("Starting capture session at \(currentTime.uptimeNanoseconds)")
-            self!.captureSession.startRunning()
-            MotionManager.default.startMotionUpdate()
-            self!.observerCameraController.requestSaveDeviceOrientationForStartracker()
-            let settings = AVCapturePhotoSettings()
-            self!.stillImageOutput.capturePhoto(with: settings, delegate: self!)
-        }
-        
+        MotionManager.default.startMotionUpdate()
+        self.observerCameraController.requestSaveDeviceOrientationForStartracker()
+//        let q = Quaternion(0.66025264, -0.1873913, 0.67464177, -0.27167894)
+//        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
+//        observerCameraController.setStartrackerOrientation(stQuat: q)
+        let settings = AVCapturePhotoSettings()
+        self.stillImageOutput.capturePhoto(with: settings, delegate: self)
         // TODO: add text that we are done taking photo
         self.activityIndicator.startAnimating()
         self.activityLabel.isHidden = false
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        let currentTime = DispatchTime.now()
-        print("Stopping capture session at \(currentTime.uptimeNanoseconds)")
-        captureSession.stopRunning()
+        defer {
+            DispatchQueue.main.async {
+                self.activityIndicator.stopAnimating()
+                self.activityLabel.isHidden = true
+            }
+        }
+        
         guard let imageData = photo.fileDataRepresentation() else {
-            self.showStartrackError(error: "Failed to capture photo.")
+            self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
             return
         }
 
         let image = UIImage(data: imageData)!
-        return
         
         let saveStart = Date()
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
         PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
             if status == .authorized {
-//                PHPhotoLibrary.shared().performChanges({
-//                    PHAssetChangeRequest.creationRequestForAsset(from: image)
-//                }, completionHandler: nil)
-                
                 guard let data = UIImagePNGRepresentation(image) else {
                     return
                 }
@@ -563,11 +556,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             case .failure(let stError):
                 print("Startracking failed: \(stError)")
                 self.showStartrackError(error: stError.description)
-        }
-        
-        DispatchQueue.main.async {
-            self.activityIndicator.stopAnimating()
-            self.activityLabel.isHidden = true
         }
     }
     

@@ -246,7 +246,7 @@ class StartrackerTest: XCTestCase {
     }
     
     func testDoStartrackReal2() {
-        let path = Bundle.module.path(forResource: "chair", ofType: "png")!
+        let path = Bundle.module.path(forResource: "img_real_3", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()

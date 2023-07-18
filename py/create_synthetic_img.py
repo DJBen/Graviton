@@ -99,36 +99,36 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     assert abs(np.linalg.det(T_Cam0_Ref0) - 1) < 1e-4
 
     # Transformation from Synthetic Camera (SCam) to Catalog Camera (Cam)
-    T_SCam_Cam = generate_rmtx()
-    # T_total = (
-    #     np.array(
-    #         [
-    #             -0.41625696769431353,
-    #             0.543299360505343,
-    #             0.72907883093697134,
-    #             0.26065690263804603,
-    #             0.83949685357438342,
-    #             -0.47676305639788186,
-    #             -0.87108444823281916,
-    #             -0.0084165143138568745,
-    #             -0.49106114317234401,
-    #         ]
-    #     )
-    #     .reshape(3, 3)
-    #     .T
-    # )
+    # T_SCam_Cam = generate_rmtx()
+    T_total = (
+        np.array(
+            [
+                0.019485976463295918,
+                0.11912072276943125,
+                0.99268854638711567,
+                -0.61402311514330277,
+                -0.78215011115343214,
+                0.10590947876555012,
+                0.78904747055610469,
+                -0.61159746323015818,
+                0.05790191861630798,
+            ]
+        )
+        .reshape(3, 3)
+        .T
+    )
     # # T_total = Rotation.from_quat([-0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
-    # T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
+    T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
 
     # TODO: make these command-line args?
     # FOV matches the camera in app and the hardware camera
-    vfov = 70.29109 * np.pi / 180
+    hfov = 70.29109 * np.pi / 180
     # focal_length = 2863.6363
     # img_height = np.tan(vfov / 2) * focal_length * 2
     # img_width = img_height / 2
-    img_height = 4032
-    img_width = 3024
-    focal_length = 1.0 / np.tan(vfov / 2) * img_height / 2
+    img_height = 3024
+    img_width = 4032
+    focal_length = 1.0 / np.tan(hfov / 2) * img_width / 2
     print("Focal length:", focal_length)
 
     img_height = int(img_height)
@@ -136,7 +136,6 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     print(f"Creating image of size {img_width}x{img_height}")
 
     intrinsics_mtx = np.array([[focal_length, 0, img_width // 2], [0, focal_length, img_height // 2], [0, 0, 1]])
-    print("INT", intrinsics_mtx)
 
     def can_project_star_onto_cam(star_ray):
         cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray

@@ -39,12 +39,11 @@ extension UIImage {
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
         
         // data will have a 4th alpha-channel
-        // TODO: check this
-        let items = 4
         var stars: [StarLocation] = []
         
         let width = Int(self.size.width.rounded())
         let height = Int(self.size.height.rounded())
+        
         var visited = Array(repeating: false, count: width * height)
         let MIN_PIX_FOR_STAR = 16
         let MAX_PIX_FOR_STAR = 1000
@@ -52,18 +51,45 @@ extension UIImage {
         // Skips to speed-up star searching
         let SKIP_STEP = 1 // 3
         
+        let numChannels: Int
+        let ignoreChan: Int?
+        switch cgImg.alphaInfo {
+            case .none:
+                numChannels = 3
+                ignoreChan = nil
+            case .first, .premultipliedFirst, .noneSkipFirst:
+                numChannels = 4
+                ignoreChan = 0
+            case .last, .premultipliedLast, .noneSkipLast:
+                numChannels = 4
+                ignoreChan = 3
+            @unknown default:
+                print("Unknown alpha info")
+                numChannels = 3
+                ignoreChan = nil
+        }
+        
+        // TODO: SWITCH TO WIDHT AND HEIGHT SWITCH
+//        for dataIdx in 0..<height*numChannels+12 {
+//        for x in 0..<width {
+//            let y = x
+//            print("y: \(y), x: \(x)")
+//            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
+//            print("idx: \(dataIdx). val: \(data[dataIdx]),")
+//        }
+        
         let starLock = NSLock()
         let startTime = Date()
     //        DispatchQueue.concurrentPerform(iterations: height/SKIP_STEP) { i in
 //            let y = i * SKIP_STEP
         for y in stride(from: 0, to: height, by: SKIP_STEP) {
             for x in stride(from: 0, to: width, by: SKIP_STEP) {
-                let visIdx = pix2Pos(y: y, x: x, width: width, num_channels: 1)
+                let visIdx = pix2Pos(y: y, x: x, width: width, numChannels: 1)
                 if visited[visIdx] {
                     continue
                 }
-                let dataIdx = pix2Pos(y: y, x: x, width: width, num_channels: items)
-                let dataVal = getAvgRGB(data: data, pos: dataIdx)
+                let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels:    numChannels)
+                let dataVal = getAvgRGB(data: data, pos: dataIdx, numChannels: numChannels, ignoreChan: ignoreChan)
                 if dataVal < STAR_PIX_THRESH {
                     visited[visIdx] = true
                     continue
@@ -86,11 +112,11 @@ extension UIImage {
                         for dy in -1...1 {
                             let nx = x + dx
                             let ny = y + dy
-                            let nxVisIdx = pix2Pos(y: ny, x: nx, width: width, num_channels: 1)
+                            let nxVisIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: 1)
                             if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxVisIdx] {
                                 visited[nxVisIdx] = true
-                                let nxDataIdx = pix2Pos(y: ny, x: nx, width: width, num_channels: items)
-                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx)
+                                let nxDataIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: numChannels)
+                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx, numChannels: numChannels, ignoreChan: ignoreChan)
                                 if nxDataVal > STAR_PIX_THRESH {
                                     pixels.append((nx, ny))
                                     stack.append((nx, ny))
@@ -151,10 +177,10 @@ extension UIImage {
                     (maxX - 1, maxY - 1)
                 ] {
                     // avg the 2x2 area
-                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, num_channels: items))
-                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, num_channels: items))
-                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, num_channels: items))
-                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, num_channels: items))
+                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
+                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
+                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
+                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
                     let avg = (posData0 / 4 + posData1 / 4 + posData2 / 4 + posData3 / 4)
                     if avg > avgStarVal - darkDelta {
                         passed = false
@@ -182,15 +208,19 @@ extension UIImage {
 }
 
 // Goes from a pixel to an index in the flattened array.
-func pix2Pos(y: Int, x: Int, width: Int, num_channels: Int) -> Int {
-    return y * width * num_channels + x * num_channels
+func pix2Pos(y: Int, x: Int, width: Int, numChannels: Int) -> Int {
+    return y * width * numChannels + x * numChannels
 }
 
-func getAvgRGB(data: UnsafePointer<UInt8>, pos: Int) -> UInt8 {
-    let d1 = UInt16(data[pos])
-    let d2 = UInt16(data[pos + 1])
-    let d3 = UInt16(data[pos + 2])
-    return UInt8((d1 + d2 + d3) / 3)
+func getAvgRGB(data: UnsafePointer<UInt8>, pos: Int, numChannels: Int, ignoreChan: Int?) -> UInt8 {
+    var sm: UInt16 = 0
+    for (idx, i) in (pos..<pos + numChannels).enumerated() {
+        if idx == ignoreChan {
+            continue
+        }
+        sm += UInt16(data[i])
+    }
+    return UInt8(sm / 3)
 }
 
 func convertToGrayscale(_ image: UIImage) -> UIImage? {
