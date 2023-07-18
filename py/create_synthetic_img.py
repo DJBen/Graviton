@@ -136,6 +136,7 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     print(f"Creating image of size {img_width}x{img_height}")
 
     intrinsics_mtx = np.array([[focal_length, 0, img_width // 2], [0, focal_length, img_height // 2], [0, 0, 1]])
+    print("INT", intrinsics_mtx)
 
     def can_project_star_onto_cam(star_ray):
         cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
