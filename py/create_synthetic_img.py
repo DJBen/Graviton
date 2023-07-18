@@ -15,6 +15,9 @@ from PIL import Image, ImageDraw
 
 CURRENT_DIR = pathlib.Path(__file__).parent
 
+# See ImageType.Hard
+MAX_STAR_ANGLE_NOISE = 1 * np.pi / 180
+
 
 class DrawStarException(Exception):
     pass
@@ -23,17 +26,16 @@ class DrawStarException(Exception):
 class ImageType(Enum):
     # An image with a simple star pattern and no noise
     EASY = 0
-    # Adds some noise to the star location
+    # Adds up to MAX_STAR_ANGLE_NOISE angle noise to the star location
     # TODO: consider adding different star patterns as well as fake stars
     HARD = 1
 
     def draw_star_onto_image(self, img: np.ndarray, u: int, v: int) -> Tuple[int, int]:
         """
-        Draws a star onto the img. If HARD type, (u, v) might be modified slightly
-        to avoid creating a perfect image.
-
-        Returns the (u,v) where the star was drawn.
+        Draws a star onto the img.
         """
+
+        STAR_PIX_VALUE = 200
 
         def draw_simple_star(img, star_size, u, v):
             su = u - star_size // 2
@@ -46,33 +48,12 @@ class ImageType(Enum):
             assert lv < img.shape[0]
             slc = img[sv:lv, su:lu]
             # TODO: bring back
-            # if (slc > 250).any():
-            #     raise DrawStarException
-            img[sv:lv, su:lu] = 255
+            if (slc >= STAR_PIX_VALUE).any():
+                raise DrawStarException
+            img[sv:lv, su:lu] = STAR_PIX_VALUE
 
-        star_size = 5
-        if self == ImageType.EASY:
-            draw_simple_star(img, star_size, u, v)
-        elif self == ImageType.HARD:
-            du = None
-            dv = None
-            delta = 5
-            if u - star_size // 2 >= delta and u + star_size // 2 < img.shape[1] - delta:
-                du = (-delta, delta)
-            if v - star_size // 2 >= delta and v + star_size // 2 < img.shape[0] - delta:
-                dv = (-delta, delta)
-
-            if du is not None:
-                du = np.random.choice(np.arange(*du), size=1)[0]
-                u += du
-            if dv is not None:
-                dv = np.random.choice(np.arange(*dv), size=1)[0]
-                u += dv
-            draw_simple_star(img, star_size, u, v)
-        else:
-            raise ValueError(f"Unhandled image type {self}")
-
-        return u, v
+        star_size = 10
+        draw_simple_star(img, star_size, u, v)
 
 
 def get_star_vecs():
@@ -91,10 +72,17 @@ def get_star_vecs():
     return rows
 
 
-def create_synthetic_img(image_type: ImageType, annotate: bool):
+def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: bool):
     """
-    Creates a synthetic image using stars from the catalog
+    Creates a synthetic image using stars from the catalog.
+
+    Args:
+        image_type: The type of image to create
+        seed: The random seed to generate images with
+        n: The number of stars to create. -1 for every possible star.
+        annotate: Also create an annotated image.
     """
+    np.random.seed(seed)
     rows = get_star_vecs()
 
     # TOOD: doc better
@@ -111,45 +99,41 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
     assert abs(np.linalg.det(T_Cam0_Ref0) - 1) < 1e-4
 
     # Transformation from Synthetic Camera (SCam) to Catalog Camera (Cam)
-    if image_type == ImageType.EASY:
-        np.random.seed(7)
-        T_total = (
-            np.array(
-                [
-                    -0.41625696769431353,
-                    0.543299360505343,
-                    0.72907883093697134,
-                    0.26065690263804603,
-                    0.83949685357438342,
-                    -0.47676305639788186,
-                    -0.87108444823281916,
-                    -0.0084165143138568745,
-                    -0.49106114317234401,
-                ]
-            )
-            .reshape(3, 3)
-            .T
-        )
-        # T_total = Rotation.from_quat([-0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
-        T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
-
-    elif image_type == ImageType.HARD:
-        np.random.seed(13)
-        T_Sc_Cc = Rotation.from_euler("xyz", [-70, 120, 70], degrees=True).as_matrix()
-    else:
-        raise ValueError(f"Unknown image type {image_type}")
+    T_SCam_Cam = generate_rmtx()
+    # T_total = (
+    #     np.array(
+    #         [
+    #             -0.41625696769431353,
+    #             0.543299360505343,
+    #             0.72907883093697134,
+    #             0.26065690263804603,
+    #             0.83949685357438342,
+    #             -0.47676305639788186,
+    #             -0.87108444823281916,
+    #             -0.0084165143138568745,
+    #             -0.49106114317234401,
+    #         ]
+    #     )
+    #     .reshape(3, 3)
+    #     .T
+    # )
+    # # T_total = Rotation.from_quat([-0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
+    # T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
 
     # TODO: make these command-line args?
-    # img_width = 960
-    # img_height = 540
-    # focal_length = 600  # in pixels
-    vfov = 77.8775 * np.pi / 180
-    focal_length = 600
-    img_height = np.tan(vfov / 2) * focal_length * 2
-    img_width = img_height / 2
+    # FOV matches the camera in app and the hardware camera
+    vfov = 70.29109 * np.pi / 180
+    # focal_length = 2863.6363
+    # img_height = np.tan(vfov / 2) * focal_length * 2
+    # img_width = img_height / 2
+    img_height = 4032
+    img_width = 3024
+    focal_length = 1.0 / np.tan(vfov / 2) * img_height / 2
+    print("Focal length:", focal_length)
+
     img_height = int(img_height)
     img_width = int(img_width)
-    print(img_height, img_width)
+    print(f"Creating image of size {img_width}x{img_height}")
 
     intrinsics_mtx = np.array([[focal_length, 0, img_width // 2], [0, focal_length, img_height // 2], [0, 0, 1]])
 
@@ -165,8 +149,26 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
             and img_height / 2 / focal_length - abs(cam_ray[1]) > tol
         )
 
-    def project_star_onto_cam(star_ray):
+    def project_star_onto_cam(image_type: ImageType, star_ray):
         cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
+        if image_type == ImageType.HARD:
+            # TODO: make sure noise vec does not make it go out of range for the image...
+            cam_ray = cam_ray / np.linalg.norm(cam_ray)
+            noise_vector = np.random.randn(3)  # random direction
+            noise_vector = noise_vector / np.linalg.norm(noise_vector)  # normalize to length 1
+            noise_vector = noise_vector * np.tan(MAX_STAR_ANGLE_NOISE)  # scale to desired angle
+            cam_ray_new = cam_ray + noise_vector
+            assert np.arccos(np.dot(cam_ray_new, cam_ray) <= MAX_STAR_ANGLE_NOISE)
+            cam_ray = cam_ray / cam_ray[-1]
+            pix_ray = intrinsics_mtx @ cam_ray
+
+            cam_ray = cam_ray_new / cam_ray_new[-1]
+            pix_ray_new = intrinsics_mtx @ cam_ray
+
+            print("DELTA PIX", pix_ray_new - pix_ray)
+
+            cam_ray = cam_ray_new
+
         cam_ray = cam_ray / cam_ray[-1]
         pix_ray = intrinsics_mtx @ cam_ray
         return round(pix_ray[0]), round(pix_ray[1])
@@ -179,39 +181,43 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
         if cp:
             projectable_stars.append((hr, star_ray))
 
-        if hr == 188:
-            arr = np.array([x, y, z]) / dist
-            arr2 = T_SCam_Cam @ T_Cam0_Ref0 @ arr
-            print("Hr188", cp, arr, arr2)
+        # if hr == 188:
+        #     arr = np.array([x, y, z]) / dist
+        #     arr2 = T_SCam_Cam @ T_Cam0_Ref0 @ arr
+        #     print("Hr188", cp, arr, arr2)
         # if hr == 4554:
         #     print("HR 4554 CP", cp)
 
-    stars_to_pick = 50
-    print(f"Can project {len(projectable_stars)} stars out of {len(rows)}. Choosing at most {stars_to_pick}.")
+    if n == -1:
+        n = len(projectable_stars)
+    assert n >= 1
+    n = min(n, len(projectable_stars))
+    print(f"Can project {len(projectable_stars)} stars out of {len(rows)}. Choosing {n}.")
 
     np.random.shuffle(projectable_stars)
 
-    chosen_stars = []
-    for ps_hr, ps_star_ray in projectable_stars:
-        is_apart = True
-        for cs_hr, cs_star_ray in chosen_stars:
-            dp = np.dot(ps_star_ray, cs_star_ray)
-            theta = np.arccos(dp)
-            # if theta < 5 * np.pi / 180:  # check 5 degrees apart
-            #     is_apart = False
-            #     break
-        if is_apart:
-            chosen_stars.append((ps_hr, ps_star_ray))
-        if len(chosen_stars) == stars_to_pick:
-            break
+    chosen_stars = projectable_stars[:n]
+    # chosen_stars = []
+    # for ps_hr, ps_star_ray in projectable_stars:
+    #     is_apart = True
+    #     for cs_hr, cs_star_ray in chosen_stars:
+    #         dp = np.dot(ps_star_ray, cs_star_ray)
+    #         theta = np.arccos(dp)
+    #         # if theta < 5 * np.pi / 180:  # check 5 degrees apart
+    #         #     is_apart = False
+    #         #     break
+    #     if is_apart:
+    #         chosen_stars.append((ps_hr, ps_star_ray))
+    #     if len(chosen_stars) == n:
+    #         break
 
-    # assert len(chosen_stars) == stars_to_pick
+    assert len(chosen_stars) == n
 
     img = np.zeros((img_height, img_width, 3), dtype=np.uint8)
     all_star_locs = []
     for hr, star_ray in chosen_stars:
-        u, v = project_star_onto_cam(star_ray)
-        u, v = image_type.draw_star_onto_image(img, u, v)
+        u, v = project_star_onto_cam(image_type, star_ray)
+        image_type.draw_star_onto_image(img, u, v)
         all_star_locs.append((hr, u, v))
 
     savepath = "synthetic_img.png"
@@ -243,14 +249,30 @@ def create_synthetic_img(image_type: ImageType, annotate: bool):
     swift_mtx = Rotation.from_matrix(cmtx.T)
     swift_rmtx = swift_mtx.as_matrix()
     swift_quat = swift_mtx.as_quat()
-    print(f"Camera orientation in Swift:\n{swift_rmtx}\n{swift_quat}")
+    print("Camera orientation in Swift:")
+    print("Quat:", swift_quat)
+    print("Rotation Matrix:\nMatrix([")
+    for row in swift_rmtx:
+        row = np.round(row, decimals=4)
+        print(f"Vector([{row[0]}, {row[1]}, {row[2]}]),")
+    print("])")
+
+
+def generate_rmtx():
+    random_matrix = np.random.normal(size=(3, 3))
+    Q, R = np.linalg.qr(random_matrix)
+    if np.linalg.det(Q) < 0:  # If the determinant is -1, we flip the sign of last column of Q
+        Q[:, 2] *= -1
+    return Q
 
 
 @click.command
 @click.argument("image_type", type=click.Choice([e.name for e in ImageType], case_sensitive=False))
-def main(image_type: str):
+@click.argument("seed", type=int)
+@click.argument("n", type=int)
+def main(image_type: str, seed: int, n: int):
     image_type = ImageType[image_type.upper()]
-    create_synthetic_img(image_type, True)
+    create_synthetic_img(image_type, seed, n, True)
 
 
 if __name__ == "__main__":

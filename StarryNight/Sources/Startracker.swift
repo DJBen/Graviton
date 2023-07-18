@@ -32,7 +32,7 @@ public class StarTracker {
         self.catalog = Catalog()
     }
     
-    public func track(image: UIImage, focalLength: Double) -> Result<Matrix, StarTrackError> {
+    public func track(image: UIImage, focalLength: Double, maxStarCombos: Int) -> Result<Matrix, StarTrackError> {
         let s = Date()
         var starLocs = getStarLocations(img: image)
         let e = Date()
@@ -50,82 +50,127 @@ public class StarTracker {
         var rng = SeededGenerator(seed: 7)
         starLocs.shuffle(using: &rng)
         
-        let maxStarCombosToTry = 50 // only try this many before bailing
-        let angleDelta = 0.017453 * 3 // 2 degrees of tolerance due to camera shake during long-exposure
+        let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
         
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
+        var bestMatchScore: Double? = nil
+        var best_T_C_R: Matrix? = nil
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        
         for (itrCount, (i, j, k)) in gen.enumerated() {
             let eIter = Date()
             let dtIter = eIter.timeIntervalSince(sItr)
-            //print("Itr time: \(dtIter)")
-            if itrCount == maxStarCombosToTry {
-                return .failure(StarTrackError.noGoodMatches)
+            print("Itr time: \(dtIter)")
+            if itrCount == maxStarCombos {
+                //return .failure(StarTrackError.noGoodMatches)
+                break
             }
-            let smIt = self.findStarMatches(
+            
+            let smStart = Date()
+            let allSM = self.findStarMatches(
                 starLocs: starLocs,
                 pix2ray: pix2ray,
                 curIndices: (i, j, k),
                 angleDelta: angleDelta
             )
-            while let sm = smIt.next() {
+            let smEnd = Date()
+            let dtSM = smEnd.timeIntervalSince(smStart)
+            print("SM time: \(dtSM)")
+        
+            for sm in allSM {
+                if (sm.star1.star.hr == 1788 && sm.star2.star.hr == 1998 && sm.star3.star.hr == 1948) {
+                    print()
+                }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
-                if self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta) {
-                    // Note that we currently solved the problem in the local camera reference frame, where:
-                    // +x is horizontal and to the right
-                    // +y is vertical and down
-                    // +z is into the page
-                    // The reference catalog defined:
-                    // +x into the page
-                    // +y is horizontal and to the left
-                    // +z is vertical and up
-                    // Hence, we must transform our camera-space solution to the catalog reference frame
-                    // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
-                    // coordinates systems
-                    let T_Cam0_Ref0 = Matrix(
-                        [
-                            Vector([0, -1, 0]),
-                            Vector([0, 0, -1]),
-                            Vector([1, 0, 0])
-                        ]
-                    )
-                    // transformation from reference (R) to camera (Cam) in the some coordinate
-                    // system as the reference (R). Note that T_C_R is currently the product of
-                    // T_C_R = T_Cam_Cam0 * T_Cam0_Ref0
-                    // However, in our solver, we never first rotated the catalog rays by T_Cam0_Ref0
-                    // Hence, it is "baked into" T_C_R.
-                    let T_Cam_Ref = T_Cam0_Ref0.T * T_C_R
-                    // Swift wants us to use T_Ref_Cam as the camera orientation
-                    return .success(T_Cam_Ref.T)
+                let matchScore = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+                if bestMatchScore == nil {
+                    bestMatchScore = matchScore
+                    best_T_C_R = T_C_R
+                }
+                else if matchScore < bestMatchScore! {
+                    bestMatchScore = matchScore
+                    best_T_C_R = T_C_R
+                }
+                if false {
+//                    // Note that we currently solved the problem in the local camera reference frame, where:
+//                    // +x is horizontal and to the right
+//                    // +y is vertical and down
+//                    // +z is into the page
+//                    // The reference catalog defined:
+//                    // +x into the page
+//                    // +y is horizontal and to the left
+//                    // +z is vertical and up
+//                    // Hence, we must transform our camera-space solution to the catalog reference frame
+//                    // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
+//                    // coordinates systems
+//                    let T_Cam0_Ref0 = Matrix(
+//                        [
+//                            Vector([0, -1, 0]),
+//                            Vector([0, 0, -1]),
+//                            Vector([1, 0, 0])
+//                        ]
+//                    )
+//                    // transformation from reference (R) to camera (Cam) in the some coordinate
+//                    // system as the reference (R). Note that T_C_R is currently the product of
+//                    // T_C_R = T_Cam_Cam0 * T_Cam0_Ref0
+//                    // However, in our solver, we never first rotated the catalog rays by T_Cam0_Ref0
+//                    // Hence, it is "baked into" T_C_R.
+//                    let T_Cam_Ref = T_Cam0_Ref0.T * T_C_R
+//                    // Swift wants us to use T_Ref_Cam as the camera orientation
+//                    return .success(T_Cam_Ref.T)
                 }
             }
         }
-        return .failure(StarTrackError.noGoodMatches)
+        
+        let n = Double(starLocs.count)
+        let expectedNumMatches = 0.85 * n
+        // at least 85% of stars should match within the 2 degrees. The rest can be pi off (meaning they are completely wrong)
+        let requiredScore = expectedNumMatches * angleDelta + (n - expectedNumMatches) * Double.pi
+        if bestMatchScore! > requiredScore {
+            return .failure(StarTrackError.noGoodMatches)
+        }
+        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R!
+        // Swift wants us to use T_Ref_Cam as the camera orientation
+        return .success(T_Cam_Ref.T)
     }
     
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Bool {
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Double {
         let T_R_C = T_C_R.T
-        let requiredFracMatchStars = 0.85
-        let required_matched_stars = Int(requiredFracMatchStars * Double(starLocs.count))
-        let max_unmatched_stars = starLocs.count - required_matched_stars
-        var num_unmatched_stars = 0
+        //        let requiredFracMatchStars = 0.85
+        //        let required_matched_stars = Int(requiredFracMatchStars * Double(starLocs.count))
+        //        let max_unmatched_stars = starLocs.count - required_matched_stars
+        //        var num_unmatched_stars = 0
+        var matchedStarScore = 0.0
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
             let sray_R = (T_R_C * sray_C).toVector3()
             let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
-            if nearestStar == nil {
-                // We failed to match this star
-                num_unmatched_stars += 1
-                if num_unmatched_stars >= max_unmatched_stars {
-                    return false
-                }
+            //            if nearestStar == nil {
+            //                // We failed to match this star
+            //                num_unmatched_stars += 1
+            //                if num_unmatched_stars >= max_unmatched_stars {
+            //                    return false
+            //                }
+            //            }
+            if nearestStar != nil {
+                matchedStarScore += acos(nearestStar!.normalized_coord.dot(sray_R))
+            } else {
+                matchedStarScore += Double.pi
             }
         }
-        return true
+        //        return true
+        return matchedStarScore
     }
     
     /// Finds all possible matches for the 3 star coordinates given. Algorithm overview:
@@ -137,7 +182,7 @@ public class StarTracker {
         pix2ray: Pix2Ray,
         curIndices: (Int, Int, Int),
         angleDelta: Double
-    ) -> AnyIterator<TriangleStarMatch> {
+    ) -> [TriangleStarMatch] {
         let star1Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.0])
         let star2Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.1])
         let star3Coord = pix2ray.pix2Ray(pix: starLocs[curIndices.2])
@@ -150,45 +195,90 @@ public class StarTracker {
         let s1s3Matches = catalog.getMatches(angle: thetaS1S3, angleDelta: angleDelta)
         let s2s3Matches = catalog.getMatches(angle: thetaS2S3, angleDelta: angleDelta)
         
-        var s1s2MatchesIterator = s1s2Matches.makeIterator()
-        var star1MatchesIterator: DeterministicSet<MinimalStar>.Iterator? = nil
-        var s3OptsIterator: DeterministicSet<MinimalStar>.Iterator? = nil
-
-        return AnyIterator {
-            while let (star1, star1Matches) = s1s2MatchesIterator.next() {
-                if star1MatchesIterator == nil {
-                    star1MatchesIterator = star1Matches.makeIterator()
+        var allTSM: [TriangleStarMatch] = []
+        for (star1, star1Matches) in s1s2Matches {
+            for star2 in star1Matches {
+                let s3Opts1 = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
+                for star3 in s3Opts1 {
+                    let tsm = TriangleStarMatch(
+                        star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+                        star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
+                    )
+                    allTSM.append(tsm)
                 }
-
-                while let star2 = star1MatchesIterator?.next() {
-                    if s3OptsIterator == nil {
-                        let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
-                        s3OptsIterator = s3Opts.makeIterator()
-                    }
-
-                    while let star3 = s3OptsIterator?.next() {
-                        let tsm = TriangleStarMatch(
-                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
-                            star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
-                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
-                        )
-                        return tsm
-    //                    if let (star4, star4Coord) = verifyStarMatch(sm: TriangleStarMatch(star1: star1, star2: star2, star3: star3), starLocs: starLocs, pix2ray: pix2ray, curIndices: curIndices, star1Coord: star1Coord, star2Coord: star2Coord, star3Coord: star3Coord, angleDelta: angleDelta) {
-    //                        return PyramidStarMatch(
-    //                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.physicalInfo.coordinate.normalized())),
-    //                            star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.physicalInfo.coordinate.normalized())),
-    //                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.physicalInfo.coordinate.normalized())),
-    //                            star4: StarEntry(star: star4, vec: RotatedVector(cam: star4Coord, catalog: star4.physicalInfo.coordinate.normalized()))
-    //                        )
-    //                    }
-                    }
-                    s3OptsIterator = nil
+                let s3Opts2 = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
+                for star3 in s3Opts2 {
+                    let tsm = TriangleStarMatch(
+                        star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+                        star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
+                    )
+                    allTSM.append(tsm)
                 }
-                star1MatchesIterator = nil
             }
-            return nil
         }
+        return allTSM
     }
+    
+    //        var s1s2MatchesIterator = s1s2Matches.makeIterator()
+    //        var star1MatchesIterator: DeterministicSet<MinimalStar>.Iterator? = nil
+    //        var s3OptsIterator1: DeterministicSet<MinimalStar>.Iterator? = nil
+    //        var s3OptsIterator2: DeterministicSet<MinimalStar>.Iterator? = nil
+    //
+    //        return AnyIterator {
+    //            while let (star1, star1Matches) = s1s2MatchesIterator.next() {
+    //                if star1MatchesIterator == nil {
+    //                    star1MatchesIterator = star1Matches.makeIterator()
+    //                }
+    //
+    //                if star1.hr == 153 {
+    //                    print()
+    //                }
+    //
+    //                while let star2 = star1MatchesIterator?.next() {
+    //                    if (star1.hr == 153 && star2.hr == 464) {
+    //                        print()
+    //                    }
+    //                    if (star1.hr == 464 && star2.hr == 153) {
+    //                        print()
+    //                    }
+    //
+    //                    if s3OptsIterator1 == nil {
+    //                        let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
+    //                        s3OptsIterator1 = s3Opts.makeIterator()
+    //                    }
+    //
+    //                    while let star3 = s3OptsIterator1?.next() {
+    //                        let tsm = TriangleStarMatch(
+    //                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+    //                            star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+    //                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
+    //                        )
+    //                        return tsm
+    //                    }
+    //                    s3OptsIterator1 = nil
+    //
+    //                    if s3OptsIterator2 == nil {
+    //                        let s3Opts = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
+    //                        s3OptsIterator2 = s3Opts.makeIterator()
+    //                    }
+    //
+    //                    while let star3 = s3OptsIterator2?.next() {
+    //                        let tsm = TriangleStarMatch(
+    //                            star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+    //                            star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+    //                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
+    //                        )
+    //                        return tsm
+    //                    }
+    //                    s3OptsIterator2 = nil
+    //                }
+    //                star1MatchesIterator = nil
+    //            }
+    //            return nil
+    //        }
+    //    }
 }
 
 /// An iterator that returns the next star combination to try using the indexing algorithm in https://onlinelibrary.wiley.com/doi/abs/10.1002/j.2161-4296.2004.tb00349.x
