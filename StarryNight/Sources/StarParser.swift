@@ -52,21 +52,21 @@ extension UIImage {
         let SKIP_STEP = 1 // 3
         
         let numChannels: Int
-        let ignoreChan: Int?
+        let idxOffset: Int
         switch cgImg.alphaInfo {
             case .none:
                 numChannels = 3
-                ignoreChan = nil
+                idxOffset = 0
             case .first, .premultipliedFirst, .noneSkipFirst:
                 numChannels = 4
-                ignoreChan = 0
+                idxOffset = 1 // skip the first value as it is alpha
             case .last, .premultipliedLast, .noneSkipLast:
                 numChannels = 4
-                ignoreChan = 3
+                idxOffset = 0
             @unknown default:
                 print("Unknown alpha info")
                 numChannels = 3
-                ignoreChan = nil
+                idxOffset = 0
         }
         
         // TODO: SWITCH TO WIDHT AND HEIGHT SWITCH
@@ -89,7 +89,7 @@ extension UIImage {
                     continue
                 }
                 let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels:    numChannels)
-                let dataVal = getAvgRGB(data: data, pos: dataIdx, numChannels: numChannels, ignoreChan: ignoreChan)
+                let dataVal = getAvgRGB(data: data, pos: dataIdx + idxOffset, numChannels: numChannels)
                 if dataVal < STAR_PIX_THRESH {
                     visited[visIdx] = true
                     continue
@@ -116,7 +116,7 @@ extension UIImage {
                             if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxVisIdx] {
                                 visited[nxVisIdx] = true
                                 let nxDataIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: numChannels)
-                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx, numChannels: numChannels, ignoreChan: ignoreChan)
+                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx + idxOffset, numChannels: numChannels)
                                 if nxDataVal > STAR_PIX_THRESH {
                                     pixels.append((nx, ny))
                                     stack.append((nx, ny))
@@ -177,10 +177,10 @@ extension UIImage {
                     (maxX - 1, maxY - 1)
                 ] {
                     // avg the 2x2 area
-                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
-                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
-                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
-                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels, ignoreChan: ignoreChan)
+                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
+                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
+                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
+                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
                     let avg = (posData0 / 4 + posData1 / 4 + posData2 / 4 + posData3 / 4)
                     if avg > avgStarVal - darkDelta {
                         passed = false
@@ -212,15 +212,11 @@ func pix2Pos(y: Int, x: Int, width: Int, numChannels: Int) -> Int {
     return y * width * numChannels + x * numChannels
 }
 
-func getAvgRGB(data: UnsafePointer<UInt8>, pos: Int, numChannels: Int, ignoreChan: Int?) -> UInt8 {
-    var sm: UInt16 = 0
-    for (idx, i) in (pos..<pos + numChannels).enumerated() {
-        if idx == ignoreChan {
-            continue
-        }
-        sm += UInt16(data[i])
-    }
-    return UInt8(sm / 3)
+func getAvgRGB(data: UnsafePointer<UInt8>, pos: Int, numChannels: Int) -> UInt8 {
+    let d1 = UInt16(data[pos])
+    let d2 = UInt16(data[pos + 1])
+    let d3 = UInt16(data[pos + 2])
+    return UInt8((d1 + d2 + d3) / 3)
 }
 
 func convertToGrayscale(_ image: UIImage) -> UIImage? {
