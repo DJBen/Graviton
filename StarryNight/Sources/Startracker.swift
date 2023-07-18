@@ -57,17 +57,7 @@ public class StarTracker {
         
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
-        var bestMatchScore: Double? = nil
         var bestMatchedStars: [RotatedVector] = []
-        var best_T_C_R: Matrix? = nil
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        
         for (itrCount, (i, j, k)) in gen.enumerated() {
             let eIter = Date()
             let dtIter = eIter.timeIntervalSince(sItr)
@@ -89,74 +79,53 @@ public class StarTracker {
             print("SM time: \(dtSM)")
         
             for sm in allSM {
-                if (sm.star1.star.hr == 1788 && sm.star2.star.hr == 1998 && sm.star3.star.hr == 1948) {
-                    print()
-                }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
-                let (matchScore, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
-                if bestMatchScore == nil {
-                    bestMatchScore = matchScore
-                    best_T_C_R = T_C_R
+                let matchedStars = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+                if matchedStars.count > bestMatchedStars.count {
                     bestMatchedStars = matchedStars
-                }
-                else if matchScore < bestMatchScore! {
-                    bestMatchScore = matchScore
-                    best_T_C_R = T_C_R
-                    bestMatchedStars = matchedStars
-                }
-                if false {
-//                    // Note that we currently solved the problem in the local camera reference frame, where:
-//                    // +x is horizontal and to the right
-//                    // +y is vertical and down
-//                    // +z is into the page
-//                    // The reference catalog defined:
-//                    // +x into the page
-//                    // +y is horizontal and to the left
-//                    // +z is vertical and up
-//                    // Hence, we must transform our camera-space solution to the catalog reference frame
-//                    // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
-//                    // coordinates systems
-//                    let T_Cam0_Ref0 = Matrix(
-//                        [
-//                            Vector([0, -1, 0]),
-//                            Vector([0, 0, -1]),
-//                            Vector([1, 0, 0])
-//                        ]
-//                    )
-//                    // transformation from reference (R) to camera (Cam) in the some coordinate
-//                    // system as the reference (R). Note that T_C_R is currently the product of
-//                    // T_C_R = T_Cam_Cam0 * T_Cam0_Ref0
-//                    // However, in our solver, we never first rotated the catalog rays by T_Cam0_Ref0
-//                    // Hence, it is "baked into" T_C_R.
-//                    let T_Cam_Ref = T_Cam0_Ref0.T * T_C_R
-//                    // Swift wants us to use T_Ref_Cam as the camera orientation
-//                    return .success(T_Cam_Ref.T)
                 }
             }
         }
         
-        let n = Double(starLocs.count)
-        let expectedNumMatches = 0.85 * n
+        let expectedNumMatches = Int(0.85 * Double(starLocs.count))
         // at least 85% of stars should match within the 2 degrees. The rest can be pi off (meaning they are completely wrong)
-        let requiredScore = expectedNumMatches * angleDelta + (n - expectedNumMatches) * Double.pi
-        if bestMatchScore! > requiredScore {
+        if expectedNumMatches > bestMatchedStars.count {
             return .failure(StarTrackError.noGoodMatches)
         }
         let best_T_C_R_opt = solveWahba(rvs: bestMatchedStars)
+        
+        // Note that we currently solved the problem in the local camera reference frame, where:
+        // +x is horizontal and to the right
+        // +y is vertical and down
+        // +z is into the page
+        // The reference catalog defined:
+        // +x into the page
+        // +y is horizontal and to the left
+        // +z is vertical and up
+        // Hence, we must transform our camera-space solution to the catalog reference frame
+        // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
+        // coordinates systems
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        // transformation from reference (R) to camera (Cam) in the some coordinate
+        // system as the reference (R). Note that T_C_R is currently the product of
         let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R_opt
-//        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R!
         // Swift wants us to use T_Ref_Cam as the camera orientation
         return .success(T_Cam_Ref.T)
     }
     
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> (Double, [RotatedVector]) {
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> [RotatedVector] {
         let T_R_C = T_C_R.T
         //        let requiredFracMatchStars = 0.85
         //        let required_matched_stars = Int(requiredFracMatchStars * Double(starLocs.count))
         //        let max_unmatched_stars = starLocs.count - required_matched_stars
         //        var num_unmatched_stars = 0
-        var matchedStarScore = 0.0
         var matchedStars: [RotatedVector] = []
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
@@ -170,14 +139,11 @@ public class StarTracker {
             //                }
             //            }
             if nearestStar != nil {
-                matchedStarScore += acos(nearestStar!.normalized_coord.dot(sray_R))
                 matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar!.normalized_coord))
-            } else {
-                matchedStarScore += Double.pi
             }
         }
         //        return true
-        return (matchedStarScore, matchedStars)
+        return matchedStars
     }
     
     /// Finds all possible matches for the 3 star coordinates given. Algorithm overview:
