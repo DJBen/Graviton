@@ -486,86 +486,89 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
-        defer {
-            DispatchQueue.main.async {
-                self.activityIndicator.stopAnimating()
-                self.activityLabel.isHidden = true
-            }
-        }
-        
-        guard let imageData = photo.fileDataRepresentation() else {
-            self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
-            return
-        }
-        
-        let sUI = Date()
-        let _image = UIImage(data: imageData)!
-        let eUI = Date()
-        let dtUI = eUI.timeIntervalSince(sUI)
-        print("Time to convert to UIImage: \(dtUI)")
-        
-        let start = Date()
-        let image = _image.upOrientationImage()!
-        let end = Date()
-        let dtUp = end.timeIntervalSince(start)
-        print("Time to set orientation: \(dtUp)")
-
-        let saveStart = Date()
-        // TODO: save somewhere besides photo library? This was convenient and nice for debugging
-        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
-            if status == .authorized {
-                guard let data = UIImagePNGRepresentation(image) else {
-                    return
-                }
-
-                let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
-                let temporaryFilename = ProcessInfo().globallyUniqueString
-                let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent("\(temporaryFilename).png")
-
-                do {
-                    try data.write(to: temporaryFileURL)
-                    PHPhotoLibrary.shared().performChanges({
-                        PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: temporaryFileURL)
-                    }, completionHandler: { success, error in
-                        if !success {
-                            let err = "Error adding image to Photo Library: \(String(describing: error))"
-                            print(err)
-                            self.showStartrackError(error: err)
-                        }
-                        do {
-                            try FileManager.default.removeItem(at: temporaryFileURL)
-                        } catch {
-                            let err = "Error removing temporary file: \(error)"
-                            print(err)
-                            self.showStartrackError(error: err)
-                        }
-                    })
-                } catch {
-                    let err = "Error writing PNG data to file: \(error)"
-                    print(err)
-                    self.showStartrackError(error: err)
+        DispatchQueue.global(qos: .userInitiated).async {
+            // When this is done, stop the processing UI indication
+            defer {
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.activityLabel.isHidden = true
                 }
             }
-        }
-        let saveEnd = Date()
-        let dtSave = saveEnd.timeIntervalSince(saveStart)
-        print("Time to save to startracker photo to library: \(dtSave)")
-        
-        // Typically the FOV is associated with height because that is the longer side on phones
-        // Below just assumes the longer side is the one we got an FOV for
-        let width = Double(image.size.width.rounded())
-        let height = Double(image.size.height.rounded())
-        let sizeFOVSide = max(width, height)
-        let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
-        let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 20)
-        switch stResult {
-            case .success(let T_R_C):
-                print("Successfully Startracked! Result:\n\(T_R_C)")
-                let stQuat = Quaternion(rotationMatrix: T_R_C.toMatrix4())
-                observerCameraController.setStartrackerOrientation(stQuat: stQuat)
-            case .failure(let stError):
-                print("Startracking failed: \(stError)")
-                self.showStartrackError(error: stError.description)
+            
+            guard let imageData = photo.fileDataRepresentation() else {
+                self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
+                return
+            }
+            
+            let sUI = Date()
+            let _image = UIImage(data: imageData)!
+            let eUI = Date()
+            let dtUI = eUI.timeIntervalSince(sUI)
+            print("Time to convert to UIImage: \(dtUI)")
+            
+            let start = Date()
+            let image = _image.upOrientationImage()!
+            let end = Date()
+            let dtUp = end.timeIntervalSince(start)
+            print("Time to set orientation: \(dtUp)")
+
+            let saveStart = Date()
+            // TODO: save somewhere besides photo library? This was convenient and nice for debugging
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+                if status == .authorized {
+                    guard let data = UIImagePNGRepresentation(image) else {
+                        return
+                    }
+
+                    let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                    let temporaryFilename = ProcessInfo().globallyUniqueString
+                    let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent("\(temporaryFilename).png")
+
+                    do {
+                        try data.write(to: temporaryFileURL)
+                        PHPhotoLibrary.shared().performChanges({
+                            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: temporaryFileURL)
+                        }, completionHandler: { success, error in
+                            if !success {
+                                let err = "Error adding image to Photo Library: \(String(describing: error))"
+                                print(err)
+                                self.showStartrackError(error: err)
+                            }
+                            do {
+                                try FileManager.default.removeItem(at: temporaryFileURL)
+                            } catch {
+                                let err = "Error removing temporary file: \(error)"
+                                print(err)
+                                self.showStartrackError(error: err)
+                            }
+                        })
+                    } catch {
+                        let err = "Error writing PNG data to file: \(error)"
+                        print(err)
+                        self.showStartrackError(error: err)
+                    }
+                }
+            }
+            let saveEnd = Date()
+            let dtSave = saveEnd.timeIntervalSince(saveStart)
+            print("Time to save to startracker photo to library: \(dtSave)")
+            
+            // Typically the FOV is associated with height because that is the longer side on phones
+            // Below just assumes the longer side is the one we got an FOV for
+            let width = Double(image.size.width.rounded())
+            let height = Double(image.size.height.rounded())
+            let sizeFOVSide = max(width, height)
+            let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
+            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 20)
+            switch stResult {
+                case .success(let T_R_C):
+                    print("Successfully Startracked! Result:\n\(T_R_C)")
+                    let stQuat = Quaternion(rotationMatrix: T_R_C.toMatrix4())
+                    self.observerCameraController.setStartrackerOrientation(stQuat: stQuat)
+                case .failure(let stError):
+                    print("Startracking failed: \(stError)")
+                    self.showStartrackError(error: stError.description)
+            }
         }
     }
     
