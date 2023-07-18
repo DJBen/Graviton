@@ -177,10 +177,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
 
         captureSession.commitConfiguration()
         
-        // TODO: move later?
-        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
-            self!.captureSession.startRunning()
-        }
+//        // TODO: move later?
+//        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+//            self!.captureSession.startRunning()
+//        }
 
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
@@ -350,8 +350,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     
     @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
         print("tapped Startrack button")
-        MotionManager.default.startMotionUpdate()
-        observerCameraController.requestSaveDeviceOrientationForStartracker()
         //let q = Quaternion(0.3943375, -0.45533238, 0.78938678, -0.11848571)
 //        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
 //        observerCameraController.setStartrackerOrientation(stQuat: q)
@@ -478,19 +476,32 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     
     // MARK: - Capture Photo functions
     func capturePhoto() {
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            let currentTime = DispatchTime.now()
+            print("Starting capture session at \(currentTime.uptimeNanoseconds)")
+            self!.captureSession.startRunning()
+            MotionManager.default.startMotionUpdate()
+            self!.observerCameraController.requestSaveDeviceOrientationForStartracker()
+            let settings = AVCapturePhotoSettings()
+            self!.stillImageOutput.capturePhoto(with: settings, delegate: self!)
+        }
+        
         // TODO: add text that we are done taking photo
         self.activityIndicator.startAnimating()
         self.activityLabel.isHidden = false
-        let settings = AVCapturePhotoSettings()
-        stillImageOutput.capturePhoto(with: settings, delegate: self)
     }
 
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        let currentTime = DispatchTime.now()
+        print("Stopping capture session at \(currentTime.uptimeNanoseconds)")
+        captureSession.stopRunning()
         guard let imageData = photo.fileDataRepresentation() else {
+            self.showStartrackError(error: "Failed to capture photo.")
             return
         }
 
         let image = UIImage(data: imageData)!
+        return
         
         let saveStart = Date()
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
@@ -514,16 +525,22 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
                         PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: temporaryFileURL)
                     }, completionHandler: { success, error in
                         if !success {
-                            print("Error adding image to Photo Library: \(String(describing: error))")
+                            let err = "Error adding image to Photo Library: \(String(describing: error))"
+                            print(err)
+                            self.showStartrackError(error: err)
                         }
                         do {
                             try FileManager.default.removeItem(at: temporaryFileURL)
                         } catch {
-                            print("Error removing temporary file: \(error)")
+                            let err = "Error removing temporary file: \(error)"
+                            print(err)
+                            self.showStartrackError(error: err)
                         }
                     })
                 } catch {
-                    print("Error writing PNG data to file: \(error)")
+                    let err = "Error writing PNG data to file: \(error)"
+                    print(err)
+                    self.showStartrackError(error: err)
                 }
             }
         }
@@ -537,7 +554,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         let height = Double(image.size.height.rounded())
         let sizeFOVSide = max(width, height)
         let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
-        let stResult = self.st.track(image: image, focalLength: focalLength)
+        let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 20)
         switch stResult {
             case .success(let T_R_C):
                 print("Successfully Startracked! Result:\n\(T_R_C)")
@@ -545,7 +562,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
                 observerCameraController.setStartrackerOrientation(stQuat: stQuat)
             case .failure(let stError):
                 print("Startracking failed: \(stError)")
-                self.showStartrackError(error: stError)
+                self.showStartrackError(error: stError.description)
         }
         
         DispatchQueue.main.async {
@@ -555,9 +572,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     }
     
     /// Show an error when Startracking fails
-    func showStartrackError(error: StarTrackError) {
+    func showStartrackError(error: String) {
         DispatchQueue.main.async {
-            let alertController = UIAlertController(title: "Startracking Error", message: "Star tracking failed: \(error.description)", preferredStyle: .alert)
+            let alertController = UIAlertController(title: "Startracking Error", message: error, preferredStyle: .alert)
             let okAction = UIAlertAction(title: "OK", style: .default)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)

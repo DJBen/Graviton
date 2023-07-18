@@ -245,19 +245,14 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 40)
     }
     
-//    func testDoStartrackReal2() {
-//        let path = Bundle.module.path(forResource: "img_real2", ofType: "png")!
-//        XCTAssertNotNil(path, "Image not found")
-//        let image = UIImage(contentsOfFile: path)!
-//        let st = StarTracker()
-//        let T_R_C = try! st.track(image: image, focalLength: 2863.6363).get()
-//        let expected = Matrix([
-//            Vector([-0.416, -5433, 0.7291]),
-//            Vector([-0.261, 0.839, -0.757]),
-//            Vector([0.880, -0.456, 0.135])
-//        ])
-//        te    stRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
-//    }
+    func testDoStartrackReal2() {
+        let path = Bundle.module.path(forResource: "chair", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 10).get()
+        print()
+    }
 }
 
 func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {
@@ -272,7 +267,7 @@ func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {
             score += abs(diff[i,j])
         }
     }
-    print("SCORE \(score)")
+    print("L1 Difference: \(score)")
     XCTAssertTrue(score <= tol)
 }
 
