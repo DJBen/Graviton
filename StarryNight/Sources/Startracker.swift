@@ -58,6 +58,7 @@ public class StarTracker {
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
         var bestMatchScore: Double? = nil
+        var bestMatchedStars: [RotatedVector] = []
         var best_T_C_R: Matrix? = nil
         let T_Cam0_Ref0 = Matrix(
             [
@@ -92,14 +93,16 @@ public class StarTracker {
                     print()
                 }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
-                let matchScore = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+                let (matchScore, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
                 if bestMatchScore == nil {
                     bestMatchScore = matchScore
                     best_T_C_R = T_C_R
+                    bestMatchedStars = matchedStars
                 }
                 else if matchScore < bestMatchScore! {
                     bestMatchScore = matchScore
                     best_T_C_R = T_C_R
+                    bestMatchedStars = matchedStars
                 }
                 if false {
 //                    // Note that we currently solved the problem in the local camera reference frame, where:
@@ -139,22 +142,25 @@ public class StarTracker {
         if bestMatchScore! > requiredScore {
             return .failure(StarTrackError.noGoodMatches)
         }
-        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R!
+        let best_T_C_R_opt = solveWahba(rvs: bestMatchedStars)
+        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R_opt
+//        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R!
         // Swift wants us to use T_Ref_Cam as the camera orientation
         return .success(T_Cam_Ref.T)
     }
     
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> Double {
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> (Double, [RotatedVector]) {
         let T_R_C = T_C_R.T
         //        let requiredFracMatchStars = 0.85
         //        let required_matched_stars = Int(requiredFracMatchStars * Double(starLocs.count))
         //        let max_unmatched_stars = starLocs.count - required_matched_stars
         //        var num_unmatched_stars = 0
         var matchedStarScore = 0.0
+        var matchedStars: [RotatedVector] = []
         for sloc in starLocs {
-            let sray_C = pix2Ray.pix2Ray(pix: sloc).toMatrix()
-            let sray_R = (T_R_C * sray_C).toVector3()
+            let sray_C = pix2Ray.pix2Ray(pix: sloc)
+            let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
             let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
             //            if nearestStar == nil {
             //                // We failed to match this star
@@ -165,12 +171,13 @@ public class StarTracker {
             //            }
             if nearestStar != nil {
                 matchedStarScore += acos(nearestStar!.normalized_coord.dot(sray_R))
+                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar!.normalized_coord))
             } else {
                 matchedStarScore += Double.pi
             }
         }
         //        return true
-        return matchedStarScore
+        return (matchedStarScore, matchedStars)
     }
     
     /// Finds all possible matches for the 3 star coordinates given. Algorithm overview:

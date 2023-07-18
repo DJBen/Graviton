@@ -148,7 +148,7 @@ class StartrackerTest: XCTestCase {
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
             Vector([0.3509, -0.2196, 0.9103]),
             Vector([-0.0005, -0.9722, -0.2343]),
