@@ -497,9 +497,19 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
             return
         }
-
-        let image = UIImage(data: imageData)!
         
+        let sUI = Date()
+        let _image = UIImage(data: imageData)!
+        let eUI = Date()
+        let dtUI = eUI.timeIntervalSince(sUI)
+        print("Time to convert to UIImage: \(dtUI)")
+        
+        let start = Date()
+        let image = _image.upOrientationImage()!
+        let end = Date()
+        let dtUp = end.timeIntervalSince(start)
+        print("Time to set orientation: \(dtUp)")
+
         let saveStart = Date()
         // TODO: save somewhere besides photo library? This was convenient and nice for debugging
         PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
@@ -566,6 +576,21 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             let okAction = UIAlertAction(title: "OK", style: .default)
             alertController.addAction(okAction)
             self.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension UIImage {
+    func upOrientationImage() -> UIImage? {
+        switch imageOrientation {
+        case .up:
+            return self
+        default:
+            UIGraphicsBeginImageContextWithOptions(size, false, scale)
+            draw(in: CGRect(origin: .zero, size: size))
+            let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return normalizedImage
         }
     }
 }

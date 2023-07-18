@@ -70,13 +70,18 @@ extension UIImage {
         }
         
         // TODO: SWITCH TO WIDHT AND HEIGHT SWITCH
-//        for dataIdx in 0..<height*numChannels+12 {
-//        for x in 0..<width {
-//            let y = x
-//            print("y: \(y), x: \(x)")
-//            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
-//            print("idx: \(dataIdx). val: \(data[dataIdx]),")
-//        }
+        print("HORIZ")
+        for dataIdx in 0..<height*numChannels+12 {
+            print("idx: \(dataIdx). val: \(data[dataIdx]),")
+        }
+        
+        print("DIAG")
+        for x in 0..<width {
+            let y = x
+            print("y: \(y), x: \(x)")
+            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
+            print("idx: \(dataIdx). val: \(data[dataIdx]),")
+        }
         
         let starLock = NSLock()
         let startTime = Date()
