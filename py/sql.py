@@ -16,6 +16,8 @@ def create_star_angle_table():
     conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
     cursor = conn.cursor()
 
+    # cursor.execute("DROP TABLE star_angles;")
+
     cursor.execute(
         """
         CREATE TABLE star_angles (
@@ -58,8 +60,8 @@ def create_star_angle_table():
             AND B.z IS NOT NULL
             AND A.dist != 0
             AND B.dist != 0
-            AND A.mag < 4
-            AND B.mag < 4
+            AND A.mag < 5
+            AND B.mag < 5
         """
     )
 

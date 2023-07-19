@@ -75,7 +75,7 @@ extension UIImage {
             pixSamples.append(dataVal)
         }
         pixSamples.sort()
-        let STAR_PIX_THRESH = pixSamples[numSamples/2] + 30
+        let INIT_STAR_PIX_THRESH = pixSamples[numSamples/2] + 30
         let STAR_PIX_DELTA: UInt8 = 20
         
         let starLock = NSLock()
@@ -84,6 +84,9 @@ extension UIImage {
 //            let y = i * SKIP_STEP
         for y in stride(from: 0, to: height, by: SKIP_STEP) {
             for x in stride(from: 0, to: width, by: SKIP_STEP) {
+                if y == 1589 && x == 1471 {
+                    print()
+                }
                 let visIdx = pix2Pos(y: y, x: x, width: width, numChannels: 1)
                 if visited[visIdx] {
                     continue
@@ -91,18 +94,20 @@ extension UIImage {
                 let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
                 let dataVal = getAvgRGB(data: data, pos: dataIdx, numChannels: numChannels)
                 visited[visIdx] = true
-                if dataVal < STAR_PIX_THRESH {
+                if dataVal < INIT_STAR_PIX_THRESH {
                     continue
                 }
                 // We have a candidate star. To make sure, see if the previous pixels have a sufficient delta
-                
-                let pixDelta = 20
+                var starPixThresh = INIT_STAR_PIX_THRESH
+                let pixDelta = 10
                 if x >= pixDelta {
                     let prevDataIdx = pix2Pos(y: y, x: x - pixDelta, width: width, numChannels: numChannels)
                     let prevDataVal = getAvgRGB(data: data, pos: prevDataIdx, numChannels: numChannels)
                     if dataVal < prevDataVal + STAR_PIX_DELTA {
                         continue // delta too small
                     }
+                    // Modify the pixel threshold
+                    starPixThresh = max(starPixThresh, prevDataVal / 2 + dataVal / 2)
                 }
                 if y >= pixDelta {
                     let prevDataIdx = pix2Pos(y: y - pixDelta, x: x, width: width, numChannels: numChannels)
@@ -110,6 +115,8 @@ extension UIImage {
                     if dataVal < prevDataVal + STAR_PIX_DELTA {
                         continue // delta too small
                     }
+                    // Modify the pixel threshold
+                    starPixThresh = max(starPixThresh, prevDataVal / 2 + dataVal / 2)
                 }
                 
                 // TODO: determine threading
@@ -136,7 +143,7 @@ extension UIImage {
                                 visited[nxVisIdx] = true
                                 let nxDataIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: numChannels)
                                 let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx, numChannels: numChannels)
-                                if nxDataVal > STAR_PIX_THRESH {
+                                if nxDataVal > starPixThresh {
                                     pixels.append((nx, ny))
                                     stack.append((nx, ny))
                                     // TODO: handle overflow case better?
@@ -148,7 +155,11 @@ extension UIImage {
                 }
                 
                 starLock.unlock()
-                if pixels.count < MIN_PIX_FOR_STAR || pixels.count > MAX_PIX_FOR_STAR {
+                if pixels.count < MIN_PIX_FOR_STAR {
+                    continue
+                }
+                if pixels.count > MAX_PIX_FOR_STAR {
+                    print("Flooded \(pixels.count) at (\(x),\(y))")
                     continue
                 }
                 

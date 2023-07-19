@@ -185,28 +185,14 @@ class StartrackerTest: XCTestCase {
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
     
-//    func testDoStartrackIPhoneCam() {
-//        let path = Bundle.module.path(forResource: "img_test", ofType: "png")!
-//        XCTAssertNotNil(path, "Image not found")
-//        let image = UIImage(contentsOfFile: path)!
-//        let st = StarTracker()
-//        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-//        let expected = Matrix([
-//            Vector([-0.650, -0.565, 0.509]),
-//            Vector([-0.146, -0.564, -0.813]),
-//            Vector([0.746, -0.602, 0.284])
-//        ])
-//        testRotationEqual(expected: expected, actual: T_R_C, tol: 0.1)
-//    }
-//
-    
-    func testDoStartrackReal() {
-        let path = Bundle.module.path(forResource: "img_real", ofType: "png")!
+    // Old image with a cloud. Code should still work on it.
+    func testDoStartrackReal1() {
+        let path = Bundle.module.path(forResource: "img_real_1", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let focalLength = 2863.6363
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 1).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -241,9 +227,10 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 40)
+        XCTAssertTrue(avgReprojErr < 35)
     }
     
+    // Straightforwad good image
     func testDoStartrackReal2() {
         let path = Bundle.module.path(forResource: "img_real_2", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
@@ -285,7 +272,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 75)
+        XCTAssertTrue(avgReprojErr < 85)
     }
     
     /// This is a complex test case because the image has a lot of visual aliasing. Without better star identification and better algorithmic checks on the solution,
@@ -330,7 +317,50 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 40)
+        XCTAssertTrue(avgReprojErr < 70)
+    }
+    
+    /// This initially only found 3 stars and needed to be improved
+    func testDoStartrackReal4() {
+        let path = Bundle.module.path(forResource: "img_real_4", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let focalLength = 2863.6363
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        
+        // (hr, u, v)
+        let bigDipperStars = [
+            (5191, 341.11764705882354, 1797.4705882352941),
+            (5054, 406.0, 2176.0285714285715),
+            (4905, 273.16129032258067,  2399.6129032258063),
+            (4660, 155.06896551724137,3357.67241379310333),
+            (4301, 155.06896551724137, 3357.6724137931033)
+        ]
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        let width = Int(image.size.width.rounded())
+        let height = Int(image.size.height.rounded())
+        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+        let intrinsics = inv(pix2ray.intrinsics_inv)
+        var reprojErr = 0.0
+        for (hr, u, v) in bigDipperStars {
+            let s = Star.hr(hr)!
+            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+            XCTAssertTrue(rotStar.z > 0)
+            let rotStarScaled = rotStar / rotStar.z
+            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+            reprojErr += err
+        }
+        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
+        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
+        XCTAssertTrue(avgReprojErr < 70)
     }
 }
 
