@@ -251,7 +251,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        //let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -287,6 +287,49 @@ class StartrackerTest: XCTestCase {
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
         XCTAssertTrue(avgReprojErr < 75)
+    }
+    
+    func testDoStartrackReal3() {
+        let path = Bundle.module.path(forResource: "img_real_3", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let focalLength = 2863.6363
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        
+        // (hr, u, v)
+        let bigDipperStars = [
+            (5191, 533.8735294117647,1697.285294117647),
+            (5054, 601.0240384615385, 2063.4326923076924),
+            (4905, 472.3482849604222,2276.831134564644),
+            (4554, 50.39,2652.47),
+            (4295, 21.725, 3157.2),
+            (4301, 366.3243243243243, 3187.864864864865)
+        ]
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        let width = Int(image.size.width.rounded())
+        let height = Int(image.size.height.rounded())
+        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+        let intrinsics = inv(pix2ray.intrinsics_inv)
+        var reprojErr = 0.0
+        for (hr, u, v) in bigDipperStars {
+            let s = Star.hr(hr)!
+            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+            XCTAssertTrue(rotStar.z > 0)
+            let rotStarScaled = rotStar / rotStar.z
+            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+            reprojErr += err
+        }
+        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
+        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
+        XCTAssertTrue(avgReprojErr < 40)
     }
 }
 

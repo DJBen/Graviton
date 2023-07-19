@@ -47,38 +47,36 @@ extension UIImage {
         var visited = Array(repeating: false, count: width * height)
         let MIN_PIX_FOR_STAR = 16
         let MAX_PIX_FOR_STAR = 1000
-        let STAR_PIX_THRESH = 150
+//        let STAR_PIX_THRESH = 150
         // Skips to speed-up star searching
         let SKIP_STEP = 1 // 3
         
         let numChannels: Int
-        let idxOffset: Int
         switch cgImg.alphaInfo {
             case .none:
                 numChannels = 3
-                idxOffset = 0
             case .first, .premultipliedFirst, .noneSkipFirst, .last, .premultipliedLast, .noneSkipLast:
                 numChannels = 4
-                idxOffset = 0
+            case .alphaOnly:
+                fatalError("Cannot handle an image with alpha only")
             @unknown default:
                 print("Unknown alpha info")
                 numChannels = 3
-                idxOffset = 0
         }
         
-        // TODO: SWITCH TO WIDHT AND HEIGHT SWITCH
-        print("HORIZ")
-        for dataIdx in 0..<height*numChannels+12 {
-            print("idx: \(dataIdx). val: \(data[dataIdx]),")
+        let rng = SeededGenerator(seed: 7)
+        var pixSamples: [UInt8] = []
+        let numSamples = 1000
+        for _ in 0..<numSamples {
+            let y = rng.nextInt(upper: height)
+            let x = rng.nextInt(upper: width)
+            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
+            let dataVal = getAvgRGB(data: data, pos: dataIdx, numChannels: numChannels)
+            pixSamples.append(dataVal)
         }
-        
-        print("DIAG")
-        for x in 0..<width {
-            let y = x
-            print("y: \(y), x: \(x)")
-            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels) + idxOffset
-            print("idx: \(dataIdx). val: \(data[dataIdx]), \(data[dataIdx + 1]), \(data[dataIdx + 2])")
-        }
+        pixSamples.sort()
+        let STAR_PIX_THRESH = pixSamples[numSamples/2] + 30
+        let STAR_PIX_DELTA: UInt8 = 20
         
         let starLock = NSLock()
         let startTime = Date()
@@ -90,18 +88,37 @@ extension UIImage {
                 if visited[visIdx] {
                     continue
                 }
-                let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels:    numChannels)
-                let dataVal = getAvgRGB(data: data, pos: dataIdx + idxOffset, numChannels: numChannels)
+                let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
+                let dataVal = getAvgRGB(data: data, pos: dataIdx, numChannels: numChannels)
+                visited[visIdx] = true
                 if dataVal < STAR_PIX_THRESH {
-                    visited[visIdx] = true
                     continue
                 }
-                starLock.lock()
-                if visited[visIdx] {
-                    // another thread already filled this, so just continue
-                    starLock.unlock()
-                    continue
+                // We have a candidate star. To make sure, see if the previous pixels have a sufficient delta
+                
+                let pixDelta = 20
+                if x >= pixDelta {
+                    let prevDataIdx = pix2Pos(y: y, x: x - pixDelta, width: width, numChannels: numChannels)
+                    let prevDataVal = getAvgRGB(data: data, pos: prevDataIdx, numChannels: numChannels)
+                    if dataVal < prevDataVal + STAR_PIX_DELTA {
+                        continue // delta too small
+                    }
                 }
+                if y >= pixDelta {
+                    let prevDataIdx = pix2Pos(y: y - pixDelta, x: x, width: width, numChannels: numChannels)
+                    let prevDataVal = getAvgRGB(data: data, pos: prevDataIdx, numChannels: numChannels)
+                    if dataVal < prevDataVal + STAR_PIX_DELTA {
+                        continue // delta too small
+                    }
+                }
+                
+                // TODO: determine threading
+//                starLock.lock()
+//                if visited[visIdx] {
+//                    // another thread already filled this, so just continue
+//                    starLock.unlock()
+//                    continue
+//                }
                 
                 visited[visIdx] = true
                 var pixels: [(Int, Int)] = [(x, y)]
@@ -118,7 +135,7 @@ extension UIImage {
                             if nx >= 0 && nx < width && ny >= 0 && ny < height && !visited[nxVisIdx] {
                                 visited[nxVisIdx] = true
                                 let nxDataIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: numChannels)
-                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx + idxOffset, numChannels: numChannels)
+                                let nxDataVal = getAvgRGB(data: data, pos: nxDataIdx, numChannels: numChannels)
                                 if nxDataVal > STAR_PIX_THRESH {
                                     pixels.append((nx, ny))
                                     stack.append((nx, ny))
@@ -164,13 +181,13 @@ extension UIImage {
                 
                 // check 4 corners are dark, otherwise this might be a cloud or some other bright object
                 // blows out the bounding rectangle of the star by `expandWindow` pixels to give proper space for the image to dark
-                let expandWindow = 30
+                let expandWindow = 10
                 // The pixel value must drop this much for the image to be considered "dark"
-                let darkDelta: UInt8 = 20
+                let darkDelta: UInt8 = 10
                 minX = max(0, minX - expandWindow)
                 maxX = min(width - 1, maxX + expandWindow)
-                minY = max(0, minY - 5)
-                maxY = min(height - 1, maxY + 5)
+                minY = max(0, minY - expandWindow)
+                maxY = min(height - 1, maxY + expandWindow)
                 var passed = true
                 for (testU, testV) in [
                     (minX, minY),
@@ -179,10 +196,10 @@ extension UIImage {
                     (maxX - 1, maxY - 1)
                 ] {
                     // avg the 2x2 area
-                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
-                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
-                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
-                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, numChannels: numChannels) + idxOffset, numChannels: numChannels)
+                    let posData0 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU, width: width, numChannels: numChannels), numChannels: numChannels)
+                    let posData1 = getAvgRGB(data: data, pos: pix2Pos(y: testV, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels)
+                    let posData2 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU, width: width, numChannels: numChannels), numChannels: numChannels)
+                    let posData3 = getAvgRGB(data: data, pos: pix2Pos(y: testV + 1, x: testU + 1, width: width, numChannels: numChannels), numChannels: numChannels)
                     let avg = (posData0 / 4 + posData1 / 4 + posData2 / 4 + posData3 / 4)
                     if avg > avgStarVal - darkDelta {
                         passed = false

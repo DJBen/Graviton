@@ -100,35 +100,64 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
 
     # Transformation from Synthetic Camera (SCam) to Catalog Camera (Cam)
     # T_SCam_Cam = generate_rmtx()
+    # T_total = (
+    #     np.array(
+    #         [
+    #             0.019485976463295918,
+    #             0.11912072276943125,
+    #             0.99268854638711567,
+    #             -0.61402311514330277,
+    #             -0.78215011115343214,
+    #             0.10590947876555012,
+    #             0.78904747055610469,
+    #             -0.61159746323015818,
+    #             0.05790191861630798,
+    #         ]
+    #     )
+    #     .reshape(3, 3)
+    #     .T
+    # )
+    # T_total = (
+    #     np.array(
+    #         [
+    #             -0.46787028772970113,
+    #             -0.56094838084966769,
+    #             -0.68295996067255771,
+    #             -0.18252965072077579,
+    #             -0.69476571291924316,
+    #             0.69568924870200954,
+    #             -0.86474292160588317,
+    #             0.45015277203850562,
+    #             0.22267052197938247,
+    #         ]
+    #     )
+    #     .reshape(3, 3)
+    #     .T
+    # )
     T_total = (
-        np.array(
+        T_Cam0_Ref0.T
+        @ np.array(
             [
-                0.019485976463295918,
-                0.11912072276943125,
-                0.99268854638711567,
-                -0.61402311514330277,
-                -0.78215011115343214,
-                0.10590947876555012,
-                0.78904747055610469,
-                -0.61159746323015818,
-                0.05790191861630798,
+                [0.5623346203242522, 0.6826382003753101, -0.46667425702853865],
+                [0.6945968872874663, -0.6961652156778432, -0.18135367834920305],
+                [-0.44868133341531236, -0.2221690344503091, -0.8656361713653581],
             ]
-        )
-        .reshape(3, 3)
-        .T
+        ).T
     )
+    print("TT", T_total)
+
     # # T_total = Rotation.from_quat([-0.0, 0.15701063, 0.09142743, 0.9833558]).as_matrix().T
     T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
 
     # TODO: make these command-line args?
     # FOV matches the camera in app and the hardware camera
-    hfov = 70.29109 * np.pi / 180
+    vfov = 70.29109 * np.pi / 180
     # focal_length = 2863.6363
     # img_height = np.tan(vfov / 2) * focal_length * 2
     # img_width = img_height / 2
-    img_height = 3024
-    img_width = 4032
-    focal_length = 1.0 / np.tan(hfov / 2) * img_width / 2
+    img_height = 4032
+    img_width = 3024
+    focal_length = 1.0 / np.tan(vfov / 2) * img_height / 2
     print("Focal length:", focal_length)
 
     img_height = int(img_height)
@@ -150,6 +179,9 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
         )
 
     def project_star_onto_cam(image_type: ImageType, star_ray):
+        print("NET", T_SCam_Cam @ T_Cam0_Ref0)
+        print("INT", intrinsics_mtx)
+        print("STAR RAY", star_ray)
         cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
         if image_type == ImageType.HARD:
             # TODO: make sure noise vec does not make it go out of range for the image...
@@ -171,6 +203,7 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
 
         cam_ray = cam_ray / cam_ray[-1]
         pix_ray = intrinsics_mtx @ cam_ray
+        print("PIX RAY", pix_ray)
         return round(pix_ray[0]), round(pix_ray[1])
 
     projectable_stars = []
@@ -188,7 +221,7 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
         # if hr == 4554:
         #     print("HR 4554 CP", cp)
 
-    if n == -1:
+    if n == 0:
         n = len(projectable_stars)
     assert n >= 1
     n = min(n, len(projectable_stars))
@@ -217,7 +250,10 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     all_star_locs = []
     for hr, star_ray in chosen_stars:
         u, v = project_star_onto_cam(image_type, star_ray)
-        image_type.draw_star_onto_image(img, u, v)
+        try:
+            image_type.draw_star_onto_image(img, u, v)
+        except DrawStarException:
+            print(f"Skipping drawing star {hr} at ({u}, {v}) cause it would overlap an existing drawn star")
         all_star_locs.append((hr, u, v))
 
     savepath = "synthetic_img.png"
