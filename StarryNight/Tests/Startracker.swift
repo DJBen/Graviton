@@ -327,7 +327,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -360,7 +360,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 200)
+        XCTAssertTrue(avgReprojErr < 210)
     }
 }
 

@@ -54,11 +54,14 @@ public class StarTracker {
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+        
+        var bestScore: Double? = nil
+        var bestMatches: [RotatedVector] = []
 
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
-//        for (itrCount, (i, j, k)) in gen.enumerated() {
-        for (itrCount, (i, j, k)) in [(4, 7, 12)].enumerated() {
+        for (itrCount, (i, j, k)) in gen.enumerated() {
+//        for (itrCount, (i, j, k)) in [(4, 7, 12)].enumerated() {
             let eIter = Date()
             let dtIter = eIter.timeIntervalSince(sItr)
             print("Itr time: \(dtIter)")
@@ -83,46 +86,56 @@ public class StarTracker {
 //                    continue
 //                }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
-                let matchedStars = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+                let (score, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
                 if matchedStars.count == 0 {
                     continue
                 }
-                // We have a good enough solution!
-                let best_T_C_R_opt = solveWahba(rvs: matchedStars)
-                // Note that we currently solved the problem in the local camera reference frame, where:
-                // +x is horizontal and to the right
-                // +y is vertical and down
-                // +z is into the page
-                // The reference catalog defined:
-                // +x into the page
-                // +y is horizontal and to the left
-                // +z is vertical and up
-                // Hence, we must transform our camera-space solution to the catalog reference frame
-                // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
-                // coordinates systems
-                let T_Cam0_Ref0 = Matrix(
-                    [
-                        Vector([0, -1, 0]),
-                        Vector([0, 0, -1]),
-                        Vector([1, 0, 0])
-                    ]
-                )
-                // transformation from reference (R) to camera (Cam) in the some coordinate
-                // system as the reference (R). Note that T_C_R is currently the product of
-                let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R_opt
-                // Swift wants us to use T_Ref_Cam as the camera orientation
-                return .success(T_Cam_Ref.T)
+                if bestScore == nil || bestScore! > score {
+                    print("BEST SCORE \(bestScore)")
+                    bestScore = score
+                    bestMatches = matchedStars
+                }
             }
         }
-        return .failure(StarTrackError.noGoodMatches)
+        
+        guard let bestScore = bestScore else {
+            return .failure(StarTrackError.noGoodMatches)
+        }
+        
+        // We have a good enough solution!
+        let best_T_C_R_opt = solveWahba(rvs: bestMatches)
+        // Note that we currently solved the problem in the local camera reference frame, where:
+        // +x is horizontal and to the right
+        // +y is vertical and down
+        // +z is into the page
+        // The reference catalog defined:
+        // +x into the page
+        // +y is horizontal and to the left
+        // +z is vertical and up
+        // Hence, we must transform our camera-space solution to the catalog reference frame
+        // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
+        // coordinates systems
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        // transformation from reference (R) to camera (Cam) in the some coordinate
+        // system as the reference (R). Note that T_C_R is currently the product of
+        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R_opt
+        // Swift wants us to use T_Ref_Cam as the camera orientation
+        return .success(T_Cam_Ref.T)
     }
     
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> [RotatedVector] {
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> (Double, [RotatedVector]) {
         let T_R_C = T_C_R.T
         let requiredFracMatchStars = 0.85
         let requiredMatchedStars = Int(requiredFracMatchStars * Double(starLocs.count))
         var matchedStars: [RotatedVector] = []
+        var reprojErr = 0.0
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
             let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
@@ -134,9 +147,11 @@ public class StarTracker {
             let _localUVRay = (pix2Ray.intrinsics * _localRay).toVector3()
             let localUVRay = _localUVRay / _localUVRay.z
             let pixDist = sqrt(pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2))
-            if pixDist < 200 {
-                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
-            }
+//            if pixDist < 200 {
+//                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+//            }
+            reprojErr += pixDist
+            matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
         }
         
 //        if matchedStars.count >= 12 {
@@ -144,7 +159,7 @@ public class StarTracker {
 //        }
         
         if matchedStars.count < requiredMatchedStars {
-            return []
+            return (0.0, [])
         }
         
         // Self-consistency check
@@ -170,7 +185,7 @@ public class StarTracker {
 //            }
 //        }
         
-        return matchedStars
+        return (reprojErr / Double(matchedStars.count), matchedStars)
     }
     
     /// Finds all possible matches for the 3 star coordinates given. Algorithm overview:
