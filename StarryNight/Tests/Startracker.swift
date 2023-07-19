@@ -246,12 +246,47 @@ class StartrackerTest: XCTestCase {
     }
     
     func testDoStartrackReal2() {
-        let path = Bundle.module.path(forResource: "img_real_3", ofType: "png")!
+        let path = Bundle.module.path(forResource: "img_real_2", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 10).get()
-        print()
+        let focalLength = 2863.6363
+        //let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        
+        // (hr, u, v)
+        let bigDipperStars = [
+            (5191, 861.1294642857143, 1480.7767857142858),
+            (5054, 852.6482412060302, 1855.1608040201006),
+            (4905, 691.4754901960785, 2040.5),
+            (4554, 221.8046875, 2315.34375),
+            (4295, 100.02150537634408, 2790.7526881720432),
+            (4301, 421.6077348066298, 2901.546961325967)
+        ]
+        
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        let width = Int(image.size.width.rounded())
+        let height = Int(image.size.height.rounded())
+        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+        let intrinsics = inv(pix2ray.intrinsics_inv)
+        var reprojErr = 0.0
+        for (hr, u, v) in bigDipperStars {
+            let s = Star.hr(hr)!
+            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+            XCTAssertTrue(rotStar.z > 0)
+            let rotStarScaled = rotStar / rotStar.z
+            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+            reprojErr += err
+        }
+        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
+        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
+        XCTAssertTrue(avgReprojErr < 75)
     }
 }
 

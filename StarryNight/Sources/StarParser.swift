@@ -57,10 +57,7 @@ extension UIImage {
             case .none:
                 numChannels = 3
                 idxOffset = 0
-            case .first, .premultipliedFirst, .noneSkipFirst:
-                numChannels = 4
-                idxOffset = 1 // skip the first value as it is alpha
-            case .last, .premultipliedLast, .noneSkipLast:
+            case .first, .premultipliedFirst, .noneSkipFirst, .last, .premultipliedLast, .noneSkipLast:
                 numChannels = 4
                 idxOffset = 0
             @unknown default:
@@ -79,8 +76,8 @@ extension UIImage {
         for x in 0..<width {
             let y = x
             print("y: \(y), x: \(x)")
-            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels)
-            print("idx: \(dataIdx). val: \(data[dataIdx]),")
+            let dataIdx = pix2Pos(y: y, x: x, width: width, numChannels: numChannels) + idxOffset
+            print("idx: \(dataIdx). val: \(data[dataIdx]), \(data[dataIdx + 1]), \(data[dataIdx + 2])")
         }
         
         let starLock = NSLock()
