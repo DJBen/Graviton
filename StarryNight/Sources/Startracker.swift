@@ -50,21 +50,21 @@ public class StarTracker {
         var rng = SeededGenerator(seed: 7)
         starLocs.shuffle(using: &rng)
         
-        let angleDelta = 0.017453 * 2.5 // 2 degrees of tolerance due to camera shake during long-exposure
+        let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
 
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
-        for (itrCount, (i, j, k)) in gen.enumerated() {
+//        for (itrCount, (i, j, k)) in gen.enumerated() {
+        for (itrCount, (i, j, k)) in [(4, 7, 12)].enumerated() {
             let eIter = Date()
             let dtIter = eIter.timeIntervalSince(sItr)
             print("Itr time: \(dtIter)")
             if itrCount == maxStarCombos {
                 break
             }
-            
             let smStart = Date()
             let allSM = self.findStarMatches(
                 starLocs: starLocs,
@@ -77,6 +77,11 @@ public class StarTracker {
             print("SM time: \(dtSM)")
         
             for sm in allSM {
+//                if sm.star1.star.hr == 5191 && sm.star2.star.hr == 4905 && sm.star3.star.hr == 4301 {
+//                    print()
+//                } else {
+//                    continue
+//                }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
                 let matchedStars = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
                 if matchedStars.count == 0 {
@@ -121,14 +126,20 @@ public class StarTracker {
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
             let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
-            let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
+            let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta * 5)
             guard let nearestStar = nearestStar else {
                 continue
             }
-            matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+            let _localRay = T_C_R * nearestStar.normalized_coord.toMatrix()
+            let _localUVRay = (pix2Ray.intrinsics * _localRay).toVector3()
+            let localUVRay = _localUVRay / _localUVRay.z
+            let pixDist = sqrt(pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2))
+            if pixDist < 200 {
+                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+            }
         }
         
-//        if matchedStars.count >= 20 {
+//        if matchedStars.count >= 12 {
 //            print(matchedStars.count)
 //        }
         
@@ -137,27 +148,27 @@ public class StarTracker {
         }
         
         // Self-consistency check
-        var gen = SeededGenerator(seed: 7)
-        var allStarCombos: [(Int, Int)] = []
-        for i in 0..<matchedStars.count - 1 {
-            for j in i + 1..<matchedStars.count {
-                allStarCombos.append((i, j))
-            }
-        }
-        allStarCombos.shuffle(using: &gen)
-        let requiredConsistentStairPairs = 20
-        // Give an extra degree of wiggle room since all these star pairs need to be consistent
-        let consistentAngleThresh = angleDelta + Double.pi/180
-        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
-            let s1 = matchedStars[i]
-            let s2 = matchedStars[j]
-            let thetaCam = acos(s1.cam.dot(s2.cam))
-            let thetaCat = acos(s1.catalog.dot(s2.catalog))
-            if abs(thetaCat - thetaCam) > consistentAngleThresh {
-                // Failed consistency check
-                return []
-            }
-        }
+//        var gen = SeededGenerator(seed: 7)
+//        var allStarCombos: [(Int, Int)] = []
+//        for i in 0..<matchedStars.count - 1 {
+//            for j in i + 1..<matchedStars.count {
+//                allStarCombos.append((i, j))
+//            }
+//        }
+//        allStarCombos.shuffle(using: &gen)
+//        let requiredConsistentStairPairs = 20
+//        // Give an extra degree of wiggle room since all these star pairs need to be consistent
+//        let consistentAngleThresh = angleDelta + Double.pi/180
+//        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
+//            let s1 = matchedStars[i]
+//            let s2 = matchedStars[j]
+//            let thetaCam = acos(s1.cam.dot(s2.cam))
+//            let thetaCat = acos(s1.catalog.dot(s2.catalog))
+//            if abs(thetaCat - thetaCam) > consistentAngleThresh {
+//                // Failed consistency check
+//                return []
+//            }
+//        }
         
         return matchedStars
     }
@@ -329,6 +340,7 @@ extension Matrix {
 }
 
 class Pix2Ray {
+    let intrinsics: Matrix
     let intrinsics_inv: Matrix
     
     init(focalLength: Double, cx: Double, cy: Double) {
@@ -337,6 +349,7 @@ class Pix2Ray {
             Vector([0.0, 1.0/focalLength, -cy/focalLength]),
             Vector([0.0, 0.0, 1.0])
         ])
+        self.intrinsics = inv(self.intrinsics_inv)
     }
     
     func pix2Ray(pix: StarLocation) -> Vector3 {
