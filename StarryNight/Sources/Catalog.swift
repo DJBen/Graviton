@@ -65,12 +65,14 @@ public class Catalog {
     }
     
     /// Search database for nearby stars
-    public func findNearbyStars(coord: Vector3, angleDelta: Double) -> MinimalStar? {
-        let maxDist = tan(angleDelta)
+    public func findNearbyStars(coord: Vector3, angleDelta: Double?) -> MinimalStar? {
         let ms = MinimalStar(hr: 0, coord: coord)
-        let nearest = self.kdtree.nearest(to: ms, maxDistance: maxDist)
+        let nearest = self.kdtree.nearest(to: ms)
         guard let nearest = nearest else {
             return nil
+        }
+        guard let angleDelta = angleDelta else {
+            return nearest
         }
         let angle = acos(nearest.normalized_coord.dot(ms.normalized_coord))
         if angle < angleDelta {

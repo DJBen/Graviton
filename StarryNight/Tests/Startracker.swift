@@ -227,7 +227,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 70)
+        XCTAssertTrue(avgReprojErr < 50)
     }
     
     // Straightforwad good image

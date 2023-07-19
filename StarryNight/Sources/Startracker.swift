@@ -59,12 +59,9 @@ public class StarTracker {
         var bestMatches: [RotatedVector] = []
 
         let gen = starLocsGenerator(n: starLocs.count)
-        let sItr = Date()
+        var solveTestTime = 0.0
         for (itrCount, (i, j, k)) in gen.enumerated() {
 //        for (itrCount, (i, j, k)) in [(4, 7, 12)].enumerated() {
-            let eIter = Date()
-            let dtIter = eIter.timeIntervalSince(sItr)
-            print("Itr time: \(dtIter)")
             if itrCount == maxStarCombos {
                 break
             }
@@ -78,15 +75,11 @@ public class StarTracker {
             let smEnd = Date()
             let dtSM = smEnd.timeIntervalSince(smStart)
             print("SM time: \(dtSM)")
-        
+            
+            let startTest = Date()
             for sm in allSM {
-//                if sm.star1.star.hr == 5191 && sm.star2.star.hr == 4905 && sm.star3.star.hr == 4301 {
-//                    print()
-//                } else {
-//                    continue
-//                }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
-                let (score, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
+                let (score, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R)
                 if matchedStars.count == 0 {
                     continue
                 }
@@ -96,9 +89,14 @@ public class StarTracker {
                     bestMatches = matchedStars
                 }
             }
+            let endTest = Date()
+            let dtTest = endTest.timeIntervalSince(startTest)
+            solveTestTime += dtTest
         }
         
-        guard let bestScore = bestScore else {
+        print("Solve + test time: \(solveTestTime)")
+        
+        if bestScore == nil {
             return .failure(StarTrackError.noGoodMatches)
         }
         
@@ -130,61 +128,33 @@ public class StarTracker {
     }
     
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> (Double, [RotatedVector]) {
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix) -> (Double, [RotatedVector]) {
         let T_R_C = T_C_R.T
         let requiredFracMatchStars = 0.85
         let requiredMatchedStars = Int(requiredFracMatchStars * Double(starLocs.count))
+        let maxMissedStars = starLocs.count - requiredMatchedStars
+        var missedStars = 0
         var matchedStars: [RotatedVector] = []
         var reprojErr = 0.0
+        let maxDistSq: Double = 300*300
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
             let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
-            let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta * 5)
-            guard let nearestStar = nearestStar else {
-                continue
-            }
+            let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: nil)!
             let _localRay = T_C_R * nearestStar.normalized_coord.toMatrix()
             let _localUVRay = (pix2Ray.intrinsics * _localRay).toVector3()
             let localUVRay = _localUVRay / _localUVRay.z
-            let pixDist = sqrt(pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2))
-//            if pixDist < 200 {
-//                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
-//            }
-            reprojErr += pixDist
-            matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+            let pixDist = pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2)
+            if pixDist < maxDistSq {
+                reprojErr += pixDist
+                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+            } else {
+                missedStars += 1
+                if missedStars == maxMissedStars {
+                    return (0.0, [])
+                }
+            }
         }
-        
-//        if matchedStars.count >= 12 {
-//            print(matchedStars.count)
-//        }
-        
-        if matchedStars.count < requiredMatchedStars {
-            return (0.0, [])
-        }
-        
-        // Self-consistency check
-//        var gen = SeededGenerator(seed: 7)
-//        var allStarCombos: [(Int, Int)] = []
-//        for i in 0..<matchedStars.count - 1 {
-//            for j in i + 1..<matchedStars.count {
-//                allStarCombos.append((i, j))
-//            }
-//        }
-//        allStarCombos.shuffle(using: &gen)
-//        let requiredConsistentStairPairs = 20
-//        // Give an extra degree of wiggle room since all these star pairs need to be consistent
-//        let consistentAngleThresh = angleDelta + Double.pi/180
-//        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
-//            let s1 = matchedStars[i]
-//            let s2 = matchedStars[j]
-//            let thetaCam = acos(s1.cam.dot(s2.cam))
-//            let thetaCat = acos(s1.catalog.dot(s2.catalog))
-//            if abs(thetaCat - thetaCam) > consistentAngleThresh {
-//                // Failed consistency check
-//                return []
-//            }
-//        }
-        
         return (reprojErr / Double(matchedStars.count), matchedStars)
     }
     
