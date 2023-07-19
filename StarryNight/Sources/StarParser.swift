@@ -75,7 +75,7 @@ extension UIImage {
             pixSamples.append(dataVal)
         }
         pixSamples.sort()
-        let INIT_STAR_PIX_THRESH: UInt8 = 100 //pixSamples[numSamples/2] + 30
+        let INIT_STAR_PIX_THRESH: UInt8 = pixSamples[numSamples/2] + 30
         let STAR_PIX_DELTA: UInt8 = 20
         
         let starLock = NSLock()

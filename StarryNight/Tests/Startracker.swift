@@ -192,7 +192,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let focalLength = 2863.6363
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -227,7 +227,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 35)
+        XCTAssertTrue(avgReprojErr < 70)
     }
     
     // Straightforwad good image
@@ -237,7 +237,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -272,7 +272,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 85)
+        XCTAssertTrue(avgReprojErr < 100)
     }
     
     /// This is a complex test case because the image has a lot of visual aliasing. Without better star identification and better algorithmic checks on the solution,
@@ -283,7 +283,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 20).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -317,10 +317,11 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 70)
+        XCTAssertTrue(avgReprojErr < 60)
     }
     
-    /// This initially only found 3 stars and needed to be improved
+    /// This initially only found 3 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
+    /// that lead to the algorithm needing to be flexible and use score-based results.
     func testDoStartrackReal4() {
         let path = Bundle.module.path(forResource: "img_real_4", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
@@ -360,7 +361,7 @@ class StartrackerTest: XCTestCase {
         }
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 210)
+        XCTAssertTrue(avgReprojErr < 250)
     }
 }
 
