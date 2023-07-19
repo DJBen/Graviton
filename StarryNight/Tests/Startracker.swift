@@ -200,7 +200,6 @@ class StartrackerTest: XCTestCase {
 //    }
 //
     
-    // TODO: add metric on reprojection error on big dipper stars
     func testDoStartrackReal() {
         let path = Bundle.module.path(forResource: "img_real", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
@@ -289,6 +288,8 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 75)
     }
     
+    /// This is a complex test case because the image has a lot of visual aliasing. Without better star identification and better algorithmic checks on the solution,
+    /// it is possible for this to give a bad result.
     func testDoStartrackReal3() {
         let path = Bundle.module.path(forResource: "img_real_3", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")

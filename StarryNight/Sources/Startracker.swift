@@ -54,8 +54,7 @@ public class StarTracker {
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let expectedNumMatches = Int(0.85 * Double(starLocs.count))
-        
+
         let gen = starLocsGenerator(n: starLocs.count)
         let sItr = Date()
         for (itrCount, (i, j, k)) in gen.enumerated() {
@@ -83,7 +82,7 @@ public class StarTracker {
                 }
                 let T_C_R = solveWahba(rvs: sm.toRVs())
                 let matchedStars = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R, angleDelta: angleDelta)
-                if matchedStars.count < expectedNumMatches {
+                if matchedStars.count == 0 {
                     continue
                 }
                 // We have a good enough solution!
@@ -119,55 +118,46 @@ public class StarTracker {
     /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
     func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix, angleDelta: Double) -> [RotatedVector] {
         let T_R_C = T_C_R.T
-        //        let requiredFracMatchStars = 0.85
-        //        let required_matched_stars = Int(requiredFracMatchStars * Double(starLocs.count))
-        //        let max_unmatched_stars = starLocs.count - required_matched_stars
-        //        var num_unmatched_stars = 0
+        let requiredFracMatchStars = 0.85
+        let requiredMatchedStars = Int(requiredFracMatchStars * Double(starLocs.count))
         var matchedStars: [RotatedVector] = []
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
             let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
             let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: angleDelta)
-            //            if nearestStar == nil {
-            //                // We failed to match this star
-            //                num_unmatched_stars += 1
-            //                if num_unmatched_stars >= max_unmatched_stars {
-            //                    return false
-            //                }
-            //            }
             guard let nearestStar = nearestStar else {
                 continue
             }
             matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
         }
         
+        if matchedStars.count < requiredMatchedStars {
+            return []
+        }
+        
         // Self-consistency check
-        // TODO: formalize
-        if matchedStars.count > 10 {
-            var gen = SeededGenerator(seed: 7)
-            var allStarCombos: [(Int, Int)] = []
-            for i in 0..<matchedStars.count - 1 {
-                for j in i + 1..<matchedStars.count {
-                    allStarCombos.append((i, j))
-                }
+        var gen = SeededGenerator(seed: 7)
+        var allStarCombos: [(Int, Int)] = []
+        for i in 0..<matchedStars.count - 1 {
+            for j in i + 1..<matchedStars.count {
+                allStarCombos.append((i, j))
             }
-            allStarCombos.shuffle(using: &gen)
-            let REQUIRED_CONSISTENT_STAR_PAIRS = 20
-            // Give an extra half-degree of wiggle room since all these star pairs need to be consistent
-            let consistentAngleThresh = angleDelta + 0.5 * Double.pi/180
-            for (i, j) in allStarCombos.prefix(REQUIRED_CONSISTENT_STAR_PAIRS) {
-                let s1 = matchedStars[i]
-                let s2 = matchedStars[j]
-                let thetaCam = acos(s1.cam.dot(s2.cam))
-                let thetaCat = acos(s1.catalog.dot(s2.catalog))
-                if abs(thetaCat - thetaCam) > consistentAngleThresh {
-                    // Failed consistency check
-                    return []
-                }
+        }
+        allStarCombos.shuffle(using: &gen)
+        let requiredConsistentStairPairs = 20
+        // Give an extra half-degree of wiggle room since all these star pairs need to be consistent
+        let consistentAngleThresh = angleDelta + 0.5 * Double.pi/180
+        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
+            let s1 = matchedStars[i]
+            let s2 = matchedStars[j]
+            let thetaCam = acos(s1.cam.dot(s2.cam))
+            let thetaCat = acos(s1.catalog.dot(s2.catalog))
+            if abs(thetaCat - thetaCam) > consistentAngleThresh {
+                // Failed consistency check
+                return []
             }
         }
         
-        //        return true
         return matchedStars
     }
     
