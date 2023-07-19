@@ -150,7 +150,7 @@ public class StarTracker {
                 matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
             } else {
                 missedStars += 1
-                if missedStars == maxMissedStars {
+                if missedStars >= maxMissedStars {
                     return (0.0, [])
                 }
             }
