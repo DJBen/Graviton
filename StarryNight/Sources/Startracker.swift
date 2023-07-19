@@ -57,14 +57,20 @@ public class StarTracker {
         
         var bestScore: Double? = nil
         var bestMatches: [RotatedVector] = []
+        let scoreLock = NSLock()
 
         let gen = starLocsGenerator(n: starLocs.count)
-        var solveTestTime = 0.0
-        for (itrCount, (i, j, k)) in gen.enumerated() {
-//        for (itrCount, (i, j, k)) in [(4, 7, 12)].enumerated() {
-            if itrCount == maxStarCombos {
+        var combosToTest: [(Int, Int, Int)] = []
+        for _ in 0..<maxStarCombos {
+            let c = gen.next()
+            guard let c = c else {
                 break
             }
+            combosToTest.append(c)
+        }
+        var solveTestTime = 0.0
+        DispatchQueue.concurrentPerform(iterations: combosToTest.count) { idx in
+            let (i, j, k) = combosToTest[idx]
             let smStart = Date()
             let allSM = self.findStarMatches(
                 starLocs: starLocs,
@@ -83,18 +89,21 @@ public class StarTracker {
                 if matchedStars.count == 0 {
                     continue
                 }
+                // TODO: better critSec?
+                scoreLock.lock()
                 if bestScore == nil || bestScore! > score {
                     print("BEST SCORE \(bestScore)")
                     bestScore = score
                     bestMatches = matchedStars
                 }
+                scoreLock.unlock()
             }
-            let endTest = Date()
-            let dtTest = endTest.timeIntervalSince(startTest)
-            solveTestTime += dtTest
+//            let endTest = Date()
+//            let dtTest = endTest.timeIntervalSince(startTest)
+//            solveTestTime += dtTest
         }
         
-        print("Solve + test time: \(solveTestTime)")
+        //print("Solve + test time: \(solveTestTime)")
         
         if bestScore == nil {
             return .failure(StarTrackError.noGoodMatches)
