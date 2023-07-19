@@ -75,7 +75,7 @@ extension UIImage {
             pixSamples.append(dataVal)
         }
         pixSamples.sort()
-        let INIT_STAR_PIX_THRESH = pixSamples[numSamples/2] + 30
+        let INIT_STAR_PIX_THRESH: UInt8 = 100 //pixSamples[numSamples/2] + 30
         let STAR_PIX_DELTA: UInt8 = 20
         
         let starLock = NSLock()
@@ -84,9 +84,6 @@ extension UIImage {
 //            let y = i * SKIP_STEP
         for y in stride(from: 0, to: height, by: SKIP_STEP) {
             for x in stride(from: 0, to: width, by: SKIP_STEP) {
-                if y == 1589 && x == 1471 {
-                    print()
-                }
                 let visIdx = pix2Pos(y: y, x: x, width: width, numChannels: 1)
                 if visited[visIdx] {
                     continue

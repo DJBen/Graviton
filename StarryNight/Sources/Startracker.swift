@@ -50,7 +50,7 @@ public class StarTracker {
         var rng = SeededGenerator(seed: 7)
         starLocs.shuffle(using: &rng)
         
-        let angleDelta = 0.017453 * 2 // 2 degrees of tolerance due to camera shake during long-exposure
+        let angleDelta = 0.017453 * 2.5 // 2 degrees of tolerance due to camera shake during long-exposure
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
@@ -136,28 +136,28 @@ public class StarTracker {
             return []
         }
         
-//        // Self-consistency check
-//        var gen = SeededGenerator(seed: 7)
-//        var allStarCombos: [(Int, Int)] = []
-//        for i in 0..<matchedStars.count - 1 {
-//            for j in i + 1..<matchedStars.count {
-//                allStarCombos.append((i, j))
-//            }
-//        }
-//        allStarCombos.shuffle(using: &gen)
-//        let requiredConsistentStairPairs = 20
-//        // Give an extra degree of wiggle room since all these star pairs need to be consistent
-//        let consistentAngleThresh = angleDelta + 1 * Double.pi/180
-//        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
-//            let s1 = matchedStars[i]
-//            let s2 = matchedStars[j]
-//            let thetaCam = acos(s1.cam.dot(s2.cam))
-//            let thetaCat = acos(s1.catalog.dot(s2.catalog))
-//            if abs(thetaCat - thetaCam) > consistentAngleThresh {
-//                // Failed consistency check
-//                return []
-//            }
-//        }
+        // Self-consistency check
+        var gen = SeededGenerator(seed: 7)
+        var allStarCombos: [(Int, Int)] = []
+        for i in 0..<matchedStars.count - 1 {
+            for j in i + 1..<matchedStars.count {
+                allStarCombos.append((i, j))
+            }
+        }
+        allStarCombos.shuffle(using: &gen)
+        let requiredConsistentStairPairs = 20
+        // Give an extra degree of wiggle room since all these star pairs need to be consistent
+        let consistentAngleThresh = angleDelta + Double.pi/180
+        for (i, j) in allStarCombos.prefix(requiredConsistentStairPairs) {
+            let s1 = matchedStars[i]
+            let s2 = matchedStars[j]
+            let thetaCam = acos(s1.cam.dot(s2.cam))
+            let thetaCat = acos(s1.catalog.dot(s2.catalog))
+            if abs(thetaCat - thetaCam) > consistentAngleThresh {
+                // Failed consistency check
+                return []
+            }
+        }
         
         return matchedStars
     }

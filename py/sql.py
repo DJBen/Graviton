@@ -60,8 +60,8 @@ def create_star_angle_table():
             AND B.z IS NOT NULL
             AND A.dist != 0
             AND B.dist != 0
-            AND A.mag < 5
-            AND B.mag < 5
+            AND A.mag < 4
+            AND B.mag < 4
         """
     )
 
