@@ -192,7 +192,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let focalLength = 2863.6363
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -237,7 +237,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -283,7 +283,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -327,7 +327,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -369,7 +369,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -403,6 +403,54 @@ class StartrackerTest: XCTestCase {
         let avgReprojErr = reprojErr / Double(bigDipperStars.count)
         print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
         XCTAssertTrue(avgReprojErr < 250)
+    }
+    
+    /// This initially only found 8 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
+    /// that lead to the algorithm needing to be flexible and use score-based results.
+    ///  TODO: for now, this example is too hard and out-of-scope. Most likely we need to add some smoothing convolutional filter then rework thresholds
+    func testNotEnoughStars1() {
+        let path = Bundle.module.path(forResource: "not_enough_stars_1", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let focalLength = 2863.6363
+        let stResult = st.track(image: image, focalLength: focalLength, maxStarCombos: 30)
+        switch stResult {
+            case .failure(_):
+                // Success! We expected an error and we got one.
+                XCTAssertTrue(true)
+            case .success(_):
+                XCTFail("Expected an error, but track() was successful.")
+        }
+        
+//        // (hr, u, v)
+//        let knownStars = [
+//            (7001, 2024.6751824817518,1641.85401459854)
+//        ]
+//        let T_Cam0_Ref0 = Matrix(
+//            [
+//                Vector([0, -1, 0]),
+//                Vector([0, 0, -1]),
+//                Vector([1, 0, 0])
+//            ]
+//        )
+//        let width = Int(image.size.width.rounded())
+//        let height = Int(image.size.height.rounded())
+//        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+//        let intrinsics = inv(pix2ray.intrinsics_inv)
+//        var reprojErr = 0.0
+//        for (hr, u, v) in knownStars {
+//            let s = Star.hr(hr)!
+//            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+//            XCTAssertTrue(rotStar.z > 0)
+//            let rotStarScaled = rotStar / rotStar.z
+//            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+//            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+//            reprojErr += err
+//        }
+//        let avgReprojErr = reprojErr / Double(knownStars.count)
+//        print("Average Star Reprojection Error: \(avgReprojErr)")
+//        XCTAssertTrue(avgReprojErr < 40)
     }
 }
 

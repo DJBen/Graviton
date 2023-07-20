@@ -13,13 +13,13 @@ import LASwift
 
 class StartrackerTest: XCTestCase {
     /// Copied from StarryNight Startracker test
-    func testDoStartrackReal4() {
-        let path = Bundle.module.path(forResource: "img_real_4", ofType: "png")!
+    func testNotEnoughStars0() {
+        let path = Bundle.module.path(forResource: "not_enough_stars_0", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
 
         // (hr, u, v)
         let bigDipperStars = [

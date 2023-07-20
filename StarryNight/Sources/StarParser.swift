@@ -34,6 +34,13 @@ extension UIImage {
     ///  3) We then calculate the centroid of all the pixels and report that as a single `StarLocation`.
     ///  4) Continue searching for other stars in the image.
     func getStarLocations() -> [StarLocation] {
+//        let sConv = Date()
+//        let kernel: [CGFloat] = [0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111]
+//        let img = applyConvFilter(to: self, with: kernel)!
+//        let eConv = Date()
+//        let eConvDt = eConv.timeIntervalSince(sConv)
+//        print("Conv took \(eConvDt)")
+        
         let cgImg = self.cgImage!;
         let pixelData = cgImg.dataProvider?.data!
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
@@ -131,8 +138,13 @@ extension UIImage {
 
                 // Run flood fill
                 while let (x, y) = stack.popLast() {
-                    for dx in -15...15 {
-                        for dy in -15...15 {
+                    if pixels.count > MAX_PIX_FOR_STAR {
+                        // We do not have a star, this probably just noise. Exit now to avoid filling
+                        // too much of the image.
+                        break
+                    }
+                    for dx in -5...5 {
+                        for dy in -5...5 {
                             let nx = x + dx
                             let ny = y + dy
                             let nxVisIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: 1)
@@ -153,10 +165,11 @@ extension UIImage {
                 
                 starLock.unlock()
                 if pixels.count < MIN_PIX_FOR_STAR {
+//                    print("Flooded too little: \(pixels.count) at (\(x),\(y))")
                     continue
                 }
                 if pixels.count > MAX_PIX_FOR_STAR {
-                    print("Flooded \(pixels.count) at (\(x),\(y))")
+//                    print("Flooded too much: \(pixels.count) at (\(x),\(y))")
                     continue
                 }
                 
@@ -231,22 +244,37 @@ extension UIImage {
         let timeInterval: Double = endTime.timeIntervalSince(startTime)
         print("Total time for flood-fill: \(timeInterval) seconds")
         
-        // Check for duplicates. This can happen under extreme hand-shake where a star gets captured twice
-//        let minStarDistSq = 20*20
-//        let finalStarLocs: [StarLocation] = []
-//        let indicesToSkip: DeterministicSet<Int> = DeterministicSet()
-//        for i in 0..<stars.count {
-//            for j in i + 1..<stars.count {
-//                let dist = pow(stars[i].u - stars[j].u, 2) + pow(stars[i].v - stars[j].v, 2)
-//                if dist < minStarDistSq {
-//                    print("Merging duplicates ")
-//                }
-//            }
-//        }
-        
         return stars
     }
 }
+
+// DOES NOT WORK, SOME WEIRD TRANSLATE
+//func applyConvFilter(to image: UIImage, with kernel: [CGFloat]) -> UIImage? {
+//    guard let ciImage = CIImage(image: image) else { return nil }
+//
+//    let kernelMatrix = CIVector(values: kernel, count: 9)
+//
+//    // Remove alpha channel from the original image
+//    guard let rgbImage = CIFilter(name: "CIColorMatrix", parameters: [
+//        "inputImage": ciImage,
+//        "inputAVector": CIVector(x: 0, y: 0, z: 0, w: 0)
+//    ])?.outputImage else { return nil }
+//
+//    // Create convolution filter
+//    let convolutionFilter = CIFilter(name: "CIConvolution3X3", parameters: [
+//        kCIInputImageKey: rgbImage,
+//        "inputWeights": CIVector(values: kernel, count: 9),
+//        "inputBias": 0
+//    ])
+//
+//    // Apply convolution filter
+//    guard let convolutedCIImage = convolutionFilter?.outputImage else { return nil }
+//
+//    let context = CIContext(options: nil)
+//    guard let cgImage = context.createCGImage(convolutedCIImage, from: convolutedCIImage.extent) else { return nil }
+//
+//    return UIImage(cgImage: cgImage)
+//}
 
 // Goes from a pixel to an index in the flattened array.
 func pix2Pos(y: Int, x: Int, width: Int, numChannels: Int) -> Int {
