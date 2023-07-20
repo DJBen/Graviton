@@ -70,6 +70,7 @@ public class StarTracker {
         }
         var solveTestTime = 0.0
         DispatchQueue.concurrentPerform(iterations: combosToTest.count) { idx in
+//        for idx in 0..<combosToTest.count {
             let (i, j, k) = combosToTest[idx]
             let smStart = Date()
             let allSM = self.findStarMatches(

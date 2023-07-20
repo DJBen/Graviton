@@ -9,12 +9,10 @@
 import XCTest
 @testable import StarryNight
 import SpaceTime
-import MathUtil
 import LASwift
 
 class StartrackerTest: XCTestCase {
-    /// This initially only found 3 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
-    /// that lead to the algorithm needing to be flexible and use score-based results.
+    /// Copied from StarryNight Startracker test
     func testDoStartrackReal4() {
         let path = Bundle.module.path(forResource: "img_real_4", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
@@ -47,8 +45,13 @@ class StartrackerTest: XCTestCase {
             let s = Star.hr(hr)!
             let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
             XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+            var rotStarScaled = rotStar.toMatrix()
+            // TODO: I can't seem to import MathUtil here so I am doing this instead of doing
+            // what is doing in the corresponding test case in the StarryNight package
+            rotStarScaled[0,0] = rotStarScaled[0,0]/rotStarScaled[2,0]
+            rotStarScaled[1,0] = rotStarScaled[1,0]/rotStarScaled[2,0]
+            rotStarScaled[2,0] = rotStarScaled[2,0]/rotStarScaled[2,0]
+            let projUV = (intrinsics * rotStarScaled).toVector3()
             let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
             reprojErr += err
         }
