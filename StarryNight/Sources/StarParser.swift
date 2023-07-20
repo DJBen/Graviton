@@ -131,8 +131,8 @@ extension UIImage {
 
                 // Run flood fill
                 while let (x, y) = stack.popLast() {
-                    for dx in -1...1 {
-                        for dy in -1...1 {
+                    for dx in -15...15 {
+                        for dy in -15...15 {
                             let nx = x + dx
                             let ny = y + dy
                             let nxVisIdx = pix2Pos(y: ny, x: nx, width: width, numChannels: 1)
@@ -230,6 +230,20 @@ extension UIImage {
         let endTime = Date()
         let timeInterval: Double = endTime.timeIntervalSince(startTime)
         print("Total time for flood-fill: \(timeInterval) seconds")
+        
+        // Check for duplicates. This can happen under extreme hand-shake where a star gets captured twice
+//        let minStarDistSq = 20*20
+//        let finalStarLocs: [StarLocation] = []
+//        let indicesToSkip: DeterministicSet<Int> = DeterministicSet()
+//        for i in 0..<stars.count {
+//            for j in i + 1..<stars.count {
+//                let dist = pow(stars[i].u - stars[j].u, 2) + pow(stars[i].v - stars[j].v, 2)
+//                if dist < minStarDistSq {
+//                    print("Merging duplicates ")
+//                }
+//            }
+//        }
+        
         return stars
     }
 }

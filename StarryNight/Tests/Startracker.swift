@@ -277,8 +277,8 @@ class StartrackerTest: XCTestCase {
     
     /// This is a complex test case because the image has a lot of visual aliasing. Without better star identification and better algorithmic checks on the solution,
     /// it is possible for this to give a bad result.
-    func testDoStartrackReal3() {
-        let path = Bundle.module.path(forResource: "img_real_3", ofType: "png")!
+    func testBadAlign0() {
+        let path = Bundle.module.path(forResource: "bad_align_0", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
@@ -320,10 +320,51 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 60)
     }
     
+    /// Handles edge-case where camera shake induces somewhat disjoint stars
+    func testBadAlign1() {
+        let path = Bundle.module.path(forResource: "bad_align_1", ofType: "png")!
+        XCTAssertNotNil(path, "Image not found")
+        let image = UIImage(contentsOfFile: path)!
+        let st = StarTracker()
+        let focalLength = 2863.6363
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 10).get()
+        
+        // (hr, u, v)
+        let bigDipperStars = [
+            (5191, 724.4148936170212, 2477.8617021276596),
+            (5054, 739.4285714285714,2861.9065934065934),
+            (4905, 584.3502304147465,3091.3640552995394),
+        ]
+        let T_Cam0_Ref0 = Matrix(
+            [
+                Vector([0, -1, 0]),
+                Vector([0, 0, -1]),
+                Vector([1, 0, 0])
+            ]
+        )
+        let width = Int(image.size.width.rounded())
+        let height = Int(image.size.height.rounded())
+        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+        let intrinsics = inv(pix2ray.intrinsics_inv)
+        var reprojErr = 0.0
+        for (hr, u, v) in bigDipperStars {
+            let s = Star.hr(hr)!
+            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+            XCTAssertTrue(rotStar.z > 0)
+            let rotStarScaled = rotStar / rotStar.z
+            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+            reprojErr += err
+        }
+        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
+        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
+        XCTAssertTrue(avgReprojErr < 80)
+    }
+    
     /// This initially only found 3 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
     /// that lead to the algorithm needing to be flexible and use score-based results.
-    func testDoStartrackReal4() {
-        let path = Bundle.module.path(forResource: "img_real_4", ofType: "png")!
+    func testNotEnoughStars0() {
+        let path = Bundle.module.path(forResource: "not_enough_stars_0", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
