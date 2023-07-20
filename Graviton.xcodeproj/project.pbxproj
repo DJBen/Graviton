@@ -33,6 +33,7 @@
 		910B954A2A589149006C0244 /* MathUtil in Frameworks */ = {isa = PBXBuildFile; productRef = 910B95492A589149006C0244 /* MathUtil */; };
 		910B954C2A589151006C0244 /* SpaceTime in Frameworks */ = {isa = PBXBuildFile; productRef = 910B954B2A589151006C0244 /* SpaceTime */; };
 		910B954E2A589196006C0244 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 910B954D2A589196006C0244 /* Realm */; };
+		9199C9312A68B0320046C470 /* Startracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9199C9302A68B0320046C470 /* Startracker.swift */; };
 		EF2A67941EF9D0C700C95AC3 /* Kepler.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67931EF9D0C700C95AC3 /* Kepler.swift */; };
 		EF2A67961EFA09AE00C95AC3 /* CompassRoseNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */; };
 		EF32F05B1E3C488C00AD8778 /* CelestialBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = EF32F05A1E3C488C00AD8778 /* CelestialBody.swift */; };
@@ -301,6 +302,7 @@
 		0F37D44E2A0496F80053422A /* KelvinColor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KelvinColor.h; sourceTree = "<group>"; };
 		0F37D44F2A0496F80053422A /* KelvinColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KelvinColor.swift; sourceTree = "<group>"; };
 		0FBEA68D2A048ECB00E4E34B /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX13.3.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		9199C9302A68B0320046C470 /* Startracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Startracker.swift; sourceTree = "<group>"; };
 		EF2A67931EF9D0C700C95AC3 /* Kepler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Kepler.swift; sourceTree = "<group>"; };
 		EF2A67951EFA09AE00C95AC3 /* CompassRoseNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CompassRoseNode.swift; sourceTree = "<group>"; };
 		EF32F0581E3B988800AD8778 /* NaifTest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NaifTest.swift; sourceTree = "<group>"; };
@@ -1216,6 +1218,7 @@
 			children = (
 				FCFE7E00202BBD5F00760633 /* FormattersTest.swift */,
 				FCFE7DFA202BBC7C00760633 /* Info.plist */,
+				9199C9302A68B0320046C470 /* Startracker.swift */,
 			);
 			path = GravitonTests;
 			sourceTree = "<group>";
@@ -1785,6 +1788,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9199C9312A68B0320046C470 /* Startracker.swift in Sources */,
 				FCFE7E01202BBD5F00760633 /* FormattersTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

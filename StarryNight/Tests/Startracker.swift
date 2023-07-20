@@ -185,7 +185,7 @@ class StartrackerTest: XCTestCase {
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
     
-    // Old image with a cloud. Code should still work on it.
+    /// Old image with a cloud. Code should still work on it.
     func testDoStartrackReal1() {
         let path = Bundle.module.path(forResource: "img_real_1", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
@@ -230,7 +230,7 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 50)
     }
     
-    // Straightforwad good image
+    /// Straightforwad good image
     func testDoStartrackReal2() {
         let path = Bundle.module.path(forResource: "img_real_2", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")

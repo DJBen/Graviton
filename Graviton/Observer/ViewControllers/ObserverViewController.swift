@@ -559,7 +559,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             let height = Double(image.size.height.rounded())
             let sizeFOVSide = max(width, height)
             let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
-            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 20)
+            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 10)
             switch stResult {
                 case .success(let T_R_C):
                     print("Successfully Startracked! Result:\n\(T_R_C)")
