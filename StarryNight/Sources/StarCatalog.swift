@@ -13,11 +13,13 @@ import MathUtil
 import Collections
 import KDTree
 
-public class Catalog {
+// A catalog of stars. Designed specifically for use with the Startracker algorithm.
+public class StarCatalog {
     let kvector: KVector<StarAngle>
     let kdtree: KDTree<MinimalStar>
     
     init() {
+        // TODO: keep timing information?
         let start = Date()
         let query = StarryNight.StarAngles.table
         var uniqueStars: DeterministicSet<MinimalStar> = DeterministicSet()
@@ -83,6 +85,7 @@ public class Catalog {
     }
 }
 
+/// Stores information on star pairs and the angle between them.
 public struct StarAngle {
     let star1: MinimalStar
     let star2: MinimalStar
@@ -99,6 +102,8 @@ public struct StarAngle {
     }
 }
 
+/// Stores the minimal information required for a star to be inserted into the KDTree. Using this, instead of the `Star` class, increased computational efficiency because less
+/// information must be retrieved from the database.
 public struct MinimalStar: Hashable, Equatable, KDTreePoint {
     let hr: Int
     // Normalized 3D coordinated
@@ -117,7 +122,6 @@ public struct MinimalStar: Hashable, Equatable, KDTreePoint {
         return lhs.hr == rhs.hr
     }
     
-    // Implement KDTreePoint
     public static var dimensions: Int {
         3
     }
@@ -138,7 +142,8 @@ public struct MinimalStar: Hashable, Equatable, KDTreePoint {
     }
 }
 
-// for testing...
+// Helper function for testing.
+// TODO: better way to do this? I was unable to import `Star` in the test function that needs this.
 public func getAllStarAngles(lower: Double, upper: Double) -> [(Double, (Star, Star))] {
     var actual: [(Double, (Star, Star))] = []
     let query = StarryNight.StarAngles.table.filter(
@@ -152,5 +157,8 @@ public func getAllStarAngles(lower: Double, upper: Double) -> [(Double, (Star, S
         let angle = try! row.get(StarryNight.StarAngles.angle)
         actual.append((angle, (star1, star2)))
     }
+    actual.sort(by: { (first, second) -> Bool in
+        return first.0 < second.0
+    })
     return actual
 }

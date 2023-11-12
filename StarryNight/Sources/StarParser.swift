@@ -1,6 +1,7 @@
 //
-//  File.swift
-//  
+//  StarParser.swift
+//
+//  Implements parsing stars out of images.
 //
 //  Created by Jatin Mathur on 7/11/23.
 //
@@ -34,13 +35,6 @@ extension UIImage {
     ///  3) We then calculate the centroid of all the pixels and report that as a single `StarLocation`.
     ///  4) Continue searching for other stars in the image.
     func getStarLocations() -> [StarLocation] {
-//        let sConv = Date()
-//        let kernel: [CGFloat] = [0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111, 0.111]
-//        let img = applyConvFilter(to: self, with: kernel)!
-//        let eConv = Date()
-//        let eConvDt = eConv.timeIntervalSince(sConv)
-//        print("Conv took \(eConvDt)")
-        
         let cgImg = self.cgImage!;
         let pixelData = cgImg.dataProvider?.data!
         let data: UnsafePointer<UInt8> = CFDataGetBytePtr(pixelData)
@@ -87,6 +81,7 @@ extension UIImage {
         
         let starLock = NSLock()
         let startTime = Date()
+        // TODO: parallel?
     //        DispatchQueue.concurrentPerform(iterations: height/SKIP_STEP) { i in
 //            let y = i * SKIP_STEP
         for y in stride(from: 0, to: height, by: SKIP_STEP) {
@@ -232,8 +227,6 @@ extension UIImage {
                     continue
                 }
                 
-                //let sum = pixels.reduce((0, 0)) { ($0.0 + $1.0, $0.1 + $1.1) }
-                //let centroid = (Double(sum.0) / Double(pixels.count), Double(sum.1) / Double(pixels.count))
                 stars.append(StarLocation(
                     u: centroid.0,
                     v: centroid.1
@@ -247,34 +240,6 @@ extension UIImage {
         return stars
     }
 }
-
-// DOES NOT WORK, SOME WEIRD TRANSLATE
-//func applyConvFilter(to image: UIImage, with kernel: [CGFloat]) -> UIImage? {
-//    guard let ciImage = CIImage(image: image) else { return nil }
-//
-//    let kernelMatrix = CIVector(values: kernel, count: 9)
-//
-//    // Remove alpha channel from the original image
-//    guard let rgbImage = CIFilter(name: "CIColorMatrix", parameters: [
-//        "inputImage": ciImage,
-//        "inputAVector": CIVector(x: 0, y: 0, z: 0, w: 0)
-//    ])?.outputImage else { return nil }
-//
-//    // Create convolution filter
-//    let convolutionFilter = CIFilter(name: "CIConvolution3X3", parameters: [
-//        kCIInputImageKey: rgbImage,
-//        "inputWeights": CIVector(values: kernel, count: 9),
-//        "inputBias": 0
-//    ])
-//
-//    // Apply convolution filter
-//    guard let convolutedCIImage = convolutionFilter?.outputImage else { return nil }
-//
-//    let context = CIContext(options: nil)
-//    guard let cgImage = context.createCGImage(convolutedCIImage, from: convolutedCIImage.extent) else { return nil }
-//
-//    return UIImage(cgImage: cgImage)
-//}
 
 // Goes from a pixel to an index in the flattened array.
 func pix2Pos(y: Int, x: Int, width: Int, numChannels: Int) -> Int {

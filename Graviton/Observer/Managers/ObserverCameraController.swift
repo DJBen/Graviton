@@ -15,7 +15,11 @@ import UIKit
 class ObserverCameraController: CameraController {
     private var stabilizer = AttitudeStabilizer()
     private var lastApplied: Quaternion = .identity
+    
+    // Startracker (st) variables
+    // The quaternion solved for by the Startracker algorithm
     private var stQuat: Quaternion? = nil
+    // Stores the rotation according to the IMU at the beginning of the Startracker algorithm running
     private var stDeviceMotionOffset: Quaternion? = nil
     private var saveDeviceMotionOffset: Bool = false
 
@@ -45,8 +49,7 @@ class ObserverCameraController: CameraController {
     func orientCameraNode(observerInfo: ObserverLocationTime = ObserverLocationTime()) {
         let quat = Quaternion(rotationMatrix: observerInfo.localViewTransform)
         guard let cameraNode = cameraNode else { return }
-        let cnRot = cameraNode.rotation
-        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cnRot))
+        let rot = lastApplied.inverse * Quaternion(axisAngle: Vector4(cameraNode.rotation))
         let controlSpaceTransform = Quaternion(axisAngle: Vector4(1, 0, 0, -Double.pi / 2))
         lastApplied = quat * controlSpaceTransform
         var (pitch, yaw, _) = rot.toPitchYawRoll()

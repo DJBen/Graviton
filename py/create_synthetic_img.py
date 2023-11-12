@@ -85,7 +85,7 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     np.random.seed(seed)
     rows = get_star_vecs()
 
-    # TOOD: doc better
+    # TOOD: make transformation notation consistent throughout codebase
     # Transformation from Ref0 (C) to Camera Catalog (Cc)
     # The catalog follows the Equatorial coordinate system. Cameras
     # should have +x being horizontal to the right, +y being vertical
@@ -98,42 +98,6 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
     )
     assert abs(np.linalg.det(T_Cam0_Ref0) - 1) < 1e-4
 
-    # Transformation from Synthetic Camera (SCam) to Catalog Camera (Cam)
-    # T_SCam_Cam = generate_rmtx()
-    # T_total = (
-    #     np.array(
-    #         [
-    #             0.019485976463295918,
-    #             0.11912072276943125,
-    #             0.99268854638711567,
-    #             -0.61402311514330277,
-    #             -0.78215011115343214,
-    #             0.10590947876555012,
-    #             0.78904747055610469,
-    #             -0.61159746323015818,
-    #             0.05790191861630798,
-    #         ]
-    #     )
-    #     .reshape(3, 3)
-    #     .T
-    # )
-    # T_total = (
-    #     np.array(
-    #         [
-    #             -0.367821352397038,
-    #             -0.5672059932705511,
-    #             -0.73687503276931676,
-    #             -0.58330089343842784,
-    #             -0.47640564601479762,
-    #             0.65787364148379968,
-    #             -0.72420129828297475,
-    #             0.6717998374837485,
-    #             -0.1556195936315963,
-    #         ]
-    #     )
-    #     .reshape(3, 3)
-    #     .T
-    # )
     T_total = T_Cam0_Ref0.T @ np.array(
         [
             [0.9351374202470544, -0.3441899074624739, 0.0839720956905259],
@@ -176,6 +140,7 @@ def create_synthetic_img(image_type: ImageType, seed: int, n: int, annotate: boo
         )
 
     def project_star_onto_cam(image_type: ImageType, star_ray):
+        # TODO: delete?
         print("NET", T_SCam_Cam @ T_Cam0_Ref0)
         print("INT", intrinsics_mtx)
         print("STAR RAY", star_ray)

@@ -1,6 +1,7 @@
 //
-//  File.swift
-//  
+//  Startracker.swift
+//
+//  Main file in Startracker algorithm.
 //
 //  Created by Jatin Mathur on 7/7/23.
 //
@@ -26,10 +27,10 @@ public enum StarTrackError: Error, CustomStringConvertible {
 }
 
 public class StarTracker {
-    let catalog: Catalog
+    let catalog: StarCatalog
     
     public init() {
-        self.catalog = Catalog()
+        self.catalog = StarCatalog()
     }
     
     public func track(image: UIImage, focalLength: Double, maxStarCombos: Int) -> Result<Matrix, StarTrackError> {
@@ -276,10 +277,11 @@ public class StarTracker {
     //    }
 }
 
-/// An iterator that returns the next star combination to try using the indexing algorithm in https://onlinelibrary.wiley.com/doi/abs/10.1002/j.2161-4296.2004.tb00349.x
-/// There are two objectives:
+/// An iterator that returns the next star combination to try using the indexing algorithm from "The Pyramid Star Identification Technique" by Mortari et al.
+/// There are three objectives:
 /// 1) Avoid sampling the same stars (which might be false positives)
 /// 2) Avoid generating all combinations (which can be expensive as it is N choose 3) if they are not needed.
+/// 3) Generate star combinations lazily (therefore efficiently)
 public func starLocsGenerator(n: Int) -> AnyIterator<(Int, Int, Int)> {
     assert(n >= 3)
     // NOTE: The implementation below just copies the 1-based indexing from the paper, then corrects it

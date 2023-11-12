@@ -29,7 +29,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var timeWarpSpeed: Double?
     
-    // Stratracker-related things
+    // Startracker-related state
     private var st: StarTracker!
     private var captureSession: AVCaptureSession!
     private var stillImageOutput: AVCapturePhotoOutput!
@@ -99,38 +99,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         captureSession = AVCaptureSession()
         stillImageOutput = AVCapturePhotoOutput()
         
-//        let devices = AVCaptureDevice.DiscoverySession(deviceTypes: [
-//            //.builtInWideAngleCamera,
-//            .builtInDualCamera,
-//            .builtInTelephotoCamera,
-//            .builtInUltraWideCamera,
-//        ],
-//           mediaType: .video,
-//           position: .back
-//        ).devices
-//
-//        var device: AVCaptureDevice? = nil;
-//        for d in devices {
-//            if d.isExposureModeSupported(.custom) {
-//                print("\(d.deviceType) supports custom exposure mode at \(d.activeFormat.minExposureDuration) \(d.activeFormat.maxExposureDuration)")
-//                self.initCam = true;
-//                device = d
-//                break;
-//            } else if d.isExposureModeSupported(.autoExpose) {
-//                print("\(d.localizedName) supports auto exposure mode")
-//            } else {
-//                print("\(d.localizedName) does not support auto exposure mode")
-//            }
-//        }
-        
-        
-//        guard let device = device else {
-//            return
-//        }
-        
         let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
         
         guard let device = device else {
+            // TODO: alert the user that the startracking will not work?
             return
         }
         
@@ -141,31 +113,9 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             print("Could not get FOV from camera. Startracking will not work.")
         }
         
-//        // Increase exposure time
-//        try! device.lockForConfiguration()
-//        //device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: AVCaptureDevice.currentISO, completionHandler: nil)
-//        // Increase exposure duration
-//        //let currentDuration = device.exposureDuration
-//        //let newDuration = CMTimeMultiplyByFloat64(currentDuration, 50.0) // Double current exposure duration
-//        //device.setExposureModeCustom(duration: newDuration, iso: AVCaptureDevice.currentISO)
-//        let newDuration = CMTimeMakeWithSeconds(1, 1)
-//        let minISO = device.activeFormat.minISO
-//        print("\(device.activeFormat.minExposureDuration), \(device.activeFormat.maxExposureDuration)")
-//        device.setExposureModeCustom(duration: newDuration, iso: minISO)
-//        device.unlockForConfiguration()
-//
-//        captureSession.beginConfiguration()
-//
-//        captureSession.sessionPreset = .photo
-//        captureSession.addInput(input)
-//        captureSession.addOutput(stillImageOutput)
-//
-//        captureSession.commitConfiguration()
-        
         try! device.lockForConfiguration()
-        // TODO: consider doing this
-//        let format = device.formats.first(where: { CMVideoFormatDescriptionGetDimensions($0.formatDescription).width == 1920 && CMVideoFormatDescriptionGetDimensions($0.formatDescription).height == 1080 })!
-//        device.activeFormat = format
+        // MARK: this number seems finicky. Changing it does not necesarily work.
+        // TODO: look at AVCaptureDevice.currentISO?
         device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: 2000, completionHandler: nil) // AVCaptureDevice.currentISO
         device.unlockForConfiguration()
 
@@ -471,23 +421,25 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         observerScene.rendererUpdate()
     }
     
-    // MARK: - Capture Photo functions
+    // Captures long-exposure photo for startracking
     func capturePhoto() {
         MotionManager.default.startMotionUpdate()
         self.observerCameraController.requestSaveDeviceOrientationForStartracker()
+        // TODO: delete
 //        let q = Quaternion(0.66025264, -0.1873913, 0.67464177, -0.27167894)
 //        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
 //        observerCameraController.setStartrackerOrientation(stQuat: q)
         let settings = AVCapturePhotoSettings()
         self.stillImageOutput.capturePhoto(with: settings, delegate: self)
-        // TODO: add text that we are done taking photo
+        // TODO: It is not clear when the photo is done being taken and when startracker processing starts. Consider changing that.
         self.activityIndicator.startAnimating()
         self.activityLabel.isHidden = false
     }
-
+    
+    // Handles a long-exposure photo by performing startracking
     func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
         DispatchQueue.global(qos: .userInitiated).async {
-            // When this is done, stop the processing UI indication
+            // When this scope completes, stop the processing UI indication
             defer {
                 DispatchQueue.main.async {
                     self.activityIndicator.stopAnimating()
@@ -495,11 +447,13 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
                 }
             }
             
+            // TODO: it is unclear why this fails sometimes.
             guard let imageData = photo.fileDataRepresentation() else {
                 self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
                 return
             }
             
+            // TODO: delete below
             let sUI = Date()
             let _image = UIImage(data: imageData)!
             let eUI = Date()
@@ -554,7 +508,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             print("Time to save to startracker photo to library: \(dtSave)")
             
             // Typically the FOV is associated with height because that is the longer side on phones
-            // Below just assumes the longer side is the one we got an FOV for
+            // The code just assumes the longer side is the one we got an FOV for
             let width = Double(image.size.width.rounded())
             let height = Double(image.size.height.rounded())
             let sizeFOVSide = max(width, height)
@@ -572,7 +526,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         }
     }
     
-    /// Show an error when Startracking fails
     func showStartrackError(error: String) {
         DispatchQueue.main.async {
             let alertController = UIAlertController(title: "Startracking Error", message: error, preferredStyle: .alert)

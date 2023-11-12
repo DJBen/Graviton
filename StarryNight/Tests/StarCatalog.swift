@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  StarCatalog.swift
 //  
 //
 //  Created by Jatin Mathur on 7/7/23.
@@ -13,9 +13,9 @@ import SpaceTime
 import MathUtil
 import LASwift
 
-class CatalogTest: XCTestCase {
+class StarCatalogTest: XCTestCase {
     func testGetMatches() {
-        let catalog = Catalog()
+        let catalog = StarCatalog()
         let matches = catalog.getMatches(angle: 0.101, angleDelta: 0.0005)
         // The result should be deterministic and was observed to have this order
         // The actual values were made sure to be consistent with the database
@@ -41,7 +41,7 @@ class CatalogTest: XCTestCase {
     }
     
     func testGetNearbyStars() {
-        let catalog = Catalog()
+        let catalog = StarCatalog()
         
         let angleDelta = 0.03
         

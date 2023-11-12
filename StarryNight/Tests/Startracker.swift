@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Startracker.swift
 //  
 //
 //  Created by Jatin Mathur on 7/7/23.
@@ -423,6 +423,7 @@ class StartrackerTest: XCTestCase {
                 XCTFail("Expected an error, but track() was successful.")
         }
         
+        // TODO: below can be used to help debug this image
 //        // (hr, u, v)
 //        let knownStars = [
 //            (7001, 2024.6751824817518,1641.85401459854)

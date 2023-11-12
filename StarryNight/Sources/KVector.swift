@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  KVector.swift
 //  StarryNight
 //
 //  Created by Jatin Mathur on 7/13/23.
@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// Enables efficient retrieval of data when data is roughly linearly distributed, with performance that can far-exceed that of binary search
+/// For more information, see "A k-Vector Approach to Sampling, Interpolation, and Approximation" by Mortari et al.
 public class KVector<T> {
     let data: [(Double, T)]
     let kVector: [Int]
@@ -57,6 +59,7 @@ public class KVector<T> {
         let kstart = self.kVector[jl]
         let kend = self.kVector[ju]
         
+        // TODO: delete
 //        let dataSlice = Array(self.data[kstart...kend])
 //        // Search for the lower index
 //        var (idxL, lowerIdx, _) = binarySearch(in: dataSlice, for: lower)
@@ -89,23 +92,3 @@ public class KVector<T> {
         return self.data[sstart...send]
     }
 }
-
-//func binarySearch(in array: [Double], for value: Double) -> (Int?, Int, Int) {
-//    var lowerIndex = 0
-//    var upperIndex = array.count - 1
-//
-//    while lowerIndex <= upperIndex {
-//        let middleIndex = (lowerIndex + upperIndex)/2
-//        if array[middleIndex] == value {
-//            return (middleIndex, lowerIndex, upperIndex)
-//        } else if array[middleIndex] < value {
-//            lowerIndex = middleIndex + 1
-//        } else {
-//            upperIndex = middleIndex - 1
-//        }
-//    }
-//
-//
-//    // If we got here, the search value is not in the array
-//    return (nil, lowerIndex, upperIndex)
-//}

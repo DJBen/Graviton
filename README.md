@@ -199,7 +199,7 @@ More use cases can be found in the source and test cases.
 
 ## Startracker
 A Startracker is included to obtain precise alignment to the stars when viewing at night.
-To develop/test the startracker, we have some helper code in Python (see `py/README.md`)
+To develop and test the startracker, we have some helper code in Python (see `py/README.md`)
 and unit tests on the Swift side.
 
 TODO: document more.

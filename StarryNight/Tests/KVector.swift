@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  KVector.swift
 //  
 //
 //  Created by Jatin Mathur on 7/13/23.
@@ -45,11 +45,11 @@ class KVectorTest: XCTestCase {
     }
     
     func testKVectorHard() {
-        let cat = Catalog()
+        let cat = StarCatalog()
         
         func testLowHigh(lower: Double, upper: Double) {
             let res = cat.kvector.getData(lower: lower, upper: upper)
-            let actual = getAllStarAngles(lower: lower, upper: upper)
+            var actual = getAllStarAngles(lower: lower, upper: upper)
             XCTAssertEqual(actual.map({ $0.0 }), res.map({ $0.0 }))
         }
         
@@ -58,3 +58,4 @@ class KVectorTest: XCTestCase {
         testLowHigh(lower: 0.23, upper: 0.49)
     }
 }
+
