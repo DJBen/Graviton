@@ -1,5 +1,5 @@
 """
-Creates a table `star_angles` in the sqlite3 database with the pairwise angles between stars.
+Created a table `star_angles` in the sqlite3 database with the pairwise angles between stars.
 """
 
 import math
@@ -13,7 +13,9 @@ CURRENT_DIR = pathlib.Path(__file__).parent
 
 
 def create_star_angle_table():
-    conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
+    conn = sqlite3.connect(
+        CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3"
+    )
     cursor = conn.cursor()
 
     # cursor.execute("DROP TABLE star_angles;")

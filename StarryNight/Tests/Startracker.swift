@@ -1,6 +1,8 @@
 //
 //  Startracker.swift
-//  
+//
+//  Tests major components of the startracking algorithm, including end-to-end tests where startracking
+//  is performed on synthetic (see Python code) and real images.
 //
 //  Created by Jatin Mathur on 7/7/23.
 //
@@ -77,27 +79,26 @@ class StartrackerTest: XCTestCase {
     }
     
     func testStarAngleMatching() {
-        // The following was created by using the `create_synthetic_img.py` script
+        // The following was created by using the star locations outputted by `create_synthetic_img.py`
         let starLocs = [
-            StarLocation(u: 237, v: 394), // HR: 5191
-            StarLocation(u: 332, v: 452), // HR: 4905
-            StarLocation(u: 358, v: 543), // HR: 4554
-            StarLocation(u: 161, v: 525), // HR: 4915
+            StarLocation(u: 1209, v: 3727), // HR: 5191
+            StarLocation(u: 595, v: 3638), // HR: 4905
+            StarLocation(u: 310, v: 3187), // HR: 4554
         ]
-        let pix2ray = Pix2Ray(focalLength: 600, cx: 484/2, cy: 969/2)
+        let pix2ray = Pix2Ray(focalLength: 2863.6364166951494, cx: 3024/2, cy: 4032/2)
         let st = StarTracker()
         
         // Extremely tight so that only one answer comes out. The real startracker will also solve the Wahba problem
         // and check alignment to observations.
-        let angleDelta = 0.002
-        let allSMIt = st.findStarMatches(starLocs: starLocs, pix2ray: pix2ray, curIndices: (0, 1, 3), angleDelta: angleDelta)
+        let angleDelta = 0.001
+        let allSMIt = st.findStarMatches(starLocs: starLocs, pix2ray: pix2ray, curIndices: (0, 1, 2), angleDelta: angleDelta)
         let allSM = Array(allSMIt)
         XCTAssertFalse(allSM.isEmpty)
         XCTAssertTrue(allSM.count == 1)
         let sm = allSM.first!;
         XCTAssertEqual(sm.star1.star.hr, 5191)
         XCTAssertEqual(sm.star2.star.hr, 4905)
-        XCTAssertEqual(sm.star3.star.hr, 4915)
+        XCTAssertEqual(sm.star3.star.hr, 4554)
     }
     
     func testDoStartrackSynEasy0() {
@@ -107,10 +108,10 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.3509, -0.2196, 0.9103]),
-            Vector([-0.0005, -0.9722, -0.2343]),
-            Vector([0.9364, 0.0818, -0.3413]),
-            ])
+            Vector([-0.9137, 0.195, -0.3566]),
+            Vector([-0.067, 0.7931, 0.6054]),
+            Vector([0.4009, 0.5771, -0.7116]),
+        ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01
         )
     }
@@ -122,9 +123,9 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.5626, -0.3935, -0.7271]),
-            Vector([0.7793, -0.0411, 0.6253]),
-            Vector([-0.276, -0.9184, 0.2835]),
+            Vector([-0.3512, 0.3304, -0.876]),
+            Vector([-0.9254, 0.0198, 0.3785]),
+            Vector([0.1424, 0.9436, 0.2988]),
         ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01)
     }
@@ -136,9 +137,9 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.0058, -0.7905, 0.6124]),
-            Vector([-1.0, -0.0007, 0.0085]),
-            Vector([-0.0063, -0.6125, -0.7905]),
+            Vector([-0.1615, 0.0408, 0.986]),
+            Vector([0.915, -0.3682, 0.1651]),
+            Vector([0.3698, 0.9288, 0.0222]),
         ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01)
     }
@@ -150,9 +151,9 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.3509, -0.2196, 0.9103]),
-            Vector([-0.0005, -0.9722, -0.2343]),
-            Vector([0.9364, 0.0818, -0.3413]),
+            Vector([-0.9137, 0.195, -0.3566]),
+            Vector([-0.067, 0.7931, 0.6054]),
+            Vector([0.4009, 0.5771, -0.7116]),
         ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
@@ -164,9 +165,9 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.5626, -0.3935, -0.7271]),
-            Vector([0.7793, -0.0411, 0.6253]),
-            Vector([-0.276, -0.9184, 0.2835]),
+            Vector([-0.3512, 0.3304, -0.876]),
+            Vector([-0.9254, 0.0198, 0.3785]),
+            Vector([0.1424, 0.9436, 0.2988]),
         ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
@@ -178,10 +179,10 @@ class StartrackerTest: XCTestCase {
         let st = StarTracker()
         let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
         let expected_T_R_C = Matrix([
-            Vector([0.0058, -0.7905, 0.6124]),
-            Vector([-1.0, -0.0007, 0.0085]),
-            Vector([-0.0063, -0.6125, -0.7905]),
-            ])
+            Vector([-0.1615, 0.0408, 0.986]),
+            Vector([0.915, -0.3682, 0.1651]),
+            Vector([0.3698, 0.9288, 0.0222]),
+        ])
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
     

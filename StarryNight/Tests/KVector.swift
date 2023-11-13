@@ -49,7 +49,7 @@ class KVectorTest: XCTestCase {
         
         func testLowHigh(lower: Double, upper: Double) {
             let res = cat.kvector.getData(lower: lower, upper: upper)
-            var actual = getAllStarAngles(lower: lower, upper: upper)
+            let actual = getAllStarAngles(lower: lower, upper: upper)
             XCTAssertEqual(actual.map({ $0.0 }), res.map({ $0.0 }))
         }
         

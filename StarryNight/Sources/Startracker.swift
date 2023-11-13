@@ -194,6 +194,9 @@ public class StarTracker {
         var allTSM: [TriangleStarMatch] = []
         for (star1, star1Matches) in s1s2Matches {
             for star2 in star1Matches {
+                if star1.hr == 5191 && star2.hr == 4905 {
+                    print()
+                }
                 let s3Opts1 = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
                 for star3 in s3Opts1 {
                     let tsm = TriangleStarMatch(
@@ -203,15 +206,15 @@ public class StarTracker {
                     )
                     allTSM.append(tsm)
                 }
-                let s3Opts2 = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
-                for star3 in s3Opts2 {
-                    let tsm = TriangleStarMatch(
-                        star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
-                        star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
-                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
-                    )
-                    allTSM.append(tsm)
-                }
+//                let s3Opts2 = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
+//                for star3 in s3Opts2 {
+//                    let tsm = TriangleStarMatch(
+//                        star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
+//                        star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
+//                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
+//                    )
+//                    allTSM.append(tsm)
+//                }
             }
         }
         return allTSM
