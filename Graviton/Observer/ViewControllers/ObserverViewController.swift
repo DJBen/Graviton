@@ -201,7 +201,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let gyroItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
-        let startrackerItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(startrackerButtonTapped(sender:)))
+        let startrackerItem = UIBarButtonItem(image: #imageLiteral(resourceName: "row_icon_focus"), style: .plain, target: self, action: #selector(startrackerButtonTapped(sender:)))
         navigationItem.leftBarButtonItems = [gyroItem, startrackerItem]
         navigationItem.titleView = titleBlurView
         let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped(sender:)))
@@ -513,7 +513,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             let height = Double(image.size.height.rounded())
             let sizeFOVSide = max(width, height)
             let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
-            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: 30)
+            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS)
             switch stResult {
                 case .success(let T_R_C):
                     print("Successfully Startracked! Result:\n\(T_R_C)")

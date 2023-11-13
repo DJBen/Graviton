@@ -1,7 +1,7 @@
 //
 //  Startracker.swift
 //
-//  Main file in Startracker algorithm.
+//  Main file in startracker algorithm.
 //
 //  Created by Jatin Mathur on 7/7/23.
 //
@@ -11,6 +11,9 @@ import MathUtil
 import UIKit
 import LASwift
 import Collections
+
+/// The maximum candidate star triplets to try the algorithm with. See `StarTracker` documentation.
+public let MAX_STAR_COMBOS = 15
 
 public enum StarTrackError: Error, CustomStringConvertible {
     case tooFewStars(Int)
@@ -26,6 +29,23 @@ public enum StarTrackError: Error, CustomStringConvertible {
     }
 }
 
+
+/// Implements startracking functionality. It is fundamentally based on "Design and Performance of an Open-Source Star Tracker Algorithm on Commercial Off-The-Shelf Cameras and Computers"
+/// by Pedrotty et al., although this implementation is simpler. For example, this implementation does not correct for fixed-pattern noise or doing median filtering. Perhaps
+/// the biggest neglected feature in this implementation is not correcting for distortion. I have personally observed significant distortion effects causing stars to be hundreds of
+/// pixels away from where they should. It would most likely be a good idea to obtain some kind of prior on distortion and correct for it. I was not able to get anything from
+/// Apple's documentation to work, but more effort could be directed here. Worst-case, a calibration procedure could manually be conducted and checked for consistency
+/// across many iPhones. In summary, the startracking algorithm implemented here is summarized as follows:
+///  1. Identify bright spots (candidate stars) in the image (see StarParser.swift for documentation)
+///  2. Choose 3 stars from all candidate stars.
+///  3. Compute the pairwise-angle (in camera frame) between the 3 stars. Search the catalog for star triplets that obey the pairwise angle relationships. Note that pairwise angle
+///  is independent in rotated reference frames, namely camera and catalog. Hence it can be searched and matched against.
+///  4. For every candidate star triplet, solve the Wahba problem and obtain a rotation matrix that describes the rotation from the camera frame to the catalog frame.
+///  5. Use the rotation matrix to compute the reprojection error.
+///  6. Repeat 2-6 for a pre-scpecified number of `maxStarCombos`.
+///  7. Identify the matrix with the smallest reprojection error. Solve for a final rotation matrix using a matching between each candidate star and the nearest star according to the candidate rotation matrix.
+///  This should be a bit more robust that the original candidate rotation matrix.
+///  As failure conditions, if too few stars are detected or if too few stars align well with the proposed attitude matrix, the algorithm fails with `StarTrackError`.
 public class StarTracker {
     let catalog: StarCatalog
     
@@ -71,6 +91,7 @@ public class StarTracker {
         }
         var solveTestTime = 0.0
         DispatchQueue.concurrentPerform(iterations: combosToTest.count) { idx in
+        // TODO: below is deterministic. Parallelism has caused no issues, but I leave it here in case it does.
 //        for idx in 0..<combosToTest.count {
             let (i, j, k) = combosToTest[idx]
             let smStart = Date()
@@ -91,7 +112,8 @@ public class StarTracker {
                 if matchedStars.count == 0 {
                     continue
                 }
-                // TODO: better critSec?
+                
+                // -- CRITICAL SECTION --
                 scoreLock.lock()
                 if bestScore == nil || bestScore! > score {
                     print("BEST SCORE \(bestScore)")
@@ -99,6 +121,7 @@ public class StarTracker {
                     bestMatches = matchedStars
                 }
                 scoreLock.unlock()
+                // -- CRITICAL SECTION --
             }
 //            let endTest = Date()
 //            let dtTest = endTest.timeIntervalSince(startTest)
@@ -111,7 +134,8 @@ public class StarTracker {
             return .failure(StarTrackError.noGoodMatches)
         }
         
-        // We have a good enough solution!
+        // We have a good enough solution. Solve the Wahba problem a final time using all stars that
+        // had good matches to a star in the catalog. This gives a more robust attitude estimation.
         let best_T_C_R_opt = solveWahba(rvs: bestMatches)
         // Note that we currently solved the problem in the local camera reference frame, where:
         // +x is horizontal and to the right
@@ -138,7 +162,13 @@ public class StarTracker {
         return .success(T_Cam_Ref.T)
     }
     
-    /// Tests that an attitude is correct by checking if `requiredFracMatchStars` match.
+    /// Tests the proposed attitude matrix. Does so by going through all candidate stars, rotating them into the catalog frame,
+    /// finding the nearest star in the catalog frame, projecting both the nearest star and rotated star onto a hypothetical camera
+    /// in the catalog frame, and determining the reprojection error. Some candidate stars are likely not actually stars, so there
+    /// is a minimum required fraction of matching stars. Anything under a predetermined reprojection error threshold is considered
+    /// a good enough match and therefore likely a star. Hence, this function does two things:
+    /// 1. Make sure enough candidate stars have good matches in the catalog according the proposed attitude.
+    /// 2. Remove the effect of bad candidate stars that may not even be stars and unfairly skew the average reprojection error.
     func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix) -> (Double, [RotatedVector]) {
         let T_R_C = T_C_R.T
         let requiredFracMatchStars = 0.85
@@ -146,7 +176,7 @@ public class StarTracker {
         let maxMissedStars = starLocs.count - requiredMatchedStars
         var missedStars = 0
         var matchedStars: [RotatedVector] = []
-        var reprojErr = 0.0
+        var reprojErrSq = 0.0
         let maxDistSq: Double = 300*300
         for sloc in starLocs {
             let sray_C = pix2Ray.pix2Ray(pix: sloc)
@@ -155,9 +185,15 @@ public class StarTracker {
             let _localRay = T_C_R * nearestStar.normalized_coord.toMatrix()
             let _localUVRay = (pix2Ray.intrinsics * _localRay).toVector3()
             let localUVRay = _localUVRay / _localUVRay.z
-            let pixDist = pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2)
-            if pixDist < maxDistSq {
-                reprojErr += pixDist
+            let pixDistSq = pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2)
+            if pixDistSq < maxDistSq {
+                // TODO: Technically, the average reprojection error cannot be computed by taking the sqrt
+                // of the sum of squared reprojection errors. The square root must be computed here.
+                // But for now, we don't care much about this because we choose the attitude with the
+                // best "average of squared reprojection errors", which may or may not produce worse
+                // results than "average of reprojection errors." Until this is examined more rigorously
+                // experimentally or theoretically, it doesn't really matter.
+                reprojErrSq += pixDistSq
                 matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
             } else {
                 missedStars += 1
@@ -166,7 +202,7 @@ public class StarTracker {
                 }
             }
         }
-        return (reprojErr / Double(matchedStars.count), matchedStars)
+        return (reprojErrSq / Double(matchedStars.count), matchedStars)
     }
     
     /// Finds all possible matches for the 3 star coordinates given. Algorithm overview:
@@ -206,78 +242,10 @@ public class StarTracker {
                     )
                     allTSM.append(tsm)
                 }
-//                let s3Opts2 = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
-//                for star3 in s3Opts2 {
-//                    let tsm = TriangleStarMatch(
-//                        star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
-//                        star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
-//                        star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
-//                    )
-//                    allTSM.append(tsm)
-//                }
             }
         }
         return allTSM
     }
-    
-    //        var s1s2MatchesIterator = s1s2Matches.makeIterator()
-    //        var star1MatchesIterator: DeterministicSet<MinimalStar>.Iterator? = nil
-    //        var s3OptsIterator1: DeterministicSet<MinimalStar>.Iterator? = nil
-    //        var s3OptsIterator2: DeterministicSet<MinimalStar>.Iterator? = nil
-    //
-    //        return AnyIterator {
-    //            while let (star1, star1Matches) = s1s2MatchesIterator.next() {
-    //                if star1MatchesIterator == nil {
-    //                    star1MatchesIterator = star1Matches.makeIterator()
-    //                }
-    //
-    //                if star1.hr == 153 {
-    //                    print()
-    //                }
-    //
-    //                while let star2 = star1MatchesIterator?.next() {
-    //                    if (star1.hr == 153 && star2.hr == 464) {
-    //                        print()
-    //                    }
-    //                    if (star1.hr == 464 && star2.hr == 153) {
-    //                        print()
-    //                    }
-    //
-    //                    if s3OptsIterator1 == nil {
-    //                        let s3Opts = findS3(s1: star1, s2: star2, s1s3Stars: s1s3Matches, s2s3Stars: s2s3Matches)
-    //                        s3OptsIterator1 = s3Opts.makeIterator()
-    //                    }
-    //
-    //                    while let star3 = s3OptsIterator1?.next() {
-    //                        let tsm = TriangleStarMatch(
-    //                            star1: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
-    //                            star2: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
-    //                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
-    //                        )
-    //                        return tsm
-    //                    }
-    //                    s3OptsIterator1 = nil
-    //
-    //                    if s3OptsIterator2 == nil {
-    //                        let s3Opts = findS3(s1: star2, s2: star1, s1s3Stars: s2s3Matches, s2s3Stars: s1s3Matches)
-    //                        s3OptsIterator2 = s3Opts.makeIterator()
-    //                    }
-    //
-    //                    while let star3 = s3OptsIterator2?.next() {
-    //                        let tsm = TriangleStarMatch(
-    //                            star1: StarEntry(star: star2, vec: RotatedVector(cam: star2Coord, catalog: star2.normalized_coord)),
-    //                            star2: StarEntry(star: star1, vec: RotatedVector(cam: star1Coord, catalog: star1.normalized_coord)),
-    //                            star3: StarEntry(star: star3, vec: RotatedVector(cam: star3Coord, catalog: star3.normalized_coord))
-    //                        )
-    //                        return tsm
-    //                    }
-    //                    s3OptsIterator2 = nil
-    //                }
-    //                star1MatchesIterator = nil
-    //            }
-    //            return nil
-    //        }
-    //    }
 }
 
 /// An iterator that returns the next star combination to try using the indexing algorithm from "The Pyramid Star Identification Technique" by Mortari et al.
@@ -311,6 +279,8 @@ public func starLocsGenerator(n: Int) -> AnyIterator<(Int, Int, Int)> {
     }
 }
 
+/// See "30 Years of Wahba's Problem" by Markley. Solves for the optimal rotation matrix
+/// given 3 matching vectors in two (rotated) coordinate systems.
 func solveWahba(rvs: [RotatedVector]) -> Matrix {
     var B = Matrix(3, 3, 0.0)
     for rv in rvs {
@@ -358,6 +328,8 @@ class Pix2Ray {
     }
 }
 
+/// TODO: Perhaps this could be ported for a "pyramid" star identification technique. For now, we are
+/// going with a triangles-based approach (see `Startracker` class documentation)
 /// Verifies a StarMatch by finding a 4th star that has consistent pairwise angles
 //func verifyStarMatch(
 //    sm: TriangleStarMatch,

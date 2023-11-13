@@ -53,7 +53,6 @@ class ImageType(Enum):
             assert sv >= 0
             assert lv < img.shape[0]
             slc = img[sv:lv, su:lu]
-            # TODO: bring back
             if (slc >= STAR_PIX_VALUE).any():
                 raise DrawStarException
             img[sv:lv, su:lu] = STAR_PIX_VALUE
@@ -100,7 +99,6 @@ def create_synthetic_img(
     if savepath is None:
         savepath = pathlib.Path("synthetic_img.png")
 
-    # TODO: use generator?
     rand_gen = np.random.RandomState(seed)
     rows = get_star_vecs()
 
@@ -234,7 +232,6 @@ def create_synthetic_img(
             )
         all_star_locs.append((hr, u, v))
 
-    # TODO: make arg??
     _LOGGER.info(f"Saving image to: {savepath}")
     plt.imsave(savepath, img)
 

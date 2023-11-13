@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  Types.swift
 //  
 //
 //  Created by Jatin Mathur on 7/14/23.
@@ -7,6 +7,8 @@
 
 import Foundation
 
+
+/// Implements a deterministic set, as part of a broader goal of determinism in the algorithm.
 public class DeterministicSet<Element: Hashable>: Sequence {
     // These should be references to the element, so the duplication to
     // achieve determinisim should not be bad

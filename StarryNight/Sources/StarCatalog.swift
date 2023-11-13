@@ -1,5 +1,5 @@
 //
-//  catalog.swift
+//  StarCatalog.swift
 //  Graviton
 //
 //  Created by Jatin Mathur on 7/7/23.
@@ -13,7 +13,7 @@ import MathUtil
 import Collections
 import KDTree
 
-// A catalog of stars. Designed specifically for use with the Startracker algorithm.
+// A catalog of stars. Designed specifically for use with the startracker algorithm.
 public class StarCatalog {
     let kvector: KVector<StarAngle>
     let kdtree: KDTree<MinimalStar>

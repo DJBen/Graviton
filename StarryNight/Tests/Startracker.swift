@@ -186,14 +186,14 @@ class StartrackerTest: XCTestCase {
         testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
     }
     
-    /// Old image with a cloud. Code should still work on it.
+    /// An image with a cloud.
     func testDoStartrackReal1() {
         let path = Bundle.module.path(forResource: "img_real_1", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let focalLength = 2863.6363
         let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -238,7 +238,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -284,7 +284,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -321,14 +321,18 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 60)
     }
     
-    /// Handles edge-case where camera shake induces somewhat disjoint stars
+    /// Tests edge-case where camera shake induces somewhat disjoint stars.
+    /// TODO: This requires testing 30 star combinations to achieve a good reprojection error. This doubles the time for the startracking algorithm.
+    /// The algorithm already takes 10-15 seconds, so doubling that would make the app incredbly unresponsive. For now, we have this test case
+    /// to show that it is possible to correctly solve this image, but in practice the current app would fail.
     func testBadAlign1() {
         let path = Bundle.module.path(forResource: "bad_align_1", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let maxStarCombos = MAX_STAR_COMBOS * 2
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: maxStarCombos).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -370,7 +374,7 @@ class StartrackerTest: XCTestCase {
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
         
         // (hr, u, v)
         let bigDipperStars = [
@@ -406,19 +410,17 @@ class StartrackerTest: XCTestCase {
         XCTAssertTrue(avgReprojErr < 250)
     }
     
-    /// This initially only found 8 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
-    /// that lead to the algorithm needing to be flexible and use score-based results.
-    ///  TODO: for now, this example is too hard and out-of-scope. Most likely we need to add some smoothing convolutional filter then rework thresholds
+    /// TODO: For now, this example is too hard and out-of-scope. Most likely we need to fix distortion or add some smoothing convolutional filter then rework thresholds
     func testNotEnoughStars1() {
         let path = Bundle.module.path(forResource: "not_enough_stars_1", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let stResult = st.track(image: image, focalLength: focalLength, maxStarCombos: 30)
+        let stResult = st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS)
         switch stResult {
             case .failure(_):
-                // Success! We expected an error and we got one.
+                // We expected an error and we got one.
                 XCTAssertTrue(true)
             case .success(_):
                 XCTFail("Expected an error, but track() was successful.")

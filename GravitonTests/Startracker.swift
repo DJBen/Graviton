@@ -12,14 +12,14 @@ import SpaceTime
 import LASwift
 
 class StartrackerTest: XCTestCase {
-    /// Copied from StarryNight Startracker test
+    /// Copied from StarryNight Startracker test, but meant to run on a phone. This helps us understand runtime on an actual phone.
     func testNotEnoughStars0() {
         let path = Bundle.module.path(forResource: "not_enough_stars_0", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: 30).get()
+        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -47,7 +47,7 @@ class StartrackerTest: XCTestCase {
             XCTAssertTrue(rotStar.z > 0)
             var rotStarScaled = rotStar.toMatrix()
             // TODO: I can't seem to import MathUtil here so I am doing this instead of doing
-            // what is doing in the corresponding test case in the StarryNight package
+            // what is happening in the corresponding test case in the StarryNight package
             rotStarScaled[0,0] = rotStarScaled[0,0]/rotStarScaled[2,0]
             rotStarScaled[1,0] = rotStarScaled[1,0]/rotStarScaled[2,0]
             rotStarScaled[2,0] = rotStarScaled[2,0]/rotStarScaled[2,0]
