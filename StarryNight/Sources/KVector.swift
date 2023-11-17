@@ -59,22 +59,6 @@ public class KVector<T> {
         let kstart = self.kVector[jl]
         let kend = self.kVector[ju]
         
-        // TODO: delete
-//        let dataSlice = Array(self.data[kstart...kend])
-//        // Search for the lower index
-//        var (idxL, lowerIdx, _) = binarySearch(in: dataSlice, for: lower)
-//        if idxL != nil {
-//            // We found the index, meaning the value exists. Hence, lower is the current index
-//            lowerIdx = idxL!
-//        }
-//
-//        // Search for the upper index
-//        var (idxU, _, upperIdx) = binarySearch(in: dataSlice, for: upper)
-//        if idxU != nil {
-//            upperIdx = idxU!
-//        }
-//        return dataSlice[lowerIdx...upperIdx]
-        
         var start: Int? = nil
         var end: Int? = nil
         for i in kstart...kend {

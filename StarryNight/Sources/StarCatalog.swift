@@ -3,7 +3,6 @@
 //  Graviton
 //
 //  Created by Jatin Mathur on 7/7/23.
-//  Copyright © 2023 Ben Lu. All rights reserved.
 //
 
 import Foundation

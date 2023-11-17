@@ -79,7 +79,6 @@ class CameraController: NSObject {
         let finalRot = rot * cameraMovement
         precondition(finalRot.length ~= 1)
         cameraNode.orientation = SCNQuaternion(finalRot)
-        print("pan to \(finalRot)")
         decelerateCamera(atTime: time)
     }
 

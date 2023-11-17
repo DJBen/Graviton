@@ -3,7 +3,6 @@
 //  GravitonTests
 //
 //  Created by Jatin Mathur on 7/19/23.
-//  Copyright © 2023 Ben Lu. All rights reserved.
 //
 
 import XCTest

@@ -115,8 +115,8 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
         
         try! device.lockForConfiguration()
         // MARK: this number seems finicky. Changing it does not necesarily work.
-        // TODO: look at AVCaptureDevice.currentISO?
-        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: 2000, completionHandler: nil) // AVCaptureDevice.currentISO
+        // TODO: look at AVCaptureDevice.currentISO or some better ISO for long-exposure star imaging?
+        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: 2000, completionHandler: nil)
         device.unlockForConfiguration()
 
         captureSession.beginConfiguration()
@@ -449,7 +449,7 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
                 return
             }
             
-            // TODO: delete below
+            // TODO: delete below? Helpful for understanding timings.
             let sUI = Date()
             let _image = UIImage(data: imageData)!
             let eUI = Date()

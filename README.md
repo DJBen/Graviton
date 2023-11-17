@@ -199,10 +199,10 @@ More use cases can be found in the source and test cases.
 
 # Startracker
 A startracker is included to obtain precise alignment to the stars when viewing at night.
-To run tests on the startracker, you will first need to download the test image files from:
-https://drive.google.com/drive/folders/1aB7_yC7U4iHJOtRk4fT2sOnFLDsacUH5?usp=sharing
-
-Place all the image files into `StarryNight/Tests/Resources/`.
+To compile the app/run tests, you will first need to download the image files from:
+https://drive.google.com/drive/folders/1aB7_yC7U4iHJOtRk4fT2sOnFLDsacUH5?usp=sharing.
+The directories in the drive correspond to directories in this repo. Place the files
+into the corresponding repo directory.
 
 To further develop/test the startracker, there are two methods:
 1. Simulation code from Python (see `py/README.md`)

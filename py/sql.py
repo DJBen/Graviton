@@ -15,6 +15,7 @@ def create_star_angle_table():
     conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
     cursor = conn.cursor()
 
+    # Helpful if you want to delete the existing table.
     # cursor.execute("DROP TABLE star_angles;")
 
     cursor.execute("""
@@ -81,7 +82,7 @@ def create_star_angle_table():
             assert dot_prod > -1.001  # same as above
             dot_prod = -1.0
         theta = math.acos(dot_prod)
-        # Camera FOV is <80, so exclude things over 80 degrees
+        # Camera FOV is <80, so exclude things over 80 degrees. This serves to reduce the size of the db.
         if theta < 80 * np.pi / 180:
             conn.execute(
                 """
