@@ -1,8 +1,7 @@
 import logging
 import pathlib
-import create_synthetic_img
-import shutil
 
+import create_synthetic_img
 from config import configure_logger
 
 CURRENT_DIR = pathlib.Path(__file__).parent
@@ -26,10 +25,9 @@ for img_type in [
     assert name is not None
     for i, seed in enumerate(range(19, 22)):
         savepath = TEST_IMG_DIR / f"img_syn_{name}_{i}.png"
-        create_synthetic_img.create_synthetic_img(
-            img_type, seed, 20, True, savepath=savepath
-        )
+        create_synthetic_img.create_synthetic_img(img_type, seed, 20, True, savepath=savepath)
         logger.info(
-            "Setup the test case in Swift using the printed star locations and camera orientation quaternion, then press enter to continue:"
+            "Setup the test case in Swift using the printed star locations and camera orientation quaternion, then"
+            " press enter to continue:"
         )
         input()

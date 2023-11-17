@@ -8,20 +8,16 @@ import sqlite3
 
 import numpy as np
 
-
 CURRENT_DIR = pathlib.Path(__file__).parent
 
 
 def create_star_angle_table():
-    conn = sqlite3.connect(
-        CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3"
-    )
+    conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
     cursor = conn.cursor()
 
     # cursor.execute("DROP TABLE star_angles;")
 
-    cursor.execute(
-        """
+    cursor.execute("""
         CREATE TABLE star_angles (
             star1_hr INTEGER,
             star2_hr INTEGER,
@@ -34,11 +30,9 @@ def create_star_angle_table():
             star2_z REAL,
             PRIMARY KEY(star1_hr, star2_hr)
         )
-        """
-    )
+        """)
 
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT
             A.hr as star1_hr,
             B.hr as star2_hr,
@@ -64,8 +58,7 @@ def create_star_angle_table():
             AND B.dist != 0
             AND A.mag < 4
             AND B.mag < 4
-        """
-    )
+        """)
 
     rows = cursor.fetchall()
 

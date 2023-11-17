@@ -197,9 +197,14 @@ let localSidTime = SiderealTime.init(observerLocationTime: locTime)
 ```
 More use cases can be found in the source and test cases.
 
-## Startracker
+# Startracker
 A startracker is included to obtain precise alignment to the stars when viewing at night.
-To develop and test the startracker, there are two methods:
+To run tests on the startracker, you will first need to download the test image files from:
+https://drive.google.com/drive/folders/1aB7_yC7U4iHJOtRk4fT2sOnFLDsacUH5?usp=sharing
+
+Place all the image files into `StarryNight/Tests/Resources/`.
+
+To further develop/test the startracker, there are two methods:
 1. Simulation code from Python (see `py/README.md`)
 2. Real images where stars have been externally identified. These images should ideally come
 from the long-exposure photo capture functionality in Graviton's startracker, as those images

@@ -6,8 +6,9 @@ First, install dependencies:
 pip3 install -r requirements.txt
 ```
 
-Next, use `make_test_images.py` to create synthetic images for testing. These have been tracked, but
-their creation should be reproducable.
+Next, use `make_test_images.py` to create synthetic images for testing. These have been uploaded to the Google Drive (see the main repo README), but their creation should be reproducable. If this is changed, please update the Google Drive.
 
 For documentation, `sql.py` is tracked as well. It created the `star_angles` table in the sqlite3 stars database.
 
+When you are done, don't forget to lint using `lint.sh`
+TODO: use flake8?

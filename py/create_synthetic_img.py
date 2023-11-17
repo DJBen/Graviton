@@ -2,17 +2,17 @@
 Creates synthetic images of the stars for testing.
 """
 
-from enum import Enum
 import logging
 import pathlib
 import sqlite3
+from enum import Enum
 from typing import Optional, Tuple
-import click
 
-from matplotlib import pyplot as plt
-from scipy.spatial.transform import Rotation
+import click
 import numpy as np
+from matplotlib import pyplot as plt
 from PIL import Image, ImageDraw
+from scipy.spatial.transform import Rotation
 
 from config import configure_logger, get_logger
 
@@ -62,17 +62,13 @@ class ImageType(Enum):
 
 
 def get_star_vecs():
-    conn = sqlite3.connect(
-        CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3"
-    )
+    conn = sqlite3.connect(CURRENT_DIR / "../StarryNight/Sources/Resources/stars.sqlite3")
 
     cursor = conn.cursor()
 
-    cursor.execute(
-        """
+    cursor.execute("""
         SELECT hr,x,y,z,dist FROM stars_7 WHERE hr!='' AND mag<4;
-        """
-    )
+        """)
 
     rows = cursor.fetchall()
     conn.close()
@@ -132,13 +128,11 @@ def create_synthetic_img(
     img_width = int(img_width)
     _LOGGER.info(f"Creating image of size {img_width}x{img_height}")
 
-    intrinsics_mtx = np.array(
-        [
-            [focal_length, 0, img_width // 2],
-            [0, focal_length, img_height // 2],
-            [0, 0, 1],
-        ]
-    )
+    intrinsics_mtx = np.array([
+        [focal_length, 0, img_width // 2],
+        [0, focal_length, img_height // 2],
+        [0, 0, 1],
+    ])
 
     def can_project_star_onto_cam(star_ray):
         cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
@@ -159,12 +153,8 @@ def create_synthetic_img(
             # TODO: make sure noise vec does not make it go out of projection for the image
             cam_ray = cam_ray / np.linalg.norm(cam_ray)
             noise_vector = rand_gen.randn(3)  # random direction
-            noise_vector = noise_vector / np.linalg.norm(
-                noise_vector
-            )  # normalize to length 1
-            noise_vector = noise_vector * np.tan(
-                MAX_STAR_ANGLE_NOISE
-            )  # scale to desired angle
+            noise_vector = noise_vector / np.linalg.norm(noise_vector)  # normalize to length 1
+            noise_vector = noise_vector * np.tan(MAX_STAR_ANGLE_NOISE)  # scale to desired angle
             cam_ray_new = cam_ray + noise_vector
             assert np.arccos(np.dot(cam_ray_new, cam_ray) <= MAX_STAR_ANGLE_NOISE)
             cam_ray = cam_ray / cam_ray[-1]
@@ -193,9 +183,7 @@ def create_synthetic_img(
         n = len(projectable_stars)
     assert n >= 1
     n = min(n, len(projectable_stars))
-    _LOGGER.info(
-        f"Can project {len(projectable_stars)} stars out of {len(rows)}. Choosing {n}."
-    )
+    _LOGGER.info(f"Can project {len(projectable_stars)} stars out of {len(rows)}. Choosing {n}.")
 
     rand_gen.shuffle(projectable_stars)
 
@@ -227,9 +215,7 @@ def create_synthetic_img(
         try:
             image_type.draw_star_onto_image(img, u, v)
         except DrawStarException:
-            _LOGGER.error(
-                f"Skipping drawing star {hr} at ({u}, {v}) cause it would overlap an existing drawn star"
-            )
+            _LOGGER.error(f"Skipping drawing star {hr} at ({u}, {v}) cause it would overlap an existing drawn star")
         all_star_locs.append((hr, u, v))
 
     _LOGGER.info(f"Saving image to: {savepath}")
@@ -272,17 +258,13 @@ def create_synthetic_img(
 def generate_rmtx(rand_gen):
     random_matrix = rand_gen.normal(size=(3, 3))
     Q, R = np.linalg.qr(random_matrix)
-    if (
-        np.linalg.det(Q) < 0
-    ):  # If the determinant is -1, we flip the sign of last column of Q
+    if np.linalg.det(Q) < 0:  # If the determinant is -1, we flip the sign of last column of Q
         Q[:, 2] *= -1
     return Q
 
 
 @click.command
-@click.argument(
-    "image_type", type=click.Choice([e.name for e in ImageType], case_sensitive=False)
-)
+@click.argument("image_type", type=click.Choice([e.name for e in ImageType], case_sensitive=False))
 @click.argument("seed", type=int)
 @click.argument("n", type=int)
 def main(image_type: str, seed: int, n: int):
