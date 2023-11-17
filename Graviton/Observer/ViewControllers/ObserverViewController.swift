@@ -425,10 +425,6 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     func capturePhoto() {
         MotionManager.default.startMotionUpdate()
         self.observerCameraController.requestSaveDeviceOrientationForStartracker()
-        // TODO: delete
-//        let q = Quaternion(0.66025264, -0.1873913, 0.67464177, -0.27167894)
-//        let q = Quaternion(0.3943375, -0.4553323, 0.78938678,  0.11848571)
-//        observerCameraController.setStartrackerOrientation(stQuat: q)
         let settings = AVCapturePhotoSettings()
         self.stillImageOutput.capturePhoto(with: settings, delegate: self)
         // TODO: It is not clear when the photo is done being taken and when startracker processing starts. Consider changing that.
@@ -515,10 +511,10 @@ class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
             let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
             let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS)
             switch stResult {
-                case .success(let T_R_C):
-                    print("Successfully Startracked! Result:\n\(T_R_C)")
-                    let stQuat = Quaternion(rotationMatrix: T_R_C.toMatrix4())
-                    self.observerCameraController.setStartrackerOrientation(stQuat: stQuat)
+                case .success(let T_Ceq_Meq):
+                    print("Successfully Startracked! Result:\n\(T_Ceq_Meq)")
+                    let T_Ceq_Meq = Quaternion(rotationMatrix: T_Ceq_Meq.toMatrix4())
+                    self.observerCameraController.setStartrackerOrientation(T_Ceq_Meq: T_Ceq_Meq)
                 case .failure(let stError):
                     print("Startracking failed: \(stError)")
                     self.showStartrackError(error: stError.description)

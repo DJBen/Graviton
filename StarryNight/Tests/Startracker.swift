@@ -15,6 +15,7 @@ import SpaceTime
 import MathUtil
 import LASwift
 
+
 class StartrackerTest: XCTestCase {
     /// Explicitly tests the somewhat complex index generation logic for correctness
     func testStarLocationGeneratorEasy() {
@@ -102,99 +103,61 @@ class StartrackerTest: XCTestCase {
     }
     
     func testDoStartrackSynEasy0() {
-        let path = Bundle.module.path(forResource: "img_syn_easy_0", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.9137, 0.195, -0.3566]),
-            Vector([-0.067, 0.7931, 0.6054]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.4009, 0.5771, -0.7116]),
+            Vector([0.9137, -0.195, 0.3566]),
+            Vector([0.067, -0.7931, -0.6054]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01
-        )
+        testStartrackSynImg(testImg: "img_syn_easy_0", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.01)
     }
     
     func testDoStartrackSynEasy1() {
-        let path = Bundle.module.path(forResource: "img_syn_easy_1", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.3512, 0.3304, -0.876]),
-            Vector([-0.9254, 0.0198, 0.3785]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.1424, 0.9436, 0.2988]),
+            Vector([0.3512, -0.3304, 0.876]),
+            Vector([0.9254, -0.0198, -0.3785]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01)
+        testStartrackSynImg(testImg: "img_syn_easy_1", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.01)
     }
     
     func testDoStartrackSynEasy2() {
-        let path = Bundle.module.path(forResource: "img_syn_easy_2", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.1615, 0.0408, 0.986]),
-            Vector([0.915, -0.3682, 0.1651]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.3698, 0.9288, 0.0222]),
+            Vector([0.1615, -0.0408, -0.986]),
+            Vector([-0.915, 0.3682, -0.1651]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.01)
+        testStartrackSynImg(testImg: "img_syn_easy_2", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.01)
     }
     
     func testDoStartrackSynHard0() {
-        let path = Bundle.module.path(forResource: "img_syn_hard_0", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.9137, 0.195, -0.3566]),
-            Vector([-0.067, 0.7931, 0.6054]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.4009, 0.5771, -0.7116]),
+            Vector([0.9137, -0.195, 0.3566]),
+            Vector([0.067, -0.7931, -0.6054]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
+        testStartrackSynImg(testImg: "img_syn_hard_0", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.05)
     }
     
     func testDoStartrackSynHard1() {
-        let path = Bundle.module.path(forResource: "img_syn_hard_1", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.3512, 0.3304, -0.876]),
-            Vector([-0.9254, 0.0198, 0.3785]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.1424, 0.9436, 0.2988]),
+            Vector([0.3512, -0.3304, 0.876]),
+            Vector([0.9254, -0.0198, -0.3785]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
+        testStartrackSynImg(testImg: "img_syn_hard_1", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.05)
     }
     
     func testDoStartrackSynHard2() {
-        let path = Bundle.module.path(forResource: "img_syn_hard_2", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: 1).get()
-        let expected_T_R_C = Matrix([
-            Vector([-0.1615, 0.0408, 0.986]),
-            Vector([0.915, -0.3682, 0.1651]),
+        let expected_T_Ceq_Meq = Matrix([
             Vector([0.3698, 0.9288, 0.0222]),
+            Vector([0.1615, -0.0408, -0.986]),
+            Vector([-0.915, 0.3682, -0.1651]),
         ])
-        testRotationEqual(expected: expected_T_R_C, actual: T_R_C, tol: 0.05)
+        testStartrackSynImg(testImg: "img_syn_hard_2", expected_T_Ceq_Meq: expected_T_Ceq_Meq, maxStarCombos: 1, tol: 0.05)
     }
     
     /// An image with a cloud.
     func testDoStartrackReal1() {
-        let path = Bundle.module.path(forResource: "img_real_1", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let focalLength = 2863.6363
-        let st = StarTracker()
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
-
         // (hr, u, v)
         let bigDipperStars = [
             (5191, 1339.1477832512314, 1680.344827586207),
@@ -205,41 +168,11 @@ class StartrackerTest: XCTestCase {
             (4554, 1979.2583732057417, 2431.3684210526317),
             (4295, 2384.342105263158, 2635.821052631579)
         ]
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        
-        let width = Int(image.size.width.rounded())
-        let height = Int(image.size.height.rounded())
-        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let intrinsics = inv(pix2ray.intrinsics_inv)
-        var reprojErr = 0.0
-        for (hr, u, v) in bigDipperStars {
-            let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-            XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-            reprojErr += sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-        }
-        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
-        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 50)
+        testStartrackRealImg(testImg: "img_real_1", maxStarCombos: MAX_STAR_COMBOS, knownStars: bigDipperStars, maxReprojErr: 50)
     }
     
     /// Straightforwad good image
     func testDoStartrackReal2() {
-        let path = Bundle.module.path(forResource: "img_real_2", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
-        
         // (hr, u, v)
         let bigDipperStars = [
             (5191, 861.1294642857143, 1480.7767857142858),
@@ -249,43 +182,12 @@ class StartrackerTest: XCTestCase {
             (4295, 100.02150537634408, 2790.7526881720432),
             (4301, 421.6077348066298, 2901.546961325967)
         ]
-        
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        let width = Int(image.size.width.rounded())
-        let height = Int(image.size.height.rounded())
-        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let intrinsics = inv(pix2ray.intrinsics_inv)
-        var reprojErr = 0.0
-        for (hr, u, v) in bigDipperStars {
-            let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-            XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-            reprojErr += err
-        }
-        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
-        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 100)
+        testStartrackRealImg(testImg: "img_real_2", maxStarCombos: MAX_STAR_COMBOS, knownStars: bigDipperStars, maxReprojErr: 100)
     }
     
     /// This is a complex test case because the image has a lot of visual aliasing. Without better star identification and better algorithmic checks on the solution,
     /// it is possible for this to give a bad result.
     func testBadAlign0() {
-        let path = Bundle.module.path(forResource: "bad_align_0", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
-        
         // (hr, u, v)
         let bigDipperStars = [
             (5191, 533.8735294117647,1697.285294117647),
@@ -295,30 +197,8 @@ class StartrackerTest: XCTestCase {
             (4295, 21.725, 3157.2),
             (4301, 366.3243243243243, 3187.864864864865)
         ]
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        let width = Int(image.size.width.rounded())
-        let height = Int(image.size.height.rounded())
-        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let intrinsics = inv(pix2ray.intrinsics_inv)
-        var reprojErr = 0.0
-        for (hr, u, v) in bigDipperStars {
-            let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-            XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-            reprojErr += err
-        }
-        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
-        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 60)
+        testStartrackRealImg(testImg: "bad_align_0", maxStarCombos: MAX_STAR_COMBOS, knownStars: bigDipperStars, maxReprojErr: 60)
+
     }
     
     /// Tests edge-case where camera shake induces somewhat disjoint stars.
@@ -326,56 +206,18 @@ class StartrackerTest: XCTestCase {
     /// The algorithm already takes 10-15 seconds, so doubling that would make the app incredbly unresponsive. For now, we have this test case
     /// to show that it is possible to correctly solve this image, but in practice the current app would fail.
     func testBadAlign1() {
-        let path = Bundle.module.path(forResource: "bad_align_1", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let focalLength = 2863.6363
-        let maxStarCombos = MAX_STAR_COMBOS * 2
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: maxStarCombos).get()
-        
         // (hr, u, v)
         let bigDipperStars = [
             (5191, 724.4148936170212, 2477.8617021276596),
             (5054, 739.4285714285714,2861.9065934065934),
             (4905, 584.3502304147465,3091.3640552995394),
         ]
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        let width = Int(image.size.width.rounded())
-        let height = Int(image.size.height.rounded())
-        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let intrinsics = inv(pix2ray.intrinsics_inv)
-        var reprojErr = 0.0
-        for (hr, u, v) in bigDipperStars {
-            let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-            XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-            reprojErr += err
-        }
-        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
-        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 80)
+        testStartrackRealImg(testImg: "bad_align_1", maxStarCombos: MAX_STAR_COMBOS*2, knownStars: bigDipperStars, maxReprojErr: 80)
     }
     
     /// This initially only found 3 stars and needed to be improved. This is a hard case because there is some clear hand-shake/distortion affects
     /// that lead to the algorithm needing to be flexible and use score-based results.
     func testNotEnoughStars0() {
-        let path = Bundle.module.path(forResource: "not_enough_stars_0", ofType: "png")!
-        XCTAssertNotNil(path, "Image not found")
-        let image = UIImage(contentsOfFile: path)!
-        let st = StarTracker()
-        let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
-        
         // (hr, u, v)
         let bigDipperStars = [
             (5191, 341.11764705882354, 1797.4705882352941),
@@ -384,30 +226,7 @@ class StartrackerTest: XCTestCase {
             (4660, 155.06896551724137, 3357.67241379310333),
             (4301, 155.06896551724137, 3357.6724137931033)
         ]
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        let width = Int(image.size.width.rounded())
-        let height = Int(image.size.height.rounded())
-        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-        let intrinsics = inv(pix2ray.intrinsics_inv)
-        var reprojErr = 0.0
-        for (hr, u, v) in bigDipperStars {
-            let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-            XCTAssertTrue(rotStar.z > 0)
-            let rotStarScaled = rotStar / rotStar.z
-            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-            reprojErr += err
-        }
-        let avgReprojErr = reprojErr / Double(bigDipperStars.count)
-        print("Average Big Dipper Reprojection Error: \(avgReprojErr)")
-        XCTAssertTrue(avgReprojErr < 250)
+        testStartrackRealImg(testImg: "not_enough_stars_0", maxStarCombos: MAX_STAR_COMBOS, knownStars: bigDipperStars, maxReprojErr: 250)
     }
     
     /// TODO: For now, this example is too hard and out-of-scope. Most likely we need to fix distortion or add some smoothing convolutional filter then rework thresholds
@@ -431,31 +250,44 @@ class StartrackerTest: XCTestCase {
 //        let knownStars = [
 //            (7001, 2024.6751824817518,1641.85401459854)
 //        ]
-//        let T_Cam0_Ref0 = Matrix(
-//            [
-//                Vector([0, -1, 0]),
-//                Vector([0, 0, -1]),
-//                Vector([1, 0, 0])
-//            ]
-//        )
-//        let width = Int(image.size.width.rounded())
-//        let height = Int(image.size.height.rounded())
-//        let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
-//        let intrinsics = inv(pix2ray.intrinsics_inv)
-//        var reprojErr = 0.0
-//        for (hr, u, v) in knownStars {
-//            let s = Star.hr(hr)!
-//            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
-//            XCTAssertTrue(rotStar.z > 0)
-//            let rotStarScaled = rotStar / rotStar.z
-//            let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
-//            let err = sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
-//            reprojErr += err
-//        }
-//        let avgReprojErr = reprojErr / Double(knownStars.count)
-//        print("Average Star Reprojection Error: \(avgReprojErr)")
-//        XCTAssertTrue(avgReprojErr < 40)
     }
+}
+
+/// Helper to test synthetic images.
+func testStartrackSynImg(testImg: String, expected_T_Ceq_Meq: Matrix, maxStarCombos: Int, tol: Double) {
+    let path = Bundle.module.path(forResource: testImg, ofType: "png")!
+    XCTAssertNotNil(path, "Image not found")
+    let image = UIImage(contentsOfFile: path)!
+    let st = StarTracker()
+    let T_Ceq_Meq = try! st.track(image: image, focalLength: 2863.6363, maxStarCombos: maxStarCombos).get()
+    testRotationEqual(expected: expected_T_Ceq_Meq, actual: T_Ceq_Meq, tol: tol)
+}
+
+/// Helper to test real images. `knownStars` should be a list of (hr, u, v) of externally identified stars in the image.
+func testStartrackRealImg(testImg: String, maxStarCombos: Int, knownStars: [(Int, Double, Double)], maxReprojErr: Double) {
+    let path = Bundle.module.path(forResource: testImg, ofType: "png")!
+    XCTAssertNotNil(path, "Image not found")
+    let image = UIImage(contentsOfFile: path)!
+    let focalLength = 2863.6363
+    let st = StarTracker()
+    let T_Ceq_Meq = try! st.track(image: image, focalLength: focalLength, maxStarCombos: maxStarCombos).get()
+    
+    let width = Int(image.size.width.rounded())
+    let height = Int(image.size.height.rounded())
+    let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
+    let intrinsics = inv(pix2ray.intrinsics_inv)
+    var reprojErr = 0.0
+    for (hr, u, v) in knownStars {
+        let s = Star.hr(hr)!
+        let rotStar = (T_Cc_Ceq * T_Ceq_Meq.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+        XCTAssertTrue(rotStar.z > 0)
+        let rotStarScaled = rotStar / rotStar.z
+        let projUV = (intrinsics * rotStarScaled.toMatrix()).toVector3()
+        reprojErr += sqrt(pow(projUV.x - u, 2) + pow(projUV.y - v, 2))
+    }
+    let avgReprojErr = reprojErr / Double(knownStars.count)
+    print("Average Reprojection Error: \(avgReprojErr)")
+    XCTAssertTrue(avgReprojErr < maxReprojErr)
 }
 
 func testRotationEqual(expected: Matrix, actual: Matrix, tol: Double) {

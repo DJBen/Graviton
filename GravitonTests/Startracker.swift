@@ -13,13 +13,14 @@ import LASwift
 
 class StartrackerTest: XCTestCase {
     /// Copied from StarryNight Startracker test, but meant to run on a phone. This helps us understand runtime on an actual phone.
+    /// Remember to keep this in-sync.
     func testNotEnoughStars0() {
         let path = Bundle.module.path(forResource: "not_enough_stars_0", ofType: "png")!
         XCTAssertNotNil(path, "Image not found")
         let image = UIImage(contentsOfFile: path)!
         let st = StarTracker()
         let focalLength = 2863.6363
-        let T_R_C = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
+        let T_Ceq_Meq = try! st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS).get()
 
         // (hr, u, v)
         let bigDipperStars = [
@@ -29,13 +30,7 @@ class StartrackerTest: XCTestCase {
             (4660, 155.06896551724137, 3357.67241379310333),
             (4301, 155.06896551724137, 3357.6724137931033)
         ]
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
+
         let width = Int(image.size.width.rounded())
         let height = Int(image.size.height.rounded())
         let pix2ray = Pix2Ray(focalLength: focalLength, cx: Double(width) / 2, cy: Double(height) / 2)
@@ -43,7 +38,7 @@ class StartrackerTest: XCTestCase {
         var reprojErr = 0.0
         for (hr, u, v) in bigDipperStars {
             let s = Star.hr(hr)!
-            let rotStar = (T_Cam0_Ref0 * T_R_C.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
+            let rotStar = (T_Cc_Ceq * T_Ceq_Meq.T * s.physicalInfo.coordinate.toMatrix()).toVector3()
             XCTAssertTrue(rotStar.z > 0)
             var rotStarScaled = rotStar.toMatrix()
             // TODO: I can't seem to import MathUtil here so I am doing this instead of doing

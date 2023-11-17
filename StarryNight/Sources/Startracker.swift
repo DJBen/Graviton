@@ -15,6 +15,16 @@ import Collections
 /// The maximum candidate star triplets to try the algorithm with. See `StarTracker` documentation.
 public let MAX_STAR_COMBOS = 15
 
+/// See README for documentation on naming
+/// This specifically helps convert from an equatorial coordinate system to a camera coordinate system.
+public let T_Cc_Ceq = Matrix(
+    [
+        Vector([0, -1, 0]),
+        Vector([0, 0, -1]),
+        Vector([1, 0, 0])
+    ]
+)
+
 public enum StarTrackError: Error, CustomStringConvertible {
     case tooFewStars(Int)
     case noGoodMatches
@@ -53,6 +63,7 @@ public class StarTracker {
         self.catalog = StarCatalog()
     }
     
+    /// Calculates`T_Ceq_Meq`, which describes the rotation of the mobile camera to catalog in Equatorial coordinates
     public func track(image: UIImage, focalLength: Double, maxStarCombos: Int) -> Result<Matrix, StarTrackError> {
         let s = Date()
         var starLocs = getStarLocations(img: image)
@@ -105,10 +116,11 @@ public class StarTracker {
             let dtSM = smEnd.timeIntervalSince(smStart)
             print("SM time: \(dtSM)")
             
-            let startTest = Date()
+            // TODO: delete old timing code?
+//            let startTest = Date()
             for sm in allSM {
-                let T_C_R = solveWahba(rvs: sm.toRVs())
-                let (score, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_C_R: T_C_R)
+                let T_Mc_Ceq = solveWahba(rvs: sm.toRVs())
+                let (score, matchedStars) = self.testAttitude(starLocs: starLocs, pix2Ray: pix2ray, T_Mc_Ceq: T_Mc_Ceq)
                 if matchedStars.count == 0 {
                     continue
                 }
@@ -136,7 +148,7 @@ public class StarTracker {
         
         // We have a good enough solution. Solve the Wahba problem a final time using all stars that
         // had good matches to a star in the catalog. This gives a more robust attitude estimation.
-        let best_T_C_R_opt = solveWahba(rvs: bestMatches)
+        let best_T_Mc_Ceq = solveWahba(rvs: bestMatches)
         // Note that we currently solved the problem in the local camera reference frame, where:
         // +x is horizontal and to the right
         // +y is vertical and down
@@ -146,31 +158,20 @@ public class StarTracker {
         // +y is horizontal and to the left
         // +z is vertical and up
         // Hence, we must transform our camera-space solution to the catalog reference frame
-        // "Cam0" and "Ref0" refers to the fact that these are a constant rotation between the two
-        // coordinates systems
-        let T_Cam0_Ref0 = Matrix(
-            [
-                Vector([0, -1, 0]),
-                Vector([0, 0, -1]),
-                Vector([1, 0, 0])
-            ]
-        )
-        // transformation from reference (R) to camera (Cam) in the some coordinate
-        // system as the reference (R). Note that T_C_R is currently the product of
-        let T_Cam_Ref = T_Cam0_Ref0.T * best_T_C_R_opt
-        // Swift wants us to use T_Ref_Cam as the camera orientation
-        return .success(T_Cam_Ref.T)
+        let T_Meq_Ceq = T_Cc_Ceq.T * best_T_Mc_Ceq
+        // Swift wants us to use T_Ceq_Meq as the camera orientation
+        return .success(T_Meq_Ceq.T)
     }
     
     /// Tests the proposed attitude matrix. Does so by going through all candidate stars, rotating them into the catalog frame,
-    /// finding the nearest star in the catalog frame, projecting both the nearest star and rotated star onto a hypothetical camera
-    /// in the catalog frame, and determining the reprojection error. Some candidate stars are likely not actually stars, so there
+    /// finding the nearest star in the catalog frame, rotating that star back into the current camera frame, projecting the rotated star
+    /// into the camera frame, and determining the reprojection error. Some candidate stars are likely not actually stars, so there
     /// is a minimum required fraction of matching stars. Anything under a predetermined reprojection error threshold is considered
     /// a good enough match and therefore likely a star. Hence, this function does two things:
     /// 1. Make sure enough candidate stars have good matches in the catalog according the proposed attitude.
     /// 2. Remove the effect of bad candidate stars that may not even be stars and unfairly skew the average reprojection error.
-    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_C_R: Matrix) -> (Double, [RotatedVector]) {
-        let T_R_C = T_C_R.T
+    func testAttitude(starLocs: [StarLocation], pix2Ray: Pix2Ray, T_Mc_Ceq: Matrix) -> (Double, [RotatedVector]) {
+        let T_Ceq_Mc = T_Mc_Ceq.T
         let requiredFracMatchStars = 0.85
         let requiredMatchedStars = Int(requiredFracMatchStars * Double(starLocs.count))
         let maxMissedStars = starLocs.count - requiredMatchedStars
@@ -179,10 +180,10 @@ public class StarTracker {
         var reprojErrSq = 0.0
         let maxDistSq: Double = 300*300
         for sloc in starLocs {
-            let sray_C = pix2Ray.pix2Ray(pix: sloc)
-            let sray_R = (T_R_C * sray_C.toMatrix()).toVector3()
-            let nearestStar = catalog.findNearbyStars(coord: sray_R, angleDelta: nil)!
-            let _localRay = T_C_R * nearestStar.normalized_coord.toMatrix()
+            let sray_Mc = pix2Ray.pix2Ray(pix: sloc)
+            let sray_Ceq = (T_Ceq_Mc * sray_Mc.toMatrix()).toVector3()
+            let nearestStar = catalog.findNearbyStars(coord: sray_Ceq, angleDelta: nil)!
+            let _localRay = T_Mc_Ceq * nearestStar.normalized_coord.toMatrix()
             let _localUVRay = (pix2Ray.intrinsics * _localRay).toVector3()
             let localUVRay = _localUVRay / _localUVRay.z
             let pixDistSq = pow(localUVRay.x - sloc.u, 2) + pow(localUVRay.y - sloc.v, 2)
@@ -194,7 +195,7 @@ public class StarTracker {
                 // results than "average of reprojection errors." Until this is examined more rigorously
                 // experimentally or theoretically, it doesn't really matter.
                 reprojErrSq += pixDistSq
-                matchedStars.append(RotatedVector(cam: sray_C, catalog: nearestStar.normalized_coord))
+                matchedStars.append(RotatedVector(cam: sray_Mc, catalog: nearestStar.normalized_coord))
             } else {
                 missedStars += 1
                 if missedStars >= maxMissedStars {

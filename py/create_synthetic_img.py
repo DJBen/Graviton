@@ -98,21 +98,12 @@ def create_synthetic_img(
     rand_gen = np.random.RandomState(seed)
     rows = get_star_vecs()
 
-    # TOOD: make transformation notation consistent throughout codebase
-    # Transformation from Ref0 (C) to Camera Catalog (Cc)
-    # The catalog follows the Equatorial coordinate system. Cameras
-    # should have +x being horizontal to the right, +y being vertical
-    # and downwards, and +z point out of the camera to the scene.
-    # This matrix makes it possible to operate in camera spaces
-    # starting with a camera placed at the same origin/orientation
-    # as the catalog.
-    T_Cam0_Ref0 = np.array(
+    T_Cc_Ceq = np.array(
         [[0, -1, 0], [0, 0, -1], [1, 0, 0]],
     )
-    assert abs(np.linalg.det(T_Cam0_Ref0) - 1) < 1e-4
+    assert abs(np.linalg.det(T_Cc_Ceq) - 1) < 1e-4
 
-    T_total = T_Cam0_Ref0.T @ generate_rmtx(rand_gen)
-    T_SCam_Cam = T_Cam0_Ref0 @ T_total @ T_Cam0_Ref0.T
+    T_Mc_Cc = generate_rmtx(rand_gen)
 
     # TODO: make these command-line args?
     # FOV matches the camera in app and the hardware camera
@@ -135,7 +126,8 @@ def create_synthetic_img(
     ])
 
     def can_project_star_onto_cam(star_ray):
-        cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
+        # Transforms the star_ray from the Catalog equatorial system to the Mobile camera system
+        cam_ray = T_Mc_Cc @ T_Cc_Ceq @ star_ray
         if cam_ray[-1] < 0:
             # must have +z
             return False
@@ -148,7 +140,7 @@ def create_synthetic_img(
 
     def project_star_onto_cam(image_type: ImageType, star_ray):
         _LOGGER.debug("Star ray", star_ray)
-        cam_ray = T_SCam_Cam @ T_Cam0_Ref0 @ star_ray
+        cam_ray = T_Mc_Cc @ T_Cc_Ceq @ star_ray
         if image_type == ImageType.HARD:
             # TODO: make sure noise vec does not make it go out of projection for the image
             cam_ray = cam_ray / np.linalg.norm(cam_ray)
@@ -236,14 +228,13 @@ def create_synthetic_img(
     # Use the following in any Swift unit-test
     _LOGGER.info(f"Star locations (hr, u, v):\n{all_star_locs}")
 
-    # Convert the rotation into the orientation that one can plug into the
-    # camera node orientation in Swift.
-    # This defines the full rotation in the reference catalog coordinate system
-    # of the camera
-    cmtx = T_Cam0_Ref0.T @ T_SCam_Cam @ T_Cam0_Ref0
-    # We invert the matrix here because Swift seems to want use to provide
-    # the transform T_R_C (go from camera to reference)
-    swift_mtx = Rotation.from_matrix(cmtx.T)
+    # These ultimately computes `T_Ceq_Meq`, which defines how to go from
+    # the mobile to catalog in Equatorial coordinate system
+    # This could be set as the virtual camera node orientation in Swift.
+    T_Meq_Ceq = T_Cc_Ceq.T @ T_Mc_Cc @ T_Cc_Ceq
+    T_Ceq_Meq = T_Meq_Ceq.T
+    
+    swift_mtx = Rotation.from_matrix(T_Ceq_Meq)
     swift_rmtx = swift_mtx.as_matrix()
     swift_quat = swift_mtx.as_quat()
     _LOGGER.info(f"Camera orientation in Swift:\nQuat: {swift_quat}")

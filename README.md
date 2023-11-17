@@ -212,3 +212,26 @@ would represent what the app could realistically capture. The app saves all phot
 library to facilitate this type of debugging.
 
 Both types of images can be converted into unit tests on the Swift side.
+
+# Coordinare Systems
+The following are differrent coordinate systems used throughout the codebase. A transformation
+between two coordinate systems is denoted `T_{space_to}_{space_from}`.
+
+Ceq (Catalog Equatorial)
+- The catalog is full of vectors in the Equatorial coordinate system
+
+Cc (Catalog Camera)
+- Cameras should have +x being horizontal to the right, +y being vertical
+ and downwards, and +z point out of the camera to the scene. The `Cc`
+ system refers to a hypothetical camera placed at the same origin/orientation
+ as the `Ceq` system, but using camera conventions.
+
+Meq (Mobile Equatorial)
+- The mobile view in Equatorial coordinate system
+
+Mc (Mobile Camera)
+- The mobile camera system
+
+
+
+
