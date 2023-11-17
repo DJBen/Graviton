@@ -196,3 +196,42 @@ let locTime = ObserverLocationTime(location: location, timestamp: JulianDay.now)
 let localSidTime = SiderealTime.init(observerLocationTime: locTime)
 ```
 More use cases can be found in the source and test cases.
+
+# Startracker
+A startracker is included to obtain precise alignment to the stars when viewing at night.
+To compile the app/run tests, you will first need to download the image files from:
+https://drive.google.com/drive/folders/1aB7_yC7U4iHJOtRk4fT2sOnFLDsacUH5?usp=sharing.
+The directories in the drive correspond to directories in this repo. Place the files
+into the corresponding repo directory.
+
+To further develop/test the startracker, there are two methods:
+1. Simulation code from Python (see `py/README.md`)
+2. Real images where stars have been externally identified. These images should ideally come
+from the long-exposure photo capture functionality in Graviton's startracker, as those images
+would represent what the app could realistically capture. The app saves all photos to the photo
+library to facilitate this type of debugging.
+
+Both types of images can be converted into unit tests on the Swift side.
+
+# Coordinare Systems
+The following are differrent coordinate systems used throughout the codebase. A transformation
+between two coordinate systems is denoted `T_{space_to}_{space_from}`.
+
+Ceq (Catalog Equatorial)
+- The catalog is full of vectors in the Equatorial coordinate system
+
+Cc (Catalog Camera)
+- Cameras should have +x being horizontal to the right, +y being vertical
+ and downwards, and +z point out of the camera to the scene. The `Cc`
+ system refers to a hypothetical camera placed at the same origin/orientation
+ as the `Ceq` system, but using camera conventions.
+
+Meq (Mobile Equatorial)
+- The mobile view in Equatorial coordinate system
+
+Mc (Mobile Camera)
+- The mobile camera system
+
+
+
+

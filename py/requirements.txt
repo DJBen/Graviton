@@ -1,0 +1,7 @@
+click==8.1.4
+matplotlib==3.7.2
+numpy==1.23.5
+scipy==1.11.1
+black==23.11.0
+isort==5.12.0
+

@@ -25,7 +25,19 @@ let package = Package(
         .package(
             url: "https://github.com/sharplet/Regex",
             from: Version(2, 0, 0)
-        )
+        ),
+        .package(
+            url: "https://github.com/AlexanderTar/LASwift",
+            from: Version(0, 3, 2)
+        ),
+        .package(
+              url: "https://github.com/apple/swift-collections",
+              from: Version(1, 0, 0)
+        ),
+        .package(
+            url: "https://github.com/Bersaelor/KDTree",
+            from: Version(1, 4, 1)
+        ),
     ],
     targets: [
         .target(
@@ -36,6 +48,9 @@ let package = Package(
                 "SpaceTime",
                 .product(name: "SQLite", package: "SQLite.swift"),
                 "SwiftyBeaver",
+                "LASwift",
+                .product(name: "Collections", package: "swift-collections"),
+                "KDTree"
             ],
             path: "Sources",
             resources: [.process("Resources")]
@@ -43,7 +58,10 @@ let package = Package(
         .testTarget(
             name: "StarryNightTests",
             dependencies: ["StarryNight"],
-            path: "Tests"
+            path: "Tests",
+            resources: [
+                .process("Resources")
+            ]
         ),
     ]
 )

@@ -15,16 +15,28 @@ import SpaceTime
 import SpriteKit
 import StarryNight
 import UIKit
+import AVFoundation
+import Photos
+import LASwift
 
 var ephemerisSubscriptionIdentifier: SubscriptionUUID!
 
-class ObserverViewController: SceneController {
+class ObserverViewController: SceneController, AVCapturePhotoCaptureDelegate {
     private lazy var overlayScene: ObserverOverlayScene = ObserverOverlayScene(size: self.view.bounds.size)
     private lazy var observerScene = ObserverScene()
     private var observerSubscriptionIdentifier: SubscriptionUUID!
     private var locationSubscriptionIdentifier: SubscriptionUUID!
     private var motionSubscriptionIdentifier: SubscriptionUUID!
     private var timeWarpSpeed: Double?
+    
+    // Startracker-related state
+    private var st: StarTracker!
+    private var captureSession: AVCaptureSession!
+    private var stillImageOutput: AVCapturePhotoOutput!
+    private var initCam = false;
+    private var captureFOV: RadianAngle = 0.0;
+    private var activityIndicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle: .large)
+    private var activityLabel: UILabel = UILabel()
 
     private lazy var titleButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -82,6 +94,59 @@ class ObserverViewController: SceneController {
         observerSubscriptionIdentifier = CelestialBodyObserverInfoManager.default.subscribe(didLoad: observerScene.observerInfoUpdate(observerInfo:))
         locationSubscriptionIdentifier = LocationManager.default.subscribe(didUpdate: observerScene.updateLocation(location:))
         motionSubscriptionIdentifier = MotionManager.default.subscribe(didUpdate: observerCameraController.deviceMotionDidUpdate(motion:))
+        
+        self.st = StarTracker()
+        captureSession = AVCaptureSession()
+        stillImageOutput = AVCapturePhotoOutput()
+        
+        let device = AVCaptureDevice.default(.builtInWideAngleCamera, for: .video, position: .back)
+        
+        guard let device = device else {
+            // TODO: alert the user that the startracking will not work?
+            return
+        }
+        
+        let input = (try? AVCaptureDeviceInput(device: device))!
+        
+        self.captureFOV = RadianAngle(degreeAngle: DegreeAngle(floatLiteral: Double(device.activeFormat.videoFieldOfView)))
+        if self.captureFOV.value == 0 {
+            print("Could not get FOV from camera. Startracking will not work.")
+        }
+        
+        try! device.lockForConfiguration()
+        // MARK: this number seems finicky. Changing it does not necesarily work.
+        // TODO: look at AVCaptureDevice.currentISO or some better ISO for long-exposure star imaging?
+        device.setExposureModeCustom(duration: CMTimeMakeWithSeconds( 1, 1 ), iso: 2000, completionHandler: nil)
+        device.unlockForConfiguration()
+
+        captureSession.beginConfiguration()
+
+        captureSession.sessionPreset = .photo
+        captureSession.addInput(input)
+        captureSession.addOutput(stillImageOutput)
+
+        captureSession.commitConfiguration()
+        
+        DispatchQueue.global(qos: .userInitiated).async { [weak self] in
+            self!.captureSession.startRunning()
+            print("Started capture session!")
+        }
+
+        activityIndicator.center = view.center
+        activityIndicator.hidesWhenStopped = true
+        view.addSubview(activityIndicator)
+        self.activityLabel.text = "Taking a long-exposure photo, hold steady"
+        self.activityLabel.textAlignment = .center
+        self.activityLabel.font = UIFont.systemFont(ofSize: 20)
+        
+        // Position label below the activity indicator
+        self.activityLabel.isHidden = true
+        self.activityLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.view.addSubview(self.activityLabel)
+        NSLayoutConstraint.activate([
+            self.activityLabel.centerXAnchor.constraint(equalTo: self.activityIndicator.centerXAnchor),
+            self.activityLabel.topAnchor.constraint(equalTo: self.activityIndicator.bottomAnchor, constant: 20)
+        ])
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -136,7 +201,8 @@ class ObserverViewController: SceneController {
     private func setupViewElements() {
         navigationController?.navigationBar.tintColor = Constants.Menu.tintColor
         let gyroItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_gyro"), style: .plain, target: self, action: #selector(gyroButtonTapped(sender:)))
-        navigationItem.leftBarButtonItem = gyroItem
+        let startrackerItem = UIBarButtonItem(image: #imageLiteral(resourceName: "row_icon_focus"), style: .plain, target: self, action: #selector(startrackerButtonTapped(sender:)))
+        navigationItem.leftBarButtonItems = [gyroItem, startrackerItem]
         navigationItem.titleView = titleBlurView
         let settingItem = UIBarButtonItem(image: #imageLiteral(resourceName: "menu_icon_settings"), style: .plain, target: self, action: #selector(menuButtonTapped(sender:)))
         let searchItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(searchButtonTapped(sender:)))
@@ -230,6 +296,11 @@ class ObserverViewController: SceneController {
 
     @objc func gyroButtonTapped(sender _: UIBarButtonItem) {
         MotionManager.default.toggleMotionUpdate()
+    }
+    
+    @objc func startrackerButtonTapped(sender _: UIBarButtonItem) {
+        print("tapped Startrack button")
+        capturePhoto()
     }
 
     @objc func searchButtonTapped(sender _: UIBarButtonItem) {
@@ -349,6 +420,150 @@ class ObserverViewController: SceneController {
         configurePanSpeed()
         observerScene.rendererUpdate()
     }
+    
+    // Captures long-exposure photo for startracking
+    func capturePhoto() {
+        MotionManager.default.startMotionUpdate()
+        self.observerCameraController.requestSaveDeviceOrientationForStartracker()
+        let settings = AVCapturePhotoSettings()
+        self.stillImageOutput.capturePhoto(with: settings, delegate: self)
+        // TODO: It is not clear when the photo is done being taken and when startracker processing starts. Consider changing that.
+        self.activityIndicator.startAnimating()
+        self.activityLabel.isHidden = false
+    }
+    
+    // Handles a long-exposure photo by performing startracking
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            // When this scope completes, stop the processing UI indication
+            defer {
+                DispatchQueue.main.async {
+                    self.activityIndicator.stopAnimating()
+                    self.activityLabel.isHidden = true
+                }
+            }
+            
+            // TODO: it is unclear why this fails sometimes.
+            guard let imageData = photo.fileDataRepresentation() else {
+                self.showStartrackError(error: "Failed to capture photo. Restart the app and try again.")
+                return
+            }
+            
+            // TODO: delete below? Helpful for understanding timings.
+            let sUI = Date()
+            let _image = UIImage(data: imageData)!
+            let eUI = Date()
+            let dtUI = eUI.timeIntervalSince(sUI)
+            print("Time to convert to UIImage: \(dtUI)")
+            
+            let start = Date()
+            let image = _image.upOrientationImage()!
+            let end = Date()
+            let dtUp = end.timeIntervalSince(start)
+            print("Time to set orientation: \(dtUp)")
+
+            let saveStart = Date()
+            // TODO: save somewhere besides photo library? This was convenient and nice for debugging
+            PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+                if status == .authorized {
+                    guard let data = UIImagePNGRepresentation(image) else {
+                        return
+                    }
+
+                    let temporaryDirectoryURL = URL(fileURLWithPath: NSTemporaryDirectory(), isDirectory: true)
+                    let temporaryFilename = ProcessInfo().globallyUniqueString
+                    let temporaryFileURL = temporaryDirectoryURL.appendingPathComponent("\(temporaryFilename).png")
+
+                    do {
+                        try data.write(to: temporaryFileURL)
+                        PHPhotoLibrary.shared().performChanges({
+                            PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: temporaryFileURL)
+                        }, completionHandler: { success, error in
+                            if !success {
+                                let err = "Error adding image to Photo Library: \(String(describing: error))"
+                                print(err)
+                                self.showStartrackError(error: err)
+                            }
+                            do {
+                                try FileManager.default.removeItem(at: temporaryFileURL)
+                            } catch {
+                                let err = "Error removing temporary file: \(error)"
+                                print(err)
+                                self.showStartrackError(error: err)
+                            }
+                        })
+                    } catch {
+                        let err = "Error writing PNG data to file: \(error)"
+                        print(err)
+                        self.showStartrackError(error: err)
+                    }
+                }
+            }
+            let saveEnd = Date()
+            let dtSave = saveEnd.timeIntervalSince(saveStart)
+            print("Time to save to startracker photo to library: \(dtSave)")
+            
+            // Typically the FOV is associated with height because that is the longer side on phones
+            // The code just assumes the longer side is the one we got an FOV for
+            let width = Double(image.size.width.rounded())
+            let height = Double(image.size.height.rounded())
+            let sizeFOVSide = max(width, height)
+            let focalLength = 1.0 / tan(self.captureFOV / 2) * sizeFOVSide / 2
+            let stResult = self.st.track(image: image, focalLength: focalLength, maxStarCombos: MAX_STAR_COMBOS)
+            switch stResult {
+                case .success(let T_Ceq_Meq):
+                    print("Successfully Startracked! Result:\n\(T_Ceq_Meq)")
+                    let T_Ceq_Meq = Quaternion(rotationMatrix: T_Ceq_Meq.toMatrix4())
+                    self.observerCameraController.setStartrackerOrientation(T_Ceq_Meq: T_Ceq_Meq)
+                case .failure(let stError):
+                    print("Startracking failed: \(stError)")
+                    self.showStartrackError(error: stError.description)
+            }
+        }
+    }
+    
+    func showStartrackError(error: String) {
+        DispatchQueue.main.async {
+            let alertController = UIAlertController(title: "Startracking Error", message: error, preferredStyle: .alert)
+            let okAction = UIAlertAction(title: "OK", style: .default)
+            alertController.addAction(okAction)
+            self.present(alertController, animated: true, completion: nil)
+        }
+    }
+}
+
+extension UIImage {
+    func upOrientationImage() -> UIImage? {
+        switch imageOrientation {
+        case .up:
+            return self
+        default:
+            UIGraphicsBeginImageContextWithOptions(size, false, scale)
+            draw(in: CGRect(origin: .zero, size: size))
+            let normalizedImage = UIGraphicsGetImageFromCurrentImageContext()
+            UIGraphicsEndImageContext()
+            return normalizedImage
+        }
+    }
+}
+
+extension Matrix {
+    /// Converts from an LASwift Matrix to a VectorMath Matrix4 (therefore having no translation, only rotation)
+    func toMatrix4() -> Matrix4 {
+        var m4 = Matrix4.identity
+        m4.m11 = self[0,0]
+        m4.m12 = self[0,1]
+        m4.m13 = self[0,2]
+        
+        m4.m21 = self[1,0]
+        m4.m22 = self[1,1]
+        m4.m23 = self[1,2]
+        
+        m4.m31 = self[2,0]
+        m4.m32 = self[2,1]
+        m4.m33 = self[2,2]
+        return m4
+    }
 }
 
 // MARK: - Star search view controller delegate
@@ -393,3 +608,4 @@ extension ObserverViewController: ObserverDetailViewControllerDelegate {
         focusAtTarget()
     }
 }
+

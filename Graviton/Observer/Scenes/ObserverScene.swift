@@ -40,7 +40,10 @@ class ObserverScene: SCNScene, CameraResponsive, FocusingSupport {
         static let camera: VisibilityCategory = VisibilityCategory(rawValue: ~0)
     }
 
-    static let defaultFov: Double = 50
+    // TODO: set to hardware camera FOV dynamically?
+    // This lets the screen view (virtual camera) match what the physical camera is seeing.
+    // If you take a photo of the stars and check it against the screen, the same stars should be present.
+    static let defaultFov: Double = 70.29109
     /// Determines how fast zooming changes fov; the greater this number, the faster
     private static let fovExpBase: Double = 1.25
     private static let maxFov: Double = 120
